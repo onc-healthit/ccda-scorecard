@@ -1,0 +1,34 @@
+<!-- Charts -->
+<div id="charts" ng-show="true">
+
+  <!-- Allow Minimizing charts if needed (effectively jumps to detail results -->
+  <div class="row">
+    <div class="col-md-12">
+      <a class="panelDropdownButton" data-toggle="collapse" href="#topPanelBody" data-target="#topPanelBody">
+        <h2 type="button" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-sort pull-left"></span>Results Overview<span class="glyphicon glyphicon-sort pull-right"></span></h2>
+      </a>
+    </div>
+  </div>
+
+  <div id="topPanelBody" class="collapse in">
+    <div class="well">
+
+      <div class="row" ng-repeat="chart in chartsData">
+        <div ng-show="chart.displayOnLeft" class="col-md-6">
+          <nvd3 options="chart.chartOption" data="chart.chartData"></nvd3>
+        </div>
+        <div class="col-md-6" style="padding-top: {{chart.isBar ? 65 : 185 }}px">
+          <h3>{{chart.chartTitle}}</h3>
+          <h4>{{chart.chartDescription}}</h4>
+          <h3>Moving Forward</h3>
+          <h4>{{chart.movingForwardText}}</h4>
+        </div>
+        <div ng-show="!chart.displayOnLeft" class="col-md-6">
+          <nvd3 options="chart.chartOption" data="chart.chartData"></nvd3>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

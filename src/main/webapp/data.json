@@ -1,0 +1,194 @@
+{
+	"results": {
+		"finalGrade": "A",
+		"_CHANGE_": "externalIssueCount needs to be added to existing format",
+		"externalIssueCount": {
+			"ccdaValidator": 4,
+			"vocabularyValidator": 9
+		},
+		"categoryList": [{
+			"categoryName": "Patient",
+			"categoryGrade": "A",
+			"categoryRubrics": [{
+				"requirement": "Patient in CCDA should contain proper address and telecom information",
+				"issue": "issue/result text goes here",
+				"_CHANGE_": "changed 'detail' back to 'details' plural and original array format as this was just a single null property so I am guessing it wasn't required to have it that way",
+				"details": {
+					"thead": [
+						"Your value", "Correct format"
+					],
+					"rows": [
+						["<user addr issue>", "generic addr format or link to one"],
+						["<user telecom value>", "generic correct telecom value format"]
+					]
+				},
+				"comment": "result/recommendation goes here",
+				"subCategory": "Contact",
+				"points": {
+					"0": "Address and telecom are not present",
+					"1": "Either address or telecom present",
+					"2": "Both address and telecom present"
+				},
+				"maxPoints": 2,
+				"actualPoints": 2
+			}, {
+				"requirement": "Patient in CCDA should contain DOB",
+				"issue": "",
+				"_CHANGE_": "changed 'detail' back to 'details' plural and original array format as this was just a single null property so I am guessing it wasn't required to have it that way",
+				"details": {
+					"thead": [],
+					"rows": [
+						[]
+					]
+				},
+				"comment": "Patient element contains Date of birth",
+				"subCategory": "DOB",
+				"points": {
+					"0": "DOB value not present",
+					"1": "DOB value  present"
+				},
+				"maxPoints": 1,
+				"actualPoints": 0
+			}, {
+				"requirement": "Patient in CCDA should contain language indicator value as true or false",
+				"issue": "",
+				"_CHANGE_": "changed 'detail' back to 'details' plural and original array format as this was just a single null property so I am guessing it wasn't required to have it that way",
+				"details": {
+					"thead": [
+						"Your value", "Correct format"
+					],
+					"rows": [
+						["<user preferenceInd/@value (probably null)>", "true or false"]
+					]
+				},
+				"comment": "Preferred Language attributes specified for patient",
+				"subCategory": "LanguageIndicator",
+				"points": {
+					"0": "Language indicator value not present",
+					"1": "Language indicator value present"
+				},
+				"maxPoints": 1,
+				"actualPoints": 1
+			}]
+		}, {
+			"categoryName": "Encounter",
+			"categoryGrade": "B",
+			"categoryRubrics": [{
+				"requirement": "CCDA document should contain encounter section",
+				"issue": "issue",
+        "_CHANGE_": "an empty details is fine like this or just as an empty object",
+				"details": {
+					"thead": [],
+					"rows": [
+						[]
+					]
+				},
+				"comment": "Encounter Section present in CCDA document",
+				"subCategory": "Section",
+				"points": {
+					"0": "Encounter section is absent",
+					"1": "Encounter section is present"
+				},
+				"maxPoints": 1,
+				"actualPoints": 1
+			}, {
+				"requirement": "Service delivery location should be present within each encounter activity",
+				"issue": "",
+				"details": {},
+				"comment": "All encounter activities contain SDL element",
+				"subCategory": "Service Delivery location",
+				"points": {
+					"0": "None of the encunter activity contains SDL element",
+					"1": "> 0% and < 25% encounter activities have SDL element",
+					"2": "> 25% and < 50% encounter activities have SDL element",
+					"3": "> 50% and < 75% encounter activities have SDL element",
+					"4": "> 75% and < 100% encounter activities have SDL element",
+					"5": "All encounter activities contain SDL element"
+				},
+				"maxPoints": 5,
+				"actualPoints": 5
+			}]
+		}, {
+			"categoryName": "Allergies",
+			"categoryGrade": "C",
+			"categoryRubrics": [{
+				"requirement": "CCDA document should contain allergies section",
+				"issue": "",
+				"detail": "",
+				"comment": "Allergies Section present in CCDA document",
+				"subCategory": "Section",
+				"points": {
+					"0": "Allergies section is absent",
+					"1": "Allergies section is present"
+				},
+				"maxPoints": 1,
+				"actualPoints": 1
+			}]
+		}, {
+			"categoryName": "Problems",
+			"categoryGrade": "A",
+			"categoryRubrics": [{
+				"requirement": "CCDA document should contain problem section",
+				"issue": "",
+				"detail": "",
+				"comment": "Problems Section present in CCDA document",
+				"subCategory": "Section",
+				"points": {
+					"0": "Problmes section is absent",
+					"1": "Problems section is present"
+				},
+				"maxPoints": 1,
+				"actualPoints": 1
+			}]
+		}, {
+			"categoryName": "Medication",
+			"categoryGrade": "C",
+			"categoryRubrics": [{
+				"requirement": "CCDA document should contain encounter section",
+				"issue": "",
+				"detail": "",
+				"comment": "Medication Section present in CCDA document",
+				"subCategory": "Section",
+				"points": {
+					"0": "Medication section is absent",
+					"1": "Medication section is present"
+				},
+				"maxPoints": 1,
+				"actualPoints": 1
+			}]
+		}, {
+			"categoryName": "Immunization",
+			"categoryGrade": "B",
+			"categoryRubrics": [{
+				"requirement": "CCDA document should contain immunization section",
+				"issue": "",
+				"detail": "",
+				"comment": "Immunization Section present in CCDA document",
+				"subCategory": "Section",
+				"points": {
+					"0": "Immunization section is absent",
+					"1": "Immunization section is present"
+				},
+				"maxPoints": 1,
+				"actualPoints": 1
+			}]
+		}, {
+			"categoryName": "Lab Results",
+			"categoryGrade": "A",
+			"categoryRubrics": [{
+				"requirement": "CCDA document should contain lab results section",
+				"issue": "",
+				"detail": "",
+				"comment": "Lab Results Section present in CCDA document",
+				"subCategory": "Section",
+				"points": {
+					"0": "Lab results section is absent",
+					"1": "Lab results section is present"
+				},
+				"maxPoints": 1,
+				"actualPoints": 0
+			}]
+		}]
+	},
+	"success": true
+}

@@ -1,0 +1,19 @@
+<div ng-show="debugData.inDebugMode" >
+
+  <!-- <div ng-repeat="(catKey, catVal) in categories"> -->
+  <div ng-repeat="cat in categories">
+    <h2>Category {{$index + 1}}: {{cat.categoryName}}</h2>
+    <h2>Grade: {{cat.categoryGrade}}</h2>
+    <div ng-repeat="rubric in cat.categoryRubrics">
+      <p>requirement: {{rubric.requirement}}</p>
+      <p>issue: {{rubric.issue}}</p>
+      <p>details: {{rubric.details}}</p>
+      <p>comment: {{rubric.comment}}</p>
+      <p>subCategory: {{rubric.subCategory}}</p>      
+      <p>points: {{rubric.points}}</p>
+      <p>maxPoints: {{rubric.maxPoints}}</p>
+      <p>actualPoints: {{rubric.actualPoints}}</p>
+    </div>
+  </div>
+  
+</div> 
