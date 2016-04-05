@@ -1,0 +1,31 @@
+<div class="container-fluid">
+
+  <!-- Final Grade -->
+  <div class="row">
+    <div class="col-md-12">
+      <div id="finaldGradeText" class="label label-primary">Final Scorecard Grade:
+        <span ng-class="scoringContextSubRoutine('finalGrade label label-', jsonData.results.finalGrade, 'A')" class="finalGrade label">{{jsonData.results.finalGrade}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div id="totalIssuesText" class="label label-info">Issues Found:
+        <span class="label label-primary">{{totalNumberOfScorecardIssues}}</span>
+      </div>
+    </div>
+  </div>
+
+  <charts></charts>
+
+  <!-- Access to Detailed Results -->
+  <div class="row">
+    <div class="col-md-12">
+      <a class="panelDropdownButton" data-toggle="collapse" href="#mainPanelBody" data-target="#mainPanelBody">
+        <h2 type="button" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-sort pull-left"></span>Detailed Results<span class="glyphicon glyphicon-sort pull-right"></span></h2>
+      </a>
+    </div>
+  </div>
+
+</div>

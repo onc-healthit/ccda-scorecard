@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- external 3rd party stylesheets-->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css"/>
+  <!-- local stylesheet -->
+  <link rel="stylesheet" href="scorecardStyle.css">
+</head>
+
+<body ng-app="scorecard">
+
+  <div ng-controller="ScorecardController" id="mainDiv">
+
+    <debug id="debug"></debug>
+
+    <div class="container">
+
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+
+          <top-level-results></top-level-results>
+          
+          <detailed-results></detailed-results>
+
+          </div>
+        </div>
+      </div>
+      <!-- END outer panel-group -->
+
+    </div>
+    <!-- END main bootstrap container -->
+  </div>
+  <!-- END ScorecardController/mainDiv -->
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <!-- Angular -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <!-- angular nvd3 and dependencies (for charts) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+  <script src="https://rawgit.com/krispo/angular-nvd3/v1.0.4/dist/angular-nvd3.js"></script>  
+  <!-- Module, Routes, and Directives -->
+  <script src="scApp.js"></script>
+  <!-- Controllers -->
+  <script src="ScorecardController.js"></script>
+</body>
+
+</html>
