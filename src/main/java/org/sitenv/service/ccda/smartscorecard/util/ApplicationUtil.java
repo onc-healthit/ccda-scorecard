@@ -1,8 +1,15 @@
 package org.sitenv.service.ccda.smartscorecard.util;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.sitenv.ccdaparsing.model.CCDADataElement;
+
 
 
 public class ApplicationUtil {
@@ -80,6 +87,27 @@ public class ApplicationUtil {
 		}
 		
 		return result;
+	}
+	
+	public static Date convertStringToDate(final String string, String format)throws ParseException
+	{
+		Date date = null;
+		if (!ApplicationUtil.isEmpty(string))
+		{
+			final DateFormat formatter = new SimpleDateFormat(format,
+						Locale.ENGLISH);
+			final Date utilDate = formatter.parse(string);
+			date = new java.sql.Date(utilDate.getTime());
+		}
+		return date;
+	}
+	
+	
+	public static Timestamp getTsFromString(String timestamp, String format)throws ParseException {
+		
+		Date d  = convertStringToDate(timestamp,format);
+			return  new Timestamp(d.getTime());
+			
 	}
 	
 }

@@ -29,21 +29,21 @@ public class CcdaSmartScorecardController {
 	@RequestMapping(value="/ccdascorecardservice", method= RequestMethod.GET)
 	public @ResponseBody ResponseTO ccdascorecardservice() throws IOException {
 		
-		CCDARefModel refModel = CCDAParserAPI.parseCCDA2_1(ApplicationConstants.FILEPATH);
+		CCDARefModel ccdaModels = CCDAParserAPI.parseCCDA2_1(ApplicationConstants.FILEPATH);
 		ResponseTO response = new ResponseTO();
 		
 		Results results = new Results();
 		
 		List<Category> categoryList = new ArrayList<Category>();
-		categoryList.add(PatientScorecard.getPatientCategory(refModel));
-		categoryList.add(EncounterScorecard.getEncounterCategory(refModel));
-		categoryList.add(AllergiesScorecard.getAllergiesCategory(refModel));
-		categoryList.add(ProblemsScorecard.getProblemsCategory(refModel));
-		categoryList.add(MedicationScorecard.getMedicationCategory(refModel));
-		categoryList.add(ImmunizationScorecard.getImmunizationCategory(refModel));
-		categoryList.add(LabresultsScorecard.getLabResultsCategory(refModel));
-		categoryList.add(VitalsScorecard.getVitalsCategory(refModel));
-		categoryList.add(ProceduresScorecard.getProceduresCategory(refModel));
+		categoryList.add(PatientScorecard.getPatientCategory(ccdaModels.getPatient()));
+		categoryList.add(EncounterScorecard.getEncounterCategory(ccdaModels.getEncounter()));
+		categoryList.add(AllergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy()));
+		categoryList.add(ProblemsScorecard.getProblemsCategory(ccdaModels.getProblem()));
+		categoryList.add(MedicationScorecard.getMedicationCategory(ccdaModels.getMedication()));
+		categoryList.add(ImmunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization()));
+		categoryList.add(LabresultsScorecard.getLabResultsCategory(ccdaModels));
+		categoryList.add(VitalsScorecard.getVitalsCategory(ccdaModels.getVitalSigns()));
+		categoryList.add(ProceduresScorecard.getProceduresCategory(ccdaModels));
 		
 		results.setFinalGrade("B");
 		results.setCategoryList(categoryList);

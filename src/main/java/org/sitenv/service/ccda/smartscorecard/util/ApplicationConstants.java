@@ -5,32 +5,53 @@ import java.util.Map;
 
 public class ApplicationConstants {
 	
+	 
 	public static String FILEPATH = "C:/Projects/Dragon/CCDAParser/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	
-	public static String PATIENT_CONTACT_REQUIREMENT = "Patient in CCDA should contain proper address and telecom information";
-	public static String PATIENT_DOB_REQUIREMENT = "Patient in CCDA should contain DOB";
-	public static String PATIENT_LANG_IND_REQUIREMENT = "Patient in CCDA should contain language indicator value as true or false";
+	public static final String PATIENT_CONTACT_REQUIREMENT = "Patient in CCDA should contain proper address and telecom information";
+	public static final String PATIENT_DOB_REQUIREMENT = "Patient in CCDA should contain DOB";
+	public static final String PATIENT_LANG_IND_REQUIREMENT = "Patient in CCDA should contain language indicator value as true or false";
+	public static final String PATIENT_EFF_TIME_REQUIREMENT = "All Effective Time elements under patient section should contain proper precision";
 	
 	
 	
-	public static String ENCOUNTER_SECTION_REQUIREMENT = "CCDA document should contain encounter section";
-	public static String ENCOUNTER_SDL_REQUIREMENT = "Service delivery location should be present within each encounter activity";
-	public static String ENCOUNTER_INDICATION_DESC = "Indication entry should be present within each encounter activity";
+	public static final String ENCOUNTER_SECTION_REQUIREMENT = "CCDA document should contain encounter section";
+	public static final String ENCOUNTER_SDL_REQUIREMENT = "Service delivery location should be present within each encounter activity";
+	public static final String ENCOUNTER_INDICATION_DESC = "Indication entry should be present within each encounter activity";
+	public static final String ENCOUNTER_TIME_PRECISION_REQUIREMENT = "All effective time elements under encounters section should contain proper precision";
+	public static final String ENCOUNTER_TRANSLATIONS_REQUIREMENT = "All translation elements should contain root code element";
 	
+	public static final String MEDICATION_SECTION_REQUIREMENT = "CCDA document should contain Medication section";
+	public static final String MEDICATION_TIME_PRECISION_REQUIREMENT = "All effective time elements under Medication section should contain proper precision";
+	public static final String MEDICATION_TRANSLATIONS_REQUIREMENT = "All translation elements Medication section should contain root code element";
 	
-	public static String MEDICATION_SECTION_REQUIREMENT = "CCDA document should contain encounter section";
+	public static final String PROBLEMS_SECTION_REQUIREMENT = "CCDA document should contain problem section";
+	public static final String PROBLEMS_TIME_PRECISION_REQUIREMENT = "All effective time elements under Problems section should contain proper precision";
+	public static final String PROBLEMS_TRANSLATIONS_REQUIREMENT = "All translation elements under Problems section should contain root code element";
 	
-	public static String PROBLEMS_SECTION_REQUIREMENT = "CCDA document should contain problem section";
+	public static final String IMMUNIZATION_SECTION_REQUIREMENT = "CCDA document should contain immunization section";
+	public static final String IMMUNIZATION_EFF_TIME_REQUIREMENT = "All Effective Time elements under Immunization section should contain proper precision";
+	public static final String IMMUNIZATION_TRANSLATIONS_REQUIREMENT = "All translation elements under Immunization should contain root code element";
 	
-	public static String IMMUNIZATION_SECTION_REQUIREMENT = "CCDA document should contain immunization section";
+	public static final String LABRESULTS_SECTION_REQUIREMENT = "CCDA document should contain lab results section";
+	public static final String LABRESULTS_TIME_PRECISION_REQUIREMENT = "All effective time elements under Results section should contain proper precision";
 	
-	public static String LABRESULTS_SECTION_REQUIREMENT = "CCDA document should contain lab results section";
+	public static final String VITALS_SECTION_REQUIREMENT = "CCDA document should contain vitals section";
+	public static final String VITALS_TIME_PRECISION_REQUIREMENT = "All effective time elements under Vitals section should contain proper precision";
+	public static final String VITALS_TRANSLATIONS_REQUIREMENT = "All translation elements under Vitals should contain root code element";
 	
-	public static String VITALS_SECTION_REQUIREMENT = "CCDA document should contain vitals section";
+	public static final String ALLERGIES_SECTION_REQUIREMENT = "CCDA document should contain allergies section";
+	public static final String ALLERGIES_TIME_PRECISION_REQUIREMENT = "All effective time elements under allergies section should contain proper precision";
 	
-	public static String ALLERGIES_SECTION_REQUIREMENT = "CCDA document should contain allergies section";
+	public static final String PROCEDURES_SECTION_REQUIREMENT = "CCDA document should contain procedures section";
 	
-	public static String PROCEDURES_SECTION_REQUIREMENT = "CCDA document should contain procedures section";
+	public static final String DAY_FORMAT = "yyyyMMdd";
+	
+	public static final String SECOND_FORMAT = "yyyyMMddHHmmssZ";
+	
+	public static final String MINUTE_FORMAT = "yyyyMMddHHmmZ";
+	
+	public static final String HOUR_FORMAT = "yyyyMMddHHZ";
 	
 	
 	
@@ -64,6 +85,16 @@ public class ApplicationConstants {
 	{
 	    put(0, "Language indicator value not present");
 	    put(1, "Language indicator value present");
+	}};
+	
+	public static final Map<Integer , String> PATIENT_EFF_TIME_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "Some Effective Time elements under Patient section missing proper precision");
+	    put(1, "All the time elements under encounter section has proper precision");
 	}};
 	
 	
@@ -102,6 +133,27 @@ public class ApplicationConstants {
 	    put(1, "Indication entry present within encounter activity");
 	}};
 	
+	public static final Map<Integer , String> ENCOUNTER_TIME_PRECISION_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "Some time elements under encounter section missing proper precision");
+	    put(1, "All the time elements under encounter section has proper precision");
+	}};
+	
+	public static final Map<Integer , String> ENCOUNTER_TRANSLATIONS_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "Some Translations are present with the root elements being null flavors.");
+	    put(1, "All the Translations under coded elements has root elements");
+	}};
+
+	
 	public static final Map<Integer , String> PROBLEMS_SECTION_POINTS = new HashMap<Integer , String>() {/**
 		 * 
 		 */
@@ -111,6 +163,27 @@ public class ApplicationConstants {
 	    put(0, "Problmes section is absent");
 	    put(1, "Problems section is present");
 	}};
+	
+	public static final Map<Integer , String> PROBLEMS_TRANSLATIONS_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "Some Translations are present with the root elements being null flavors.");
+	    put(1, "All the Translations under coded elements has root elements");
+	}};
+	
+	public static final Map<Integer , String> PROBLEMS_TIME_PRECISION_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "Some time elements under problems section missing proper precision");
+	    put(1, "All the time elements under problems section has proper precision");
+	}};
+
 	
 	public static final Map<Integer , String> IMMUNIZATION_SECTION_POINTS = new HashMap<Integer , String>() {/**
 		 * 
@@ -122,6 +195,28 @@ public class ApplicationConstants {
 	    put(1, "Immunization section is present");
 	}};
 	
+	public static final Map<Integer , String> IMMUNIZATION_TIME_PRECISION_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "Some time elements under Immunization section missing proper precision");
+	    put(1, "All the time elements under Immunization section has proper precision");
+	}};
+	
+	public static final Map<Integer , String> IMMUNIZATION_TRANSLATIONS_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "Some Translations under Immunization section are present with the root elements being null flavors.");
+	    put(1, "All the Translations under Immunization section has root elements");
+	}};
+
+
+	
 	public static final Map<Integer , String> MEDICATION_SECTION_POINTS = new HashMap<Integer , String>() {/**
 		 * 
 		 */
@@ -131,6 +226,28 @@ public class ApplicationConstants {
 	    put(0, "Medication section is absent");
 	    put(1, "Medication section is present");
 	}};
+	
+	
+	public static final Map<Integer , String> MEDICATION_TIME_PRECISION_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "Some time elements under Medication section missing proper precision");
+	    put(1, "All the time elements under Medication section has proper precision");
+	}};
+	
+	public static final Map<Integer , String> MEDICATION_TRANSLATIONS_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "Some Translations under Medication section are present with the root elements being null flavors.");
+	    put(1, "All the Translations under Medication section has root elements");
+	}};
+
 	
 	public static final Map<Integer , String> LABRESULTS_SECTION_POINTS = new HashMap<Integer , String>() {/**
 		 * 
@@ -142,6 +259,17 @@ public class ApplicationConstants {
 	    put(1, "Lab results section is present");
 	}};
 	
+	public static final Map<Integer , String> LABRESULTS_TIME_PRECISION_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "Some time elements under Results section missing proper precision");
+	    put(1, "All the time elements under Results section has proper precision");
+	}};
+	
+	
 	public static final Map<Integer , String> VITALS_SECTION_POINTS = new HashMap<Integer , String>() {/**
 		 * 
 		 */
@@ -152,6 +280,27 @@ public class ApplicationConstants {
 	    put(1, "Vitals section is present");
 	}};
 	
+	public static final Map<Integer , String> VITALS_TRANSLATIONS_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "Some Translations under Vitals are present with the root elements being null flavors.");
+	    put(1, "All the Translations under coded elements has root elements");
+	}};
+	
+	public static final Map<Integer , String> VITALS_TIME_PRECISION_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "Some time elements under Vitals section missing proper precision");
+	    put(1, "All the time elements under Vitals section has proper precision");
+	}};
+	
+	
 	public static final Map<Integer , String> ALLERGIES_SECTION_POINTS = new HashMap<Integer , String>() {/**
 		 * 
 		 */
@@ -160,6 +309,17 @@ public class ApplicationConstants {
 	{
 	    put(0, "Allergies section is absent");
 	    put(1, "Allergies section is present");
+	}};
+	
+	
+	public static final Map<Integer , String> ALLERGIES_TIME_PRECISION_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "Some time elements under Allergies section missing proper precision");
+	    put(1, "All the time elements under Allergies section has proper precision");
 	}};
 	
 	public static final Map<Integer , String> PROCEDURES_SECTION_POINTS = new HashMap<Integer , String>() {/**
@@ -209,11 +369,13 @@ public class ApplicationConstants {
 	{
 		PATIENT_CONTACT("Contact", 2),
 		PATIENT_LANG_IND("LanguageIndicator",1), 
+		TIME_PRECISION("TimePrecision",1),
 		PATIENT_DOB("DOB",1),
 		PATIENT_CTM("CareTeamMembers",1),
 		SECTION("Section",1),
 		ENCOUNTER_SDL("Service Delivery location",5),
-		ENCOUNTER_INDICATION("Indication",1);
+		ENCOUNTER_INDICATION("Indication",1),
+		TRANSLATIONS("Translations",1);
 
 		private String subCategory;
 		private int maxPoints;
