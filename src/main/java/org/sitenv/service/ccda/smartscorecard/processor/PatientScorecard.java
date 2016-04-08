@@ -1,11 +1,11 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.sitenv.ccdaparsing.model.CCDAPL;
 import org.sitenv.ccdaparsing.model.CCDAPatient;
-import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
@@ -13,15 +13,16 @@ import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 
 public class PatientScorecard {
 	
-	public static Category getPatientCategory(CCDARefModel refModel)
+	public static Category getPatientCategory(CCDAPatient patient)
 	{
 		
 		Category patientCategory = new Category();
 		patientCategory.setCategoryName("Patient");
 		List<CCDAScoreCardRubrics> patientScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		patientScoreList.add(getContactScore(refModel.getPatient()));
-		patientScoreList.add(getDOBScore(refModel.getPatient()));
-		patientScoreList.add(getLangIndScore(refModel.getPatient()));
+		patientScoreList.add(getContactScore(patient));
+		patientScoreList.add(getDOBScore(patient));
+		patientScoreList.add(getLangIndScore(patient));
+		patientScoreList.add(getTimePrecisionScore(patient));
 		
 		patientCategory.setCategoryRubrics(patientScoreList);
 		patientCategory.setCategoryGrade("B");
@@ -116,6 +117,36 @@ public class PatientScorecard {
 		}
 		langIndScore.setActualPoints(actualPoints);
 		return langIndScore;
+	}
+	
+	public static CCDAScoreCardRubrics getTimePrecisionScore(CCDAPatient patient)
+	{
+		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
+		timePrecisionScore.setPoints(ApplicationConstants.PATIENT_EFF_TIME_POINTS);
+		timePrecisionScore.setRequirement(ApplicationConstants.PATIENT_EFF_TIME_REQUIREMENT);
+		timePrecisionScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.TIME_PRECISION.getSubcategory());
+		timePrecisionScore.setMaxPoints(ApplicationConstants.SUBCATEGORIES.TIME_PRECISION.getMaxPoints());
+		
+		int actualPoints =1;
+		try
+		{
+			ApplicationUtil.convertStringToDate(patient.getDob().getValue(), ApplicationConstants.DAY_FORMAT);
+
+		}catch(ParseException e)
+		{
+			actualPoints =0;
+		}
+		
+		if(ApplicationConstants.SUBCATEGORIES.TIME_PRECISION.getMaxPoints() == actualPoints)
+		{
+			timePrecisionScore.setComment("All the time elememts under patient sections has proper precision");
+		}else
+		{
+			timePrecisionScore.setComment("Birthdate under patient sections should be precisioned to day");
+		}
+		
+		timePrecisionScore.setActualPoints(actualPoints);
+		return timePrecisionScore;
 	}
 
 }
