@@ -73,7 +73,12 @@
 			<artifactId>ccdaparsing</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>dummy</groupId>
+			<artifactId>dummy</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 	</dependencies>
 
