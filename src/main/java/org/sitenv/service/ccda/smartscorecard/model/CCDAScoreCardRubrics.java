@@ -6,7 +6,7 @@ public class CCDAScoreCardRubrics {
 	
 	private String requirement;
 	private String issue;
-	private String detail;
+	private String details;
 	private String comment;
 	private String subCategory;
 	private Map<Integer, String> points;
@@ -31,11 +31,11 @@ public class CCDAScoreCardRubrics {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	public String getDetail() {
-		return detail;
+	public String getDetails() {
+		return details;
 	}
-	public void setDetail(String detail) {
-		this.detail = detail;
+	public void setDetails(String details) {
+		this.details = details;
 	}
 	public String getSubCategory() {
 		return subCategory;
