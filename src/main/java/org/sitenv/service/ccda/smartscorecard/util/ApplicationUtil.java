@@ -4,11 +4,18 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
 import org.sitenv.ccdaparsing.model.CCDADataElement;
+import org.sitenv.ccdaparsing.model.CCDAEffTime;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 
 
@@ -96,6 +103,7 @@ public class ApplicationUtil {
 		{
 			final DateFormat formatter = new SimpleDateFormat(format,
 						Locale.ENGLISH);
+			formatter.setLenient(false);
 			final Date utilDate = formatter.parse(string);
 			date = new java.sql.Date(utilDate.getTime());
 		}
@@ -109,5 +117,204 @@ public class ApplicationUtil {
 			return  new Timestamp(d.getTime());
 			
 	}
+	
+	public static boolean validateDate(String date)
+	{
+		boolean isValid = true;
+		try{
+			convertStringToDate(date, ApplicationConstants.DAY_FORMAT);
+		}catch(ParseException pe){
+			isValid = false;
+		}
+		
+		return isValid;
+	}
+	
+	public static boolean validateDateTime(String date)
+	{
+		boolean isValid = true;
+		Timestamp ts = null;
+		try{
+			ts = getTsFromString(date, ApplicationConstants.MINUTE_FORMAT);
+			Calendar cal = new GregorianCalendar();
+			cal.setTimeInMillis(ts.getTime());
+			if(cal.get(Calendar.HOUR) == 0)
+			{
+				isValid = false;
+			}
+		}catch(ParseException pe){
+			isValid = false;
+		}
+		
+		return isValid;
+	}
+	
+	public static boolean validateDateTimeSecond(String date)
+	{
+		boolean isValid = true;
+		Timestamp ts = null;
+		try{
+			ts = getTsFromString(date, ApplicationConstants.SECOND_FORMAT);
+			Calendar cal = new GregorianCalendar();
+			cal.setTimeInMillis(ts.getTime());
+			if(cal.get(Calendar.HOUR) == 0)
+			{
+				isValid = false;
+			}
+		}catch(ParseException pe){
+			isValid = false;
+		}
+		
+		return isValid;
+	}
+	
+	
+	public static boolean checkDateRange(String minDate, String actualDate, String format)
+	{
+		Date date;
+		boolean isValid = true;
+		
+		try
+		{
+			date = convertStringToDate(actualDate, format);
+			isValid =  date.after(convertStringToDate(minDate, ApplicationConstants.DAY_FORMAT)) && date.before(new Date());
+		}catch(ParseException pe)
+		{
+			isValid = false;
+		}
+		
+		return isValid;
+	}
+	
+	public static boolean checkDateRange(String minDate, String actualDate, String maxDate, String format)
+	{
+		Date date;
+		boolean isValid = true;
+		
+		try
+		{
+			date = convertStringToDate(actualDate, format);
+			if(minDate.equals(maxDate))
+			{
+				isValid = minDate.equals(actualDate);
+			}else
+			{
+				isValid =  date.after(convertStringToDate(minDate, ApplicationConstants.DAY_FORMAT)) && 
+						date.before(convertStringToDate(maxDate, ApplicationConstants.DAY_FORMAT));
+			}
+		}catch(ParseException pe)
+		{
+			isValid = false;
+		}
+		
+		return isValid;
+	}
+	
+	
+	public static boolean validateDayFormat(String date)
+	{
+		return date.matches(ApplicationConstants.DAY_PATTERN);
+	}
+	
+	public static boolean validateMinuteFormat(String date)
+	{
+		return date.matches(ApplicationConstants.MINUTE_PATTERN);
+	}
+	
+	public static boolean validateSecondFormat(String date)
+	{
+		return date.matches(ApplicationConstants.SECOND_PATTERN);
+	}
+	
+	
+	public static boolean validateDisplayName(String code, String codeSystemName, String displayName )
+	{
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_DISPLAYNAME_VALIDATION_URL)
+		        .queryParam("code", code==null?"":code)
+		        .queryParam("codeSystems", codeSystemName==null?"":codeSystemName)
+		        .queryParam("displayName", displayName==null?"":displayName);
+		
+		System.out.println(builder.build().encode().toUri().toString());
+		RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+	    boolean value = restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
+	    return value;
+		
+	}
+	
+	private static ClientHttpRequestFactory getClientHttpRequestFactory() {
+	    int timeout = 5000;
+	    HttpComponentsClientHttpRequestFactory clientHttpRequestFactory =
+	      new HttpComponentsClientHttpRequestFactory();
+	    clientHttpRequestFactory.setConnectTimeout(timeout);
+	    return clientHttpRequestFactory;
+	}
+	
+	public static boolean validateProblemStatusCode(String problemStatuscode, String concernStatusCode)
+	{
+		
+		boolean isValid = true;
+		if(concernStatusCode.equalsIgnoreCase(ApplicationConstants.PROBLEMACT_STATUS.ACTIVE.getstatus()))
+		{
+			isValid = problemStatuscode.equalsIgnoreCase(ApplicationConstants.PROBLEM_STATUS.ACTIVE.getstatus());
+		}
+		else if(concernStatusCode.equalsIgnoreCase(ApplicationConstants.PROBLEMACT_STATUS.COMPLETED.getstatus()))
+		{
+			isValid = problemStatuscode.equalsIgnoreCase(ApplicationConstants.PROBLEM_STATUS.RESOLVED.getstatus()) ||
+					problemStatuscode.equalsIgnoreCase(ApplicationConstants.PROBLEM_STATUS.INACTIVE.getstatus());
+		}
+		
+	    return isValid;
+		
+	}
+	
+	public static boolean validateProblemStatusCode(CCDAEffTime effectiveTime, String concernStatusCode)
+	{
+		
+		boolean isValid = true;
+		
+		if(effectiveTime != null)
+		{
+			if(concernStatusCode.equalsIgnoreCase(ApplicationConstants.PROBLEMACT_STATUS.COMPLETED.getstatus()) || 
+					concernStatusCode.equalsIgnoreCase(ApplicationConstants.PROBLEMACT_STATUS.SUSPENDED.getstatus()))
+			{
+				isValid = effectiveTime.getHighPresent();
+			}
+			else if(concernStatusCode.equalsIgnoreCase(ApplicationConstants.PROBLEMACT_STATUS.ACTIVE.getstatus()))
+			{
+				isValid = !effectiveTime.getHighPresent();
+			}else
+				isValid = false;
+		}else 
+		{
+			isValid = false;
+		}
+		
+	    return isValid;
+		
+	}
+	
+	public static int calculateActualPoints(int maxPoints, int actualPoints)
+	{
+		float percentage = (actualPoints * 100)/maxPoints;
+		
+		if(percentage < 25)
+		{
+			return 0;
+		}else if (percentage >=25 && percentage <50)
+		{
+			return 1;
+		}else if(percentage >=50 && percentage <75)
+		{
+			return 2;
+		}else if(percentage >=75 && percentage <100)
+		{
+			return 3;
+		}else if(percentage ==100)
+		{
+			return 4;
+		}else
+			return 0;
+	}
+	
 	
 }
