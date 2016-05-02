@@ -30,6 +30,7 @@ public class VitalsScorecard {
 		vitalsScoreList.add(getTimePrecisionScore(vitals));
 		vitalsScoreList.add(getValidDateTimeScore(vitals,birthDate));
 		vitalsScoreList.add(getValidDisplayNameScoreCard(vitals));
+		vitalsScoreList.add(getValidLoincCodesScore(vitals));
 		vitalsScoreList.add(getValidUCUMScore(vitals));
 		vitalsScoreList.add(getApprEffectivetimeScore(vitals));
 		
@@ -117,7 +118,7 @@ public class VitalsScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			timePrecisionScore.setComment("All the time elememts under Vitals section has proper precision");
 		}else
@@ -125,7 +126,13 @@ public class VitalsScorecard {
 			timePrecisionScore.setComment("Some effective time elements under Vitals are not properly precisioned");
 		}
 		
-		timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			timePrecisionScore.setActualPoints(0);
+		}
 		timePrecisionScore.setMaxPoints(4);
 		return timePrecisionScore;
 	}
@@ -185,15 +192,21 @@ public class VitalsScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
-			validateTimeScore.setComment("All the time elememts under Lab Results section are valid.");
+			validateTimeScore.setComment("All the time elememts under Vitals section are valid.");
 		}else
 		{
-			validateTimeScore.setComment("Some effective time elements under Lab Results are not valid or not present within human lifespan");
+			validateTimeScore.setComment("Some effective time elements under Lab Vitals are not valid or not present within human lifespan");
 		}
 		
-		validateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateTimeScore.setActualPoints(0);
+		}
 		validateTimeScore.setMaxPoints(4);
 		return validateTimeScore;
 	}
@@ -256,7 +269,7 @@ public class VitalsScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateDisplayNameScore.setComment("All the code elements under Vitals are having valid display name");
 		}else
@@ -264,7 +277,13 @@ public class VitalsScorecard {
 			validateDisplayNameScore.setComment("Some code elements under Vitals are not having valid display name");
 		}
 		
-		validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateDisplayNameScore.setActualPoints(0);
+		}
 		validateDisplayNameScore.setMaxPoints(4);
 		return validateDisplayNameScore;
 	}
@@ -299,7 +318,7 @@ public class VitalsScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateUCUMScore.setComment("All the LOINC codes under vitals are having proper UCUM units");
 		}else
@@ -307,9 +326,61 @@ public class VitalsScorecard {
 			validateUCUMScore.setComment("Some LOINC codes under vitals doesnt have proper UCUM units");
 		}
 		
-		validateUCUMScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+		   validateUCUMScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateUCUMScore.setActualPoints(0);
+		}
 		validateUCUMScore.setMaxPoints(4);
 		return validateUCUMScore;
+	}
+	
+	public CCDAScoreCardRubrics getValidLoincCodesScore(CCDAVitalSigns vitals)
+	{
+		CCDAScoreCardRubrics validatLoincCodeScore = new CCDAScoreCardRubrics();
+		validatLoincCodeScore.setPoints(ApplicationConstants.VITALS_LOINC_CODES_POINTS);
+		validatLoincCodeScore.setRequirement(ApplicationConstants.VITALS_LOIN_CODE_REQ);
+		validatLoincCodeScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.VITAL_VALIDATION.getSubcategory());
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		if(vitals != null && !ApplicationUtil.isEmpty(vitals.getVitalsOrg()))
+		{
+			for(CCDAVitalOrg vitalOrg : vitals.getVitalsOrg())
+			{
+			   if(!ApplicationUtil.isEmpty(vitalOrg.getVitalObs()))
+			   {
+				   for(CCDAVitalObs vitalObs : vitalOrg.getVitalObs())
+				   {
+					   maxPoints++;
+					   if(ApplicationUtil.validateCodeForValueset(vitalObs.getVsCode().getCode(), ApplicationConstants.HITSP_VITAL_VALUESET_OID))
+					   {
+						   actualPoints++;
+					   }
+				   }
+			   }
+			}
+		}
+		
+		if(maxPoints!=0 && maxPoints == actualPoints)
+		{
+			validatLoincCodeScore.setComment("All Vital observation codes are expressed with LOINC");
+		}else
+		{
+			validatLoincCodeScore.setComment("Some Vital obseervation codes are not expressed with LOINC codes");
+		}
+		
+		if(maxPoints!= 0)
+		{
+			validatLoincCodeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else 
+			validatLoincCodeScore.setActualPoints(0);
+		
+		validatLoincCodeScore.setMaxPoints(4);
+		return validatLoincCodeScore;
+		
 	}
 	
 	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDAVitalSigns vitals)
@@ -344,7 +415,7 @@ public class VitalsScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateApprEffectiveTimeScore.setComment("All Vitals observation effective time are aligned with Organizer effective time");
 		}else
@@ -352,7 +423,13 @@ public class VitalsScorecard {
 			validateApprEffectiveTimeScore.setComment("Some Vitals observation effective time are not aligned with Organizer effective time");
 		}
 		
-		validateApprEffectiveTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateApprEffectiveTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateApprEffectiveTimeScore.setActualPoints(0);
+		}
 		validateApprEffectiveTimeScore.setMaxPoints(4);
 		return validateApprEffectiveTimeScore;
 	}

@@ -107,7 +107,7 @@ public class MedicationScorecard {
 			}
 		}
 				
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			timePrecisionScore.setComment("All the time elememts under Medication section has proper precision");
 		}else
@@ -115,7 +115,14 @@ public class MedicationScorecard {
 			timePrecisionScore.setComment("Some effective time elements under Medication are not properly precisioned");
 		}
 		
-		timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			timePrecisionScore.setActualPoints(0);
+		}
+		
 		timePrecisionScore.setMaxPoints(4);
 		return timePrecisionScore;
 	}
@@ -168,7 +175,7 @@ public class MedicationScorecard {
 			}
 		}
 				
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateTimeScore.setComment("All the time elememts under Medication are valid.");
 		}else
@@ -176,7 +183,14 @@ public class MedicationScorecard {
 			validateTimeScore.setComment("Some effective time elements under Medication are not valid or not present within human lifespan");
 		}
 		
-		validateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateTimeScore.setActualPoints(0);
+		}
+		
 		validateTimeScore.setMaxPoints(4);
 		return validateTimeScore;
 	}
@@ -239,7 +253,7 @@ public class MedicationScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateDisplayNameScore.setComment("All the code elements under Medication are having valid display name");
 		}else
@@ -247,7 +261,13 @@ public class MedicationScorecard {
 			validateDisplayNameScore.setComment("Some code elements under Medication are not having valid display name");
 		}
 		
-		validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateDisplayNameScore.setActualPoints(0);
+		}
 		validateDisplayNameScore.setMaxPoints(4);
 		return validateDisplayNameScore;
 	}

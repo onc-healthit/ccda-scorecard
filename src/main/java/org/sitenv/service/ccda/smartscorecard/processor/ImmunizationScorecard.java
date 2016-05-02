@@ -24,7 +24,7 @@ public class ImmunizationScorecard {
 		List<CCDAScoreCardRubrics> immunizationScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		immunizationScoreList.add(getTimePrecisionScore(immunizatons));
 		immunizationScoreList.add(getValidDateTimeScore(immunizatons,birthDate));
-		//immunizationScoreList.add(getValidDisplayNameScoreCard(immunizatons));
+		immunizationScoreList.add(getValidDisplayNameScoreCard(immunizatons));
 		
 		immunizationCategory.setCategoryRubrics(immunizationScoreList);
 		immunizationCategory.setCategoryGrade(calculateSectionGrade(immunizationScoreList));
@@ -86,7 +86,7 @@ public class ImmunizationScorecard {
 			}
 		}
 
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			timePrecisionScore.setComment("All the time elememts under Immunization section are properly precisioned");
 		}else
@@ -94,7 +94,15 @@ public class ImmunizationScorecard {
 			timePrecisionScore.setComment("Some effective time elements under Immunization are not properly precisioned");
 		}
 		
-		timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			timePrecisionScore.setActualPoints(0);
+		}
+		
+		
 		timePrecisionScore.setMaxPoints(4);
 		return timePrecisionScore;
 	}
@@ -127,7 +135,7 @@ public class ImmunizationScorecard {
 			}
 		}
 
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateTimeScore.setComment("All the time elememts under Immunization are valid.");
 		}else
@@ -135,7 +143,13 @@ public class ImmunizationScorecard {
 			validateTimeScore.setComment("Some effective time elements under Immunization are not valid or not present within human lifespan");
 		}
 		
-		validateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateTimeScore.setActualPoints(0);
+		}
 		validateTimeScore.setMaxPoints(4);
 		return validateTimeScore;
 	}
@@ -168,7 +182,7 @@ public class ImmunizationScorecard {
 				for (CCDAImmunizationActivity immuActivity : immunizatons.getImmActivity())
 				{
 					maxPoints++;
-					if(immuActivity.getApproachSiteCode().getDisplayName()!= null)
+					if(immuActivity.getApproachSiteCode() != null)
 					{
 						if(ApplicationUtil.validateDisplayName(immuActivity.getApproachSiteCode().getCode(), 
 								ApplicationConstants.CODE_SYSTEM_MAP.get(immuActivity.getApproachSiteCode().getCodeSystem()),
@@ -198,7 +212,7 @@ public class ImmunizationScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateDisplayNameScore.setComment("All the code elements under Immunization are having valid display name");
 		}else
@@ -206,7 +220,13 @@ public class ImmunizationScorecard {
 			validateDisplayNameScore.setComment("Some code elements under Immunization are not having valid display name");
 		}
 		
-		validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateDisplayNameScore.setActualPoints(0);
+		}
 		validateDisplayNameScore.setMaxPoints(4);
 		return validateDisplayNameScore;
 	}
