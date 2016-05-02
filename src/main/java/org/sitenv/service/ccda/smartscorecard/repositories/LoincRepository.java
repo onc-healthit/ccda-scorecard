@@ -15,7 +15,9 @@ import java.util.List;
 public interface LoincRepository extends JpaRepository<Loinc, Integer> {
       
 	
-	Loinc findByCode(String code);
+	@Transactional(readOnly = true)
+	@Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Loinc c WHERE c.code = :code")
+	boolean findByCode(String code);
     
 	Loinc findByDisplayName(String displayName);
   

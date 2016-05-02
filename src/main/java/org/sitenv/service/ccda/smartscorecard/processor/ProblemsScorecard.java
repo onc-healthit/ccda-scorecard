@@ -26,6 +26,7 @@ public class ProblemsScorecard {
 		problemsScoreList.add(getTimePrecisionScore(problems));
 		problemsScoreList.add(getValidDateTimeScore(problems,birthDate));
 		problemsScoreList.add(getValidDisplayNameScoreCard(problems));
+		problemsScoreList.add(getValidProblemCodeScoreCard(problems));
 		problemsScoreList.add(getValidStatusCodeScoreCard(problems));
 		
 		problemsCategory.setCategoryRubrics(problemsScoreList);
@@ -150,7 +151,7 @@ public class ProblemsScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			timePrecisionScore.setComment("All the time elememts under problems are valid.");
 		}else
@@ -158,17 +159,23 @@ public class ProblemsScorecard {
 			timePrecisionScore.setComment("Some effective time elements under Problems are not properly precisioned");
 		}
 		
-		timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else 
+		{
+			timePrecisionScore.setActualPoints(0);
+		}
 		timePrecisionScore.setMaxPoints(4);
 		return timePrecisionScore;
 	}
 	
 	public  CCDAScoreCardRubrics getValidDateTimeScore(CCDAProblem problem,String birthDate)
 	{
-		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
-		timePrecisionScore.setPoints(ApplicationConstants.VALID_TIME_POINTS);
-		timePrecisionScore.setRequirement(ApplicationConstants.PROBLEMS_TIMEDATE_VALID_REQUIREMENT);
-		timePrecisionScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.TIME_VALIDATION.getSubcategory());
+		CCDAScoreCardRubrics validDateTimeScore = new CCDAScoreCardRubrics();
+		validDateTimeScore.setPoints(ApplicationConstants.VALID_TIME_POINTS);
+		validDateTimeScore.setRequirement(ApplicationConstants.PROBLEMS_TIMEDATE_VALID_REQUIREMENT);
+		validDateTimeScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.TIME_VALIDATION.getSubcategory());
 		
 		int actualPoints =0;
 		int maxPoints = 0;
@@ -256,17 +263,24 @@ public class ProblemsScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!= 0 && maxPoints == actualPoints)
 		{
-			timePrecisionScore.setComment("All the time elememts under Problmes section has proper precision");
+			validDateTimeScore.setComment("All the effective time elements under problems are valid");
 		}else
 		{
-			timePrecisionScore.setComment("Some effective time elements under allergies are not valid or not present within human lifespan");
+			validDateTimeScore.setComment("Some effective time elements under problems are not valid or not present within human lifespan");
+		}
+		if(maxPoints!=0)
+		{
+			validDateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		
+		}else
+		{
+			validDateTimeScore.setActualPoints(0);
 		}
 		
-		timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
-		timePrecisionScore.setMaxPoints(4);
-		return timePrecisionScore;
+		validDateTimeScore.setMaxPoints(4);
+		return validDateTimeScore;
 	}
 	
 	public  CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAProblem problems)
@@ -341,7 +355,7 @@ public class ProblemsScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateDisplayNameScore.setComment("All the code elements under Problems are having valid display name");
 		}else
@@ -349,9 +363,67 @@ public class ProblemsScorecard {
 			validateDisplayNameScore.setComment("Some code elements under Problems are not having valid display name");
 		}
 		
-		validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateDisplayNameScore.setActualPoints(0);
+		}
+		
 		validateDisplayNameScore.setMaxPoints(4);
 		return validateDisplayNameScore;
+	}
+	
+	public  CCDAScoreCardRubrics getValidProblemCodeScoreCard(CCDAProblem problems)
+	{
+		CCDAScoreCardRubrics validateProblemCodeScore = new CCDAScoreCardRubrics();
+		validateProblemCodeScore.setPoints(ApplicationConstants.PROBLEM_CODE_SCORE);
+		validateProblemCodeScore.setRequirement(ApplicationConstants.PROBLEMS_CODE_LOINC_REQUIREMENT);
+		validateProblemCodeScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.PROBLEM_CODE.getSubcategory());
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		if(problems != null)
+		{
+			if(!ApplicationUtil.isEmpty(problems.getProblemConcerns()))
+			{
+				for(CCDAProblemConcern probCon : problems.getProblemConcerns())
+				{
+				   if(!ApplicationUtil.isEmpty(probCon.getProblemObservations()))
+				   {
+					   for(CCDAProblemObs probObs : probCon.getProblemObservations())
+					   {
+						   maxPoints++;
+						   if(ApplicationUtil.validateCodeForValueset(probObs.getProblemCode().getCode(), ApplicationConstants.PROBLEM_TYPE_VALUESET_OID));
+						   {
+							   actualPoints++;
+						   }
+					   }
+				   }
+				}
+			}
+		}
+		
+		if(maxPoints!= 0 && maxPoints == actualPoints)
+		{
+			validateProblemCodeScore.setComment("All the problem codes are expressed with core subset of SNOMED");
+		}else
+		{
+			validateProblemCodeScore.setComment("Some problme codes are not expressed with core subset of SNOMED");
+		}
+		
+		if(maxPoints!=0)
+		{
+			validateProblemCodeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateProblemCodeScore.setActualPoints(0);
+		}
+		
+		validateProblemCodeScore.setMaxPoints(4);
+		return validateProblemCodeScore;
+		
 	}
 	
 	
@@ -382,7 +454,7 @@ public class ProblemsScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateStatusCodeScore.setComment("All the concenrn act status codes are aligned with effective time values");
 		}else
@@ -390,9 +462,14 @@ public class ProblemsScorecard {
 			validateStatusCodeScore.setComment("Some concenrn act status codes are not aligned with effective time values");
 		}
 		
-		validateStatusCodeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateStatusCodeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateStatusCodeScore.setActualPoints(0);
+		}
 		validateStatusCodeScore.setMaxPoints(4);
 		return validateStatusCodeScore;
-		
 	}
 }
