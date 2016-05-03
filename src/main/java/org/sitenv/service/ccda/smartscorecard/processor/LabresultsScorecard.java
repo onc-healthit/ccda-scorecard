@@ -24,15 +24,26 @@ public class LabresultsScorecard {
 	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, String birthDate)throws UnsupportedEncodingException
 	{
 		
-		labResults.getResultOrg().addAll(labTests.getResultOrg());
+		CCDALabResult results =null;
+		if(labResults!= null && !ApplicationUtil.isEmpty(labResults.getResultOrg()))
+		{
+			results = labResults;
+			if(labTests!= null && !ApplicationUtil.isEmpty(labTests.getResultOrg()))
+			{
+				results.getResultOrg().addAll(labTests.getResultOrg());
+
+			}
+		}
+		
 		Category labResultsCategory = new Category();
 		labResultsCategory.setCategoryName("Laboratory Tests and Results");
 		
 		List<CCDAScoreCardRubrics> labResultsScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		labResultsScoreList.add(getTimePrecisionScore(labResults));
-		labResultsScoreList.add(getValidDateTimeScore(labResults,birthDate));
-		//labResultsScoreList.add(getValidDisplayNameScoreCard(labResults));
+		labResultsScoreList.add(getTimePrecisionScore(results));
+		labResultsScoreList.add(getValidDateTimeScore(results,birthDate));
+		labResultsScoreList.add(getValidDisplayNameScoreCard(results));
 		labResultsScoreList.add(getValidUCUMScore(labResults));
+		labResultsScoreList.add(getValidLoincCodesScore(results));
 		
 		labResultsCategory.setCategoryRubrics(labResultsScoreList);
 		labResultsCategory.setCategoryGrade(calculateSectionGrade(labResultsScoreList));
@@ -119,7 +130,7 @@ public class LabresultsScorecard {
 		}
 
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			timePrecisionScore.setComment("All the time elememts under Results section has proper precision");
 		}else
@@ -127,7 +138,14 @@ public class LabresultsScorecard {
 			timePrecisionScore.setComment("Some effective time elements under Results are not properly precisioned");
 		}
 		
-		timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			timePrecisionScore.setActualPoints(0);
+		}
+		
 		timePrecisionScore.setMaxPoints(4);
 		return timePrecisionScore;
 	}
@@ -191,7 +209,7 @@ public class LabresultsScorecard {
 		}
 
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateTimeScore.setComment("All the time elememts under Results are valid.");
 		}else
@@ -199,7 +217,13 @@ public class LabresultsScorecard {
 			validateTimeScore.setComment("Some effective time elements under Results are not valid or not present within human lifespan");
 		}
 		
-		validateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateTimeScore.setActualPoints(0);
+		}
 		validateTimeScore.setMaxPoints(4);
 		return validateTimeScore;
 	}
@@ -255,7 +279,7 @@ public class LabresultsScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateDisplayNameScore.setComment("All the code elements under Results are having valid display name");
 		}else
@@ -263,7 +287,13 @@ public class LabresultsScorecard {
 			validateDisplayNameScore.setComment("Some code elements under Immunization are not having valid display name");
 		}
 		
-		validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateDisplayNameScore.setActualPoints(0);
+		}
 		validateDisplayNameScore.setMaxPoints(4);
 		return validateDisplayNameScore;
 	}
@@ -298,7 +328,7 @@ public class LabresultsScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateUCUMScore.setComment("All the LOINC codes under Results are having proper UCUM units");
 		}else
@@ -306,8 +336,60 @@ public class LabresultsScorecard {
 			validateUCUMScore.setComment("Some LOINC codes under Results doesnt have proper UCUM units");
 		}
 		
-		validateUCUMScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateUCUMScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateUCUMScore.setActualPoints(0);
+		}
 		validateUCUMScore.setMaxPoints(4);
 		return validateUCUMScore;
+	}
+	
+	public CCDAScoreCardRubrics getValidLoincCodesScore(CCDALabResult labresults)
+	{
+		CCDAScoreCardRubrics validatLoincCodeScore = new CCDAScoreCardRubrics();
+		validatLoincCodeScore.setPoints(ApplicationConstants.LABRESULTS_LOINC_CODES_POINTS);
+		validatLoincCodeScore.setRequirement(ApplicationConstants.LABRESULTS_LOIN_CODE_REQ);
+		validatLoincCodeScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.LABRESULT_VALIDATION.getSubcategory());
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		if(labresults != null && !ApplicationUtil.isEmpty(labresults.getResultOrg()))
+		{
+			for(CCDALabResultOrg resultOrg : labresults.getResultOrg())
+			{
+			   if(!ApplicationUtil.isEmpty(resultOrg.getResultObs()))
+			   {
+				   for(CCDALabResultObs resultObs : resultOrg.getResultObs())
+				   {
+					   maxPoints++;
+					   if(loincRepository.findByCode(resultObs.getResultCode().getCode()))
+					   {
+						   actualPoints++;
+					   }
+				   }
+			   }
+			}
+		}
+		
+		if(maxPoints!=0 && maxPoints == actualPoints)
+		{
+			validatLoincCodeScore.setComment("All Lab results are expressed with LOINC");
+		}else
+		{
+			validatLoincCodeScore.setComment("Some Lab results are not expressed with LOINC codes");
+		}
+		
+		if(maxPoints!= 0)
+		{
+			validatLoincCodeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else 
+			validatLoincCodeScore.setActualPoints(0);
+		
+		validatLoincCodeScore.setMaxPoints(4);
+		return validatLoincCodeScore;
+		
 	}
 }

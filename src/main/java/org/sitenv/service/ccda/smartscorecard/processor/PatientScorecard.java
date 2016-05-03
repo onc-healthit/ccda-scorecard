@@ -79,10 +79,10 @@ public class PatientScorecard {
 		
 		if(maxPoints == actualPoints)
 		{
-			timePrecisionScore.setComment("Smoking status obervation Template Id is valid");
+			timePrecisionScore.setComment("Patient DOB is properly precisioned with valid date");
 		}else
 		{
-			timePrecisionScore.setComment("Smoking status observation Template Id is not valid");
+			timePrecisionScore.setComment("Patient DOB is not propelry precisioned or not a valid date");
 		}
 		
 		timePrecisionScore.setActualPoints(actualPoints);

@@ -106,7 +106,7 @@ public class SocialHistoryScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			timePrecisionScore.setComment("All the time elememts under social History has proper precision");
 		}else
@@ -114,7 +114,13 @@ public class SocialHistoryScorecard {
 			timePrecisionScore.setComment("Some effective time elements under Social History are not properly precisioned");
 		}
 		
-		timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			timePrecisionScore.setActualPoints(0);
+		}
 		timePrecisionScore.setMaxPoints(4);
 		return timePrecisionScore;
 	}
@@ -166,7 +172,7 @@ public class SocialHistoryScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateTimeScore.setComment("All the time elememts under Social History are valid.");
 		}else
@@ -174,7 +180,14 @@ public class SocialHistoryScorecard {
 			validateTimeScore.setComment("Some effective time elements under Social History are not valid or not present within human lifespan");
 		}
 		
-		validateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateTimeScore.setActualPoints(0);
+		}
+		
 		validateTimeScore.setMaxPoints(4);
 		return validateTimeScore;
 	}
@@ -236,7 +249,7 @@ public class SocialHistoryScorecard {
 			}
 		}
 		
-		if(maxPoints == actualPoints)
+		if(maxPoints!=0 && maxPoints == actualPoints)
 		{
 			validateDisplayNameScore.setComment("All the code elements under Social History are having valid display name");
 		}else
@@ -244,7 +257,13 @@ public class SocialHistoryScorecard {
 			validateDisplayNameScore.setComment("Some code elements under social History are not having valid display name");
 		}
 		
-		validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		if(maxPoints!=0)
+		{
+			validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateDisplayNameScore.setActualPoints(0);
+		}
 		validateDisplayNameScore.setMaxPoints(4);
 		return validateDisplayNameScore;
 	}

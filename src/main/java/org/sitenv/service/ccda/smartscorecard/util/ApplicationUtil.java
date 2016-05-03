@@ -234,7 +234,18 @@ public class ApplicationUtil {
 		        .queryParam("codeSystems", codeSystemName==null?"":codeSystemName)
 		        .queryParam("displayName", displayName==null?"":displayName);
 		
-		System.out.println(builder.build().encode().toUri().toString());
+		RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+	    boolean value = restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
+	    return value;
+		
+	}
+	
+	public static boolean validateCodeForValueset(String code, String valusetId)
+	{
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_VALUSET_VALIDATION_URL)
+		        .queryParam("code", code==null?"":code)
+		        .queryParam("valuesetOids", valusetId==null?"":valusetId);
+		
 		RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
 	    boolean value = restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
 	    return value;
