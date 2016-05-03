@@ -1,194 +1,333 @@
 {
-	"results": {
-		"finalGrade": "A",
-		"_CHANGE_": "externalIssueCount needs to be added to existing format",
-		"externalIssueCount": {
-			"ccdaValidator": 4,
-			"vocabularyValidator": 9
-		},
-		"categoryList": [{
-			"categoryName": "Patient",
-			"categoryGrade": "A",
-			"categoryRubrics": [{
-				"requirement": "Patient in CCDA should contain proper address and telecom information",
-				"issue": "issue/result text goes here",
-				"_CHANGE_": "changed 'detail' back to 'details' plural and original array format as this was just a single null property so I am guessing it wasn't required to have it that way",
-				"details": {
-					"thead": [
-						"Your value", "Correct format"
-					],
-					"rows": [
-						["<user addr issue>", "generic addr format or link to one"],
-						["<user telecom value>", "generic correct telecom value format"]
-					]
-				},
-				"comment": "result/recommendation goes here",
-				"subCategory": "Contact",
-				"points": {
-					"0": "Address and telecom are not present",
-					"1": "Either address or telecom present",
-					"2": "Both address and telecom present"
-				},
-				"maxPoints": 2,
-				"actualPoints": 2
-			}, {
-				"requirement": "Patient in CCDA should contain DOB",
-				"issue": "",
-				"_CHANGE_": "changed 'detail' back to 'details' plural and original array format as this was just a single null property so I am guessing it wasn't required to have it that way",
-				"details": {
-					"thead": [],
-					"rows": [
-						[]
-					]
-				},
-				"comment": "Patient element contains Date of birth",
-				"subCategory": "DOB",
-				"points": {
-					"0": "DOB value not present",
-					"1": "DOB value  present"
-				},
-				"maxPoints": 1,
-				"actualPoints": 0
-			}, {
-				"requirement": "Patient in CCDA should contain language indicator value as true or false",
-				"issue": "",
-				"_CHANGE_": "changed 'detail' back to 'details' plural and original array format as this was just a single null property so I am guessing it wasn't required to have it that way",
-				"details": {
-					"thead": [
-						"Your value", "Correct format"
-					],
-					"rows": [
-						["<user preferenceInd/@value (probably null)>", "true or false"]
-					]
-				},
-				"comment": "Preferred Language attributes specified for patient",
-				"subCategory": "LanguageIndicator",
-				"points": {
-					"0": "Language indicator value not present",
-					"1": "Language indicator value present"
-				},
-				"maxPoints": 1,
-				"actualPoints": 1
-			}]
-		}, {
-			"categoryName": "Encounter",
-			"categoryGrade": "B",
-			"categoryRubrics": [{
-				"requirement": "CCDA document should contain encounter section",
-				"issue": "issue",
-        "_CHANGE_": "an empty details is fine like this or just as an empty object",
-				"details": {
-					"thead": [],
-					"rows": [
-						[]
-					]
-				},
-				"comment": "Encounter Section present in CCDA document",
-				"subCategory": "Section",
-				"points": {
-					"0": "Encounter section is absent",
-					"1": "Encounter section is present"
-				},
-				"maxPoints": 1,
-				"actualPoints": 1
-			}, {
-				"requirement": "Service delivery location should be present within each encounter activity",
-				"issue": "",
-				"details": {},
-				"comment": "All encounter activities contain SDL element",
-				"subCategory": "Service Delivery location",
-				"points": {
-					"0": "None of the encunter activity contains SDL element",
-					"1": "> 0% and < 25% encounter activities have SDL element",
-					"2": "> 25% and < 50% encounter activities have SDL element",
-					"3": "> 50% and < 75% encounter activities have SDL element",
-					"4": "> 75% and < 100% encounter activities have SDL element",
-					"5": "All encounter activities contain SDL element"
-				},
-				"maxPoints": 5,
-				"actualPoints": 5
-			}]
-		}, {
-			"categoryName": "Allergies",
-			"categoryGrade": "C",
-			"categoryRubrics": [{
-				"requirement": "CCDA document should contain allergies section",
-				"issue": "",
-				"detail": "",
-				"comment": "Allergies Section present in CCDA document",
-				"subCategory": "Section",
-				"points": {
-					"0": "Allergies section is absent",
-					"1": "Allergies section is present"
-				},
-				"maxPoints": 1,
-				"actualPoints": 1
-			}]
-		}, {
-			"categoryName": "Problems",
-			"categoryGrade": "A",
-			"categoryRubrics": [{
-				"requirement": "CCDA document should contain problem section",
-				"issue": "",
-				"detail": "",
-				"comment": "Problems Section present in CCDA document",
-				"subCategory": "Section",
-				"points": {
-					"0": "Problmes section is absent",
-					"1": "Problems section is present"
-				},
-				"maxPoints": 1,
-				"actualPoints": 1
-			}]
-		}, {
-			"categoryName": "Medication",
-			"categoryGrade": "C",
-			"categoryRubrics": [{
-				"requirement": "CCDA document should contain encounter section",
-				"issue": "",
-				"detail": "",
-				"comment": "Medication Section present in CCDA document",
-				"subCategory": "Section",
-				"points": {
-					"0": "Medication section is absent",
-					"1": "Medication section is present"
-				},
-				"maxPoints": 1,
-				"actualPoints": 1
-			}]
-		}, {
-			"categoryName": "Immunization",
-			"categoryGrade": "B",
-			"categoryRubrics": [{
-				"requirement": "CCDA document should contain immunization section",
-				"issue": "",
-				"detail": "",
-				"comment": "Immunization Section present in CCDA document",
-				"subCategory": "Section",
-				"points": {
-					"0": "Immunization section is absent",
-					"1": "Immunization section is present"
-				},
-				"maxPoints": 1,
-				"actualPoints": 1
-			}]
-		}, {
-			"categoryName": "Lab Results",
-			"categoryGrade": "A",
-			"categoryRubrics": [{
-				"requirement": "CCDA document should contain lab results section",
-				"issue": "",
-				"detail": "",
-				"comment": "Lab Results Section present in CCDA document",
-				"subCategory": "Section",
-				"points": {
-					"0": "Lab results section is absent",
-					"1": "Lab results section is present"
-				},
-				"maxPoints": 1,
-				"actualPoints": 0
-			}]
-		}]
-	},
-	"success": true
+  "results": {
+    "finalGrade": "B",
+    "finalNumericalGrade": 87,
+    "categoryList": [{
+      "categoryName": "Patient Information",
+      "categoryGrade": "B",
+      "categoryRubrics": [{
+        "requirement": "Patient in CCDA should contain proper address and telecom information",
+        "issue": null,
+        "details": null,
+        "comment": "Patient element has both address and telecom details",
+        "subCategory": "Contact",
+        "points": {
+          "0": "Address and telecom are not present",
+          "1": "Either address or telecom present",
+          "2": "Both address and telecom present"
+        },
+        "maxPoints": 2,
+        "actualPoints": 2
+      }, {
+        "requirement": "Patient in CCDA should contain DOB",
+        "issue": null,
+        "details": null,
+        "comment": "Patient element contains Date of birth",
+        "subCategory": "DOB",
+        "points": {
+          "0": "DOB value not present",
+          "1": "DOB value  present"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }, {
+        "requirement": "Patient in CCDA should contain language indicator value as true or false",
+        "issue": null,
+        "details": null,
+        "comment": "Preferred Language attributes specified for patient",
+        "subCategory": "LanguageIndicator",
+        "points": {
+          "0": "Language indicator value not present",
+          "1": "Language indicator value present"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }, {
+        "requirement": "All Effective Time elements under patient section should contain proper precision",
+        "issue": null,
+        "details": null,
+        "comment": "All the time elememts under patient sections has proper precision",
+        "subCategory": "TimePrecision",
+        "points": {
+          "0": "Some Effective Time elements under Patient section missing proper precision",
+          "1": "All the time elements under encounter section has proper precision"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }]
+    }, {
+      "categoryName": "Encounters",
+      "categoryGrade": "B",
+      "categoryRubrics": [{
+        "requirement": "CCDA document should contain encounter section",
+        "issue": null,
+        "details": null,
+        "comment": "Encounter Section present in CCDA document",
+        "subCategory": "Section",
+        "points": {
+          "0": "Encounter section is absent",
+          "1": "Encounter section is present"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }, {
+        "requirement": "Service delivery location should be present within each encounter activity",
+        "issue": null,
+        "details": null,
+        "comment": "All encounter activities contain SDL element",
+        "subCategory": "Service Delivery location",
+        "points": {
+          "0": "None of the encunter activity contains SDL element",
+          "1": "> 0% and < 25% encounter activities have SDL element",
+          "2": "> 25% and < 50% encounter activities have SDL element",
+          "3": "> 50% and < 75% encounter activities have SDL element",
+          "4": "> 75% and < 100% encounter activities have SDL element",
+          "5": "All encounter activities contain SDL element"
+        },
+        "maxPoints": 5,
+        "actualPoints": 5
+      }, {
+        "requirement": "All effective time elements under encounters section should contain proper precision",
+        "issue": null,
+        "details": null,
+        "comment": "Some effective time elements under encounter are not properly precisioned",
+        "subCategory": "TimePrecision",
+        "points": {
+          "0": "Some time elements under encounter section missing proper precision",
+          "1": "All the time elements under encounter section has proper precision"
+        },
+        "maxPoints": 1,
+        "actualPoints": 0
+      }, {
+        "requirement": "All translation elements should contain root code element",
+        "issue": null,
+        "details": null,
+        "comment": "All the teanslations under encounter section has root element",
+        "subCategory": "Translations",
+        "points": {
+          "0": "Some Translations are present with the root elements being null flavors.",
+          "1": "All the Translations under coded elements has root elements"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }]
+    }, {
+      "categoryName": "Allergies",
+      "categoryGrade": "B",
+      "categoryRubrics": [{
+        "requirement": "All effective time elements under allergies section should contain proper precision",
+        "issue": null,
+        "details": null,
+        "comment": "Allergies Section present in CCDA document",
+        "subCategory": "Section",
+        "points": {
+          "0": "Some time elements under Allergies section missing proper precision",
+          "1": "All the time elements under Allergies section has proper precision"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }, {
+        "requirement": "All effective time elements under allergies section should contain proper precision",
+        "issue": null,
+        "details": null,
+        "comment": "Some effective time elements under allergies are not properly precisioned",
+        "subCategory": "TimePrecision",
+        "points": {
+          "0": "Some time elements under Allergies section missing proper precision",
+          "1": "All the time elements under Allergies section has proper precision"
+        },
+        "maxPoints": 1,
+        "actualPoints": 0
+      }]
+    }, {
+      "categoryName": "Problems",
+      "categoryGrade": "B",
+      "categoryRubrics": [{
+        "requirement": "CCDA document should contain problem section",
+        "issue": null,
+        "details": null,
+        "comment": "Problems Section present in CCDA document",
+        "subCategory": "Section",
+        "points": {
+          "0": "Problmes section is absent",
+          "1": "Problems section is present"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }, {
+        "requirement": "All effective time elements under Problems section should contain proper precision",
+        "issue": null,
+        "details": null,
+        "comment": "Some effective time elements under Problems are not properly precisioned",
+        "subCategory": "TimePrecision",
+        "points": {
+          "0": "Some time elements under problems section missing proper precision",
+          "1": "All the time elements under problems section has proper precision"
+        },
+        "maxPoints": 1,
+        "actualPoints": 0
+      }, {
+        "requirement": "All translation elements under Problems section should contain root code element",
+        "issue": null,
+        "details": null,
+        "comment": "All the teanslations under Problems section has root element",
+        "subCategory": "Translations",
+        "points": {
+          "0": "Some Translations are present with the root elements being null flavors.",
+          "1": "All the Translations under coded elements has root elements"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }]
+    }, {
+      "categoryName": "Medications",
+      "categoryGrade": "B",
+      "categoryRubrics": [{
+        "requirement": "CCDA document should contain Medication section",
+        "issue": null,
+        "details": null,
+        "comment": "Medication Section present in CCDA document",
+        "subCategory": "Section",
+        "points": {
+          "0": "Medication section is absent",
+          "1": "Medication section is present"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }, {
+        "requirement": "All effective time elements under Medication section should contain proper precision",
+        "issue": null,
+        "details": null,
+        "comment": "All the time elememts under Medication section has proper precision",
+        "subCategory": "TimePrecision",
+        "points": {
+          "0": "Some time elements under Medication section missing proper precision",
+          "1": "All the time elements under Medication section has proper precision"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }, {
+        "requirement": "All translation elements Medication section should contain root code element",
+        "issue": null,
+        "details": null,
+        "comment": "All the translations under Medication section has root element",
+        "subCategory": "Translations",
+        "points": {
+          "0": "Some Translations under Medication section are present with the root elements being null flavors.",
+          "1": "All the Translations under Medication section has root elements"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }]
+    }, {
+      "categoryName": "Immunizations",
+      "categoryGrade": "B",
+      "categoryRubrics": [{
+        "requirement": "CCDA document should contain Immunization section",
+        "issue": null,
+        "details": null,
+        "comment": "Immunization Section present in CCDA document",
+        "subCategory": "Section",
+        "points": {
+          "0": "Immunization section is absent",
+          "1": "Immunization section is present"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }, {
+        "requirement": "All Effective Time elements under Immunization section should contain proper precision",
+        "issue": null,
+        "details": null,
+        "comment": "All the time elememts under Immunization section has proper precision",
+        "subCategory": "TimePrecision",
+        "points": {
+          "0": "Some time elements under Immunization section missing proper precision",
+          "1": "All the time elements under Immunization section has proper precision"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }, {
+        "requirement": "All translation elements under Immunization should contain root code element",
+        "issue": null,
+        "details": null,
+        "comment": "All the translations under Immunization section has root element",
+        "subCategory": "Translations",
+        "points": {
+          "0": "Some Translations under Immunization section are present with the root elements being null flavors.",
+          "1": "All the Translations under Immunization section has root elements"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }]
+    }, {
+      "categoryName": "Laboratory Tests and Results",
+      "categoryGrade": "B",
+      "categoryRubrics": [{
+        "requirement": "CCDA document should contain lab results section",
+        "issue": null,
+        "details": null,
+        "comment": "Lab Results Section present in CCDA document",
+        "subCategory": "Section",
+        "points": {
+          "0": "Lab results section is absent",
+          "1": "Lab results section is present"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }, {
+        "requirement": "All effective time elements under Results section should contain proper precision",
+        "issue": null,
+        "details": null,
+        "comment": "Some effective time elements under Results are not properly precisioned",
+        "subCategory": "TimePrecision",
+        "points": {
+          "0": "Some time elements under Results section missing proper precision",
+          "1": "All the time elements under Results section has proper precision"
+        },
+        "maxPoints": 1,
+        "actualPoints": 0
+      }]
+    }, {
+      "categoryName": "Vital Signs",
+      "categoryGrade": "B",
+      "categoryRubrics": [{
+        "requirement": "CCDA document should contain vitals section",
+        "issue": null,
+        "details": null,
+        "comment": "Vitals Section present in CCDA document",
+        "subCategory": "Section",
+        "points": {
+          "0": "Vitals section is absent",
+          "1": "Vitals section is present"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }, {
+        "requirement": "All effective time elements under Vitals section should contain proper precision",
+        "issue": null,
+        "details": null,
+        "comment": "All the time elememts under Vitals section has proper precision",
+        "subCategory": "TimePrecision",
+        "points": {
+          "0": "Some time elements under Vitals section missing proper precision",
+          "1": "All the time elements under Vitals section has proper precision"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }, {
+        "requirement": "All translation elements under Vitals should contain root code element",
+        "issue": null,
+        "details": null,
+        "comment": "All the translations under Vitals section has root element",
+        "subCategory": "Translations",
+        "points": {
+          "0": "Some Translations under Vitals are present with the root elements being null flavors.",
+          "1": "All the Translations under coded elements has root elements"
+        },
+        "maxPoints": 1,
+        "actualPoints": 1
+      }]
+    }]
+  },
+  "success": true
 }
