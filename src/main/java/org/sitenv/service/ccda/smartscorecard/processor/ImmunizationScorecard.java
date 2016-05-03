@@ -48,7 +48,7 @@ public class ImmunizationScorecard {
 		
 		if(percentage <= 35)
 		{
-			return "c";
+			return "C";
 		}else if(percentage >= 35 && percentage <=70)
 		{
 			return "B";

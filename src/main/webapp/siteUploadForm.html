@@ -1,0 +1,112 @@
+<div id="CCDAvalidator" class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title">C-CDA R2.1 Scorecard</h2>
+  </div>
+
+  <div class="panel-body">
+
+    <p>The goal of the SITE C-CDA R2.1 Scorecard is to Lorem ipsum
+      dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+      incididunt ut labore et dolore magna aliqua. The application is
+      also a resource that can validate conformance of C-CDA R2.1
+      documents evaluate them for conformance to ONC 2015 Edition
+      Standards and Certification Criteria (S&amp;CC) objectives and
+      regulations.</p>
+    <p>Please note: validation may take up to one minute to run.</p>
+
+    <div id="CCDAAccordion">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <a data-toggle="collapse" data-parent="#CCDAAccordion"
+              href="#collapseCCDA2_0Validator" tabindex="1"> C-CDA
+              R2.1 Scorecard / ONC 2015 Edition S&amp;CC Validator </a>
+          </h3>
+        </div>
+        <div id="collapseCCDA2_0Validator"
+          class="panel-collapse collapse in">
+          <div class="panel-body">
+
+            <div id="CCDAReference">
+
+              <div id="CCDAReferenceWrapper">
+                <span class="directions">Directions:</span>
+                <p>In order to validate the C-CDA R2.1 document,
+                  follow steps below.</p>
+
+                <form name="scUploadForm">
+
+                  <ol>
+
+                    <li>Select results desired.
+                      <div class="form-group">
+                        <select
+                          ng-init="selectedValidationOption = selectedValidationOption || validationOptions[0]"
+                          ng-model="selectedValidationOption"
+                          ng-options="option as option.value for option in validationOptions"
+                          class="form-control" tabindex="1">
+                        </select>
+                      </div>
+                    </li>
+
+                    <li>Upload generated C-CDA file to validate.
+                      <div style="position: relative;">
+                        <div class="row">
+                          <div class="col-md-12 form-group">
+                            <span
+                              class="btn btn-success fileinput-button">
+                              <i class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload
+                                a C-CDA File...</span> <input type="file"
+                              ngf-select ng-model="ccdaScFile"
+                              name="file" accept=".xml"
+                              ngf-max-size="3MB" required
+                              ngf-model-invalid="invalidCcdaScFile"
+                              tabindex="1" />
+                            </span> <span class="infoColor"> <i
+                              ng-show="scUploadForm.file.$error.required">&nbsp;*Please
+                                select a C-CDA file.</i> <i
+                              ng-show="scUploadForm.file.$error.maxSize">
+                                *File too large {{invalidCcdaScFile.size
+                                / 1000000|number:1}}MB: max 3MB </i>
+                            </span> <span ng-show="ccdaScFile.name">{{ccdaScFile.name}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+
+                    <li>Validate.
+                      <div>
+                        <!--submit button-->
+                        <button ng-disabled="!scUploadForm.$valid"
+                          ng-click="uploadCcdaScFileAndCallServices(ccdaScFile)"
+                          id="scFormSubmit"
+                          class="btn btn-primary start"
+                          data-toggle="modal" data-target="#resultModal"
+                          tabindex="1" type="button">
+                          <i class="glyphicon glyphicon-ok"></i> <span>Validate
+                            Document</span>
+                        </button>
+                        <!--progress bar-->
+                        <span class="progress"
+                          ng-show="uploadDisplay.isLoading && ccdaScFile.progress >= 0">
+                          <div style="width: {{ccdaScFile.progress"
+                            ng-bind="'File Upload Progress: ' + ccdaScFile.progress + '%'"></div>
+                        </span> <span ng-show="ccdaScFile.result">Upload
+                          Successful.</span> <span class="err"
+                          ng-show="ngFileUploadError">{{ngFileUploadError}}</span>
+                      </div>
+                    </li>
+
+                  </ol>
+
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

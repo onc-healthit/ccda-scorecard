@@ -2,53 +2,66 @@
 <html>
 
 <head>
-  <!-- external 3rd party stylesheets-->
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css"/>
-  <!-- local stylesheet -->
-  <link rel="stylesheet" href="scorecardStyle.css">
+<!-- local 3rd party stylesheets -->
+<!--<link rel="stylesheet" href="css/3rdParty/bootstrap.css">-->
+<link rel="stylesheet" href="css/3rdParty/bootstrap-theme.css">
+<!-- external 3rd party stylesheets-->
+<link rel="stylesheet"
+  href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css" />
+<!-- local custom stylesheets -->
+<link rel="stylesheet" href="css/custom/custom.css">
+<link rel="stylesheet" href="css/custom/scorecardStyle.css">
 </head>
 
 <body ng-app="scorecard">
 
-  <div ng-controller="ScorecardController" id="mainDiv">
+  <div id="mainDiv" ng-controller="MainController">
 
-    <debug id="debug"></debug>
+    <site-header></site-header>
+    <site-navbar ng-controller="SiteNavbarController"></site-navbar>
 
-    <div class="container">
-
-      <div class="panel-group">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-
-          <top-level-results></top-level-results>
-          
-          <detailed-results></detailed-results>
-
-          </div>
-        </div>
-      </div>
-      <!-- END outer panel-group -->
-
+    <div class="container" ng-controller="SiteUploadController">
+      <site-top-level-content
+        ng-show="mainDisplayData.showTopLevelContent"></site-top-level-content>
+      <site-upload-form></site-upload-form>
+      <site-results-modal></site-results-modal>
     </div>
-    <!-- END main bootstrap container -->
+
+    <site-footer></site-footer>
+
   </div>
-  <!-- END ScorecardController/mainDiv -->
+  <!-- END MainController/mainDiv -->
 
   <!-- jQuery library -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <!-- Bootstrap -->
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script
+    src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <!-- Angular -->
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script
+    src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <!-- ng-file-upload - shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
+  <script src="lib/ng-file-upload-shim.min.js"></script>
+  <script src="lib/ng-file-upload.min.js"></script>
   <!-- angular nvd3 and dependencies (for charts) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
-  <script src="https://rawgit.com/krispo/angular-nvd3/v1.0.4/dist/angular-nvd3.js"></script>  
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"
+    charset="utf-8"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+  <script
+    src="https://rawgit.com/krispo/angular-nvd3/v1.0.4/dist/angular-nvd3.js"></script>
   <!-- Module, Routes, and Directives -->
   <script src="scApp.js"></script>
   <!-- Controllers -->
+  <script src="MainController.js"></script>
+  <script src="SiteNavbarController.js"></script>
+  <script src="SiteUploadController.js"></script>
   <script src="ScorecardController.js"></script>
+
 </body>
 
 </html>
