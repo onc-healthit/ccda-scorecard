@@ -43,7 +43,7 @@ public class PatientScorecard {
 		
 		if(percentage <= 35)
 		{
-			return "c";
+			return "C";
 		}else if(percentage >= 35 && percentage <=70)
 		{
 			return "B";
