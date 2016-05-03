@@ -1,0 +1,62 @@
+<div class="container-fluid">
+
+  <div ng-show="uploadDisplay.isLoading" id="loading">
+    <h1>Upload Complete.</h1>
+    <h1>Validating...</h1>
+  </div>
+
+  <div ng-hide="uploadDisplay.isLoading">
+
+    <!-- Upload results -->
+    <div class="row">
+      <div class="col-md=12">
+        <div id="uploadResults">
+          <p>
+            <b>Upload Results:&nbsp;</b><span>{{ccdaUploadData.fileName}}&nbsp;{{uploadErrorData.getValidationResultsAsJsonError}}</span>
+          </p>
+          <p>
+            <b>Document Type Selected:&nbsp;</b><span>{{ccdaUploadData.docTypeSelected}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Issue Counts (MDHT and Vocab) -->
+    <div class="row">
+      <div class="panel panel-primary col-md-2 col-lg-2"
+        ng-repeat="curMetaCategory in allUsedMetaIssues">
+        <div class="list-group"
+          ng-repeat="curMetaResult in curMetaCategory">
+          <div class="list-group-item">
+            <span
+              ng-class="getValidationResultColorViaType(curMetaResult, true)"
+              class="badge btn-default">{{curMetaResult.count}}</span> <a
+              href="#{{curMetaResult.type}}" target="_self">{{curMetaResult.type}}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed Results -->
+    <div class="row">
+      <div class="col-md-12">
+        <div ng-repeat="curResult in ccdaResults">
+          <div ng-class="getValidationResultColorViaType(curResult)">
+            <a name="{{curResult.type}}"></a>
+            <li>{{curResult.type}}
+              <ul>
+                <li>Description:&nbsp;{{curResult.description}}</li>
+                <li>xPath:&nbsp;{{curResult.xPath}}</li>
+                <li>Document Line Number
+                  (approximate):&nbsp;{{curResult.documentLineNumber}}</li>
+              </ul>
+            </li>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
