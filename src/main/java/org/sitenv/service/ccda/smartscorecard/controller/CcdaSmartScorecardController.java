@@ -17,6 +17,7 @@ import org.sitenv.service.ccda.smartscorecard.processor.PatientScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.ProblemsScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.SocialHistoryScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.VitalsScorecard;
+import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -80,9 +81,8 @@ public class CcdaSmartScorecardController {
 			categoryList.add(vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),birthDate));
 			//categoryList.add(ProceduresScorecard.getProceduresCategory(ccdaModels));
 			
-			results.setFinalGrade("B");
-			results.setFinalNumericalGrade(87);
 			results.setCategoryList(categoryList);
+			results = ApplicationUtil.calculateFinalGrade(categoryList, results);
 			response.setSuccess(true);
 			response.setResults(results);
 		}catch(Exception excp)
