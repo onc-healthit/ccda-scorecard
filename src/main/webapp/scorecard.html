@@ -6,6 +6,10 @@
       <div class="panel-heading">
 
         <div ng-controller="ScorecardController" id="scorecardResults">
+          <h3 ng-show="errorData.getJsonDataError"
+            style="text-align: center">
+            <span class="errorColor">Web Service Error:&nbsp;</span>{{errorData.getJsonDataErrorForUser}}
+          </h3>
           <debug></debug>
           <top-level-results></top-level-results>
           <detailed-results></detailed-results>
