@@ -12,6 +12,9 @@ import java.util.Locale;
 
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
+import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
+import org.sitenv.service.ccda.smartscorecard.model.Category;
+import org.sitenv.service.ccda.smartscorecard.model.Results;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -325,6 +328,47 @@ public class ApplicationUtil {
 			return 4;
 		}else
 			return 0;
+	}
+	
+	public static Results calculateFinalGrade(List<Category> categoryList, Results results)
+	{
+		int finalMaxPoints = 0;
+		int finalActualPoints = 0;
+		String finalGrade = "";
+		
+		for (Category category : categoryList)
+		{
+			for(CCDAScoreCardRubrics rubrics : category.getCategoryRubrics())
+			{
+				finalMaxPoints = finalMaxPoints + rubrics.getMaxPoints();
+				finalActualPoints = finalActualPoints + rubrics.getActualPoints();
+			}
+		}
+		
+		float percentage = (finalActualPoints * 100)/finalMaxPoints;
+		if(percentage < 70)
+		{
+			finalGrade =  "D";
+		}else if (percentage >=70 && percentage <80)
+		{
+			finalGrade = "C";
+		}else if(percentage >=80 && percentage <85)
+		{
+			finalGrade = "B-";
+		}else if(percentage >=85 && percentage <90)
+		{
+			finalGrade = "B+";
+		}else if(percentage >=90 && percentage <95)
+		{
+			finalGrade = "A-";
+		}else if(percentage >=95 && percentage <=100)
+		{
+			finalGrade = "A+";
+		}
+		
+		results.setFinalGrade(finalGrade);
+		results.setFinalNumericalGrade(Math.round(percentage));
+		return results;
 	}
 	
 	
