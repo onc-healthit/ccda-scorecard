@@ -8,7 +8,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 
   $scope.uploadErrorData = {
     getValidationResultsAsJsonError: "was uploaded successfully.",
-    serviceTypeError: "No error encountered."
+    serviceTypeError: "No error encountered.",
+    uploadError: "Error uploading <unknownFileName>: Please try a different file and report the issue to TestingServices@sitenv.org."
   };
 
   $scope.jsonValidationData = $scope.metaResults = $scope.ccdaResults = {};
@@ -32,8 +33,9 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 
   //called by Validate Document button on SiteUploadForm
   $scope.uploadCcdaScFileAndCallServices = function(ccdaScFile, callDebug) {
-	//reset data so old data is not seen for any reason
+	//reset data so old data is not seen for any reason	  
 	$scope.jsonScorecardData = {};
+	$scope.ngFileUploadError = null;
 	$scope.uploadDisplay.isLoading = true;
 	//static for now since we are not using the selector/sending this manually
     $scope.ccdaUploadData.docTypeSelected = "C-CDA_IG_Only";
@@ -59,7 +61,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 
   var callCcdaR2ValidatorService = function(ccdaScFile) {
     var externalUrl = 'http://54.200.51.225:8080/referenceccdaservice/';
-    var localUrl = 'http://localhost:7080/referenceccdaservice/';
+    var localUrl = '../referenceccdaservice/';
     var dataObject = {
       ccdaFile: ccdaScFile,
       referenceFileName: 'test',
@@ -71,7 +73,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 
   var callCcdaScorecardService = function(ccdaScFile) {
     var externalUrl = 'http://54.200.51.225:8080/ccda-smart-scorecard/ccdascorecardservice/';
-    var localUrl = 'http://localhost:7080/ccda-smart-scorecard/ccdascorecardservice/';
+    var localUrl = 'ccdascorecardservice/';
     var dataObject = {
       ccdaFile: ccdaScFile
     };
@@ -93,7 +95,11 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
       });
     }, function(response) {
       if (response.status > 0) {
+    	$scope.uploadErrorData.uploadError = $scope.uploadErrorData.uploadError.replace("unknownFileName", $scope.ccdaUploadData.fileName);
         $scope.ngFileUploadError = 'Status: ' + response.status + ' - ' + "Data: " + response.data;
+        console.log("Error uploading file or calling service(s):");
+        console.log($scope.uploadErrorData.uploadError);       
+        console.log($scope.ngFileUploadError);
       }
     }, function(evt) {
       ccdaFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
