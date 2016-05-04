@@ -173,7 +173,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
       case IssueTypeEnum.VOCAB_INFO:
         return ResultTypeEnum.INFO;
       default:
-        ResultTypeEnum.UNKNOWN;
+        return ResultTypeEnum.UNKNOWN;
     }
   };
 
@@ -193,7 +193,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
         return "infoColor";
       case ResultTypeEnum.UNKNOWN:
         if (isBadge)
-          return "badge btn-default";
+          return "badge btn-primary";
         return "unknownColor";
     }
   };
