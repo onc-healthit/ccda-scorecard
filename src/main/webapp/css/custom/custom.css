@@ -707,7 +707,6 @@ a.ext-icon {
 
 
 /* site mock related */
-
 .fileinput-button input {
   position: absolute;
   top: 0;
@@ -721,7 +720,6 @@ a.ext-icon {
 
 
 /* ccda validation related */
-
 #uploadResults {
   padding-left: 5px;
   padding-right: 5px;
@@ -734,6 +732,10 @@ a.ext-icon {
 
 .warningColor {
   color: orange;
+}
+
+.successColor {
+  color: darkGreen;
 }
 
 .infoColor {

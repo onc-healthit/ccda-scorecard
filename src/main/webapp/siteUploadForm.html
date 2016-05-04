@@ -89,12 +89,16 @@
                         </button>
                         <!--progress bar-->
                         <span class="progress"
-                          ng-show="uploadDisplay.isLoading && ccdaScFile.progress >= 0">
-                          <div style="width: {{ccdaScFile.progress"
-                            ng-bind="'File Upload Progress: ' + ccdaScFile.progress + '%'"></div>
-                        </span> <span ng-show="ccdaScFile.result">Upload
-                          Successful.</span> <span class="err"
-                          ng-show="ngFileUploadError">{{ngFileUploadError}}</span>
+                          ng-show="uploadDisplay.isLoading && ccdaScFile.progress < 100">
+                          <!-- <div style="width: {{ccdaScFile.progress"
+                            ng-bind="'File Upload Progress: ' + ccdaScFile.progress + '%'"></div> -->
+                          <span
+                          ng-bind="'File Upload Progress: ' + ccdaScFile.progress + '%'"></span>
+                        </span> <span class="successColor"
+                          ng-show="uploadDisplay.isLoading && ccdaScFile.progress >= 100 && !ngFileUploadError">
+                          File Upload Complete. </span> <span
+                          class="errorColor" ng-show="ngFileUploadError">
+                          {{uploadErrorData.uploadError}} </span>
                       </div>
                     </li>
 

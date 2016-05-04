@@ -6,7 +6,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   $scope.jsonData = {};
   $scope.categories = {};
   $scope.errorData = {
-    getJsonDataError: ""
+    getJsonDataError: "",
+    getJsonDataErrorForUser: ""
   };
   categoryTypes = Object.freeze([
     "General", "Problems", "Medications", "Allergies", "Procedures", "Immunizations",
@@ -47,7 +48,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  $scope.totalNumberOfScorecardIssues = 0;	  
 	  $scope.chartsData = {};
 	  $scope.jsonData = {};
-	  $scope.categories = {};  
+	  $scope.categories = {};
+	  $scope.errorData.getJsonDataError = "";
+	  $scope.errorData.getJsonDataErrorForUser = "";
   };
 
   //adjust the chart type here and it will be reflected live using $scope.charts.currentChartOption
@@ -70,7 +73,19 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   var getAndProcessUploadControllerData = function() {
 	  //reference data from parent (SiteUploadController)
 	  $scope.jsonData = $scope.jsonScorecardData;
-	  storeDataAndPopulateResults();
+	  
+	  //make sure valid data was returned before accessing invalid results
+	  if($scope.jsonData.success && $scope.jsonData.results != null) {
+		  storeDataAndPopulateResults();
+	  } else {
+		  //the scorecard service could not handle the file sent
+	      $scope.errorData.getJsonDataError = "Error thrown from ScorecardController: The C-CDA R2.1 Scorecard web service failed to return valid data to the controller when posting " + $scope.ccdaFileName;
+	      console.log('$scope.errorData.getJsonDataError:');
+	      console.log($scope.errorData.getJsonDataError);
+	      $scope.errorData.getJsonDataErrorForUser = "The C-CDA R2.1 Scorecard web service has failed to return valid data. Please try a file other than " + $scope.ccdaFileName + " and report the issue to TestingServices@sitenv.org."
+		  //TODO: get the stack trace and post to the console
+		  $scope.uploadDisplay.isLoading = false;
+	  }
   };    
   
   //debug only
@@ -111,13 +126,13 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 
   $scope.scoringContextSubRoutine = function(classPrefix, pointOrGrade, passingComparator) {
     //0 is red, maxPoints is green, all other points in between are orange
-    if (pointOrGrade === 0 || pointOrGrade === "C") {
-      return classPrefix + "danger";
-    } else if (pointOrGrade === passingComparator) {
-      return classPrefix + "success";
-    } else {
-      return classPrefix + "warning";
-    }
+    if (pointOrGrade === 0 || (pointOrGrade === "C" || pointOrGrade === "D")) {
+	  return classPrefix + "danger";
+	} else if (pointOrGrade === passingComparator || ~pointOrGrade.toString().indexOf(passingComparator.toString())) {
+	  return classPrefix + "success";
+	} else {
+	  return classPrefix + "warning";
+	}    
   };
 
   $scope.jumpToElementViaId = function(elementId, weWait, timeToWaitInMiliseconds) {
