@@ -125,14 +125,20 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   };
 
   $scope.scoringContextSubRoutine = function(classPrefix, pointOrGrade, passingComparator) {
-    //0 is red, maxPoints is green, all other points in between are orange
-    if (pointOrGrade === 0 || (pointOrGrade === "C" || pointOrGrade === "D")) {
-	  return classPrefix + "danger";
-	} else if (pointOrGrade === passingComparator || ~pointOrGrade.toString().indexOf(passingComparator.toString())) {
-	  return classPrefix + "success";
-	} else {
-	  return classPrefix + "warning";
-	}    
+	if(typeof pointOrGrade !== "undefined") {
+	    //0 is red, maxPoints is green, all other points in between are orange
+	    if (pointOrGrade === 0 || (pointOrGrade === "C" || pointOrGrade === "D")) {
+		  return classPrefix + "danger";
+		} else if (pointOrGrade === passingComparator || ~pointOrGrade.toString().indexOf(passingComparator.toString())) {
+		  return classPrefix + "success";
+		} else {
+		  return classPrefix + "warning";
+		}
+	}
+	//this is expected before results are returned from the service.
+	//it allows for a generic color prior to the results as well as 
+	//protects against running functions against undefined variables
+	return classPrefix + "info";
   };
 
   $scope.jumpToElementViaId = function(elementId, weWait, timeToWaitInMiliseconds) {
