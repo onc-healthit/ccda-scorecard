@@ -36,7 +36,7 @@ import java.util.*;
 @ComponentScan("org.sitenv.service.ccda.smartscorecard")
 @EnableJpaRepositories("org.sitenv.service.ccda.smartscorecard.repositories")
 public class PersistanceConfiguration {
-    private static final String HSQL_JDBC_URL_TEMPLATE = "jdbc:hsqldb:file:vocabularydatabase/db;hsqldb.default_table_type=cached;hsqldb.write_delay_millis=10;readonly=false";
+    private static final String HSQL_JDBC_URL_TEMPLATE = "jdbc:hsqldb:file:scorecarddatabase/db;hsqldb.default_table_type=cached;hsqldb.write_delay_millis=10;readonly=false";
     @Value("classpath:schema.sql")
     private Resource HSQL_SCHEMA_SCRIPT;
     
