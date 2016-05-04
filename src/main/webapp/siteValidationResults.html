@@ -9,7 +9,7 @@
 
     <!-- Upload results -->
     <div class="row">
-      <div class="col-md=12">
+      <div class="col-md-12">
         <div id="uploadResults">
           <p>
             <b>Upload Results:&nbsp;</b><span>{{ccdaUploadData.fileName}}&nbsp;{{uploadErrorData.getValidationResultsAsJsonError}}</span>
@@ -30,7 +30,7 @@
           <div class="list-group-item">
             <span
               ng-class="getValidationResultColorViaType(curMetaResult, true)"
-              class="badge btn-default">{{curMetaResult.count}}</span> <a
+              class="badge btn-primary">{{curMetaResult.count}}</span> <a
               href="#{{curMetaResult.type}}" target="_self">{{curMetaResult.type}}</a>
           </div>
         </div>
