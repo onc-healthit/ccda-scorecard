@@ -43,7 +43,7 @@ public class LabresultsScorecard {
 		labResultsScoreList.add(getValidDateTimeScore(results,birthDate));
 		labResultsScoreList.add(getValidDisplayNameScoreCard(results));
 		labResultsScoreList.add(getValidUCUMScore(labResults));
-		labResultsScoreList.add(getValidLoincCodesScore(results));
+//		labResultsScoreList.add(getValidLoincCodesScore(results));
 		
 		labResultsCategory.setCategoryRubrics(labResultsScoreList);
 		labResultsCategory.setCategoryGrade(calculateSectionGrade(labResultsScoreList));
