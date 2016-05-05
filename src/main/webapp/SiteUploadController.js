@@ -6,10 +6,16 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   }
   $scope.ccdaUploadData = new UploadData("Unknown File (Upload)", "Unknown Document Type");
 
+  $scope.userMessageConstant = Object.freeze ({
+	GENERIC: "Please try a different file and report the issue to TestingServices@sitenv.org.",
+	UPLOAD_ERROR: "Error uploading <unknownFileName>: " 
+  });
+  
   $scope.uploadErrorData = {
     getValidationResultsAsJsonError: "was uploaded successfully.",
     serviceTypeError: "No error encountered.",
-    uploadError: "Error uploading <unknownFileName>: Please try a different file and report the issue to TestingServices@sitenv.org."
+    uploadError: $scope.userMessageConstant.UPLOAD_ERROR + $scope.userMessageConstant.GENERIC,
+    validationServiceError: ""
   };
 
   $scope.jsonValidationData = $scope.metaResults = $scope.ccdaResults = {};
@@ -30,18 +36,24 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   $scope.validationOptions = [
 	{id: 1, value: "Scorecard and Validation results"}, 
 	{id: 2, value: "Scorecard results only"}		  
-  ];  
-
-  //called by Validate Document button on SiteUploadForm
-  $scope.uploadCcdaScFileAndCallServices = function(ccdaScFile, callDebug) {
-	//debug
-    console.log("$scope.uploadDisplay.isValidationLoading (before load):")
-    console.log($scope.uploadDisplay.isValidationLoading);	  
-	//reset data so old data is not seen for any reason	  
+  ];
+  
+  var resetValidationData = function() {	  	  
 	$scope.jsonScorecardData = {};
 	$scope.ngFileUploadError = null;
 	$scope.uploadDisplay.isLoading = true;
 	$scope.uploadDisplay.isValidationLoading = true;
+	$scope.uploadErrorData.validationServiceError = "";
+	$scope.uploadErrorData.uploadError = $scope.userMessageConstant.UPLOAD_ERROR + $scope.userMessageConstant.GENERIC;
+  };  
+
+  //called by Validate Document button on SiteUploadForm
+  $scope.uploadCcdaScFileAndCallServices = function(ccdaScFile, callDebug) {
+    console.log("$scope.uploadDisplay.isValidationLoading (before load):")
+    console.log($scope.uploadDisplay.isValidationLoading);
+    
+    resetValidationData();
+    
 	//static for now since we are not using the selector/sending this manually
     $scope.ccdaUploadData.docTypeSelected = "C-CDA_IG_Only";
     $scope.ccdaUploadData.fileName = ccdaScFile.name;
@@ -107,8 +119,10 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     	$scope.uploadErrorData.uploadError = $scope.uploadErrorData.uploadError.replace("unknownFileName", $scope.ccdaUploadData.fileName);
         $scope.ngFileUploadError = 'Status: ' + response.status + ' - ' + "Data: " + response.data;
         console.log("Error uploading file or calling service(s):");
-        console.log($scope.uploadErrorData.uploadError);       
+        console.log($scope.uploadErrorData.uploadError);
         console.log($scope.ngFileUploadError);
+        $scope.uploadDisplay.isLoading = false;
+        $scope.uploadDisplay.isValidationLoading = false;
       }
     }, function(evt) {
       ccdaFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
@@ -119,16 +133,28 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     switch (serviceType) {
       case ServiceTypeEnum.CCDA_VALIDATOR:
     	//collect data
-        $scope.jsonValidationData = response.data;       
+        $scope.jsonValidationData = response.data;
         console.log("$scope.jsonValidationData:");
         console.log($scope.jsonValidationData);
         $scope.metaResults = $scope.jsonValidationData.resultsMetaData;
         $scope.ccdaResults = $scope.jsonValidationData.ccdaValidationResults;
+        if($scope.metaResults.serviceError || !$scope.ccdaResults) {
+        	//invalid results returned due to a service error or a bad file sent
+        	if($scope.metaResults.serviceErrorMessage) {
+        		$scope.uploadErrorData.validationServiceError = $scope.metaResults.serviceErrorMessage + 
+        			" The file uploaded which encountered the error is " + $scope.ccdaUploadData.fileName + ". " + 
+        				$scope.userMessageConstant.GENERIC;
+        	} else {
+        		$scope.uploadErrorData.validationServiceError = "The SITE C-CDA R2.1 Validation web service has failed to return results " +
+        				"for an unknown reason. Please try a file other than " + $scope.ccdaUploadData.fileName + " and report " +
+        						"the issue to TestingServices@sitenv.org.";
+        	}
+        }
         setIssueCounts();
         //disable loading
         $scope.uploadDisplay.isValidationLoading = false;
         console.log("$scope.uploadDisplay.isValidationLoading (after load):")
-        console.log($scope.uploadDisplay.isValidationLoading);
+        console.log($scope.uploadDisplay.isValidationLoading);        
         break;
       case ServiceTypeEnum.SCORECARD:
         $scope.jsonScorecardData = response.data;       
