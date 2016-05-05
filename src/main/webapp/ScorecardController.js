@@ -44,7 +44,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   }, true);
   
   var resetScorecardData = function() {
-	  $scope.ccdaFileName = "Validating...";
+	  if(!$scope.ngFileUploadError) {
+		  $scope.ccdaFileName = "Validating...";
+	  }
 	  $scope.totalNumberOfScorecardIssues = 0;	  
 	  $scope.chartsData = {};
 	  $scope.jsonData = {};

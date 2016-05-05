@@ -747,6 +747,10 @@ a.ext-icon {
   color: purple;
 }
 
+.fileUploadError, .webServiceError {
+  text-align: center;
+}
+
 
 /* ng-file-upload related */
 form .progress {
