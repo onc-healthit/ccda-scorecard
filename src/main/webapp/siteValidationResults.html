@@ -1,11 +1,11 @@
 <div class="container-fluid">
 
-  <div ng-show="uploadDisplay.isLoading" id="loading">
+  <div ng-show="uploadDisplay.isValidationLoading" id="loading">
     <h1>Upload Complete.</h1>
     <h1>Validating...</h1>
   </div>
 
-  <div ng-hide="uploadDisplay.isLoading">
+  <div ng-hide="uploadDisplay.isValidationLoading">
 
     <!-- Upload results -->
     <div class="row">

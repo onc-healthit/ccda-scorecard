@@ -17,7 +17,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   $scope.jsonScorecardData = {};
   
   $scope.uploadDisplay = {
-	isLoading: true
+	isLoading: true,
+	isValidationLoading: true,
   };
 
   var ServiceTypeEnum = Object.freeze({
@@ -33,21 +34,29 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 
   //called by Validate Document button on SiteUploadForm
   $scope.uploadCcdaScFileAndCallServices = function(ccdaScFile, callDebug) {
+	//debug
+    console.log("$scope.uploadDisplay.isValidationLoading (before load):")
+    console.log($scope.uploadDisplay.isValidationLoading);	  
 	//reset data so old data is not seen for any reason	  
 	$scope.jsonScorecardData = {};
 	$scope.ngFileUploadError = null;
 	$scope.uploadDisplay.isLoading = true;
+	$scope.uploadDisplay.isValidationLoading = true;
 	//static for now since we are not using the selector/sending this manually
     $scope.ccdaUploadData.docTypeSelected = "C-CDA_IG_Only";
     $scope.ccdaUploadData.fileName = ccdaScFile.name;
 
      if(callDebug) {
        callDebugService(ccdaScFile);
-     } else if ($scope.selectedValidationOption.id == 1) {
+     } else if ($scope.selectedValidationOption.id === 1) {
        callCcdaR2ValidatorService(ccdaScFile);    	 
        callCcdaScorecardService(ccdaScFile);
-     } else {
+     } else if ($scope.selectedValidationOption.id === 2) {
+       $scope.uploadDisplay.isValidationLoading = false;
        callCcdaScorecardService(ccdaScFile);
+     } else {
+       callCcdaR2ValidatorService(ccdaScFile);    	 
+       callCcdaScorecardService(ccdaScFile);    	 
      }
   };
 
@@ -109,12 +118,17 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   var cacheAndProcessReturnedJsonData = function(response, serviceType) {
     switch (serviceType) {
       case ServiceTypeEnum.CCDA_VALIDATOR:
-        $scope.jsonValidationData = response.data;        
-        console.log("$scope.jsonValidationData:\n");
+    	//collect data
+        $scope.jsonValidationData = response.data;       
+        console.log("$scope.jsonValidationData:");
         console.log($scope.jsonValidationData);
         $scope.metaResults = $scope.jsonValidationData.resultsMetaData;
         $scope.ccdaResults = $scope.jsonValidationData.ccdaValidationResults;
         setIssueCounts();
+        //disable loading
+        $scope.uploadDisplay.isValidationLoading = false;
+        console.log("$scope.uploadDisplay.isValidationLoading (after load):")
+        console.log($scope.uploadDisplay.isValidationLoading);
         break;
       case ServiceTypeEnum.SCORECARD:
         $scope.jsonScorecardData = response.data;       
