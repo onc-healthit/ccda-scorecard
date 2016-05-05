@@ -1,6 +1,5 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class LabresultsScorecard {
 	@Autowired
 	LoincRepository loincRepository;
 	
-	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, String birthDate)throws UnsupportedEncodingException
+	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, String birthDate)
 	{
 		
 		CCDALabResult results =null;
@@ -43,7 +42,7 @@ public class LabresultsScorecard {
 		labResultsScoreList.add(getValidDateTimeScore(results,birthDate));
 		labResultsScoreList.add(getValidDisplayNameScoreCard(results));
 		labResultsScoreList.add(getValidUCUMScore(labResults));
-//		labResultsScoreList.add(getValidLoincCodesScore(results));
+		labResultsScoreList.add(getValidLoincCodesScore(results));
 		
 		labResultsCategory.setCategoryRubrics(labResultsScoreList);
 		labResultsCategory.setCategoryGrade(calculateSectionGrade(labResultsScoreList));
@@ -239,7 +238,7 @@ public class LabresultsScorecard {
 		return validateTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDALabResult labresults)throws UnsupportedEncodingException
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDALabResult labresults)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setPoints(ApplicationConstants.VALID_CODE_DISPLAYNAME_POINTS);

@@ -66,7 +66,7 @@ public class ApplicationConstants {
 	public static final String ALLERGIES_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under allergies section should contain valid display names";		
 
 	
-	public static final String PROCEDURES_SECTION_REQUIREMENT = "CCDA document should contain procedures section";
+	public static final String PROCEDURES_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Procedures section should contain valid display names";	
 	
 	
 	public static final String SOCIALHISTORY_TIME_PRECISION_REQUIREMENT = "All effective time elements under Social History section should contain "

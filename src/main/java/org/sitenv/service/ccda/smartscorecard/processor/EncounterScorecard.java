@@ -1,6 +1,5 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EncounterScorecard {
 	
-	public Category getEncounterCategory(CCDAEncounter encounter, String birthDate)throws UnsupportedEncodingException
+	public Category getEncounterCategory(CCDAEncounter encounter, String birthDate)
 	{
 		
 		Category encounterCategory = new Category();
@@ -227,7 +226,7 @@ public class EncounterScorecard {
 		return validateTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAEncounter encounters)throws UnsupportedEncodingException
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAEncounter encounters)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setPoints(ApplicationConstants.VALID_CODE_DISPLAYNAME_POINTS);
