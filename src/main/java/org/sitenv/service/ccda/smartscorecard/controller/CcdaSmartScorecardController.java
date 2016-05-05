@@ -15,6 +15,7 @@ import org.sitenv.service.ccda.smartscorecard.processor.LabresultsScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.MedicationScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.PatientScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.ProblemsScorecard;
+import org.sitenv.service.ccda.smartscorecard.processor.ProceduresScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.SocialHistoryScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.VitalsScorecard;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
@@ -57,6 +58,9 @@ public class CcdaSmartScorecardController {
 	@Autowired
 	PatientScorecard patientScorecard;
 	
+	@Autowired
+	ProceduresScorecard procedureScorecard;
+	
 	@RequestMapping(value="/ccdascorecardservice", method= RequestMethod.POST)
 	public @ResponseBody ResponseTO ccdascorecardservice(@RequestParam("ccdaFile") MultipartFile ccdaFile){
 		
@@ -79,7 +83,7 @@ public class CcdaSmartScorecardController {
 			categoryList.add(socialhistoryScorecard.getSocialHistoryCategory(ccdaModels.getSmokingStatus(),birthDate));
 			categoryList.add(labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),birthDate));
 			categoryList.add(vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),birthDate));
-			//categoryList.add(ProceduresScorecard.getProceduresCategory(ccdaModels));
+			categoryList.add(procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),birthDate));
 			
 			results.setCategoryList(categoryList);
 			results = ApplicationUtil.calculateFinalGrade(categoryList, results);

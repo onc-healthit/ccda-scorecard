@@ -371,5 +371,42 @@ public class ApplicationUtil {
 		return results;
 	}
 	
+	public static String calculateSectionGrade(List<CCDAScoreCardRubrics> rubricsList)
+	{
+		int actualPoints=0;
+		int maxPoints = 0;
+		float percentage ;
+		for(CCDAScoreCardRubrics rubrics : rubricsList)
+		{
+			actualPoints = actualPoints + rubrics.getActualPoints();
+			maxPoints = maxPoints + rubrics.getMaxPoints();
+		}
+		
+		percentage = (actualPoints * 100)/maxPoints;
+		
+		if(percentage < 70)
+		{
+			return "D";
+		}else if (percentage >=70 && percentage <80)
+		{
+			return "C";
+		}else if(percentage >=80 && percentage <85)
+		{
+			return "B-";
+		}else if(percentage >=85 && percentage <90)
+		{
+			return "B+";
+		}else if(percentage >=90 && percentage <95)
+		{
+			return "A-";
+		}else if(percentage >=95 && percentage <=100)
+		{
+			return "A+";
+		}else
+		{
+			return "UNKNOWN GRADE";
+		}
+	}
+	
 	
 }
