@@ -9,7 +9,8 @@
         </div>
         <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
         <ul class="nav nav-tabs" id="resultModalTabs">
-          <li class="active"><a href="#tabs-1" data-toggle="tab">Scorecard
+          <!-- ng-click used to handle angular-nvd3 bug https://github.com/krispo/angular-nvd3/issues/259 -->
+          <li class="active"><a href="#tabs-1" data-toggle="tab" ng-click="resizeWindow()">Scorecard
               Result&nbsp;<img ng-show="uploadDisplay.isLoading"
               src="images/validationSpinner.gif"
               alt="scorecard loading indicator" style="width: 22px">
