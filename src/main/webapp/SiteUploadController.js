@@ -237,5 +237,12 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
         return "unknownColor";
     }
   };
+    
+  $scope.resizeWindow = function() { 	  	  
+	  var timeToWaitInMiliseconds = 1;
+	  $timeout(function() {
+	  	  window.dispatchEvent(new Event('resize'));
+	  }, timeToWaitInMiliseconds);
+  };  
 
 }]);
