@@ -1,0 +1,114 @@
+#finalGradeText {
+  color: white;
+  text-align: center;
+  font-weight: 900;
+  padding: 25px;
+  border: 1px solid darkBlue;
+  border-top-left-radius: 100px;
+  border-top-right-radius: 5px;
+  background-color: #428bca;
+}
+
+.subFinalHeading {
+  color: white;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid darkBlue;
+  background-color: #3498db;
+}
+
+#ccdaFileHeading {
+  border-bottom-left-radius: 5px;
+}
+
+#issuesFoundHeading {
+  border-bottom-right-radius: 100px;
+}
+
+#charts {
+  /* margin-top: -10px; */
+}
+
+#detailedResults {
+  /* margin-top: -20px; */
+}
+
+#chartWell {
+  margin-bottom: 0px;
+}
+
+/*bootstrap's panel heading size is fixed regardless of header level -
+overriding for a larger heading */
+.panelDropdownButton h2 {
+  font-size: xx-large !important;
+}
+.categoryPanelHeading h2 {
+  font-size: x-large !important;
+}
+
+.categoryGrade {
+  font-size: large;
+}
+
+path {
+  cursor: pointer;
+}
+
+
+/*scale down grade label size*/
+.finalGrade {
+  /* font-size: xx-large; */
+  margin: 10px;
+}
+
+/*remove margin from header to align grades */
+.finalNumericalGrade {
+  font-size: large;
+}
+
+.category {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+  border-radius: 5px;
+  /* background-color: #5bc0de; */
+  /*brighter blue*/
+  background-color: #d9edf7;
+  /*lighter blue*/
+  /* background-color: #f5f5f5; */
+  /*gray default*/
+}
+
+/*override bootstrap leaving underline in place 
+after leaving a link without a data-target set
+we don't use data-target as we don't want the user redirected */
+.panel-heading a {
+  text-decoration: none;
+}
+
+/*then reapply the basic link logic but for hover only*/
+.panel-heading a:hover {
+  text-decoration: underline;
+}
+
+/* ensures the separations and footer are the same color as the entire panel background */
+.mainPanelPanel {
+  background-color: #d9edf7;
+}
+
+.panelDropdownButton:hover {
+  text-decoration: none !important;
+}
+
+.gradingCriteriaDropdownButton:hover {
+  text-decoration: none !important;
+}
+
+/* keeps distance between comment and table if a table exists */
+.commentTable {
+  margin-top: 15px;
+}
+
+.requirementWrapper {
+  /* padding: 10px; */
+}

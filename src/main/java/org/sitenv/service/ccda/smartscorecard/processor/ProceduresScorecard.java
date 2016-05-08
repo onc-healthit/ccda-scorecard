@@ -3,54 +3,91 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sitenv.ccdaparsing.model.CCDAMedication;
-import org.sitenv.ccdaparsing.model.CCDARefModel;
+import org.sitenv.ccdaparsing.model.CCDAProcActProc;
+import org.sitenv.ccdaparsing.model.CCDAProcedure;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
+import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProceduresScorecard {
 	
-	public static Category getProceduresCategory(CCDARefModel refModel)
+	public Category getProceduresCategory(CCDAProcedure procedures, String birthDate)
 	{
 		
-		Category medicationCategory = new Category();
-		medicationCategory.setCategoryName("Medication");
+		Category procedureCategory = new Category();
+		procedureCategory.setCategoryName("Procedures");
 		
-		List<CCDAScoreCardRubrics> medicationScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		medicationScoreList.add(getMedicationSectionScore(refModel.getMedication()));
-		medicationCategory.setCategoryRubrics(medicationScoreList);
+		List<CCDAScoreCardRubrics> procedureScoreList = new ArrayList<CCDAScoreCardRubrics>();
+		procedureScoreList.add(getValidDisplayNameScoreCard(procedures));
 		
-		medicationCategory.setCategoryGrade("B");
+		procedureCategory.setCategoryRubrics(procedureScoreList);
+		procedureCategory.setCategoryGrade(ApplicationUtil.calculateSectionGrade(procedureScoreList));
 		
-		return medicationCategory;
-		
+		return procedureCategory;
 	}
 	
 	
-	public static CCDAScoreCardRubrics getMedicationSectionScore(CCDAMedication medications)
+	
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAProcedure procedures)
 	{
-		CCDAScoreCardRubrics medicationSectionScore = new CCDAScoreCardRubrics();
-		medicationSectionScore.setPoints(ApplicationConstants.MEDICATION_SECTION_POINTS);
-		medicationSectionScore.setRequirement(ApplicationConstants.MEDICATION_SECTION_REQUIREMENT);
-		medicationSectionScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.SECTION.getSubcategory());
-		medicationSectionScore.setMaxPoints(ApplicationConstants.SUBCATEGORIES.SECTION.getMaxPoints());
+		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
+		validateDisplayNameScore.setPoints(ApplicationConstants.VALID_CODE_DISPLAYNAME_POINTS);
+		validateDisplayNameScore.setRequirement(ApplicationConstants.PROCEDURES_CODE_DISPLAYNAME_REQUIREMENT);
+		validateDisplayNameScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.CODE_DISPLAYNAME_VALIDATION.getSubcategory());
+		
+		int maxPoints = 0;
 		int actualPoints = 0;
-		if(medications !=null)
+		if(procedures != null)
 		{
-			actualPoints++;
+			maxPoints++;
+			if(procedures.getSectionCode().getDisplayName()!= null)
+			{
+				if(ApplicationUtil.validateDisplayName(procedures.getSectionCode().getCode(), 
+									ApplicationConstants.CODE_SYSTEM_MAP.get(procedures.getSectionCode().getCodeSystem()),
+									procedures.getSectionCode().getDisplayName().toUpperCase()))
+				{
+					actualPoints++;
+				}
+			}
 			
+			if(!ApplicationUtil.isEmpty(procedures.getProcActsProcs()))
+			{
+				for (CCDAProcActProc procAct : procedures.getProcActsProcs())
+				{
+					maxPoints++;
+					if(procAct.getProcCode() != null)
+					{
+						if(ApplicationUtil.validateDisplayName(procAct.getProcCode().getCode(), 
+												ApplicationConstants.CODE_SYSTEM_MAP.get(procAct.getProcCode().getCodeSystem()),
+												procAct.getProcCode().getDisplayName()))
+						{
+							actualPoints++;
+						}
+					}
+				}
+			}
 		}
 		
-		if(actualPoints == ApplicationConstants.SUBCATEGORIES.SECTION.getMaxPoints())
+		if(maxPoints!= 0 && maxPoints == actualPoints)
 		{
-			medicationSectionScore.setComment("Medication Section present in CCDA document");
+			validateDisplayNameScore.setComment("All the code elements under Procedures are having valid display name");
 		}else
-			medicationSectionScore.setComment("Medication Section is missing in CCDA document");
+		{
+			validateDisplayNameScore.setComment("Some code elements under Procedures are not having valid display name");
+		}
 		
-		medicationSectionScore.setActualPoints(actualPoints);
+		if(maxPoints!= 0)
+		{
+			validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateDisplayNameScore.setActualPoints(0);
+		}
 		
-		return medicationSectionScore;
+		validateDisplayNameScore.setMaxPoints(4);
+		return validateDisplayNameScore;
 	}
-
 }

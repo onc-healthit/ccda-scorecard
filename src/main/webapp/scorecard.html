@@ -1,0 +1,25 @@
+<div ng-show="mainDisplayData.showScorecard" class="container">
+
+  <div class="panel-group">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+
+        <div ng-controller="ScorecardController" id="scorecardResults">
+          <h3 ng-show="errorData.getJsonDataError"
+            style="text-align: center">
+            <span class="errorColor">Web Service Error:&nbsp;</span>{{errorData.getJsonDataErrorForUser}}
+          </h3>
+          <debug></debug>
+          <top-level-results></top-level-results>
+          <detailed-results></detailed-results>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <!-- END outer panel-group -->
+
+</div>
+<!-- END main bootstrap container for scorecard -->
