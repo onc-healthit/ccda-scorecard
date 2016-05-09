@@ -17,6 +17,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 
   $scope.ccdaFileName = "Validating...";
   $scope.totalNumberOfScorecardIssues = 0;
+  $scope.totalNumberOfFailingScorecardIssues = 0;
   
   //this is populated after the JSON is returned
   $scope.chartsData = {};
@@ -47,7 +48,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  if(!$scope.ngFileUploadError) {
 		  $scope.ccdaFileName = "Validating...";
 	  }
-	  $scope.totalNumberOfScorecardIssues = 0;	  
+	  $scope.totalNumberOfScorecardIssues = 0;
+	  $scope.totalNumberOfFailingScorecardIssues = 0;
 	  $scope.chartsData = {};
 	  $scope.jsonData = {};
 	  $scope.categories = {};
@@ -366,12 +368,22 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 
   var populateTotalNumberOfScorecardIssues = function() {
     for (var catIndex = 0; catIndex < $scope.categories.length; catIndex++) {
+
       var numberOfIssues = $scope.categories[catIndex].categoryRubrics.length;
       var curCategory = $scope.categories[catIndex];
       if (numberOfIssues > 0) {
-        //store for binding to top-level Issues Found in the view
+        //store count for total possible issues
         $scope.totalNumberOfScorecardIssues += numberOfIssues;
       }
+
+      for (var rubricIndex = 0; rubricIndex < curCategory.categoryRubrics.length; rubricIndex++) {
+        var curRubric = curCategory.categoryRubrics[rubricIndex];
+        //store count for issues which need attention
+        if (curRubric.actualPoints !== curRubric.maxPoints) {
+          $scope.totalNumberOfFailingScorecardIssues++;
+        }
+      }
+
     }
   };
 
