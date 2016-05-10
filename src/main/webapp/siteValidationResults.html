@@ -1,11 +1,17 @@
 <div class="container-fluid">
 
-  <div ng-show="uploadDisplay.isLoading" id="loading">
+  <div ng-show="uploadDisplay.isValidationLoading && !ngFileUploadError" id="loading">
     <h1>Upload Complete.</h1>
     <h1>Validating...</h1>
   </div>
+  <h3 ng-show="uploadErrorData.validationServiceError" class="webServiceError">
+    <span class="errorColor">Web Service Error:&nbsp;</span>{{uploadErrorData.validationServiceError}}
+  </h3>
+  <h3 ng-show="ngFileUploadError" class="fileUploadError">
+    <span class="errorColor">File Upload Error:&nbsp;</span>{{uploadErrorData.uploadError}}
+  </h3>
 
-  <div ng-hide="uploadDisplay.isLoading">
+  <div ng-hide="uploadDisplay.isValidationLoading || uploadErrorData.validationServiceError || ngFileUploadError">
 
     <!-- Upload results -->
     <div class="row">
