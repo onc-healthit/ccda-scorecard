@@ -75,7 +75,7 @@
                       <div>
                         <!--submit button-->
                         <button ng-disabled="!scUploadForm.$valid"
-                          ng-click="uploadCcdaScFileAndCallServices(ccdaScFile)"
+                          ng-click="uploadCcdaScFileAndCallServices(ccdaScFile, mainDebug.inDebugMode)"
                           id="scFormSubmit"
                           class="btn btn-primary start"
                           data-toggle="modal" data-target="#resultModal"

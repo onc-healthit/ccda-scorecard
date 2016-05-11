@@ -87,25 +87,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	      console.log('$scope.errorData.getJsonDataError:');
 	      console.log($scope.errorData.getJsonDataError);
 	      $scope.errorData.getJsonDataErrorForUser = "The C-CDA R2.1 Scorecard web service has failed to return valid data. Please try a file other than " + $scope.ccdaFileName + " and report the issue to TestingServices@sitenv.org."
-		  //TODO: get the stack trace and post to the console
 		  $scope.uploadDisplay.isLoading = false;
 	  }
-  };    
-  
-  //debug only
-  $scope.getJsonData = function() {
-    $http({
-      method: "GET",
-      url: "data.json"
-    }).then(function mySuccess(response) {
-      //get and cache the JSON data
-      $scope.jsonData = response.data;
-      storeDataAndPopulateResults();
-    }, function myError(response) {
-      $scope.errorData.getJsonDataError = "Scorecard Controller Error: Cannot retrieve scorecard JSON data from server.";
-    });
   };
-  //$scope.getJsonData();
 
   $scope.ContextEnum = Object.freeze({
     LIST_GROUP_ITEM: "listGroupItem",

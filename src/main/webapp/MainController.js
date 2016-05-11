@@ -4,5 +4,10 @@ scApp.controller('MainController', ['$scope', function($scope) {
 		showTopLevelContent : true,
 		showScorecard : true
 	};
+	
+	$scope.mainDebug = {
+		inDebugMode: false,
+		useLocalTestDataForServices: false
+	};
 
 }]);
