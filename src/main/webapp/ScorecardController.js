@@ -129,21 +129,6 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	return classPrefix + "info";
   };
 
-  $scope.jumpToElementViaId = function(elementId, weWait, timeToWaitInMiliseconds) {
-    if (weWait) {
-      //this forces the jump in cases such as an outward collapse - 
-      //where the location does not yet exist until it is fully expanded
-      $timeout(function() {
-        console.log("waited " + timeToWaitInMiliseconds);
-        $location.hash(elementId);
-      }, timeToWaitInMiliseconds);
-    }
-    //set the location of the element via id to scroll to
-    $location.hash(elementId);
-    //scroll there
-    $anchorScroll();
-  };
-
   var jumpToCategoryViaIndex = function(index, weWait, timeToWaitInMiliseconds) {
     $scope.jumpToElementViaId("catAccordion" + index, weWait, timeToWaitInMiliseconds);
   };
