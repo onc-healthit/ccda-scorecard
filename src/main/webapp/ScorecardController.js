@@ -15,8 +15,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     "Miscellaneous"
   ]);
 
-  $scope.ccdaFileName = "Validating...";
+  $scope.ccdaFileName = "Scoring...";
   $scope.totalNumberOfScorecardIssues = 0;
+  $scope.totalNumberOfFailingScorecardIssues = 0;
   
   //this is populated after the JSON is returned
   $scope.chartsData = {};
@@ -45,9 +46,10 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   
   var resetScorecardData = function() {
 	  if(!$scope.ngFileUploadError) {
-		  $scope.ccdaFileName = "Validating...";
+		  $scope.ccdaFileName = "Scoring...";
 	  }
-	  $scope.totalNumberOfScorecardIssues = 0;	  
+	  $scope.totalNumberOfScorecardIssues = 0;
+	  $scope.totalNumberOfFailingScorecardIssues = 0;
 	  $scope.chartsData = {};
 	  $scope.jsonData = {};
 	  $scope.categories = {};
@@ -85,25 +87,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	      console.log('$scope.errorData.getJsonDataError:');
 	      console.log($scope.errorData.getJsonDataError);
 	      $scope.errorData.getJsonDataErrorForUser = "The C-CDA R2.1 Scorecard web service has failed to return valid data. Please try a file other than " + $scope.ccdaFileName + " and report the issue to TestingServices@sitenv.org."
-		  //TODO: get the stack trace and post to the console
 		  $scope.uploadDisplay.isLoading = false;
 	  }
-  };    
-  
-  //debug only
-  $scope.getJsonData = function() {
-    $http({
-      method: "GET",
-      url: "data.json"
-    }).then(function mySuccess(response) {
-      //get and cache the JSON data
-      $scope.jsonData = response.data;
-      storeDataAndPopulateResults();
-    }, function myError(response) {
-      $scope.errorData.getJsonDataError = "Scorecard Controller Error: Cannot retrieve scorecard JSON data from server.";
-    });
   };
-  //$scope.getJsonData();
 
   $scope.ContextEnum = Object.freeze({
     LIST_GROUP_ITEM: "listGroupItem",
@@ -140,22 +126,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	//this is expected before results are returned from the service.
 	//it allows for a generic color prior to the results as well as 
 	//protects against running functions against undefined variables
-	return classPrefix + "info";
-  };
-
-  $scope.jumpToElementViaId = function(elementId, weWait, timeToWaitInMiliseconds) {
-    if (weWait) {
-      //this forces the jump in cases such as an outward collapse - 
-      //where the location does not yet exist until it is fully expanded
-      $timeout(function() {
-        console.log("waited " + timeToWaitInMiliseconds);
-        $location.hash(elementId);
-      }, timeToWaitInMiliseconds);
-    }
-    //set the location of the element via id to scroll to
-    $location.hash(elementId);
-    //scroll there
-    $anchorScroll();
+	return classPrefix + "primary";
   };
 
   var jumpToCategoryViaIndex = function(index, weWait, timeToWaitInMiliseconds) {
@@ -366,12 +337,22 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 
   var populateTotalNumberOfScorecardIssues = function() {
     for (var catIndex = 0; catIndex < $scope.categories.length; catIndex++) {
+
       var numberOfIssues = $scope.categories[catIndex].categoryRubrics.length;
       var curCategory = $scope.categories[catIndex];
       if (numberOfIssues > 0) {
-        //store for binding to top-level Issues Found in the view
+        //store count for total possible issues
         $scope.totalNumberOfScorecardIssues += numberOfIssues;
       }
+
+      for (var rubricIndex = 0; rubricIndex < curCategory.categoryRubrics.length; rubricIndex++) {
+        var curRubric = curCategory.categoryRubrics[rubricIndex];
+        //store count for issues which need attention
+        if (curRubric.actualPoints !== curRubric.maxPoints) {
+          $scope.totalNumberOfFailingScorecardIssues++;
+        }
+      }
+
     }
   };
 

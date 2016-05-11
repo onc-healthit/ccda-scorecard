@@ -12,16 +12,17 @@
 
           <div class="panel-heading categoryPanelHeading">
             <h2 class="panel-title">
-              <a data-toggle="collapse"
-                data-parent="#catAccordion{{$index}}"
+              <button ng-click="jumpToElementViaId('ValidationResult', true, 0)" class="btn btn-info" 
+                title="Back to Summary" type="button">
+                <span class="glyphicon glyphicon-arrow-up"></span>
+              </button>
+              &nbsp;
+              <a data-toggle="collapse" data-parent="#catAccordion{{$index}}" 
                 href="#scorecardCategoryData{{$index}}">{{currentCategory.categoryName}}</a>
-              <span
-                ng-class="scoringContextSubRoutine('categoryGrade pull-right label label-', currentCategory.categoryGrade, 'A')"
-                class="categoryGrade pull-right label">{{currentCategory.categoryGrade
-                | uppercase}}</span>
-            </h2>
+              <span ng-class="scoringContextSubRoutine('categoryGrade pull-right label label-', currentCategory.categoryGrade, 'A')" 
+                class="categoryGrade pull-right label">{{currentCategory.categoryGrade}}</span>
+           </h2>
           </div>
-
 
           <!--START REQUIREMENT PANELS -->
           <div id="scorecardCategoryData{{$index}}"

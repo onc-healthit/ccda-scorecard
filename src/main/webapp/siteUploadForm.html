@@ -1,18 +1,16 @@
 <div id="CCDAvalidator" class="panel panel-default">
   <div class="panel-heading">
-    <h2 class="panel-title">C-CDA R2.1 Scorecard</h2>
+    <h2 class="panel-title">C-CDA Scorecard</h2>
   </div>
 
   <div class="panel-body">
 
-    <p>The goal of the SITE C-CDA R2.1 Scorecard is to Lorem ipsum
-      dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-      incididunt ut labore et dolore magna aliqua. The application is
-      also a resource that can validate conformance of C-CDA R2.1
-      documents evaluate them for conformance to ONC 2015 Edition
-      Standards and Certification Criteria (S&amp;CC) objectives and
-      regulations.</p>
-    <p>Please note: validation may take up to one minute to run.</p>
+    <p>The SITE C-CDA R2.1 Scorecard provides an enhanced level of
+      interoperability for C-CDA documents by using a comprehensive
+      scoring system, which allows implementers to improve the data
+      quality and representation of their C-CDA documents, thereby
+      increasing the precision of documents used in the real-world.</p>
+    <p>Please note: Scoring and validation may take up to one minute to run.</p>
 
     <div id="CCDAAccordion">
 
@@ -20,8 +18,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">
             <a data-toggle="collapse" data-parent="#CCDAAccordion"
-              href="#collapseCCDA2_0Validator" tabindex="1"> C-CDA
-              R2.1 Scorecard / ONC 2015 Edition S&amp;CC Validator </a>
+              href="#collapseCCDA2_0Validator" tabindex="1"> C-CDA R2.1 Scorecard (Alpha Release)</a>
           </h3>
         </div>
         <div id="collapseCCDA2_0Validator"
@@ -32,8 +29,7 @@
 
               <div id="CCDAReferenceWrapper">
                 <span class="directions">Directions:</span>
-                <p>In order to validate the C-CDA R2.1 document,
-                  follow steps below.</p>
+                <p>Please follow the steps below in order to score the C-CDA R2.1 document.</p>
 
                 <form name="scUploadForm">
 
@@ -50,7 +46,7 @@
                       </div>
                     </li>
 
-                    <li>Upload generated C-CDA file to validate.
+                    <li>Upload generated C-CDA file to score.
                       <div style="position: relative;">
                         <div class="row">
                           <div class="col-md-12 form-group">
@@ -75,17 +71,16 @@
                       </div>
                     </li>
 
-                    <li>Validate.
+                    <li>Score.
                       <div>
                         <!--submit button-->
                         <button ng-disabled="!scUploadForm.$valid"
-                          ng-click="uploadCcdaScFileAndCallServices(ccdaScFile)"
+                          ng-click="uploadCcdaScFileAndCallServices(ccdaScFile, mainDebug.inDebugMode)"
                           id="scFormSubmit"
                           class="btn btn-primary start"
                           data-toggle="modal" data-target="#resultModal"
                           tabindex="1" type="button">
-                          <i class="glyphicon glyphicon-ok"></i> <span>Validate
-                            Document</span>
+                          <i class="glyphicon glyphicon-ok"></i> <span>Generate Scorecard</span>
                         </button>
                         <!--progress bar-->
                         <span class="progress"

@@ -59,7 +59,13 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     $scope.ccdaUploadData.fileName = ccdaScFile.name;
 
      if(callDebug) {
-       callDebugService(ccdaScFile);
+       console.log("In main debug mode");
+       if($scope.mainDebug.useLocalTestDataForServices) {
+    	   $scope.getLocalJsonResultsForDebugging("dataValidation.json", ServiceTypeEnum.CCDA_VALIDATOR);
+    	   $scope.getLocalJsonResultsForDebugging("data.json", ServiceTypeEnum.SCORECARD);
+       } else {
+    	   callDebugService(ccdaScFile);
+       }
      } else if ($scope.selectedValidationOption.id === 1) {
        callCcdaR2ValidatorService(ccdaScFile);    	 
        callCcdaScorecardService(ccdaScFile);
@@ -92,15 +98,18 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     uploadFileAndCallServices(ccdaScFile, localUrl, dataObject, ServiceTypeEnum.CCDA_VALIDATOR);
   };
 
-  var callCcdaScorecardService = function(ccdaScFile) {
+  var callCcdaScorecardService = function(ccdaScFile, newLocalUrl) {
     var externalUrl = 'http://54.200.51.225:8080/ccda-smart-scorecard/ccdascorecardservice/';
     var localUrl = 'ccdascorecardservice/';
+    if(newLocalUrl) {
+    	localUrl = newLocalUrl;
+    }
     var dataObject = {
       ccdaFile: ccdaScFile
     };
     uploadFileAndCallServices(ccdaScFile, localUrl, dataObject, ServiceTypeEnum.SCORECARD);
   };
-
+  
   var uploadFileAndCallServices = function(ccdaFile, urlOfServiceToCall, dataObject, serviceType) {
     ccdaFile.upload = Upload.upload({
       url: urlOfServiceToCall,
@@ -132,36 +141,39 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   var cacheAndProcessReturnedJsonData = function(response, serviceType) {
     switch (serviceType) {
       case ServiceTypeEnum.CCDA_VALIDATOR:
-    	//collect data
-        $scope.jsonValidationData = response.data;
-        console.log("$scope.jsonValidationData:");
-        console.log($scope.jsonValidationData);
-        $scope.metaResults = $scope.jsonValidationData.resultsMetaData;
-        $scope.ccdaResults = $scope.jsonValidationData.ccdaValidationResults;
-        if($scope.metaResults.serviceError || !$scope.ccdaResults) {
-        	//invalid results returned due to a service error or a bad file sent
-        	if($scope.metaResults.serviceErrorMessage) {
-        		$scope.uploadErrorData.validationServiceError = $scope.metaResults.serviceErrorMessage + 
-        			" The file uploaded which encountered the error is " + $scope.ccdaUploadData.fileName + ". " + 
-        				$scope.userMessageConstant.GENERIC;
-        	} else {
-        		$scope.uploadErrorData.validationServiceError = "The SITE C-CDA R2.1 Validation web service has failed to return results " +
-        				"for an unknown reason. Please try a file other than " + $scope.ccdaUploadData.fileName + " and report " +
-        						"the issue to TestingServices@sitenv.org.";
-        	}
-        }
-        setIssueCounts();
-        //disable loading
-        $scope.uploadDisplay.isValidationLoading = false;
-        console.log("$scope.uploadDisplay.isValidationLoading (after load):")
-        console.log($scope.uploadDisplay.isValidationLoading);        
+    	collectAndHandleValidationData(response);
         break;
       case ServiceTypeEnum.SCORECARD:
-        $scope.jsonScorecardData = response.data;       
+        $scope.jsonScorecardData = response.data;
         break;
       default:
         $scope.uploadErrorData.serviceTypeError = "Error in cacheAndProcessReturnedJsonData(): The ServiceTypeEnum sent does not exist: " + serviceType;
     }
+  };
+  
+  var collectAndHandleValidationData = function(response) {
+      $scope.jsonValidationData = response.data;
+      console.log("$scope.jsonValidationData:");
+      console.log($scope.jsonValidationData);
+      $scope.metaResults = $scope.jsonValidationData.resultsMetaData;
+      $scope.ccdaResults = $scope.jsonValidationData.ccdaValidationResults;
+      if($scope.metaResults.serviceError || !$scope.ccdaResults) {
+      	//invalid results returned due to a service error or a bad file sent
+      	if($scope.metaResults.serviceErrorMessage) {
+      		$scope.uploadErrorData.validationServiceError = $scope.metaResults.serviceErrorMessage + 
+      			" The file uploaded which encountered the error is " + $scope.ccdaUploadData.fileName + ". " + 
+      				$scope.userMessageConstant.GENERIC;
+      	} else {
+      		$scope.uploadErrorData.validationServiceError = "The SITE C-CDA R2.1 Validation web service has failed to return results " +
+      				"for an unknown reason. Please try a file other than " + $scope.ccdaUploadData.fileName + " and report " +
+      						"the issue to TestingServices@sitenv.org.";
+      	}
+      }
+      setIssueCounts();
+      //disable loading
+      $scope.uploadDisplay.isValidationLoading = false;
+      console.log("$scope.uploadDisplay.isValidationLoading (after load):")
+      console.log($scope.uploadDisplay.isValidationLoading);  	  
   };
 
   var setIssueCounts = function() {
@@ -171,19 +183,16 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     $scope.allUsedMetaIssues = [mdhtMetaIssues, vocabMetaIssues];
   };
   
-  //for debugging purposes only with a local json file
-  $scope.getValidationResultsAsJson = function() {
+  $scope.getLocalJsonResultsForDebugging = function(localJsonFileLocation, serviceType) {
     $http({
       method: "GET",
-      url: "dataValidation.json"
+      url: localJsonFileLocation
     }).then(function mySuccess(response) {
-      cacheAndProcessReturnedJsonData(response);
-      setIssueCounts();
+      cacheAndProcessReturnedJsonData(response, serviceType);
     }, function myError(response) {
-      $scope.uploadErrorData.getValidationResultsAsJsonError = "Upload Controller Error: Cannot retrieve validation data from server.";
+      console.log("Debug Error: Cannot retrieve local " + serviceType + " data");
     });
-  };
-  // $scope.getValidationResultsAsJson();  
+  }; 
 
   var IssueTypeEnum = Object.freeze({
     MDHT_ERROR: "C-CDA MDHT Conformance Error",
