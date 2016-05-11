@@ -7,9 +7,9 @@
         C-CDA Scorecard Grade:&nbsp;
           <span
           ng-class="scoringContextSubRoutine('finalGrade label label-', jsonData.results.finalGrade, 'A')" 
-          class="finalGrade label">{{jsonData.results.finalGrade | uppercase}}
+          class="finalGrade label">{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "Scoring..."}}
           </span> 
-          <span ng-class="scoringContextSubRoutine('finalNumericalGrade label label-', jsonData.results.finalGrade, 'A')"
+          <span ng-show="jsonData.results.finalGrade" ng-class="scoringContextSubRoutine('finalNumericalGrade label label-', jsonData.results.finalGrade, 'A')"
           class="finalNumericalGrade label">{{jsonData.results.finalNumericalGrade}} / 100
           </span>
       </h1>
@@ -26,7 +26,7 @@
     <div id="issuesFoundHeading" class="col-md-6 subFinalHeading">
       <h3>Suggested Improvements:</h3>
       <h3>
-        <span class="label label-primary">{{totalNumberOfFailingScorecardIssues}} / {{totalNumberOfScorecardIssues}}</span>
+        <span class="label label-primary">{{jsonData.results.finalGrade ? totalNumberOfFailingScorecardIssues + " / " + totalNumberOfScorecardIssues : "Scoring..."}}</span>
       </h3>
     </div>
   </div>

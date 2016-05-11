@@ -126,7 +126,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	//this is expected before results are returned from the service.
 	//it allows for a generic color prior to the results as well as 
 	//protects against running functions against undefined variables
-	return classPrefix + "info";
+	return classPrefix + "primary";
   };
 
   var jumpToCategoryViaIndex = function(index, weWait, timeToWaitInMiliseconds) {
