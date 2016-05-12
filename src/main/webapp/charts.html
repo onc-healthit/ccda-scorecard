@@ -15,18 +15,34 @@
   </div>
 
   <div id="topPanelBody" class="collapse in">
-    <div id="chartWell" class="well">
+    <div id="chartWell" class="well">    
 
+<!--      
+      <div ng-repeat="chart in chartsData">
+        <div class="row">
+          <div class="col-md-12">
+            <nvd3 options="chart.chartOption" data="chart.chartData"></nvd3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12" style="padding-top: {{chart.isBar ? 0 : 0 }}px">          
+            <h3>{{chart.chartTitle}}</h3>
+            <h4>{{chart.chartDescription}}{{chart.movingForwardText}}</h4>
+          </div>
+        </div>
+      </div>
+-->
+ 
       <div class="row" ng-repeat="chart in chartsData">
-        <div ng-show="chart.displayOnLeft" class="col-md-6">
+        <div ng-show="chart.displayOnLeft" class="col-md-7">
           <nvd3 options="chart.chartOption" data="chart.chartData"></nvd3>
         </div>        
-        <div class="col-md-6" style="padding-top: {{chart.isBar ? 65 : 185 }}px">          
+        <div class="col-md-5" style="padding-top: {{chart.isBar ? 55 : 175 }}px">          
           <h3>{{chart.chartTitle}}</h3>
           <h4>{{chart.chartDescription}}
             {{chart.movingForwardText}}</h4>
         </div>
-        <div ng-show="!chart.displayOnLeft" class="col-md-6">
+        <div ng-show="!chart.displayOnLeft" class="col-md-7">
           <nvd3 options="chart.chartOption" data="chart.chartData"></nvd3>
         </div>
       </div>

@@ -158,7 +158,13 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   $scope.pieChartOptions = {
     chart: {
       type: 'pieChart',
-      height: 600,
+      height: 625,
+      margin: {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0
+      },      
       x: function(d) {
         return d.key;
       },
@@ -166,7 +172,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         return d.y;
       },
       showLabels: true,
-      duration: 500,
+      duration: 550,
       labelThreshold: 0.01,
       labelSunbeamLayout: true,
       pie: {
@@ -182,9 +188,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       },
       legend: {
         margin: {
-          top: 35,
-          right: 0,
-          bottom: 0,
+          top: 3,
+          right: 30,
+          bottom: -10,
           left: 0
         },
         dispatch: {
