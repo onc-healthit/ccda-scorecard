@@ -23,6 +23,15 @@ scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$ti
 	    $location.hash(elementId);
 	    //scroll there
 	    $anchorScroll();
-    };	
+    };
+    
+    $scope.resizeWindow = function(timeToWaitInMiliseconds) { 	  	  
+  	  if(!timeToWaitInMiliseconds) {
+  		  timeToWaitInMiliseconds = 1;
+  	  }
+  	  $timeout(function() {
+  	  	  window.dispatchEvent(new Event('resize'));
+  	  }, timeToWaitInMiliseconds);
+    };    
 
 }]);

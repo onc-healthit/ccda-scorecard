@@ -56,7 +56,9 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     
 	//static for now since we are not using the selector/sending this manually
     $scope.ccdaUploadData.docTypeSelected = "C-CDA_IG_Only";
-    $scope.ccdaUploadData.fileName = ccdaScFile.name;
+    $scope.ccdaUploadData.fileName = (!$scope.mainDebug.inDebugMode || $scope.mainDebug.inDebugMode && ccdaScFile) 
+    	? ccdaScFile.name
+		: "No file selected: In debug mode";
 
      if(callDebug) {
        console.log("In main debug mode");
@@ -246,12 +248,5 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
         return "unknownColor";
     }
   };
-    
-  $scope.resizeWindow = function() { 	  	  
-	  var timeToWaitInMiliseconds = 1;
-	  $timeout(function() {
-	  	  window.dispatchEvent(new Event('resize'));
-	  }, timeToWaitInMiliseconds);
-  };  
 
 }]);
