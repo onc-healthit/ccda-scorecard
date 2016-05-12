@@ -74,7 +74,7 @@
                     <li>Score.
                       <div>
                         <!--submit button-->
-                        <button ng-disabled="!scUploadForm.$valid"
+                        <button ng-disabled="!scUploadForm.$valid && !mainDebug.inDebugMode"
                           ng-click="uploadCcdaScFileAndCallServices(ccdaScFile, mainDebug.inDebugMode)"
                           id="scFormSubmit"
                           class="btn btn-primary start"
