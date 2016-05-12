@@ -56,7 +56,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     
 	//static for now since we are not using the selector/sending this manually
     $scope.ccdaUploadData.docTypeSelected = "C-CDA_IG_Only";
-    $scope.ccdaUploadData.fileName = ccdaScFile.name;
+    $scope.ccdaUploadData.fileName = !$scope.mainDebug.inDebugMode ? ccdaScFile.name : "No file selected: In debug mode"; 
 
      if(callDebug) {
        console.log("In main debug mode");
