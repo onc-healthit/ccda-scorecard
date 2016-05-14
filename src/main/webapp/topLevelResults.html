@@ -1,34 +1,44 @@
 <div class="container-fluid">
 
-  <!-- Final Grade -->
-  <div class="row">
-    <div id="finalGradeText" class="col-md-12">
-      <h1>
-        C-CDA Scorecard Grade:&nbsp;
+  <div id="scHeaderContainer">
+
+    <!-- Final Grade -->
+    <div class="row">
+      <div id="finalGradeText" class="col-md-8">
+        <h1>C-CDA Scorecard Grade</h1>
+      </div>
+      <div class="col-md-2 lighterHeading">
+        <h1>
+          <!--
           <span
           ng-class="scoringContextSubRoutine('finalGrade label label-', jsonData.results.finalGrade, 'A')" 
           class="finalGrade label">{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "Scoring..."}}
-          </span> 
+          </span>
+          -->
+        {{jsonData.results.finalGrade ? jsonData.results.finalGrade : "Scoring..."}}
+        </h1>
+      </div>
+      <div class="col-md-2 lighterHeading">
+        <h1>
+          <!--
           <span ng-show="jsonData.results.finalGrade" ng-class="scoringContextSubRoutine('finalNumericalGrade label label-', jsonData.results.finalGrade, 'A')"
           class="finalNumericalGrade label">{{jsonData.results.finalNumericalGrade}} / 100
           </span>
-      </h1>
+          -->
+        {{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade + " / 100" : "Scoring..."}}
+        </h1>
+      </div>
     </div>
-  </div>
-
-  <div class="row">
-    <div id="ccdaFileHeading" class="col-md-6 subFinalHeading">
-      <h3>C-CDA File:</h3>
-      <h3>
-        <span class="label label-primary">{{ccdaFileName}}</span>
-      </h3>
+    
+    <div class="row">
+      <div class="col-md-4 lighterHeading">
+        <h1>{{jsonData.results.finalGrade ? totalNumberOfFailingScorecardIssues + " / " + totalNumberOfScorecardIssues : "Scoring..."}}</h1>
+      </div>
+      <div id="issuesFoundHeading" class="col-md-8 subFinalHeading">
+        <h1>Suggested Improvements</h1>
+      </div>
     </div>
-    <div id="issuesFoundHeading" class="col-md-6 subFinalHeading">
-      <h3>Suggested Improvements:</h3>
-      <h3>
-        <span class="label label-primary">{{jsonData.results.finalGrade ? totalNumberOfFailingScorecardIssues + " / " + totalNumberOfScorecardIssues : "Scoring..."}}</span>
-      </h3>
-    </div>
+  
   </div>
 
   <charts></charts>
@@ -36,13 +46,11 @@
   <!-- Access to Detailed Results -->
   <div id="detailedResults" class="row">
     <div class="col-md-12">
-      <a class="panelDropdownButton" data-toggle="collapse"
+      <a id="detailedResultsPanelDropdownAnchor" class="panelDropdownButton" data-toggle="collapse"
         href="#mainPanelBody" data-target="#mainPanelBody">
         <h2 ng-click="jumpToElementViaId('detailedResults', true, 0)"
           type="button" class="btn btn-primary btn-block">
-          <span class="glyphicon glyphicon-sort pull-left"></span>Scorecard
-          Detailed Results<span
-            class="glyphicon glyphicon-sort pull-right"></span>
+          <span ng-class="getDropdownStateClasses('detailedResultsPanelDropdownAnchor')"></span>Scorecard Detailed Results
         </h2>
       </a>
     </div>

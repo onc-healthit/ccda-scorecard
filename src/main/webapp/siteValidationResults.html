@@ -29,11 +29,11 @@
 
     <!-- Issue Counts (MDHT and Vocab) -->
     <div class="row">
-      <div class="panel panel-primary col-md-2 col-lg-2"
+      <div class="panel panel-primary col-md-2 col-lg-2 removeBorder"
         ng-repeat="curMetaCategory in allUsedMetaIssues">
         <div class="list-group"
           ng-repeat="curMetaResult in curMetaCategory">
-          <div class="list-group-item">
+          <div class="list-group-item validatorListGroupItem">
             <span
               ng-class="getValidationResultColorViaType(curMetaResult, true)"
               class="badge btn-primary">{{curMetaResult.count}}</span> <a
@@ -50,7 +50,7 @@
           <div ng-class="getValidationResultColorViaType(curResult)">
             <a name="{{curResult.type}}"></a>
             <li>{{curResult.type}}
-              <ul>
+              <ul class="validatorList">
                 <li>Description:&nbsp;{{curResult.description}}</li>
                 <li>xPath:&nbsp;{{curResult.xPath}}</li>
                 <li>Document Line Number

@@ -718,6 +718,10 @@ a.ext-icon {
   cursor: pointer;
 }
 
+.jumbotron > hr {
+  /*overrides default bootstrap darker rule to match SITE*/
+  border-top-color: #eee !important;
+}
 
 /* ccda validation related */
 #uploadResults {
@@ -749,6 +753,14 @@ a.ext-icon {
 
 .fileUploadError, .webServiceError {
   text-align: center;
+}
+
+.validatorListGroupItem {
+	border: 1px solid #dddddd !important;
+}
+
+.validatorList {
+	margin-left: 0em !important;
 }
 
 
