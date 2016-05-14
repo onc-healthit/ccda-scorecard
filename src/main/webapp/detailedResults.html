@@ -8,20 +8,20 @@
         id="catAccordion{{$index}}" class="panel-group category"
         ng-show="currentCategory.categoryRubrics.length > 0">
         <div id="{{currentCategory.categoryName}}"
-          class="panel panel-primary">
+          class="panel panel-primary removeBorder">
 
-          <div class="panel-heading categoryPanelHeading">
+          <div class="panel-heading categoryPanelHeading" style="border-radius: 0px">
             <h2 class="panel-title">
-              <button ng-click="jumpToElementViaId('ValidationResult', true, 0)" class="btn btn-info" 
-                title="Back to Summary" type="button">
-                <span class="glyphicon glyphicon-arrow-up"></span>
-              </button>
-              &nbsp;
               <a data-toggle="collapse" data-parent="#catAccordion{{$index}}" 
                 href="#scorecardCategoryData{{$index}}">{{currentCategory.categoryName}}</a>
               <span ng-class="scoringContextSubRoutine('categoryGrade pull-right label label-', currentCategory.categoryGrade, 'A')" 
                 class="categoryGrade pull-right label">{{currentCategory.categoryGrade}}</span>
-           </h2>
+            </h2>            
+          </div>
+
+          <div ng-click="jumpToElementViaId('ValidationResult', true, 0)" 
+            class="btn btn-default btn-block scButton removeBorder" type="button">
+            <span class="glyphicon glyphicon-triangle-top pull-left"></span>Back to Summary<span class="glyphicon glyphicon-triangle-top pull-right"></span>
           </div>
 
           <!--START REQUIREMENT PANELS -->
@@ -47,13 +47,15 @@
 
                 <!--START RUBRICS -->
                 <div id="rubricBody{{$parent.$index}}-{{$index}}"
-                  class="panel-collapse collapse in">
-                  <div class="panel-body">
+                  ng-class="rubric.actualPoints < rubric.maxPoints ? 'panel-collapse collapse in' : 'panel-collapse collapse out'">
+                  <div class="panel-body rubricColor">
 
                     <div class="row">
                       <div class="col-md-6">
                         <h3>Issue</h3>
-                        <span>{{rubric.issue}}</span>
+                        <!-- <span>{{rubric.issue}}</span> -->
+                        <!-- repeating the requirement here for now until the data is populated in the back-end -->
+                        <span>{{rubric.requirement}}</span>
                       </div>
                       <div class="col-md-6">
                         <h3>Recommendation</h3>
@@ -80,21 +82,19 @@
                     </div>
 
                     <!--START SCORING CRITERIA -->
-                    <a class="gradingCriteriaDropdownButton"
+                    <a id="gradingCriteriaDropdownButtonId{{$parent.$index}}-{{$index}}" class="gradingCriteriaDropdownButton"
                       data-toggle="collapse" href
                       data-target="#gradingCriteriaListGroup{{$parent.$index}}-{{$index}}">
                       <h3 type="button"
                         class="btn btn-default btn-block">
-                        <span class="glyphicon glyphicon-sort pull-left"></span>View
-                        Scoring Criteria<span
-                          class="glyphicon glyphicon-sort pull-right"></span>
+                        <span ng-class="getDropdownStateClasses('gradingCriteriaDropdownButtonId' + {{$parent.$index}} + '-' + {{$index}})"></span>View Scoring Criteria
                       </h3>
                     </a>
                     <!-- works with any number of points -->
                     <div
                       id="gradingCriteriaListGroup{{$parent.$index}}-{{$index}}"
                       class="collapse out">
-                      <ul class="list-group">
+                      <ul class="list-group" style="margin-left: 0px; margin-bottom: 0px">
                         <li
                           ng-repeat="(pointKey, point) in rubric.points"
                           ng-class="updateScoringCriteriaContextClass(pointKey, rubric, ContextEnum.LIST_GROUP_ITEM)"
@@ -111,9 +111,11 @@
 
             </div>
             <!-- END panel-body -->
-            <div class="panel-footer">
-              <span>End of {{currentCategory.categoryName}}
-                Scorecard Results</span>
+            <div class="panel-footer scFooter">
+              <div ng-click="jumpToElementViaId('ValidationResult', true, 0)" 
+                class="btn btn-default btn-block scButton removeBorder" type="button">
+                <span class="glyphicon glyphicon-triangle-top pull-left"></span>Back to Summary<span class="glyphicon glyphicon-triangle-top pull-right"></span>
+              </div>
             </div>
           </div>
 

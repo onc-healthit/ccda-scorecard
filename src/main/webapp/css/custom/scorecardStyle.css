@@ -1,28 +1,46 @@
 #finalGradeText {
   color: white;
   text-align: center;
-  font-weight: 900;
-  padding: 25px;
+  /* font-weight: 900; */
+  padding: 0px;
   border: 1px solid darkBlue;
   border-top-left-radius: 100px;
-  border-top-right-radius: 5px;
+  
   background-color: #428bca;
+  /* background-color: rgba(66, 139, 202, 0.9); */
+  margin-top: 5px;
 }
 
 .subFinalHeading {
   color: white;
   text-align: center;
+  padding: 0px;
+  border: 1px solid darkBlue;
+  background-color: #428bca;
+}
+
+.lighterHeading {
+  font-family: 'Kalam', cursive;
+  color: white;
+  text-align: center;
   padding: 5px;
   border: 1px solid darkBlue;
+  /* background-color: #428bca; */
   background-color: #3498db;
 }
 
+#scHeaderContainer {
+  width: 97.2%;
+  margin: auto;
+}
+
 #ccdaFileHeading {
-  border-bottom-left-radius: 5px;
+  /*border-bottom-left-radius: 5px;*/
 }
 
 #issuesFoundHeading {
   border-bottom-right-radius: 100px;
+  margin-top: 5px;
 }
 
 #charts {
@@ -35,12 +53,15 @@
 
 #chartWell {
   margin-bottom: 0px;
+  padding-bottom: 0px;
+  background-color: white !important;
 }
 
 /*bootstrap's panel heading size is fixed regardless of header level -
 overriding for a larger heading */
 .panelDropdownButton h2 {
   font-size: xx-large !important;
+  border-radius: 0px;
 }
 .categoryPanelHeading h2 {
   font-size: x-large !important;
@@ -48,6 +69,7 @@ overriding for a larger heading */
 
 .categoryGrade {
   font-size: large;
+  border-radius: 0px;]
 }
 
 path {
@@ -67,13 +89,15 @@ path {
 }
 
 .category {
+/*
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 15px;
-  border-radius: 5px;
+*/
+  /*border-radius: 5px;*/
   /* background-color: #5bc0de; */
   /*brighter blue*/
-  background-color: #d9edf7;
+  /*background-color: #d9edf7;*/
   /*lighter blue*/
   /* background-color: #f5f5f5; */
   /*gray default*/
@@ -91,9 +115,11 @@ we don't use data-target as we don't want the user redirected */
   text-decoration: underline;
 }
 
-/* ensures the separations and footer are the same color as the entire panel background */
 .mainPanelPanel {
-  background-color: #d9edf7;
+  /*light blue*/
+  /*background-color: #d9edf7;*/
+  border: none !important;
+  box-shadow: none;
 }
 
 .panelDropdownButton:hover {
@@ -112,3 +138,48 @@ we don't use data-target as we don't want the user redirected */
 .requirementWrapper {
   /* padding: 10px; */
 }
+
+#mainScorecardPanelHeading {
+  margin-top: -10px;
+  margin-bottom: -30px;
+}
+
+.removePanelGradient {
+  background-image: none !important;
+  background-color: white !important;
+}
+
+.removeBorder {
+  border: none;
+  border-color: none;
+  box-shadow: none;
+}
+
+.removeBorderRadius {
+	border-radius: 0px;
+}
+
+.scFooter {
+	padding: 0px;
+	background-color: white;
+	border-top: none;
+}
+
+.scButton {
+	border-radius: 0px;
+}
+
+.rubricColor {
+	background-color: white; /*backup for no rgba support*/
+	background-color: rgba(51, 122, 183, 0.03);
+}
+
+/*
+.panel {
+	border: 0;
+}
+
+.table > thead > tr > th, .table > thead > tr > td {
+    border: 0;
+}
+*/
