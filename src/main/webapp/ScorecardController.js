@@ -362,5 +362,17 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 
     }
   };
+  
+  $scope.getDropdownStateClasses = function(panelDropdownElementId) {
+	  //bypassing for now as going for a clean no icon look...
+	  return "";
+	  console.log('panelDropdownElementId:');
+	  console.log(panelDropdownElementId);	  
+	  var panelElement = document.getElementById(panelDropdownElementId);
+	  if(angular.element(panelElement).hasClass('collapsed')) {
+		  return "glyphicon glyphicon-triangle-right pull-left";
+	  }
+	  return "glyphicon glyphicon-triangle-bottom pull-left";	  
+  };
 
 }]);
