@@ -38,7 +38,7 @@ public interface LoincRepository extends JpaRepository<Loinc, Integer> {
     boolean foundDisplayNameInCodesystems(@Param("displayName")String displayName, @Param("codesystems")List<String> codesystems);
     
     @Transactional(readOnly = true)
-    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Loinc c WHERE c.code = :loincCode and c.exampleUCUMDisplay = :ucumCode")
+    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Loinc c WHERE c.code = :loincCode and c.exampleUCUM = :ucumCode")
     boolean foundUCUMUnitsForLoincCode(@Param("loincCode")String loincCode, @Param("ucumCode")String ucumCode);
 
 }

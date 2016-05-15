@@ -25,6 +25,7 @@ public class AllergiesScorecard {
 		allergyScoreList.add(getTimePrecisionScore(allergies));
 		allergyScoreList.add(getValidDateTimeScore(allergies, birthDate));
 		allergyScoreList.add(getValidDisplayNameScoreCard(allergies));
+		allergyScoreList.add(getApprEffectivetimeScore(allergies));
 		
 		allergyCategory.setCategoryRubrics(allergyScoreList);
 		allergyCategory.setCategoryGrade(calculateSectionGrade(allergyScoreList));
@@ -86,10 +87,10 @@ public class AllergiesScorecard {
 			{
 				if(allergyConcern.getStatusCode() != null)
 				{
-					if(allergyConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.ACTIVE))
+					if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
 					{
 						maxPoints++;
-					}else if(allergyConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.COMPLETED))
+					}else if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()))
 					{
 							maxPoints = maxPoints + 2;
 					}else
@@ -104,14 +105,16 @@ public class AllergiesScorecard {
 				{
 					if(allergyConcern.getEffTime().getHigh() != null)
 					{
-						if(ApplicationUtil.validateMinuteFormat(allergyConcern.getEffTime().getHigh().getValue()))
+						if(ApplicationUtil.validateDayFormat(allergyConcern.getEffTime().getHigh().getValue()) ||
+								ApplicationUtil.validateMonthFormat(allergyConcern.getEffTime().getHigh().getValue()))
 						{
 							actualPoints++;
 						}
 					}
 					if(allergyConcern.getEffTime().getLow() != null)
 					{
-						if(ApplicationUtil.validateMinuteFormat(allergyConcern.getEffTime().getLow().getValue()))
+						if(ApplicationUtil.validateDayFormat(allergyConcern.getEffTime().getLow().getValue())||
+								ApplicationUtil.validateMonthFormat(allergyConcern.getEffTime().getLow().getValue()))
 						{
 							actualPoints++;
 						}
@@ -124,10 +127,10 @@ public class AllergiesScorecard {
 					{
 						if(allergyConcern.getStatusCode() != null)
 						{
-							if(allergyConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.ACTIVE))
+							if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
 							{
 								maxPoints++;
-							}else if(allergyConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.COMPLETED))
+							}else if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()))
 							{
 									maxPoints = maxPoints + 2;
 							}else
@@ -142,14 +145,16 @@ public class AllergiesScorecard {
 						{
 							if(allergyObservation.getEffTime().getHigh() != null)
 							{
-								if(ApplicationUtil.validateMinuteFormat(allergyObservation.getEffTime().getHigh().getValue()))
+								if(ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getHigh().getValue()) || 
+										ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getHigh().getValue()))
 								{
 									actualPoints++;
 								}
 							}
 							if(allergyObservation.getEffTime().getLow() != null)
 							{
-								if(ApplicationUtil.validateMinuteFormat(allergyObservation.getEffTime().getLow().getValue()))
+								if(ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getLow().getValue()) || 
+										ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getLow().getValue()))
 								{
 									actualPoints++;
 								}
@@ -193,10 +198,10 @@ public class AllergiesScorecard {
 			{
 				if(allergyConcern.getStatusCode() != null)
 				{
-					if(allergyConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.ACTIVE))
+					if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
 					{
 						maxPoints++;
-					}else if(allergyConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.COMPLETED))
+					}else if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()))
 					{
 							maxPoints = maxPoints + 2;
 					}else
@@ -211,16 +216,14 @@ public class AllergiesScorecard {
 				{
 					if(allergyConcern.getEffTime().getHigh() != null)
 					{
-						if(ApplicationUtil.validateDateTime(allergyConcern.getEffTime().getHigh().getValue()) &&
-								ApplicationUtil.checkDateRange(birthDate, allergyConcern.getEffTime().getHigh().getValue(),ApplicationConstants.MINUTE_FORMAT))
+						if(ApplicationUtil.checkDateRange(birthDate, allergyConcern.getEffTime().getHigh().getValue()))
 						{
 							actualPoints++;
 						}
 					}
 					if(allergyConcern.getEffTime().getLow() != null)
 					{
-						if(ApplicationUtil.validateDateTime(allergyConcern.getEffTime().getLow().getValue()) &&
-								ApplicationUtil.checkDateRange(birthDate, allergyConcern.getEffTime().getLow().getValue(), ApplicationConstants.MINUTE_FORMAT))
+						if(ApplicationUtil.checkDateRange(birthDate, allergyConcern.getEffTime().getLow().getValue()))
 						{
 							actualPoints++;
 						}
@@ -233,10 +236,10 @@ public class AllergiesScorecard {
 					{
 						if(allergyConcern.getStatusCode() != null)
 						{
-							if(allergyConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.ACTIVE))
+							if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
 							{
 								maxPoints++;
-							}else if(allergyConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.COMPLETED))
+							}else if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()))
 							{
 									maxPoints = maxPoints + 2;
 							}else
@@ -251,16 +254,14 @@ public class AllergiesScorecard {
 						{
 							if(allergyObservation.getEffTime().getHigh() != null)
 							{
-								if(ApplicationUtil.validateDateTime(allergyObservation.getEffTime().getHigh().getValue()) && 
-											ApplicationUtil.checkDateRange(birthDate, allergyObservation.getEffTime().getHigh().getValue(),ApplicationConstants.MINUTE_FORMAT))
+								if(ApplicationUtil.checkDateRange(birthDate, allergyObservation.getEffTime().getHigh().getValue()))
 								{
 									actualPoints++;
 								}
 							}
 							if(allergyObservation.getEffTime().getLow() != null)
 							{
-								if(ApplicationUtil.validateDateTime(allergyObservation.getEffTime().getLow().getValue()) &&
-										ApplicationUtil.checkDateRange(birthDate, allergyObservation.getEffTime().getLow().getValue(), ApplicationConstants.MINUTE_FORMAT))
+								if(ApplicationUtil.checkDateRange(birthDate, allergyObservation.getEffTime().getLow().getValue()))
 								{
 									actualPoints++;
 								}
@@ -306,7 +307,7 @@ public class AllergiesScorecard {
 			if(allergies.getSectionCode().getDisplayName()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(allergies.getSectionCode().getCode(), ApplicationConstants.CODE_SYSTEM_MAP.get(allergies.getSectionCode().getCodeSystem()),
-														allergies.getSectionCode().getDisplayName()))
+														allergies.getSectionCode().getDisplayName().toUpperCase()))
 				{
 					actualPoints++;
 				}
@@ -324,7 +325,7 @@ public class AllergiesScorecard {
 							if(allergyObs.getAllergyIntoleranceType() != null)
 							{
 								if(ApplicationUtil.validateDisplayName(allergyObs.getAllergyIntoleranceType().getCode(), ApplicationConstants.CODE_SYSTEM_MAP.get(allergyObs.getAllergyIntoleranceType().getCodeSystem()),
-																allergyObs.getAllergyIntoleranceType().getDisplayName()))
+																allergyObs.getAllergyIntoleranceType().getDisplayName().toUpperCase()))
 								{
 									actualPoints++;
 								}
@@ -333,7 +334,7 @@ public class AllergiesScorecard {
 							if(allergyObs.getAllergySubstance() != null)
 							{
 								if(ApplicationUtil.validateDisplayName(allergyObs.getAllergySubstance().getCode(), ApplicationConstants.CODE_SYSTEM_MAP.get(allergyObs.getAllergySubstance().getCodeSystem()),
-																allergyObs.getAllergySubstance().getDisplayName()))
+																allergyObs.getAllergySubstance().getDisplayName().toUpperCase()))
 								{
 									actualPoints++;
 								}
@@ -362,6 +363,59 @@ public class AllergiesScorecard {
 		
 		validateDisplayNameScore.setMaxPoints(4);
 		return validateDisplayNameScore;
+	}
+	
+	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDAAllergy allergies)
+	{
+		CCDAScoreCardRubrics validateApprEffectiveTimeScore = new CCDAScoreCardRubrics();
+		validateApprEffectiveTimeScore.setPoints(ApplicationConstants.ALLERGIES_APPR_TIME_POINTS);
+		validateApprEffectiveTimeScore.setRequirement(ApplicationConstants.ALLERGIES_CONCERN_DATE_ALIGN);
+		validateApprEffectiveTimeScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.TIME_ALIGN.getSubcategory());
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		if(allergies != null && !ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
+		{
+			for(CCDAAllergyConcern allergyAct : allergies.getAllergyConcern())
+			{
+				if(allergyAct.getEffTime()!= null)
+				{
+					if(!ApplicationUtil.isEmpty(allergyAct.getAllergyObs()))
+					{
+						for(CCDAAllergyObs allergyObs : allergyAct.getAllergyObs())
+						{
+							maxPoints++;
+							if(allergyObs.getEffTime()!=null)
+							{
+								if(ApplicationUtil.checkDateRange(allergyAct.getEffTime().getLow(),allergyAct.getEffTime().getHigh(),
+																	allergyObs.getEffTime().getLow(),allergyObs.getEffTime().getHigh()))
+								{
+									actualPoints++;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if(maxPoints!=0 && maxPoints == actualPoints)
+		{
+			validateApprEffectiveTimeScore.setComment("All Allergy observations effective time are aligned with Allergy Concern effective time");
+		}else
+		{
+			validateApprEffectiveTimeScore.setComment("Some Allergy observations effective time are not aligned with Allergy Concern effective time");
+		}
+		
+		if(maxPoints!=0)
+		{
+			validateApprEffectiveTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateApprEffectiveTimeScore.setActualPoints(0);
+		}
+		validateApprEffectiveTimeScore.setMaxPoints(4);
+		return validateApprEffectiveTimeScore;
 	}
 		
 }

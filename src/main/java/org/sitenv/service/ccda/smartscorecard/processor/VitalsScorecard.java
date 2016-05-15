@@ -97,14 +97,14 @@ public class VitalsScorecard {
 				{
 					if(vitalOrg.getEffTime().getLow() != null)
 					{
-						if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getLow().getValue()));
+						if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getLow().getValue()))
 						{
 							actualPoints++;
 						}
 					}
 					if(vitalOrg.getEffTime().getHigh() != null)
 					{
-						if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getHigh().getValue()));
+						if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getHigh().getValue()))
 						{
 							actualPoints++;
 						}
@@ -118,7 +118,7 @@ public class VitalsScorecard {
 						maxPoints++;
 						if(vitalObs.getMeasurementTime() != null)
 						{
-							if(ApplicationUtil.validateDayFormat(vitalObs.getMeasurementTime().getValue()));
+							if(ApplicationUtil.validateMinuteFormat(vitalObs.getMeasurementTime().getValue()))
 							{
 								actualPoints++;
 							}
@@ -168,16 +168,14 @@ public class VitalsScorecard {
 				{
 					if(vitalOrg.getEffTime().getLow() != null)
 					{
-						if(ApplicationUtil.validateDate(vitalOrg.getEffTime().getLow().getValue()) &&
-								ApplicationUtil.checkDateRange(birthDate, vitalOrg.getEffTime().getLow().getValue(),ApplicationConstants.DAY_FORMAT))
+						if(ApplicationUtil.checkDateRange(birthDate, vitalOrg.getEffTime().getLow().getValue()))
 						{
 							actualPoints++;
 						}
 					}
 					if(vitalOrg.getEffTime().getHigh() != null)
 					{
-						if(ApplicationUtil.validateDate(vitalOrg.getEffTime().getHigh().getValue()) &&
-								ApplicationUtil.checkDateRange(birthDate, vitalOrg.getEffTime().getHigh().getValue(),ApplicationConstants.DAY_FORMAT))
+						if(ApplicationUtil.checkDateRange(birthDate, vitalOrg.getEffTime().getHigh().getValue()))
 						{
 							actualPoints++;
 						}
@@ -191,8 +189,7 @@ public class VitalsScorecard {
 						maxPoints++;
 						if(vitalObs.getMeasurementTime() != null)
 						{
-							if(ApplicationUtil.validateDate(vitalObs.getMeasurementTime().getValue()) &&
-									ApplicationUtil.checkDateRange(birthDate, vitalObs.getMeasurementTime().getValue(),ApplicationConstants.DAY_FORMAT))
+							if(ApplicationUtil.checkDateRange(birthDate, vitalObs.getMeasurementTime().getValue()))
 							{
 								actualPoints++;
 							}
@@ -238,7 +235,7 @@ public class VitalsScorecard {
 			{
 				if(ApplicationUtil.validateDisplayName(vitals.getSectionCode().getCode(), 
 						ApplicationConstants.CODE_SYSTEM_MAP.get(vitals.getSectionCode().getCodeSystem()),
-														vitals.getSectionCode().getDisplayName()))
+														vitals.getSectionCode().getDisplayName().toUpperCase()))
 				{
 					actualPoints++;
 				}
@@ -253,7 +250,7 @@ public class VitalsScorecard {
 					{
 						if(ApplicationUtil.validateDisplayName(vitalsOrg.getOrgCode().getCode(), 
 								ApplicationConstants.CODE_SYSTEM_MAP.get(vitalsOrg.getOrgCode().getCodeSystem()),
-																		vitalsOrg.getOrgCode().getDisplayName()))
+																		vitalsOrg.getOrgCode().getDisplayName().toUpperCase()))
 						{
 							actualPoints++;
 						}
@@ -269,7 +266,7 @@ public class VitalsScorecard {
 							{
 								if(ApplicationUtil.validateDisplayName(vitalsObs.getVsCode().getCode(), 
 										ApplicationConstants.CODE_SYSTEM_MAP.get(vitalsObs.getVsCode().getCodeSystem()),
-																	vitalsObs.getVsCode().getDisplayName()))
+																	vitalsObs.getVsCode().getDisplayName().toUpperCase()))
 								{
 									actualPoints++;
 								}
@@ -317,7 +314,7 @@ public class VitalsScorecard {
 					for(CCDAVitalObs vitalObs : vitalOrg.getVitalObs())
 					{
 						maxPoints++;
-						if(vitalObs.getVsResult() != null)
+						if(vitalObs.getVsCode()!= null && vitalObs.getVsResult() != null && vitalObs.getVsResult().getXsiType().equalsIgnoreCase("PQ"))
 						{
 							if(loincRepository.foundUCUMUnitsForLoincCode(vitalObs.getVsCode().getCode(),vitalObs.getVsResult().getUnits()))
 							{
@@ -407,18 +404,20 @@ public class VitalsScorecard {
 		{
 			for(CCDAVitalOrg vitalOrg : vitals.getVitalsOrg())
 			{
-				if(vitalOrg.getEffTime()!= null && (vitalOrg.getEffTime().getLowPresent()))
-				if(!ApplicationUtil.isEmpty(vitalOrg.getVitalObs()))
+				if(vitalOrg.getEffTime()!= null)
 				{
-					for(CCDAVitalObs vitalObs : vitalOrg.getVitalObs())
+					if(!ApplicationUtil.isEmpty(vitalOrg.getVitalObs()))
 					{
-						maxPoints++;
-						if(vitalObs.getMeasurementTime() != null && vitalOrg.getEffTime() != null)
+						for(CCDAVitalObs vitalObs : vitalOrg.getVitalObs())
 						{
-							if(ApplicationUtil.checkDateRange(vitalOrg.getEffTime().getLow().getValue(), vitalObs.getMeasurementTime().getValue(), 
-																vitalOrg.getEffTime().getHigh().getValue(), ApplicationConstants.DAY_FORMAT))
+							maxPoints++;
+							if(vitalObs.getMeasurementTime() != null)
 							{
-								actualPoints++;
+								if(ApplicationUtil.checkDateRange(vitalOrg.getEffTime().getLow(), vitalObs.getMeasurementTime().getValue(), 
+																vitalOrg.getEffTime().getHigh()))
+								{
+									actualPoints++;
+								}
 							}
 						}
 					}
