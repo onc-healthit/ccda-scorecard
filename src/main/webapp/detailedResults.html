@@ -18,11 +18,14 @@
                 class="categoryGrade pull-right label">{{currentCategory.categoryGrade}}</span>
             </h2>            
           </div>
-
-          <div ng-click="jumpToElementViaId('ValidationResult', true, 0)" 
-            class="btn btn-default btn-block scButton removeBorder" type="button">
-            <span class="glyphicon glyphicon-triangle-top pull-left"></span>Back to Summary<span class="glyphicon glyphicon-triangle-top pull-right"></span>
-          </div>
+          
+          <!--
+          <button ng-click="jumpToElementViaId('ValidationResult', true, 0)" 
+            class="btn btn-default btn-block scButton removeBorder" type="button" title="Back to Summary"
+            tabindex="0" role="button" onclick="this.blur();">
+            <span class="glyphicon glyphicon-triangle-top" title="Back to Summary" alt="Back to Summary"></span>
+          </button>
+          -->
 
           <!--START REQUIREMENT PANELS -->
           <div id="scorecardCategoryData{{$index}}"
@@ -112,10 +115,11 @@
             </div>
             <!-- END panel-body -->
             <div class="panel-footer scFooter">
-              <div ng-click="jumpToElementViaId('ValidationResult', true, 0)" 
-                class="btn btn-default btn-block scButton removeBorder" type="button">
-                <span class="glyphicon glyphicon-triangle-top pull-left"></span>Back to Summary<span class="glyphicon glyphicon-triangle-top pull-right"></span>
-              </div>
+              <button ng-click="jumpToElementViaId('ValidationResult', true, 0)" 
+                class="btn btn-default btn-block scButton removeBorder" type="button" title="Back to Summary"
+                tabindex="0" role="button" onclick="this.blur();">
+                <span class="glyphicon glyphicon-triangle-top" title="Back to Summary" alt="Back to Summary"></span>
+              </button>
             </div>
           </div>
 
