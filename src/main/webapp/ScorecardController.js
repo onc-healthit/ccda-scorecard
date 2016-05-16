@@ -22,6 +22,12 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   //this is populated after the JSON is returned
   $scope.chartsData = {};
   
+  function ChartAndCategoryTracker(chartIndex, categoryIndex) {
+  	this.chartIndex = chartIndex;
+  	this.categoryIndex = categoryIndex;
+  }
+  var chartAndCategoryIndexMap = [];
+  
   //if the SiteUploadControllers $scope.jsonScorecardData changes, 
   //then the service was called and returned new results,
   //so we process them so it is reflected in the view
@@ -56,6 +62,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  $scope.categories = {};
 	  $scope.errorData.getJsonDataError = "";
 	  $scope.errorData.getJsonDataErrorForUser = "";
+	  chartAndCategoryIndexMap = [];
   };
 
   //adjust the chart type here and it will be reflected live using $scope.charts.currentChartOption
@@ -130,8 +137,23 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	return classPrefix + "primary";
   };
 
+  var calculateCategoryIndex = function(chartIndexClicked) {
+  	for(var i = 0; i < chartAndCategoryIndexMap.length; i++) {
+  		var curPair = chartAndCategoryIndexMap[i];
+  		var chartIndexStored = curPair.chartIndex;
+  		var categoryIndexStored = curPair.categoryIndex;  		
+  		if(chartIndexClicked === chartIndexStored) {
+    		console.log("chartIndexClicked === chartIndexStored: returning categoryIndexStored: ");
+    		console.log(categoryIndexStored);
+  			return categoryIndexStored;
+  		}
+  	}
+  	console.log("Error in calculateCategoryIndex(): Sending user to the first category.");
+  	return 0;
+  };
+  
   var jumpToCategoryViaIndex = function(index, weWait, timeToWaitInMiliseconds) {
-    $scope.jumpToElementViaId("catAccordion" + index, weWait, timeToWaitInMiliseconds);
+    $scope.jumpToElementViaId("catAccordion" + calculateCategoryIndex(index), weWait, timeToWaitInMiliseconds);
   };
 
   var jumpToCategoryViaKey = function(key, weWait, timeToWaitInMiliseconds) {
@@ -259,25 +281,30 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     var issueCountIsNotStored = $scope.totalNumberOfScorecardIssues === 0;
     var data = [];
     var categoryDisplayName = "";
+    var chartIndex = 0;
     //loop through all the categories
     for (var catIndex = 0; catIndex < $scope.categories.length; catIndex++) {
-      //only apply logic to categories with data
-      var numberOfIssues = $scope.categories[catIndex].categoryRubrics.length;
       var curCategory = $scope.categories[catIndex];
-      if (numberOfIssues > 0) {
+      var numberOfIssues = $scope.categories[catIndex].categoryRubrics.length;
+      var numberOfFailingIssuesPerSection = calculateNumberOfFailingIssuesPerSection(curCategory);            
+      //only apply logic to categories with data and failing issues
+      if (numberOfIssues > 0 && numberOfFailingIssuesPerSection > 0) {
+      	//make map for navigation
+        chartAndCategoryIndexMap.push(new ChartAndCategoryTracker(chartIndex++, catIndex));
         //ensure visibility of longer category names
         categoryDisplayName = truncateCategoryName(curCategory.categoryName);
-        //prcess data for charts
+        //process data for charts
         switch (chartType) {
           case chartTypeEnum.ISSUES_PER_SECTION_WITH_GRADE:
             var curGrade = curCategory.categoryGrade;
-            var keyAndLabelVal = categoryDisplayName + ": " + curGrade + " (" + numberOfIssues + ")";
-            data.push(pushChartDataByDisplayType(isBarChart, keyAndLabelVal, numberOfIssues, keyAndLabelVal, numberOfIssues));
+            var keyAndLabelVal = categoryDisplayName + ": " + curGrade + " (" + numberOfFailingIssuesPerSection + ")";
+            data.push(pushChartDataByDisplayType(isBarChart, keyAndLabelVal, numberOfFailingIssuesPerSection, keyAndLabelVal, numberOfFailingIssuesPerSection));
             break;
         }
       }
     }
-
+		console.log("chartAndCategoryIndexMap built:");
+		console.log(chartAndCategoryIndexMap);
     if (isBarChart) {
       return [{
         key: chartType,
@@ -344,23 +371,27 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 
   var populateTotalNumberOfScorecardIssues = function() {
     for (var catIndex = 0; catIndex < $scope.categories.length; catIndex++) {
-
       var numberOfIssues = $scope.categories[catIndex].categoryRubrics.length;
       var curCategory = $scope.categories[catIndex];
       if (numberOfIssues > 0) {
         //store count for total possible issues
         $scope.totalNumberOfScorecardIssues += numberOfIssues;
+        //store count for failing issues
+        $scope.totalNumberOfFailingScorecardIssues += calculateNumberOfFailingIssuesPerSection(curCategory);        
       }
-
-      for (var rubricIndex = 0; rubricIndex < curCategory.categoryRubrics.length; rubricIndex++) {
-        var curRubric = curCategory.categoryRubrics[rubricIndex];
-        //store count for issues which need attention
-        if (curRubric.actualPoints !== curRubric.maxPoints) {
-          $scope.totalNumberOfFailingScorecardIssues++;
-        }
-      }
-
     }
+  };
+  
+  var calculateNumberOfFailingIssuesPerSection = function(curCategory) {
+	var numberOfFailingIssuesPerSection = 0;
+    for (var rubricIndex = 0; rubricIndex < curCategory.categoryRubrics.length; rubricIndex++) {
+      var curRubric = curCategory.categoryRubrics[rubricIndex];
+      //store count for issues which need attention
+      if (curRubric.actualPoints < curRubric.maxPoints) {
+        numberOfFailingIssuesPerSection++;
+      }
+    }
+    return numberOfFailingIssuesPerSection;
   };
   
   $scope.getDropdownStateClasses = function(panelDropdownElementId) {
