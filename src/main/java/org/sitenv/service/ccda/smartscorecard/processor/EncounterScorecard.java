@@ -1,6 +1,5 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EncounterScorecard {
 	
-	public Category getEncounterCategory(CCDAEncounter encounter, String birthDate)throws UnsupportedEncodingException
+	public Category getEncounterCategory(CCDAEncounter encounter, String birthDate)
 	{
 		
 		Category encounterCategory = new Category();
@@ -109,7 +108,7 @@ public class EncounterScorecard {
 								{
 									if(problemObs.getEffTime().getLow() != null)
 									{
-										if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getLow().getValue()));
+										if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getLow().getValue()))
 										{
 											actualPoints++;
 										}
@@ -117,7 +116,7 @@ public class EncounterScorecard {
 									if(problemObs.getEffTime().getHigh() != null)
 									{
 										maxPoints++;
-										if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getHigh().getValue()));
+										if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getHigh().getValue()))
 										{
 											actualPoints++;
 										}
@@ -165,8 +164,7 @@ public class EncounterScorecard {
 				maxPoints++;
 				if(encounterActivity.getEffectiveTime() != null)
 				{
-					if(ApplicationUtil.validateDateTime(encounterActivity.getEffectiveTime().getValue()) &&
-							ApplicationUtil.checkDateRange(birthDate, encounterActivity.getEffectiveTime().getValue(),ApplicationConstants.MINUTE_FORMAT))
+					if(ApplicationUtil.checkDateRange(birthDate, encounterActivity.getEffectiveTime().getValue()))
 					{
 						actualPoints++;
 					}
@@ -185,8 +183,7 @@ public class EncounterScorecard {
 								{
 									if(problemObs.getEffTime().getLow() != null)
 									{
-										if(ApplicationUtil.validateDateTime(problemObs.getEffTime().getLow().getValue()) &&
-												ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getLow().getValue(),ApplicationConstants.MINUTE_FORMAT))
+										if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getLow().getValue()))
 										{
 											actualPoints++;
 										}
@@ -194,8 +191,7 @@ public class EncounterScorecard {
 									if(problemObs.getEffTime().getHigh() != null)
 									{
 										maxPoints++;
-										if(ApplicationUtil.validateDateTime(problemObs.getEffTime().getHigh().getValue()) &&
-												ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getHigh().getValue(),ApplicationConstants.MINUTE_FORMAT))
+										if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getHigh().getValue()))
 										{
 											actualPoints++;
 										}
@@ -227,7 +223,7 @@ public class EncounterScorecard {
 		return validateTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAEncounter encounters)throws UnsupportedEncodingException
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAEncounter encounters)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setPoints(ApplicationConstants.VALID_CODE_DISPLAYNAME_POINTS);
@@ -243,7 +239,7 @@ public class EncounterScorecard {
 			{
 				if(ApplicationUtil.validateDisplayName(encounters.getSectionCode().getCode(), 
 												ApplicationConstants.CODE_SYSTEM_MAP.get(encounters.getSectionCode().getCodeSystem()),
-											encounters.getSectionCode().getDisplayName()))
+											encounters.getSectionCode().getDisplayName().toUpperCase()))
 				{
 					actualPoints++;
 				}
@@ -259,7 +255,7 @@ public class EncounterScorecard {
 					{
 						if(ApplicationUtil.validateDisplayName(encounterActivity.getEncounterTypeCode().getCode(), 
 									ApplicationConstants.CODE_SYSTEM_MAP.get(encounterActivity.getEncounterTypeCode().getCodeSystem()),
-																encounterActivity.getEncounterTypeCode().getDisplayName()))
+																encounterActivity.getEncounterTypeCode().getDisplayName().toUpperCase()))
 						{
 							actualPoints++;
 						}
@@ -275,7 +271,7 @@ public class EncounterScorecard {
 							{
 								if(ApplicationUtil.validateDisplayName(indication.getProblemType().getCode(), 
 											ApplicationConstants.CODE_SYSTEM_MAP.get(indication.getProblemType().getCodeSystem()),
-																			indication.getProblemType().getDisplayName()))
+																			indication.getProblemType().getDisplayName().toUpperCase()))
 								{
 									actualPoints++;
 								}
@@ -285,7 +281,7 @@ public class EncounterScorecard {
 							{
 								if(ApplicationUtil.validateDisplayName(indication.getProblemCode().getCode(), 
 										ApplicationConstants.CODE_SYSTEM_MAP.get(indication.getProblemCode().getCodeSystem()),
-																			indication.getProblemCode().getDisplayName()))
+																			indication.getProblemCode().getDisplayName().toUpperCase()))
 								{
 									actualPoints++;
 								}
@@ -303,7 +299,7 @@ public class EncounterScorecard {
 							{
 								if(ApplicationUtil.validateDisplayName(diagnosis.getEntryCode().getCode(), 
 										ApplicationConstants.CODE_SYSTEM_MAP.get(diagnosis.getEntryCode().getCodeSystem()),
-																diagnosis.getEntryCode().getDisplayName()))
+																diagnosis.getEntryCode().getDisplayName().toUpperCase()))
 								{
 									actualPoints++;
 								}
@@ -317,7 +313,7 @@ public class EncounterScorecard {
 									{
 										if(ApplicationUtil.validateDisplayName(probObs.getProblemType().getCode(), 
 												ApplicationConstants.CODE_SYSTEM_MAP.get(probObs.getProblemType().getCodeSystem()),
-																				probObs.getProblemType().getDisplayName()))
+																				probObs.getProblemType().getDisplayName().toUpperCase()))
 										{
 											actualPoints++;
 										}
@@ -327,7 +323,7 @@ public class EncounterScorecard {
 									{
 										if(ApplicationUtil.validateDisplayName(probObs.getProblemCode().getCode(), 
 												ApplicationConstants.CODE_SYSTEM_MAP.get(probObs.getProblemCode().getCodeSystem()),
-																				probObs.getProblemCode().getDisplayName()))
+																				probObs.getProblemCode().getDisplayName().toUpperCase()))
 										{
 											actualPoints++;
 										}
@@ -340,7 +336,7 @@ public class EncounterScorecard {
 											maxPoints++;
 											if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
 													ApplicationConstants.CODE_SYSTEM_MAP.get(translationCode.getCodeSystem()),
-																	translationCode.getDisplayName()))
+																	translationCode.getDisplayName().toUpperCase()))
 											{
 												actualPoints++;
 											}

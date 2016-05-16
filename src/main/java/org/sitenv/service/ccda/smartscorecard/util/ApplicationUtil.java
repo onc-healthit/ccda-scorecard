@@ -12,9 +12,11 @@ import java.util.Locale;
 
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
+import org.sitenv.ccdaparsing.model.CCDAProblemObs;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
+import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants.CONCERNACT_STATUS;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -172,13 +174,29 @@ public class ApplicationUtil {
 	}
 	
 	
-	public static boolean checkDateRange(String minDate, String actualDate, String format)
+	public static boolean checkDateRange(String minDate, String actualDate)
 	{
 		Date date;
 		boolean isValid = true;
-		
+		String format;
 		try
 		{
+			if(validateMonthFormat(actualDate))
+			{
+				format = ApplicationConstants.MONTH_FORMAT;
+			}else if (validateDayFormat(actualDate) )
+			{
+				format = ApplicationConstants.DAY_FORMAT;
+			}else if (validateMinuteFormat(actualDate))
+			{
+				format = ApplicationConstants.MINUTE_FORMAT;
+			}else if (validateSecondFormat(actualDate))
+			{
+				format = ApplicationConstants.SECOND_FORMAT;
+			}else 
+			{
+				format = ApplicationConstants.DAY_FORMAT;
+			}
 			date = convertStringToDate(actualDate, format);
 			isValid =  date.after(convertStringToDate(minDate, ApplicationConstants.DAY_FORMAT)) && date.before(new Date());
 		}catch(ParseException pe)
@@ -189,22 +207,31 @@ public class ApplicationUtil {
 		return isValid;
 	}
 	
-	public static boolean checkDateRange(String minDate, String actualDate, String maxDate, String format)
+	public static boolean checkDateRange(CCDADataElement minDate,  String actualDate, CCDADataElement maxDate)
 	{
 		Date date;
-		boolean isValid = true;
+		Date minimumDate;
+		Date maximumDate;
+		boolean isValid = false;
 		
 		try
 		{
-			date = convertStringToDate(actualDate, format);
-			if(minDate.equals(maxDate))
+			if(minDate!= null)
 			{
-				isValid = minDate.equals(actualDate);
-			}else
-			{
-				isValid =  date.after(convertStringToDate(minDate, ApplicationConstants.DAY_FORMAT)) && 
-						date.before(convertStringToDate(maxDate, ApplicationConstants.DAY_FORMAT));
+				if(maxDate != null)
+				{
+					minimumDate = convertStringToDate(minDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+					maximumDate = convertStringToDate(maxDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+					date = convertStringToDate(actualDate.substring(0,8), ApplicationConstants.DAY_FORMAT);
+					isValid = date.equals(minimumDate)||date.after(minimumDate) &&
+							  date.equals(maximumDate)|| date.before(maximumDate);
+				}else if(maxDate==null)
+				{
+					minimumDate = convertStringToDate(minDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+					date = convertStringToDate(actualDate.substring(0,8), ApplicationConstants.DAY_FORMAT);
+					isValid = date.equals(minimumDate)||date.after(minimumDate);				}
 			}
+			
 		}catch(ParseException pe)
 		{
 			isValid = false;
@@ -213,6 +240,70 @@ public class ApplicationUtil {
 		return isValid;
 	}
 	
+	
+	public static boolean checkDateRange(CCDADataElement actMinDate, CCDADataElement actMaxDate, CCDADataElement obsMinDate, CCDADataElement obsMaxDate)
+	{
+		boolean isValid = false;
+		Date concernActMinDate;
+		Date concernActMaxDate;
+		Date observationMinDate;
+		Date observationMaxDate;
+		
+		try
+		{
+			if(actMinDate!= null)
+			{
+				if(actMaxDate == null)
+				{
+					if(obsMinDate != null && obsMaxDate==null)
+					{
+						observationMinDate = convertStringToDate(obsMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						concernActMinDate = convertStringToDate(actMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						isValid = observationMinDate.equals(concernActMinDate)||observationMinDate.after(concernActMinDate);
+					}else if(obsMinDate != null && obsMaxDate!=null)
+					{
+						observationMinDate = convertStringToDate(obsMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						observationMaxDate = convertStringToDate(obsMaxDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						concernActMinDate = convertStringToDate(actMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						isValid = (observationMinDate.equals(concernActMinDate) || observationMinDate.after(concernActMinDate))&&
+								  (observationMaxDate.equals(observationMinDate) || observationMaxDate.after(observationMinDate));
+					}
+				}else if(actMaxDate!=null)
+				{
+					if(obsMinDate != null && obsMaxDate==null)
+					{
+						concernActMinDate = convertStringToDate(actMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						concernActMaxDate = convertStringToDate(actMaxDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						observationMinDate = convertStringToDate(obsMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						isValid = (observationMinDate.equals(concernActMinDate) || observationMinDate.after(concernActMinDate))&&
+									(observationMinDate.equals(concernActMaxDate) || observationMinDate.before(concernActMaxDate));
+					}else if(obsMinDate != null && obsMaxDate!=null)
+					{
+						concernActMinDate = convertStringToDate(actMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						concernActMaxDate = convertStringToDate(actMaxDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						observationMinDate = convertStringToDate(obsMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						observationMaxDate = convertStringToDate(obsMaxDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						isValid = (observationMinDate.equals(concernActMinDate)|| observationMinDate.after(concernActMinDate))&&
+								  (observationMaxDate.equals(concernActMaxDate) || observationMaxDate.before(concernActMaxDate))&&
+								  (observationMaxDate.equals(observationMinDate) || observationMaxDate.after(observationMinDate))&& 
+								  (observationMaxDate.equals(concernActMaxDate) || observationMaxDate.before(concernActMaxDate));
+					}
+				}
+			}
+			
+		}catch(ParseException pe)
+		{
+			isValid = false;
+		}
+		
+		return isValid;
+	}
+	
+	
+	public static boolean validateMonthFormat(String date)
+	{
+		return date.matches(ApplicationConstants.MONTH_PATTERN);
+	}
 	
 	public static boolean validateDayFormat(String date)
 	{
@@ -263,19 +354,36 @@ public class ApplicationUtil {
 	    return clientHttpRequestFactory;
 	}
 	
-	public static boolean validateProblemStatusCode(String problemStatuscode, String concernStatusCode)
+	public static boolean validateProblemStatusCode(String problemActStatuscode, List<CCDAProblemObs> probObservations)
 	{
 		
-		boolean isValid = true;
-		if(concernStatusCode.equalsIgnoreCase(ApplicationConstants.PROBLEMACT_STATUS.ACTIVE.getstatus()))
+		boolean isValid = false;
+		boolean active = false;
+		boolean suspended = false;
+		for(CCDAProblemObs problemObs : probObservations)
 		{
-			isValid = problemStatuscode.equalsIgnoreCase(ApplicationConstants.PROBLEM_STATUS.ACTIVE.getstatus());
+			if(problemObs.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.PROBLEM_STATUS.ACTIVE.getstatus()))
+			{
+				 active = true;
+			}else if(problemObs.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.PROBLEM_STATUS.RESOLVED.getstatus()) ||
+					problemObs.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.PROBLEM_STATUS.INACTIVE.getstatus())||
+					problemObs.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.PROBLEM_STATUS.COMPLETED.getstatus()))
+			{
+				suspended = true;
+			}
 		}
-		else if(concernStatusCode.equalsIgnoreCase(ApplicationConstants.PROBLEMACT_STATUS.COMPLETED.getstatus()))
+		
+		if(active == true && suspended == true)
 		{
-			isValid = problemStatuscode.equalsIgnoreCase(ApplicationConstants.PROBLEM_STATUS.RESOLVED.getstatus()) ||
-					problemStatuscode.equalsIgnoreCase(ApplicationConstants.PROBLEM_STATUS.INACTIVE.getstatus());
+			isValid = problemActStatuscode.equalsIgnoreCase(CONCERNACT_STATUS.ACTIVE.getstatus());
+		}else if(active == false && suspended == true)
+		{
+			isValid = problemActStatuscode.equalsIgnoreCase(CONCERNACT_STATUS.COMPLETED.getstatus());
+		}else if (active == true && suspended == false)
+		{
+			isValid = problemActStatuscode.equalsIgnoreCase(CONCERNACT_STATUS.ACTIVE.getstatus());
 		}
+			
 		
 	    return isValid;
 		
@@ -288,12 +396,12 @@ public class ApplicationUtil {
 		
 		if(effectiveTime != null)
 		{
-			if(concernStatusCode.equalsIgnoreCase(ApplicationConstants.PROBLEMACT_STATUS.COMPLETED.getstatus()) || 
-					concernStatusCode.equalsIgnoreCase(ApplicationConstants.PROBLEMACT_STATUS.SUSPENDED.getstatus()))
+			if(concernStatusCode.equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()) || 
+					concernStatusCode.equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.SUSPENDED.getstatus()))
 			{
 				isValid = effectiveTime.getHighPresent();
 			}
-			else if(concernStatusCode.equalsIgnoreCase(ApplicationConstants.PROBLEMACT_STATUS.ACTIVE.getstatus()))
+			else if(concernStatusCode.equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
 			{
 				isValid = !effectiveTime.getHighPresent();
 			}else
@@ -369,6 +477,43 @@ public class ApplicationUtil {
 		results.setFinalGrade(finalGrade);
 		results.setFinalNumericalGrade(Math.round(percentage));
 		return results;
+	}
+	
+	public static String calculateSectionGrade(List<CCDAScoreCardRubrics> rubricsList)
+	{
+		int actualPoints=0;
+		int maxPoints = 0;
+		float percentage ;
+		for(CCDAScoreCardRubrics rubrics : rubricsList)
+		{
+			actualPoints = actualPoints + rubrics.getActualPoints();
+			maxPoints = maxPoints + rubrics.getMaxPoints();
+		}
+		
+		percentage = (actualPoints * 100)/maxPoints;
+		
+		if(percentage < 70)
+		{
+			return "D";
+		}else if (percentage >=70 && percentage <80)
+		{
+			return "C";
+		}else if(percentage >=80 && percentage <85)
+		{
+			return "B-";
+		}else if(percentage >=85 && percentage <90)
+		{
+			return "B+";
+		}else if(percentage >=90 && percentage <95)
+		{
+			return "A-";
+		}else if(percentage >=95 && percentage <=100)
+		{
+			return "A+";
+		}else
+		{
+			return "UNKNOWN GRADE";
+		}
 	}
 	
 	
