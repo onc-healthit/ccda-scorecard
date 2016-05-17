@@ -32,7 +32,8 @@
     
     <div class="row">
       <div class="col-md-4 lighterHeading">
-        <h1>{{jsonData.results.finalGrade ? totalNumberOfFailingScorecardIssues + " / " + totalNumberOfScorecardIssues : "Scoring..."}}</h1>
+        <!--<h1>{{jsonData.results.finalGrade ? totalNumberOfFailingScorecardIssues + " / " + totalNumberOfScorecardIssues : "Scoring..."}}</h1>-->
+        <h1>{{jsonData.results.finalGrade ? totalNumberOfFailingScorecardIssues : "Scoring..."}}</h1>
       </div>
       <div id="issuesFoundHeading" class="col-md-8 subFinalHeading">
         <h1>Suggested Improvements</h1>
