@@ -28,6 +28,8 @@ public class ProblemsScorecard {
 		problemsScoreList.add(getValidDisplayNameScoreCard(problems));
 		problemsScoreList.add(getValidProblemCodeScoreCard(problems));
 		problemsScoreList.add(getValidStatusCodeScoreCard(problems));
+		problemsScoreList.add(getApprEffectivetimeScore(problems));
+		problemsScoreList.add(getApprStatusCodeScore(problems));
 		
 		problemsCategory.setCategoryRubrics(problemsScoreList);
 		problemsCategory.setCategoryGrade(calculateSectionGrade(problemsScoreList));
@@ -84,76 +86,83 @@ public class ProblemsScorecard {
 		int maxPoints = 0;
 		if(problem != null)
 		{
-			for (CCDAProblemConcern problemConcern : problem.getProblemConcerns())
+			if(!ApplicationUtil.isEmpty(problem.getProblemConcerns()))
 			{
-				if(problemConcern.getStatusCode() != null)
+				for (CCDAProblemConcern problemConcern : problem.getProblemConcerns())
 				{
-					if(problemConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.ACTIVE.getstatus()))
+					if(problemConcern.getStatusCode() != null && problemConcern.getStatusCode().getCode()!=null)
 					{
-						maxPoints++;
-					}else if(problemConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.COMPLETED.getstatus()))
-					{
-							maxPoints = maxPoints + 2;
-					}else
-					{
-						maxPoints++;
-					}
-				}else
-				{
-					maxPoints++;
-				}
-				if(problemConcern.getEffTime() != null)
-				{
-					if(problemConcern.getEffTime().getHigh() != null)
-					{
-						if(ApplicationUtil.validateMinuteFormat(problemConcern.getEffTime().getHigh().getValue()))
+						if(problemConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
 						{
-							actualPoints++;
-						}
-					}
-					if(problemConcern.getEffTime().getLow() != null)
-					{
-						if(ApplicationUtil.validateMinuteFormat(problemConcern.getEffTime().getLow().getValue()))
+							maxPoints++;
+						}else if(problemConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()))
 						{
-							actualPoints++;
-						}
-					}
-				}
-				
-				if(!ApplicationUtil.isEmpty(problemConcern.getProblemObservations()))
-				{
-					for (CCDAProblemObs problemObs : problemConcern.getProblemObservations() )
-					{
-						if(problemConcern.getStatusCode() != null)
-						{
-							if(problemConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.ACTIVE.getstatus()))
-							{
-								maxPoints++;
-							}else if(problemConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.COMPLETED.getstatus()))
-							{
-									maxPoints = maxPoints + 2;
-							}else
-							{
-								maxPoints++;
-							}
+								maxPoints = maxPoints + 2;
 						}else
 						{
 							maxPoints++;
 						}
-						if(problemObs.getEffTime() != null)
+					}else
+					{
+						maxPoints++;
+					}
+					if(problemConcern.getEffTime() != null)
+					{
+						if(problemConcern.getEffTime().getHigh() != null)
 						{
-							if(problemObs.getEffTime().getHigh() != null)
+							if(ApplicationUtil.validateDayFormat(problemConcern.getEffTime().getHigh().getValue()) ||
+									ApplicationUtil.validateMonthFormat(problemConcern.getEffTime().getHigh().getValue()))
 							{
-								if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getHigh().getValue()))
-								{
-									actualPoints++;
-								}
+								actualPoints++;
 							}
-							if(problemObs.getEffTime().getLow() != null)
+						}
+						if(problemConcern.getEffTime().getLow() != null)
+						{
+							if(ApplicationUtil.validateDayFormat(problemConcern.getEffTime().getLow().getValue()) ||
+									ApplicationUtil.validateMonthFormat(problemConcern.getEffTime().getLow().getValue()))
 							{
-								if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getLow().getValue()))
+								actualPoints++;
+							}
+						}
+					}
+					
+					if(!ApplicationUtil.isEmpty(problemConcern.getProblemObservations()))
+					{
+						for (CCDAProblemObs problemObs : problemConcern.getProblemObservations() )
+						{
+							if(problemConcern.getStatusCode() != null && problemConcern.getStatusCode().getCode() !=null)
+							{
+								if(problemConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
 								{
-									actualPoints++;
+									maxPoints++;
+								}else if(problemConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()))
+								{
+										maxPoints = maxPoints + 2;
+								}else
+								{
+									maxPoints++;
+								}
+							}else
+							{
+								maxPoints++;
+							}
+							if(problemObs.getEffTime() != null)
+							{
+								if(problemObs.getEffTime().getHigh() != null)
+								{
+									if(ApplicationUtil.validateDayFormat(problemObs.getEffTime().getHigh().getValue()) ||
+											ApplicationUtil.validateMonthFormat(problemObs.getEffTime().getHigh().getValue()))
+									{
+										actualPoints++;
+									}
+								}
+								if(problemObs.getEffTime().getLow() != null)
+								{
+									if(ApplicationUtil.validateDayFormat(problemObs.getEffTime().getLow().getValue()) ||
+											ApplicationUtil.validateMonthFormat(problemObs.getEffTime().getLow().getValue()))
+									{
+										actualPoints++;
+									}
 								}
 							}
 						}
@@ -192,80 +201,79 @@ public class ProblemsScorecard {
 		int maxPoints = 0;
 		if(problem != null)
 		{
-			for (CCDAProblemConcern problemConcern : problem.getProblemConcerns())
+			if(!ApplicationUtil.isEmpty(problem.getProblemConcerns()))
 			{
-				if(problemConcern.getStatusCode() != null)
+				for (CCDAProblemConcern problemConcern : problem.getProblemConcerns())
 				{
-					if(problemConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.ACTIVE.getstatus()))
+					if(problemConcern.getStatusCode() != null && problemConcern.getStatusCode().getCode()!=null)
 					{
-						maxPoints++;
-					}else if(problemConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.COMPLETED.getstatus()))
-					{
-							maxPoints = maxPoints + 2;
-					}else
-					{
-						maxPoints++;
-					}
-				}else
-				{
-					maxPoints++;
-				}
-				if(problemConcern.getEffTime() != null)
-				{
-					if(problemConcern.getEffTime().getHigh() != null)
-					{
-						if(ApplicationUtil.validateDateTime(problemConcern.getEffTime().getHigh().getValue()) &&
-								ApplicationUtil.checkDateRange(birthDate, problemConcern.getEffTime().getHigh().getValue(),ApplicationConstants.MINUTE_FORMAT))
+						if(problemConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
 						{
-							actualPoints++;
-						}
-					}
-					if(problemConcern.getEffTime().getLow() != null)
-					{
-						if(ApplicationUtil.validateDateTime(problemConcern.getEffTime().getLow().getValue()) &&
-								ApplicationUtil.checkDateRange(birthDate, problemConcern.getEffTime().getHigh().getValue(),ApplicationConstants.MINUTE_FORMAT))
+							maxPoints++;
+						}else if(problemConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()))
 						{
-							actualPoints++;
-						}
-					}
-				}
-				
-				if(!ApplicationUtil.isEmpty(problemConcern.getProblemObservations()))
-				{
-					for (CCDAProblemObs problemObs : problemConcern.getProblemObservations() )
-					{
-						if(problemConcern.getStatusCode() != null)
-						{
-							if(problemConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.ACTIVE.getstatus()))
-							{
-								maxPoints++;
-							}else if(problemConcern.getStatusCode().getCode().equals(ApplicationConstants.PROBLEMACT_STATUS.COMPLETED.getstatus()))
-							{
-									maxPoints = maxPoints + 2;
-							}else
-							{
-								maxPoints++;
-							}
+								maxPoints = maxPoints + 2;
 						}else
 						{
 							maxPoints++;
 						}
-						if(problemObs.getEffTime() != null)
+					}else
+					{
+						maxPoints++;
+					}
+					if(problemConcern.getEffTime() != null)
+					{
+						if(problemConcern.getEffTime().getHigh() != null)
 						{
-							if(problemObs.getEffTime().getHigh() != null)
+							if(ApplicationUtil.checkDateRange(birthDate, problemConcern.getEffTime().getHigh().getValue()))
 							{
-								if(ApplicationUtil.validateDateTime(problemObs.getEffTime().getHigh().getValue()) &&
-										ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getHigh().getValue(),ApplicationConstants.MINUTE_FORMAT))
-								{
-									actualPoints++;
-								}
+								actualPoints++;
 							}
-							if(problemObs.getEffTime().getLow() != null)
+						}
+						if(problemConcern.getEffTime().getLow() != null)
+						{
+							if(ApplicationUtil.checkDateRange(birthDate, problemConcern.getEffTime().getLow().getValue()))
 							{
-								if(ApplicationUtil.validateDateTime(problemObs.getEffTime().getLow().getValue()) &&
-										ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getHigh().getValue(),ApplicationConstants.MINUTE_FORMAT))
+								actualPoints++;
+							}
+						}
+					}
+					
+					if(!ApplicationUtil.isEmpty(problemConcern.getProblemObservations()))
+					{
+						for (CCDAProblemObs problemObs : problemConcern.getProblemObservations() )
+						{
+							if(problemConcern.getStatusCode() != null && problemConcern.getStatusCode().getCode() != null)
+							{
+								if(problemConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
 								{
-									actualPoints++;
+									maxPoints++;
+								}else if(problemConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()))
+								{
+										maxPoints = maxPoints + 2;
+								}else
+								{
+									maxPoints++;
+								}
+							}else
+							{
+								maxPoints++;
+							}
+							if(problemObs.getEffTime() != null)
+							{
+								if(problemObs.getEffTime().getHigh() != null)
+								{
+									if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getHigh().getValue()))
+									{
+										actualPoints++;
+									}
+								}
+								if(problemObs.getEffTime().getLow() != null)
+								{
+									if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getLow().getValue()))
+									{
+										actualPoints++;
+									}
 								}
 							}
 						}
@@ -306,7 +314,7 @@ public class ProblemsScorecard {
 		if(problems != null)
 		{
 			maxPoints++;
-			if(problems.getSectionCode().getDisplayName()!= null)
+			if(problems.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(problems.getSectionCode().getCode(), 
 						ApplicationConstants.CODE_SYSTEM_MAP.get(problems.getSectionCode().getCodeSystem()),
@@ -482,5 +490,101 @@ public class ProblemsScorecard {
 		}
 		validateStatusCodeScore.setMaxPoints(4);
 		return validateStatusCodeScore;
+	}
+	
+	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDAProblem problems)
+	{
+		CCDAScoreCardRubrics validateApprEffectiveTimeScore = new CCDAScoreCardRubrics();
+		validateApprEffectiveTimeScore.setPoints(ApplicationConstants.PROBLEMS_APPR_TIME_POINTS);
+		validateApprEffectiveTimeScore.setRequirement(ApplicationConstants.PROBLEMS_CONCERN_DATE_ALIGN);
+		validateApprEffectiveTimeScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.TIME_ALIGN.getSubcategory());
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		if(problems != null && !ApplicationUtil.isEmpty(problems.getProblemConcerns()))
+		{
+			for(CCDAProblemConcern problemAct : problems.getProblemConcerns())
+			{
+				if(problemAct.getEffTime()!= null)
+				{
+					if(!ApplicationUtil.isEmpty(problemAct.getProblemObservations()))
+					{
+						for(CCDAProblemObs problemObs : problemAct.getProblemObservations())
+						{
+							maxPoints++;
+							if(problemObs.getEffTime()!=null)
+							{
+								if(ApplicationUtil.checkDateRange(problemObs.getEffTime().getLow(),problemObs.getEffTime().getHigh(),
+													problemObs.getEffTime().getLow(),problemObs.getEffTime().getHigh()))
+								{
+									actualPoints++;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if(maxPoints!=0 && maxPoints == actualPoints)
+		{
+			validateApprEffectiveTimeScore.setComment("All Problems observations effective time are aligned with Problem Concern effective time");
+		}else
+		{
+			validateApprEffectiveTimeScore.setComment("Some Problems observations effective time are not aligned with Problem Concern effective time");
+		}
+		
+		if(maxPoints!=0)
+		{
+			validateApprEffectiveTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateApprEffectiveTimeScore.setActualPoints(0);
+		}
+		validateApprEffectiveTimeScore.setMaxPoints(4);
+		return validateApprEffectiveTimeScore;
+	}
+	
+	public CCDAScoreCardRubrics getApprStatusCodeScore(CCDAProblem problems)
+	{
+		CCDAScoreCardRubrics validateApprEffectiveTimeScore = new CCDAScoreCardRubrics();
+		validateApprEffectiveTimeScore.setPoints(ApplicationConstants.PROBLEMS_APPR_STATUS_POINTS);
+		validateApprEffectiveTimeScore.setRequirement(ApplicationConstants.PROBLEMS_CONCERN_STATUS_ALIGN);
+		validateApprEffectiveTimeScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.STATUS_ALIGN.getSubcategory());
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		if(problems != null && !ApplicationUtil.isEmpty(problems.getProblemConcerns()))
+		{
+			for(CCDAProblemConcern problemAct : problems.getProblemConcerns())
+			{
+				if(!ApplicationUtil.isEmpty(problemAct.getProblemObservations()))
+				{
+					maxPoints++;
+					if(ApplicationUtil.validateProblemStatusCode(problemAct.getStatusCode().getCode(), problemAct.getProblemObservations()))
+					{
+						actualPoints++;
+					}
+				}
+			}
+		}
+		
+		if(maxPoints!=0 && maxPoints == actualPoints)
+		{
+			validateApprEffectiveTimeScore.setComment("All Problems observations status codes are aligned with Problem Concern act status");
+		}else
+		{
+			validateApprEffectiveTimeScore.setComment("Some Problems observations status codes are not aligned with Problem Concern act status code");
+		}
+		
+		if(maxPoints!=0)
+		{
+			validateApprEffectiveTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateApprEffectiveTimeScore.setActualPoints(0);
+		}
+		validateApprEffectiveTimeScore.setMaxPoints(4);
+		return validateApprEffectiveTimeScore;
 	}
 }

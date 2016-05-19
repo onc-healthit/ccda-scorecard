@@ -1,6 +1,5 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EncounterScorecard {
 	
-	public Category getEncounterCategory(CCDAEncounter encounter, String birthDate)throws UnsupportedEncodingException
+	public Category getEncounterCategory(CCDAEncounter encounter, String birthDate)
 	{
 		
 		Category encounterCategory = new Category();
@@ -84,42 +83,45 @@ public class EncounterScorecard {
 		int actualPoints = 0;
 		if(encounter != null)
 		{
-			for (CCDAEncounterActivity encounterActivity : encounter.getEncActivities())
+			if(!ApplicationUtil.isEmpty(encounter.getEncActivities()))
 			{
-				maxPoints++;
-				if(encounterActivity.getEffectiveTime() != null)
+				for (CCDAEncounterActivity encounterActivity : encounter.getEncActivities())
 				{
-					
-					if(ApplicationUtil.validateMinuteFormat(encounterActivity.getEffectiveTime().getValue()))
+					maxPoints++;
+					if(encounterActivity.getEffectiveTime() != null)
 					{
-						actualPoints++;
-					}
-				}
-					
-				if(!ApplicationUtil.isEmpty(encounterActivity.getDiagnoses()))
-				{
-					for (CCDAEncounterDiagnosis encounterDiagnosis : encounterActivity.getDiagnoses())
-					{
-						if(!ApplicationUtil.isEmpty(encounterDiagnosis.getProblemObs()))
+						
+						if(ApplicationUtil.validateMinuteFormat(encounterActivity.getEffectiveTime().getValue()))
 						{
-							for (CCDAProblemObs problemObs : encounterDiagnosis.getProblemObs() )
+							actualPoints++;
+						}
+					}
+						
+					if(!ApplicationUtil.isEmpty(encounterActivity.getDiagnoses()))
+					{
+						for (CCDAEncounterDiagnosis encounterDiagnosis : encounterActivity.getDiagnoses())
+						{
+							if(!ApplicationUtil.isEmpty(encounterDiagnosis.getProblemObs()))
 							{
-								maxPoints++;
-								if(problemObs.getEffTime() != null)
+								for (CCDAProblemObs problemObs : encounterDiagnosis.getProblemObs() )
 								{
-									if(problemObs.getEffTime().getLow() != null)
+									maxPoints++;
+									if(problemObs.getEffTime() != null)
 									{
-										if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getLow().getValue()));
+										if(problemObs.getEffTime().getLow() != null)
 										{
-											actualPoints++;
+											if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getLow().getValue()))
+											{
+												actualPoints++;
+											}
 										}
-									}
-									if(problemObs.getEffTime().getHigh() != null)
-									{
-										maxPoints++;
-										if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getHigh().getValue()));
+										if(problemObs.getEffTime().getHigh() != null)
 										{
-											actualPoints++;
+											maxPoints++;
+											if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getHigh().getValue()))
+											{
+												actualPoints++;
+											}
 										}
 									}
 								}
@@ -160,44 +162,44 @@ public class EncounterScorecard {
 		int actualPoints = 0;
 		if(encounter != null)
 		{
-			for (CCDAEncounterActivity encounterActivity : encounter.getEncActivities())
+			if(!ApplicationUtil.isEmpty(encounter.getEncActivities()))
 			{
-				maxPoints++;
-				if(encounterActivity.getEffectiveTime() != null)
+				for (CCDAEncounterActivity encounterActivity : encounter.getEncActivities())
 				{
-					if(ApplicationUtil.validateDateTime(encounterActivity.getEffectiveTime().getValue()) &&
-							ApplicationUtil.checkDateRange(birthDate, encounterActivity.getEffectiveTime().getValue(),ApplicationConstants.MINUTE_FORMAT))
+					maxPoints++;
+					if(encounterActivity.getEffectiveTime() != null)
 					{
-						actualPoints++;
-					}
-				}
-					
-				if(!ApplicationUtil.isEmpty(encounterActivity.getDiagnoses()))
-				{
-					for (CCDAEncounterDiagnosis encounterDiagnosis : encounterActivity.getDiagnoses())
-					{
-						if(!ApplicationUtil.isEmpty(encounterDiagnosis.getProblemObs()))
+						if(ApplicationUtil.checkDateRange(birthDate, encounterActivity.getEffectiveTime().getValue()))
 						{
-							for (CCDAProblemObs problemObs : encounterDiagnosis.getProblemObs() )
+							actualPoints++;
+						}
+					}
+						
+					if(!ApplicationUtil.isEmpty(encounterActivity.getDiagnoses()))
+					{
+						for (CCDAEncounterDiagnosis encounterDiagnosis : encounterActivity.getDiagnoses())
+						{
+							if(!ApplicationUtil.isEmpty(encounterDiagnosis.getProblemObs()))
 							{
-								maxPoints++;
-								if(problemObs.getEffTime() != null)
+								for (CCDAProblemObs problemObs : encounterDiagnosis.getProblemObs() )
 								{
-									if(problemObs.getEffTime().getLow() != null)
+									maxPoints++;
+									if(problemObs.getEffTime() != null)
 									{
-										if(ApplicationUtil.validateDateTime(problemObs.getEffTime().getLow().getValue()) &&
-												ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getLow().getValue(),ApplicationConstants.MINUTE_FORMAT))
+										if(problemObs.getEffTime().getLow() != null)
 										{
-											actualPoints++;
+											if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getLow().getValue()))
+											{
+												actualPoints++;
+											}
 										}
-									}
-									if(problemObs.getEffTime().getHigh() != null)
-									{
-										maxPoints++;
-										if(ApplicationUtil.validateDateTime(problemObs.getEffTime().getHigh().getValue()) &&
-												ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getHigh().getValue(),ApplicationConstants.MINUTE_FORMAT))
+										if(problemObs.getEffTime().getHigh() != null)
 										{
-											actualPoints++;
+											maxPoints++;
+											if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getHigh().getValue()))
+											{
+												actualPoints++;
+											}
 										}
 									}
 								}
@@ -227,7 +229,7 @@ public class EncounterScorecard {
 		return validateTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAEncounter encounters)throws UnsupportedEncodingException
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAEncounter encounters)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setPoints(ApplicationConstants.VALID_CODE_DISPLAYNAME_POINTS);
@@ -239,7 +241,7 @@ public class EncounterScorecard {
 		if(encounters != null)
 		{
 			maxPoints++;
-			if(encounters.getSectionCode().getDisplayName()!= null)
+			if(encounters.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(encounters.getSectionCode().getCode(), 
 												ApplicationConstants.CODE_SYSTEM_MAP.get(encounters.getSectionCode().getCodeSystem()),

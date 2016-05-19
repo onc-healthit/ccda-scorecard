@@ -1,6 +1,5 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class LabresultsScorecard {
 	@Autowired
 	LoincRepository loincRepository;
 	
-	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, String birthDate)throws UnsupportedEncodingException
+	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, String birthDate)
 	{
 		
 		CCDALabResult results =null;
@@ -43,7 +42,8 @@ public class LabresultsScorecard {
 		labResultsScoreList.add(getValidDateTimeScore(results,birthDate));
 		labResultsScoreList.add(getValidDisplayNameScoreCard(results));
 		labResultsScoreList.add(getValidUCUMScore(labResults));
-//		labResultsScoreList.add(getValidLoincCodesScore(results));
+		labResultsScoreList.add(getValidLoincCodesScore(results));
+		labResultsScoreList.add(getApprEffectivetimeScore(results));
 		
 		labResultsCategory.setCategoryRubrics(labResultsScoreList);
 		labResultsCategory.setCategoryGrade(calculateSectionGrade(labResultsScoreList));
@@ -101,39 +101,42 @@ public class LabresultsScorecard {
 		
 		if(labResults != null)
 		{
-			for (CCDALabResultOrg resultOrg : labResults.getResultOrg())
+			if(!ApplicationUtil.isEmpty(labResults.getResultOrg()))
 			{
-				maxPoints = maxPoints + 2;
-				if(resultOrg.getEffTime() != null)
+				for (CCDALabResultOrg resultOrg : labResults.getResultOrg())
 				{
-					if(resultOrg.getEffTime().getLow() != null)
+					maxPoints = maxPoints + 2;
+					if(resultOrg.getEffTime() != null)
 					{
-						if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getLow().getValue()));
+						if(resultOrg.getEffTime().getLow() != null)
 						{
-							actualPoints++;
-						}
-					}
-					if(resultOrg.getEffTime().getHigh() != null)
-					{
-						if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getHigh().getValue()));
-						{
-							actualPoints++;
-						}
-					}
-				}
-				
-				if(!ApplicationUtil.isEmpty(resultOrg.getResultObs()))
-				{
-					for (CCDALabResultObs resultObs : resultOrg.getResultObs() )
-					{
-						maxPoints++;
-						if(resultObs.getMeasurementTime() != null)
-						{
-							if(ApplicationUtil.validateDayFormat(resultObs.getMeasurementTime().getValue()));
+							if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getLow().getValue()))
 							{
 								actualPoints++;
 							}
-							
+						}
+						if(resultOrg.getEffTime().getHigh() != null)
+						{
+							if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getHigh().getValue()))
+							{
+								actualPoints++;
+							}
+						}
+					}
+					
+					if(!ApplicationUtil.isEmpty(resultOrg.getResultObs()))
+					{
+						for (CCDALabResultObs resultObs : resultOrg.getResultObs() )
+						{
+							maxPoints++;
+							if(resultObs.getMeasurementTime() != null)
+							{
+								if(ApplicationUtil.validateDayFormat(resultObs.getMeasurementTime().getValue()))
+								{
+									actualPoints++;
+								}
+								
+							}
 						}
 					}
 				}
@@ -174,45 +177,45 @@ public class LabresultsScorecard {
 		
 		if(labResults != null)
 		{
-			for (CCDALabResultOrg resultOrg : labResults.getResultOrg())
+			if(!ApplicationUtil.isEmpty(labResults.getResultOrg()))
 			{
-				maxPoints = maxPoints + 2;
-				if(resultOrg.getEffTime() != null)
+				for (CCDALabResultOrg resultOrg : labResults.getResultOrg())
 				{
-					if(resultOrg.getEffTime().getLow() != null)
+					maxPoints = maxPoints + 2;
+					if(resultOrg.getEffTime() != null)
 					{
 						if(resultOrg.getEffTime().getLow() != null)
 						{
-							if(ApplicationUtil.validateDate(resultOrg.getEffTime().getLow().getValue()) &&
-									ApplicationUtil.checkDateRange(birthDate, resultOrg.getEffTime().getLow().getValue(),ApplicationConstants.DAY_FORMAT))
+							if(resultOrg.getEffTime().getLow() != null)
+							{
+								if(ApplicationUtil.checkDateRange(birthDate, resultOrg.getEffTime().getLow().getValue()))
+								{
+									actualPoints++;
+								}
+							}
+						}
+						if(resultOrg.getEffTime().getHigh() != null)
+						{
+							if(ApplicationUtil.checkDateRange(birthDate, resultOrg.getEffTime().getHigh().getValue()))
 							{
 								actualPoints++;
 							}
 						}
 					}
-					if(resultOrg.getEffTime().getHigh() != null)
+					
+					if(!ApplicationUtil.isEmpty(resultOrg.getResultObs()))
 					{
-						if(ApplicationUtil.validateDate(resultOrg.getEffTime().getHigh().getValue()) &&
-								ApplicationUtil.checkDateRange(birthDate, resultOrg.getEffTime().getHigh().getValue(),ApplicationConstants.DAY_FORMAT))
+						for (CCDALabResultObs resultObs : resultOrg.getResultObs() )
 						{
-							actualPoints++;
-						}
-					}
-				}
-				
-				if(!ApplicationUtil.isEmpty(resultOrg.getResultObs()))
-				{
-					for (CCDALabResultObs resultObs : resultOrg.getResultObs() )
-					{
-						maxPoints++;
-						if(resultObs.getMeasurementTime() != null)
-						{
-							if(ApplicationUtil.validateDate(resultObs.getMeasurementTime().getValue()) &&
-									ApplicationUtil.checkDateRange(birthDate, resultObs.getMeasurementTime().getValue(),ApplicationConstants.DAY_FORMAT))
+							maxPoints++;
+							if(resultObs.getMeasurementTime() != null)
 							{
-								actualPoints++;
+								if(ApplicationUtil.checkDateRange(birthDate, resultObs.getMeasurementTime().getValue()))
+								{
+									actualPoints++;
+								}
+								
 							}
-							
 						}
 					}
 				}
@@ -239,7 +242,7 @@ public class LabresultsScorecard {
 		return validateTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDALabResult labresults)throws UnsupportedEncodingException
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDALabResult labresults)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setPoints(ApplicationConstants.VALID_CODE_DISPLAYNAME_POINTS);
@@ -251,7 +254,7 @@ public class LabresultsScorecard {
 		if(labresults != null)
 		{
 			maxPoints++;
-			if(labresults.getSectionCode().getDisplayName()!= null)
+			if(labresults.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(labresults.getSectionCode().getCode(), 
 						ApplicationConstants.CODE_SYSTEM_MAP.get(labresults.getSectionCode().getCodeSystem()),
@@ -326,9 +329,9 @@ public class LabresultsScorecard {
 				{
 					for(CCDALabResultObs resultsObs : resultsOrg.getResultObs())
 					{
-						maxPoints++;
-						if(resultsObs.getResultCode() != null && resultsObs.getResults() != null)
+						if(resultsObs.getResultCode() != null && resultsObs.getResults() != null && resultsObs.getResults().getXsiType().equalsIgnoreCase("PQ"))
 						{
+							maxPoints++;
 							if(loincRepository.foundUCUMUnitsForLoincCode(resultsObs.getResultCode().getCode(),resultsObs.getResults().getUnits()))
 							{
 								actualPoints++;
@@ -402,5 +405,58 @@ public class LabresultsScorecard {
 		validatLoincCodeScore.setMaxPoints(4);
 		return validatLoincCodeScore;
 		
+	}
+	
+	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDALabResult results)
+	{
+		CCDAScoreCardRubrics validateApprEffectiveTimeScore = new CCDAScoreCardRubrics();
+		validateApprEffectiveTimeScore.setPoints(ApplicationConstants.RESULTS_APPR_TIME_POINTS);
+		validateApprEffectiveTimeScore.setRequirement(ApplicationConstants.LABRESULTS_ORG_DATE_ALIGN);
+		validateApprEffectiveTimeScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.TIME_ALIGN.getSubcategory());
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		if(results != null && !ApplicationUtil.isEmpty(results.getResultOrg()))
+		{
+			for(CCDALabResultOrg resultOrg : results.getResultOrg())
+			{
+				if(resultOrg.getEffTime()!= null)
+				{
+					if(!ApplicationUtil.isEmpty(resultOrg.getResultObs()))
+					{
+						for(CCDALabResultObs resultsObs : resultOrg.getResultObs())
+						{
+							maxPoints++;
+							if(resultsObs.getMeasurementTime() != null)
+							{
+								if(ApplicationUtil.checkDateRange(resultOrg.getEffTime().getLow(), resultsObs.getMeasurementTime().getValue(), 
+														resultOrg.getEffTime().getHigh()))
+								{
+									actualPoints++;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if(maxPoints!=0 && maxPoints == actualPoints)
+		{
+			validateApprEffectiveTimeScore.setComment("All Results observation effective time are aligned with Results Organizer effective time");
+		}else
+		{
+			validateApprEffectiveTimeScore.setComment("Some Results observation effective time are not aligned with Results Organizer effective time");
+		}
+		
+		if(maxPoints!=0)
+		{
+			validateApprEffectiveTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
+		}else
+		{
+			validateApprEffectiveTimeScore.setActualPoints(0);
+		}
+		validateApprEffectiveTimeScore.setMaxPoints(4);
+		return validateApprEffectiveTimeScore;
 	}
 }

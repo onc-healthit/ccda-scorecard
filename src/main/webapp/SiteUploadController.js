@@ -90,7 +90,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 
   var callCcdaR2ValidatorService = function(ccdaScFile) {
     var externalUrl = 'http://54.200.51.225:8080/referenceccdaservice/';
-    var localUrl = '../referenceccdaservice/';
+    var localUrl = 'ccdavalidatorservice/';
     var dataObject = {
       ccdaFile: ccdaScFile,
       referenceFileName: 'test',

@@ -83,16 +83,20 @@ public class ImmunizationScorecard {
 		
 		if(immunizatons != null)
 		{
-			for (CCDAImmunizationActivity immunizationActivity : immunizatons.getImmActivity())
+			if(!ApplicationUtil.isEmpty(immunizatons.getImmActivity()))
 			{
-				maxPoints++;
-				if(immunizationActivity.getTime() != null)
+				for (CCDAImmunizationActivity immunizationActivity : immunizatons.getImmActivity())
 				{
-					if(ApplicationUtil.validateDayFormat(immunizationActivity.getTime().getValue()));
+					maxPoints++;
+					if(immunizationActivity.getTime() != null)
 					{
-						actualPoints++;
+						if(ApplicationUtil.validateDayFormat(immunizationActivity.getTime().getValue()) ||
+								ApplicationUtil.validateMonthFormat(immunizationActivity.getTime().getValue()))
+						{
+							actualPoints++;
+						}
+							
 					}
-						
 				}
 			}
 		}
@@ -131,17 +135,19 @@ public class ImmunizationScorecard {
 		
 		if(immunizatons != null)
 		{
-			for (CCDAImmunizationActivity immunizationActivity : immunizatons.getImmActivity())
+			if(!ApplicationUtil.isEmpty(immunizatons.getImmActivity()))
 			{
-				maxPoints++;
-				if(immunizationActivity.getTime() != null)
+				for (CCDAImmunizationActivity immunizationActivity : immunizatons.getImmActivity())
 				{
-					if(ApplicationUtil.validateDate(immunizationActivity.getTime().getValue()) &&
-							ApplicationUtil.checkDateRange(birthDate, immunizationActivity.getTime().getValue(),ApplicationConstants.DAY_FORMAT))
+					maxPoints++;
+					if(immunizationActivity.getTime() != null)
 					{
-						actualPoints++;
+						if(ApplicationUtil.checkDateRange(birthDate, immunizationActivity.getTime().getValue()))
+						{
+							actualPoints++;
+						}
+							
 					}
-						
 				}
 			}
 		}
@@ -178,7 +184,7 @@ public class ImmunizationScorecard {
 		if(immunizatons != null)
 		{
 			maxPoints++;
-			if(immunizatons.getSectionCode().getDisplayName()!= null)
+			if(immunizatons.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(immunizatons.getSectionCode().getCode(), 
 						ApplicationConstants.CODE_SYSTEM_MAP.get(immunizatons.getSectionCode().getCodeSystem()),
@@ -211,7 +217,7 @@ public class ImmunizationScorecard {
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
-													ApplicationConstants.CODE_SYSTEM_MAP.get(translationCode.getCodeSystem()),
+													ApplicationConstants.CODE_SYSTEM_MAP.get(translationCode.getCodeSystem().toUpperCase()),
 														translationCode.getDisplayName()))
 								{
 									actualPoints++;

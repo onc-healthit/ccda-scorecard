@@ -35,6 +35,8 @@ public class ApplicationConstants {
 	public static final String PROBLEMS_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Problems section should contain valid display names";	
 	public static final String PROBLEMS_ACT_STATUS_CODE_REQUIREMENT = "All problem concern act status code should align with effective time values";
 	public static final String PROBLEMS_CODE_LOINC_REQUIREMENT = "All problem codes are should express with core subset of SNOMED codes";
+	public static final String PROBLEMS_CONCERN_DATE_ALIGN = "Problems observation effective time should align with Problems concern act effective time";
+	public static final String PROBLEMS_CONCERN_STATUS_ALIGN = "Problems observation status should align with Problems concern act status";
 	
 	public static final String IMMUNIZATION_TIME_PRECISION_REQUIREMENT = "All effective time elements under Immunization section should contain "
 																	+ "proper precision and format with correct offset";
@@ -47,8 +49,9 @@ public class ApplicationConstants {
 	public static final String LABRESULTS_TIMEDATE_VALID_REQUIREMENT = "All effective time elements under Lab Results section should contain "
 																		+ "valid date and time value within human life span";
 	public static final String LABRESULTS_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Results section should contain valid display names";
-	public static final String LABRESULTS_LOIN_CODE_REQ = "Lab results should be expressed with LONINC codes";
+	public static final String LABRESULTS_LOIN_CODE_REQ = "Lab results should be expressed with LOINC codes";
 	public static final String LABRESULTS_UCUM_REQUIREMENT = "All LOINC codes under Results section should contain valid UCUM units";
+	public static final String LABRESULTS_ORG_DATE_ALIGN = "Results observation effective should align with Results organizer effective time";
 	
 	public static final String VITALS_TIME_PRECISION_REQUIREMENT = "All effective time elements under Vitals section should contain "
 																	+ "proper precision and format with correct offset";
@@ -56,17 +59,18 @@ public class ApplicationConstants {
 																	+ "valid date and time value within human life span";	
 	public static final String VITALS_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Vitals section should contain valid display names";
 	public static final String VITALS_UCUM_REQUIREMENT = "All LOINC codes under Vitals section should contain valid UCUM units";
-	public static final String VITALS_ORG_DATE_ALIGN = "Vitals observation effective should align with vitals organizer effetive time";
-	public static final String VITALS_LOIN_CODE_REQ = "Vitals observations should be expressed with LONINC codes";
+	public static final String VITALS_ORG_DATE_ALIGN = "Vitals observation effective should align with vitals organizer effective time";
+	public static final String VITALS_LOIN_CODE_REQ = "Vitals observations should be expressed with LOINC codes";
 	
 	public static final String ALLERGIES_TIME_PRECISION_REQUIREMENT = "All effective time elements under allergies section should contain "
 																		+ "proper precision and format with correct offset";
 	public static final String ALLERGIES_TIMEDATE_VALID_REQUIREMENT = "All effective time elements under allergies section should contain "
 																		+ "valid date and time value within human life span";
-	public static final String ALLERGIES_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under allergies section should contain valid display names";		
+	public static final String ALLERGIES_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under allergies section should contain valid display names";	
+	public static final String ALLERGIES_CONCERN_DATE_ALIGN = "Allergies observation effective should align with Allergies concern act effective time";
 
 	
-	public static final String PROCEDURES_SECTION_REQUIREMENT = "CCDA document should contain procedures section";
+	public static final String PROCEDURES_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Procedures section should contain valid display names";	
 	
 	
 	public static final String SOCIALHISTORY_TIME_PRECISION_REQUIREMENT = "All effective time elements under Social History section should contain "
@@ -76,6 +80,9 @@ public class ApplicationConstants {
 	public static final String SOCIALHISTORY_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Social History section should contain valid display names";	
 	public static final String SOCIALHISTORY_SMOKING_STATUS_REQUIREMENT = "Smoking status code value should be valid";
 	public static final String SOCIALHISTORY_SMOKING_STATUS_OBS_ID_REQUIREMENT = "Smoking status observation Template Id should be valid";
+	
+	public static final String MONTH_FORMAT = "yyyyMM";
+	public static final String MONTH_PATTERN = "\\d{6}";
 	
 	public static final String DAY_FORMAT = "yyyyMMdd";
 	public static final String DAY_PATTERN = "\\d{8}";
@@ -89,6 +96,8 @@ public class ApplicationConstants {
 	public static final String CODE_DISPLAYNAME_VALIDATION_URL = "http://54.200.51.225:8080/referenceccdaservice/iscodeandisplaynameincodesystem"; 
 	public static final String CODE_VALUSET_VALIDATION_URL = "http://54.200.51.225:8080/referenceccdaservice/iscodeinvalueset"; 
 	
+	public static final String REFERENCE_VALIDATOR_URL = "http://54.200.51.225:8080/referenceccdaservice/"; 
+	
 	public static final ArrayList<String> SMOKING_STATUS_CODES = new ArrayList<String>(
 		    Arrays.asList("449868002", "428041000124106", "8517006","266919005","77176002","266927001","428071000124103","428061000124105"));
 	
@@ -97,43 +106,47 @@ public class ApplicationConstants {
 	public static final String HITSP_VITAL_VALUESET_OID = "2.16.840.1.113883.3.88.12.80.62";
 	public static final String PROBLEM_TYPE_VALUESET_OID = "2.16.840.1.113883.3.88.12.3221.7.2";
 	
-	public static final String SNOMEDCT_CODE_NAME = "SNOMED-CT";
+	public static final String SNOMEDCT_CODE_SYSTEM_NAME = "SNOMED-CT";
 	public static final String SNOMEDCT_CODE_SYSTEM = "2.16.840.1.113883.6.96";
 	
-	public static final String LOINC_CODE_NAME = "LOINC";
+	public static final String LOINC_CODE_SYSTEM_NAME = "LOINC";
 	public static final String LOINC_CODE_SYSTEM = "2.16.840.1.113883.6.1";
 	
-	public static final String ICD9CM_DIAGNOSIS_CODE_NAME = "ICD9CM_DX";
+	public static final String ICD9CM_DIAGNOSIS_CODE_SYSTEM_NAME = "ICD9CM_DX";
 	public static final String ICD9CM_DIAGNOSIS_CODE_SYSTEM = "2.16.840.1.113883.6.103";
 	
-	public static final String ICD9CM_PROCEDURE_CODE_NAME = "ICD9CM_SG";
+	public static final String ICD9CM_PROCEDURE_CODE_SYSTEM_NAME = "ICD9CM_SG";
 	public static final String ICD9CM_PROCEDURE_CODE_SYSTEM = "2.16.840.1.113883.6.104";
 	
-	public static final String ICD10CM_CODE_NAME = "ICD10CM";
+	public static final String ICD10CM_CODE_SYSTEM_NAME = "ICD10CM";
 	public static final String ICD10CM_CODE_SYSTEM = "2.16.840.1.113883.6.90";
 	
-	public static final String ICD10PCS_CODE_NAME = "ICD10PCS";
+	public static final String ICD10PCS_CODE_SYSTEM_NAME = "ICD10PCS";
 	public static final String ICD10PCS_CODE_SYSTEM = "2.16.840.1.113883.6.4";
 	
-	public static final String RXNORM_CODE_NAME = "RXNORM";
+	public static final String RXNORM_CODE_SYSTEM_NAME = "RXNORM";
 	public static final String RXNORM_CODE_SYSTEM = "2.16.840.1.113883.6.88";
 	
-	public static final String CPT4_CODE_NAME = "CPT-4";
+	public static final String CPT4_CODE_SYSTEM_NAME = "CPT-4";
 	public static final String CPT4_CODE_SYSTEM = "2.16.840.1.113883.6.12";
+	
+	public static final String CVX_CODE_SYSTEM_NAME = "CVX";
+	public static final String CVX_CODE_SYSTEM = "2.16.840.1.113883.12.292";
 	
 	public static final String VSAC_VALUESET_NAME = "VSAC";
 	
 	public static final Map<String, String> CODE_SYSTEM_MAP = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
 	
 	static {
-		CODE_SYSTEM_MAP.put(SNOMEDCT_CODE_SYSTEM, SNOMEDCT_CODE_NAME);
-		CODE_SYSTEM_MAP.put(LOINC_CODE_SYSTEM, LOINC_CODE_NAME);
-		CODE_SYSTEM_MAP.put(ICD9CM_DIAGNOSIS_CODE_SYSTEM, ICD9CM_DIAGNOSIS_CODE_NAME);
-		CODE_SYSTEM_MAP.put(ICD9CM_PROCEDURE_CODE_SYSTEM, ICD9CM_PROCEDURE_CODE_NAME);
-		CODE_SYSTEM_MAP.put(ICD10CM_CODE_SYSTEM, ICD10CM_CODE_NAME);
-		CODE_SYSTEM_MAP.put(ICD10PCS_CODE_SYSTEM, ICD10PCS_CODE_NAME);
-		CODE_SYSTEM_MAP.put(RXNORM_CODE_SYSTEM, RXNORM_CODE_NAME);
-		CODE_SYSTEM_MAP.put(CPT4_CODE_SYSTEM, CPT4_CODE_NAME);
+		CODE_SYSTEM_MAP.put(SNOMEDCT_CODE_SYSTEM, SNOMEDCT_CODE_SYSTEM_NAME);
+		CODE_SYSTEM_MAP.put(LOINC_CODE_SYSTEM, LOINC_CODE_SYSTEM_NAME);
+		CODE_SYSTEM_MAP.put(ICD9CM_DIAGNOSIS_CODE_SYSTEM, ICD9CM_DIAGNOSIS_CODE_SYSTEM_NAME);
+		CODE_SYSTEM_MAP.put(ICD9CM_PROCEDURE_CODE_SYSTEM, ICD9CM_PROCEDURE_CODE_SYSTEM_NAME);
+		CODE_SYSTEM_MAP.put(ICD10CM_CODE_SYSTEM, ICD10CM_CODE_SYSTEM_NAME);
+		CODE_SYSTEM_MAP.put(ICD10PCS_CODE_SYSTEM, ICD10PCS_CODE_SYSTEM_NAME);
+		CODE_SYSTEM_MAP.put(RXNORM_CODE_SYSTEM, RXNORM_CODE_SYSTEM_NAME);
+		CODE_SYSTEM_MAP.put(CPT4_CODE_SYSTEM, CPT4_CODE_SYSTEM_NAME);
+		CODE_SYSTEM_MAP.put(CVX_CODE_SYSTEM, CVX_CODE_SYSTEM_NAME);
 	}
 	
 	
@@ -199,6 +212,58 @@ public class ApplicationConstants {
 	    put(2, "More than 50% of LOINC codes are having correct UCUM units");
 	    put(3, "More than 75% of LOINC codes are having correct UCUM units");
 	    put(4, "All LOINC codes are having valid UCUM units");
+	}};
+	
+	public static final Map<Integer , String> ALLERGIES_APPR_TIME_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "None of the Allergies observation effective time is aligned with Allergy concern act effective time");
+	    put(1, "More than 25% of Allergies observation effective time is aligned with Allergies concern act effective time");
+	    put(2, "More than 50% of Allergies observation effective time is aligned with Allergies concern act effective time");
+	    put(3, "More than 75% of Allergies observation effective time is aligned with Allergies concern act effective time");
+	    put(4, "All Allergies observations effective are aligned with Allergies concern act effective time");
+	}};
+	
+	public static final Map<Integer , String> PROBLEMS_APPR_TIME_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "None of the Problems observation effective time is aligned with Problem concern act effective time");
+	    put(1, "More than 25% of Problems observation effective time is aligned with Problems concern act effective time");
+	    put(2, "More than 50% of Problems observation effective time is aligned with Problems concern act effective time");
+	    put(3, "More than 75% of Problems observation effective time is aligned with Problems concern act effective time");
+	    put(4, "All Problems observations effective are aligned with Problems concern act effective time");
+	}};
+	
+	public static final Map<Integer , String> PROBLEMS_APPR_STATUS_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "None of the Problem observation Status code is aligned with Problem concern act status code");
+	    put(1, "More than 25% of Problems observation status code is aligned with Problems concern act status code");
+	    put(2, "More than 50% of Problems observation status code is aligned with Problems concern act status code");
+	    put(3, "More than 75% of Problems observation status code is aligned with Problems concern act status code");
+	    put(4, "All Problems observations statu code are aligned with Problems concern act status code");
+	}};
+	
+	public static final Map<Integer , String> RESULTS_APPR_TIME_POINTS = new HashMap<Integer , String>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
+		put(0, "None of the Results observation effective time is aligned with Results organizer effective time");
+	    put(1, "More than 25% of Results observation effective time is aligned with Results organizer effective time");
+	    put(2, "More than 50% of Results observation effective time is aligned with Results organizer effective time");
+	    put(3, "More than 75% of Results observation effective time is aligned with Results organizer effective time");
+	    put(4, "All Results observations effective time are aligned with Results organizer effective time");
 	}};
 	
 	public static final Map<Integer , String> VITALS_APPR_TIME_POINTS = new HashMap<Integer , String>() {/**
@@ -335,6 +400,7 @@ public class ApplicationConstants {
 		VITAL_VALIDATION("Vital observation code validation",1),
 		LABRESULT_VALIDATION("Labresult code validation",1),
 		TIME_ALIGN("Time Alignment",1),
+		STATUS_ALIGN("Status Align",1),
 		SMOKING_STATUS("Valid Smoking status",1),
 		SMOKING_STATUS_ID("Valid Smoking status ID",1),
 		PROBLEM_STATUSCODE("Problem status code",1),
@@ -362,7 +428,7 @@ public class ApplicationConstants {
 
 	}
 	
-	public static enum PROBLEMACT_STATUS
+	public static enum CONCERNACT_STATUS
 	{
 		COMPLETED("Completed"),
 		ACTIVE("Active"), 
@@ -371,7 +437,7 @@ public class ApplicationConstants {
 
 		private String status;
 
-		private PROBLEMACT_STATUS(final String status)
+		private CONCERNACT_STATUS(final String status)
 		{
 			this.status = status;
 		}
@@ -387,7 +453,8 @@ public class ApplicationConstants {
 	{
 		ACTIVE("Active"), 
 		INACTIVE("Inactive"),
-		RESOLVED("Resolved");
+		RESOLVED("Resolved"),
+		COMPLETED("Completed");
 
 		private String status;
 
