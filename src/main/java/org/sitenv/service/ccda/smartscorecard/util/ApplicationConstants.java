@@ -96,6 +96,8 @@ public class ApplicationConstants {
 	public static final String CODE_DISPLAYNAME_VALIDATION_URL = "http://54.200.51.225:8080/referenceccdaservice/iscodeandisplaynameincodesystem"; 
 	public static final String CODE_VALUSET_VALIDATION_URL = "http://54.200.51.225:8080/referenceccdaservice/iscodeinvalueset"; 
 	
+	public static final String REFERENCE_VALIDATOR_URL = "http://54.200.51.225:8080/referenceccdaservice/"; 
+	
 	public static final ArrayList<String> SMOKING_STATUS_CODES = new ArrayList<String>(
 		    Arrays.asList("449868002", "428041000124106", "8517006","266919005","77176002","266927001","428071000124103","428061000124105"));
 	
@@ -128,6 +130,9 @@ public class ApplicationConstants {
 	public static final String CPT4_CODE_SYSTEM_NAME = "CPT-4";
 	public static final String CPT4_CODE_SYSTEM = "2.16.840.1.113883.6.12";
 	
+	public static final String CVX_CODE_SYSTEM_NAME = "CVX";
+	public static final String CVX_CODE_SYSTEM = "2.16.840.1.113883.12.292";
+	
 	public static final String VSAC_VALUESET_NAME = "VSAC";
 	
 	public static final Map<String, String> CODE_SYSTEM_MAP = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
@@ -141,6 +146,7 @@ public class ApplicationConstants {
 		CODE_SYSTEM_MAP.put(ICD10PCS_CODE_SYSTEM, ICD10PCS_CODE_SYSTEM_NAME);
 		CODE_SYSTEM_MAP.put(RXNORM_CODE_SYSTEM, RXNORM_CODE_SYSTEM_NAME);
 		CODE_SYSTEM_MAP.put(CPT4_CODE_SYSTEM, CPT4_CODE_SYSTEM_NAME);
+		CODE_SYSTEM_MAP.put(CVX_CODE_SYSTEM, CVX_CODE_SYSTEM_NAME);
 	}
 	
 	

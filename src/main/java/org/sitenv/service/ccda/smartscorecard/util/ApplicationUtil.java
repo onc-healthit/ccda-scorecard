@@ -325,8 +325,8 @@ public class ApplicationUtil {
 	{
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_DISPLAYNAME_VALIDATION_URL)
 		        .queryParam("code", code==null?"":code)
-		        .queryParam("codeSystems", codeSystemName==null?"":codeSystemName)
-		        .queryParam("displayName", displayName==null?"":displayName);
+		        .queryParam("codeSystems", codeSystemName==null?"LOINC":codeSystemName)
+		        .queryParam("displayName", displayName==null?"":displayName.toUpperCase());
 		
 		RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
 	    boolean value = restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
@@ -354,7 +354,7 @@ public class ApplicationUtil {
 	    return clientHttpRequestFactory;
 	}
 	
-	public static boolean validateProblemStatusCode(String problemActStatuscode, List<CCDAProblemObs> probObservations)
+	/*public static boolean validateProblemStatusCode(String problemActStatuscode, List<CCDAProblemObs> probObservations)
 	{
 		
 		boolean isValid = false;
@@ -387,6 +387,44 @@ public class ApplicationUtil {
 		
 	    return isValid;
 		
+	}*/
+	
+	public static boolean validateProblemStatusCode(String problemActStatuscode, List<CCDAProblemObs> probObservations)
+
+	{
+
+		boolean isValid = false;
+		boolean active = false;
+		boolean completed = false;
+
+		for(CCDAProblemObs problemObs : probObservations)
+		{
+			if(problemObs.getEffTime().getLowPresent() && !problemObs.getEffTime().getHighPresent())
+			{
+				active = true;
+			}
+			else if(problemObs.getEffTime().getLowPresent() && problemObs.getEffTime().getHighPresent())
+			{
+				completed = true;
+
+			}
+		}
+
+		if(active == true && completed == true)
+		{
+			isValid = problemActStatuscode.equalsIgnoreCase(CONCERNACT_STATUS.ACTIVE.getstatus());
+		}
+		else if(active == false && completed == true)
+		{
+			isValid = problemActStatuscode.equalsIgnoreCase(CONCERNACT_STATUS.COMPLETED.getstatus()) ||
+			problemActStatuscode.equalsIgnoreCase(CONCERNACT_STATUS.SUSPENDED.getstatus()) ||
+			problemActStatuscode.equalsIgnoreCase(CONCERNACT_STATUS.COMPLETED.getstatus());
+		}
+		else if (active == true && completed == false)
+		{
+			isValid = problemActStatuscode.equalsIgnoreCase(CONCERNACT_STATUS.ACTIVE.getstatus());
+		}
+		return isValid;
 	}
 	
 	public static boolean validateProblemStatusCode(CCDAEffTime effectiveTime, String concernStatusCode)

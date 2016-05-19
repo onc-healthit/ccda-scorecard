@@ -43,11 +43,11 @@ public class ProceduresScorecard {
 		if(procedures != null)
 		{
 			maxPoints++;
-			if(procedures.getSectionCode().getDisplayName()!= null)
+			if(procedures.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(procedures.getSectionCode().getCode(), 
 									ApplicationConstants.CODE_SYSTEM_MAP.get(procedures.getSectionCode().getCodeSystem()),
-									procedures.getSectionCode().getDisplayName().toUpperCase()))
+									procedures.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
 				}
