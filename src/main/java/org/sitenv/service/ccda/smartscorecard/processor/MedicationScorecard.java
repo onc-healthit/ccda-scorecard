@@ -86,34 +86,39 @@ public class MedicationScorecard {
 			
 		if(medications != null)
 		{
-			for (CCDAMedicationActivity medActivity : medications.getMedActivities())
+			if(!ApplicationUtil.isEmpty(medications.getMedActivities()))
 			{
-				maxPoints++;
-				if(medActivity.getDuration() != null)
+				for (CCDAMedicationActivity medActivity : medications.getMedActivities())
 				{
-					if(medActivity.getDuration().getSingleAdministration() != null)
+					maxPoints++;
+					if(medActivity.getDuration() != null)
 					{
-						if(ApplicationUtil.validateMinuteFormat(medActivity.getDuration().getSingleAdministration()));
+						if(medActivity.getDuration().getSingleAdministration() != null)
 						{
-							actualPoints++;
-						}
-					}
-					else if(medActivity.getDuration().getLow() != null)
-					{
-						if(ApplicationUtil.validateDayFormat(medActivity.getDuration().getLow().getValue()));
-						{
-							actualPoints++;
-						}
-						if(medActivity.getDuration().getHigh() != null)
-						{
-							maxPoints++;
-							if(ApplicationUtil.validateDayFormat(medActivity.getDuration().getHigh().getValue()));
+							if(ApplicationUtil.validateMinuteFormat(medActivity.getDuration().getSingleAdministration()))
 							{
 								actualPoints++;
 							}
 						}
+						else if(medActivity.getDuration().getLow() != null)
+						{
+							if(ApplicationUtil.validateDayFormat(medActivity.getDuration().getLow().getValue()) ||
+									ApplicationUtil.validateMonthFormat(medActivity.getDuration().getLow().getValue()))
+							{
+								actualPoints++;
+							}
+							if(medActivity.getDuration().getHigh() != null)
+							{
+								maxPoints++;
+								if(ApplicationUtil.validateDayFormat(medActivity.getDuration().getHigh().getValue()) ||
+										ApplicationUtil.validateMonthFormat(medActivity.getDuration().getHigh().getValue()))
+								{
+									actualPoints++;
+								}
+							}
+						}
+						
 					}
-					
 				}
 			}
 		}
@@ -151,34 +156,37 @@ public class MedicationScorecard {
 			
 		if(medications != null)
 		{
-			for (CCDAMedicationActivity medActivity : medications.getMedActivities())
+			if(!ApplicationUtil.isEmpty(medications.getMedActivities()))
 			{
-				maxPoints++;
-				if(medActivity.getDuration() != null)
+				for (CCDAMedicationActivity medActivity : medications.getMedActivities())
 				{
-					if(medActivity.getDuration().getSingleAdministration() != null)
+					maxPoints++;
+					if(medActivity.getDuration() != null)
 					{
-						if(ApplicationUtil.checkDateRange(birthDate, medActivity.getDuration().getSingleAdministration()))
+						if(medActivity.getDuration().getSingleAdministration() != null)
 						{
-							actualPoints++;
-						}
-					}
-					else if(medActivity.getDuration().getLow() != null)
-					{
-						if(ApplicationUtil.checkDateRange(birthDate, medActivity.getDuration().getLow().getValue()))
-						{
-							actualPoints++;
-						}
-						if(medActivity.getDuration().getHigh() != null)
-						{
-							maxPoints++;
-							if(ApplicationUtil.checkDateRange(birthDate, medActivity.getDuration().getHigh().getValue()))
+							if(ApplicationUtil.checkDateRange(birthDate, medActivity.getDuration().getSingleAdministration()))
 							{
 								actualPoints++;
 							}
 						}
+						else if(medActivity.getDuration().getLow() != null)
+						{
+							if(ApplicationUtil.checkDateRange(birthDate, medActivity.getDuration().getLow().getValue()))
+							{
+								actualPoints++;
+							}
+							if(medActivity.getDuration().getHigh() != null)
+							{
+								maxPoints++;
+								if(ApplicationUtil.checkDateRange(birthDate, medActivity.getDuration().getHigh().getValue()))
+								{
+									actualPoints++;
+								}
+							}
+						}
+						
 					}
-					
 				}
 			}
 		}
@@ -216,11 +224,11 @@ public class MedicationScorecard {
 		if(medications != null)
 		{
 			maxPoints++;
-			if(medications.getSectionCode().getDisplayName()!= null)
+			if(medications.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(medications.getSectionCode().getCode(), 
 							ApplicationConstants.CODE_SYSTEM_MAP.get(medications.getSectionCode().getCodeSystem()),
-						medications.getSectionCode().getDisplayName().toUpperCase()))
+						medications.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
 				}
@@ -235,7 +243,7 @@ public class MedicationScorecard {
 					{
 						if(ApplicationUtil.validateDisplayName(medActivity.getApproachSiteCode().getCode(), 
 								ApplicationConstants.CODE_SYSTEM_MAP.get(medActivity.getApproachSiteCode().getCodeSystem()),
-																medActivity.getApproachSiteCode().getDisplayName().toUpperCase()))
+																medActivity.getApproachSiteCode().getDisplayName()))
 						{
 							actualPoints++;
 						}
@@ -249,7 +257,7 @@ public class MedicationScorecard {
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
-												ApplicationConstants.CODE_SYSTEM_MAP.get(translationCode.getCodeSystem().toUpperCase()),
+												ApplicationConstants.CODE_SYSTEM_MAP.get(translationCode.getCodeSystem()),
 														translationCode.getDisplayName()))
 								{
 									actualPoints++;

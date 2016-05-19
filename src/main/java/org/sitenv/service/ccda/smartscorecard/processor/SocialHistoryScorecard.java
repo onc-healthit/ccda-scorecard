@@ -84,34 +84,43 @@ public class SocialHistoryScorecard {
 		int maxPoints = 0;
 		if(socialHistory != null)
 		{
-			for ( CCDASmokingStatus smokingStatus : socialHistory.getSmokingStatus())
+			if(!ApplicationUtil.isEmpty(socialHistory.getSmokingStatus()))
 			{
-				maxPoints++;
-				if(smokingStatus.getObservationTime() != null)
+				for ( CCDASmokingStatus smokingStatus : socialHistory.getSmokingStatus())
 				{
-					if(ApplicationUtil.validateDayFormat(smokingStatus.getObservationTime().getValue()))
+					maxPoints++;
+					if(smokingStatus.getObservationTime() != null)
 					{
-						actualPoints++;
+						if(ApplicationUtil.validateDayFormat(smokingStatus.getObservationTime().getValue()))
+						{
+							actualPoints++;
+						}
 					}
 				}
 			}
 			
-			for ( CCDATobaccoUse tobaccoUse : socialHistory.getTobaccoUse())
+			if(!ApplicationUtil.isEmpty(socialHistory.getTobaccoUse()))
 			{
-				if(tobaccoUse.getTobaccoUseTime().getLow() != null)
+				for ( CCDATobaccoUse tobaccoUse : socialHistory.getTobaccoUse())
 				{
-					maxPoints++;
-					if(ApplicationUtil.validateDayFormat(tobaccoUse.getTobaccoUseTime().getLow().getValue()))
+					if(tobaccoUse.getTobaccoUseTime() != null)
 					{
-						actualPoints++;
-					}
-				}
-				if(tobaccoUse.getTobaccoUseTime().getHigh() != null)
-				{
-					maxPoints++;
-					if(ApplicationUtil.validateDayFormat(tobaccoUse.getTobaccoUseTime().getHigh().getValue()))
-					{
-						actualPoints++;
+						if(tobaccoUse.getTobaccoUseTime().getLow() != null)
+						{
+							maxPoints++;
+							if(ApplicationUtil.validateDayFormat(tobaccoUse.getTobaccoUseTime().getLow().getValue()))
+							{
+								actualPoints++;
+							}
+						}
+						if(tobaccoUse.getTobaccoUseTime().getHigh() != null)
+						{
+							maxPoints++;
+							if(ApplicationUtil.validateDayFormat(tobaccoUse.getTobaccoUseTime().getHigh().getValue()))
+							{
+								actualPoints++;
+							}
+						}
 					}
 				}
 			}
@@ -147,34 +156,43 @@ public class SocialHistoryScorecard {
 		int maxPoints = 0;
 		if(socialHistory != null)
 		{
-			for ( CCDASmokingStatus smokingStatus : socialHistory.getSmokingStatus())
+			if(!ApplicationUtil.isEmpty(socialHistory.getSmokingStatus()))
 			{
-				maxPoints++;
-				if(smokingStatus.getObservationTime() != null)
+				for ( CCDASmokingStatus smokingStatus : socialHistory.getSmokingStatus())
 				{
-					if(ApplicationUtil.checkDateRange(birthDate, smokingStatus.getObservationTime().getValue()))
+					maxPoints++;
+					if(smokingStatus.getObservationTime() != null)
 					{
-						actualPoints++;
+						if(ApplicationUtil.checkDateRange(birthDate, smokingStatus.getObservationTime().getValue()))
+						{
+							actualPoints++;
+						}
 					}
 				}
 			}
 			
-			for ( CCDATobaccoUse tobaccoUse : socialHistory.getTobaccoUse())
+			if(!ApplicationUtil.isEmpty(socialHistory.getTobaccoUse()))
 			{
-				if(tobaccoUse.getTobaccoUseTime().getLow() != null)
+				for ( CCDATobaccoUse tobaccoUse : socialHistory.getTobaccoUse())
 				{
-					maxPoints++;
-					if(ApplicationUtil.checkDateRange(birthDate, tobaccoUse.getTobaccoUseTime().getLow().getValue()))
+					if(tobaccoUse.getTobaccoUseTime() != null)
 					{
-						actualPoints++;
-					}
-				}
-				if(tobaccoUse.getTobaccoUseTime().getHigh() != null)
-				{
-					maxPoints++;
-					if(ApplicationUtil.checkDateRange(birthDate, tobaccoUse.getTobaccoUseTime().getHigh().getValue()))
-					{
-						actualPoints++;
+						if(tobaccoUse.getTobaccoUseTime().getLow() != null)
+						{
+							maxPoints++;
+							if(ApplicationUtil.checkDateRange(birthDate, tobaccoUse.getTobaccoUseTime().getLow().getValue()))
+							{
+								actualPoints++;
+							}
+						}
+						if(tobaccoUse.getTobaccoUseTime().getHigh() != null)
+						{
+							maxPoints++;
+							if(ApplicationUtil.checkDateRange(birthDate, tobaccoUse.getTobaccoUseTime().getHigh().getValue()))
+							{
+								actualPoints++;
+							}
+						}
 					}
 				}
 			}
@@ -212,11 +230,11 @@ public class SocialHistoryScorecard {
 		if(socialHistory != null)
 		{
 			maxPoints++;
-			if(socialHistory.getSectionCode().getDisplayName()!= null)
+			if(socialHistory.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(socialHistory.getSectionCode().getCode(), 
 						ApplicationConstants.CODE_SYSTEM_MAP.get(socialHistory.getSectionCode().getCodeSystem()),
-											socialHistory.getSectionCode().getDisplayName().toUpperCase()))
+											socialHistory.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
 				}
@@ -231,7 +249,7 @@ public class SocialHistoryScorecard {
 					{
 						if(ApplicationUtil.validateDisplayName(smokingStatus.getSmokingStatusCode().getCode(), 
 								ApplicationConstants.CODE_SYSTEM_MAP.get(smokingStatus.getSmokingStatusCode().getCodeSystem()),
-																	smokingStatus.getSmokingStatusCode().getDisplayName().toUpperCase()))
+																	smokingStatus.getSmokingStatusCode().getDisplayName()))
 						{
 							actualPoints++;
 						}
@@ -248,7 +266,7 @@ public class SocialHistoryScorecard {
 					{
 						if(ApplicationUtil.validateDisplayName(tobaccoUse.getTobaccoUseCode().getCode(), 
 								ApplicationConstants.CODE_SYSTEM_MAP.get(tobaccoUse.getTobaccoUseCode().getCodeSystem()),
-														tobaccoUse.getTobaccoUseCode().getDisplayName().toUpperCase()))
+														tobaccoUse.getTobaccoUseCode().getDisplayName()))
 						{
 							actualPoints++;
 						}
