@@ -21,6 +21,11 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   $scope.jsonValidationData = $scope.metaResults = $scope.ccdaResults = {};
   $scope.mdhtMetaIssues = $scope.vocabMetaIssues = {};
   $scope.jsonScorecardData = {};
+    
+  $scope.calculatedValidationData = {
+      passedCertification: false,
+      certificationResult: ""
+  }
   
   $scope.uploadDisplay = {
 	isLoading: true,
@@ -37,6 +42,9 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 	{id: 1, value: "Scorecard and Validation results"}, 
 	{id: 2, value: "Scorecard results only"}		  
   ];
+
+    //default to run both services since we no longer have a selection option
+    $scope.selectedValidationOption = $scope.validationOptions[0];
   
   var resetValidationData = function() {	  	  
 	$scope.jsonScorecardData = {};
@@ -45,6 +53,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 	$scope.uploadDisplay.isValidationLoading = true;
 	$scope.uploadErrorData.validationServiceError = "";
 	$scope.uploadErrorData.uploadError = $scope.userMessageConstant.UPLOAD_ERROR + $scope.userMessageConstant.GENERIC;
+    $scope.calculatedValidationData.certificationResult = "";
+    $scope.calculatedValidationData.passedCertification = false;
   };  
 
   //called by Validate Document button on SiteUploadForm
@@ -172,6 +182,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
       	}
       }
       setIssueCounts();
+      setCertificationResult();
       //disable loading
       $scope.uploadDisplay.isValidationLoading = false;
       console.log("$scope.uploadDisplay.isValidationLoading (after load):")
@@ -184,6 +195,18 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     vocabMetaIssues = [metaData[3], metaData[4], metaData[5]];
     $scope.allUsedMetaIssues = [mdhtMetaIssues, vocabMetaIssues];
   };
+    
+    var setCertificationResult = function() {
+        var passesValidation = $scope.metaResults.resultMetaData[0].count === 0;
+        var passesVocabulary = $scope.metaResults.resultMetaData[3].count === 0;
+        if(passesValidation && passesVocabulary) {
+            $scope.calculatedValidationData.passedCertification = true;
+            $scope.calculatedValidationData.certificationResult = "Pass";
+        } else {
+            $scope.calculatedValidationData.passedCertification = false;
+            $scope.calculatedValidationData.certificationResult = "Fail";                        
+        }
+    }
   
   $scope.getLocalJsonResultsForDebugging = function(localJsonFileLocation, serviceType) {
     $http({

@@ -1,0 +1,70 @@
+<div id="heatMap">
+    <div class="row heatMapRow">
+        <div class="col-md-6 heatMapData">
+            <button ng-click="jumpToCategoryViaName('Patient')" 
+                    class="btn btn-large btn-block heatMapA" type="button" onclick="this.blur();">Patient (A-)</button>
+        </div>
+        <div class="col-md-6 heatMapData">
+            <button ng-click="jumpToCategoryViaName('Encounters')" 
+                    class="btn btn-large btn-block heatMapB" type="button" onclick="this.blur();">Encounters (B-)</button>
+        </div>
+    </div>
+    <div class="row heatMapRow">
+        <div class="col-md-6 heatMapData">
+            <button ng-click="jumpToCategoryViaName('Problems')" 
+                    class="btn btn-large btn-block heatMapA" type="button" onclick="this.blur();">Problems (A+)</button>
+        </div>
+        <div class="col-md-6 heatMapData">
+            <button ng-click="jumpToCategoryViaName('Medications')" 
+                    class="btn btn-large btn-block heatMapC" type="button" onclick="this.blur();">Medications (C)</button>
+        </div>
+    </div>
+    <div class="row heatMapRow">
+        <div class="col-md-6 heatMapData">
+            <button ng-click="jumpToCategoryViaName('Immunizations')" 
+                    class="btn btn-large btn-block heatMapA" type="button" onclick="this.blur();">Immunizations (A+)</button>
+        </div>
+        <div class="col-md-6 heatMapData">
+            <button ng-click="jumpToCategoryViaName('Lab Results')" 
+                    class="btn btn-large btn-block heatMapC" type="button" onclick="this.blur();">Lab Results (C)</button>
+        </div>
+    </div>
+    <div class="row heatMapRow">
+        <div class="col-md-6 heatMapData">
+            <button ng-click="jumpToCategoryViaName('Vital Signs')" 
+                    class="btn btn-large btn-block heatMapB" type="button" onclick="this.blur();">Vital Signs (B-)</button>
+        </div>
+        <div class="col-md-6 heatMapData">
+            <button ng-click="jumpToCategoryViaName('Allergies')" 
+                    class="btn btn-large btn-block heatMapD" type="button" onclick="this.blur();">Allergies (D)</button>
+        </div>
+    </div>
+    <div class="row heatMapRow">
+        <div class="col-md-6 heatMapData">
+            <button ng-click="jumpToCategoryViaName('Procedures')" 
+                    class="btn btn-large btn-block heatMapB" type="button" onclick="this.blur();" disabled>Procedures (B+)</button>
+        </div>
+        <div class="col-md-6 heatMapData">
+            <button ng-click="jumpToCategoryViaName('Social History')"
+                    class="btn btn-large btn-block heatMapD" type="button" onclick="this.blur();" disabled>Social History (D)</button>
+        </div>
+    </div>
+</div>
+
+
+<!--
+<div id="heatMap">
+<table>
+<tbody>
+<tr class="heatMapRow">
+<td class="heatMapData">Patient</td>
+<td class="heatMapData">Encounters</td>
+</tr>
+<tr class="heatMapRow">
+<td class="heatMapData">Patient</td>
+<td class="heatMapData">Encounters</td>
+</tr>      
+</tbody>
+</table>
+</div>
+-->

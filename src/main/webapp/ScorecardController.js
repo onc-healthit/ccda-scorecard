@@ -10,9 +10,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     getJsonDataErrorForUser: ""
   };
   categoryTypes = Object.freeze([
-    "General", "Problems", "Medications", "Allergies", "Procedures", "Immunizations",
+    "Problems", "Medications", "Allergies", "Procedures", "Immunizations",
     "Laboratory Tests and Results", "Vital Signs", "Patient Information", "Encounters",
-    "Miscellaneous"
+    "Social History"
   ]);
 
   $scope.ccdaFileName = "Scoring...";
@@ -78,6 +78,10 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  //store the sub-data in a more usable/direct manner
 	  $scope.categories = $scope.jsonData.results.categoryList;
 	  $scope.finalGrade = $scope.jsonData.results.finalGrade;
+      //hardcode averageGrade until back-end is implemented for UI prototyping purposes
+      if($scope.mainDebug.inDevelopmentMode) {
+          $scope.jsonData.results.averageGrade = 'C';
+      }
 	  populateTotalNumberOfScorecardIssues();
 	  populateChartsData();
   };  
@@ -136,6 +140,24 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	//protects against running functions against undefined variables
 	return classPrefix + "primary";
   };
+    
+    $scope.calculateCategoryColor = function(classPrefix, pointOrGrade, passingComparator) {
+        //panel-heading categoryPanelHeading
+        if(typeof pointOrGrade !== "undefined") {
+            //0 is red, maxPoints is green, all other points in between are orange
+            if (pointOrGrade === 0 || (pointOrGrade === "C" || pointOrGrade === "D")) {
+                return classPrefix + " heatMapC";
+            } else if (pointOrGrade === passingComparator || ~pointOrGrade.toString().indexOf(passingComparator.toString())) {
+                return classPrefix + " heatMapA";
+            } else {
+                return classPrefix + " heatMapB";
+            }
+        }
+        //this is expected before results are returned from the service.
+        //it allows for a generic color prior to the results as well as 
+        //protects against running functions against undefined variables
+        return classPrefix + " " + unknownGradeColor;
+    };    
 
   var calculateCategoryIndex = function(chartIndexClicked) {
   	for(var i = 0; i < chartAndCategoryIndexMap.length; i++) {
@@ -175,6 +197,12 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     console.log("parentNode: " + elementId);
     $scope.jumpToElementViaId(elementId, weWait, timeToWaitInMiliseconds);
   };
+    
+    $scope.jumpToCategoryViaName = function(key, weWait, timeToWaitInMiliseconds) {
+        elementId = detruncateCategoryName(key);
+        elementId = document.getElementById(elementId).parentNode.id;
+        $scope.jumpToElementViaId(elementId, weWait, timeToWaitInMiliseconds);
+    };
 
   //***************CHART RELATED*****************
 
@@ -273,7 +301,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     LABORATORY_TESTS_AND_RESULTS: "Lab Results",
     PATIENT_INFORMATION: "Patient",
     IMMUNIZATIONS: "Immun.",
-    MISCELLANEOUS: "Misc."
+    SOCIAL_HISTORY: "Social H."
   });
 
   var setChartData = function(chartType, isBarChart) {
@@ -287,8 +315,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       var curCategory = $scope.categories[catIndex];
       var numberOfIssues = $scope.categories[catIndex].categoryRubrics.length;
       var numberOfFailingIssuesPerSection = calculateNumberOfFailingIssuesPerSection(curCategory);            
-      //only apply logic to categories with data and failing issues
-      if (numberOfIssues > 0 && numberOfFailingIssuesPerSection > 0) {
+      //apply logic to all categories whether they fail or not
+      if (numberOfIssues) {
       	//make map for navigation
         chartAndCategoryIndexMap.push(new ChartAndCategoryTracker(chartIndex++, catIndex));
         //ensure visibility of longer category names
@@ -297,8 +325,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         switch (chartType) {
           case chartTypeEnum.ISSUES_PER_SECTION_WITH_GRADE:
             var curGrade = curCategory.categoryGrade;
-            var keyAndLabelVal = categoryDisplayName + ": " + curGrade + " (" + numberOfFailingIssuesPerSection + ")";
-            data.push(pushChartDataByDisplayType(isBarChart, keyAndLabelVal, numberOfFailingIssuesPerSection, keyAndLabelVal, numberOfFailingIssuesPerSection));
+                var keyAndLabelVal = categoryDisplayName + ": " + curGrade + " (" + numberOfIssues + ")";
+                data.push(pushChartDataByDisplayType(isBarChart, keyAndLabelVal, numberOfIssues, keyAndLabelVal, numberOfIssues));
             break;
         }
       }
@@ -315,27 +343,27 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   };
 
   var truncateCategoryName = function(curCategoryName) {
-    if (curCategoryName === categoryTypes[6]) {
+    if (curCategoryName === categoryTypes[5]) {
       return ShortCategoryNamesEnum.LABORATORY_TESTS_AND_RESULTS;
-    } else if (curCategoryName === categoryTypes[8]) {
+    } else if (curCategoryName === categoryTypes[7]) {
       return ShortCategoryNamesEnum.PATIENT_INFORMATION;
-    } else if (curCategoryName === categoryTypes[5]) {
+    } else if (curCategoryName === categoryTypes[4]) {
       // return ShortCategoryNamesEnum.IMMUNIZATIONS;
-    } else if (curCategoryName === categoryTypes[10]) {
-      return ShortCategoryNamesEnum.MISCELLANEOUS;
+    } else if (curCategoryName === categoryTypes[9]) {
+      return ShortCategoryNamesEnum.SOCIAL_HISTORY;
     }
     return curCategoryName;
   };
 
   var detruncateCategoryName = function(curCategoryName) {
     if (curCategoryName === ShortCategoryNamesEnum.LABORATORY_TESTS_AND_RESULTS) {
-      return categoryTypes[6];
-    } else if (curCategoryName === ShortCategoryNamesEnum.PATIENT_INFORMATION) {
-      return categoryTypes[8];
-    } else if (curCategoryName === ShortCategoryNamesEnum.IMMUNIZATIONS) {
       return categoryTypes[5];
-    } else if (curCategoryName === ShortCategoryNamesEnum.MISCELLANEOUS) {
-      return categoryTypes[10];
+    } else if (curCategoryName === ShortCategoryNamesEnum.PATIENT_INFORMATION) {
+      return categoryTypes[7];
+    } else if (curCategoryName === ShortCategoryNamesEnum.IMMUNIZATIONS) {
+      return categoryTypes[4];
+    } else if (curCategoryName === ShortCategoryNamesEnum.SOCIAL_HISTORY) {
+      return categoryTypes[9];
     }
     return curCategoryName;
   };
@@ -359,7 +387,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     $scope.chartsData = {
       issuesPerSectionWithGrade: {
         chartTitle: chartTypeEnum.ISSUES_PER_SECTION_WITH_GRADE,
-        chartDescription: "The C-CDA scorecard chart to the left provides a top level view of the data domains, the grade for each domain and the number of issues present in the C-CDA document that was scored.",
+        chartDescription: "The C-CDA scorecard chart to the left provides a top level view of the data domains, the grade for each domain and the number of rubrics scored.",
         movingForwardText: "Providers and implementers can quickly focus on specific domains which have data quality issues and use the detailed reports below to improve the data quality of the C-CDA.",
         displayOnLeft: true,
         isBar: chartFormatBools.isIssuesPerSectionWithGradeBar,

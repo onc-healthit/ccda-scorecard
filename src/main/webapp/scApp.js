@@ -30,6 +30,13 @@ scApp.directive('charts', function() {
 	};
 });
 
+scApp.directive('heatMap', function() {
+    return {
+        restrict : 'E',
+        templateUrl : 'heatMap.html'
+    };
+});
+
 scApp.directive('detailedResults', function() {
 	return {
 		restrict : 'E',
