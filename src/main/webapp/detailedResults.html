@@ -10,12 +10,14 @@
         <div id="{{currentCategory.categoryName}}"
           class="panel panel-primary removeBorder">
 
-          <div class="panel-heading categoryPanelHeading" style="border-radius: 0px">
+            <div ng-class="calculateCategoryColor('panel-heading categoryPanelHeading', currentCategory.categoryGrade, 'A')"
+                 class="panel-heading categoryPanelHeading" style="border-radius: 0px">
+            <!--<div class="panel-heading categoryPanelHeading heatMapA" style="border-radius: 0px">-->
             <h2 class="panel-title">
               <a data-toggle="collapse" data-parent="#catAccordion{{$index}}" 
                 href="#scorecardCategoryData{{$index}}">{{currentCategory.categoryName}}</a>
-              <span ng-class="scoringContextSubRoutine('categoryGrade pull-right label label-', currentCategory.categoryGrade, 'A')" 
-                class="categoryGrade pull-right label">{{currentCategory.categoryGrade}}</span>
+              <!--<span ng-class="scoringContextSubRoutine('categoryGrade pull-right label label-', currentCategory.categoryGrade, 'A')" 
+                class="categoryGrade pull-right label">{{currentCategory.categoryGrade}}</span>-->
             </h2>            
           </div>
           
@@ -33,9 +35,7 @@
             <div class="panel-body">
 
               <!-- 'rubric' is the unamed 'issue' object for each category -->
-              <div ng-repeat="rubric in currentCategory.categoryRubrics"
-                ng-class="updateScoringCriteriaContextClass(rubric.actualPoints, rubric, ContextEnum.REQUIREMENT_PANEL)"
-                class="panel">
+              <div ng-repeat="rubric in currentCategory.categoryRubrics" class="panel basicBorder">
                 <div class="panel-heading requirementWrapper">
                   <h3 class="panel-title">
                     <a data-toggle="collapse"
@@ -43,7 +43,7 @@
                     <span
                       ng-class="updateScoringCriteriaContextClass(rubric.actualPoints, rubric, ContextEnum.LABEL)"
                       class="label pull-right label-default">{{rubric.actualPoints}}
-                      / {{rubric.maxPoints}}</span>
+                      / {{rubric.maxPoints}} Points</span>
                   </h3>
                 </div>
 
@@ -67,7 +67,27 @@
                     </div>
 
                     <!--START DETAILS TABLE -->
-                    <h3>Details</h3>
+                      <a data-toggle="collapse" href
+                         data-target="#theTable{{$parent.$index}}-{{$index}}"><h3>Details</h3></a>
+                      <div id="theTable{{$parent.$index}}-{{$index}}" class="collapse out">
+                          <table class="table table-striped table-condensed">
+                              <thead>
+                                  <tr>
+                                      <th>More Information</th>
+                                      <th>HL7 Task Force</th>
+                                      <th>C-CDA Implementation Guide</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <td>&lt;Helpful information about the issue&gt;</td>
+                                      <td>&lt;Dynamic http external link to related task force example&gt;</td>
+                                      <td>&lt;Static http external link to IG with section referenced&gt;</td>
+                                  </tr>                              
+                              </tbody>
+                          </table>                      
+                      </div>
+                    <!--
                     <div ng-show="rubric.details.rows[0].length > 0"
                       class="commentTable table-responsive">
                       <table class="table table-striped table-condensed">
@@ -83,6 +103,7 @@
                         </tbody>
                       </table>
                     </div>
+                    -->
 
                     <!--START SCORING CRITERIA -->
                     <a id="gradingCriteriaDropdownButtonId{{$parent.$index}}-{{$index}}" class="gradingCriteriaDropdownButton"
@@ -99,11 +120,9 @@
                       class="collapse out">
                       <ul class="list-group" style="margin-left: 0px; margin-bottom: 0px">
                         <li
-                          ng-repeat="(pointKey, point) in rubric.points"
-                          ng-class="updateScoringCriteriaContextClass(pointKey, rubric, ContextEnum.LIST_GROUP_ITEM)"
-                          class="list-group-item">{{point}} <span
+                          ng-repeat="(pointKey, point) in rubric.points" class="list-group-item">{{point}} <span
                           ng-class="updateScoringCriteriaContextClass(pointKey, rubric, ContextEnum.LABEL)"
-                          class="label pull-right label-default">{{pointKey}}</span>
+                          class="label pull-right label-default">{{pointKey === '1' ? pointKey + " Point" : pointKey + " Points"}}</span>
                         </li>
                       </ul>
                     </div>

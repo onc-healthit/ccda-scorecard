@@ -4,7 +4,7 @@
     "finalNumericalGrade": 87,
     "categoryList": [{
       "categoryName": "Patient Information",
-      "categoryGrade": "B",
+      "categoryGrade": "A",
       "categoryRubrics": [{
         "requirement": "Patient in CCDA should contain proper address and telecom information",
         "issue": null,
@@ -113,7 +113,7 @@
       }]
     }, {
       "categoryName": "Allergies",
-      "categoryGrade": "B",
+      "categoryGrade": "C",
       "categoryRubrics": [{
         "requirement": "All effective time elements under allergies section should contain proper precision",
         "issue": null,
@@ -141,7 +141,7 @@
       }]
     }, {
       "categoryName": "Problems",
-      "categoryGrade": "B",
+      "categoryGrade": "D",
       "categoryRubrics": [{
         "requirement": "CCDA document should contain problem section",
         "issue": null,
@@ -181,7 +181,7 @@
       }]
     }, {
       "categoryName": "Medications",
-      "categoryGrade": "B",
+      "categoryGrade": "E",
       "categoryRubrics": [{
         "requirement": "CCDA document should contain Medication section",
         "issue": null,

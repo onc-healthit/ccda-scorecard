@@ -10,7 +10,7 @@
       scoring system, which allows implementers to improve the data
       quality and representation of their C-CDA documents, thereby
       increasing the precision of documents used in the real-world.</p>
-    <p>Please note: Scoring and validation may take up to one minute to run.</p>
+    <p>Please note: Scoring may take up to one minute to run.</p>
 
     <div id="CCDAAccordion">
 
@@ -35,6 +35,7 @@
 
                   <ol>
 
+                    <!--
                     <li>Select results desired.
                       <div class="form-group">
                         <select
@@ -45,15 +46,15 @@
                         </select>
                       </div>
                     </li>
+                    -->
 
-                    <li>Upload generated C-CDA file to score.
+                    <li>Upload C-CDA file to score.
                       <div style="position: relative;">
                         <div class="row">
                           <div class="col-md-12 form-group">
                             <span
                               class="btn btn-success fileinput-button">
-                              <i class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload
-                                a C-CDA File...</span> <input type="file"
+                              <i class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload</span> <input type="file"
                               ngf-select ng-model="ccdaScFile"
                               name="file" accept=".xml"
                               ngf-max-size="3MB" required
@@ -80,7 +81,7 @@
                           class="btn btn-primary start"
                           data-toggle="modal" data-target="#resultModal"
                           tabindex="1" type="button">
-                          <i class="glyphicon glyphicon-ok"></i> <span>Generate Scorecard</span>
+                          <i class="glyphicon glyphicon-ok"></i> <span>Score</span>
                         </button>
                         <!--progress bar-->
                         <span class="progress"

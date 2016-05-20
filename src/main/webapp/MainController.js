@@ -7,7 +7,8 @@ scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$ti
 	
 	$scope.mainDebug = {
 		inDebugMode: false,
-		useLocalTestDataForServices: false
+		useLocalTestDataForServices: false,
+    inDevelopmentMode: true
 	};
 	
     $scope.jumpToElementViaId = function(elementId, weWait, timeToWaitInMiliseconds) {
