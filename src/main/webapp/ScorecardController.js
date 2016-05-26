@@ -28,8 +28,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   }
   var chartAndCategoryIndexMap = [];
   
-  $scope.categoryListByGradeFirstColumn = [];
-  $scope.categoryListByGradeSecondColumn = [];  
+  $scope.categoryListByGradeFirstColumn = $scope.categoryListByGradeSecondColumn = $scope.categoryListByGradeThirdColumn = [];
   
   //if the SiteUploadControllers $scope.jsonScorecardData changes, 
   //then the service was called and returned new results,
@@ -66,8 +65,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  $scope.errorData.getJsonDataError = "";
 	  $scope.errorData.getJsonDataErrorForUser = "";
 	  chartAndCategoryIndexMap = [];
-	  $scope.categoryListByGradeFirstColumn = [];
-	  $scope.categoryListByGradeSecondColumn = [];	  
+	  $scope.categoryListByGradeFirstColumn = $scope.categoryListByGradeSecondColumn = $scope.categoryListByGradeThirdColumn = [];
   };
 
   //adjust the chart type here and it will be reflected live using $scope.charts.currentChartOption
@@ -160,7 +158,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
                 return classPrefix + " heatMapD";          
             }
         }
-        return classPrefix + " " + unknownGradeColor;
+        return classPrefix + " unknownGradeColor";
     };    
 
   var calculateCategoryIndex = function(chartIndexClicked) {
@@ -210,29 +208,46 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     
   //*************HEAT MAP RELATED****************    
 
-  var populateCategoryListsByGrade = function() {
-    
-    var allCategories = [];
-    for (var catIndex = 0; catIndex < $scope.categories.length; catIndex++) {
-      var curCategory = $scope.categories[catIndex];
-      var name = curCategory.categoryName;
-      var grade = curCategory.categoryGrade;
-      var issues = curCategory.numberOfIssues;
-      var score = curCategory.categoryNumericalScore;      
-      var sectionData = {
-        name: truncateCategoryName(name),
-        grade: grade,
-        sectionIssueCount: issues,
-        score: score
+    var populateCategoryListsByGrade = function() {
+
+      var allCategories = [];
+      for (var catIndex = 0; catIndex < $scope.categories.length; catIndex++) {
+        var curCategory = $scope.categories[catIndex];
+        var name = curCategory.categoryName;
+        var grade = curCategory.categoryGrade;
+        var issues = curCategory.numberOfIssues;
+        var score = curCategory.categoryNumericalScore;
+//        name: truncateCategoryName(name),
+        var sectionData = {
+          name: name,
+          grade: grade,
+          sectionIssueCount: issues,
+          score: score
+        };
+        allCategories.push(sectionData);
       };
-      allCategories.push(sectionData);
+      
+      if(allCategories.length < 12) {
+        var emptySectionData = {
+          name: "UNK",
+          grade: "UNK",
+          sectionIssueCount: 0,
+          score: 0
+        };
+        if(allCategories.length === 10) {
+          allCategories.push(emptySectionData, emptySectionData);
+        } else if(allCategories.length === 11) {
+          allCategories.push(emptySectionData);
+        }
+      }
+
+      allCategories.sort(compareNumericalGradesInSectionData);
+
+      $scope.categoryListByGradeFirstColumn = allCategories.slice(0, 4);
+      $scope.categoryListByGradeSecondColumn = allCategories.slice(4, 8);
+      $scope.categoryListByGradeThirdColumn = allCategories.slice(8, allCategories.length);
+
     };
-    
-    allCategories.sort(compareNumericalGradesInSectionData);
-    $scope.categoryListByGradeFirstColumn = allCategories.slice(0, allCategories.length / 2);
-    $scope.categoryListByGradeSecondColumn = allCategories.slice(allCategories.length / 2, allCategories.length);
-    
-  };
   
   var compareNumericalGradesInSectionData = function(a, b) {
     if (a.score > b.score)
@@ -243,24 +258,52 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       return 0;
   };
   
-  $scope.getHeatMapCategoryName = function(row, isFirstColumn) {
-    return isFirstColumn ? $scope.categoryListByGradeFirstColumn[row].name : $scope.categoryListByGradeSecondColumn[row].name;
-  };
-
-  $scope.getHeatMapCategoryGrade = function(row, isFirstColumn) {
-    return isFirstColumn ? $scope.categoryListByGradeFirstColumn[row].grade : $scope.categoryListByGradeSecondColumn[row].grade;
-  };
-
-  $scope.getHeatMapCategoryIssueCount = function(row, isFirstColumn) {
-    return isFirstColumn ? $scope.categoryListByGradeFirstColumn[row].sectionIssueCount : $scope.categoryListByGradeSecondColumn[row].sectionIssueCount;
-  };
-
-  $scope.getGradeClass = function(row, isFirstColumn, classPrefix) {
-    if (isFirstColumn) {
-      return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeFirstColumn[row].grade);
-    } else {
-      return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeSecondColumn[row].grade);
+  $scope.getHeatMapCategoryName = function(row, columnNumber) {
+    switch (columnNumber) {
+      case 1:
+        return $scope.categoryListByGradeFirstColumn[row].name
+      case 2:
+        return $scope.categoryListByGradeSecondColumn[row].name;
+      case 3:
+        return $scope.categoryListByGradeThirdColumn[row].name;
     }
+    return "UNK.";
+  };
+
+  $scope.getHeatMapCategoryGrade = function(row, columnNumber) {
+    switch (columnNumber) {
+      case 1:
+        return $scope.categoryListByGradeFirstColumn[row].grade;
+      case 2:
+        return $scope.categoryListByGradeSecondColumn[row].grade;
+      case 3:
+        return $scope.categoryListByGradeThirdColumn[row].grade;
+    }
+    return "UNK.";
+  };
+
+  $scope.getHeatMapCategoryIssueCount = function(row, columnNumber) {
+    switch (columnNumber) {
+      case 1:
+        return $scope.categoryListByGradeFirstColumn[row].sectionIssueCount;
+      case 2:
+        return $scope.categoryListByGradeSecondColumn[row].sectionIssueCount;
+      case 3:
+        return $scope.categoryListByGradeThirdColumn[row].sectionIssueCount;
+    }
+    return "UNK.";
+  };
+
+  $scope.getGradeClass = function(row, columnNumber, classPrefix) {
+    switch (columnNumber) {
+      case 1:
+        return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeFirstColumn[row].grade);
+      case 2:
+        return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeSecondColumn[row].grade);
+      case 3:
+        return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeThirdColumn[row].grade);
+    }
+    return classPrefix + " unknownGradeColor";
   };
     
   //***************CHART RELATED*****************

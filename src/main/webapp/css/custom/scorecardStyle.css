@@ -7,6 +7,8 @@
     /*    color: black;*/
     text-align: center;
     border-top: 2px solid darkBlue;
+    border-bottom: 2px solid darkBlue;
+    padding-bottom: 6px;
     /*    background-color: white;*/
     /*    margin-top: 5px;*/
 }
@@ -14,7 +16,7 @@
 .scHeading {
     color: black;
     text-align: center;
-    border-top: 2px solid darkBlue;
+/*    border-top: 2px solid darkBlue;*/
     background-color: white;
     margin-top: 5px;
 }
@@ -22,9 +24,9 @@
 .scSubHeading {
 /*    color: black;*/
 /*    text-align: center;*/
-    border-bottom: 1px solid darkBlue;
-    border-left: 1px solid darkBlue;
-    border-right: 1px solid darkBlue;
+/*    border-bottom: 1px solid darkBlue;*/
+/*    border-left: 1px solid darkBlue;*/
+/*    border-right: 1px solid darkBlue;*/
 /*    background-color: white;*/
 /*    margin-top: 5px;    */
 }
@@ -34,21 +36,26 @@
 /*    padding-bottom: 1.53em;*/
 /*        padding-bottom: 95.4px;*/
 /*    padding-bottom: 6.85em;    */
-    border-bottom: 1px solid darkBlue;
-    border-left: 1px solid darkBlue;
-    border-right: 1px solid darkBlue;
+/*    border-bottom: 1px solid darkBlue;*/
+/*    border-left: 1px solid darkBlue;*/
+/*    border-right: 1px solid darkBlue;*/
 }
 
 .scSubHeadingBottom {
-    border-bottom: 1px solid darkBlue;
-    border-left: 1px solid darkBlue;
-    border-right: 1px solid darkBlue;
+/*    border-bottom: 1px solid darkBlue;*/
+/*    border-left: 1px solid darkBlue;*/
+/*    border-right: 1px solid darkBlue;*/
     margin-bottom: 5px;
 }
 
 .scHeaderDescriptionText {
+    text-align: left;
     font-size: 90.1%;
     font-weight: bold;
+}
+
+#topLevelResultsTable {
+    padding-top: 25px
 }
 
 .fitGlyphiconToScHeadingSize {
@@ -69,8 +76,13 @@
 }
 
 .darkGrayBackground {
-/*    background-color: #565656;*/
-    background-color: darkGray;
+/*
+    background-color: lightgray;
+    color: darkgray;
+*/
+    background-color: #ededed;
+    color: #e0e0e0;    
+    
 }
 
 #finalGradeText {
@@ -132,6 +144,7 @@ overriding for a larger heading */
 .panelDropdownButton h2 {
     font-size: xx-large !important;
     border-radius: 0px;
+    margin-top: 18px;
 }
 .categoryPanelHeading h2 {
     font-size: x-large !important;
@@ -275,12 +288,11 @@ we don't use data-target as we don't want the user redirected */
 
 .heatMapRow {
     padding: 15px;
-
 }
 
 .heatMapData {
     /* border: 1px solid black; */
-    /* padding: 15px; */
+    /* padding: 15px; */    
 }
 
 .Acolor {
@@ -359,6 +371,11 @@ we don't use data-target as we don't want the user redirected */
 }
 .heatMapD:focus {
     color: white !important;
+}
+
+.heatMapButton {
+	display: block;
+	width: 100%;
 }
 
 /*

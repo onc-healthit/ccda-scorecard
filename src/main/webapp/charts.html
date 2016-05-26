@@ -1,45 +1,44 @@
 <!-- Charts -->
 <div id="charts" ng-show="true">
 
-  <div id="resultsOverview" class="row">
+  <!-- Access to Results Summary -->
+  <div id="resultsOverview" class="row" ng-show="!uploadDisplay.isLoading">
     <div class="col-md-12">
       <a id="resultsOverviewPanelDropdownAnchor" class="panelDropdownButton" data-toggle="collapse"
         href="#topPanelBody" data-target="#topPanelBody">
           <h2 type="button" class="btn btn-block resultsButton">
-          <span ng-class="getDropdownStateClasses('resultsOverviewPanelDropdownAnchor')"></span>Scorecard Results Summary
+          <span ng-class="getDropdownStateClasses('resultsOverviewPanelDropdownAnchor')"></span>Section Level Scores Summary
         </h2>
       </a>
     </div>
   </div>
 
   <div id="topPanelBody" class="collapse in">
-    <div id="chartWell" class="well removePanelGradient removeBorder">    
- 
-      <div class="row" ng-repeat="chart in chartsData">
-        <div class="col-md-6">
-          <heat-map></heat-map>
-        </div>        
-        <div class="col-md-6" style="padding-bottom: 20px">
-        
-          <span>
-            <h3>C-CDA File</h3>
-            <h4>{{ccdaFileName}}</h4>
-          </span>
-          
-          <h3>{{chart.chartTitle}}</h3>
-          <h4>{{chart.chartDescription}}
-            {{chart.movingForwardText}}</h4>
-            
-          <h3>Basic Result Navigation Options</h3>
-          <h4>
-            <ul style="margin-left: auto">
-              <li>Select a section in the heat map</li>
-              <li>Scroll down to view the full 'Detailed Results'</li>
-              <li>Select <span class="glyphicon glyphicon-triangle-top" title="Back to Summary" alt="Back to Summary Identifier"></span> to return here</li>
-            </ul>
-          </h4>            
-            
-        </div>
+    <div id="chartWell" class="well removePanelGradient removeBorder">
+
+      <div class="col-md-12">
+        <h4>
+          <span ng-show="!uploadDisplay.isLoading">The Section level heat map below</span>
+          <span ng-show="uploadDisplay.isLoading">Once scoring is complete, a section level heat map will appear below. 
+          The heat map</span>
+          <span>displays a top level
+            view of each of the sections that were scored, their grades,
+            and the number of issues per section that need to be
+            addressed. You can view additional details of the issues such
+            as line numbers in the XML causing the issue, Links to HL7
+            examples, and C-CDA IG references by selecting the specific
+            section of interest.</span>
+        </h4>
+        <!--
+            <span>
+                <h3>C-CDA File</h3>
+                <h4>{{ccdaFileName}}</h4>
+            </span>
+        -->
+      </div>
+
+      <div class="col-md-12">
+        <heat-map></heat-map>
       </div>
 
     </div>

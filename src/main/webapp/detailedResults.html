@@ -26,7 +26,7 @@
             <div class="panel-body">
 
               <!-- 'rubric' is the unamed 'issue' object for each category -->
-              <div ng-repeat="rubric in currentCategory.categoryRubrics" class="panel basicBorder">
+              <div ng-repeat="rubric in currentCategory.categoryRubrics" ng-show="rubric.numberOfIssues > 0" class="panel basicBorder">
                 <div class="panel-heading requirementWrapper">
                   <h3 class="panel-title">
                     <a data-toggle="collapse"

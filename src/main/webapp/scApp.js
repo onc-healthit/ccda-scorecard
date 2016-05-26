@@ -93,3 +93,10 @@ scApp.directive('siteFooter', function() {
 		templateUrl : 'siteFooter.html'
 	};
 });
+
+scApp.directive('siteScoringCriteriaModal', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'siteScoringCriteriaModal.html'
+	};
+});
