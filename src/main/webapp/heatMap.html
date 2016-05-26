@@ -1,21 +1,31 @@
-<div id="heatMap">
+<div id="heatMap" ng-show="!uploadDisplay.isLoading">
 
-  <div ng-repeat="row in [0,1,2,3,4]" class="row heatMapRow">
+    <div ng-repeat="row in [0,1,2,3]" class="row heatMapRow">
 
-    <div class="col-md-6 heatMapData">
-      <button ng-click="jumpToCategoryViaName(getHeatMapCategoryName(row, true))" ng-class="getGradeClass(row, true, 'btn btn-large btn-block')" 
-      class="btn btn-large btn-block" type="button" onclick="this.blur();">
-        {{getHeatMapCategoryName(row, true)}}:&nbsp;{{getHeatMapCategoryGrade(row, true)}}&nbsp;({{getHeatMapCategoryIssueCount(row, true)}})
-      </button>
+        <div class="col-md-4 heatMapData">
+            <button ng-click="jumpToCategoryViaName(getHeatMapCategoryName(row, 1))" 
+            ng-class="getGradeClass(row, 1, 'btn btn-large btn-block heatMapButton')" class="btn btn-large btn-block heatMapButton" 
+            type="button" onclick="this.blur();">
+                {{getHeatMapCategoryName(row, 1)}}:&nbsp;{{getHeatMapCategoryGrade(row, 1)}}&nbsp;({{getHeatMapCategoryIssueCount(row, 1)}})
+            </button>
+        </div>
+
+        <div class="col-md-4 heatMapData">
+            <button ng-click="jumpToCategoryViaName(getHeatMapCategoryName(row, 2))" 
+            ng-class="getGradeClass(row, 2, 'btn btn-large btn-block heatMapButton')" class="btn btn-large btn-block heatMapButton" 
+            type="button" onclick="this.blur();">
+                {{getHeatMapCategoryName(row, 2)}}:&nbsp;{{getHeatMapCategoryGrade(row, 2)}}&nbsp;({{getHeatMapCategoryIssueCount(row, 2)}})
+            </button>
+        </div>
+
+        <div class="col-md-4 heatMapData">
+            <button ng-click="jumpToCategoryViaName(getHeatMapCategoryName(row, 3))" 
+            ng-show="getHeatMapCategoryName(row, 3) !== 'UNK'" ng-class="getGradeClass(row, 3, 'btn btn-large btn-block heatMapButton')" 
+            class="btn btn-large btn-block heatMapButton" type="button" onclick="this.blur();">
+                {{getHeatMapCategoryName(row, 3)}}:&nbsp;{{getHeatMapCategoryGrade(row, 3)}}&nbsp;({{getHeatMapCategoryIssueCount(row, 3)}})
+            </button>
+        </div>
+
     </div>
-
-    <div class="col-md-6 heatMapData">
-      <button ng-click="jumpToCategoryViaName(getHeatMapCategoryName(row, false))" ng-class="getGradeClass(row, false, 'btn btn-large btn-block')" 
-      class="btn btn-large btn-block" type="button" onclick="this.blur();">
-        {{getHeatMapCategoryName(row, false)}}:&nbsp;{{getHeatMapCategoryGrade(row, false)}}&nbsp;({{getHeatMapCategoryIssueCount(row, false)}})
-      </button>
-    </div>
-
-  </div>
 
 </div>
