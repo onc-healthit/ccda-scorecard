@@ -1,39 +1,67 @@
 <div class="container-fluid">
 
-    <div id="scHeaderContainer">
-
-        <!-- Final Grade -->
+    <div id="scHeaderContainer">        
+        <div class="row scHeadingSummary">
+            <div class="col-md-12">
+                <h1>C-CDA Scorecard Summary</h1>
+            </div>
+        </div>        
         <div class="row">
             <div class="col-md-4 scHeading">
-                <h1>C-CDA Scorecard</h1>
+                <div class="col-md-12 scCertificationScoreSubHeading">
+                    <h2>Certification Score</h2>
+                    <h2>      
+                        <span ng-show="!calculatedValidationData.certificationResult">
+                        <span>Certifying</span>
+                        <br/>
+                        <img src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 35px; padding-top: 11px; padding-bottom: 5px;">
+                        </span>
+                        <span ng-show="calculatedValidationData.certificationResult">
+                            <div class="col-md-6 fitGlyphiconToScHeadingSize" ng-class="setPassingCertificationColors('col-md-6 fitGlyphiconToScHeadingSize')">
+                                <span class="glyphicon glyphicon-ok" title="Passed Certification" alt="{{calculatedValidationData.certificationResult}}"></span>
+                            </div>
+                            <div class="col-md-6 fitGlyphiconToScHeadingSize" ng-class="setFailingCertificationColors('col-md-6 fitGlyphiconToScHeadingSize')">
+                                <span class="glyphicon glyphicon-remove" title="Failed Certification" alt="{{calculatedValidationData.certificationResult}}"></span>
+                            </div>
+                        </span>
+                    </h2>                        
+                </div>
             </div>
             <div class="col-md-2 scHeading">
-                <h1>
-                    {{jsonData.results.finalGrade ? jsonData.results.finalGrade + " (" + jsonData.results.averageGrade + ")" : "Scoring..."}}
-                </h1>
-            </div>
+                <div class="col-md-12 scSubHeading">
+                    <h2>Grade</h2>
+                </div>
+                <div class="col-md-12 scSubHeading">
+                    <h2>Score</h2>
+                </div>
+                <div class="col-md-12 scSubHeadingBottom">
+                    <h2>Issues</h2>
+                </div>
+            </div>            
             <div class="col-md-2 scHeading">
-                <h1>
-                    {{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade + " / 100" : "Scoring..."}}
-                </h1>
+                <div class="col-md-12 scSubHeading">
+                    <h2>{{jsonData.results.finalGrade ? jsonData.results.finalGrade + " (" + jsonData.results.industryAverageGrade + ")" : "Scoring..."}}</h2>
+                </div>
+                <div class="col-md-12 scSubHeading">
+                    <h2>{{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade + " / 100" : "Scoring..."}}</h2>
+                </div>
+                <div class="col-md-12 scSubHeadingBottom">
+                    <h2>{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>
+                </div>
             </div>
-            <div class="col-md-2 scHeading">
-                <h1>{{jsonData.results.finalGrade ? totalNumberOfFailingScorecardIssues : "Scoring..."}}</h1>
-            </div>
-            <div class="col-md-2 scHeading">
-                <h1>
-                    <!--{{calculatedValidationData.certificationResult ? calculatedValidationData.certificationResult : "Validating..."}}-->
-                    <span ng-show="!calculatedValidationData.certificationResult">Certifying
-<!--                      <img src="images/validationSpinner.gif"
-                           alt="scorecard loading indicator" style="width: 35px"> -->
-                    </span>
-                    <span ng-show="calculatedValidationData.certificationResult && calculatedValidationData.passedCertification" class="glyphicon glyphicon-ok fitGlyphiconToScHeadingSize" title="Passed Certification" alt="{{calculatedValidationData.certificationResult}}"></span>
-                    <span ng-show="calculatedValidationData.certificationResult && !calculatedValidationData.passedCertification" class="glyphicon glyphicon-remove fitGlyphiconToScHeadingSize" title="Failed Certification" alt="{{calculatedValidationData.certificationResult}}"></span>
-                </h1>
-            </div>
+            <div class="col-md-4 scHeading">
+                <div class="col-md-12 scSubHeading">                        
+                    <h5 class="scHeaderDescriptionText">Your document scored {{jsonData.results.finalGrade && jsonData.results.finalGrade === 'A' ? 'an' : 'a'}}&nbsp;{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "?"}} compared to an industry average of {{jsonData.results.finalGrade ? jsonData.results.industryAverageGrade : "?"}}.</h5>
+                </div>
+                <div class="col-md-12 scSubHeading">
+                    <h5 class="scHeaderDescriptionText">Your document scored {{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade : "?"}} out of 100 total possible points.</h5>
+                </div>
+                <div class="col-md-12 scSubHeadingBottom">
+                    <h5 class="scHeaderDescriptionText">There are {{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "?"}} specific improvements that you can make to your document.</h5>
+                </div>
+            </div>                
         </div>
-
-    </div>
+    </div>    
 
     <charts></charts>
 
@@ -41,7 +69,7 @@
     <div id="detailedResults" class="row">
         <div class="col-md-12">
             <a id="detailedResultsPanelDropdownAnchor" class="panelDropdownButton" data-toggle="collapse" href="#mainPanelBody" data-target="#mainPanelBody">
-                <h2 ng-click="jumpToElementViaId('detailedResults', true, 0)" type="button" class="btn btn-block resultsButton">
+                <h2 ng-click="jumpToElementViaId('detailedResults', true, 100)" type="button" class="btn btn-block resultsButton">
                     <span ng-class="getDropdownStateClasses('detailedResultsPanelDropdownAnchor')"></span>Scorecard Detailed Results
                 </h2>
             </a>
