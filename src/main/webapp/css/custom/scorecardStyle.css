@@ -1,13 +1,76 @@
+#scHeaderContainer {
+    /*    width: 97.2%;*/
+    margin: auto;
+}
+
+.scHeadingSummary {
+    /*    color: black;*/
+    text-align: center;
+    border-top: 2px solid darkBlue;
+    /*    background-color: white;*/
+    /*    margin-top: 5px;*/
+}
+
 .scHeading {
     color: black;
     text-align: center;
-    border: 1px solid darkBlue;
+    border-top: 2px solid darkBlue;
     background-color: white;
     margin-top: 5px;
 }
 
+.scSubHeading {
+/*    color: black;*/
+/*    text-align: center;*/
+    border-bottom: 1px solid darkBlue;
+    border-left: 1px solid darkBlue;
+    border-right: 1px solid darkBlue;
+/*    background-color: white;*/
+/*    margin-top: 5px;    */
+}
+
+.scCertificationScoreSubHeading {
+    padding-bottom: 7.44px;
+/*    padding-bottom: 1.53em;*/
+/*        padding-bottom: 95.4px;*/
+/*    padding-bottom: 6.85em;    */
+    border-bottom: 1px solid darkBlue;
+    border-left: 1px solid darkBlue;
+    border-right: 1px solid darkBlue;
+}
+
+.scSubHeadingBottom {
+    border-bottom: 1px solid darkBlue;
+    border-left: 1px solid darkBlue;
+    border-right: 1px solid darkBlue;
+    margin-bottom: 5px;
+}
+
+.scHeaderDescriptionText {
+    font-size: 90.1%;
+    font-weight: bold;
+}
+
 .fitGlyphiconToScHeadingSize {
-    font-size: 0.9em;
+    font-size: 2.0em;
+    padding: 15px;        
+/*    border-radius: 100%;*/
+/*    border: 1px solid darkBlue;*/
+}
+
+.passCertColor {
+    color: green;
+    background-color: #e6ffe6;
+}
+
+.failCertColor {
+    color: red;
+    background-color: #ffe6e6;
+}
+
+.darkGrayBackground {
+/*    background-color: #565656;*/
+    background-color: darkGray;
 }
 
 #finalGradeText {
@@ -39,11 +102,6 @@
     border: 1px solid darkBlue;
     /* background-color: #428bca; */
     background-color: #3498db;
-}
-
-#scHeaderContainer {
-    width: 97.2%;
-    margin: auto;
 }
 
 #ccdaFileHeading {
@@ -242,27 +300,47 @@ we don't use data-target as we don't want the user redirected */
     background-color: lightGray !important;
 }
 
-.heatMapA {
-    background-color: #87B822 !important;
+.heatMapAPlus {
+/*    background-color: #87B822 !important;*/
+    background-color: #01B830 !important;
     color: white !important;
 }
-.heatMapA:hover {
+.heatMapAPlus:hover {
     font-weight: bold;
 }
-.heatMapA:focus {
+.heatMapAPlus:focus {
     color: white;
 }
-.heatMapB {
-    background-color: #F0C42C !important;
+.heatMapAMinus {    
+    background-color: #018833 !important;
+    color: white !important;
 }
-.heatMapB:hover {
+.heatMapAMinus:hover {
     font-weight: bold;
 }
-.heatMapB:focus {
+.heatMapAMinus:focus {
+    color: white;
+}
+.heatMapBPlus {
+    background-color: #F0EF6C !important;
+}
+.heatMapBPlus:hover {
+    font-weight: bold;
+}
+.heatMapBPlus:focus {
+}
+.heatMapBMinus {
+    background-color: #FFE00C !important;
+    background-color: #F0E002 !important;
+}
+.heatMapBMinus:hover {
+    font-weight: bold;
+}
+.heatMapBMinus:focus {
 }
 .heatMapC {
-    background-color: #F1784D !important;
-    color: white !important;
+    background-color: #F1704A !important;
+/*    color: white !important;*/
 }
 .heatMapC:hover {
     font-weight: bold;
@@ -271,14 +349,16 @@ we don't use data-target as we don't want the user redirected */
     color: white;
 }
 .heatMapD {
-    background-color: #F1784D !important;
-    color: white;
+/*    background-color: #F1784D !important;*/
+/*    background-color: #96281B !important;*/
+    background-color: #C0392B !important;    
+    color: white !important;
 }
 .heatMapD:hover {
     font-weight: bold;
 }
 .heatMapD:focus {
-    color: white;
+    color: white !important;
 }
 
 /*

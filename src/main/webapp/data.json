@@ -1,333 +1,634 @@
 {
-  "results": {
-    "finalGrade": "B",
-    "finalNumericalGrade": 87,
-    "categoryList": [{
-      "categoryName": "Patient Information",
-      "categoryGrade": "A",
-      "categoryRubrics": [{
-        "requirement": "Patient in CCDA should contain proper address and telecom information",
-        "issue": null,
-        "details": null,
-        "comment": "Patient element has both address and telecom details",
-        "subCategory": "Contact",
-        "points": {
-          "0": "Address and telecom are not present",
-          "1": "Either address or telecom present",
-          "2": "Both address and telecom present"
-        },
-        "maxPoints": 2,
-        "actualPoints": 2
-      }, {
-        "requirement": "Patient in CCDA should contain DOB",
-        "issue": null,
-        "details": null,
-        "comment": "Patient element contains Date of birth",
-        "subCategory": "DOB",
-        "points": {
-          "0": "DOB value not present",
-          "1": "DOB value  present"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }, {
-        "requirement": "Patient in CCDA should contain language indicator value as true or false",
-        "issue": null,
-        "details": null,
-        "comment": "Preferred Language attributes specified for patient",
-        "subCategory": "LanguageIndicator",
-        "points": {
-          "0": "Language indicator value not present",
-          "1": "Language indicator value present"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }, {
-        "requirement": "All Effective Time elements under patient section should contain proper precision",
-        "issue": null,
-        "details": null,
-        "comment": "All the time elememts under patient sections has proper precision",
-        "subCategory": "TimePrecision",
-        "points": {
-          "0": "Some Effective Time elements under Patient section missing proper precision",
-          "1": "All the time elements under encounter section has proper precision"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }]
-    }, {
-      "categoryName": "Encounters",
-      "categoryGrade": "B",
-      "categoryRubrics": [{
-        "requirement": "CCDA document should contain encounter section",
-        "issue": null,
-        "details": null,
-        "comment": "Encounter Section present in CCDA document",
-        "subCategory": "Section",
-        "points": {
-          "0": "Encounter section is absent",
-          "1": "Encounter section is present"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }, {
-        "requirement": "Service delivery location should be present within each encounter activity",
-        "issue": null,
-        "details": null,
-        "comment": "All encounter activities contain SDL element",
-        "subCategory": "Service Delivery location",
-        "points": {
-          "0": "None of the encunter activity contains SDL element",
-          "1": "> 0% and < 25% encounter activities have SDL element",
-          "2": "> 25% and < 50% encounter activities have SDL element",
-          "3": "> 50% and < 75% encounter activities have SDL element",
-          "4": "> 75% and < 100% encounter activities have SDL element",
-          "5": "All encounter activities contain SDL element"
-        },
-        "maxPoints": 5,
-        "actualPoints": 5
-      }, {
-        "requirement": "All effective time elements under encounters section should contain proper precision",
-        "issue": null,
-        "details": null,
-        "comment": "Some effective time elements under encounter are not properly precisioned",
-        "subCategory": "TimePrecision",
-        "points": {
-          "0": "Some time elements under encounter section missing proper precision",
-          "1": "All the time elements under encounter section has proper precision"
-        },
-        "maxPoints": 1,
-        "actualPoints": 0
-      }, {
-        "requirement": "All translation elements should contain root code element",
-        "issue": null,
-        "details": null,
-        "comment": "All the teanslations under encounter section has root element",
-        "subCategory": "Translations",
-        "points": {
-          "0": "Some Translations are present with the root elements being null flavors.",
-          "1": "All the Translations under coded elements has root elements"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }]
-    }, {
-      "categoryName": "Allergies",
-      "categoryGrade": "C",
-      "categoryRubrics": [{
-        "requirement": "All effective time elements under allergies section should contain proper precision",
-        "issue": null,
-        "details": null,
-        "comment": "Allergies Section present in CCDA document",
-        "subCategory": "Section",
-        "points": {
-          "0": "Some time elements under Allergies section missing proper precision",
-          "1": "All the time elements under Allergies section has proper precision"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }, {
-        "requirement": "All effective time elements under allergies section should contain proper precision",
-        "issue": null,
-        "details": null,
-        "comment": "Some effective time elements under allergies are not properly precisioned",
-        "subCategory": "TimePrecision",
-        "points": {
-          "0": "Some time elements under Allergies section missing proper precision",
-          "1": "All the time elements under Allergies section has proper precision"
-        },
-        "maxPoints": 1,
-        "actualPoints": 0
-      }]
-    }, {
-      "categoryName": "Problems",
-      "categoryGrade": "D",
-      "categoryRubrics": [{
-        "requirement": "CCDA document should contain problem section",
-        "issue": null,
-        "details": null,
-        "comment": "Problems Section present in CCDA document",
-        "subCategory": "Section",
-        "points": {
-          "0": "Problmes section is absent",
-          "1": "Problems section is present"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }, {
-        "requirement": "All effective time elements under Problems section should contain proper precision",
-        "issue": null,
-        "details": null,
-        "comment": "Some effective time elements under Problems are not properly precisioned",
-        "subCategory": "TimePrecision",
-        "points": {
-          "0": "Some time elements under problems section missing proper precision",
-          "1": "All the time elements under problems section has proper precision"
-        },
-        "maxPoints": 1,
-        "actualPoints": 0
-      }, {
-        "requirement": "All translation elements under Problems section should contain root code element",
-        "issue": null,
-        "details": null,
-        "comment": "All the teanslations under Problems section has root element",
-        "subCategory": "Translations",
-        "points": {
-          "0": "Some Translations are present with the root elements being null flavors.",
-          "1": "All the Translations under coded elements has root elements"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }]
-    }, {
-      "categoryName": "Medications",
-      "categoryGrade": "E",
-      "categoryRubrics": [{
-        "requirement": "CCDA document should contain Medication section",
-        "issue": null,
-        "details": null,
-        "comment": "Medication Section present in CCDA document",
-        "subCategory": "Section",
-        "points": {
-          "0": "Medication section is absent",
-          "1": "Medication section is present"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }, {
-        "requirement": "All effective time elements under Medication section should contain proper precision",
-        "issue": null,
-        "details": null,
-        "comment": "All the time elememts under Medication section has proper precision",
-        "subCategory": "TimePrecision",
-        "points": {
-          "0": "Some time elements under Medication section missing proper precision",
-          "1": "All the time elements under Medication section has proper precision"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }, {
-        "requirement": "All translation elements Medication section should contain root code element",
-        "issue": null,
-        "details": null,
-        "comment": "All the translations under Medication section has root element",
-        "subCategory": "Translations",
-        "points": {
-          "0": "Some Translations under Medication section are present with the root elements being null flavors.",
-          "1": "All the Translations under Medication section has root elements"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }]
-    }, {
-      "categoryName": "Immunizations",
-      "categoryGrade": "B",
-      "categoryRubrics": [{
-        "requirement": "CCDA document should contain Immunization section",
-        "issue": null,
-        "details": null,
-        "comment": "Immunization Section present in CCDA document",
-        "subCategory": "Section",
-        "points": {
-          "0": "Immunization section is absent",
-          "1": "Immunization section is present"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }, {
-        "requirement": "All Effective Time elements under Immunization section should contain proper precision",
-        "issue": null,
-        "details": null,
-        "comment": "All the time elememts under Immunization section has proper precision",
-        "subCategory": "TimePrecision",
-        "points": {
-          "0": "Some time elements under Immunization section missing proper precision",
-          "1": "All the time elements under Immunization section has proper precision"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }, {
-        "requirement": "All translation elements under Immunization should contain root code element",
-        "issue": null,
-        "details": null,
-        "comment": "All the translations under Immunization section has root element",
-        "subCategory": "Translations",
-        "points": {
-          "0": "Some Translations under Immunization section are present with the root elements being null flavors.",
-          "1": "All the Translations under Immunization section has root elements"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }]
-    }, {
-      "categoryName": "Laboratory Tests and Results",
-      "categoryGrade": "B",
-      "categoryRubrics": [{
-        "requirement": "CCDA document should contain lab results section",
-        "issue": null,
-        "details": null,
-        "comment": "Lab Results Section present in CCDA document",
-        "subCategory": "Section",
-        "points": {
-          "0": "Lab results section is absent",
-          "1": "Lab results section is present"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }, {
-        "requirement": "All effective time elements under Results section should contain proper precision",
-        "issue": null,
-        "details": null,
-        "comment": "Some effective time elements under Results are not properly precisioned",
-        "subCategory": "TimePrecision",
-        "points": {
-          "0": "Some time elements under Results section missing proper precision",
-          "1": "All the time elements under Results section has proper precision"
-        },
-        "maxPoints": 1,
-        "actualPoints": 0
-      }]
-    }, {
-      "categoryName": "Vital Signs",
-      "categoryGrade": "B",
-      "categoryRubrics": [{
-        "requirement": "CCDA document should contain vitals section",
-        "issue": null,
-        "details": null,
-        "comment": "Vitals Section present in CCDA document",
-        "subCategory": "Section",
-        "points": {
-          "0": "Vitals section is absent",
-          "1": "Vitals section is present"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }, {
-        "requirement": "All effective time elements under Vitals section should contain proper precision",
-        "issue": null,
-        "details": null,
-        "comment": "All the time elememts under Vitals section has proper precision",
-        "subCategory": "TimePrecision",
-        "points": {
-          "0": "Some time elements under Vitals section missing proper precision",
-          "1": "All the time elements under Vitals section has proper precision"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }, {
-        "requirement": "All translation elements under Vitals should contain root code element",
-        "issue": null,
-        "details": null,
-        "comment": "All the translations under Vitals section has root element",
-        "subCategory": "Translations",
-        "points": {
-          "0": "Some Translations under Vitals are present with the root elements being null flavors.",
-          "1": "All the Translations under coded elements has root elements"
-        },
-        "maxPoints": 1,
-        "actualPoints": 1
-      }]
-    }]
-  },
-  "success": true
+    "results": {
+        "finalGrade": "D",
+        "finalNumericalGrade": 68,
+        "categoryList": [{
+            "categoryName": "Allergies",
+            "categoryGrade": "B-",
+            "categoryNumericalScore": 85,
+            "categoryRubrics": [{
+                "rule": "All code elements under allergies section should contain valid display names",
+                "numberOfIssues": 2,
+                "issuesList": [{
+                    "lineNumber": "592",
+                    "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"48765-2\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                }, {
+                    "lineNumber": "666",
+                    "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"419511003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Propensity to adverse reaction to drug\" xsi:type=\"CD\">\r\n                              <originalText>\r\n                                 <reference value=\"#reaction2\"/>\r\n                              </originalText>\r\n                           </value>"
+                }],
+                "exampleTaskForceLinks": ["https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml", "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ALLERGY_Substance_with_UNII.xml"],
+                "igReferences": ["Section #.#.# CONF:ABC", "Section #.#.# CONF:DEF"],
+                "description": "Code Display Name validation Rubric failed for Allergies"
+            }, {
+                "rule": "All effective time elements under allergies section should contain proper precision and format with correct offset",
+                "numberOfIssues": 0,
+                "issuesList": [],
+                "exampleTaskForceLinks": [],
+                "igReferences": [],
+                "description": "Time precision Rubric executed successfully for Allergies"
+            }, {
+                "rule": "All effective time elements under allergies section should contain valid date and time value within human life span",
+                "numberOfIssues": 0,
+                "issuesList": [],
+                "exampleTaskForceLinks": null,
+                "igReferences": null,
+                "description": "Time Validation Rubric executed successfully for Allergies"
+            }, {
+                "rule": "Allergies observation effective should align with Allergies concern act effective time",
+                "numberOfIssues": 0,
+                "issuesList": [],
+                "exampleTaskForceLinks": [],
+                "igReferences": [],
+                "description": "Appropriate effective time Rubric executed successfully for Allergies"
+            }],
+            "numberOfIssues": 1
+        }, {
+            "categoryName": "Patient Information",
+            "categoryGrade": "A-",
+            "categoryNumericalScore": 94,
+            "categoryRubrics": [{
+                "requirement": "Patient DOB should be valid and properly precisioned",
+                "issue": 3,
+                "details": null,
+                "comment": "Patient DOB is properly precisioned with valid date",
+                "subCategory": "Patient DOB",
+                "points": {
+                    "0": "DOB is not valid or not precisioned properly",
+                    "1": "DOB is valid and precisioned properly"
+                },
+                "maxPoints": 1,
+                "actualPoints": 1
+            }],
+            "numberOfIssues": 2
+        }, {
+            "categoryName": "Encounters",
+            "categoryGrade": "D",
+            "categoryNumericalScore": 65,
+            "categoryRubrics": [{
+                "requirement": "All effective time elements under Encounters section should contain proper precision and format with correct offset",
+                "issue": 1,
+                "details": null,
+                "comment": "Some effective time elements under encounter are not properly precisioned",
+                "subCategory": "TimePrecision",
+                "points": {
+                    "0": "All effective time elements are not properly precisioned or formatted or doesn't contain proper offset.",
+                    "1": "More than 25% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "2": "More than 50% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "3": "More than 75% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "4": "All effective time elements are properly precisioned, formatted and has correct offset"
+                },
+                "maxPoints": 4,
+                "actualPoints": 0
+            }, {
+                "requirement": "All effective time elements under Encounters section should contain valid date and time value within human life span",
+                "issue": 0,
+                "details": null,
+                "comment": "All the time elememts under encounters section are valid.",
+                "subCategory": "ValidDateTime",
+                "points": {
+                    "0": "None of the effective time element is valid.",
+                    "1": "More than 25% of effective time elements are valid and within human lifespan",
+                    "2": "More than 50% of effective time elements are valid and within human lifespan",
+                    "3": "More than 75% of effective time elements are valid and within human lifespan",
+                    "4": "All effective time elements are are valid and within human lifespan"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }, {
+                "requirement": "All code elements under encounter section should contain valid display names",
+                "issue": 3,
+                "details": null,
+                "comment": "Some code elements under Encounters are not having valid display name",
+                "subCategory": "Valid Display Name",
+                "points": {
+                    "0": "None of the code element has correct display Name",
+                    "1": "More than 25% of code elemeents are having correct display name",
+                    "2": "More than 50% of code elements are having correct display name",
+                    "3": "More than 75% of code elements are having correct display name",
+                    "4": "All code elements are having correct display name"
+                },
+                "maxPoints": 4,
+                "actualPoints": 1
+            }],
+            "numberOfIssues": 3
+        }, {
+            "categoryName": "Problems",
+            "categoryGrade": "C",
+            "categoryNumericalScore": 75,
+            "categoryRubrics": [{
+                "requirement": "All effective time elements under Problems section should contain proper precision and format with correct offset",
+                "issue": 2,
+                "details": null,
+                "comment": "Some effective time elements under Problems are not properly precisioned",
+                "subCategory": "TimePrecision",
+                "points": {
+                    "0": "All effective time elements are not properly precisioned or formatted or doesn't contain proper offset.",
+                    "1": "More than 25% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "2": "More than 50% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "3": "More than 75% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "4": "All effective time elements are properly precisioned, formatted and has correct offset"
+                },
+                "maxPoints": 4,
+                "actualPoints": 3
+            }, {
+                "requirement": "All effective time elements under Problems section should contain valid date and time value within human life span",
+                "issue": 1,
+                "details": null,
+                "comment": "Some effective time elements under problems are not valid or not present within human lifespan",
+                "subCategory": "ValidDateTime",
+                "points": {
+                    "0": "None of the effective time element is valid.",
+                    "1": "More than 25% of effective time elements are valid and within human lifespan",
+                    "2": "More than 50% of effective time elements are valid and within human lifespan",
+                    "3": "More than 75% of effective time elements are valid and within human lifespan",
+                    "4": "All effective time elements are are valid and within human lifespan"
+                },
+                "maxPoints": 4,
+                "actualPoints": 3
+            }, {
+                "requirement": "All code elements under Problems section should contain valid display names",
+                "issue": 2,
+                "details": null,
+                "comment": "Some code elements under Problems are not having valid display name",
+                "subCategory": "Valid Display Name",
+                "points": {
+                    "0": "None of the code element has correct display Name",
+                    "1": "More than 25% of code elemeents are having correct display name",
+                    "2": "More than 50% of code elements are having correct display name",
+                    "3": "More than 75% of code elements are having correct display name",
+                    "4": "All code elements are having correct display name"
+                },
+                "maxPoints": 4,
+                "actualPoints": 2
+            }, {
+                "requirement": "All problem codes are should express with core subset of SNOMED codes",
+                "issue": 3,
+                "details": null,
+                "comment": "All the problem codes are expressed with core subset of SNOMED",
+                "subCategory": "Problem code validation",
+                "points": {
+                    "0": "None of the problem codes are expressed with core subset of SNOMED codes",
+                    "1": "More than 25% of problem codes are expressed with core subset of SNOMED codes",
+                    "2": "More than 50% of problem codes are expressed with core subset of SNOMED codes",
+                    "3": "More than 75% of problem codes are expressed with core subset of SNOMED codes",
+                    "4": "All problem codes are expressed with core subset of SNOMED codes"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }, {
+                "requirement": "All problem concern act status code should align with effective time values",
+                "issue": 3,
+                "details": null,
+                "comment": "Some concenrn act status codes are not aligned with effective time values",
+                "subCategory": "Problem status code",
+                "points": {
+                    "0": "None of the concern act status code is aligned with effective time values",
+                    "1": "More than 25% of concern act status code are aligned with effective time values",
+                    "2": "More than 50% of concern act status code are aligned with effective time values",
+                    "3": "More than 75% of concern act status code are aligned with effective time values",
+                    "4": "All concern act status code are aligned with effective time values"
+                },
+                "maxPoints": 4,
+                "actualPoints": 3
+            }, {
+                "requirement": "Problems observation effective time should align with Problems concern act effective time",
+                "issue": 4,
+                "details": null,
+                "comment": "Some Problems observations effective time are not aligned with Problem Concern effective time",
+                "subCategory": "Time Alignment",
+                "points": {
+                    "0": "None of the Problems observation effective time is aligned with Problem concern act effective time",
+                    "1": "More than 25% of Problems observation effective time is aligned with Problems concern act effective time",
+                    "2": "More than 50% of Problems observation effective time is aligned with Problems concern act effective time",
+                    "3": "More than 75% of Problems observation effective time is aligned with Problems concern act effective time",
+                    "4": "All Problems observations effective are aligned with Problems concern act effective time"
+                },
+                "maxPoints": 4,
+                "actualPoints": 3
+            }, {
+                "requirement": "Problems observation status should align with Problems concern act status",
+                "issue": 0,
+                "details": null,
+                "comment": "Some Problems observations status codes are not aligned with Problem Concern act status code",
+                "subCategory": "Status Align",
+                "points": {
+                    "0": "None of the Problem observation Status code is aligned with Problem concern act status code",
+                    "1": "More than 25% of Problems observation status code is aligned with Problems concern act status code",
+                    "2": "More than 50% of Problems observation status code is aligned with Problems concern act status code",
+                    "3": "More than 75% of Problems observation status code is aligned with Problems concern act status code",
+                    "4": "All Problems observations statu code are aligned with Problems concern act status code"
+                },
+                "maxPoints": 4,
+                "actualPoints": 3
+            }],
+            "numberOfIssues": 4
+        }, {
+            "categoryName": "Medications",
+            "categoryGrade": "C",
+            "categoryNumericalScore": 78,
+            "categoryRubrics": [{
+                "requirement": "All effective time elements under Medication section should contain proper precision and format with correct offset",
+                "issue": null,
+                "details": null,
+                "comment": "All the time elememts under Medication section has proper precision",
+                "subCategory": "TimePrecision",
+                "points": {
+                    "0": "All effective time elements are not properly precisioned or formatted or doesn't contain proper offset.",
+                    "1": "More than 25% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "2": "More than 50% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "3": "More than 75% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "4": "All effective time elements are properly precisioned, formatted and has correct offset"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }, {
+                "requirement": "All effective time elements under Medication section should contain valid date and time value within human life span",
+                "issue": null,
+                "details": null,
+                "comment": "All the time elememts under Medication are valid.",
+                "subCategory": "ValidDateTime",
+                "points": {
+                    "0": "None of the effective time element is valid.",
+                    "1": "More than 25% of effective time elements are valid and within human lifespan",
+                    "2": "More than 50% of effective time elements are valid and within human lifespan",
+                    "3": "More than 75% of effective time elements are valid and within human lifespan",
+                    "4": "All effective time elements are are valid and within human lifespan"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }, {
+                "requirement": "All code elements under Medication section should contain valid display names",
+                "issue": null,
+                "details": null,
+                "comment": "Some code elements under Medication are not having valid display name",
+                "subCategory": "Valid Display Name",
+                "points": {
+                    "0": "None of the code element has correct display Name",
+                    "1": "More than 25% of code elemeents are having correct display name",
+                    "2": "More than 50% of code elements are having correct display name",
+                    "3": "More than 75% of code elements are having correct display name",
+                    "4": "All code elements are having correct display name"
+                },
+                "maxPoints": 4,
+                "actualPoints": 1
+            }, {
+                "requirement": "All Immunizations should be under Immunization section and not in Medication section",
+                "issue": null,
+                "details": null,
+                "comment": "No Immunizations under Medication section",
+                "subCategory": "Valid Medication Activities",
+                "points": {
+                    "0": "No Immunizations under Medication section",
+                    "1": "Immunizations should be under Immunization section and not in Medication section"
+                },
+                "maxPoints": 1,
+                "actualPoints": 1
+            }],
+            "numberOfIssues": 5
+        }, {
+            "categoryName": "Immunizations",
+            "categoryNumericalScore": 68,
+            "categoryGrade": "D",
+            "categoryRubrics": [{
+                "requirement": "All effective time elements under Immunization section should contain proper precision and format with correct offset",
+                "issue": null,
+                "details": null,
+                "comment": "All the time elememts under Immunization section are properly precisioned",
+                "subCategory": "TimePrecision",
+                "points": {
+                    "0": "All effective time elements are not properly precisioned or formatted or doesn't contain proper offset.",
+                    "1": "More than 25% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "2": "More than 50% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "3": "More than 75% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "4": "All effective time elements are properly precisioned, formatted and has correct offset"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }, {
+                "requirement": "All effective time elements under Immunization section should contain valid date and time value within human life span",
+                "issue": null,
+                "details": null,
+                "comment": "All the time elememts under Immunization are valid.",
+                "subCategory": "ValidDateTime",
+                "points": {
+                    "0": "None of the effective time element is valid.",
+                    "1": "More than 25% of effective time elements are valid and within human lifespan",
+                    "2": "More than 50% of effective time elements are valid and within human lifespan",
+                    "3": "More than 75% of effective time elements are valid and within human lifespan",
+                    "4": "All effective time elements are are valid and within human lifespan"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }, {
+                "requirement": "All code elements under Immunization section should contain valid display names",
+                "issue": null,
+                "details": null,
+                "comment": "Some code elements under Immunization are not having valid display name",
+                "subCategory": "Valid Display Name",
+                "points": {
+                    "0": "None of the code element has correct display Name",
+                    "1": "More than 25% of code elemeents are having correct display name",
+                    "2": "More than 50% of code elements are having correct display name",
+                    "3": "More than 75% of code elements are having correct display name",
+                    "4": "All code elements are having correct display name"
+                },
+                "maxPoints": 4,
+                "actualPoints": 0
+            }],
+            "numberOfIssues": 6
+        }, {
+            "categoryName": "Social History",
+            "categoryGrade": "B+",
+            "categoryNumericalScore": 89,            
+            "categoryRubrics": [{
+                "requirement": "All effective time elements under Social History section should contain proper precision and format with correct offset",
+                "issue": null,
+                "details": null,
+                "comment": "Some effective time elements under Social History are not properly precisioned",
+                "subCategory": "TimePrecision",
+                "points": {
+                    "0": "All effective time elements are not properly precisioned or formatted or doesn't contain proper offset.",
+                    "1": "More than 25% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "2": "More than 50% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "3": "More than 75% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "4": "All effective time elements are properly precisioned, formatted and has correct offset"
+                },
+                "maxPoints": 4,
+                "actualPoints": 3
+            }, {
+                "requirement": "All effective time elements under Social History section should contain proper precision and format with correct offset",
+                "issue": null,
+                "details": null,
+                "comment": "Some effective time elements under Social History are not valid or not present within human lifespan",
+                "subCategory": "TimePrecision",
+                "points": {
+                    "0": "None of the effective time element is valid.",
+                    "1": "More than 25% of effective time elements are valid and within human lifespan",
+                    "2": "More than 50% of effective time elements are valid and within human lifespan",
+                    "3": "More than 75% of effective time elements are valid and within human lifespan",
+                    "4": "All effective time elements are are valid and within human lifespan"
+                },
+                "maxPoints": 4,
+                "actualPoints": 3
+            }, {
+                "requirement": "All code elements under Social History section should contain valid display names",
+                "issue": null,
+                "details": null,
+                "comment": "All the code elements under Social History are having valid display name",
+                "subCategory": "Valid Display Name",
+                "points": {
+                    "0": "None of the code element has correct display Name",
+                    "1": "More than 25% of code elemeents are having correct display name",
+                    "2": "More than 50% of code elements are having correct display name",
+                    "3": "More than 75% of code elements are having correct display name",
+                    "4": "All code elements are having correct display name"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }, {
+                "requirement": "Smoking status code value should be valid",
+                "issue": null,
+                "details": null,
+                "comment": "Smoking status code is valid",
+                "subCategory": "Valid Smoking status",
+                "points": {
+                    "0": "Smoking status observation value code is Invalid",
+                    "1": "smoking status observation value code is valid"
+                },
+                "maxPoints": 1,
+                "actualPoints": 1
+            }, {
+                "requirement": "Smoking status observation Template Id should be valid",
+                "issue": null,
+                "details": null,
+                "comment": "Smoking status obervation Template Id is valid",
+                "subCategory": "Valid Smoking status ID",
+                "points": {
+                    "0": "Smoking status observation Template ID is Invalid",
+                    "1": "Smoking status observation Template ID is valid"
+                },
+                "maxPoints": 1,
+                "actualPoints": 1
+            }],
+            "numberOfIssues": 7
+        }, {
+            "categoryName": "Laboratory Tests and Results",
+            "categoryGrade": "C",
+            "categoryNumericalScore": 72,
+            "categoryRubrics": [{
+                "requirement": "All effective time elements under Lab Results section should contain proper precision and format with correct offset",
+                "issue": null,
+                "details": null,
+                "comment": "All the time elememts under Results section has proper precision",
+                "subCategory": "TimePrecision",
+                "points": {
+                    "0": "All effective time elements are not properly precisioned or formatted or doesn't contain proper offset.",
+                    "1": "More than 25% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "2": "More than 50% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "3": "More than 75% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "4": "All effective time elements are properly precisioned, formatted and has correct offset"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }, {
+                "requirement": "All effective time elements under Lab Results section should contain valid date and time value within human life span",
+                "issue": null,
+                "details": null,
+                "comment": "All the time elememts under Results are valid.",
+                "subCategory": "TimePrecision",
+                "points": {
+                    "0": "None of the effective time element is valid.",
+                    "1": "More than 25% of effective time elements are valid and within human lifespan",
+                    "2": "More than 50% of effective time elements are valid and within human lifespan",
+                    "3": "More than 75% of effective time elements are valid and within human lifespan",
+                    "4": "All effective time elements are are valid and within human lifespan"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }, {
+                "requirement": "All code elements under Results section should contain valid display names",
+                "issue": null,
+                "details": null,
+                "comment": "Some code elements under Immunization are not having valid display name",
+                "subCategory": "Valid Display Name",
+                "points": {
+                    "0": "None of the code element has correct display Name",
+                    "1": "More than 25% of code elemeents are having correct display name",
+                    "2": "More than 50% of code elements are having correct display name",
+                    "3": "More than 75% of code elements are having correct display name",
+                    "4": "All code elements are having correct display name"
+                },
+                "maxPoints": 4,
+                "actualPoints": 0
+            }, {
+                "requirement": "All LOINC codes under Results section should contain valid UCUM units",
+                "issue": null,
+                "details": null,
+                "comment": "Some LOINC codes under Results doesnt have proper UCUM units",
+                "subCategory": "UCUM validation",
+                "points": {
+                    "0": "None of the LOINC codes has correct UCUM units",
+                    "1": "More than 25% of LOINC codes are having correct UCUM units",
+                    "2": "More than 50% of LOINC codes are having correct UCUM units",
+                    "3": "More than 75% of LOINC codes are having correct UCUM units",
+                    "4": "All LOINC codes are having valid UCUM units"
+                },
+                "maxPoints": 4,
+                "actualPoints": 3
+            }, {
+                "requirement": "Lab results should be expressed with LOINC codes",
+                "issue": null,
+                "details": null,
+                "comment": "Some Lab results are not expressed with LOINC codes",
+                "subCategory": "Labresult code validation",
+                "points": {
+                    "0": "None of the labresults are expressed with LOINC codes",
+                    "1": "More than 25% of labresults are expressed with LOINC codes",
+                    "2": "More than 50% of labresults are expressed with LOINC codes",
+                    "3": "More than 75% of labresults are expressed with LOINC codes",
+                    "4": "All labresults are expressed with LOINC codes"
+                },
+                "maxPoints": 4,
+                "actualPoints": 3
+            }, {
+                "requirement": "Results observation effective should align with Results organizer effective time",
+                "issue": null,
+                "details": null,
+                "comment": "All Results observation effective time are aligned with Results Organizer effective time",
+                "subCategory": "Time Alignment",
+                "points": {
+                    "0": "None of the Results observation effective time is aligned with Results organizer effective time",
+                    "1": "More than 25% of Results observation effective time is aligned with Results organizer effective time",
+                    "2": "More than 50% of Results observation effective time is aligned with Results organizer effective time",
+                    "3": "More than 75% of Results observation effective time is aligned with Results organizer effective time",
+                    "4": "All Results observations effective time are aligned with Results organizer effective time"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }],
+            "numberOfIssues": 8
+        }, {
+            "categoryName": "Vital Signs",
+            "categoryGrade": "D",
+            "categoryNumericalScore": 55,
+            "categoryRubrics": [{
+                "requirement": "All effective time elements under Vitals section should contain proper precision and format with correct offset",
+                "issue": null,
+                "details": null,
+                "comment": "Some effective time elements under Vitals are not properly precioned",
+                "subCategory": "TimePrecision",
+                "points": {
+                    "0": "All effective time elements are not properly precisioned or formatted or doesn't contain proper offset.",
+                    "1": "More than 25% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "2": "More than 50% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "3": "More than 75% of effective time elements are properly precisioned, formatted and has correct offset",
+                    "4": "All effective time elements are properly precisioned, formatted and has correct offset"
+                },
+                "maxPoints": 4,
+                "actualPoints": 1
+            }, {
+                "requirement": "All effective time elements under Vitals section should contain valid date and time value within human life span",
+                "issue": null,
+                "details": null,
+                "comment": "All the time elememts under Vitals section are valid.",
+                "subCategory": "ValidDateTime",
+                "points": {
+                    "0": "None of the effective time element is valid.",
+                    "1": "More than 25% of effective time elements are valid and within human lifespan",
+                    "2": "More than 50% of effective time elements are valid and within human lifespan",
+                    "3": "More than 75% of effective time elements are valid and within human lifespan",
+                    "4": "All effective time elements are are valid and within human lifespan"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }, {
+                "requirement": "All code elements under Vitals section should contain valid display names",
+                "issue": null,
+                "details": null,
+                "comment": "Some code elements under Vitals are not having valid display name",
+                "subCategory": "Valid Display Name",
+                "points": {
+                    "0": "None of the code element has correct display Name",
+                    "1": "More than 25% of code elemeents are having correct display name",
+                    "2": "More than 50% of code elements are having correct display name",
+                    "3": "More than 75% of code elements are having correct display name",
+                    "4": "All code elements are having correct display name"
+                },
+                "maxPoints": 4,
+                "actualPoints": 2
+            }, {
+                "requirement": "Vitals observations should be expressed with LOINC codes",
+                "issue": null,
+                "details": null,
+                "comment": "All Vital observation codes are expressed with LOINC",
+                "subCategory": "Vital observation code validation",
+                "points": {
+                    "0": "None of the vitals are expressed with LOINC codes",
+                    "1": "More than 25% of vitals observations are expressed with LOINC codes",
+                    "2": "More than 50% of vital observations are expressed with LOINC codes",
+                    "3": "More than 75% of vital observations are expressed with LOINC codes",
+                    "4": "All Vital observations are expressed with LOINC codes"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }, {
+                "requirement": "All LOINC codes under Vitals section should contain valid UCUM units",
+                "issue": null,
+                "details": null,
+                "comment": "Some LOINC codes under vitals doesnt have proper UCUM units",
+                "subCategory": "UCUM validation",
+                "points": {
+                    "0": "None of the LOINC codes has correct UCUM units",
+                    "1": "More than 25% of LOINC codes are having correct UCUM units",
+                    "2": "More than 50% of LOINC codes are having correct UCUM units",
+                    "3": "More than 75% of LOINC codes are having correct UCUM units",
+                    "4": "All LOINC codes are having valid UCUM units"
+                },
+                "maxPoints": 4,
+                "actualPoints": 0
+            }, {
+                "requirement": "Vitals observation effective should align with vitals organizer effective time",
+                "issue": null,
+                "details": null,
+                "comment": "All Vitals observation effective time are aligned with Organizer effective time",
+                "subCategory": "Time Alignment",
+                "points": {
+                    "0": "None of the vitals observation effective time is aligned with Vitals organizer effective time",
+                    "1": "More than 25% of vitals observation effective time is aligned with Vitals organizer effective time",
+                    "2": "More than 50% of vital observation effective time is aligned with Vitals organizer effective time",
+                    "3": "More than 75% of vital observation effective time is aligned with Vitals organizer effective time",
+                    "4": "All Vital observations effective are aligned with Vital organizer effective time"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }],
+            "numberOfIssues": 9
+        }, {
+            "categoryName": "Procedures",
+            "categoryGrade": "A+",
+            "categoryNumericalScore": 100,
+            "categoryRubrics": [{
+                "requirement": "All code elements under Procedures section should contain valid display names",
+                "issue": null,
+                "details": null,
+                "comment": "All the code elements under Procedures are having valid display name",
+                "subCategory": "Valid Display Name",
+                "points": {
+                    "0": "None of the code element has correct display Name",
+                    "1": "More than 25% of code elements are having correct display name",
+                    "2": "More than 50% of code elements are having correct display name",
+                    "3": "More than 75% of code elements are having correct display name",
+                    "4": "All code elements are having correct display name"
+                },
+                "maxPoints": 4,
+                "actualPoints": 4
+            }],
+            "numberOfIssues": 10
+        }],
+        "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
+        "industryAverageScore": 90,
+        "industryAverageGrade": "A-",   
+        "numberOfIssues": 50
+    },
+    "success": true
 }

@@ -11,7 +11,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   };
   categoryTypes = Object.freeze([
     "Problems", "Medications", "Allergies", "Procedures", "Immunizations",
-    "Laboratory Tests and Results", "Vital Signs", "Patient Information", "Encounters",
+    "Laboratory Tests and Results", "Vital Signs", "Patient Demographics", "Encounters",
     "Social History"
   ]);
 
@@ -27,6 +27,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   	this.categoryIndex = categoryIndex;
   }
   var chartAndCategoryIndexMap = [];
+  
+  $scope.categoryListByGradeFirstColumn = [];
+  $scope.categoryListByGradeSecondColumn = [];  
   
   //if the SiteUploadControllers $scope.jsonScorecardData changes, 
   //then the service was called and returned new results,
@@ -63,6 +66,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  $scope.errorData.getJsonDataError = "";
 	  $scope.errorData.getJsonDataErrorForUser = "";
 	  chartAndCategoryIndexMap = [];
+	  $scope.categoryListByGradeFirstColumn = [];
+	  $scope.categoryListByGradeSecondColumn = [];	  
   };
 
   //adjust the chart type here and it will be reflected live using $scope.charts.currentChartOption
@@ -78,12 +83,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  //store the sub-data in a more usable/direct manner
 	  $scope.categories = $scope.jsonData.results.categoryList;
 	  $scope.finalGrade = $scope.jsonData.results.finalGrade;
-      //hardcode averageGrade until back-end is implemented for UI prototyping purposes
-      if($scope.mainDebug.inDevelopmentMode) {
-          $scope.jsonData.results.averageGrade = 'C';
-      }
 	  populateTotalNumberOfScorecardIssues();
 	  populateChartsData();
+	  populateCategoryListsByGrade();
   };  
   
   var getAndProcessUploadControllerData = function() {
@@ -98,8 +100,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	      $scope.errorData.getJsonDataError = "Error thrown from ScorecardController: The C-CDA R2.1 Scorecard web service failed to return valid data to the controller when posting " + $scope.ccdaFileName;
 	      console.log('$scope.errorData.getJsonDataError:');
 	      console.log($scope.errorData.getJsonDataError);
-	      $scope.errorData.getJsonDataErrorForUser = "The C-CDA R2.1 Scorecard web service has failed to return valid data. Please try a file other than " + $scope.ccdaFileName + " and report the issue to TestingServices@sitenv.org."
-		  $scope.uploadDisplay.isLoading = false;
+        $scope.errorData.getJsonDataErrorForUser = "The scorecard application is unable to score the C-CDA document. Please try a file other than " + $scope.ccdaFileName + " or contact TestingServices@sitenv.org for help."
+		    $scope.uploadDisplay.isLoading = false;
 	  }
   };
 
@@ -141,21 +143,23 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	return classPrefix + "primary";
   };
     
-    $scope.calculateCategoryColor = function(classPrefix, pointOrGrade, passingComparator) {
+    $scope.calculateCategoryColor = function(classPrefix, grade) {
         //panel-heading categoryPanelHeading
-        if(typeof pointOrGrade !== "undefined") {
-            //0 is red, maxPoints is green, all other points in between are orange
-            if (pointOrGrade === 0 || (pointOrGrade === "C" || pointOrGrade === "D")) {
+        if(typeof grade !== "undefined") {
+            if(grade === "A+") {
+                return classPrefix + " heatMapAPlus";
+            } else if(grade === "A-") {
+                return classPrefix + " heatMapAMinus";
+            } else if(grade === "B+") {
+                return classPrefix + " heatMapBPlus";
+            } else if(grade === "B-") {
+                return classPrefix + " heatMapBMinus";            
+            } else if(grade === "C") {
                 return classPrefix + " heatMapC";
-            } else if (pointOrGrade === passingComparator || ~pointOrGrade.toString().indexOf(passingComparator.toString())) {
-                return classPrefix + " heatMapA";
-            } else {
-                return classPrefix + " heatMapB";
+            } else if(grade === "D") {
+                return classPrefix + " heatMapD";          
             }
         }
-        //this is expected before results are returned from the service.
-        //it allows for a generic color prior to the results as well as 
-        //protects against running functions against undefined variables
         return classPrefix + " " + unknownGradeColor;
     };    
 
@@ -203,7 +207,62 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         elementId = document.getElementById(elementId).parentNode.id;
         $scope.jumpToElementViaId(elementId, weWait, timeToWaitInMiliseconds);
     };
+    
+  //*************HEAT MAP RELATED****************    
 
+  var populateCategoryListsByGrade = function() {
+    
+    var allCategories = [];
+    for (var catIndex = 0; catIndex < $scope.categories.length; catIndex++) {
+      var curCategory = $scope.categories[catIndex];
+      var name = curCategory.categoryName;
+      var grade = curCategory.categoryGrade;
+      var issues = curCategory.numberOfIssues;
+      var score = curCategory.categoryNumericalScore;      
+      var sectionData = {
+        name: truncateCategoryName(name),
+        grade: grade,
+        sectionIssueCount: issues,
+        score: score
+      };
+      allCategories.push(sectionData);
+    };
+    
+    allCategories.sort(compareNumericalGradesInSectionData);
+    $scope.categoryListByGradeFirstColumn = allCategories.slice(0, allCategories.length / 2);
+    $scope.categoryListByGradeSecondColumn = allCategories.slice(allCategories.length / 2, allCategories.length);
+    
+  };
+  
+  var compareNumericalGradesInSectionData = function(a, b) {
+    if (a.score > b.score)
+      return -1;
+    else if (a.score < b.score)
+      return 1;
+    else 
+      return 0;
+  };
+  
+  $scope.getHeatMapCategoryName = function(row, isFirstColumn) {
+    return isFirstColumn ? $scope.categoryListByGradeFirstColumn[row].name : $scope.categoryListByGradeSecondColumn[row].name;
+  };
+
+  $scope.getHeatMapCategoryGrade = function(row, isFirstColumn) {
+    return isFirstColumn ? $scope.categoryListByGradeFirstColumn[row].grade : $scope.categoryListByGradeSecondColumn[row].grade;
+  };
+
+  $scope.getHeatMapCategoryIssueCount = function(row, isFirstColumn) {
+    return isFirstColumn ? $scope.categoryListByGradeFirstColumn[row].sectionIssueCount : $scope.categoryListByGradeSecondColumn[row].sectionIssueCount;
+  };
+
+  $scope.getGradeClass = function(row, isFirstColumn, classPrefix) {
+    if (isFirstColumn) {
+      return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeFirstColumn[row].grade);
+    } else {
+      return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeSecondColumn[row].grade);
+    }
+  };
+    
   //***************CHART RELATED*****************
 
   $scope.pieChartOptions = {
@@ -299,9 +358,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 
   var ShortCategoryNamesEnum = Object.freeze({
     LABORATORY_TESTS_AND_RESULTS: "Lab Results",
-    PATIENT_INFORMATION: "Patient",
-    IMMUNIZATIONS: "Immun.",
-    SOCIAL_HISTORY: "Social H."
+    PATIENT_DEMOGRAPHICS: "Patient"
   });
 
   var setChartData = function(chartType, isBarChart) {
@@ -346,11 +403,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     if (curCategoryName === categoryTypes[5]) {
       return ShortCategoryNamesEnum.LABORATORY_TESTS_AND_RESULTS;
     } else if (curCategoryName === categoryTypes[7]) {
-      return ShortCategoryNamesEnum.PATIENT_INFORMATION;
-    } else if (curCategoryName === categoryTypes[4]) {
-      // return ShortCategoryNamesEnum.IMMUNIZATIONS;
-    } else if (curCategoryName === categoryTypes[9]) {
-      return ShortCategoryNamesEnum.SOCIAL_HISTORY;
+      return ShortCategoryNamesEnum.PATIENT_DEMOGRAPHICS;
     }
     return curCategoryName;
   };
@@ -358,12 +411,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   var detruncateCategoryName = function(curCategoryName) {
     if (curCategoryName === ShortCategoryNamesEnum.LABORATORY_TESTS_AND_RESULTS) {
       return categoryTypes[5];
-    } else if (curCategoryName === ShortCategoryNamesEnum.PATIENT_INFORMATION) {
+    } else if (curCategoryName === ShortCategoryNamesEnum.PATIENT_DEMOGRAPHICS) {
       return categoryTypes[7];
-    } else if (curCategoryName === ShortCategoryNamesEnum.IMMUNIZATIONS) {
-      return categoryTypes[4];
-    } else if (curCategoryName === ShortCategoryNamesEnum.SOCIAL_HISTORY) {
-      return categoryTypes[9];
     }
     return curCategoryName;
   };
@@ -432,6 +481,24 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 		  return "glyphicon glyphicon-triangle-right pull-left";
 	  }
 	  return "glyphicon glyphicon-triangle-bottom pull-left";	  
+  };
+    
+  $scope.setPassingCertificationColors = function(classPrefix) {
+      if($scope.calculatedValidationData.passedCertification) {
+          return classPrefix + " passCertColor";
+      } else {
+          return classPrefix + " darkGrayBackground";
+      }
+      return classPrefix;
+  };
+    
+  $scope.setFailingCertificationColors = function(classPrefix) {
+      if(!$scope.calculatedValidationData.passedCertification) {
+          return classPrefix + " failCertColor";
+      } else {
+          return classPrefix + " darkGrayBackground";
+      }
+      return classPrefix;
   };
 
 }]);
