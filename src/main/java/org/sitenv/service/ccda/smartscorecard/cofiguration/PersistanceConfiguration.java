@@ -9,6 +9,7 @@ import org.springframework.beans.factory.config.ServiceLocatorFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
@@ -34,7 +35,10 @@ import java.util.*;
 @EnableTransactionManagement
 @PropertySource("classpath:config.properties")
 @ComponentScan("org.sitenv.service.ccda.smartscorecard")
-@EnableJpaRepositories("org.sitenv.service.ccda.smartscorecard.repositories")
+@EnableJpaRepositories(
+		 entityManagerFactoryRef = "inmemoryEntityManagerFactory", 
+	     transactionManagerRef = "inmemoryTransactionManager",
+	     basePackages = {"org.sitenv.service.ccda.smartscorecard.repositories.inmemory"})
 public class PersistanceConfiguration {
     private static final String HSQL_JDBC_URL_TEMPLATE = "jdbc:hsqldb:file:scorecarddatabase/db;hsqldb.default_table_type=cached;hsqldb.write_delay_millis=10;readonly=false";
     @Value("classpath:schema.sql")
@@ -43,14 +47,15 @@ public class PersistanceConfiguration {
     @Autowired
     private Environment environment;
 
-    @Bean
+    @Bean(name="inmemoryEntityManagerFactory")
+    @Primary
     public EntityManagerFactory entityManagerFactory() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(false);
         vendorAdapter.setShowSql(true);
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("org.sitenv.service.ccda.smartscorecard.entities");
+        factory.setPackagesToScan("org.sitenv.service.ccda.smartscorecard.entities.inmemory");
         Properties jpaProperties = new Properties();
         jpaProperties.put("hibernate.hbm2ddl.auto", "none");
         jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
@@ -62,7 +67,8 @@ public class PersistanceConfiguration {
         return factory.getObject();
     }
 
-    @Bean
+    @Bean(name="inmemoryTransactionManager")
+    @Primary
     public PlatformTransactionManager transactionManager() {
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(entityManagerFactory());
@@ -89,7 +95,8 @@ public class PersistanceConfiguration {
         return populator;
     }
 
-    @Bean
+    @Bean(name = "inmemoryDataSource")
+    @Primary
     public DataSource dataSource() {
         BasicDataSource ds = new BasicDataSource();
         ds.setUrl(HSQL_JDBC_URL_TEMPLATE);

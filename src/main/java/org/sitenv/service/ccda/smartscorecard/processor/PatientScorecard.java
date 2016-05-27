@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sitenv.ccdaparsing.model.CCDAPatient;
+import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
@@ -17,65 +18,27 @@ public class PatientScorecard {
 	{
 		
 		Category patientCategory = new Category();
-		patientCategory.setCategoryName("Patient Information");
+		patientCategory.setCategoryName("Patient Demographics");
 		List<CCDAScoreCardRubrics> patientScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		patientScoreList.add(getDOBTimePrecisionScore(patient));
 		
 		patientCategory.setCategoryRubrics(patientScoreList);
-		patientCategory.setCategoryGrade(calculateSectionGrade(patientScoreList));
+		ApplicationUtil.calculateSectionGradeAndIssues(patientScoreList, patientCategory);
 		
 		return patientCategory;
 		
-	}
-	
-	public static String calculateSectionGrade(List<CCDAScoreCardRubrics> rubricsList)
-	{
-		int actualPoints=0;
-		int maxPoints = 0;
-		float percentage ;
-		for(CCDAScoreCardRubrics rubrics : rubricsList)
-		{
-			actualPoints = actualPoints + rubrics.getActualPoints();
-			maxPoints = maxPoints + rubrics.getMaxPoints();
-		}
-		
-		percentage = (actualPoints * 100)/maxPoints;
-		
-		if(percentage < 70)
-		{
-			return "D";
-		}else if (percentage >=70 && percentage <80)
-		{
-			return "C";
-		}else if(percentage >=80 && percentage <85)
-		{
-			return "B-";
-		}else if(percentage >=85 && percentage <90)
-		{
-			return "B+";
-		}else if(percentage >=90 && percentage <95)
-		{
-			return "A-";
-		}else if(percentage >=95 && percentage <=100)
-		{
-			return "A+";
-		}else
-		{
-			return "UNKNOWN GRADE";
-		}
 	}
 	
 	
 	public static CCDAScoreCardRubrics getDOBTimePrecisionScore(CCDAPatient patient)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
-		timePrecisionScore.setPoints(ApplicationConstants.PATIENT_DOB_POINTS);
-		timePrecisionScore.setRequirement(ApplicationConstants.PATIENT_DOB_REQUIREMENT);
-		timePrecisionScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.PATINET_DOB.getSubcategory());
+		timePrecisionScore.setRule(ApplicationConstants.PATIENT_DOB_REQUIREMENT);
 		
 		int actualPoints = 0;
 		int maxPoints = 1;
-		
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
 		if(patient != null)
 		{
 			if(patient.getDob()!=null)
@@ -84,19 +47,44 @@ public class PatientScorecard {
 				{
 					actualPoints++;
 				}
+				else
+				{
+					issue = new CCDAXmlSnippet();
+					issue.setLineNumber(patient.getDob().getLineNumber());
+					issue.setXmlString(patient.getDob().getXmlString());
+					issuesList.add(issue);
+				}
+			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(patient.getLineNumber());
+				issue.setXmlString(patient.getXmlString());
+				issuesList.add(issue);
 			}
 		}
-		
-		if(maxPoints == actualPoints)
+		else
 		{
-			timePrecisionScore.setComment("Patient DOB is properly precisioned with valid date");
-		}else
-		{
-			timePrecisionScore.setComment("Patient DOB is not propelry precisioned or not a valid date");
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Patient section not present");
+			issue.setXmlString("Patient section not present");
+			issuesList.add(issue);
 		}
 		
 		timePrecisionScore.setActualPoints(actualPoints);
 		timePrecisionScore.setMaxPoints(maxPoints);
+		timePrecisionScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		timePrecisionScore.setIssuesList(issuesList);
+		timePrecisionScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			timePrecisionScore.setDescription("Time precision Rubric failed for Patient DOB");
+			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+		}else 
+		{
+		    timePrecisionScore.setDescription("Time precision Rubric executed successfully for Patient DOB");
+		}
 		return timePrecisionScore;
 	}
 

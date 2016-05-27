@@ -8,6 +8,7 @@ import org.sitenv.ccdaparsing.model.CCDAEncounter;
 import org.sitenv.ccdaparsing.model.CCDAEncounterActivity;
 import org.sitenv.ccdaparsing.model.CCDAEncounterDiagnosis;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
+import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
@@ -29,58 +30,21 @@ public class EncounterScorecard {
 		encounterScoreList.add(getValidDisplayNameScoreCard(encounter));
 		
 		encounterCategory.setCategoryRubrics(encounterScoreList);
-		encounterCategory.setCategoryGrade(calculateSectionGrade(encounterScoreList));
+		ApplicationUtil.calculateSectionGradeAndIssues(encounterScoreList, encounterCategory);
 		
 		return encounterCategory;
 		
 	}
 	
-	public String calculateSectionGrade(List<CCDAScoreCardRubrics> rubricsList)
-	{
-		int actualPoints=0;
-		int maxPoints = 0;
-		float percentage ;
-		for(CCDAScoreCardRubrics rubrics : rubricsList)
-		{
-			actualPoints = actualPoints + rubrics.getActualPoints();
-			maxPoints = maxPoints + rubrics.getMaxPoints();
-		}
-		
-		percentage = (actualPoints * 100)/maxPoints;
-		
-		if(percentage < 70)
-		{
-			return "D";
-		}else if (percentage >=70 && percentage <80)
-		{
-			return "C";
-		}else if(percentage >=80 && percentage <85)
-		{
-			return "B-";
-		}else if(percentage >=85 && percentage <90)
-		{
-			return "B+";
-		}else if(percentage >=90 && percentage <95)
-		{
-			return "A-";
-		}else if(percentage >=95 && percentage <=100)
-		{
-			return "A+";
-		}else
-		{
-			return "UNKNOWN GRADE";
-		}
-	}
-	
 	public  CCDAScoreCardRubrics getTimePrecisionScore(CCDAEncounter encounter)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
-		timePrecisionScore.setPoints(ApplicationConstants.TIME_PRECISION_POINTS);
-		timePrecisionScore.setRequirement(ApplicationConstants.ENCOUNTER_TIME_PRECISION_REQUIREMENT);
-		timePrecisionScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.TIME_PRECISION.getSubcategory());
+		timePrecisionScore.setRule(ApplicationConstants.TIME_PRECISION_REQUIREMENT);
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
 		if(encounter != null)
 		{
 			if(!ApplicationUtil.isEmpty(encounter.getEncActivities()))
@@ -90,11 +54,24 @@ public class EncounterScorecard {
 					maxPoints++;
 					if(encounterActivity.getEffectiveTime() != null)
 					{
-						
 						if(ApplicationUtil.validateMinuteFormat(encounterActivity.getEffectiveTime().getValue()))
 						{
 							actualPoints++;
 						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(encounterActivity.getEffectiveTime().getLineNumber());
+							issue.setXmlString(encounterActivity.getEffectiveTime().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(encounterActivity.getLineNumber());
+						issue.setXmlString(encounterActivity.getXmlString());
+						issuesList.add(issue);
 					}
 						
 					if(!ApplicationUtil.isEmpty(encounterActivity.getDiagnoses()))
@@ -114,7 +91,22 @@ public class EncounterScorecard {
 											{
 												actualPoints++;
 											}
+											else
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(problemObs.getEffTime().getLow().getLineNumber());
+												issue.setXmlString(problemObs.getEffTime().getLow().getXmlString());
+												issuesList.add(issue);
+											}
 										}
+										else
+										{
+											issue = new CCDAXmlSnippet();
+											issue.setLineNumber(problemObs.getEffTime().getLineNumber());
+											issue.setXmlString(problemObs.getEffTime().getXmlString());
+											issuesList.add(issue);
+										}
+										
 										if(problemObs.getEffTime().getHigh() != null)
 										{
 											maxPoints++;
@@ -122,7 +114,21 @@ public class EncounterScorecard {
 											{
 												actualPoints++;
 											}
+											else
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(problemObs.getEffTime().getHigh().getLineNumber());
+												issue.setXmlString(problemObs.getEffTime().getHigh().getXmlString());
+												issuesList.add(issue);
+											}
 										}
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(problemObs.getLineNumber());
+										issue.setXmlString(problemObs.getXmlString());
+										issuesList.add(issue);
 									}
 								}
 							}
@@ -130,36 +136,48 @@ public class EncounterScorecard {
 					}
 				}
 			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(encounter.getLineNumber());
+				issue.setXmlString(encounter.getXmlString());
+				issuesList.add(issue);
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Encounter section not present");
+			issue.setXmlString("Encounter Section not present");
+			issuesList.add(issue);
 		}
 
-		if(maxPoints!=0 && maxPoints == actualPoints)
+		timePrecisionScore.setActualPoints(actualPoints);
+		timePrecisionScore.setMaxPoints(maxPoints);
+		timePrecisionScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		timePrecisionScore.setIssuesList(issuesList);
+		timePrecisionScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
 		{
-			timePrecisionScore.setComment("All the time elememts under encounter section has proper precision");
-		}else
+			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
+			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+		}else 
 		{
-			timePrecisionScore.setComment("Some effective time elements under encounter are not properly precisioned");
+		    timePrecisionScore.setDescription("Time precision Rubric executed successfully for Encounters");
 		}
-		
-		if(maxPoints!=0)
-		{
-			timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
-		}else
-		{
-			timePrecisionScore.setActualPoints(0);
-		}
-		timePrecisionScore.setMaxPoints(4);
 		return timePrecisionScore;
 	}
 	
 	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAEncounter encounter, String birthDate)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
-		validateTimeScore.setPoints(ApplicationConstants.VALID_TIME_POINTS);
-		validateTimeScore.setRequirement(ApplicationConstants.ENCOUNTER_TIMEDATE_VALID_REQUIREMENT);
-		validateTimeScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.TIME_VALIDATION.getSubcategory());
+		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
 		if(encounter != null)
 		{
 			if(!ApplicationUtil.isEmpty(encounter.getEncActivities()))
@@ -173,6 +191,20 @@ public class EncounterScorecard {
 						{
 							actualPoints++;
 						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(encounterActivity.getEffectiveTime().getLineNumber());
+							issue.setXmlString(encounterActivity.getEffectiveTime().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(encounterActivity.getLineNumber());
+						issue.setXmlString(encounterActivity.getXmlString());
+						issuesList.add(issue);
 					}
 						
 					if(!ApplicationUtil.isEmpty(encounterActivity.getDiagnoses()))
@@ -192,7 +224,22 @@ public class EncounterScorecard {
 											{
 												actualPoints++;
 											}
+											else
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(problemObs.getEffTime().getLow().getLineNumber());
+												issue.setXmlString(problemObs.getEffTime().getLow().getXmlString());
+												issuesList.add(issue);
+											}
 										}
+										else
+										{
+											issue = new CCDAXmlSnippet();
+											issue.setLineNumber(problemObs.getEffTime().getLineNumber());
+											issue.setXmlString(problemObs.getEffTime().getXmlString());
+											issuesList.add(issue);
+										}
+										
 										if(problemObs.getEffTime().getHigh() != null)
 										{
 											maxPoints++;
@@ -200,7 +247,21 @@ public class EncounterScorecard {
 											{
 												actualPoints++;
 											}
+											else
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(problemObs.getEffTime().getHigh().getLineNumber());
+												issue.setXmlString(problemObs.getEffTime().getHigh().getXmlString());
+												issuesList.add(issue);
+											}
 										}
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(problemObs.getLineNumber());
+										issue.setXmlString(problemObs.getXmlString());
+										issuesList.add(issue);
 									}
 								}
 							}
@@ -208,36 +269,48 @@ public class EncounterScorecard {
 					}
 				}
 			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(encounter.getLineNumber());
+				issue.setXmlString(encounter.getXmlString());
+				issuesList.add(issue);
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Encounter section not present");
+			issue.setXmlString("Encounter Section not present");
+			issuesList.add(issue);
 		}
 
-		if(maxPoints!=0 && maxPoints == actualPoints)
+		validateTimeScore.setActualPoints(actualPoints);
+		validateTimeScore.setMaxPoints(maxPoints);
+		validateTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		validateTimeScore.setIssuesList(issuesList);
+		validateTimeScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
 		{
-			validateTimeScore.setComment("All the time elememts under encounters section are valid.");
-		}else
+			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
+			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+		}else 
 		{
-			validateTimeScore.setComment("Some effective time elements under Encounters section are not valid or not present within human lifespan");
+			validateTimeScore.setDescription("Time Validation Rubric executed successfully for Encounters");
 		}
-		
-		if(maxPoints!=0)
-		{
-			validateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
-		}else
-		{
-			validateTimeScore.setActualPoints(0);
-		}
-		validateTimeScore.setMaxPoints(4);
 		return validateTimeScore;
 	}
 	
 	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAEncounter encounters)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
-		validateDisplayNameScore.setPoints(ApplicationConstants.VALID_CODE_DISPLAYNAME_POINTS);
-		validateDisplayNameScore.setRequirement(ApplicationConstants.ENCOUNTER_CODE_DISPLAYNAME_REQUIREMENT);
-		validateDisplayNameScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.CODE_DISPLAYNAME_VALIDATION.getSubcategory());
+		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
 		if(encounters != null)
 		{
 			maxPoints++;
@@ -249,6 +322,20 @@ public class EncounterScorecard {
 				{
 					actualPoints++;
 				}
+				else
+				{
+					issue = new CCDAXmlSnippet();
+					issue.setLineNumber(encounters.getSectionCode().getLineNumber());
+					issue.setXmlString(encounters.getSectionCode().getXmlString());
+					issuesList.add(issue);
+				}
+			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(encounters.getLineNumber());
+				issue.setXmlString(encounters.getXmlString());
+				issuesList.add(issue);
 			}
 			
 			if(!ApplicationUtil.isEmpty(encounters.getEncActivities()))
@@ -265,6 +352,20 @@ public class EncounterScorecard {
 						{
 							actualPoints++;
 						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(encounterActivity.getEncounterTypeCode().getLineNumber());
+							issue.setXmlString(encounterActivity.getEncounterTypeCode().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else 
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(encounterActivity.getLineNumber());
+						issue.setXmlString(encounterActivity.getXmlString());
+						issuesList.add(issue);
 					}
 					
 					if(!ApplicationUtil.isEmpty(encounterActivity.getIndications()))
@@ -281,6 +382,20 @@ public class EncounterScorecard {
 								{
 									actualPoints++;
 								}
+								else 
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(indication.getProblemType().getLineNumber());
+									issue.setXmlString(indication.getProblemType().getXmlString());
+									issuesList.add(issue);
+								}
+							}
+							else 
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(indication.getLineNumber());
+								issue.setXmlString(indication.getXmlString());
+								issuesList.add(issue);
 							}
 							
 							if(indication.getProblemCode()!= null)
@@ -291,6 +406,20 @@ public class EncounterScorecard {
 								{
 									actualPoints++;
 								}
+								else 
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(indication.getProblemCode().getLineNumber());
+									issue.setXmlString(indication.getProblemCode().getXmlString());
+									issuesList.add(issue);
+								}
+							}
+							else 
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(indication.getLineNumber());
+								issue.setXmlString(indication.getXmlString());
+								issuesList.add(issue);
 							}
 						}
 					}
@@ -309,6 +438,20 @@ public class EncounterScorecard {
 								{
 									actualPoints++;
 								}
+								else 
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(diagnosis.getEntryCode().getLineNumber());
+									issue.setXmlString(diagnosis.getEntryCode().getXmlString());
+									issuesList.add(issue);
+								}
+							}
+							else 
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(diagnosis.getLineNumber());
+								issue.setXmlString(diagnosis.getXmlString());
+								issuesList.add(issue);
 							}
 							if(!ApplicationUtil.isEmpty(diagnosis.getProblemObs()))
 							{
@@ -323,6 +466,20 @@ public class EncounterScorecard {
 										{
 											actualPoints++;
 										}
+										else 
+										{
+											issue = new CCDAXmlSnippet();
+											issue.setLineNumber(probObs.getProblemType().getLineNumber());
+											issue.setXmlString(probObs.getProblemType().getXmlString());
+											issuesList.add(issue);
+										}
+									}
+									else 
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(probObs.getLineNumber());
+										issue.setXmlString(probObs.getXmlString());
+										issuesList.add(issue);
 									}
 									
 									if(probObs.getProblemCode()!= null)
@@ -333,6 +490,20 @@ public class EncounterScorecard {
 										{
 											actualPoints++;
 										}
+										else 
+										{
+											issue = new CCDAXmlSnippet();
+											issue.setLineNumber(probObs.getProblemCode().getLineNumber());
+											issue.setXmlString(probObs.getProblemCode().getXmlString());
+											issuesList.add(issue);
+										}
+									}
+									else 
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(probObs.getLineNumber());
+										issue.setXmlString(probObs.getXmlString());
+										issuesList.add(issue);
 									}
 									
 									if(!ApplicationUtil.isEmpty(probObs.getTranslationProblemType()))
@@ -346,6 +517,13 @@ public class EncounterScorecard {
 											{
 												actualPoints++;
 											}
+											else 
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(translationCode.getLineNumber());
+												issue.setXmlString(translationCode.getXmlString());
+												issuesList.add(issue);
+											}
 										}
 									}
 								}
@@ -355,23 +533,28 @@ public class EncounterScorecard {
 				}
 			}
 		}
-		
-		if(maxPoints!=0 && maxPoints == actualPoints)
+		else
 		{
-			validateDisplayNameScore.setComment("All the code elements under Encounters are having valid display name");
-		}else
-		{
-			validateDisplayNameScore.setComment("Some code elements under Encounters are not having valid display name");
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Encounter section not present");
+			issue.setXmlString("Encounter section not present");
+			issuesList.add(issue);
 		}
 		
-		if(maxPoints!=0)
+		validateDisplayNameScore.setActualPoints(actualPoints);
+		validateDisplayNameScore.setMaxPoints(maxPoints);
+		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		validateDisplayNameScore.setIssuesList(issuesList);
+		validateDisplayNameScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
 		{
-			validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
-		}else
+			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
+			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+		}else 
 		{
-			validateDisplayNameScore.setActualPoints(0);
+			validateDisplayNameScore.setDescription("code display name validation  Rubric executed successfully for Encounters");
 		}
-		validateDisplayNameScore.setMaxPoints(4);
 		return validateDisplayNameScore;
 	}
 	
