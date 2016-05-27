@@ -2,6 +2,7 @@
 <div id="charts" ng-show="true">
 
   <!-- Access to Results Summary -->
+  <!--
   <div id="resultsOverview" class="row" ng-show="!uploadDisplay.isLoading">
     <div class="col-md-12">
       <a id="resultsOverviewPanelDropdownAnchor" class="panelDropdownButton" data-toggle="collapse"
@@ -12,29 +13,21 @@
       </a>
     </div>
   </div>
+  -->
+    
+  <hr id="certAndMapSeparator"/>
 
-  <div id="topPanelBody" class="collapse in">
+  <!-- <div id="topPanelBody" class="collapse in">-->
+  <div id="topPanelBody">
     <div id="chartWell" class="well removePanelGradient removeBorder">
 
       <div class="col-md-12">
-        <h4>
-          <span ng-show="!uploadDisplay.isLoading">The Section level heat map below</span>
-          <span ng-show="uploadDisplay.isLoading">Once scoring is complete, a section level heat map will appear below. 
-          The heat map</span>
-          <span>displays a top level
-            view of each of the sections that were scored, their grades,
-            and the number of issues per section that need to be
-            addressed. You can view additional details of the issues such
-            as line numbers in the XML causing the issue, Links to HL7
-            examples, and C-CDA IG references by selecting the specific
-            section of interest.</span>
-        </h4>
-        <!--
-            <span>
-                <h3>C-CDA File</h3>
-                <h4>{{ccdaFileName}}</h4>
-            </span>
-        -->
+        <h4>Detailed grades and the number of issues for each of
+          the areas of information present in your document are shown
+          below. You can use it to quickly identify areas within the
+          document that require the most attention. Click on each of the
+          boxes to navigate to the appropriate part of the report that
+          contains additional details on the issues.</h4>
       </div>
 
       <div class="col-md-12">

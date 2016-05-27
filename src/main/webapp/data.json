@@ -241,8 +241,8 @@
       },
       {
         "categoryName": "Medications",
-        "categoryGrade": "B-",
-        "categoryNumericalScore": 80,
+        "categoryGrade": "B+",
+        "categoryNumericalScore": 85,
         "categoryRubrics": [
           {
             "rule": "All effective time elements under Medication section should contain proper precision and format with correct offset",
@@ -726,8 +726,8 @@
       },
       {
         "categoryName": "Procedures",
-        "categoryGrade": "C",
-        "categoryNumericalScore": 75,
+        "categoryGrade": "B-",
+        "categoryNumericalScore": 80,
         "categoryRubrics": [
           {
             "rule": "All code elements under Procedures section should contain valid display names",

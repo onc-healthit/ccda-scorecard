@@ -15,6 +15,7 @@
             <h2 class="panel-title">
               <a data-toggle="collapse" data-parent="#catAccordion{{$index}}" 
                 href="#scorecardCategoryData{{$index}}">{{currentCategory.categoryName}}</a>
+              <span class="pull-right numberOfIssuesHeader">{{ currentCategory.numberOfIssues > 0 ? 'Number of Issues' : ''}}</span>                
               <!--<span ng-class="scoringContextSubRoutine('categoryGrade pull-right label label-', currentCategory.categoryGrade, 'A')" 
                 class="categoryGrade pull-right label">{{currentCategory.categoryGrade}}</span>-->
             </h2>            
@@ -31,7 +32,7 @@
                   <h3 class="panel-title">
                     <a data-toggle="collapse"
                       href="#rubricBody{{$parent.$index}}-{{$index}}">Rule: {{rubric.rule}}</a>
-                      <span class="pull-right" style="vertical-align: 0.17em">{{rubric.numberOfIssues}}&nbsp;{{rubric.numberOfIssues === 1 ? 'occurrence' : 'occurrences'}}</span>
+                      <span class="pull-right" style="vertical-align: 0.17em">{{rubric.numberOfIssues}}</span>
                   </h3>
                 </div>
 
@@ -55,13 +56,13 @@
                       <div ng-show="rubric.numberOfIssues > 0">
                           <div class="row">
                               <div class="col-md-4">
-                                  <a href ng-click="detailsToShow!=='XML' ? detailsToShow='XML' : detailsToShow='NULL'"><h3>XML Snippets</h3></a>
+                                  <a href ng-click="detailsToShow!=='XML' ? detailsToShow='XML' : detailsToShow='NULL'"><h3>Occurrence</h3></a>
                               </div>
                               <div class="col-md-4">
-                                  <a href ng-click="detailsToShow!=='HL7' ? detailsToShow='HL7' : detailsToShow='NULL'"><h3>Link to HL7 Examples</h3></a>
+                                  <a href ng-click="detailsToShow!=='HL7' ? detailsToShow='HL7' : detailsToShow='NULL'"><h3>Best Practice</h3></a>
                               </div>
                               <div class="col-md-4">
-                                  <a href ng-click="detailsToShow!=='IG' ? detailsToShow='IG' : detailsToShow='NULL'"><h3>C-CDA IG Reference</h3></a>
+                                  <a href ng-click="detailsToShow!=='IG' ? detailsToShow='IG' : detailsToShow='NULL'"><h3>Standard</h3></a>
                               </div>                        
                           </div>
                           <div class="row">

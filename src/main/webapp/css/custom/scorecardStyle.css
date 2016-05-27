@@ -133,6 +133,11 @@
     /* margin-top: -20px; */
 }
 
+#certAndMapSeparator {
+/*    margin: 0;*/
+    margin-bottom: 0px;
+}
+
 #chartWell {
     margin-bottom: 0px;
     padding-bottom: 0px;
@@ -175,6 +180,10 @@ overriding for a larger heading */
 
 path {
     cursor: pointer;
+}
+
+.numberOfIssuesHeader {
+    font-size: 65%;
 }
 
 
