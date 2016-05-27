@@ -1,59 +1,64 @@
 package org.sitenv.service.ccda.smartscorecard.model;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class CCDAScoreCardRubrics {
 	
-	private String requirement;
-	private String issue;
-	private String details;
-	private String comment;
-	private String subCategory;
-	private Map<Integer, String> points;
-	private int maxPoints;
+	private String rule;
+	private int numberOfIssues;
+	private List<CCDAXmlSnippet> issuesList;
+	private List<String> exampleTaskForceLinks;
+	private List<String> igReferences;
+	private String description;
+	@JsonIgnore
 	private int actualPoints;
+	@JsonIgnore
+	private int maxPoints;
+	@JsonIgnore
+	private float rubricScore;
 	
-	public String getRequirement() {
-		return requirement;
+	public String getRule() {
+		return rule;
 	}
-	public void setRequirement(String requirement) {
-		this.requirement = requirement;
+	public void setRule(String rule) {
+		this.rule = rule;
 	}
-	public String getIssue() {
-		return issue;
+	public int getNumberOfIssues() {
+		return numberOfIssues;
 	}
-	public void setIssue(String issue) {
-		this.issue = issue;
+	public void setNumberOfIssues(int numberOfIssues) {
+		this.numberOfIssues = numberOfIssues;
 	}
-	public String getComment() {
-		return comment;
+	public List<CCDAXmlSnippet> getIssuesList() {
+		return issuesList;
 	}
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setIssuesList(List<CCDAXmlSnippet> issuesList) {
+		this.issuesList = issuesList;
 	}
-	public String getDetails() {
-		return details;
+	public List<String> getExampleTaskForceLinks() {
+		if(exampleTaskForceLinks == null)
+		{
+			return exampleTaskForceLinks = new ArrayList<String>();
+		}else
+			return exampleTaskForceLinks;
 	}
-	public void setDetails(String details) {
-		this.details = details;
+	public void setExampleTaskForceLinks(List<String> exampleTaskForceLinks) {
+		this.exampleTaskForceLinks = exampleTaskForceLinks;
 	}
-	public String getSubCategory() {
-		return subCategory;
+	public List<String> getIgReferences() {
+		if(igReferences == null)
+		{
+			return igReferences = new ArrayList<String>();
+		}else
+			return igReferences;
 	}
-	public void setSubCategory(String subCategory) {
-		this.subCategory = subCategory;
-	}
-	public Map<Integer, String> getPoints() {
-		return points;
-	}
-	public void setPoints(Map<Integer, String> points) {
-		this.points = points;
-	}
-	public int getMaxPoints() {
-		return maxPoints;
-	}
-	public void setMaxPoints(int maxPoints) {
-		this.maxPoints = maxPoints;
+	public void setIgReferences(List<String> igReferences) {
+		this.igReferences = igReferences;
 	}
 	public int getActualPoints() {
 		return actualPoints;
@@ -61,4 +66,23 @@ public class CCDAScoreCardRubrics {
 	public void setActualPoints(int actualPoints) {
 		this.actualPoints = actualPoints;
 	}
+	public int getMaxPoints() {
+		return maxPoints;
+	}
+	public void setMaxPoints(int maxPoints) {
+		this.maxPoints = maxPoints;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public float getRubricScore() {
+		return rubricScore;
+	}
+	public void setRubricScore(float rubricScore) {
+		this.rubricScore = rubricScore;
+	}
+	
 }
