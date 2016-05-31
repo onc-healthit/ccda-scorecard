@@ -1,4 +1,4 @@
-package org.sitenv.service.ccda.smartscorecard.entities;
+package org.sitenv.service.ccda.smartscorecard.entities.inmemory;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

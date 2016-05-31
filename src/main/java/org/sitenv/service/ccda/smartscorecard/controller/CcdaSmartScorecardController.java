@@ -20,6 +20,7 @@ import org.sitenv.service.ccda.smartscorecard.processor.MedicationScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.PatientScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.ProblemsScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.ProceduresScorecard;
+import org.sitenv.service.ccda.smartscorecard.processor.ScoreCardStatisticProcessor;
 import org.sitenv.service.ccda.smartscorecard.processor.SocialHistoryScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.VitalsScorecard;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
@@ -74,6 +75,9 @@ public class CcdaSmartScorecardController {
 	@Autowired
 	ProceduresScorecard procedureScorecard;
 	
+	@Autowired
+	ScoreCardStatisticProcessor scoreCardStatisticProcessor;
+	
 	@RequestMapping(value="/ccdascorecardservice", method= RequestMethod.POST)
 	public @ResponseBody ResponseTO ccdascorecardservice(@RequestParam("ccdaFile") MultipartFile ccdaFile){
 		
@@ -99,7 +103,17 @@ public class CcdaSmartScorecardController {
 			categoryList.add(procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),birthDate));
 			
 			results.setCategoryList(categoryList);
-			results = ApplicationUtil.calculateFinalGrade(categoryList, results);
+			ApplicationUtil.calculateFinalGradeAndIssues(categoryList, results);
+			results.setIgReferenceUrl(ApplicationConstants.IG_URL);
+			scoreCardStatisticProcessor.saveDetails(results.getFinalNumericalGrade());
+			results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage());
+			if(results.getIndustryAverageScore() != 0)
+			{
+				results.setIndustryAverageGrade(ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScore()));
+			}else 
+			{
+				results.setIndustryAverageGrade("N/A");
+			}
 			response.setSuccess(true);
 			response.setResults(results);
 		}catch(Exception excp)

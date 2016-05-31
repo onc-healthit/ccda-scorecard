@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.sitenv.ccdaparsing.model.CCDAProcActProc;
 import org.sitenv.ccdaparsing.model.CCDAProcedure;
+import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
@@ -24,8 +25,7 @@ public class ProceduresScorecard {
 		procedureScoreList.add(getValidDisplayNameScoreCard(procedures));
 		
 		procedureCategory.setCategoryRubrics(procedureScoreList);
-		procedureCategory.setCategoryGrade(ApplicationUtil.calculateSectionGrade(procedureScoreList));
-		
+		ApplicationUtil.calculateSectionGradeAndIssues(procedureScoreList, procedureCategory);
 		return procedureCategory;
 	}
 	
@@ -34,12 +34,12 @@ public class ProceduresScorecard {
 	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAProcedure procedures)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
-		validateDisplayNameScore.setPoints(ApplicationConstants.VALID_CODE_DISPLAYNAME_POINTS);
-		validateDisplayNameScore.setRequirement(ApplicationConstants.PROCEDURES_CODE_DISPLAYNAME_REQUIREMENT);
-		validateDisplayNameScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.CODE_DISPLAYNAME_VALIDATION.getSubcategory());
+		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
 		if(procedures != null)
 		{
 			maxPoints++;
@@ -51,6 +51,20 @@ public class ProceduresScorecard {
 				{
 					actualPoints++;
 				}
+				else
+				{
+					issue = new CCDAXmlSnippet();
+					issue.setLineNumber(procedures.getSectionCode().getLineNumber());
+					issue.setXmlString(procedures.getSectionCode().getXmlString());
+					issuesList.add(issue);
+				}
+			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(procedures.getLineNumber());
+				issue.setXmlString(procedures.getXmlString());
+				issuesList.add(issue);
 			}
 			
 			if(!ApplicationUtil.isEmpty(procedures.getProcActsProcs()))
@@ -66,28 +80,46 @@ public class ProceduresScorecard {
 						{
 							actualPoints++;
 						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(procAct.getProcCode().getLineNumber());
+							issue.setXmlString(procAct.getProcCode().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(procAct.getLineNumber());
+						issue.setXmlString(procAct.getXmlString());
+						issuesList.add(issue);
 					}
 				}
 			}
 		}
-		
-		if(maxPoints!= 0 && maxPoints == actualPoints)
+		else
 		{
-			validateDisplayNameScore.setComment("All the code elements under Procedures are having valid display name");
-		}else
-		{
-			validateDisplayNameScore.setComment("Some code elements under Procedures are not having valid display name");
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Procedures section not present");
+			issue.setXmlString("Procedures section not present");
+			issuesList.add(issue);
 		}
 		
-		if(maxPoints!= 0)
+		validateDisplayNameScore.setActualPoints(actualPoints);
+		validateDisplayNameScore.setMaxPoints(maxPoints);
+		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		validateDisplayNameScore.setIssuesList(issuesList);
+		validateDisplayNameScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
 		{
-			validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
-		}else
+			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
+			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+		}else 
 		{
-			validateDisplayNameScore.setActualPoints(0);
+			validateDisplayNameScore.setDescription("Display Name validation Rubric executed successfully for Allergies");
 		}
-		
-		validateDisplayNameScore.setMaxPoints(4);
 		return validateDisplayNameScore;
 	}
 }

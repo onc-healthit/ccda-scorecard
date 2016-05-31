@@ -6,6 +6,7 @@ import java.util.List;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDAImmunizationActivity;
+import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
@@ -27,60 +28,21 @@ public class ImmunizationScorecard {
 		immunizationScoreList.add(getValidDisplayNameScoreCard(immunizatons));
 		
 		immunizationCategory.setCategoryRubrics(immunizationScoreList);
-		immunizationCategory.setCategoryGrade(calculateSectionGrade(immunizationScoreList));
+		ApplicationUtil.calculateSectionGradeAndIssues(immunizationScoreList, immunizationCategory);
 		
 		return immunizationCategory;
 		
 	}
 	
-	public  String calculateSectionGrade(List<CCDAScoreCardRubrics> rubricsList)
-	{
-		int actualPoints=0;
-		int maxPoints = 0;
-		float percentage ;
-		for(CCDAScoreCardRubrics rubrics : rubricsList)
-		{
-			actualPoints = actualPoints + rubrics.getActualPoints();
-			maxPoints = maxPoints + rubrics.getMaxPoints();
-		}
-		
-		percentage = (actualPoints * 100)/maxPoints;
-		
-		if(percentage < 70)
-		{
-			return "D";
-		}else if (percentage >=70 && percentage <80)
-		{
-			return "C";
-		}else if(percentage >=80 && percentage <85)
-		{
-			return "B-";
-		}else if(percentage >=85 && percentage <90)
-		{
-			return "B+";
-		}else if(percentage >=90 && percentage <95)
-		{
-			return "A-";
-		}else if(percentage >=95 && percentage <=100)
-		{
-			return "A+";
-		}else
-		{
-			return "UNKNOWN GRADE";
-		}
-	}
-	
-	
 	public CCDAScoreCardRubrics getTimePrecisionScore(CCDAImmunization immunizatons)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
-		timePrecisionScore.setPoints(ApplicationConstants.TIME_PRECISION_POINTS);
-		timePrecisionScore.setRequirement(ApplicationConstants.IMMUNIZATION_TIME_PRECISION_REQUIREMENT);
-		timePrecisionScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.TIME_PRECISION.getSubcategory());
+		timePrecisionScore.setRule(ApplicationConstants.TIME_PRECISION_REQUIREMENT);
 		
 		int actualPoints =0;
 		int maxPoints = 0;
-		
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
 		if(immunizatons != null)
 		{
 			if(!ApplicationUtil.isEmpty(immunizatons.getImmActivity()))
@@ -95,30 +57,53 @@ public class ImmunizationScorecard {
 						{
 							actualPoints++;
 						}
-							
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(immunizationActivity.getTime().getLineNumber());
+							issue.setXmlString(immunizationActivity.getTime().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(immunizationActivity.getLineNumber());
+						issue.setXmlString(immunizationActivity.getXmlString());
+						issuesList.add(issue);
 					}
 				}
 			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(immunizatons.getLineNumber());
+				issue.setXmlString(immunizatons.getXmlString());
+				issuesList.add(issue);
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Immunization section not present");
+			issue.setXmlString("Immunization section not present");
+			issuesList.add(issue);
 		}
 
-		if(maxPoints!=0 && maxPoints == actualPoints)
+		timePrecisionScore.setActualPoints(actualPoints);
+		timePrecisionScore.setMaxPoints(maxPoints);
+		timePrecisionScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		timePrecisionScore.setIssuesList(issuesList);
+		timePrecisionScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
 		{
-			timePrecisionScore.setComment("All the time elememts under Immunization section are properly precisioned");
-		}else
+			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
+			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+		}else 
 		{
-			timePrecisionScore.setComment("Some effective time elements under Immunization are not properly precisioned");
+		    timePrecisionScore.setDescription("Time precision Rubric executed successfully for Immunizations");
 		}
-		
-		if(maxPoints!=0)
-		{
-			timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
-		}else
-		{
-			timePrecisionScore.setActualPoints(0);
-		}
-		
-		
-		timePrecisionScore.setMaxPoints(4);
 		return timePrecisionScore;
 	}
 	
@@ -126,13 +111,12 @@ public class ImmunizationScorecard {
 	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAImmunization immunizatons, String birthDate)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
-		validateTimeScore.setPoints(ApplicationConstants.VALID_TIME_POINTS);
-		validateTimeScore.setRequirement(ApplicationConstants.IMMUNIZATION_TIMEDATE_VALID_REQUIREMENT);
-		validateTimeScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.TIME_VALIDATION.getSubcategory());
+		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
 		
 		int actualPoints =0;
 		int maxPoints = 0;
-		
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
 		if(immunizatons != null)
 		{
 			if(!ApplicationUtil.isEmpty(immunizatons.getImmActivity()))
@@ -146,28 +130,54 @@ public class ImmunizationScorecard {
 						{
 							actualPoints++;
 						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(immunizationActivity.getTime().getLineNumber());
+							issue.setXmlString(immunizationActivity.getTime().getXmlString());
+							issuesList.add(issue);
+						}
 							
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(immunizationActivity.getLineNumber());
+						issue.setXmlString(immunizationActivity.getXmlString());
+						issuesList.add(issue);
 					}
 				}
 			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(immunizatons.getLineNumber());
+				issue.setXmlString(immunizatons.getXmlString());
+				issuesList.add(issue);
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Immunization section not present");
+			issue.setXmlString("Immunization section not present");
+			issuesList.add(issue);
 		}
 
-		if(maxPoints!=0 && maxPoints == actualPoints)
+		validateTimeScore.setActualPoints(actualPoints);
+		validateTimeScore.setMaxPoints(maxPoints);
+		validateTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		validateTimeScore.setIssuesList(issuesList);
+		validateTimeScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
 		{
-			validateTimeScore.setComment("All the time elememts under Immunization are valid.");
-		}else
+			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
+			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+		}else 
 		{
-			validateTimeScore.setComment("Some effective time elements under Immunization are not valid or not present within human lifespan");
+			validateTimeScore.setDescription("Time validation Rubric executed successfully for Immunizations");
 		}
-		
-		if(maxPoints!=0)
-		{
-			validateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
-		}else
-		{
-			validateTimeScore.setActualPoints(0);
-		}
-		validateTimeScore.setMaxPoints(4);
 		return validateTimeScore;
 	}
 	
@@ -175,12 +185,12 @@ public class ImmunizationScorecard {
 	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAImmunization immunizatons)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
-		validateDisplayNameScore.setPoints(ApplicationConstants.VALID_CODE_DISPLAYNAME_POINTS);
-		validateDisplayNameScore.setRequirement(ApplicationConstants.IMMUNIZATION_CODE_DISPLAYNAME_REQUIREMENT);
-		validateDisplayNameScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.CODE_DISPLAYNAME_VALIDATION.getSubcategory());
+		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
 		if(immunizatons != null)
 		{
 			maxPoints++;
@@ -192,6 +202,20 @@ public class ImmunizationScorecard {
 				{
 					actualPoints++;
 				}
+				else
+				{
+					issue = new CCDAXmlSnippet();
+					issue.setLineNumber(immunizatons.getSectionCode().getLineNumber());
+					issue.setXmlString(immunizatons.getSectionCode().getXmlString());
+					issuesList.add(issue);
+				}
+			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(immunizatons.getLineNumber());
+				issue.setXmlString(immunizatons.getXmlString());
+				issuesList.add(issue);
 			}
 			
 			if(!ApplicationUtil.isEmpty(immunizatons.getImmActivity()))
@@ -207,6 +231,20 @@ public class ImmunizationScorecard {
 						{
 							actualPoints++;
 						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(immuActivity.getApproachSiteCode().getLineNumber());
+							issue.setXmlString(immuActivity.getApproachSiteCode().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(immuActivity.getLineNumber());
+						issue.setXmlString(immuActivity.getXmlString());
+						issuesList.add(issue);
 					}
 					
 					if(immuActivity.getConsumable() != null)
@@ -222,29 +260,41 @@ public class ImmunizationScorecard {
 								{
 									actualPoints++;
 								}
+								else
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(translationCode.getLineNumber());
+									issue.setXmlString(translationCode.getXmlString());
+									issuesList.add(issue);
+								}
 							}
 						}
 					}
 				}
 			}
 		}
-		
-		if(maxPoints!=0 && maxPoints == actualPoints)
+		else
 		{
-			validateDisplayNameScore.setComment("All the code elements under Immunization are having valid display name");
-		}else
-		{
-			validateDisplayNameScore.setComment("Some code elements under Immunization are not having valid display name");
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Immunization section not present");
+			issue.setXmlString("Immunization section not present");
+			issuesList.add(issue);
 		}
 		
-		if(maxPoints!=0)
+		validateDisplayNameScore.setActualPoints(actualPoints);
+		validateDisplayNameScore.setMaxPoints(maxPoints);
+		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		validateDisplayNameScore.setIssuesList(issuesList);
+		validateDisplayNameScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
 		{
-			validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
-		}else
+			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
+			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+		}else 
 		{
-			validateDisplayNameScore.setActualPoints(0);
+			validateDisplayNameScore.setDescription("code display name validation Rubric executed successfully for Immunizations");
 		}
-		validateDisplayNameScore.setMaxPoints(4);
 		return validateDisplayNameScore;
 	}
 }
