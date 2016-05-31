@@ -4,7 +4,7 @@
         <div class="row scHeadingSummary">
             <div class="col-md-12">
                 <!--<h1>{{ uploadDisplay.isLoading ? 'Scoring...' : ccdaFileName + ' Scorecard' }}</h1>-->
-                <h1>{{ccdaUploadData.fileName}}&nbsp;Scorecard</h1>
+                <h1>Scorecard for&nbsp;{{ccdaUploadData.fileName}}</h1>
             </div>
         </div>
         <div id="topLevelResultsTable">
@@ -21,9 +21,11 @@
                             <span ng-show="calculatedValidationData.certificationResult">
                                 <div class="col-md-6 fitGlyphiconToScHeadingSize" ng-class="setPassingCertificationColors('col-md-6 fitGlyphiconToScHeadingSize')">
                                     <span class="glyphicon glyphicon-ok" title="Passed Certification" alt="{{calculatedValidationData.certificationResult}}"></span>
+                                    <br>Pass
                                 </div>
                                 <div class="col-md-6 fitGlyphiconToScHeadingSize" ng-class="setFailingCertificationColors('col-md-6 fitGlyphiconToScHeadingSize')">
                                     <span class="glyphicon glyphicon-remove" title="Failed Certification" alt="{{calculatedValidationData.certificationResult}}"></span>
+                                    <br>Fail
                                 </div>
                             </span>
                         </h2>                        
@@ -42,7 +44,8 @@
                 </div>            
                 <div class="col-md-2 scHeading">
                     <div class="col-md-12 scSubHeading">
-                        <h2>{{jsonData.results.finalGrade ? jsonData.results.finalGrade + " (" + jsonData.results.industryAverageGrade + ")" : "Scoring..."}}</h2>
+                        <!--<h2>{{jsonData.results.finalGrade ? jsonData.results.finalGrade + " (" + jsonData.results.industryAverageGrade + ")" : "Scoring..."}}</h2>-->
+                        <h2>{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "Scoring..."}}</h2>
                     </div>
                     <div class="col-md-12 scSubHeading">
                         <h2>{{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade + " / 100" : "Scoring..."}}</h2>

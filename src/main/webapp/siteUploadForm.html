@@ -6,10 +6,10 @@
         <div class="panel-heading">
           <h3 class="panel-title">
             <a data-toggle="collapse" data-parent="#CCDAAccordion"
-              href="#collapseCCDA2_0Validator" tabindex="1"> C-CDA R2.1 Scorecard (Alpha Release)</a>
-              <a href data-toggle="modal" data-target="#scoringCriteriaModal" class="pull-right" tabindex="1">
+              href="#collapseCCDA2_0Validator" tabindex="1">Run the Scorecard</a>
+              <!--<a href data-toggle="modal" data-target="#scoringCriteriaModal" class="pull-right" tabindex="1">
                 View Scoring Criteria&nbsp;<span class="glyphicon glyphicon-sunglasses"></span>
-              </a>
+              </a>-->
           </h3>
         </div>
         <div id="collapseCCDA2_0Validator"
@@ -18,11 +18,14 @@
 
             <div id="CCDAReference">
 
-              <div id="CCDAReferenceWrapper">
-                <span class="directions">Directions:</span>
-                <p>Please follow the steps below in order to score the C-CDA R2.1 document.</p>
-
-                <form name="scUploadForm">
+              <div id="CCDAReferenceWrapper">              
+              <p>There are two ways of running the scorecard. You
+                can either upload your C-CDA document using the
+                interface below and then press "Score" to obtain the
+                result. Or, you can directly call the API below to
+                invoke the scorecard programmatically.</p>                
+              <span class="directions">Manual:</span>
+              <form name="scUploadForm">
 
                   <ol>
 
@@ -39,7 +42,7 @@
                     </li>
                     -->
 
-                    <li>Upload C-CDA file to score.
+                    <li>Upload C-CDA Document.
                       <div style="position: relative;">
                         <div class="row">
                           <div class="col-md-12 form-group">
@@ -63,7 +66,7 @@
                       </div>
                     </li>
 
-                    <li>Score.
+                    <li>Cick Score.
                       <div>
                         <!--submit button-->
                         <button ng-disabled="!scUploadForm.$valid && !mainDebug.inDebugMode"
@@ -92,7 +95,24 @@
                   </ol>
 
                 </form>
-
+                
+              <span class="directions">API:</span>
+              <p>Invoke the following API:</p>
+              <ul>
+                <li>Endpoint
+                  <ul>
+                    <li>POST:
+                      http://54.201.17.52:8080/ccda-smart-scorecard/ccdascorecardservice</li>
+                  </ul>
+                </li>
+                <li>Parameter
+                  <ul>
+                    <li>Name: ccdaFile</li>
+                    <li>Type: File</li>
+                  </ul>
+                </li>
+              </ul>
+              
               </div>
             </div>
           </div>
