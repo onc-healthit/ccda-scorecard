@@ -136,9 +136,6 @@ public class SocialHistoryScorecard {
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
 			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-		    timePrecisionScore.setDescription("Time precision Rubric executed successfully for Social History");
 		}
 		return timePrecisionScore;
 	}
@@ -241,9 +238,6 @@ public class SocialHistoryScorecard {
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
 			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateTimeScore.setDescription("Time validation Rubric executed successfully for Social History");
 		}
 		return validateTimeScore;
 	}
@@ -364,9 +358,6 @@ public class SocialHistoryScorecard {
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
 			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateDisplayNameScore.setDescription("code displayname  validation Rubric executed successfully for Social History");
 		}
 		return validateDisplayNameScore;
 	}
@@ -432,9 +423,6 @@ public class SocialHistoryScorecard {
 			validSmokingStausScore.setDescription("smoking status code  validation Rubric failed for Social History");
 			validSmokingStausScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validSmokingStausScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validSmokingStausScore.setDescription("smoking status code  validation Rubric executed successfully for Social History");
 		}
 		return validSmokingStausScore;
 	}
@@ -482,9 +470,6 @@ public class SocialHistoryScorecard {
 			validSmokingStausIDScore.setDescription("smoking status observation  validation Rubric failed for Social History");
 			validSmokingStausIDScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validSmokingStausIDScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validSmokingStausIDScore.setDescription("smoking status observation  validation Rubric executed successfully for Social History");
 		}
 		return validSmokingStausIDScore;
 	}

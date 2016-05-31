@@ -141,9 +141,6 @@ public class MedicationScorecard {
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
 			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-		    timePrecisionScore.setDescription("Time precision Rubric executed successfully for Medications");
 		}
 		return timePrecisionScore;
 	}
@@ -253,9 +250,6 @@ public class MedicationScorecard {
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
 			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateTimeScore.setDescription("Date validation Rubric executed successfully for Medications");
 		}
 		return validateTimeScore;
 	}
@@ -370,9 +364,6 @@ public class MedicationScorecard {
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
 			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateDisplayNameScore.setDescription("code displayname validation Rubric executed successfully for Medications");
 		}
 		return validateDisplayNameScore;
 	}
@@ -420,9 +411,6 @@ public class MedicationScorecard {
 			validateMedActivityScore.setDescription(ApplicationConstants.IMMU_NOTIN_MED_DESC);
 			validateMedActivityScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateMedActivityScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateMedActivityScore.setDescription("Medication Activity validation Rubric executed successfully for Medications");
 		}
 		return validateMedActivityScore;
 	}
