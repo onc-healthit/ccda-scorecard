@@ -81,9 +81,6 @@ public class PatientScorecard {
 			timePrecisionScore.setDescription("Time precision Rubric failed for Patient DOB");
 			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-		    timePrecisionScore.setDescription("Time precision Rubric executed successfully for Patient DOB");
 		}
 		return timePrecisionScore;
 	}

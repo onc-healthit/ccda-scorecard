@@ -179,9 +179,6 @@ public class LabresultsScorecard {
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
 			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-		    timePrecisionScore.setDescription("Time precision Rubric executed successfully for Labresults");
 		}
 		return timePrecisionScore;
 	}
@@ -316,9 +313,6 @@ public class LabresultsScorecard {
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
 			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateTimeScore.setDescription("Time validation Rubric executed successfully for Labresults");
 		}
 		return validateTimeScore;
 	}
@@ -439,9 +433,6 @@ public class LabresultsScorecard {
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
 			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateDisplayNameScore.setDescription("code display name validation Rubric executed successfully for Labresults");
 		}
 		return validateDisplayNameScore;
 	}
@@ -528,9 +519,6 @@ public class LabresultsScorecard {
 			validateUCUMScore.setDescription(ApplicationConstants.RESULTS_UCUM_DESC);
 			validateUCUMScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateUCUMScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateUCUMScore.setDescription("UCUM units validation validation Rubric executed successfully for Labresults");
 		}
 		return validateUCUMScore;
 	}
@@ -606,9 +594,6 @@ public class LabresultsScorecard {
 			validatLoincCodeScore.setDescription(ApplicationConstants.LABRESULTS_LOIN_CODE_REQ);
 			validatLoincCodeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validatLoincCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validatLoincCodeScore.setDescription("Loinc code validation validation Rubric executed successfully for Labresults");
 		}
 		return validatLoincCodeScore;
 		
@@ -689,9 +674,6 @@ public class LabresultsScorecard {
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.LABRESULTS_APR_TIME_DESC);
 			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateApprEffectiveTimeScore.setDescription("Appropriate effective time validation validation Rubric executed successfully for Labresults");
 		}
 		return validateApprEffectiveTimeScore;
 	}

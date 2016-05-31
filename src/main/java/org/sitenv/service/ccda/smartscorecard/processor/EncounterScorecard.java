@@ -162,9 +162,6 @@ public class EncounterScorecard {
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
 			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-		    timePrecisionScore.setDescription("Time precision Rubric executed successfully for Encounters");
 		}
 		return timePrecisionScore;
 	}
@@ -295,9 +292,6 @@ public class EncounterScorecard {
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
 			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateTimeScore.setDescription("Time Validation Rubric executed successfully for Encounters");
 		}
 		return validateTimeScore;
 	}
@@ -551,9 +545,6 @@ public class EncounterScorecard {
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
 			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateDisplayNameScore.setDescription("code display name validation  Rubric executed successfully for Encounters");
 		}
 		return validateDisplayNameScore;
 	}
