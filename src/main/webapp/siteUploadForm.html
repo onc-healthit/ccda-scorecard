@@ -102,14 +102,16 @@
                 <li>Endpoint
                   <ul>
                     <li>POST:
-                      http://54.201.17.52:8080/ccda-smart-scorecard/ccdascorecardservice</li>
+                      http://sitenv.org/ccda-smart-scorecard/ccdascorecardservice</li>
                   </ul>
                 </li>
-                <li>Parameter
+                <li>The POST method takes one parameter which is
                   <ul>
-                    <li>Name: ccdaFile</li>
-                    <li>Type: File</li>
+                    <li>ccdaFile: The file that is being submitted for scoring</li>
+                   <!--  <li>Type: File</li> -->
                   </ul>
+                </li>
+                <li>Use the multipart/form-data to encode the file as part of the body parameters for the POST request
                 </li>
               </ul>
               
