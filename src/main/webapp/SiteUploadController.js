@@ -173,18 +173,13 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
       if(typeof $scope.metaResults !== 'undefined') {
 	      setIssueCounts();
 	      setCertificationResult();
+	      $scope.uploadDisplay.isValidationLoading = false;
       }
-      $scope.disableAllLoading();
   };
   
   $scope.disableAllLoading = function() {
     $scope.uploadDisplay.isValidationLoading = false;
-    console.log("$scope.uploadDisplay.isValidationLoading:")
-    console.log($scope.uploadDisplay.isValidationLoading);
-    //also disable scorecard spinner since we don't want to display a partial report or an infinite load
     $scope.uploadDisplay.isLoading = false;
-    console.log("$scope.uploadDisplay.isLoading:")
-    console.log($scope.uploadDisplay.isLoading);  	
   }
   
   var checkForValidationErrors = function() {
@@ -195,6 +190,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     			" The file uploaded which encountered the error is " + $scope.ccdaUploadData.fileName + ". " + 
     				$scope.userMessageConstant.GENERIC;
     		console.log("Validation Service Error: " + $scope.uploadErrorData.validationServiceError);
+    		$scope.disableAllLoading();
       }
   	} else if(!$scope.ccdaResults) {
     	//invalid results returned due to an undefined service error
@@ -202,6 +198,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 			"for an unknown reason. Please try a file other than " + $scope.ccdaUploadData.fileName + " and report " +
 					"the issue to TestingServices@sitenv.org.";
   		console.log("Validation Service Error: " + $scope.uploadErrorData.validationServiceError);
+  		$scope.disableAllLoading();
     }  	
   }
 
