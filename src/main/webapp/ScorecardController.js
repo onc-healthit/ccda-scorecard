@@ -44,7 +44,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   }, true);
   
   //if isLoading changes (from false to true)
-  //then we reset out local scorecard data  
+  //then we reset our local scorecard data  
   $scope.$watch('uploadDisplay.isLoading', function() {
 	  console.log('$scope.uploadDisplay.isLoading: ');
 	  console.log($scope.uploadDisplay.isLoading);
@@ -99,7 +99,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	      console.log('$scope.errorData.getJsonDataError:');
 	      console.log($scope.errorData.getJsonDataError);
         $scope.errorData.getJsonDataErrorForUser = "The scorecard application is unable to score the C-CDA document. Please try a file other than " + $scope.ccdaFileName + " or contact TestingServices@sitenv.org for help."
-		    $scope.uploadDisplay.isLoading = false;
+        $scope.disableAllLoading();
 	  }
   };
 
