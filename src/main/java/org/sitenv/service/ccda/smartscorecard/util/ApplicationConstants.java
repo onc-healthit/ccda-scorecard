@@ -147,11 +147,11 @@ public class ApplicationConstants {
 	public static final String SECOND_FORMAT = "yyyyMMddHHmmssZ";
 	public static final String SECOND_PATTERN = "\\d{8}-\\d{4}";
 	
-	public static final String CODE_DISPLAYNAME_VALIDATION_URL = "http://localhost:8080/referenceccdaservice/iscodeandisplaynameincodesystem"; 
-	public static final String CODE_VALUSET_VALIDATION_URL = "http://localhost:8080/referenceccdaservice/iscodeinvalueset"; 
-	public static final String CODE_CODESYSTEM_VALIDATION_URL = "http://localhost:8080/referenceccdaservice/iscodeincodesystem";
+	public static final String CODE_DISPLAYNAME_VALIDATION_URL = "http://54.200.51.225:8080/referenceccdaservice/iscodeandisplaynameincodesystem"; 
+	public static final String CODE_VALUSET_VALIDATION_URL = "http://54.200.51.225:8080/referenceccdaservice/iscodeinvalueset"; 
+	public static final String CODE_CODESYSTEM_VALIDATION_URL = "http://54.200.51.225:8080/referenceccdaservice/iscodeincodesystem";
 	
-	public static final String REFERENCE_VALIDATOR_URL = "http://localhost:8080/referenceccdaservice/"; 
+	public static final String REFERENCE_VALIDATOR_URL = "http://54.200.51.225:8080/referenceccdaservice/"; 
 	
 	public static final ArrayList<String> SMOKING_STATUS_CODES = new ArrayList<String>(
 		    Arrays.asList("449868002", "428041000124106", "8517006","266919005","77176002","266927001","428071000124103","428061000124105"));

@@ -367,8 +367,8 @@ public class SocialHistoryScorecard {
 		CCDAScoreCardRubrics validSmokingStausScore = new CCDAScoreCardRubrics();
 		validSmokingStausScore.setRule(ApplicationConstants.SOCIALHISTORY_SMOKING_STATUS_REQUIREMENT);
 		
-		int actualPoints =1;
-		int maxPoints = 1;
+		int actualPoints =0;
+		int maxPoints = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(socialHistory != null)
@@ -379,9 +379,12 @@ public class SocialHistoryScorecard {
 				{
 					if(smokingStatus.getSmokingStatusCode()!= null)
 					{
-						if(!ApplicationConstants.SMOKING_STATUS_CODES.contains(smokingStatus.getSmokingStatusCode().getCode()))
+						if(ApplicationConstants.SMOKING_STATUS_CODES.contains(smokingStatus.getSmokingStatusCode().getCode()))
 						{
-							actualPoints = 0;
+							actualPoints++;
+						}
+						else
+						{
 							issue = new CCDAXmlSnippet();
 							issue.setLineNumber(smokingStatus.getSmokingStatusCode().getLineNumber());
 							issue.setXmlString(smokingStatus.getSmokingStatusCode().getXmlString());
