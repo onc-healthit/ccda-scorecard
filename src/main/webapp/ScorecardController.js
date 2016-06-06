@@ -258,51 +258,68 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       return 0;
   };
   
+  var isCategoryListByGradeEmpty = function() {
+  	if($scope.categoryListByGradeFirstColumn.length < 1 
+  			|| $scope.categoryListByGradeSecondColumn.length < 1 
+  			|| $scope.categoryListByGradeThirdColumn.length < 1) {
+  		return true;
+  	}
+  	return false;
+  };
+  
   $scope.getHeatMapCategoryName = function(row, columnNumber) {
-    switch (columnNumber) {
-      case 1:
-        return $scope.categoryListByGradeFirstColumn[row].name
-      case 2:
-        return $scope.categoryListByGradeSecondColumn[row].name;
-      case 3:
-        return $scope.categoryListByGradeThirdColumn[row].name;
-    }
+  	if(!isCategoryListByGradeEmpty()) {
+	    switch (columnNumber) {
+	      case 1:
+	        return $scope.categoryListByGradeFirstColumn[row].name;
+	      case 2:
+	        return $scope.categoryListByGradeSecondColumn[row].name;
+	      case 3:
+	        return $scope.categoryListByGradeThirdColumn[row].name;
+	    }
+  	}
     return "UNK.";
   };
 
   $scope.getHeatMapCategoryGrade = function(row, columnNumber) {
-    switch (columnNumber) {
-      case 1:
-        return $scope.categoryListByGradeFirstColumn[row].grade;
-      case 2:
-        return $scope.categoryListByGradeSecondColumn[row].grade;
-      case 3:
-        return $scope.categoryListByGradeThirdColumn[row].grade;
-    }
+  	if(!isCategoryListByGradeEmpty()) {
+	    switch (columnNumber) {
+	      case 1:
+	        return $scope.categoryListByGradeFirstColumn[row].grade;
+	      case 2:
+	        return $scope.categoryListByGradeSecondColumn[row].grade;
+	      case 3:
+	        return $scope.categoryListByGradeThirdColumn[row].grade;
+	    }
+  	}
     return "UNK.";
   };
 
   $scope.getHeatMapCategoryIssueCount = function(row, columnNumber) {
-    switch (columnNumber) {
-      case 1:
-        return $scope.categoryListByGradeFirstColumn[row].sectionIssueCount;
-      case 2:
-        return $scope.categoryListByGradeSecondColumn[row].sectionIssueCount;
-      case 3:
-        return $scope.categoryListByGradeThirdColumn[row].sectionIssueCount;
-    }
+  	if(!isCategoryListByGradeEmpty()) {
+	    switch (columnNumber) {
+	      case 1:
+	        return $scope.categoryListByGradeFirstColumn[row].sectionIssueCount;
+	      case 2:
+	        return $scope.categoryListByGradeSecondColumn[row].sectionIssueCount;
+	      case 3:
+	        return $scope.categoryListByGradeThirdColumn[row].sectionIssueCount;
+	    }
+  	}
     return "UNK.";
   };
 
   $scope.getGradeClass = function(row, columnNumber, classPrefix) {
-    switch (columnNumber) {
-      case 1:
-        return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeFirstColumn[row].grade);
-      case 2:
-        return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeSecondColumn[row].grade);
-      case 3:
-        return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeThirdColumn[row].grade);
-    }
+  	if(!isCategoryListByGradeEmpty()) {
+	    switch (columnNumber) {
+	      case 1:
+	        return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeFirstColumn[row].grade);
+	      case 2:
+	        return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeSecondColumn[row].grade);
+	      case 3:
+	        return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeThirdColumn[row].grade);
+	    }
+  	}
     return classPrefix + " unknownGradeColor";
   };
     
