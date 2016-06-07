@@ -16,11 +16,9 @@ public Void ccdascorecardservice(MultipartFile ccdaFile)
 		File tempFile = File.createTempFile("ccda", "File");
 		FileOutputStream out = new FileOutputStream(tempFile);
 		IOUtils.copy(ccdaFile.getInputStream(), out);
-		requestMap.add("ccdaFile", new FileSystemResource(tempFile));
-				
+		requestMap.add("ccdaFile", new FileSystemResource(tempFile));		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-				
 		HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<LinkedMultiValueMap<String, Object>>(
 															requestMap, headers);
 		RestTemplate restTemplate = new RestTemplate();
