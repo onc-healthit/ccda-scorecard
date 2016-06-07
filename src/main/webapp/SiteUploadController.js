@@ -28,8 +28,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   }
   
   $scope.uploadDisplay = {
-	isLoading: true,
-	isValidationLoading: true,
+  		isLoading: true,
+  		isValidationLoading: true,
   };
 
   var ServiceTypeEnum = Object.freeze({
@@ -142,8 +142,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
         console.log("Error uploading file or calling service(s):");
         console.log($scope.uploadErrorData.uploadError);
         console.log($scope.ngFileUploadError);
-        $scope.uploadDisplay.isLoading = false;
-        $scope.uploadDisplay.isValidationLoading = false;
+        $scope.$scope.disableAllLoading();
       }
     }, function(evt) {
       ccdaFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
@@ -169,31 +168,45 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
       console.log($scope.jsonValidationData);
       $scope.metaResults = $scope.jsonValidationData.resultsMetaData;
       $scope.ccdaResults = $scope.jsonValidationData.ccdaValidationResults;
-      if($scope.metaResults.serviceError || !$scope.ccdaResults) {
-      	//invalid results returned due to a service error or a bad file sent
-      	if($scope.metaResults.serviceErrorMessage) {
-      		$scope.uploadErrorData.validationServiceError = $scope.metaResults.serviceErrorMessage + 
-      			" The file uploaded which encountered the error is " + $scope.ccdaUploadData.fileName + ". " + 
-      				$scope.userMessageConstant.GENERIC;
-      	} else {
-      		$scope.uploadErrorData.validationServiceError = "The SITE C-CDA R2.1 Validation web service has failed to return results " +
-      				"for an unknown reason. Please try a file other than " + $scope.ccdaUploadData.fileName + " and report " +
-      						"the issue to TestingServices@sitenv.org.";
-      	}
+      checkForValidationErrors();
+      //only process results if there are results
+      if(typeof $scope.metaResults !== 'undefined') {
+	      setIssueCounts();
+	      setCertificationResult();
+	      $scope.uploadDisplay.isValidationLoading = false;
       }
-      setIssueCounts();
-      setCertificationResult();
-      //disable loading
-      $scope.uploadDisplay.isValidationLoading = false;
-      console.log("$scope.uploadDisplay.isValidationLoading (after load):")
-      console.log($scope.uploadDisplay.isValidationLoading);  	  
   };
+  
+  $scope.disableAllLoading = function() {
+    $scope.uploadDisplay.isValidationLoading = false;
+    $scope.uploadDisplay.isLoading = false;
+  }
+  
+  var checkForValidationErrors = function() {
+  	if(typeof $scope.metaResults !== 'undefined') {
+    	//invalid results returned due to a defined service error
+      if($scope.metaResults.serviceError && $scope.metaResults.serviceErrorMessage) {
+    		$scope.uploadErrorData.validationServiceError = $scope.metaResults.serviceErrorMessage + 
+    			" The file uploaded which encountered the error is " + $scope.ccdaUploadData.fileName + ". " + 
+    				$scope.userMessageConstant.GENERIC;
+    		console.log("Validation Service Error: " + $scope.uploadErrorData.validationServiceError);
+    		$scope.disableAllLoading();
+      }
+  	} else if(!$scope.ccdaResults) {
+    	//invalid results returned due to an undefined service error
+  		$scope.uploadErrorData.validationServiceError = "The SITE C-CDA R2.1 Validation web service has failed to return results " +
+			"for an unknown reason. Please try a file other than " + $scope.ccdaUploadData.fileName + " and report " +
+					"the issue to TestingServices@sitenv.org.";
+  		console.log("Validation Service Error: " + $scope.uploadErrorData.validationServiceError);
+  		$scope.disableAllLoading();
+    }  	
+  }
 
-  var setIssueCounts = function() {
-    var metaData = $scope.metaResults.resultMetaData;
-    mdhtMetaIssues = [metaData[0], metaData[1], metaData[2]];
-    vocabMetaIssues = [metaData[3], metaData[4], metaData[5]];
-    $scope.allUsedMetaIssues = [mdhtMetaIssues, vocabMetaIssues];
+  var setIssueCounts = function() {  	
+	    var metaData = $scope.metaResults.resultMetaData;
+	    mdhtMetaIssues = [metaData[0], metaData[1], metaData[2]];
+	    vocabMetaIssues = [metaData[3], metaData[4], metaData[5]];
+	    $scope.allUsedMetaIssues = [mdhtMetaIssues, vocabMetaIssues];
   };
     
     var setCertificationResult = function() {

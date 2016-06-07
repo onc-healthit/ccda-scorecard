@@ -72,7 +72,7 @@
     <charts></charts>
 
     <!-- Access to Detailed Results -->
-    <div id="detailedResults" class="row" ng-show="!uploadDisplay.isLoading">
+    <div id="detailedResults" class="row" ng-show="!uploadDisplay.isLoading && !uploadErrorData.validationServiceError && !errorData.getJsonDataError">
         <div class="col-md-12">
             <a id="detailedResultsPanelDropdownAnchor" class="panelDropdownButton" data-toggle="collapse" href="#mainPanelBody" data-target="#mainPanelBody">
                 <h2 ng-click="jumpToElementViaId('detailedResults', true, 100)" type="button" class="btn btn-block resultsButton">
