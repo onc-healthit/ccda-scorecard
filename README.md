@@ -1,12 +1,12 @@
 # CCDA-Score-CARD
 This application contains ccda score card service. The Service is implemented following the standards and promotes best practices in C-CDA implementation by assessing key aspects of the structured data found in individual documents. It is a tool designed to allow implementers to gain insight and information regarding industry best practice and usage overall. It also provides a rough quantitative assessment and highlights areas of improvement which can be made today to move the needle forward. The best practices and quantitative scoring criteria have been developed by HL7 through the HL7-ONC Cooperative agreement to improve the implementation of health care standards.
 
-Below is the Java Snippet to access Score-CARD service in your own applications.
-
 Score card API is POST restful services which takes CCDA document as input and gives JSON results. 
 * Input parameter name: ccdaFile
 * Input parameter Type: File.
 * Output parameter Type: JSON string.
+
+Below is the Java Snippet to access Score-CARD service in your own applications.
 
 ```Java
 public Void ccdascorecardservice(MultipartFile ccdaFile)
