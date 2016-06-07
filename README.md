@@ -3,10 +3,10 @@ This application contains ccda score card service. The Service is implemented fo
 
 Below is the Java Snippet to access Score-CARD service in your own applications.
 
-Score card API is POST restful services which takes CCDA document as input and gives JSON results. 
-Input parameter name: ccdaFile
-Input parameter Type: File.
-Output parameter Type: JSON string.
+*Score card API is POST restful services which takes CCDA document as input and gives JSON results. 
+*Input parameter name: ccdaFile
+*Input parameter Type: File.
+*Output parameter Type: JSON string.
 
 ```Java
 public Void ccdascorecardservice(MultipartFile ccdaFile)
@@ -20,14 +20,15 @@ public Void ccdascorecardservice(MultipartFile ccdaFile)
 		requestMap.add("ccdaFile", new FileSystemResource(tempFile));		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-		HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<LinkedMultiValueMap<String, Object>>(
-															requestMap, headers);
+		HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = 
+									new HttpEntity<LinkedMultiValueMap<String, Object>>(requestMap, headers);
 		RestTemplate restTemplate = new RestTemplate();
 		FormHttpMessageConverter formConverter = new FormHttpMessageConverter();
 		formConverter.setCharset(Charset.forName("UTF8"));
 		restTemplate.getMessageConverters().add(formConverter);
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-		response = restTemplate.postForObject("http://sitenv.org/ccda-smart-scorecard/ccdascorecardservice", requestEntity, String.class);
+		response = restTemplate.postForObject("http://sitenv.org/ccda-smart-scorecard/ccdascorecardservice", 
+												requestEntity, String.class);
 		tempFile.delete();
 	}catch(Exception exc)
 	{
