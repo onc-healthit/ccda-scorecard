@@ -435,8 +435,8 @@ public class SocialHistoryScorecard {
 		CCDAScoreCardRubrics validSmokingStausIDScore = new CCDAScoreCardRubrics();
 		validSmokingStausIDScore.setRule(ApplicationConstants.SOCIALHISTORY_SMOKING_STATUS_OBS_ID_REQUIREMENT);
 		
-		int actualPoints =1;
-		int maxPoints = 1;
+		int actualPoints =0;
+		int maxPoints = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(socialHistory != null)
@@ -447,11 +447,15 @@ public class SocialHistoryScorecard {
 				{
 					if(!ApplicationUtil.isEmpty(smokingStatus.getSmokingStatusTemplateIds()))
 					{
+						maxPoints = maxPoints + smokingStatus.getSmokingStatusTemplateIds().size();
 						for (CCDAII templateId : smokingStatus.getSmokingStatusTemplateIds())
 						{
-							if(!(templateId.getRootValue() != null && templateId.getRootValue().equals(ApplicationConstants.SMOKING_STATUS_OBSERVATION_ID)))
+							if(templateId.getRootValue() != null && templateId.getRootValue().equals(ApplicationConstants.SMOKING_STATUS_OBSERVATION_ID))
 							{
-								actualPoints = 0;
+								actualPoints++;
+							}
+							else
+							{
 								issue = new CCDAXmlSnippet();
 								issue.setLineNumber(smokingStatus.getLineNumber());
 								issue.setXmlString(smokingStatus.getXmlString());
@@ -461,6 +465,20 @@ public class SocialHistoryScorecard {
 					}
 				}
 			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(socialHistory.getLineNumber());
+				issue.setXmlString(socialHistory.getXmlString());
+				issuesList.add(issue);
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Social History section not present");
+			issue.setXmlString("Social History section not present");
+			issuesList.add(issue);
 		}
 		
 		validSmokingStausIDScore.setActualPoints(actualPoints);
@@ -470,7 +488,7 @@ public class SocialHistoryScorecard {
 		validSmokingStausIDScore.setNumberOfIssues(issuesList.size());
 		if(issuesList.size() > 0)
 	    {
-			validSmokingStausIDScore.setDescription("smoking status observation  validation Rubric failed for Social History");
+			validSmokingStausIDScore.setDescription("smoking status observation validation Rubric failed for Social History");
 			validSmokingStausIDScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validSmokingStausIDScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
