@@ -3,7 +3,7 @@ This application contains ccda score card service. The Service is implemented fo
 
 Below is the Java Snippet to access Score-CARD service in your own applications.
 
-* Score card API is POST restful services which takes CCDA document as input and gives JSON results. 
+Score card API is POST restful services which takes CCDA document as input and gives JSON results. 
 * Input parameter name: ccdaFile
 * Input parameter Type: File.
 * Output parameter Type: JSON string.
