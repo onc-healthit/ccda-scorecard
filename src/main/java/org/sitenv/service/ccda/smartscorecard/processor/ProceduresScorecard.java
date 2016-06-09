@@ -116,9 +116,6 @@ public class ProceduresScorecard {
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
 			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateDisplayNameScore.setDescription("Display Name validation Rubric executed successfully for Allergies");
 		}
 		return validateDisplayNameScore;
 	}

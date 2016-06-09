@@ -184,9 +184,6 @@ public class AllergiesScorecard {
 		   timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
 		   timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_URL);
 		   timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-	   }else 
-	   {
-		   timePrecisionScore.setDescription("Time precision Rubric executed successfully for Allergies");
 	   }
 	   return timePrecisionScore;
 	}
@@ -335,9 +332,6 @@ public class AllergiesScorecard {
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
 			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateTimeScore.setDescription("Time Validation Rubric executed successfully for Allergies");
 		}
 		return validateTimeScore;
 	}
@@ -456,9 +450,6 @@ public class AllergiesScorecard {
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
 			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateDisplayNameScore.setDescription("Code Display Name validation Rubric executed successfully for Allergies");
 		}
 		return validateDisplayNameScore;
 	}
@@ -538,9 +529,6 @@ public class AllergiesScorecard {
 			validateApprEffectiveTimeScore.setDescription("Appropriate effective time Rubric failed for Allergies");
 			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateApprEffectiveTimeScore.setDescription("Appropriate effective time Rubric executed successfully for Allergies");
 		}
 		return validateApprEffectiveTimeScore;
 	}

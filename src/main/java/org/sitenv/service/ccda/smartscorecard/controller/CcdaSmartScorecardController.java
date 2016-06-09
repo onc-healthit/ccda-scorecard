@@ -83,13 +83,16 @@ public class CcdaSmartScorecardController {
 		
 		
 		ResponseTO response = new ResponseTO();
-		String birthDate;
+		String birthDate = null;
 		Results results = new Results();
 		
 		try
 		{
 			CCDARefModel ccdaModels = CCDAParserAPI.parseCCDA2_1(ccdaFile.getInputStream());
-			birthDate = ccdaModels.getPatient().getDob().getValue();
+			if(ccdaModels.getPatient() != null && ccdaModels.getPatient().getDob()!= null)
+			{
+				birthDate = ccdaModels.getPatient().getDob().getValue();
+			}
 			List<Category> categoryList = new ArrayList<Category>();
 			categoryList.add(patientScorecard.getPatientCategory(ccdaModels.getPatient()));
 			categoryList.add(encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),birthDate));

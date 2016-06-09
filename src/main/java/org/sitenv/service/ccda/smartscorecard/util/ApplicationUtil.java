@@ -512,7 +512,7 @@ public class ApplicationUtil {
 		{
 			actualPoints = actualPoints + rubrics.getRubricScore();
 			maxPoints++;
-			if(rubrics.getActualPoints()!= rubrics.getMaxPoints())
+			if(rubrics.getNumberOfIssues()!=0)
 			{
 				categoryIssues++;
 			}

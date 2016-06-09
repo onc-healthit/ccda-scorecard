@@ -168,9 +168,6 @@ public class VitalsScorecard {
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
 			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-		    timePrecisionScore.setDescription("Time precision Rubric executed successfully for Vitals");
 		}
 		return timePrecisionScore;
 	}
@@ -301,9 +298,6 @@ public class VitalsScorecard {
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
 			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateTimeScore.setDescription("Time validation Rubric executed successfully for Vitals");
 		}
 		return validateTimeScore;
 	}
@@ -426,9 +420,6 @@ public class VitalsScorecard {
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
 			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateDisplayNameScore.setDescription("code display name validation Rubric executed successfully for Vitals");
 		}
 		return validateDisplayNameScore;
 	}
@@ -515,9 +506,6 @@ public class VitalsScorecard {
 			validateUCUMScore.setDescription(ApplicationConstants.VITAL_UCUM_DESCRIPTION);
 			validateUCUMScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateUCUMScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateUCUMScore.setDescription("UCUM units validation validation Rubric executed successfully for Vitals");
 		}
 		return validateUCUMScore;
 	}
@@ -593,9 +581,6 @@ public class VitalsScorecard {
 			validatLoincCodeScore.setDescription(ApplicationConstants.VITAL_LOINC_DESCRIPTION);
 			validatLoincCodeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validatLoincCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validatLoincCodeScore.setDescription("Loinc code validation validation Rubric executed successfully for Vitals");
 		}
 		return validatLoincCodeScore;
 		
@@ -676,9 +661,6 @@ public class VitalsScorecard {
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.VITAL_AAPR_DATE_DESCRIPTION);
 			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateApprEffectiveTimeScore.setDescription("Appropriate efective time validation validation Rubric executed successfully for Vitals");
 		}
 		return validateApprEffectiveTimeScore;
 	}

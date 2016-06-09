@@ -136,9 +136,6 @@ public class SocialHistoryScorecard {
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
 			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-		    timePrecisionScore.setDescription("Time precision Rubric executed successfully for Social History");
 		}
 		return timePrecisionScore;
 	}
@@ -241,9 +238,6 @@ public class SocialHistoryScorecard {
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
 			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateTimeScore.setDescription("Time validation Rubric executed successfully for Social History");
 		}
 		return validateTimeScore;
 	}
@@ -364,9 +358,6 @@ public class SocialHistoryScorecard {
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
 			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateDisplayNameScore.setDescription("code displayname  validation Rubric executed successfully for Social History");
 		}
 		return validateDisplayNameScore;
 	}
@@ -376,8 +367,8 @@ public class SocialHistoryScorecard {
 		CCDAScoreCardRubrics validSmokingStausScore = new CCDAScoreCardRubrics();
 		validSmokingStausScore.setRule(ApplicationConstants.SOCIALHISTORY_SMOKING_STATUS_REQUIREMENT);
 		
-		int actualPoints =1;
-		int maxPoints = 1;
+		int actualPoints =0;
+		int maxPoints = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(socialHistory != null)
@@ -388,9 +379,12 @@ public class SocialHistoryScorecard {
 				{
 					if(smokingStatus.getSmokingStatusCode()!= null)
 					{
-						if(!ApplicationConstants.SMOKING_STATUS_CODES.contains(smokingStatus.getSmokingStatusCode().getCode()))
+						if(ApplicationConstants.SMOKING_STATUS_CODES.contains(smokingStatus.getSmokingStatusCode().getCode()))
 						{
-							actualPoints = 0;
+							actualPoints++;
+						}
+						else
+						{
 							issue = new CCDAXmlSnippet();
 							issue.setLineNumber(smokingStatus.getSmokingStatusCode().getLineNumber());
 							issue.setXmlString(smokingStatus.getSmokingStatusCode().getXmlString());
@@ -432,9 +426,6 @@ public class SocialHistoryScorecard {
 			validSmokingStausScore.setDescription("smoking status code  validation Rubric failed for Social History");
 			validSmokingStausScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validSmokingStausScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validSmokingStausScore.setDescription("smoking status code  validation Rubric executed successfully for Social History");
 		}
 		return validSmokingStausScore;
 	}
@@ -444,8 +435,8 @@ public class SocialHistoryScorecard {
 		CCDAScoreCardRubrics validSmokingStausIDScore = new CCDAScoreCardRubrics();
 		validSmokingStausIDScore.setRule(ApplicationConstants.SOCIALHISTORY_SMOKING_STATUS_OBS_ID_REQUIREMENT);
 		
-		int actualPoints =1;
-		int maxPoints = 1;
+		int actualPoints =0;
+		int maxPoints = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(socialHistory != null)
@@ -456,11 +447,15 @@ public class SocialHistoryScorecard {
 				{
 					if(!ApplicationUtil.isEmpty(smokingStatus.getSmokingStatusTemplateIds()))
 					{
+						maxPoints = maxPoints + smokingStatus.getSmokingStatusTemplateIds().size();
 						for (CCDAII templateId : smokingStatus.getSmokingStatusTemplateIds())
 						{
-							if(!(templateId.getRootValue() != null && templateId.getRootValue().equals(ApplicationConstants.SMOKING_STATUS_OBSERVATION_ID)))
+							if(templateId.getRootValue() != null && templateId.getRootValue().equals(ApplicationConstants.SMOKING_STATUS_OBSERVATION_ID))
 							{
-								actualPoints = 0;
+								actualPoints++;
+							}
+							else
+							{
 								issue = new CCDAXmlSnippet();
 								issue.setLineNumber(smokingStatus.getLineNumber());
 								issue.setXmlString(smokingStatus.getXmlString());
@@ -470,6 +465,20 @@ public class SocialHistoryScorecard {
 					}
 				}
 			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(socialHistory.getLineNumber());
+				issue.setXmlString(socialHistory.getXmlString());
+				issuesList.add(issue);
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Social History section not present");
+			issue.setXmlString("Social History section not present");
+			issuesList.add(issue);
 		}
 		
 		validSmokingStausIDScore.setActualPoints(actualPoints);
@@ -479,12 +488,9 @@ public class SocialHistoryScorecard {
 		validSmokingStausIDScore.setNumberOfIssues(issuesList.size());
 		if(issuesList.size() > 0)
 	    {
-			validSmokingStausIDScore.setDescription("smoking status observation  validation Rubric failed for Social History");
+			validSmokingStausIDScore.setDescription("smoking status observation validation Rubric failed for Social History");
 			validSmokingStausIDScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validSmokingStausIDScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validSmokingStausIDScore.setDescription("smoking status observation  validation Rubric executed successfully for Social History");
 		}
 		return validSmokingStausIDScore;
 	}
