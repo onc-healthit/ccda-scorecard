@@ -190,9 +190,6 @@ public class ProblemsScorecard {
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
 			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			timePrecisionScore.setDescription("Time precision Rubric executed successfully for Problems");
 		}
 		return timePrecisionScore;
 	}
@@ -341,9 +338,6 @@ public class ProblemsScorecard {
 			validDateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
 			validDateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validDateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validDateTimeScore.setDescription("Time Validation Rubric executed successfully for Problems");
 		}
 		return validDateTimeScore;
 	}
@@ -487,9 +481,6 @@ public class ProblemsScorecard {
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
 			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateDisplayNameScore.setDescription("Code Display Name validation Rubric executed successfully for Problems");
 		}
 		return validateDisplayNameScore;
 	}
@@ -567,9 +558,6 @@ public class ProblemsScorecard {
 			validateProblemCodeScore.setDescription("code validation Rubric failed for Problems");
 			validateProblemCodeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateProblemCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateProblemCodeScore.setDescription("Code validation Rubric executed successfully for Problems");
 		}
 		return validateProblemCodeScore;
 		
@@ -634,9 +622,6 @@ public class ProblemsScorecard {
 			validateStatusCodeScore.setDescription(ApplicationConstants.PROBLEM_APR_TIME_DESC);
 			validateStatusCodeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateStatusCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateStatusCodeScore.setDescription("status Code validation Rubric executed successfully for Problems");
 		}
 		return validateStatusCodeScore;
 	}
@@ -716,9 +701,6 @@ public class ProblemsScorecard {
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.PROBLEM_TIME_CNST_DESC);
 			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateApprEffectiveTimeScore.setDescription("Effective time alignment validation Rubric executed successfully for Problems");
 		}
 		return validateApprEffectiveTimeScore;
 	}
@@ -782,9 +764,6 @@ public class ProblemsScorecard {
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.PROBLEM_APR_STATUS_REQ);
 			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
 			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
-		}else 
-		{
-			validateApprEffectiveTimeScore.setDescription("Appropriate status codet validation Rubric executed successfully for Problems");
 		}
 		return validateApprEffectiveTimeScore;
 	}
