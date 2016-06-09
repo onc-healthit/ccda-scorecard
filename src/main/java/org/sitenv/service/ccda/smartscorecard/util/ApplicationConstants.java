@@ -7,6 +7,8 @@ import java.util.TreeMap;
 
 public class ApplicationConstants {
 	
+	//set this to false for production
+	public static final boolean IN_DEVELOPMENT_MODE = false;
 	 
 	public static String FILEPATH = "C:/Projects/Dragon/CCDAParser/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	
@@ -147,11 +149,20 @@ public class ApplicationConstants {
 	public static final String SECOND_FORMAT = "yyyyMMddHHmmssZ";
 	public static final String SECOND_PATTERN = "\\d{8}-\\d{4}";
 	
-	public static final String CODE_DISPLAYNAME_VALIDATION_URL = "http://localhost:8080/referenceccdaservice/iscodeandisplaynameincodesystem";
-	public static final String CODE_VALUSET_VALIDATION_URL = "http://localhost:8080/referenceccdaservice/iscodeinvalueset";
-	public static final String CODE_CODESYSTEM_VALIDATION_URL = "http://localhost:8080/referenceccdaservice/iscodeincodesystem";
-	
-	public static final String REFERENCE_VALIDATOR_URL = "http://localhost:8080/referenceccdaservice/";
+	private static final String CCDA_DEV_SERVER_URL = "http://54.200.51.225:8080",
+			LOCAL_HOST_URL = "http://localhost:8080",
+			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
+			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
+			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
+			REFERENCE_CCDA_SERVICE = "/referenceccdaservice/";	
+	public static final String CODE_DISPLAYNAME_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
+			: LOCAL_HOST_URL) + CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
+	public static final String CODE_VALUSET_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
+			: LOCAL_HOST_URL) + CODE_IN_VALUESET_SERVICE;	
+	public static final String CODE_CODESYSTEM_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
+			: LOCAL_HOST_URL) + CODE_IN_CODESYSTEM_SERVICE;	
+	public static final String REFERENCE_VALIDATOR_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
+			: LOCAL_HOST_URL) + REFERENCE_CCDA_SERVICE;		
 	
 	public static final ArrayList<String> SMOKING_STATUS_CODES = new ArrayList<String>(
 		    Arrays.asList("449868002", "428041000124106", "8517006","266919005","77176002","266927001","428071000124103","428061000124105"));
