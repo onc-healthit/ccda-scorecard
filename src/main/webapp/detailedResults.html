@@ -56,7 +56,9 @@
                       <div ng-show="rubric.numberOfIssues > 0">
                           <div class="row">
                               <div class="col-md-4">
-                                  <a href ng-click="detailsToShow!=='XML' ? detailsToShow='XML' : detailsToShow='NULL'"><h3>Occurrence</h3></a>
+                                  <a href ng-click="detailsToShow!=='XML' ? detailsToShow='XML' : detailsToShow='NULL'">
+                                    <h3>{{calculatedValidationData.passedCertification ? "Improvements" : "Issues"}}</h3>
+                                  </a>
                               </div>
                               <div class="col-md-4">
                                   <a href ng-click="detailsToShow!=='HL7' ? detailsToShow='HL7' : detailsToShow='NULL'"><h3>Best Practice</h3></a>

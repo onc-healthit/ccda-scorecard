@@ -39,7 +39,7 @@
                         <h2>Score:</h2>
                     </div>
                     <div class="col-md-12 scSubHeadingBottom">
-                        <h2>Issues:</h2>
+                        <h2>{{calculatedValidationData.passedCertification ? "Improvements" : "Issues"}}:</h2>
                     </div>
                 </div>            
                 <div class="col-md-2 scHeading">
@@ -51,7 +51,10 @@
                         <h2>{{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade + " / 100" : "Scoring..."}}</h2>
                     </div>
                     <div class="col-md-12 scSubHeadingBottom">
-                        <h2>{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>
+                        <!-- total number of rubrics which have failed -->
+                        <!--<h2>{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>-->
+                        <!-- sum of all occurrences in each rubric -->
+                        <h2>{{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "Scoring..."}}</h2>
                     </div>
                 </div>
                 <div class="col-md-4 scHeading">
@@ -62,7 +65,7 @@
                         <h5 class="scHeaderDescriptionText">Your document scored {{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade : "?"}} out of 100 total possible points.</h5>
                     </div>
                     <div class="col-md-12 scSubHeadingBottom">
-                        <h5 class="scHeaderDescriptionText">There are {{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "?"}} specific improvements that you can make to your document.</h5>
+                        <h5 class="scHeaderDescriptionText">There are {{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "?"}} specific {{calculatedValidationData.passedCertification ? "improvements that you can make to" : "issues in"}} your document.</h5>
                     </div>
                 </div>                
             </div>
