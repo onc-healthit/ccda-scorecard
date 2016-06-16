@@ -16,8 +16,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   ]);
 
   $scope.ccdaFileName = "Scoring...";
-  $scope.totalNumberOfScorecardIssues = 0;
-  $scope.totalNumberOfFailingScorecardIssues = 0;
+  $scope.totalNumberOfScorecardOccurrences = 0;
   
   //this is populated after the JSON is returned
   $scope.chartsData = {};
@@ -34,6 +33,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   //then the service was called and returned new results,
   //so we process them so it is reflected in the view
   $scope.$watch('jsonScorecardData', function() {
+  	console.log("$scope.jsonScorecardData was changed");
 	  console.log($scope.jsonScorecardData);
 	  if(!jQuery.isEmptyObject($scope.jsonScorecardData)) {		  
 		  $scope.ccdaFileName = $scope.ccdaUploadData.fileName;
@@ -57,11 +57,10 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  if(!$scope.ngFileUploadError) {
 		  $scope.ccdaFileName = "Scoring...";
 	  }
-	  $scope.totalNumberOfScorecardIssues = 0;
-	  $scope.totalNumberOfFailingScorecardIssues = 0;
+	  $scope.totalNumberOfScorecardOccurrences = 0;
 	  $scope.chartsData = {};
 	  $scope.jsonData = {};
-	  $scope.categories = {};
+	  $scope.categories = $scope.categoriesClone = {};
 	  $scope.errorData.getJsonDataError = "";
 	  $scope.errorData.getJsonDataErrorForUser = "";
 	  chartAndCategoryIndexMap = [];
@@ -81,9 +80,11 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  //store the sub-data in a more usable/direct manner
 	  $scope.categories = $scope.jsonData.results.categoryList;
 	  $scope.finalGrade = $scope.jsonData.results.finalGrade;
-	  populateTotalNumberOfScorecardIssues();
-	  populateChartsData();
-	  populateCategoryListsByGrade();
+	  populateTotalNumberOfScorecardOccurrences();
+	  //Note: populateCategoryListsByGrade() must be run after populateTotalNumberOfScorecardOccurrences() 
+	  //as it uses modified local data
+	  populateCategoryListsByGrade();	  
+	  populateChartsData(); 
   };  
   
   var getAndProcessUploadControllerData = function() {
@@ -211,13 +212,13 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     var populateCategoryListsByGrade = function() {
 
       var allCategories = [];
-      for (var catIndex = 0; catIndex < $scope.categories.length; catIndex++) {
-        var curCategory = $scope.categories[catIndex];
+      for (var catIndex = 0; catIndex < $scope.categoriesClone.length; catIndex++) {
+        var curCategory = $scope.categoriesClone[catIndex];
         var name = curCategory.categoryName;
         var grade = curCategory.categoryGrade;
-        var issues = curCategory.numberOfIssues;
+        //var issues = curCategory.numberOfIssues;
+        var issues = curCategory.numberOfOccurrences;        
         var score = curCategory.categoryNumericalScore;
-//        name: truncateCategoryName(name),
         var sectionData = {
           name: name,
           grade: grade,
@@ -423,7 +424,6 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 
   var setChartData = function(chartType, isBarChart) {
     console.log("\n" + chartType + " Chart set...");
-    var issueCountIsNotStored = $scope.totalNumberOfScorecardIssues === 0;
     var data = [];
     var categoryDisplayName = "";
     var chartIndex = 0;
@@ -505,30 +505,39 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       }
     };
   };
-
-  var populateTotalNumberOfScorecardIssues = function() {
-    for (var catIndex = 0; catIndex < $scope.categories.length; catIndex++) {
-      var numberOfIssues = $scope.categories[catIndex].categoryRubrics.length;
-      var curCategory = $scope.categories[catIndex];
-      if (numberOfIssues > 0) {
-        //store count for total possible issues
-        $scope.totalNumberOfScorecardIssues += numberOfIssues;
-        //store count for failing issues
-        $scope.totalNumberOfFailingScorecardIssues += calculateNumberOfFailingIssuesPerSection(curCategory);        
-      }
-    }
-  };
   
+  //@deprecated
   var calculateNumberOfFailingIssuesPerSection = function(curCategory) {
 	var numberOfFailingIssuesPerSection = 0;
     for (var rubricIndex = 0; rubricIndex < curCategory.categoryRubrics.length; rubricIndex++) {
       var curRubric = curCategory.categoryRubrics[rubricIndex];
       //store count for issues which need attention
+      //note: we no longer have points in the data
       if (curRubric.actualPoints < curRubric.maxPoints) {
         numberOfFailingIssuesPerSection++;
       }
     }
     return numberOfFailingIssuesPerSection;
+  };
+  
+  var populateTotalNumberOfScorecardOccurrences = function() {
+  	$scope.categoriesClone = angular.copy($scope.categories);
+    for (var catIndex = 0; catIndex < $scope.categoriesClone.length; catIndex++) {
+    	var curCategory = $scope.categoriesClone[catIndex];
+    	var curCategoryNumberOfOccurrences = 0;
+      if (curCategory.numberOfIssues > 0) {
+      	//get into the rubrics to get the sum of the rubric level numberOfIssues (occurrences)
+      	for (var rubricIndex = 0; rubricIndex < curCategory.categoryRubrics.length; rubricIndex++) {
+          var curRubric = curCategory.categoryRubrics[rubricIndex];
+          if(curRubric.numberOfIssues > 0) {
+            $scope.totalNumberOfScorecardOccurrences += curRubric.numberOfIssues;
+            curCategoryNumberOfOccurrences += curRubric.numberOfIssues;
+          }
+        }
+      }
+    	//add numberOfOccurrences at current category to local data object for access in view
+    	curCategory.numberOfOccurrences = curCategoryNumberOfOccurrences;      
+    }
   };
   
   $scope.getDropdownStateClasses = function(panelDropdownElementId) {
