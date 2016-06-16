@@ -506,18 +506,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     };
   };
   
-  //@deprecated
   var calculateNumberOfFailingIssuesPerSection = function(curCategory) {
-	var numberOfFailingIssuesPerSection = 0;
-    for (var rubricIndex = 0; rubricIndex < curCategory.categoryRubrics.length; rubricIndex++) {
-      var curRubric = curCategory.categoryRubrics[rubricIndex];
-      //store count for issues which need attention
-      //note: we no longer have points in the data
-      if (curRubric.actualPoints < curRubric.maxPoints) {
-        numberOfFailingIssuesPerSection++;
-      }
-    }
-    return numberOfFailingIssuesPerSection;
+  	return curCategory.numberOfIssues;
   };
   
   var populateTotalNumberOfScorecardOccurrences = function() {
