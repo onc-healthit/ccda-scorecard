@@ -207,8 +207,14 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         $scope.jumpToElementViaId(elementId, weWait, timeToWaitInMiliseconds);
     };
     
-  //*************HEAT MAP RELATED****************    
-
+  //*************HEAT MAP RELATED****************
+    
+  /**
+	 * The calculation orders by the numerical grade, not the letter
+	 * based grade. The order is not intended to be related to the
+	 * amount of occurrences of issues, but instead, the actual
+	 * underlying categorical score.
+	 */
     var populateCategoryListsByGrade = function() {
 
       var allCategories = [];
