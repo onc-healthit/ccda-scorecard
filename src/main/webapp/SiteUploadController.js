@@ -142,7 +142,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
         console.log("Error uploading file or calling service(s):");
         console.log($scope.uploadErrorData.uploadError);
         console.log($scope.ngFileUploadError);
-        $scope.$scope.disableAllLoading();
+        $scope.disableAllLoading();
       }
     }, function(evt) {
       ccdaFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
