@@ -19,7 +19,7 @@ public class ProceduresScorecard {
 	{
 		
 		Category procedureCategory = new Category();
-		procedureCategory.setCategoryName("Procedures");
+		procedureCategory.setCategoryName(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> procedureScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		procedureScoreList.add(getValidDisplayNameScoreCard(procedures));

@@ -7,8 +7,6 @@ import java.util.TreeMap;
 
 public class ApplicationConstants {
 	
-	//set this to false for production
-	public static final boolean IN_DEVELOPMENT_MODE = false;
 	 
 	public static String FILEPATH = "C:/Projects/Dragon/CCDAParser/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	
@@ -72,6 +70,10 @@ public class ApplicationConstants {
 	public static final String LABRESULTS_APR_TIME_DESC = "The EffectiveDate/Time elements of the Results Organizer cannot be out of sync with the Result Observation. "
 			+ "Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low and Observation's EffectiveTime/high should be <= Organizer's "
 			+ "EffectiveTime/high";
+	
+	public static final String TEMPLATEID_DESC = "";
+	public static final String TEMPLATEID_REQ = "All Template Ids should be correct";
+	
 	
 	public static final String ENCOUNTER_TIMEDATE_VALID_REQUIREMENT = "All effective time elements under Encounters section should contain "
 																		+ "valid date and time value within human life span";
@@ -149,20 +151,11 @@ public class ApplicationConstants {
 	public static final String SECOND_FORMAT = "yyyyMMddHHmmssZ";
 	public static final String SECOND_PATTERN = "\\d{8}-\\d{4}";
 	
-	private static final String CCDA_DEV_SERVER_URL = "http://54.200.51.225:8080",
-			LOCAL_HOST_URL = "http://localhost:8080",
-			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
-			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
-			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
-			REFERENCE_CCDA_SERVICE = "/referenceccdaservice/";	
-	public static final String CODE_DISPLAYNAME_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: LOCAL_HOST_URL) + CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
-	public static final String CODE_VALUSET_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: LOCAL_HOST_URL) + CODE_IN_VALUESET_SERVICE;	
-	public static final String CODE_CODESYSTEM_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: LOCAL_HOST_URL) + CODE_IN_CODESYSTEM_SERVICE;	
-	public static final String REFERENCE_VALIDATOR_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: LOCAL_HOST_URL) + REFERENCE_CCDA_SERVICE;		
+	public static final String CODE_DISPLAYNAME_VALIDATION_URL = "http://54.200.51.225:8080/referenceccdaservice/iscodeandisplaynameincodesystem"; 
+	public static final String CODE_VALUSET_VALIDATION_URL = "http://54.200.51.225:8080/referenceccdaservice/iscodeinvalueset"; 
+	public static final String CODE_CODESYSTEM_VALIDATION_URL = "http://54.200.51.225:8080/referenceccdaservice/iscodeincodesystem";
+	
+	public static final String REFERENCE_VALIDATOR_URL = "http://54.200.51.225:8080/referenceccdaservice/"; 
 	
 	public static final ArrayList<String> SMOKING_STATUS_CODES = new ArrayList<String>(
 		    Arrays.asList("449868002", "428041000124106", "8517006","266919005","77176002","266927001","428071000124103","428061000124105"));
@@ -217,6 +210,34 @@ public class ApplicationConstants {
 		CODE_SYSTEM_MAP.put(RXNORM_CODE_SYSTEM, RXNORM_CODE_SYSTEM_NAME);
 		CODE_SYSTEM_MAP.put(CPT4_CODE_SYSTEM, CPT4_CODE_SYSTEM_NAME);
 		CODE_SYSTEM_MAP.put(CVX_CODE_SYSTEM, CVX_CODE_SYSTEM_NAME);
+	}
+	
+	public static enum CATEGORIES
+	{
+		ALLERGIES("Allergies"),
+		ENCOUNTERS("Encounters"), 
+		IMMUNIZATIONS("Immunizations"),
+		RESULTS("Laboratory Tests and Results"),
+		MEDICATIONS("Medications"),
+		MISC("Miscellaneous"),
+		PATIENT("Patient Demographics"),
+		PROBLEMS("Problems"),
+		PROCEDURES("Procedures"),
+		SOCIALHISTORY("Social History"),
+		VITALS("Vital Signs");
+
+		private String categoryDesc;
+
+		private CATEGORIES(final String categoryDesc)
+		{
+			this.categoryDesc = categoryDesc;
+		}
+
+		public String getCategoryDesc()
+		{
+			return categoryDesc;
+		}
+
 	}
 	
 	

@@ -20,7 +20,7 @@ public class ImmunizationScorecard {
 	{
 		
 		Category immunizationCategory = new Category();
-		immunizationCategory.setCategoryName("Immunizations");
+		immunizationCategory.setCategoryName(ApplicationConstants.CATEGORIES.IMMUNIZATIONS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> immunizationScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		immunizationScoreList.add(getTimePrecisionScore(immunizatons));

@@ -21,7 +21,7 @@ public class SocialHistoryScorecard {
 	{
 		
 		Category socialHistoryCategory = new Category();
-		socialHistoryCategory.setCategoryName("Social History");
+		socialHistoryCategory.setCategoryName(ApplicationConstants.CATEGORIES.SOCIALHISTORY.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> socialHistoryScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		socialHistoryScoreList.add(getTimePrecisionScore(socialHistory));
@@ -377,6 +377,7 @@ public class SocialHistoryScorecard {
 			{
 				for (CCDASmokingStatus smokingStatus : socialHistory.getSmokingStatus())
 				{
+					maxPoints++;
 					if(smokingStatus.getSmokingStatusCode()!= null)
 					{
 						if(ApplicationConstants.SMOKING_STATUS_CODES.contains(smokingStatus.getSmokingStatusCode().getCode()))
@@ -399,13 +400,6 @@ public class SocialHistoryScorecard {
 						issuesList.add(issue);
 					}
 				}
-			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(socialHistory.getLineNumber());
-				issue.setXmlString(socialHistory.getXmlString());
-				issuesList.add(issue);
 			}
 		}
 		else
