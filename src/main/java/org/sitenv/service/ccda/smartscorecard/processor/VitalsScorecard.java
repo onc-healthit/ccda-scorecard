@@ -25,7 +25,7 @@ public class VitalsScorecard {
 	{
 		
 		Category vitalsCategory = new Category();
-		vitalsCategory.setCategoryName("Vital Signs");
+		vitalsCategory.setCategoryName(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> vitalsScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		vitalsScoreList.add(getTimePrecisionScore(vitals));

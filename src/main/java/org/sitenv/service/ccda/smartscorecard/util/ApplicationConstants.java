@@ -73,6 +73,10 @@ public class ApplicationConstants {
 			+ "Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low and Observation's EffectiveTime/high should be <= Organizer's "
 			+ "EffectiveTime/high";
 	
+	public static final String TEMPLATEID_DESC = "";
+	public static final String TEMPLATEID_REQ = "All Template Ids should be correct";
+	
+	
 	public static final String ENCOUNTER_TIMEDATE_VALID_REQUIREMENT = "All effective time elements under Encounters section should contain "
 																		+ "valid date and time value within human life span";
 	public static final String ENCOUNTER_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under encounter section should contain valid display names";	
@@ -162,7 +166,7 @@ public class ApplicationConstants {
 	public static final String CODE_CODESYSTEM_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
 			: LOCAL_HOST_URL) + CODE_IN_CODESYSTEM_SERVICE;	
 	public static final String REFERENCE_VALIDATOR_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: LOCAL_HOST_URL) + REFERENCE_CCDA_SERVICE;		
+			: LOCAL_HOST_URL) + REFERENCE_CCDA_SERVICE;
 	
 	public static final ArrayList<String> SMOKING_STATUS_CODES = new ArrayList<String>(
 		    Arrays.asList("449868002", "428041000124106", "8517006","266919005","77176002","266927001","428071000124103","428061000124105"));
@@ -217,6 +221,34 @@ public class ApplicationConstants {
 		CODE_SYSTEM_MAP.put(RXNORM_CODE_SYSTEM, RXNORM_CODE_SYSTEM_NAME);
 		CODE_SYSTEM_MAP.put(CPT4_CODE_SYSTEM, CPT4_CODE_SYSTEM_NAME);
 		CODE_SYSTEM_MAP.put(CVX_CODE_SYSTEM, CVX_CODE_SYSTEM_NAME);
+	}
+	
+	public static enum CATEGORIES
+	{
+		ALLERGIES("Allergies"),
+		ENCOUNTERS("Encounters"), 
+		IMMUNIZATIONS("Immunizations"),
+		RESULTS("Laboratory Tests and Results"),
+		MEDICATIONS("Medications"),
+		MISC("Miscellaneous"),
+		PATIENT("Patient Demographics"),
+		PROBLEMS("Problems"),
+		PROCEDURES("Procedures"),
+		SOCIALHISTORY("Social History"),
+		VITALS("Vital Signs");
+
+		private String categoryDesc;
+
+		private CATEGORIES(final String categoryDesc)
+		{
+			this.categoryDesc = categoryDesc;
+		}
+
+		public String getCategoryDesc()
+		{
+			return categoryDesc;
+		}
+
 	}
 	
 	

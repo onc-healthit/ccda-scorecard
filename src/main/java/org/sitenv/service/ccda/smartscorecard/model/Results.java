@@ -11,6 +11,8 @@ public class Results {
 	private String igReferenceUrl;
 	private int industryAverageScore;
 	private String industryAverageGrade;
+	private long numberOfDocumentsScored;
+	private String docType;
 	
 	public String getFinalGrade() {
 		return finalGrade;
@@ -53,5 +55,17 @@ public class Results {
 	}
 	public void setIgReferenceUrl(String igReferenceUrl) {
 		this.igReferenceUrl = igReferenceUrl;
+	}
+	public long getNumberOfDocumentsScored() {
+		return numberOfDocumentsScored;
+	}
+	public void setNumberOfDocumentsScored(long numberOfDocumentsScored) {
+		this.numberOfDocumentsScored = numberOfDocumentsScored;
+	}
+	public String getDocType() {
+		return docType;
+	}
+	public void setDocType(String docType) {
+		this.docType = docType;
 	}
 }

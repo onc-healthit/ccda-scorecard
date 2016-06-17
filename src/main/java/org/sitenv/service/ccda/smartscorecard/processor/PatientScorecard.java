@@ -18,7 +18,7 @@ public class PatientScorecard {
 	{
 		
 		Category patientCategory = new Category();
-		patientCategory.setCategoryName("Patient Demographics");
+		patientCategory.setCategoryName(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc());
 		List<CCDAScoreCardRubrics> patientScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		patientScoreList.add(getDOBTimePrecisionScore(patient));
 		

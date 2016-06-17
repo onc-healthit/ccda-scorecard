@@ -12,7 +12,9 @@ import java.util.Locale;
 
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
+import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
+import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
@@ -99,6 +101,20 @@ public class ApplicationUtil {
 		}
 		
 		return result;
+	}
+	
+	public static boolean isExtensionPresent(List<CCDAII> templateIds)
+	{
+		boolean value = false;
+		for (CCDAII templateId : templateIds)
+		{
+			if(templateId.getExtValue()!= null)
+			{
+				return true;
+			}
+		}
+		
+		return value;
 	}
 	
 	public static Date convertStringToDate(final String string, String format)throws ParseException
@@ -514,7 +530,7 @@ public class ApplicationUtil {
 			maxPoints++;
 			if(rubrics.getNumberOfIssues()!=0)
 			{
-				categoryIssues++;
+				categoryIssues = categoryIssues + rubrics.getNumberOfIssues();
 			}
 		}
 		
@@ -625,5 +641,76 @@ public class ApplicationUtil {
 			return (float)actualPoints/(float)maxPoints;
 		}else 
 			return 0;
+	}
+	
+	public static String checkDocType(CCDARefModel ccdaModels)
+	{
+		String docType = "";
+		
+		if(ccdaModels.getAllergy()!=null)
+		{
+			if(isExtensionPresent(ccdaModels.getAllergy().getSectionTemplateId()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+				
+		}
+		else if(ccdaModels.getEncounter()!=null)
+		{
+			if(isExtensionPresent(ccdaModels.getEncounter().getTemplateId()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+				
+		}
+		else if(ccdaModels.getAllergy()!=null)
+		{
+			if(isExtensionPresent(ccdaModels.getMedication().getTemplateIds()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+				
+		}
+		else if(ccdaModels.getAllergy()!=null)
+		{
+			if(isExtensionPresent(ccdaModels.getImmunization().getTemplateIds()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+		}
+		else if(ccdaModels.getVitalSigns()!=null)
+		{
+			if(isExtensionPresent(ccdaModels.getVitalSigns().getTemplateIds()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+		}
+		else if(ccdaModels.getSmokingStatus()!=null)
+		{
+			if(isExtensionPresent(ccdaModels.getSmokingStatus().getSectionTemplateIds()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+		}
+		
+		return docType;
 	}
 }
