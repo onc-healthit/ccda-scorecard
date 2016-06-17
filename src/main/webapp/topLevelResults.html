@@ -3,8 +3,8 @@
     <div id="scHeaderContainer">        
         <div class="row scHeadingSummary">
             <div class="col-md-12">
-                <!--<h1>{{ uploadDisplay.isLoading ? 'Scoring...' : ccdaFileName + ' Scorecard' }}</h1>-->
-                <h1>Scorecard for&nbsp;{{ccdaUploadData.fileName}}</h1>
+                <h1>{{jsonData.results.finalGrade ? 'C-CDA ' + jsonData.results.docType : ''}} Scorecard For:</h1>
+                <h2>{{ccdaUploadData.fileName}}</h2>
             </div>
         </div>
         <div id="topLevelResultsTable">
