@@ -21,21 +21,43 @@
   <div id="topPanelBody">
     <div id="chartWell" class="well removePanelGradient removeBorder">
     
-      <!--<div ng-show="jsonData.results.finalGrade" class="col-md-12">
-        <h4>Note: The scorecard results are for a C-CDA <b>{{jsonData.results.docType}}</b> document.</h4>
-      </div>-->
+      <!--
+      <div class="row">
+        <div ng-show="jsonData.results.finalGrade" class="col-md-12">
+          <h4>
+            Note: The scorecard results are for a C-CDA <b>{{jsonData.results.docType}}</b>
+            document.
+          </h4>
+        </div>
+      </div>
+      -->
 
-      <div class="col-md-12">
-        <h4>Detailed grades and the number of issues for each of
-          the areas of information present in your document are shown
-          below. You can use it to quickly identify areas within the
-          document that require the most attention. Click on each of the
-          boxes to navigate to the appropriate part of the report that
-          contains additional details on the issues.</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <h4>Detailed grades and the number of issues for each of
+            the areas of information present in your document are shown
+            below. You can use it to quickly identify areas within the
+            document that require the most attention. Click on each of
+            the boxes to navigate to the appropriate part of the report
+            that contains additional details on the issues.</h4>
+        </div>
+        <div class="col-md-6">
+          <h4>
+            Industry average is the average of all grades for C-CDAs
+            that have been scored by the ONC Scorecard. It is computed
+            on an on-going basis, since June 20th, 2016, when the
+            Scorecard tool was first made available to users. Since
+            then, <b>{{jsonData.results.finalGrade ?
+              jsonData.results.numberOfDocumentsScored : '?'}}</b> documents
+            have been graded by the ONC Scorecard.
+          </h4>
+        </div>
       </div>
 
-      <div class="col-md-12">
-        <heat-map></heat-map>
+      <div class="row">      
+        <div class="col-md-12">
+          <heat-map></heat-map>
+        </div>
       </div>
 
     </div>
