@@ -36,7 +36,7 @@ public class LabresultsScorecard {
 		}
 		
 		Category labResultsCategory = new Category();
-		labResultsCategory.setCategoryName("Laboratory Tests and Results");
+		labResultsCategory.setCategoryName(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> labResultsScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		labResultsScoreList.add(getTimePrecisionScore(results));

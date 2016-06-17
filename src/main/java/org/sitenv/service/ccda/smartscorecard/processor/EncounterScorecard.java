@@ -22,7 +22,7 @@ public class EncounterScorecard {
 	{
 		
 		Category encounterCategory = new Category();
-		encounterCategory.setCategoryName("Encounters");
+		encounterCategory.setCategoryName(ApplicationConstants.CATEGORIES.ENCOUNTERS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> encounterScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		encounterScoreList.add(getTimePrecisionScore(encounter));

@@ -21,7 +21,7 @@ public class ProblemsScorecard {
 	{
 		
 		Category problemsCategory = new Category();
-		problemsCategory.setCategoryName("Problems");
+		problemsCategory.setCategoryName(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> problemsScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		problemsScoreList.add(getTimePrecisionScore(problems));

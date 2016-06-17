@@ -21,7 +21,7 @@ public class MedicationScorecard {
 	{
 		
 		Category medicationCategory = new Category();
-		medicationCategory.setCategoryName("Medications");
+		medicationCategory.setCategoryName(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> medicationScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		medicationScoreList.add(getTimePrecisionScore(medications));

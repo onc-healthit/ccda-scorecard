@@ -17,6 +17,7 @@ import org.sitenv.service.ccda.smartscorecard.processor.EncounterScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.ImmunizationScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.LabresultsScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.MedicationScorecard;
+import org.sitenv.service.ccda.smartscorecard.processor.MiscScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.PatientScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.ProblemsScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.ProceduresScorecard;
@@ -76,6 +77,9 @@ public class CcdaSmartScorecardController {
 	ProceduresScorecard procedureScorecard;
 	
 	@Autowired
+	MiscScorecard miscScorecard;
+	
+	@Autowired
 	ScoreCardStatisticProcessor scoreCardStatisticProcessor;
 	
 	@RequestMapping(value="/ccdascorecardservice", method= RequestMethod.POST)
@@ -104,12 +108,15 @@ public class CcdaSmartScorecardController {
 			categoryList.add(labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),birthDate));
 			categoryList.add(vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),birthDate));
 			categoryList.add(procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),birthDate));
+			categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
 			
 			results.setCategoryList(categoryList);
 			ApplicationUtil.calculateFinalGradeAndIssues(categoryList, results);
 			results.setIgReferenceUrl(ApplicationConstants.IG_URL);
-			scoreCardStatisticProcessor.saveDetails(results.getFinalNumericalGrade());
+			results.setDocType(ApplicationUtil.checkDocType(ccdaModels));
+			scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename());
 			results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage());
+			results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored());
 			if(results.getIndustryAverageScore() != 0)
 			{
 				results.setIndustryAverageGrade(ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScore()));

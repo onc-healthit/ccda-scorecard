@@ -20,7 +20,7 @@ public class AllergiesScorecard {
 	{
 		
 		Category allergyCategory = new Category();
-		allergyCategory.setCategoryName("Allergies");
+		allergyCategory.setCategoryName(ApplicationConstants.CATEGORIES.ALLERGIES.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> allergyScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		allergyScoreList.add(getTimePrecisionScore(allergies));
