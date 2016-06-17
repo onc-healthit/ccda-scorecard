@@ -14,11 +14,20 @@
                         <h2>Certification Score</h2>
                         <h2>      
                             <span ng-show="!calculatedValidationData.certificationResult">
-                            <span>Certifying...</span>
-                            <br/>
-                            <img src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 35px; padding-top: 11px; padding-bottom: 5px;">
+                              <span ng-show="!uploadErrorData.validationServiceError">
+                                <span>Certifying...</span><br/>
+                                <img src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 35px; padding-top: 11px; padding-bottom: 5px;">
+                              </span>
                             </span>
-                            <span ng-show="calculatedValidationData.certificationResult">
+                            <span ng-show="uploadErrorData.validationServiceError">
+                              <span class="failCertColor">Certification Service Error</span>
+                              <span style="font-size: 55%">
+                                <span>Please try again at another time or try another file.</span>
+                                <br/>
+                                <span>Note: The Scorecard results may still be accurate.</span>
+                              </span>                                
+                            </span>                            
+                            <span ng-show="calculatedValidationData.certificationResult && !uploadErrorData.validationServiceError">
                                 <div class="col-md-6 fitGlyphiconToScHeadingSize" ng-class="setPassingCertificationColors('col-md-6 fitGlyphiconToScHeadingSize')">
                                     <span class="glyphicon glyphicon-ok" title="Passed Certification" alt="{{calculatedValidationData.certificationResult}}"></span>
                                     <br>Pass

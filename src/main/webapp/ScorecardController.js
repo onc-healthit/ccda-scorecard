@@ -39,6 +39,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 		  $scope.ccdaFileName = $scope.ccdaUploadData.fileName;
 		  getAndProcessUploadControllerData();
 		  $scope.uploadDisplay.isLoading = false;
+		  if($scope.uploadErrorData.validationServiceError) {
+		  	$scope.uploadDisplay.isValidationLoading = false;
+		  }
 		  $scope.resizeWindow(300);
 	  }
   }, true);
