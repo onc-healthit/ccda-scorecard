@@ -47,12 +47,12 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     $scope.selectedValidationOption = $scope.validationOptions[0];
   
   var resetValidationData = function() {	  	  
-	$scope.jsonScorecardData = {};
-	$scope.ngFileUploadError = null;
-	$scope.uploadDisplay.isLoading = true;
-	$scope.uploadDisplay.isValidationLoading = true;
-	$scope.uploadErrorData.validationServiceError = "";
-	$scope.uploadErrorData.uploadError = $scope.userMessageConstant.UPLOAD_ERROR + $scope.userMessageConstant.GENERIC;
+		$scope.jsonScorecardData = {};
+		$scope.ngFileUploadError = null;
+		$scope.uploadDisplay.isLoading = true;
+		$scope.uploadDisplay.isValidationLoading = true;
+		$scope.uploadErrorData.validationServiceError = "";
+		$scope.uploadErrorData.uploadError = $scope.userMessageConstant.UPLOAD_ERROR + $scope.userMessageConstant.GENERIC;
     $scope.calculatedValidationData.certificationResult = "";
     $scope.calculatedValidationData.passedCertification = false;
   };  
@@ -185,12 +185,13 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   var checkForValidationErrors = function() {
   	if(typeof $scope.metaResults !== 'undefined') {
     	//invalid results returned due to a defined service error
-      if($scope.metaResults.serviceError && $scope.metaResults.serviceErrorMessage) {
+      if($scope.metaResults.serviceError) {
     		$scope.uploadErrorData.validationServiceError = $scope.metaResults.serviceErrorMessage + 
     			" The file uploaded which encountered the error is " + $scope.ccdaUploadData.fileName + ". " + 
     				$scope.userMessageConstant.GENERIC;
-    		console.log("Validation Service Error: " + $scope.uploadErrorData.validationServiceError);
-    		$scope.disableAllLoading();
+    		console.log("Validation Service Error: " + $scope.uploadErrorData.validationServiceError);    		
+    		$scope.uploadDisplay.isValidationLoading = false;
+    		$scope.calculatedValidationData.certificationResult = false;
       }
   	} else if(!$scope.ccdaResults) {
     	//invalid results returned due to an undefined service error
@@ -198,7 +199,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 			"for an unknown reason. Please try a file other than " + $scope.ccdaUploadData.fileName + " and report " +
 					"the issue to TestingServices@sitenv.org.";
   		console.log("Validation Service Error: " + $scope.uploadErrorData.validationServiceError);
-  		$scope.disableAllLoading();
+  		$scope.uploadDisplay.isValidationLoading = false;
+  		$scope.calculatedValidationData.certificationResult = false;
     }  	
   }
 
