@@ -238,21 +238,22 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         allCategories.push(sectionData);
       };
       
-      if(allCategories.length < 12) {
-        var emptySectionData = {
-          name: "UNK",
-          grade: "UNK",
-          sectionIssueCount: 0,
-          score: 0
-        };
-        if(allCategories.length === 10) {
-          allCategories.push(emptySectionData, emptySectionData);
-        } else if(allCategories.length === 11) {
-          allCategories.push(emptySectionData);
-        }
-      }
 
       allCategories.sort(compareNumericalGradesInSectionData);
+      
+      if(allCategories.length < 12) {
+          var emptySectionData = {
+            name: "UNK",
+            grade: "UNK",
+            sectionIssueCount: 0,
+            score: 0
+          };
+          if(allCategories.length === 10) {
+            allCategories.push(emptySectionData, emptySectionData);
+          } else if(allCategories.length === 11) {
+            allCategories.push(emptySectionData);
+          }
+        }
 
       $scope.categoryListByGradeFirstColumn = allCategories.slice(0, 4);
       $scope.categoryListByGradeSecondColumn = allCategories.slice(4, 8);

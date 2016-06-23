@@ -579,8 +579,7 @@ public class ApplicationUtil {
 			numberOfIssues = numberOfIssues + category.getNumberOfIssues();
 		}
 		
-		float percentage = (finalActualPoints * 100)/finalMaxPoints;
-		Math.round(percentage);
+		int percentage = Math.round((finalActualPoints * 100)/finalMaxPoints);
 		if(percentage < 70)
 		{
 			finalGrade =  "D";
@@ -602,7 +601,7 @@ public class ApplicationUtil {
 		}
 		
 		results.setFinalGrade(finalGrade);
-		results.setFinalNumericalGrade(Math.round(percentage));
+		results.setFinalNumericalGrade(percentage);
 		results.setNumberOfIssues(numberOfIssues);
 	}
 	

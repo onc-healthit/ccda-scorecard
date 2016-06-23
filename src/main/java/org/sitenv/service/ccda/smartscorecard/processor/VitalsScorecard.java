@@ -3,6 +3,7 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAVitalObs;
 import org.sitenv.ccdaparsing.model.CCDAVitalOrg;
 import org.sitenv.ccdaparsing.model.CCDAVitalSigns;
@@ -34,6 +35,7 @@ public class VitalsScorecard {
 		vitalsScoreList.add(getValidLoincCodesScore(vitals));
 		vitalsScoreList.add(getValidUCUMScore(vitals));
 		vitalsScoreList.add(getApprEffectivetimeScore(vitals));
+		vitalsScoreList.add(getNarrativeStructureIdScore(vitals));
 		
 		vitalsCategory.setCategoryRubrics(vitalsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(vitalsScoreList, vitalsCategory);
@@ -663,6 +665,58 @@ public class VitalsScorecard {
 			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
 		return validateApprEffectiveTimeScore;
+	}
+	
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAVitalSigns vitals)
+	{
+		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
+		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(vitals != null)
+		{
+			if(!ApplicationUtil.isEmpty(vitals.getVitalsOrg()))
+			{
+				for(CCDAVitalOrg vitalOrg : vitals.getVitalsOrg())
+				{
+					if(!ApplicationUtil.isEmpty(vitalOrg.getReferenceTexts()))
+					{
+						for(CCDADataElement referenceText : vitalOrg.getReferenceTexts())
+						{
+							maxPoints++;
+							if(vitals.getReferenceLinks().contains(referenceText.getValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(referenceText.getLineNumber());
+								issue.setXmlString(referenceText.getXmlString());
+								issuesList.add(issue);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		narrativeTextIdScore.setActualPoints(actualPoints);
+		narrativeTextIdScore.setMaxPoints(maxPoints);
+		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		narrativeTextIdScore.setIssuesList(issuesList);
+		narrativeTextIdScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
+			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+		}
+		
+		return narrativeTextIdScore;
 	}
 
 }

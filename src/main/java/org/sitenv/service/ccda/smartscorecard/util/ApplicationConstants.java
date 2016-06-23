@@ -5,10 +5,11 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
+
 public class ApplicationConstants {
 	
 	//set this to false for production
-	public static final boolean IN_DEVELOPMENT_MODE = false;
+	public static final boolean IN_DEVELOPMENT_MODE = true;
 	 
 	public static String FILEPATH = "C:/Projects/Dragon/CCDAParser/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	
@@ -127,8 +128,9 @@ public class ApplicationConstants {
 	public static final String ALLERGIES_TIMEDATE_VALID_REQUIREMENT = "All effective time elements under allergies section should contain "
 																		+ "valid date and time value within human life span";
 	public static final String ALLERGIES_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under allergies section should contain valid display names";	
-	public static final String ALLERGIES_CONCERN_DATE_ALIGN = "Allergies observation effective should align with Allergies concern act effective time";
-
+	
+	public static final String ALLERGIES_CONCERN_DATE_ALIGN_REQ = "Allergies observation effective should align with Allergies concern act effective time";
+	public static final String ALLERGIES_CONCERN_DATE_ALIGN_DESC ="Allergies observation effective should align with Allergies concern act effective time";
 	
 	public static final String PROCEDURES_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Procedures section should contain valid display names";	
 	
@@ -140,6 +142,9 @@ public class ApplicationConstants {
 	public static final String SOCIALHISTORY_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Social History section should contain valid display names";	
 	public static final String SOCIALHISTORY_SMOKING_STATUS_REQUIREMENT = "Smoking status code value should be valid";
 	public static final String SOCIALHISTORY_SMOKING_STATUS_OBS_ID_REQUIREMENT = "Smoking status observation Template Id should be valid";
+	
+	public static final String NARRATIVE_STRUCTURE_ID_REQ = "Each entry has to be linked to related narrative text";
+	public static final String NARRATIVE_STRUCTURE_ID_DESC = "Each entry has to be linked to related narrative text";
 	
 	public static final String MONTH_FORMAT = "yyyyMM";
 	public static final String MONTH_PATTERN = "\\d{6}";

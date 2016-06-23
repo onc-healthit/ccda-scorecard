@@ -809,6 +809,12 @@ public class MiscScorecard {
 			}
 		}
 		
+		if(maxPoints==0)
+		{
+			maxPoints = 1;
+			actualPoints = 1;
+		}
+		
 		templateIdScore.setActualPoints(actualPoints);
 		templateIdScore.setMaxPoints(maxPoints);
 		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
