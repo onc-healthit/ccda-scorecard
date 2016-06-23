@@ -553,6 +553,12 @@ public class SocialHistoryScorecard {
 			}
 		}
 		
+		if(maxPoints==0)
+		{
+			maxPoints = 1;
+			actualPoints = 1;
+		}
+		
 		narrativeTextIdScore.setActualPoints(actualPoints);
 		narrativeTextIdScore.setMaxPoints(maxPoints);
 		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
