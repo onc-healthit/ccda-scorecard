@@ -28,7 +28,7 @@ public class AllergiesScorecard {
 		allergyScoreList.add(getValidDateTimeScore(allergies, birthDate));
 		allergyScoreList.add(getValidDisplayNameScoreCard(allergies));
 		allergyScoreList.add(getApprEffectivetimeScore(allergies));
-		allergyScoreList.add(getNarrativeStructureIdScore(allergies));
+		//allergyScoreList.add(getNarrativeStructureIdScore(allergies));
 		
 		allergyCategory.setCategoryRubrics(allergyScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(allergyScoreList,allergyCategory);

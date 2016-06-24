@@ -29,7 +29,7 @@ public class EncounterScorecard {
 		encounterScoreList.add(getTimePrecisionScore(encounter));
 		encounterScoreList.add(getValidDateTimeScore(encounter,birthDate));
 		encounterScoreList.add(getValidDisplayNameScoreCard(encounter));
-		encounterScoreList.add(getNarrativeStructureIdScore(encounter));
+		//encounterScoreList.add(getNarrativeStructureIdScore(encounter));
 		
 		encounterCategory.setCategoryRubrics(encounterScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(encounterScoreList, encounterCategory);

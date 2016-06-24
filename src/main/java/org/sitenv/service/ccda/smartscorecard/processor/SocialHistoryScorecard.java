@@ -30,7 +30,7 @@ public class SocialHistoryScorecard {
 		socialHistoryScoreList.add(getValidDisplayNameScoreCard(socialHistory));
 		socialHistoryScoreList.add(getValidSmokingStatusScore(socialHistory));
 		socialHistoryScoreList.add(getValidSmokingStatuIdScore(socialHistory));
-		socialHistoryScoreList.add(getNarrativeStructureIdScore(socialHistory));
+		//socialHistoryScoreList.add(getNarrativeStructureIdScore(socialHistory));
 		
 		socialHistoryCategory.setCategoryRubrics(socialHistoryScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(socialHistoryScoreList, socialHistoryCategory);
