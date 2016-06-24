@@ -68,7 +68,7 @@
                 </div>
                 <div class="col-md-4 scHeading">
                     <div class="col-md-12 scSubHeading">                        
-                        <h5 class="scHeaderDescriptionText">Your document scored {{jsonData.results.finalGrade && jsonData.results.finalGrade === 'A' ? 'an' : 'a'}}&nbsp;{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "?"}} compared to an industry average of {{jsonData.results.finalGrade ? jsonData.results.industryAverageGrade : "?"}}.</h5>
+                        <h5 class="scHeaderDescriptionText">Your document scored {{jsonData.results.finalGrade && jsonData.results.finalGrade === 'A' ? 'an' : 'a'}}&nbsp;{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "?"}} compared to an industry average of <b>{{jsonData.results.finalGrade ? jsonData.results.industryAverageGrade : "?"}}</b>.</h5>
                     </div>
                     <div class="col-md-12 scSubHeading">
                         <h5 class="scHeaderDescriptionText">Your document scored {{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade : "?"}} out of 100 total possible points.</h5>
@@ -81,7 +81,7 @@
         </div>
     </div>    
 
-    <charts></charts>
+    <charts> </charts>
 
     <!-- Access to Detailed Results -->
     <div id="detailedResults" class="row" ng-show="!uploadDisplay.isLoading && !uploadErrorData.validationServiceError && !errorData.getJsonDataError">

@@ -27,7 +27,7 @@ public class ImmunizationScorecard {
 		immunizationScoreList.add(getTimePrecisionScore(immunizations));
 		immunizationScoreList.add(getValidDateTimeScore(immunizations,birthDate));
 		immunizationScoreList.add(getValidDisplayNameScoreCard(immunizations));
-		immunizationScoreList.add(getNarrativeStructureIdScore(immunizations));
+		//immunizationScoreList.add(getNarrativeStructureIdScore(immunizations));
 		
 		immunizationCategory.setCategoryRubrics(immunizationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(immunizationScoreList, immunizationCategory);

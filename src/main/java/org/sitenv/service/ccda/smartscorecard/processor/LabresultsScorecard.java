@@ -46,7 +46,7 @@ public class LabresultsScorecard {
 		labResultsScoreList.add(getValidUCUMScore(labResults));
 		labResultsScoreList.add(getValidLoincCodesScore(results));
 		labResultsScoreList.add(getApprEffectivetimeScore(results));
-		labResultsScoreList.add(getNarrativeStructureIdScore(results));
+		//labResultsScoreList.add(getNarrativeStructureIdScore(results));
 		
 		labResultsCategory.setCategoryRubrics(labResultsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(labResultsScoreList, labResultsCategory);

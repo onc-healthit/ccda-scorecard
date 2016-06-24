@@ -29,7 +29,7 @@ public class MedicationScorecard {
 		medicationScoreList.add(getValidDateTimeScore(medications, birthDate));
 		medicationScoreList.add(getValidDisplayNameScoreCard(medications));
 		medicationScoreList.add(getValidMedActivityScore(medications));
-		medicationScoreList.add(getNarrativeStructureIdScore(medications));
+		//medicationScoreList.add(getNarrativeStructureIdScore(medications));
 		
 		medicationCategory.setCategoryRubrics(medicationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(medicationScoreList, medicationCategory);

@@ -32,7 +32,7 @@ public class ProblemsScorecard {
 		problemsScoreList.add(getValidStatusCodeScoreCard(problems));
 		problemsScoreList.add(getApprEffectivetimeScore(problems));
 		problemsScoreList.add(getApprStatusCodeScore(problems));
-		problemsScoreList.add(getNarrativeStructureIdScore(problems));
+		//problemsScoreList.add(getNarrativeStructureIdScore(problems));
 		
 		ApplicationUtil.calculateSectionGradeAndIssues(problemsScoreList, problemsCategory);
 		

@@ -35,7 +35,7 @@ public class VitalsScorecard {
 		vitalsScoreList.add(getValidLoincCodesScore(vitals));
 		vitalsScoreList.add(getValidUCUMScore(vitals));
 		vitalsScoreList.add(getApprEffectivetimeScore(vitals));
-		vitalsScoreList.add(getNarrativeStructureIdScore(vitals));
+		//vitalsScoreList.add(getNarrativeStructureIdScore(vitals));
 		
 		vitalsCategory.setCategoryRubrics(vitalsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(vitalsScoreList, vitalsCategory);
