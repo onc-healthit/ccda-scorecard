@@ -6,7 +6,10 @@ public class Category {
 	
 	private String categoryName;
 	private String categoryGrade;
+	private int categoryNumericalScore;
 	private List<CCDAScoreCardRubrics> categoryRubrics;
+	private int numberOfIssues;
+	
 	public String getCategoryName() {
 		return categoryName;
 	}
@@ -24,5 +27,17 @@ public class Category {
 	}
 	public void setCategoryRubrics(List<CCDAScoreCardRubrics> categoryRubrics) {
 		this.categoryRubrics = categoryRubrics;
+	}
+	public int getNumberOfIssues() {
+		return numberOfIssues;
+	}
+	public void setNumberOfIssues(int numberOfIssues) {
+		this.numberOfIssues = numberOfIssues;
+	}
+	public int getCategoryNumericalScore() {
+		return categoryNumericalScore;
+	}
+	public void setCategoryNumericalScore(int categoryNumericalScore) {
+		this.categoryNumericalScore = categoryNumericalScore;
 	}
 }

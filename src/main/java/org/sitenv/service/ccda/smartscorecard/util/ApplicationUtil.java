@@ -12,7 +12,9 @@ import java.util.Locale;
 
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
+import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
+import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
@@ -101,6 +103,20 @@ public class ApplicationUtil {
 		return result;
 	}
 	
+	public static boolean isExtensionPresent(List<CCDAII> templateIds)
+	{
+		boolean value = false;
+		for (CCDAII templateId : templateIds)
+		{
+			if(templateId.getExtValue()!= null)
+			{
+				return true;
+			}
+		}
+		
+		return value;
+	}
+	
 	public static Date convertStringToDate(final String string, String format)throws ParseException
 	{
 		Date date = null;
@@ -181,30 +197,40 @@ public class ApplicationUtil {
 		String format;
 		try
 		{
-			if(validateMonthFormat(actualDate))
-			{
-				format = ApplicationConstants.MONTH_FORMAT;
-			}else if (validateDayFormat(actualDate) )
-			{
-				format = ApplicationConstants.DAY_FORMAT;
-			}else if (validateMinuteFormat(actualDate))
-			{
-				format = ApplicationConstants.MINUTE_FORMAT;
-			}else if (validateSecondFormat(actualDate))
-			{
-				format = ApplicationConstants.SECOND_FORMAT;
-			}else 
-			{
-				format = ApplicationConstants.DAY_FORMAT;
-			}
+			format = getFormat(actualDate);
 			date = convertStringToDate(actualDate, format);
 			isValid =  date.after(convertStringToDate(minDate, ApplicationConstants.DAY_FORMAT)) && date.before(new Date());
 		}catch(ParseException pe)
 		{
 			isValid = false;
+		}catch(NullPointerException ne)
+		{
+			isValid = false;
 		}
 		
 		return isValid;
+	}
+	
+	public static String getFormat(String date)
+	{
+		String format;
+		if(validateMonthFormat(date))
+		{
+			format = ApplicationConstants.MONTH_FORMAT;
+		}else if (validateDayFormat(date) )
+		{
+			format = ApplicationConstants.DAY_FORMAT;
+		}else if (validateMinuteFormat(date))
+		{
+			format = ApplicationConstants.MINUTE_FORMAT;
+		}else if (validateSecondFormat(date))
+		{
+			format = ApplicationConstants.SECOND_FORMAT;
+		}else 
+		{
+			format = ApplicationConstants.DAY_FORMAT;
+		}
+		return format;
 	}
 	
 	public static boolean checkDateRange(CCDADataElement minDate,  String actualDate, CCDADataElement maxDate)
@@ -216,23 +242,26 @@ public class ApplicationUtil {
 		
 		try
 		{
-			if(minDate!= null)
+			if(minDate!= null && actualDate != null)
 			{
 				if(maxDate != null)
 				{
-					minimumDate = convertStringToDate(minDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
-					maximumDate = convertStringToDate(maxDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
-					date = convertStringToDate(actualDate.substring(0,8), ApplicationConstants.DAY_FORMAT);
+					minimumDate = convertStringToDate(minDate.getValue(), getFormat(minDate.getValue()));
+					maximumDate = convertStringToDate(maxDate.getValue(), getFormat(maxDate.getValue()));
+					date = convertStringToDate(actualDate.substring(0, 8), ApplicationConstants.DAY_FORMAT);
 					isValid = date.equals(minimumDate)||date.after(minimumDate) &&
 							  date.equals(maximumDate)|| date.before(maximumDate);
 				}else if(maxDate==null)
 				{
-					minimumDate = convertStringToDate(minDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
-					date = convertStringToDate(actualDate.substring(0,8), ApplicationConstants.DAY_FORMAT);
+					minimumDate = convertStringToDate(minDate.getValue(), getFormat(minDate.getValue()));
+					date = convertStringToDate(actualDate, getFormat(actualDate));
 					isValid = date.equals(minimumDate)||date.after(minimumDate);				}
 			}
 			
 		}catch(ParseException pe)
+		{
+			isValid = false;
+		}catch(NullPointerException ne)
 		{
 			isValid = false;
 		}
@@ -257,14 +286,14 @@ public class ApplicationUtil {
 				{
 					if(obsMinDate != null && obsMaxDate==null)
 					{
-						observationMinDate = convertStringToDate(obsMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
-						concernActMinDate = convertStringToDate(actMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						observationMinDate = convertStringToDate(obsMinDate.getValue(),getFormat(obsMinDate.getValue()));
+						concernActMinDate = convertStringToDate(actMinDate.getValue(), getFormat(actMinDate.getValue()));
 						isValid = observationMinDate.equals(concernActMinDate)||observationMinDate.after(concernActMinDate);
 					}else if(obsMinDate != null && obsMaxDate!=null)
 					{
-						observationMinDate = convertStringToDate(obsMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
-						observationMaxDate = convertStringToDate(obsMaxDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
-						concernActMinDate = convertStringToDate(actMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						observationMinDate = convertStringToDate(obsMinDate.getValue(),getFormat(obsMinDate.getValue()));
+						observationMaxDate = convertStringToDate(obsMaxDate.getValue(),getFormat(obsMaxDate.getValue()));
+						concernActMinDate = convertStringToDate(actMinDate.getValue(),getFormat(actMinDate.getValue()));
 						isValid = (observationMinDate.equals(concernActMinDate) || observationMinDate.after(concernActMinDate))&&
 								  (observationMaxDate.equals(observationMinDate) || observationMaxDate.after(observationMinDate));
 					}
@@ -272,17 +301,17 @@ public class ApplicationUtil {
 				{
 					if(obsMinDate != null && obsMaxDate==null)
 					{
-						concernActMinDate = convertStringToDate(actMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
-						concernActMaxDate = convertStringToDate(actMaxDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
-						observationMinDate = convertStringToDate(obsMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						concernActMinDate = convertStringToDate(actMinDate.getValue(),getFormat(actMinDate.getValue()));
+						concernActMaxDate = convertStringToDate(actMaxDate.getValue(),getFormat(actMaxDate.getValue()));
+						observationMinDate = convertStringToDate(obsMinDate.getValue(),getFormat(obsMinDate.getValue()));
 						isValid = (observationMinDate.equals(concernActMinDate) || observationMinDate.after(concernActMinDate))&&
 									(observationMinDate.equals(concernActMaxDate) || observationMinDate.before(concernActMaxDate));
 					}else if(obsMinDate != null && obsMaxDate!=null)
 					{
-						concernActMinDate = convertStringToDate(actMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
-						concernActMaxDate = convertStringToDate(actMaxDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
-						observationMinDate = convertStringToDate(obsMinDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
-						observationMaxDate = convertStringToDate(obsMaxDate.getValue().substring(0,8), ApplicationConstants.DAY_FORMAT);
+						concernActMinDate = convertStringToDate(actMinDate.getValue(),getFormat(actMinDate.getValue()));
+						concernActMaxDate = convertStringToDate(actMaxDate.getValue(),getFormat(actMaxDate.getValue()));
+						observationMinDate = convertStringToDate(obsMinDate.getValue(),getFormat(obsMinDate.getValue()));
+						observationMaxDate = convertStringToDate(obsMaxDate.getValue(),getFormat(obsMaxDate.getValue()));
 						isValid = (observationMinDate.equals(concernActMinDate)|| observationMinDate.after(concernActMinDate))&&
 								  (observationMaxDate.equals(concernActMaxDate) || observationMaxDate.before(concernActMaxDate))&&
 								  (observationMaxDate.equals(observationMinDate) || observationMaxDate.after(observationMinDate))&& 
@@ -294,6 +323,9 @@ public class ApplicationUtil {
 		}catch(ParseException pe)
 		{
 			isValid = false;
+		}catch(NullPointerException ne)
+		{
+			isValid = false;
 		}
 		
 		return isValid;
@@ -302,22 +334,22 @@ public class ApplicationUtil {
 	
 	public static boolean validateMonthFormat(String date)
 	{
-		return date.matches(ApplicationConstants.MONTH_PATTERN);
+		return date!=null ? date.matches(ApplicationConstants.MONTH_PATTERN) : false;
 	}
 	
 	public static boolean validateDayFormat(String date)
 	{
-		return date.matches(ApplicationConstants.DAY_PATTERN);
+		return date!=null ? date.matches(ApplicationConstants.DAY_PATTERN) : false;
 	}
 	
 	public static boolean validateMinuteFormat(String date)
 	{
-		return date.matches(ApplicationConstants.MINUTE_PATTERN);
+		return date!=null ? date.matches(ApplicationConstants.MINUTE_PATTERN):false;
 	}
 	
 	public static boolean validateSecondFormat(String date)
 	{
-		return date.matches(ApplicationConstants.SECOND_PATTERN);
+		return date!=null ? date.matches(ApplicationConstants.SECOND_PATTERN) : false;
 	}
 	
 	
@@ -329,8 +361,7 @@ public class ApplicationUtil {
 		        .queryParam("displayName", displayName==null?"":displayName.toUpperCase());
 		
 		RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
-	    boolean value = restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
-	    return value;
+	    return restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
 		
 	}
 	
@@ -341,8 +372,18 @@ public class ApplicationUtil {
 		        .queryParam("valuesetOids", valusetId==null?"":valusetId);
 		
 		RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
-	    boolean value = restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
-	    return value;
+	    return restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
+		
+	}
+	
+	public static boolean validateCodeForCodeSystem(String code, String codeSystemName)
+	{
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_CODESYSTEM_VALIDATION_URL)
+		        .queryParam("code", code==null?"":code)
+		        .queryParam("codeSystems", codeSystemName==null?"LOINC":codeSystemName);
+		
+		RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+	    return restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
 		
 	}
 	
@@ -476,22 +517,69 @@ public class ApplicationUtil {
 			return 0;
 	}
 	
-	public static Results calculateFinalGrade(List<Category> categoryList, Results results)
+	public static void calculateSectionGradeAndIssues(List<CCDAScoreCardRubrics> rubricsList, Category category)
 	{
-		int finalMaxPoints = 0;
-		int finalActualPoints = 0;
+		float actualPoints =0;
+		float maxPoints = 0;
+		int percentage ;
+		int categoryIssues=0;
+		String categoryGrade;
+		for(CCDAScoreCardRubrics rubrics : rubricsList)
+		{
+			actualPoints = actualPoints + rubrics.getRubricScore();
+			maxPoints++;
+			if(rubrics.getNumberOfIssues()!=0)
+			{
+				categoryIssues = categoryIssues + rubrics.getNumberOfIssues();
+			}
+		}
+		
+		percentage = Math.round((actualPoints * 100)/maxPoints);
+		if(percentage < 70)
+		{
+			categoryGrade = "D";
+		}else if (percentage >=70 && percentage <80)
+		{
+			categoryGrade = "C";
+		}else if(percentage >=80 && percentage <85)
+		{
+			categoryGrade=  "B-";
+		}else if(percentage >=85 && percentage <90)
+		{
+			categoryGrade = "B+";
+		}else if(percentage >=90 && percentage <95)
+		{
+			categoryGrade =  "A-";
+		}else if(percentage >=95 && percentage <=100)
+		{
+			categoryGrade = "A+";
+		}else
+		{
+			categoryGrade =  "UNKNOWN GRADE";
+		}
+		category.setCategoryGrade(categoryGrade);
+		category.setCategoryNumericalScore(percentage);
+		category.setNumberOfIssues(categoryIssues);
+	}
+	
+	public static void calculateFinalGradeAndIssues(List<Category> categoryList, Results results)
+	{
+		float finalMaxPoints = 0;
+		float finalActualPoints = 0;
 		String finalGrade = "";
+		int numberOfIssues= 0;
 		
 		for (Category category : categoryList)
 		{
 			for(CCDAScoreCardRubrics rubrics : category.getCategoryRubrics())
 			{
-				finalMaxPoints = finalMaxPoints + rubrics.getMaxPoints();
-				finalActualPoints = finalActualPoints + rubrics.getActualPoints();
+				finalMaxPoints++;
+				finalActualPoints = finalActualPoints + rubrics.getRubricScore();
 			}
+			numberOfIssues = numberOfIssues + category.getNumberOfIssues();
 		}
 		
-		float percentage = (finalActualPoints * 100)/finalMaxPoints;
+		int percentage = Math.round((finalActualPoints * 100)/finalMaxPoints);
 		if(percentage < 70)
 		{
 			finalGrade =  "D";
@@ -513,46 +601,115 @@ public class ApplicationUtil {
 		}
 		
 		results.setFinalGrade(finalGrade);
-		results.setFinalNumericalGrade(Math.round(percentage));
-		return results;
+		results.setFinalNumericalGrade(percentage);
+		results.setNumberOfIssues(numberOfIssues);
 	}
 	
-	public static String calculateSectionGrade(List<CCDAScoreCardRubrics> rubricsList)
+	public static String calculateIndustryAverageGrade(int industryAverageScore)
 	{
-		int actualPoints=0;
-		int maxPoints = 0;
-		float percentage ;
-		for(CCDAScoreCardRubrics rubrics : rubricsList)
-		{
-			actualPoints = actualPoints + rubrics.getActualPoints();
-			maxPoints = maxPoints + rubrics.getMaxPoints();
-		}
 		
-		percentage = (actualPoints * 100)/maxPoints;
-		
-		if(percentage < 70)
+		if(industryAverageScore < 70)
 		{
 			return "D";
-		}else if (percentage >=70 && percentage <80)
+		}else if (industryAverageScore >=70 && industryAverageScore <80)
 		{
 			return "C";
-		}else if(percentage >=80 && percentage <85)
+		}else if(industryAverageScore >=80 && industryAverageScore <85)
 		{
-			return "B-";
-		}else if(percentage >=85 && percentage <90)
+			return  "B-";
+		}else if(industryAverageScore >=85 && industryAverageScore <90)
 		{
 			return "B+";
-		}else if(percentage >=90 && percentage <95)
+		}else if(industryAverageScore >=90 && industryAverageScore <95)
 		{
-			return "A-";
-		}else if(percentage >=95 && percentage <=100)
+			return  "A-";
+		}else if(industryAverageScore >=95 && industryAverageScore <=100)
 		{
 			return "A+";
 		}else
 		{
-			return "UNKNOWN GRADE";
+			return  "UNKNOWN GRADE";
 		}
+		
 	}
 	
+	public static float calculateRubricScore(int maxPoints, int actualPoints)
+	{
+		if(maxPoints!=0)
+		{
+			return (float)actualPoints/(float)maxPoints;
+		}else 
+			return 0;
+	}
 	
+	public static String checkDocType(CCDARefModel ccdaModels)
+	{
+		String docType = "";
+		
+		if(ccdaModels.getAllergy()!=null)
+		{
+			if(isExtensionPresent(ccdaModels.getAllergy().getSectionTemplateId()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+				
+		}
+		else if(ccdaModels.getEncounter()!=null)
+		{
+			if(isExtensionPresent(ccdaModels.getEncounter().getTemplateId()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+				
+		}
+		else if(ccdaModels.getAllergy()!=null)
+		{
+			if(isExtensionPresent(ccdaModels.getMedication().getTemplateIds()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+				
+		}
+		else if(ccdaModels.getAllergy()!=null)
+		{
+			if(isExtensionPresent(ccdaModels.getImmunization().getTemplateIds()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+		}
+		else if(ccdaModels.getVitalSigns()!=null)
+		{
+			if(isExtensionPresent(ccdaModels.getVitalSigns().getTemplateIds()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+		}
+		else if(ccdaModels.getSmokingStatus()!=null)
+		{
+			if(isExtensionPresent(ccdaModels.getSmokingStatus().getSectionTemplateIds()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+		}
+		
+		return docType;
+	}
 }

@@ -4,14 +4,12 @@
 <head>
   <meta charset="utf-8">
   <title>SITE - C-CDA R2.1 Scorecard</title>
-  <!--fonts-->
-  <link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet' type='text/css'>  
   <!-- local 3rd party stylesheets -->
   <!--<link rel="stylesheet" href="css/3rdParty/bootstrap.css">-->
   <link rel="stylesheet" href="css/3rdParty/bootstrap-theme.css">
   <!-- external 3rd party stylesheets-->
   <link rel="stylesheet"
-    href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css" />
   <!-- local custom stylesheets -->
@@ -29,6 +27,7 @@
     <div class="container" ng-controller="SiteUploadController">
       <site-top-level-content
         ng-show="mainDisplayData.showTopLevelContent"></site-top-level-content>
+      <site-scoring-criteria-modal></site-scoring-criteria-modal>
       <site-upload-form></site-upload-form>
       <site-results-modal></site-results-modal>
     </div>
@@ -43,10 +42,10 @@
     src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <!-- Bootstrap -->
   <script
-    src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <!-- Angular -->
   <script
-    src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <!-- ng-file-upload - shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
   <script src="lib/ng-file-upload-shim.min.js"></script>
   <script src="lib/ng-file-upload.min.js"></script>
@@ -56,8 +55,9 @@
     charset="utf-8"></script>
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
-  <script
-    src="https://rawgit.com/krispo/angular-nvd3/v1.0.4/dist/angular-nvd3.js"></script>
+  <!-- the below link is now valid but replacing with local version regardless to avoid any possible future issues -->
+  <!-- <script src="http://cdn.rawgit.com/krispo/angular-nvd3/v1.0.4/dist/angular-nvd3.js"></script>-->
+  <script src="lib/angular-nvd3.min.js"></script>
   <!-- Module, Routes, and Directives -->
   <script src="scApp.js"></script>
   <!-- Controllers -->

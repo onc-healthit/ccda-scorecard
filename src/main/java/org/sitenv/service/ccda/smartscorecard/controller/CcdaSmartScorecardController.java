@@ -17,9 +17,11 @@ import org.sitenv.service.ccda.smartscorecard.processor.EncounterScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.ImmunizationScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.LabresultsScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.MedicationScorecard;
+import org.sitenv.service.ccda.smartscorecard.processor.MiscScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.PatientScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.ProblemsScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.ProceduresScorecard;
+import org.sitenv.service.ccda.smartscorecard.processor.ScoreCardStatisticProcessor;
 import org.sitenv.service.ccda.smartscorecard.processor.SocialHistoryScorecard;
 import org.sitenv.service.ccda.smartscorecard.processor.VitalsScorecard;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
@@ -74,18 +76,27 @@ public class CcdaSmartScorecardController {
 	@Autowired
 	ProceduresScorecard procedureScorecard;
 	
+	@Autowired
+	MiscScorecard miscScorecard;
+	
+	@Autowired
+	ScoreCardStatisticProcessor scoreCardStatisticProcessor;
+	
 	@RequestMapping(value="/ccdascorecardservice", method= RequestMethod.POST)
 	public @ResponseBody ResponseTO ccdascorecardservice(@RequestParam("ccdaFile") MultipartFile ccdaFile){
 		
 		
 		ResponseTO response = new ResponseTO();
-		String birthDate;
+		String birthDate = null;
 		Results results = new Results();
 		
 		try
 		{
 			CCDARefModel ccdaModels = CCDAParserAPI.parseCCDA2_1(ccdaFile.getInputStream());
-			birthDate = ccdaModels.getPatient().getDob().getValue();
+			if(ccdaModels.getPatient() != null && ccdaModels.getPatient().getDob()!= null)
+			{
+				birthDate = ccdaModels.getPatient().getDob().getValue();
+			}
 			List<Category> categoryList = new ArrayList<Category>();
 			categoryList.add(patientScorecard.getPatientCategory(ccdaModels.getPatient()));
 			categoryList.add(encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),birthDate));
@@ -97,9 +108,22 @@ public class CcdaSmartScorecardController {
 			categoryList.add(labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),birthDate));
 			categoryList.add(vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),birthDate));
 			categoryList.add(procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),birthDate));
+			categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
 			
 			results.setCategoryList(categoryList);
-			results = ApplicationUtil.calculateFinalGrade(categoryList, results);
+			ApplicationUtil.calculateFinalGradeAndIssues(categoryList, results);
+			results.setIgReferenceUrl(ApplicationConstants.IG_URL);
+			results.setDocType(ApplicationUtil.checkDocType(ccdaModels));
+			scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename());
+			results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage());
+			results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored());
+			if(results.getIndustryAverageScore() != 0)
+			{
+				results.setIndustryAverageGrade(ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScore()));
+			}else 
+			{
+				results.setIndustryAverageGrade("N/A");
+			}
 			response.setSuccess(true);
 			response.setResults(results);
 		}catch(Exception excp)

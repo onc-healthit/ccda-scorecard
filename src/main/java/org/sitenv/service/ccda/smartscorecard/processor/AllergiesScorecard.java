@@ -6,6 +6,8 @@ import java.util.List;
 import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDAAllergyConcern;
 import org.sitenv.ccdaparsing.model.CCDAAllergyObs;
+import org.sitenv.ccdaparsing.model.CCDADataElement;
+import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
@@ -19,100 +21,40 @@ public class AllergiesScorecard {
 	{
 		
 		Category allergyCategory = new Category();
-		allergyCategory.setCategoryName("Allergies");
+		allergyCategory.setCategoryName(ApplicationConstants.CATEGORIES.ALLERGIES.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> allergyScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		allergyScoreList.add(getTimePrecisionScore(allergies));
 		allergyScoreList.add(getValidDateTimeScore(allergies, birthDate));
 		allergyScoreList.add(getValidDisplayNameScoreCard(allergies));
 		allergyScoreList.add(getApprEffectivetimeScore(allergies));
+		//allergyScoreList.add(getNarrativeStructureIdScore(allergies));
 		
 		allergyCategory.setCategoryRubrics(allergyScoreList);
-		allergyCategory.setCategoryGrade(calculateSectionGrade(allergyScoreList));
+		ApplicationUtil.calculateSectionGradeAndIssues(allergyScoreList,allergyCategory);
 		
 		return allergyCategory;
 		
 	}
 	
-	public String calculateSectionGrade(List<CCDAScoreCardRubrics> rubricsList)
-	{
-		int actualPoints=0;
-		int maxPoints = 0;
-		float percentage ;
-		for(CCDAScoreCardRubrics rubrics : rubricsList)
-		{
-			actualPoints = actualPoints + rubrics.getActualPoints();
-			maxPoints = maxPoints + rubrics.getMaxPoints();
-		}
-		
-		percentage = (actualPoints * 100)/maxPoints;
-		
-		if(percentage < 70)
-		{
-			return "D";
-		}else if (percentage >=70 && percentage <80)
-		{
-			return "C";
-		}else if(percentage >=80 && percentage <85)
-		{
-			return "B-";
-		}else if(percentage >=85 && percentage <90)
-		{
-			return "B+";
-		}else if(percentage >=90 && percentage <95)
-		{
-			return "A-";
-		}else if(percentage >=95 && percentage <=100)
-		{
-			return "A+";
-		}else
-		{
-			return "UNKNOWN GRADE";
-		}
-	}
-	
-	
 	public CCDAScoreCardRubrics getTimePrecisionScore(CCDAAllergy allergies)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
-		timePrecisionScore.setPoints(ApplicationConstants.TIME_PRECISION_POINTS);
-		timePrecisionScore.setRequirement(ApplicationConstants.ALLERGIES_TIME_PRECISION_REQUIREMENT);
-		timePrecisionScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.TIME_PRECISION.getSubcategory());
+		timePrecisionScore.setRule(ApplicationConstants.TIME_PRECISION_REQUIREMENT);
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
 		if(allergies != null)
 		{
 			if(!ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
 			{
 				for (CCDAAllergyConcern allergyConcern : allergies.getAllergyConcern())
 				{
-					if(allergyConcern.getStatusCode() != null && allergyConcern.getStatusCode().getCode()!=null)
-					{
-						if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
-						{
-							maxPoints++;
-						}else if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()))
-						{
-								maxPoints = maxPoints + 2;
-						}else
-						{
-							maxPoints++;
-						}
-					}else
-					{
-						maxPoints++;
-					}
+					maxPoints++;
 					if(allergyConcern.getEffTime() != null)
 					{
-						if(allergyConcern.getEffTime().getHigh() != null)
-						{
-							if(ApplicationUtil.validateDayFormat(allergyConcern.getEffTime().getHigh().getValue()) ||
-									ApplicationUtil.validateMonthFormat(allergyConcern.getEffTime().getHigh().getValue()))
-							{
-								actualPoints++;
-							}
-						}
 						if(allergyConcern.getEffTime().getLow() != null)
 						{
 							if(ApplicationUtil.validateDayFormat(allergyConcern.getEffTime().getLow().getValue())||
@@ -120,39 +62,53 @@ public class AllergiesScorecard {
 							{
 								actualPoints++;
 							}
+							else 
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(allergyConcern.getEffTime().getLow().getLineNumber());
+								issue.setXmlString(allergyConcern.getEffTime().getLow().getXmlString());
+								issuesList.add(issue);
+							}
 						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(allergyConcern.getEffTime().getLineNumber());
+							issue.setXmlString(allergyConcern.getEffTime().getXmlString());
+							issuesList.add(issue);
+						}
+						if(allergyConcern.getEffTime().getHigh() != null)
+						{
+							maxPoints++;
+							if(ApplicationUtil.validateDayFormat(allergyConcern.getEffTime().getHigh().getValue()) ||
+									ApplicationUtil.validateMonthFormat(allergyConcern.getEffTime().getHigh().getValue()))
+							{
+								actualPoints++;
+							}
+							else 
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(allergyConcern.getEffTime().getHigh().getLineNumber());
+								issue.setXmlString(allergyConcern.getEffTime().getHigh().getXmlString());
+								issuesList.add(issue);
+							}
+						}
+					}
+					else 
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(allergyConcern.getLineNumber());
+						issue.setXmlString(allergyConcern.getXmlString());
+						issuesList.add(issue);
 					}
 						
 					if(!ApplicationUtil.isEmpty(allergyConcern.getAllergyObs()))
 					{
 						for (CCDAAllergyObs allergyObservation : allergyConcern.getAllergyObs() )
 						{
-							if(allergyConcern.getStatusCode() != null && allergyConcern.getStatusCode().getCode()!=null)
-							{
-								if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
-								{
-									maxPoints++;
-								}else if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()))
-								{
-										maxPoints = maxPoints + 2;
-								}else
-								{
-									maxPoints++;
-								}
-							}else
-							{
-								maxPoints++;
-							}
+							maxPoints++;
 							if(allergyObservation.getEffTime() != null)
 							{
-								if(allergyObservation.getEffTime().getHigh() != null)
-								{
-									if(ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getHigh().getValue()) || 
-											ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getHigh().getValue()))
-									{
-										actualPoints++;
-									}
-								}
 								if(allergyObservation.getEffTime().getLow() != null)
 								{
 									if(ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getLow().getValue()) || 
@@ -160,140 +116,225 @@ public class AllergiesScorecard {
 									{
 										actualPoints++;
 									}
+									else 
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(allergyObservation.getEffTime().getLow().getLineNumber());
+										issue.setXmlString(allergyObservation.getEffTime().getLow().getXmlString());
+										issuesList.add(issue);
+									}
 								}
+								else
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(allergyObservation.getEffTime().getLineNumber());
+									issue.setXmlString(allergyObservation.getEffTime().getXmlString());
+									issuesList.add(issue);
+								}
+								if(allergyObservation.getEffTime().getHigh() != null)
+								{
+									maxPoints++;
+									if(ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getHigh().getValue()) || 
+											ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getHigh().getValue()))
+									{
+										actualPoints++;
+									}
+									else 
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(allergyObservation.getEffTime().getHigh().getLineNumber());
+										issue.setXmlString(allergyObservation.getEffTime().getHigh().getXmlString());
+										issuesList.add(issue);
+									}
+								}
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(allergyObservation.getLineNumber());
+								issue.setXmlString(allergyObservation.getXmlString());
+								issuesList.add(issue);
 							}
 						}
 					}
 				}
 			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(allergies.getLineNumber());
+				issue.setXmlString(allergies.getXmlString());
+				issuesList.add(issue);
+			}
 		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Allergies Section not present");
+			issue.setXmlString("Allergies section not present");
+			issuesList.add(issue);
+		}
+		
 
-		if(maxPoints!=0  && maxPoints == actualPoints)
-		{
-			timePrecisionScore.setComment("All the time elememts under allergies section has proper precision");
-		}else
-		{
-			timePrecisionScore.setComment("Some effective time elements under allergies are not properly precisioned");
-		}
-		
-		if(maxPoints!= 0)
-		{
-			timePrecisionScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
-		}else
-			timePrecisionScore.setActualPoints(0);
-		
-		timePrecisionScore.setMaxPoints(4);
-		return timePrecisionScore;
+	   timePrecisionScore.setActualPoints(actualPoints);
+	   timePrecisionScore.setMaxPoints(maxPoints);
+	   timePrecisionScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+	   timePrecisionScore.setIssuesList(issuesList);
+	   timePrecisionScore.setNumberOfIssues(issuesList.size());
+	   if(issuesList.size() > 0)
+	   {
+		   timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
+		   timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_URL);
+		   timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+	   }
+	   return timePrecisionScore;
 	}
 	
 	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAAllergy allergies, String birthDate)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
-		validateTimeScore.setPoints(ApplicationConstants.VALID_TIME_POINTS);
-		validateTimeScore.setRequirement(ApplicationConstants.ALLERGIES_TIMEDATE_VALID_REQUIREMENT);
-		validateTimeScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.TIME_VALIDATION.getSubcategory());
+		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
 		if(allergies != null)
 		{
 			if(!ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
 			{
 				for (CCDAAllergyConcern allergyConcern : allergies.getAllergyConcern())
 				{
-					if(allergyConcern.getStatusCode() != null && allergyConcern.getStatusCode().getCode()!=null)
-					{
-						if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
-						{
-							maxPoints++;
-						}else if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()))
-						{
-								maxPoints = maxPoints + 2;
-						}else
-						{
-							maxPoints++;
-						}
-					}else
-					{
-						maxPoints++;
-					}
+					maxPoints++;
 					if(allergyConcern.getEffTime() != null)
 					{
-						if(allergyConcern.getEffTime().getHigh() != null)
-						{
-							if(ApplicationUtil.checkDateRange(birthDate, allergyConcern.getEffTime().getHigh().getValue()))
-							{
-								actualPoints++;
-							}
-						}
 						if(allergyConcern.getEffTime().getLow() != null)
 						{
 							if(ApplicationUtil.checkDateRange(birthDate, allergyConcern.getEffTime().getLow().getValue()))
 							{
 								actualPoints++;
 							}
+							else 
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(allergyConcern.getEffTime().getLow().getLineNumber());
+								issue.setXmlString(allergyConcern.getEffTime().getLow().getXmlString());
+								issuesList.add(issue);
+							}
 						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(allergyConcern.getEffTime().getLineNumber());
+							issue.setXmlString(allergyConcern.getEffTime().getXmlString());
+							issuesList.add(issue);
+						}
+						if(allergyConcern.getEffTime().getHigh() != null)
+						{
+							maxPoints++;
+							if(ApplicationUtil.checkDateRange(birthDate, allergyConcern.getEffTime().getHigh().getValue()))
+							{
+								actualPoints++;
+							}
+							else 
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(allergyConcern.getEffTime().getHigh().getLineNumber());
+								issue.setXmlString(allergyConcern.getEffTime().getHigh().getXmlString());
+								issuesList.add(issue);
+							}
+						}
+					}
+					else 
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(allergyConcern.getLineNumber());
+						issue.setXmlString(allergyConcern.getXmlString());
+						issuesList.add(issue);
 					}
 						
 					if(!ApplicationUtil.isEmpty(allergyConcern.getAllergyObs()))
 					{
 						for (CCDAAllergyObs allergyObservation : allergyConcern.getAllergyObs() )
 						{
-							if(allergyConcern.getStatusCode() != null && allergyConcern.getStatusCode().getCode()!=null)
-							{
-								if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
-								{
-									maxPoints++;
-								}else if(allergyConcern.getStatusCode().getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()))
-								{
-										maxPoints = maxPoints + 2;
-								}else
-								{
-									maxPoints++;
-								}
-							}else
-							{
-								maxPoints++;
-							}
+							maxPoints++;
 							if(allergyObservation.getEffTime() != null)
 							{
-								if(allergyObservation.getEffTime().getHigh() != null)
-								{
-									if(ApplicationUtil.checkDateRange(birthDate, allergyObservation.getEffTime().getHigh().getValue()))
-									{
-										actualPoints++;
-									}
-								}
 								if(allergyObservation.getEffTime().getLow() != null)
 								{
 									if(ApplicationUtil.checkDateRange(birthDate, allergyObservation.getEffTime().getLow().getValue()))
 									{
 										actualPoints++;
 									}
+									else 
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(allergyObservation.getEffTime().getLow().getLineNumber());
+										issue.setXmlString(allergyObservation.getEffTime().getLow().getXmlString());
+										issuesList.add(issue);
+									}
 								}
+								else 
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(allergyObservation.getEffTime().getLineNumber());
+									issue.setXmlString(allergyObservation.getEffTime().getXmlString());
+									issuesList.add(issue);
+								}
+								if(allergyObservation.getEffTime().getHigh() != null)
+								{
+									maxPoints++;
+									if(ApplicationUtil.checkDateRange(birthDate, allergyObservation.getEffTime().getHigh().getValue()))
+									{
+										actualPoints++;
+									}
+									else 
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(allergyObservation.getEffTime().getHigh().getLineNumber());
+										issue.setXmlString(allergyObservation.getEffTime().getHigh().getXmlString());
+										issuesList.add(issue);
+									}
+								}
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(allergyObservation.getLineNumber());
+								issue.setXmlString(allergyObservation.getXmlString());
+								issuesList.add(issue);
 							}
 						}
 					}
 				}
 			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(allergies.getLineNumber());
+				issue.setXmlString(allergies.getXmlString());
+				issuesList.add(issue);
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Allergies Section not present");
+			issue.setXmlString("Allergies section not present");
+			issuesList.add(issue);
 		}
 
-		if(maxPoints!=0 && maxPoints == actualPoints)
+		validateTimeScore.setActualPoints(actualPoints);
+		validateTimeScore.setMaxPoints(maxPoints);
+		validateTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		validateTimeScore.setIssuesList(issuesList);
+		validateTimeScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
 		{
-			validateTimeScore.setComment("All the time elememts under allergies are valid.");
-		}else
-		{
-			validateTimeScore.setComment("Some effective time elements under allergies are not valid or not present within human lifespan");
+			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
+			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
-		
-		if(maxPoints!= 0)
-		{
-			validateTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
-		}else
-		{
-			validateTimeScore.setActualPoints(0);
-		}
-		validateTimeScore.setMaxPoints(4);
 		return validateTimeScore;
 	}
 	
@@ -301,12 +342,12 @@ public class AllergiesScorecard {
 	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAAllergy allergies)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
-		validateDisplayNameScore.setPoints(ApplicationConstants.VALID_CODE_DISPLAYNAME_POINTS);
-		validateDisplayNameScore.setRequirement(ApplicationConstants.ALLERGIES_CODE_DISPLAYNAME_REQUIREMENT);
-		validateDisplayNameScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.CODE_DISPLAYNAME_VALIDATION.getSubcategory());
+		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
 		if(allergies != null)
 		{
 			maxPoints++;
@@ -317,6 +358,20 @@ public class AllergiesScorecard {
 				{
 					actualPoints++;
 				}
+				else 
+				{
+					issue = new CCDAXmlSnippet();
+					issue.setLineNumber(allergies.getSectionCode().getLineNumber());
+					issue.setXmlString(allergies.getSectionCode().getXmlString());
+					issuesList.add(issue);
+				}
+			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(allergies.getLineNumber());
+				issue.setXmlString(allergies.getXmlString());
+				issuesList.add(issue);
 			}
 			
 			if(!ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
@@ -335,7 +390,22 @@ public class AllergiesScorecard {
 								{
 									actualPoints++;
 								}
+								else 
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(allergyObs.getAllergyIntoleranceType().getLineNumber());
+									issue.setXmlString(allergyObs.getAllergyIntoleranceType().getXmlString());
+									issuesList.add(issue);
+								}
 							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(allergyObs.getLineNumber());
+								issue.setXmlString(allergyObs.getXmlString());
+								issuesList.add(issue);
+							}
+								
 							
 							if(allergyObs.getAllergySubstance() != null)
 							{
@@ -344,60 +414,157 @@ public class AllergiesScorecard {
 								{
 									actualPoints++;
 								}
+								else 
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(allergyObs.getAllergySubstance().getLineNumber());
+									issue.setXmlString(allergyObs.getAllergySubstance().getXmlString());
+									issuesList.add(issue);
+								}
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(allergyObs.getLineNumber());
+								issue.setXmlString(allergyObs.getXmlString());
+								issuesList.add(issue);
 							}
 						}
 					}
 				}
 			}
 		}
-		
-		if(maxPoints!= 0 && maxPoints == actualPoints)
+		else
 		{
-			validateDisplayNameScore.setComment("All the code elements under Allergies are having valid display name");
-		}else
-		{
-			validateDisplayNameScore.setComment("Some code elements under allergies are not having valid display name");
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Allergies Section not present");
+			issue.setXmlString("Allergies section not present");
+			issuesList.add(issue);
 		}
 		
-		if(maxPoints!= 0)
+		validateDisplayNameScore.setActualPoints(actualPoints);
+		validateDisplayNameScore.setMaxPoints(maxPoints);
+		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		validateDisplayNameScore.setIssuesList(issuesList);
+		validateDisplayNameScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
 		{
-			validateDisplayNameScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
-		}else
-		{
-			validateDisplayNameScore.setActualPoints(0);
+			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
+			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
-		
-		validateDisplayNameScore.setMaxPoints(4);
 		return validateDisplayNameScore;
 	}
 	
 	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDAAllergy allergies)
 	{
 		CCDAScoreCardRubrics validateApprEffectiveTimeScore = new CCDAScoreCardRubrics();
-		validateApprEffectiveTimeScore.setPoints(ApplicationConstants.ALLERGIES_APPR_TIME_POINTS);
-		validateApprEffectiveTimeScore.setRequirement(ApplicationConstants.ALLERGIES_CONCERN_DATE_ALIGN);
-		validateApprEffectiveTimeScore.setSubCategory(ApplicationConstants.SUBCATEGORIES.TIME_ALIGN.getSubcategory());
+		validateApprEffectiveTimeScore.setRule(ApplicationConstants.ALLERGIES_CONCERN_DATE_ALIGN_REQ);
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
-		if(allergies != null && !ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(allergies != null)
 		{
-			for(CCDAAllergyConcern allergyAct : allergies.getAllergyConcern())
+			if(!ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
 			{
-				if(allergyAct.getEffTime()!= null)
+				for(CCDAAllergyConcern allergyAct : allergies.getAllergyConcern())
 				{
-					if(!ApplicationUtil.isEmpty(allergyAct.getAllergyObs()))
+					if(allergyAct.getEffTime()!= null)
 					{
-						for(CCDAAllergyObs allergyObs : allergyAct.getAllergyObs())
+						if(!ApplicationUtil.isEmpty(allergyAct.getAllergyObs()))
+						{
+							for(CCDAAllergyObs allergyObs : allergyAct.getAllergyObs())
+							{
+								maxPoints++;
+								if(allergyObs.getEffTime()!=null)
+								{
+									if(ApplicationUtil.checkDateRange(allergyAct.getEffTime().getLow(),allergyAct.getEffTime().getHigh(),
+																		allergyObs.getEffTime().getLow(),allergyObs.getEffTime().getHigh()))
+									{
+										actualPoints++;
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(allergyObs.getEffTime().getLineNumber());
+										issue.setXmlString(allergyObs.getEffTime().getXmlString());
+										issuesList.add(issue);
+									}
+								}
+								else
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(allergyObs.getLineNumber());
+									issue.setXmlString(allergyObs.getXmlString());
+									issuesList.add(issue);
+								}
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(allergies.getLineNumber());
+				issue.setXmlString(allergies.getXmlString());
+				issuesList.add(issue);
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Allergies Section not present");
+			issue.setXmlString("Allergies section not present");
+			issuesList.add(issue);
+		}
+		
+		validateApprEffectiveTimeScore.setActualPoints(actualPoints);
+		validateApprEffectiveTimeScore.setMaxPoints(maxPoints);
+		validateApprEffectiveTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		validateApprEffectiveTimeScore.setIssuesList(issuesList);
+		validateApprEffectiveTimeScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.ALLERGIES_CONCERN_DATE_ALIGN_DESC);
+			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+		}
+		return validateApprEffectiveTimeScore;
+	}
+	
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAAllergy allergies)
+	{
+		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
+		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(allergies != null)
+		{
+			if(!ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
+			{
+				for(CCDAAllergyConcern allergyAct : allergies.getAllergyConcern())
+				{
+					if(!ApplicationUtil.isEmpty(allergyAct.getReferenceTexts()))
+					{
+						for(CCDADataElement referenceText : allergyAct.getReferenceTexts())
 						{
 							maxPoints++;
-							if(allergyObs.getEffTime()!=null)
+							if(allergies.getReferenceLinks().contains(referenceText.getValue()))
 							{
-								if(ApplicationUtil.checkDateRange(allergyAct.getEffTime().getLow(),allergyAct.getEffTime().getHigh(),
-																	allergyObs.getEffTime().getLow(),allergyObs.getEffTime().getHigh()))
-								{
-									actualPoints++;
-								}
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(referenceText.getLineNumber());
+								issue.setXmlString(referenceText.getXmlString());
+								issuesList.add(issue);
 							}
 						}
 					}
@@ -405,23 +572,25 @@ public class AllergiesScorecard {
 			}
 		}
 		
-		if(maxPoints!=0 && maxPoints == actualPoints)
+		if(maxPoints==0)
 		{
-			validateApprEffectiveTimeScore.setComment("All Allergy observations effective time are aligned with Allergy Concern effective time");
-		}else
-		{
-			validateApprEffectiveTimeScore.setComment("Some Allergy observations effective time are not aligned with Allergy Concern effective time");
+			maxPoints = 1;
+			actualPoints = 1;
 		}
 		
-		if(maxPoints!=0)
+		narrativeTextIdScore.setActualPoints(actualPoints);
+		narrativeTextIdScore.setMaxPoints(maxPoints);
+		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		narrativeTextIdScore.setIssuesList(issuesList);
+		narrativeTextIdScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
 		{
-			validateApprEffectiveTimeScore.setActualPoints(ApplicationUtil.calculateActualPoints(maxPoints, actualPoints));
-		}else
-		{
-			validateApprEffectiveTimeScore.setActualPoints(0);
+			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
+			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
-		validateApprEffectiveTimeScore.setMaxPoints(4);
-		return validateApprEffectiveTimeScore;
+		
+		return narrativeTextIdScore;
 	}
 		
 }
