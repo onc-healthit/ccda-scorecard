@@ -1,185 +1,398 @@
+#scHeaderContainer {
+    /*    width: 97.2%;*/
+    margin: auto;
+}
+
+.scHeadingSummary {
+    /*    color: black;*/
+    text-align: center;
+    border-top: 2px solid darkBlue;
+    border-bottom: 2px solid darkBlue;
+    padding-bottom: 6px;
+    /*    background-color: white;*/
+    /*    margin-top: 5px;*/
+}
+
+.scHeading {
+    color: black;
+    text-align: center;
+/*    border-top: 2px solid darkBlue;*/
+    background-color: white;
+    margin-top: 5px;
+}
+
+.scSubHeading {
+/*    color: black;*/
+/*    text-align: center;*/
+/*    border-bottom: 1px solid darkBlue;*/
+/*    border-left: 1px solid darkBlue;*/
+/*    border-right: 1px solid darkBlue;*/
+/*    background-color: white;*/
+/*    margin-top: 5px;    */
+}
+
+.scCertificationScoreSubHeading {
+    padding-bottom: 7.44px;
+/*    padding-bottom: 1.53em;*/
+/*        padding-bottom: 95.4px;*/
+/*    padding-bottom: 6.85em;    */
+/*    border-bottom: 1px solid darkBlue;*/
+/*    border-left: 1px solid darkBlue;*/
+/*    border-right: 1px solid darkBlue;*/
+}
+
+.scSubHeadingBottom {
+/*    border-bottom: 1px solid darkBlue;*/
+/*    border-left: 1px solid darkBlue;*/
+/*    border-right: 1px solid darkBlue;*/
+    margin-bottom: 5px;
+}
+
+.scHeaderDescriptionText {
+    text-align: left;
+    font-size: 90.1%;
+    font-weight: bold;
+}
+
+#topLevelResultsTable {
+    padding-top: 25px
+}
+
+.fitGlyphiconToScHeadingSize {
+    font-size: 0.92em;
+    padding: 15px;        
+/*    border-radius: 100%;*/
+/*    border: 1px solid darkBlue;*/
+}
+
+.passCertColor {
+    color: green;
+    background-color: #e6ffe6;
+}
+
+.failCertColor {
+    color: red;
+    background-color: #ffe6e6;
+}
+
+.darkGrayBackground {
+/*
+    background-color: lightgray;
+    color: darkgray;
+*/
+    background-color: #ededed;
+    color: #e0e0e0;    
+    
+}
+
 #finalGradeText {
-  color: white;
-  text-align: center;
-  /* font-weight: 900; */
-  padding: 0px;
-  border: 1px solid darkBlue;
-  border-top-left-radius: 100px;
-  
-  background-color: #428bca;
-  /* background-color: rgba(66, 139, 202, 0.9); */
-  margin-top: 5px;
+    color: white;
+    text-align: center;
+    /* font-weight: 900; */
+    padding: 0px;
+    border: 1px solid darkBlue;
+    border-top-left-radius: 100px;
+
+    background-color: #428bca;
+    /* background-color: rgba(66, 139, 202, 0.9); */
+    margin-top: 5px;
 }
 
 .subFinalHeading {
-  color: white;
-  text-align: center;
-  padding: 0px;
-  border: 1px solid darkBlue;
-  background-color: #428bca;
+    color: white;
+    text-align: center;
+    padding: 0px;
+    border: 1px solid darkBlue;
+    background-color: #428bca;
 }
 
 .lighterHeading {
-  font-family: 'Kalam', cursive;
-  color: white;
-  text-align: center;
-  padding: 5px;
-  border: 1px solid darkBlue;
-  /* background-color: #428bca; */
-  background-color: #3498db;
-}
-
-#scHeaderContainer {
-  width: 97.2%;
-  margin: auto;
+    /*font-family: 'Kalam', cursive;*/
+    color: white;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid darkBlue;
+    /* background-color: #428bca; */
+    background-color: #3498db;
 }
 
 #ccdaFileHeading {
-  /*border-bottom-left-radius: 5px;*/
+    /*border-bottom-left-radius: 5px;*/
 }
 
 #issuesFoundHeading {
-  border-bottom-right-radius: 100px;
-  margin-top: 5px;
+    border-bottom-right-radius: 100px;
+    margin-top: 5px;
 }
 
 #charts {
-  /* margin-top: -10px; */
+    /* margin-top: -10px; */
 }
 
 #detailedResults {
-  /* margin-top: -20px; */
+    /* margin-top: -20px; */
+}
+
+#certAndMapSeparator {
+/*    margin: 0;*/
+    margin-bottom: 0px;
 }
 
 #chartWell {
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-  background-color: white !important;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    background-color: white !important;
 }
 
 /*bootstrap's panel heading size is fixed regardless of header level -
 overriding for a larger heading */
 .panelDropdownButton h2 {
-  font-size: xx-large !important;
-  border-radius: 0px;
+    font-size: xx-large !important;
+    border-radius: 0px;
+    margin-top: 18px;
 }
 .categoryPanelHeading h2 {
-  font-size: x-large !important;
+    font-size: x-large !important;
 }
 
-.categoryGrade {
-  font-size: large;
-  border-radius: 0px;]
+.categoryPanelHeading {
+/*    background-color: white !important;*/
+    background-image: none !important;
+    color: black !important;
+    border-bottom-color: black !important;
+}
+
+.resultsButton {
+    color: black;
+/*    border: 1px solid black;*/
+    border-bottom: 1px solid black;
+}
+
+.resultsButton:hover {
+    background-color: #F6F6F6;
+/*    border: 1px solid black;*/
+}
+
+.categoryGrade {    
+    font-size: large;
+    border-radius: 0px;]
 }
 
 path {
-  cursor: pointer;
+    cursor: pointer;
+}
+
+.numberOfIssuesHeader {
+    font-size: 65%;
 }
 
 
 /*scale down grade label size*/
 .finalGrade {
-  /* font-size: xx-large; */
-  margin: 10px;
+    /* font-size: xx-large; */
+    margin: 10px;
 }
 
 /*remove margin from header to align grades */
 .finalNumericalGrade {
-  font-size: large;
+    font-size: large;
 }
 
 .category {
-/*
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 15px;
-*/
-  /*border-radius: 5px;*/
-  /* background-color: #5bc0de; */
-  /*brighter blue*/
-  /*background-color: #d9edf7;*/
-  /*lighter blue*/
-  /* background-color: #f5f5f5; */
-  /*gray default*/
+    /*
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    */
+    /*border-radius: 5px;*/
+    /* background-color: #5bc0de; */
+    /*brighter blue*/
+    /*background-color: #d9edf7;*/
+    /*lighter blue*/
+    /* background-color: #f5f5f5; */
+    /*gray default*/
 }
 
 /*override bootstrap leaving underline in place 
 after leaving a link without a data-target set
 we don't use data-target as we don't want the user redirected */
 .panel-heading a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 /*then reapply the basic link logic but for hover only*/
 .panel-heading a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .mainPanelPanel {
-  /*light blue*/
-  /*background-color: #d9edf7;*/
-  border: none !important;
-  box-shadow: none;
+    /*light blue*/
+    /*background-color: #d9edf7;*/
+    border: none !important;
+    box-shadow: none;
 }
 
 .panelDropdownButton:hover {
-  text-decoration: none !important;
+    text-decoration: none !important;
 }
 
 .gradingCriteriaDropdownButton:hover {
-  text-decoration: none !important;
+    text-decoration: none !important;
 }
 
 /* keeps distance between comment and table if a table exists */
 .commentTable {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 
 .requirementWrapper {
-  /* padding: 10px; */
+    /* padding: 10px; */
 }
 
 #mainScorecardPanelHeading {
-  margin-top: -10px;
-  margin-bottom: -30px;
+    margin-top: -10px;
+    margin-bottom: -30px;
 }
 
 .removePanelGradient {
-  background-image: none !important;
-  background-color: white !important;
+    background-image: none !important;
+    background-color: white !important;
 }
 
 .removeBorder {
-  border: none;
-  border-color: none;
-  box-shadow: none;
+    border: none;
+    border-color: none;
+    box-shadow: none;
 }
 
 .removeBorderRadius {
-	border-radius: 0px;
+    border-radius: 0px;
 }
 
 .scFooter {
-	padding: 0px;
-	background-color: white;
-	border-top: none;
+    padding: 0px;
+    background-color: white;
+    border-top: none;
 }
 
 .scButton {
-	border-radius: 0px;
+    border-radius: 0px;
 }
 
 .rubricColor {
-	background-color: white; /*backup for no rgba support*/
-	background-color: rgba(51, 122, 183, 0.03);
+    background-color: white; /*backup for no rgba support*/
+    /*	background-color: rgba(51, 122, 183, 0.03);*/
+}
+
+.basicBorder {
+    border: 1px solid black;
+}
+
+#heatMap {
+    /* border: 1px solid black; */
+    /* padding: 15px; */
+    /* margin-bottom: 20px; */
+    margin-top: 6px;
+}
+
+.heatMapRow {
+    padding: 15px;
+}
+
+.heatMapData {
+    /* border: 1px solid black; */
+    /* padding: 15px; */    
+}
+
+.Acolor {
+    background-color: #87B822 !important;
+}
+.Bcolor {
+    background-color: #F0C42C !important;
+}
+.Ccolor {
+    background-color: #F1784D !important;
+}
+.Dcolor {
+    background-color: #F1784D !important;
+}
+
+.unknownGradeColor {
+    background-color: lightGray !important;
+}
+
+.heatMapAPlus {
+/*    background-color: #87B822 !important;*/
+    background-color: #01B830 !important;
+    color: white !important;
+}
+.heatMapAPlus:hover {
+    font-weight: bold;
+}
+.heatMapAPlus:focus {
+    color: white;
+}
+.heatMapAMinus {    
+    background-color: #018833 !important;
+    color: white !important;
+}
+.heatMapAMinus:hover {
+    font-weight: bold;
+}
+.heatMapAMinus:focus {
+    color: white;
+}
+.heatMapBPlus {
+    background-color: #F0EF6C !important;
+}
+.heatMapBPlus:hover {
+    font-weight: bold;
+}
+.heatMapBPlus:focus {
+}
+.heatMapBMinus {
+    background-color: #FFE00C !important;
+    background-color: #F0E002 !important;
+}
+.heatMapBMinus:hover {
+    font-weight: bold;
+}
+.heatMapBMinus:focus {
+}
+.heatMapC {
+    background-color: #F1704A !important;
+/*    color: white !important;*/
+}
+.heatMapC:hover {
+    font-weight: bold;
+}
+.heatMapC:focus {
+    color: white;
+}
+.heatMapD {
+/*    background-color: #F1784D !important;*/
+/*    background-color: #96281B !important;*/
+    background-color: #C0392B !important;    
+    color: white !important;
+}
+.heatMapD:hover {
+    font-weight: bold;
+}
+.heatMapD:focus {
+    color: white !important;
+}
+
+.heatMapButton {
+	display: block;
+	width: 100%;
 }
 
 /*
 .panel {
-	border: 0;
+border: 0;
 }
 
 .table > thead > tr > th, .table > thead > tr > td {
-    border: 0;
+border: 0;
 }
 */

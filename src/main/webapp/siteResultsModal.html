@@ -1,61 +1,38 @@
-<div class="modal modal-wide fade" id="resultModal" tabindex="-1"
+<div class="modal modal-wide fade" id="resultModal" tabindex="-1" data-backdrop="static"
   role="dialog" aria-labelledby="resultModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
+        
+        <div class="pull-left">
+            <span ng-show="uploadDisplay.isLoading || uploadDisplay.isValidationLoading">
+              <img 
+                   src="images/validationSpinner.gif"
+                   alt="scorecard loading indicator" style="width: 30px">&nbsp;Scoring...
+            </span>
+        </div>
+          
+        <!--
         <div class="pull-right">
           <button type="button" class="btn btn-default closeResultsBtn"
             data-dismiss="modal">Close Results</button>
         </div>
-        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
-        <ul class="nav nav-tabs" id="resultModalTabs">
-          <!-- ng-click used to handle angular-nvd3 bug https://github.com/krispo/angular-nvd3/issues/259 -->
-          <li class="active"><a href="#tabs-1" data-toggle="tab" ng-click="resizeWindow()">Scorecard
-              Result&nbsp;<img ng-show="uploadDisplay.isLoading"
-              src="images/validationSpinner.gif"
-              alt="scorecard loading indicator" style="width: 22px">
-          </a></li>
-          <li><a href="#tabs-2" data-toggle="tab">Validation
-              Result&nbsp;<img ng-show="uploadDisplay.isValidationLoading"
-              src="images/validationSpinner.gif"
-              alt="validation loading indicator" style="width: 22px">
-          </a></li>
-          <!-- <li><a href="#tabs-3" data-toggle="tab">Original C-CDA</a></li> -->
-          <!--
-          <li class="pull-right">
-            <button type="button" class="btn btn-primary saveResultsBtn" style="display: inline-block;">Save Results</button>
-            <button type="button" class="btn btn-default closeResultsBtn" data-dismiss="modal">Close Results</button>
-          </li>
-          -->
-        </ul>
+        -->
+               
       </div>
+        
       <div class="modal-body">
         <div id="ValidationResult">
-
-          <div class="tab-content" id="resultTabContent">
-            <div class="tab-pane active" id="tabs-1">
-              <scorecard></scorecard>
-            </div>
-            <div class="tab-pane" id="tabs-2">
-              <site-validation-results
-                ng-show="selectedValidationOption.id == 1"></site-validation-results>
-              <div ng-show="selectedValidationOption.id != 1">
-                <h2>
-                  <i>The C-CDA R2.1 validation results were not
-                    processed due to user request.</i>
-                </h2>
-              </div>
-            </div>
-            <!-- <div class="tab-pane" id="tabs-3"></div> -->
-          </div>
-
+            <scorecard></scorecard>
         </div>
       </div>
+        
       <div class="modal-footer">
         <!--<button type="button" class="btn btn-primary saveResultsBtn">Save Results</button>-->
         <button type="button" class="btn btn-default closeResultsBtn"
           data-dismiss="modal">Close Results</button>
       </div>
+        
     </div>
   </div>
 </div>

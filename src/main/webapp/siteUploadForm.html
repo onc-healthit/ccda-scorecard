@@ -1,16 +1,4 @@
-<div id="CCDAvalidator" class="panel panel-default removeBorder">
-  <div class="panel-heading">
-    <h2 class="panel-title">C-CDA Scorecard</h2>
-  </div>
-
-  <div class="panel-body">
-
-    <p>The SITE C-CDA R2.1 Scorecard provides an enhanced level of
-      interoperability for C-CDA documents by using a comprehensive
-      scoring system, which allows implementers to improve the data
-      quality and representation of their C-CDA documents, thereby
-      increasing the precision of documents used in the real-world.</p>
-    <p>Please note: Scoring and validation may take up to one minute to run.</p>
+<div id="CCDAvalidator" class="panel panel-default removeBorder">  
 
     <div id="CCDAAccordion">
 
@@ -18,7 +6,10 @@
         <div class="panel-heading">
           <h3 class="panel-title">
             <a data-toggle="collapse" data-parent="#CCDAAccordion"
-              href="#collapseCCDA2_0Validator" tabindex="1"> C-CDA R2.1 Scorecard (Alpha Release)</a>
+              href="#collapseCCDA2_0Validator" tabindex="1">Run the Scorecard</a>
+              <!--<a href data-toggle="modal" data-target="#scoringCriteriaModal" class="pull-right" tabindex="1">
+                View Scoring Criteria&nbsp;<span class="glyphicon glyphicon-sunglasses"></span>
+              </a>-->
           </h3>
         </div>
         <div id="collapseCCDA2_0Validator"
@@ -27,14 +18,18 @@
 
             <div id="CCDAReference">
 
-              <div id="CCDAReferenceWrapper">
-                <span class="directions">Directions:</span>
-                <p>Please follow the steps below in order to score the C-CDA R2.1 document.</p>
-
-                <form name="scUploadForm">
+              <div id="CCDAReferenceWrapper">              
+              <p>There are two ways of running the scorecard. You
+                can either upload your C-CDA document using the
+                interface below and then press "Score" to obtain the
+                result. Or, you can directly call the API below to
+                invoke the scorecard programmatically.</p>                
+              <span class="directions">Manual:</span>
+              <form name="scUploadForm">
 
                   <ol>
 
+                    <!--
                     <li>Select results desired.
                       <div class="form-group">
                         <select
@@ -45,15 +40,15 @@
                         </select>
                       </div>
                     </li>
+                    -->
 
-                    <li>Upload generated C-CDA file to score.
+                    <li>Upload C-CDA Document.
                       <div style="position: relative;">
                         <div class="row">
                           <div class="col-md-12 form-group">
                             <span
                               class="btn btn-success fileinput-button">
-                              <i class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload
-                                a C-CDA File...</span> <input type="file"
+                              <i class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload</span> <input type="file"
                               ngf-select ng-model="ccdaScFile"
                               name="file" accept=".xml"
                               ngf-max-size="3MB" required
@@ -71,7 +66,7 @@
                       </div>
                     </li>
 
-                    <li>Score.
+                    <li>Click Score.
                       <div>
                         <!--submit button-->
                         <button ng-disabled="!scUploadForm.$valid && !mainDebug.inDebugMode"
@@ -80,7 +75,7 @@
                           class="btn btn-primary start"
                           data-toggle="modal" data-target="#resultModal"
                           tabindex="1" type="button">
-                          <i class="glyphicon glyphicon-ok"></i> <span>Generate Scorecard</span>
+                          <i class="glyphicon glyphicon-ok"></i> <span>Score</span>
                         </button>
                         <!--progress bar-->
                         <span class="progress"
@@ -100,12 +95,31 @@
                   </ol>
 
                 </form>
-
+                
+              <span class="directions">API:</span>
+              <p>Invoke the following API:</p>
+              <ul>
+                <li>Endpoint
+                  <ul>
+                    <li>POST:
+                      https://sitenv.org/ccda-smart-scorecard/ccdascorecardservice</li>
+                  </ul>
+                </li>
+                <li>The POST method takes one parameter which is
+                  <ul>
+                    <li>ccdaFile: The file that is being submitted for scoring</li>
+                   <!--  <li>Type: File</li> -->
+                  </ul>
+                </li>
+                <li>Use the multipart/form-data to encode the file as part of the body parameters for the POST request
+                </li>
+              </ul>
+              
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+
 </div>

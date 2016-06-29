@@ -1,6 +1,6 @@
-package org.sitenv.service.ccda.smartscorecard.repositories;
+package org.sitenv.service.ccda.smartscorecard.repositories.inmemory;
 
-import org.sitenv.service.ccda.smartscorecard.entities.Loinc;
+import org.sitenv.service.ccda.smartscorecard.entities.inmemory.Loinc;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
