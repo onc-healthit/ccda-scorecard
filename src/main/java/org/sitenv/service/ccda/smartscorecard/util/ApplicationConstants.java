@@ -158,20 +158,20 @@ public class ApplicationConstants {
 	public static final String SECOND_FORMAT = "yyyyMMddHHmmssZ";
 	public static final String SECOND_PATTERN = "\\d{8}-\\d{4}";
 	
-	private static final String CCDA_DEV_SERVER_URL = "http://54.200.51.225:8080",
-			LOCAL_HOST_URL = "http://localhost:8080",
+	private static final String CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org",
+			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
 			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
 			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
 			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
 			REFERENCE_CCDA_SERVICE = "/referenceccdaservice/";	
 	public static final String CODE_DISPLAYNAME_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: LOCAL_HOST_URL) + CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
+			: CCDA_PROD_SERVER_URL) + CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
 	public static final String CODE_VALUSET_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: LOCAL_HOST_URL) + CODE_IN_VALUESET_SERVICE;	
+			: CCDA_PROD_SERVER_URL) + CODE_IN_VALUESET_SERVICE;	
 	public static final String CODE_CODESYSTEM_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: LOCAL_HOST_URL) + CODE_IN_CODESYSTEM_SERVICE;	
+			: CCDA_PROD_SERVER_URL) + CODE_IN_CODESYSTEM_SERVICE;	
 	public static final String REFERENCE_VALIDATOR_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: LOCAL_HOST_URL) + REFERENCE_CCDA_SERVICE;
+			: CCDA_PROD_SERVER_URL) + REFERENCE_CCDA_SERVICE;
 	
 	public static final ArrayList<String> SMOKING_STATUS_CODES = new ArrayList<String>(
 		    Arrays.asList("449868002", "428041000124106", "8517006","266919005","77176002","266927001","428071000124103","428061000124105"));
