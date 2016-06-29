@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sitenv.ccdaparsing.model.CCDACode;
+import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDAImmunizationActivity;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
@@ -16,16 +17,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class ImmunizationScorecard {
 	
-	public Category getImmunizationCategory(CCDAImmunization immunizatons, String birthDate)
+	public Category getImmunizationCategory(CCDAImmunization immunizations, String birthDate)
 	{
 		
 		Category immunizationCategory = new Category();
 		immunizationCategory.setCategoryName(ApplicationConstants.CATEGORIES.IMMUNIZATIONS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> immunizationScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		immunizationScoreList.add(getTimePrecisionScore(immunizatons));
-		immunizationScoreList.add(getValidDateTimeScore(immunizatons,birthDate));
-		immunizationScoreList.add(getValidDisplayNameScoreCard(immunizatons));
+		immunizationScoreList.add(getTimePrecisionScore(immunizations));
+		immunizationScoreList.add(getValidDateTimeScore(immunizations,birthDate));
+		immunizationScoreList.add(getValidDisplayNameScoreCard(immunizations));
+		//immunizationScoreList.add(getNarrativeStructureIdScore(immunizations));
 		
 		immunizationCategory.setCategoryRubrics(immunizationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(immunizationScoreList, immunizationCategory);
@@ -287,5 +289,63 @@ public class ImmunizationScorecard {
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
 		return validateDisplayNameScore;
+	}
+	
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAImmunization immunizations)
+	{
+		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
+		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(immunizations != null)
+		{
+			if(!ApplicationUtil.isEmpty(immunizations.getImmActivity()))
+			{
+				for(CCDAImmunizationActivity immuAct : immunizations.getImmActivity())
+				{
+					if(!ApplicationUtil.isEmpty(immuAct.getReferenceTexts()))
+					{
+						for(CCDADataElement referenceText : immuAct.getReferenceTexts())
+						{
+							maxPoints++;
+							if(immunizations.getReferenceLinks().contains(referenceText.getValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(referenceText.getLineNumber());
+								issue.setXmlString(referenceText.getXmlString());
+								issuesList.add(issue);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if(maxPoints==0)
+		{
+			maxPoints = 1;
+			actualPoints = 1;
+		}
+		
+		narrativeTextIdScore.setActualPoints(actualPoints);
+		narrativeTextIdScore.setMaxPoints(maxPoints);
+		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		narrativeTextIdScore.setIssuesList(issuesList);
+		narrativeTextIdScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
+			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+		}
+		
+		return narrativeTextIdScore;
 	}
 }

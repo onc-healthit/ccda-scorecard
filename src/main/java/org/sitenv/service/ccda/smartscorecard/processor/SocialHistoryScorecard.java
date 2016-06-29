@@ -3,6 +3,7 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDASmokingStatus;
 import org.sitenv.ccdaparsing.model.CCDASocialHistory;
@@ -29,6 +30,7 @@ public class SocialHistoryScorecard {
 		socialHistoryScoreList.add(getValidDisplayNameScoreCard(socialHistory));
 		socialHistoryScoreList.add(getValidSmokingStatusScore(socialHistory));
 		socialHistoryScoreList.add(getValidSmokingStatuIdScore(socialHistory));
+		//socialHistoryScoreList.add(getNarrativeStructureIdScore(socialHistory));
 		
 		socialHistoryCategory.setCategoryRubrics(socialHistoryScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(socialHistoryScoreList, socialHistoryCategory);
@@ -487,6 +489,89 @@ public class SocialHistoryScorecard {
 			validSmokingStausIDScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
 		return validSmokingStausIDScore;
+	}
+	
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDASocialHistory socialHistory)
+	{
+		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
+		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(socialHistory != null)
+		{
+			if(!ApplicationUtil.isEmpty(socialHistory.getSmokingStatus()))
+			{
+				for(CCDASmokingStatus smokingStatus : socialHistory.getSmokingStatus())
+				{
+					if(!ApplicationUtil.isEmpty(smokingStatus.getReferenceTexts()))
+					{
+						for(CCDADataElement referenceText : smokingStatus.getReferenceTexts())
+						{
+							maxPoints++;
+							if(socialHistory.getReferenceLinks().contains(referenceText.getValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(referenceText.getLineNumber());
+								issue.setXmlString(referenceText.getXmlString());
+								issuesList.add(issue);
+							}
+						}
+					}
+				}
+			}
+			
+			if(!ApplicationUtil.isEmpty(socialHistory.getTobaccoUse()))
+			{
+				for(CCDATobaccoUse tobaccoUse : socialHistory.getTobaccoUse())
+				{
+					if(!ApplicationUtil.isEmpty(tobaccoUse.getReferenceTexts()))
+					{
+						for(CCDADataElement referenceText : tobaccoUse.getReferenceTexts())
+						{
+							maxPoints++;
+							if(socialHistory.getReferenceLinks().contains(referenceText.getValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(referenceText.getLineNumber());
+								issue.setXmlString(referenceText.getXmlString());
+								issuesList.add(issue);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if(maxPoints==0)
+		{
+			maxPoints = 1;
+			actualPoints = 1;
+		}
+		
+		narrativeTextIdScore.setActualPoints(actualPoints);
+		narrativeTextIdScore.setMaxPoints(maxPoints);
+		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		narrativeTextIdScore.setIssuesList(issuesList);
+		narrativeTextIdScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
+			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+		}
+		
+		return narrativeTextIdScore;
 	}
 
 }

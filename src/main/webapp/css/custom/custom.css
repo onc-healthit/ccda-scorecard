@@ -66,13 +66,13 @@ header .navbar-inverse .navbar-inner {
 }
 
 header .jumbotron {
-  background-image: url("http://54.186.59.197/site-portal-responsivebootstrap-theme/images/site/site-background-header.png");
+  background-image: url("https://devportal.sitenv.org/site-portal-responsivebootstrap-theme/images/site/site-background-header.png");
   padding: 0;
   background-color: #fff;
 }
 
 header .jumbotron .container {
-  background-image: url("http://54.186.59.197/site-portal-responsivebootstrap-theme/images/site/site-header.png");
+  background-image: url("https://devportal.sitenv.org/site-portal-responsivebootstrap-theme/images/site/site-header.png");
   background-repeat: no-repeat;
   z-index: 999;
   height: 160px;
@@ -629,7 +629,7 @@ div.thumbnail.active {
 }
 
 a.ext-icon {
-  background: url('http://54.186.59.197/site-portal-responsivebootstrap-theme/images/extlink.png') right center no-repeat;
+  background: url('https://devportal.sitenv.org/site-portal-responsivebootstrap-theme/images/extlink.png') right center no-repeat;
   padding: 0 2px 0 1px;
   width: 10px;
   height: 10px;
