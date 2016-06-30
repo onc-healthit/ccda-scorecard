@@ -48,7 +48,7 @@ public class ProceduresScorecard {
 			if(procedures.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(procedures.getSectionCode().getCode(), 
-									ApplicationConstants.CODE_SYSTEM_MAP.get(procedures.getSectionCode().getCodeSystem()),
+									procedures.getSectionCode().getCodeSystem(),
 									procedures.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -77,7 +77,7 @@ public class ProceduresScorecard {
 					if(procAct.getProcCode() != null)
 					{
 						if(ApplicationUtil.validateDisplayName(procAct.getProcCode().getCode(), 
-												ApplicationConstants.CODE_SYSTEM_MAP.get(procAct.getProcCode().getCodeSystem()),
+												procAct.getProcCode().getCodeSystem(),
 												procAct.getProcCode().getDisplayName()))
 						{
 							actualPoints++;

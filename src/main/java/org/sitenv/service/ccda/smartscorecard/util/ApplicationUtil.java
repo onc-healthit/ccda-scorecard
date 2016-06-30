@@ -353,37 +353,51 @@ public class ApplicationUtil {
 	}
 	
 	
-	public static boolean validateDisplayName(String code, String codeSystemName, String displayName )
+	public static boolean validateDisplayName(String code, String codeSystem, String displayName )
 	{
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_DISPLAYNAME_VALIDATION_URL)
-		        .queryParam("code", code==null?"":code)
-		        .queryParam("codeSystems", codeSystemName==null?"LOINC":codeSystemName)
-		        .queryParam("displayName", displayName==null?"":displayName.toUpperCase());
+		boolean result = false;
+		if(!ApplicationUtil.isEmpty(code) && !ApplicationUtil.isEmpty(codeSystem) && !ApplicationUtil.isEmpty(displayName))
+		{
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_DISPLAYNAME_VALIDATION_URL)
+					.queryParam("code", code)
+					.queryParam("codeSystems", ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem))
+					.queryParam("displayName", displayName.toUpperCase());
+			RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+			result = restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
+		}
+		return result;
+	}
+	
+	public static boolean validateCodeForValueset(String code, String valuesetId)
+	{
+		boolean result = false;
+		if(!ApplicationUtil.isEmpty(code) && !ApplicationUtil.isEmpty(valuesetId))
+		{
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_VALUSET_VALIDATION_URL)
+					.queryParam("code", code)
+					.queryParam("valuesetOids", valuesetId);
 		
-		RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
-	    return restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
+			RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+			result = restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
+		}
+		
+		return result;
 		
 	}
 	
-	public static boolean validateCodeForValueset(String code, String valusetId)
+	public static boolean validateCodeForCodeSystem(String code, String codeSystem)
 	{
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_VALUSET_VALIDATION_URL)
-		        .queryParam("code", code==null?"":code)
-		        .queryParam("valuesetOids", valusetId==null?"":valusetId);
-		
-		RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
-	    return restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
-		
-	}
-	
-	public static boolean validateCodeForCodeSystem(String code, String codeSystemName)
-	{
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_CODESYSTEM_VALIDATION_URL)
-		        .queryParam("code", code==null?"":code)
-		        .queryParam("codeSystems", codeSystemName==null?"LOINC":codeSystemName);
-		
-		RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
-	    return restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
+		boolean result = false;
+		if(!ApplicationUtil.isEmpty(code) && !ApplicationUtil.isEmpty(codeSystem))
+		{
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_CODESYSTEM_VALIDATION_URL)
+			        .queryParam("code",code)
+			        .queryParam("codeSystems", ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem));
+			
+			RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+		    result = restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
+		}
+		return result;
 		
 	}
 	

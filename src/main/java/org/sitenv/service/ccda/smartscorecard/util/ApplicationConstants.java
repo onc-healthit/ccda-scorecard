@@ -9,7 +9,7 @@ import java.util.TreeMap;
 public class ApplicationConstants {
 	
 	//set this to false for production
-	public static final boolean IN_DEVELOPMENT_MODE = false;
+	public static final boolean IN_DEVELOPMENT_MODE = true;
 	 
 	public static String FILEPATH = "C:/Projects/Dragon/CCDAParser/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	
@@ -74,8 +74,12 @@ public class ApplicationConstants {
 			+ "Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low and Observation's EffectiveTime/high should be <= Organizer's "
 			+ "EffectiveTime/high";
 	
-	public static final String TEMPLATEID_DESC = "";
+	public static final String TEMPLATEID_DESC = "All Template Ids should be Valid";
 	public static final String TEMPLATEID_REQ = "All Template Ids should be correct";
+	
+	public static final String IMMU_CODE_REQ = "Immunizations coded with CVX codes";
+	public static final String IMMU_CODE_DESC = "Each Immunization code should be validated aganist CVX Vaccines Administered valueset";
+	
 	
 	
 	public static final String ENCOUNTER_TIMEDATE_VALID_REQUIREMENT = "All effective time elements under Encounters section should contain "
@@ -180,6 +184,7 @@ public class ApplicationConstants {
 	public static final String IMMUNIZATION_ACTIVITY_ID = "2.16.840.1.113883.10.20.22.4.52"; 
 	public static final String HITSP_VITAL_VALUESET_OID = "2.16.840.1.113883.3.88.12.80.62";
 	public static final String PROBLEM_TYPE_VALUESET_OID = "2.16.840.1.113883.3.88.12.3221.7.2";
+	public static final String CVX_CODES_VALUSET_OID = "2.16.840.1.113883.3.88.12.80.22";
 	
 	public static final String SNOMEDCT_CODE_SYSTEM_NAME = "SNOMED-CT";
 	public static final String SNOMEDCT_CODE_SYSTEM = "2.16.840.1.113883.6.96";

@@ -32,7 +32,7 @@ public class ProblemsScorecard {
 		problemsScoreList.add(getValidStatusCodeScoreCard(problems));
 		problemsScoreList.add(getApprEffectivetimeScore(problems));
 		problemsScoreList.add(getApprStatusCodeScore(problems));
-		//problemsScoreList.add(getNarrativeStructureIdScore(problems));
+		problemsScoreList.add(getNarrativeStructureIdScore(problems));
 		
 		ApplicationUtil.calculateSectionGradeAndIssues(problemsScoreList, problemsCategory);
 		
@@ -359,7 +359,7 @@ public class ProblemsScorecard {
 			if(problems.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(problems.getSectionCode().getCode(), 
-						ApplicationConstants.CODE_SYSTEM_MAP.get(problems.getSectionCode().getCodeSystem()),
+														problems.getSectionCode().getCodeSystem(),
 														problems.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -394,7 +394,7 @@ public class ProblemsScorecard {
 							if(probObs.getProblemType()!= null)
 							{
 								if(ApplicationUtil.validateDisplayName(probObs.getProblemType().getCode(), 
-										ApplicationConstants.CODE_SYSTEM_MAP.get(probObs.getProblemType().getCodeSystem()),
+																		probObs.getProblemType().getCodeSystem(),
 																		probObs.getProblemType().getDisplayName()))
 								{
 									actualPoints++;
@@ -418,7 +418,7 @@ public class ProblemsScorecard {
 							if(probObs.getProblemCode()!= null)
 							{
 								if(ApplicationUtil.validateDisplayName(probObs.getProblemCode().getCode(), 
-										ApplicationConstants.CODE_SYSTEM_MAP.get(probObs.getProblemCode().getCodeSystem()),
+																		probObs.getProblemCode().getCodeSystem(),
 																		probObs.getProblemCode().getDisplayName()))
 								{
 									actualPoints++;
@@ -445,7 +445,7 @@ public class ProblemsScorecard {
 								{
 									maxPoints++;
 									if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
-											ApplicationConstants.CODE_SYSTEM_MAP.get(translationCode.getCodeSystem()),
+															translationCode.getCodeSystem(),
 															translationCode.getDisplayName()))
 									{
 										actualPoints++;
@@ -510,7 +510,7 @@ public class ProblemsScorecard {
 						   if(probObs.getProblemCode()!= null)
 						   {
 							   if(ApplicationUtil.validateCodeForCodeSystem(probObs.getProblemCode().getCode(), 
-									   					ApplicationConstants.CODE_SYSTEM_MAP.get(probObs.getProblemCode().getCodeSystem())))
+									   					probObs.getProblemCode().getCodeSystem()))
 							   {
 								   actualPoints++;
 							   }
@@ -725,9 +725,19 @@ public class ProblemsScorecard {
 					if(!ApplicationUtil.isEmpty(problemAct.getProblemObservations()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateProblemStatusCode(problemAct.getStatusCode().getCode(), problemAct.getProblemObservations()))
+						if(problemAct.getStatusCode()!=null)
 						{
-							actualPoints++;
+							if(ApplicationUtil.validateProblemStatusCode(problemAct.getStatusCode().getCode(), problemAct.getProblemObservations()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(problemAct.getLineNumber());
+								issue.setXmlString(problemAct.getXmlString());
+								issuesList.add(issue);
+							}
 						}
 						else
 						{
