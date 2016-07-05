@@ -454,14 +454,19 @@ public class ApplicationUtil {
 
 		for(CCDAProblemObs problemObs : probObservations)
 		{
-			if(problemObs.getEffTime().getLowPresent() && !problemObs.getEffTime().getHighPresent())
+			if(problemObs.getEffTime()!= null)
 			{
-				active = true;
-			}
-			else if(problemObs.getEffTime().getLowPresent() && problemObs.getEffTime().getHighPresent())
+				if(problemObs.getEffTime().getLowPresent() && !problemObs.getEffTime().getHighPresent())
+				{
+					active = true;
+				}
+				else if(problemObs.getEffTime().getLowPresent() && problemObs.getEffTime().getHighPresent())
+				{
+					completed = true;
+				}
+			}else
 			{
-				completed = true;
-
+				return false;
 			}
 		}
 

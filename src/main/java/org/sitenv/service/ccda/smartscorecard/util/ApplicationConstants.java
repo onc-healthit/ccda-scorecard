@@ -184,7 +184,7 @@ public class ApplicationConstants {
 	public static final String IMMUNIZATION_ACTIVITY_ID = "2.16.840.1.113883.10.20.22.4.52"; 
 	public static final String HITSP_VITAL_VALUESET_OID = "2.16.840.1.113883.3.88.12.80.62";
 	public static final String PROBLEM_TYPE_VALUESET_OID = "2.16.840.1.113883.3.88.12.3221.7.2";
-	public static final String CVX_CODES_VALUSET_OID = "2.16.840.1.113883.3.88.12.80.22";
+	public static final String CVX_CODES_VALUSET_OID = "2.16.840.1.113762.1.4.1010.6";
 	
 	public static final String SNOMEDCT_CODE_SYSTEM_NAME = "SNOMED-CT";
 	public static final String SNOMEDCT_CODE_SYSTEM = "2.16.840.1.113883.6.96";
