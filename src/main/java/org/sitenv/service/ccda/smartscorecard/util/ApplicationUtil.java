@@ -360,7 +360,7 @@ public class ApplicationUtil {
 		{
 			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_DISPLAYNAME_VALIDATION_URL)
 					.queryParam("code", code)
-					.queryParam("codeSystems", ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem))
+					.queryParam("codeSystems", ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem)==null ? "\"\"" : ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem))
 					.queryParam("displayName", displayName.toUpperCase());
 			RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
 			result = restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
@@ -392,7 +392,7 @@ public class ApplicationUtil {
 		{
 			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_CODESYSTEM_VALIDATION_URL)
 			        .queryParam("code",code)
-			        .queryParam("codeSystems", ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem));
+			        .queryParam("codeSystems", ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem)==null ? "\"\"" : ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem));
 			
 			RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
 		    result = restTemplate.getForObject(builder.build().encode().toUri(), Boolean.class);
