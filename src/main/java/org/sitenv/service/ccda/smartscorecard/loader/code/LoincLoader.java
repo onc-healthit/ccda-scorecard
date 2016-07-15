@@ -46,18 +46,19 @@ public class LoincLoader extends BaseVocabularyLoader implements VocabularyLoade
                             	if (pendingCount++ > 0) {
                                     insertQueryBuilder.append(",");
                                 }
+                            	
                                 insertQueryBuilder.append("(");
                                 insertQueryBuilder.append("DEFAULT");
                                 insertQueryBuilder.append(",'");
                                 insertQueryBuilder.append(StringUtils.strip(line[0], "\"").toUpperCase());
                                 insertQueryBuilder.append("','");
-                                insertQueryBuilder.append(StringUtils.strip(line[16], "\"").toUpperCase().replaceAll("'", "''"));
+                                insertQueryBuilder.append(StringUtils.strip(line[1], "\"").toUpperCase().replaceAll("'", "''"));
                                 insertQueryBuilder.append("','");
                                 insertQueryBuilder.append(file.getParentFile().getName());
                                 insertQueryBuilder.append("','");
-                                insertQueryBuilder.append(StringUtils.strip(line[5], "\"").replaceAll("'", "''"));
+                                insertQueryBuilder.append(StringUtils.strip(line[4], "\"").replaceAll("'", "''"));
                                 insertQueryBuilder.append("','");
-                                insertQueryBuilder.append(StringUtils.strip(line[6], "\"").replaceAll("'", "''"));
+                                insertQueryBuilder.append(StringUtils.strip(line[4], "\"").replaceAll("'", "''"));
                                 insertQueryBuilder.append("')");
 
                                 if ((++totalCount % 100) == 0) {
