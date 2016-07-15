@@ -29,7 +29,7 @@ public class MedicationScorecard {
 		medicationScoreList.add(getValidDateTimeScore(medications, birthDate));
 		medicationScoreList.add(getValidDisplayNameScoreCard(medications));
 		medicationScoreList.add(getValidMedActivityScore(medications));
-		//medicationScoreList.add(getNarrativeStructureIdScore(medications));
+		medicationScoreList.add(getNarrativeStructureIdScore(medications));
 		
 		medicationCategory.setCategoryRubrics(medicationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(medicationScoreList, medicationCategory);
@@ -272,7 +272,7 @@ public class MedicationScorecard {
 			if(medications.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(medications.getSectionCode().getCode(), 
-							ApplicationConstants.CODE_SYSTEM_MAP.get(medications.getSectionCode().getCodeSystem()),
+							medications.getSectionCode().getCodeSystem(),
 						medications.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -301,7 +301,7 @@ public class MedicationScorecard {
 					if(medActivity.getApproachSiteCode()!= null)
 					{
 						if(ApplicationUtil.validateDisplayName(medActivity.getApproachSiteCode().getCode(), 
-								ApplicationConstants.CODE_SYSTEM_MAP.get(medActivity.getApproachSiteCode().getCodeSystem()),
+																medActivity.getApproachSiteCode().getCodeSystem(),
 																medActivity.getApproachSiteCode().getDisplayName()))
 						{
 							actualPoints++;
@@ -330,7 +330,7 @@ public class MedicationScorecard {
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
-												ApplicationConstants.CODE_SYSTEM_MAP.get(translationCode.getCodeSystem()),
+														translationCode.getCodeSystem(),
 														translationCode.getDisplayName()))
 								{
 									actualPoints++;
