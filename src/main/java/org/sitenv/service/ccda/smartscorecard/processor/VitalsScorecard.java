@@ -10,7 +10,7 @@ import org.sitenv.ccdaparsing.model.CCDAVitalSigns;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
-import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.LoincRepository;
+import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.VitalsRepository;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class VitalsScorecard {
 	
 	@Autowired
-	LoincRepository loincRepository;
+	VitalsRepository vitalsRepository;
 	
 	public Category getVitalsCategory(CCDAVitalSigns vitals, String birthDate)
 	{
@@ -450,7 +450,7 @@ public class VitalsScorecard {
 							{
 								if(vitalObs.getVsCode()!= null)
 								{
-									if(loincRepository.foundUCUMUnitsForLoincCode(vitalObs.getVsCode().getCode(),vitalObs.getVsResult().getUnits()))
+									if(vitalsRepository.isUCUMCodeValidForVitalCode(vitalObs.getVsCode().getCode(),vitalObs.getVsResult().getUnits()))
 									{
 										actualPoints++;
 									}

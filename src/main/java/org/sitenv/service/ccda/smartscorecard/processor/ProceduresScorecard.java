@@ -24,7 +24,7 @@ public class ProceduresScorecard {
 		
 		List<CCDAScoreCardRubrics> procedureScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		procedureScoreList.add(getValidDisplayNameScoreCard(procedures));
-		//procedureScoreList.add(getNarrativeStructureIdScore(procedures));
+		procedureScoreList.add(getNarrativeStructureIdScore(procedures));
 		
 		procedureCategory.setCategoryRubrics(procedureScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(procedureScoreList, procedureCategory);

@@ -463,7 +463,8 @@ public class LabresultsScorecard {
 								maxPoints++;
 								if(resultsObs.getResultCode()!= null)
 								{
-									if(loincRepository.foundUCUMUnitsForLoincCode(resultsObs.getResultCode().getCode(),resultsObs.getResults().getUnits()))
+									if(loincRepository.foundUCUMUnitsForLoincCode(resultsObs.getResultCode().getCode(),
+																					resultsObs.getResults().getUnits()!=null ? resultsObs.getResults().getUnits() : ""))
 									{
 										actualPoints++;
 									}
