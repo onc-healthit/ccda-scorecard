@@ -150,6 +150,9 @@ public class ApplicationConstants {
 	public static final String NARRATIVE_STRUCTURE_ID_REQ = "Each entry has to be linked to related narrative text";
 	public static final String NARRATIVE_STRUCTURE_ID_DESC = "Each entry has to be linked to related narrative text";
 	
+	public static final String EMPTY_DOC_ERROR_MESSAGE = "Given CCDA document is empty or invalid, Please upload valid CCDA Document";
+	public static final String EXCEPTION_ERROR_MESSAGE = "Our system experienced some unexpected error, please try after some time or email your issue to test@sitenv.org";
+	
 	public static final String MONTH_FORMAT = "yyyyMM";
 	public static final String MONTH_PATTERN = "\\d{6}";
 	
@@ -182,6 +185,7 @@ public class ApplicationConstants {
 	
 	public static final String SMOKING_STATUS_OBSERVATION_ID = "2.16.840.1.113883.10.20.22.4.78"; 
 	public static final String IMMUNIZATION_ACTIVITY_ID = "2.16.840.1.113883.10.20.22.4.52"; 
+	public static final String MEDICATION_ACTIVITY_ID = "2.16.840.1.113883.10.20.22.4.16";
 	public static final String HITSP_VITAL_VALUESET_OID = "2.16.840.1.113883.3.88.12.80.62";
 	public static final String PROBLEM_TYPE_VALUESET_OID = "2.16.840.1.113883.3.88.12.3221.7.2";
 	public static final String CVX_CODES_VALUSET_OID = "2.16.840.1.113762.1.4.1010.6";

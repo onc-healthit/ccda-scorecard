@@ -131,13 +131,13 @@ public class CcdaSmartScorecardController {
 			}else
 			{
 				response.setSuccess(false);
-				response.setErrorMessage("Given CCDA document is empty, Please upload valid CCDA Document");
+				response.setErrorMessage(ApplicationConstants.EMPTY_DOC_ERROR_MESSAGE);
 			}
 		}catch(Exception excp)
 		{
 			excp.printStackTrace();
 			response.setSuccess(false);
-			response.setErrorMessage("Our system experienced some unexpected error, please try after some time or email your issue to ");
+			response.setErrorMessage(ApplicationConstants.EXCEPTION_ERROR_MESSAGE);
 		}
 		return response;
 	}
