@@ -463,7 +463,8 @@ public class LabresultsScorecard {
 								maxPoints++;
 								if(resultsObs.getResultCode()!= null)
 								{
-									if(loincRepository.foundUCUMUnitsForLoincCode(resultsObs.getResultCode().getCode(),resultsObs.getResults().getUnits()))
+									if(loincRepository.foundUCUMUnitsForLoincCode(resultsObs.getResultCode().getCode(),
+																					resultsObs.getResults().getUnits()!=null ? resultsObs.getResults().getUnits() : ""))
 									{
 										actualPoints++;
 									}
@@ -722,12 +723,18 @@ public class LabresultsScorecard {
 					}
 				}
 			}
+			if(maxPoints ==0)
+			{
+				maxPoints =1;
+				actualPoints =1;
+			}
 		}
-		
-		if(maxPoints==0)
+		else
 		{
-			maxPoints = 1;
-			actualPoints = 1;
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("All sections are empty");
+			issue.setXmlString("All sections are empty");
+			issuesList.add(issue);
 		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);

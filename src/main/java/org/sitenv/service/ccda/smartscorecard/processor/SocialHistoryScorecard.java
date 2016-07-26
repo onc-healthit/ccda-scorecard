@@ -453,11 +453,19 @@ public class SocialHistoryScorecard {
 							else
 							{
 								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(smokingStatus.getLineNumber());
-								issue.setXmlString(smokingStatus.getXmlString());
+								issue.setLineNumber(templateId.getLineNumber());
+								issue.setXmlString(templateId.getXmlString());
 								issuesList.add(issue);
 							}
 						}
+					}
+					else
+					{
+						maxPoints++;
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(smokingStatus.getLineNumber());
+						issue.setXmlString(smokingStatus.getXmlString());
+						issuesList.add(issue);
 					}
 				}
 			}
@@ -551,12 +559,18 @@ public class SocialHistoryScorecard {
 					}
 				}
 			}
+			if(maxPoints ==0)
+			{
+				maxPoints=1;
+				actualPoints =1;
+			}
 		}
-		
-		if(maxPoints==0)
+		else
 		{
-			maxPoints = 1;
-			actualPoints = 1;
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("All sections are empty");
+			issue.setXmlString("All sections are empty");
+			issuesList.add(issue);
 		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);
