@@ -116,7 +116,7 @@ public class ProceduresScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROCEDURE_SECTION.getIgReference());
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
 		return validateDisplayNameScore;
@@ -180,7 +180,7 @@ public class ProceduresScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROCEDURE_SECTION.getIgReference());
 			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
 		

@@ -101,7 +101,7 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
-			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_ACTIVITY.getIgReference());
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
 		return timePrecisionScore;
@@ -172,7 +172,7 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
-			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_ACTIVITY.getIgReference());
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
 		return validateTimeScore;
@@ -286,7 +286,7 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_SECTION.getIgReference());
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
 		return validateDisplayNameScore;
@@ -365,7 +365,7 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateImmuCodeScore.setDescription(ApplicationConstants.IMMU_CODE_DESC);
-			validateImmuCodeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			validateImmuCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_ACTIVITY.getIgReference());
 			validateImmuCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
 		return validateImmuCodeScore;
@@ -430,7 +430,7 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
+			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_SECTION.getIgReference());
 			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
 		}
 		

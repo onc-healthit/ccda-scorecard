@@ -9,7 +9,7 @@ import java.util.TreeMap;
 public class ApplicationConstants {
 	
 	//set this to false for production
-	public static final boolean IN_DEVELOPMENT_MODE = false;
+	public static final boolean IN_DEVELOPMENT_MODE = true;
 	 
 	public static String FILEPATH = "C:/Projects/Dragon/CCDAParser/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	
@@ -315,6 +315,47 @@ public class ApplicationConstants {
 				+ CONTACT;
 		public static final String JSON_TO_JAVA_JACKSON = "An error occurred while converting the Scorecard service JSON response to a Java object via the Jackson API.";
 		public static final String IS_SUCCESS_FALSE = "Note for the developers: isSuccess is equal to false.";
-	}
 
+	public static enum IG_REFERENCES
+	{
+		RECORD_TARGET("Section 1.1.1.2: recordTarget"),
+		ENCOUNTER_ACTIVITY("Section 3.23: Encounter Actvity"),
+		ENCOUNTER_SECTION("Section 2.16: Encounters"),
+		ALLERGY_CONCERN("Section 3.5: Allergy Concern Act"),
+		ALLERGY_SECTION("Section 2.4.1: Allergies and Intolerances Section"),
+		PROBLEM_OBSERVATION("Section 3.79: Problem Observation"), 
+		PROBLEM_SECTION("Section 2.53.1: Problem Section"),
+		PROBLEM_CONCERN_ACT("Section 3.78: Problem Concern Act"),
+		MEDICATION_SECTION("Section 2.39.1: Medications Section"), 
+		MEDICATION_ACTIVITY("Section 3.48 Medication Activity"),
+		IMMUNIZATION_ACTIVITY("Section 3.41: Immunization Activity"), 
+		IMMUNIZATION_SECTION("Section 2.32.1: Immunizations Section"),
+		SOCIAL_HISTORY_SECTION("Section 2.66: Social History Section"), 
+		SMOKING_STATUS("Section 3.100: Smoking Status - Meaningful Use"),
+		SOCIAL_HISTORY_OBSERVATION("Section 3.101: Social History Observation"),
+		TOBACCO_USE("Section 3.107: Tobacco Use"),
+		RESULT_SECTION("Section 2.64.1: Results Section"),
+		RESULT_ORGANIZER("Section 3.93: Result Organizer"),
+		RESULT_OBSERVATION("Section 3.92: Result Observation"),
+		VITAL_SIGN_ORGANIZER("Section 3.109: Vital Signs Organizer"),
+		VITAL_SIGN_OBSERVATION("Section 3.108: Vital Sign Observation"), 
+		VITAL_SIGN_SECTION("Section 2.70.1: Vital Signs Section"),
+		PROCEDURE_SECTION("Section 2.61.1 :Procedures Section"),
+		PROCEDURE_ACTIVITY_OBSERVATION("Section 3.82 Procedure Activity Observation"),
+		TEMPLATE_IDS("Section 5.0 TEMPLATE IDS IN THIS GUIDE");
+		
+		
+		private String igReferences; 
+		
+		
+		private IG_REFERENCES(final String igReferences)
+		{
+			this.igReferences = igReferences;
+		}
+
+		public String getIgReference()
+		{
+			return igReferences;
+		}
+	}
 }
