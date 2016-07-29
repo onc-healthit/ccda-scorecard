@@ -4,6 +4,7 @@ public class ResponseTO {
 	
 	private boolean isSuccess;
 	private String errorMessage;
+	private String filename;
 	private Results results;
 	public boolean isSuccess() {
 		return isSuccess;
@@ -23,4 +24,10 @@ public class ResponseTO {
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}	
 }

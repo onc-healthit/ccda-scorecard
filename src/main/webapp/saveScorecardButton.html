@@ -1,0 +1,12 @@
+<p ng-show="errorData.saveScorecardError" style="margin-right: 10px"
+  class="pull-left failCertColor">{{errorData.saveScorecardError}}</p>
+
+<span ng-show="saveServiceData.isLoading" style="margin-right: 10px"
+  class="pull-left"> <img src="images/validationSpinner.gif"
+  alt="scorecard loading indicator" style="width: 30px">&nbsp;{{saveServiceData.loadingMessage}}
+</span>
+
+<button ng-click="saveScorecard()"
+  ng-show="!uploadDisplay.isLoading && !uploadDisplay.isValidationLoading && !errorData.getJsonDataError && !ngFileUploadError"
+  type="button" class="btn btn-primary saveResultsBtn">Save
+  Results</button>
