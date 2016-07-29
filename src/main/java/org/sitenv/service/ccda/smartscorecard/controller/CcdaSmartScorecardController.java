@@ -124,6 +124,8 @@ public class CcdaSmartScorecardController {
 			{
 				results.setIndustryAverageGrade("N/A");
 			}
+			results.setPassedCertification(null); //null since not currently implemented in this controller
+			response.setFilename(ccdaFile.getOriginalFilename());
 			response.setSuccess(true);
 			response.setResults(results);
 		}catch(Exception excp)

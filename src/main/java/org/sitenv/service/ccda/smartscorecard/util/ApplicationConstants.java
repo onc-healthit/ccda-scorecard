@@ -303,5 +303,13 @@ public class ApplicationConstants {
 		}
 
 	}
+	
+	public static class Error {
+		public static final String CONTACT = "Please report this issue to TestingServices@sitenv.org.";
+		public static final String GENERIC = "An Unknown error has occurred. ";
+		public static final String GENERIC_WITH_CONTACT = "An Unknown error has occurred. "
+				+ CONTACT;
+		public static final String JSON_TO_JAVA_JACKSON = "An error occurred while converting the Scorecard service JSON response to a Java object via the Jackson API.";
+	}
 
 }

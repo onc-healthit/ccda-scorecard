@@ -1,24 +1,21 @@
 <div class="modal modal-wide fade" id="resultModal" tabindex="-1" data-backdrop="static"
   role="dialog" aria-labelledby="resultModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        
+    <div ng-controller="ScorecardController" class="modal-content">
+    
+      <div class="modal-header">        
         <div class="pull-left">
             <span ng-show="uploadDisplay.isLoading || uploadDisplay.isValidationLoading">
               <img 
                    src="images/validationSpinner.gif"
                    alt="scorecard loading indicator" style="width: 30px">&nbsp;Scoring...
-            </span>
-        </div>
-          
-        <!--
+            </span>          
+        </div>                  
         <div class="pull-right">
-          <button type="button" class="btn btn-default closeResultsBtn"
-            data-dismiss="modal">Close Results</button>
-        </div>
-        -->
-               
+          <save-scorecard-button></save-scorecard-button>          
+          <!--<button type="button" class="btn btn-default closeResultsBtn"
+            data-dismiss="modal">Close Results</button> -->
+        </div>               
       </div>
         
       <div class="modal-body">
@@ -28,7 +25,7 @@
       </div>
         
       <div class="modal-footer">
-        <!--<button type="button" class="btn btn-primary saveResultsBtn">Save Results</button>-->
+        <save-scorecard-button></save-scorecard-button>
         <button type="button" class="btn btn-default closeResultsBtn"
           data-dismiss="modal">Close Results</button>
       </div>

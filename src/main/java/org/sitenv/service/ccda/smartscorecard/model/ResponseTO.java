@@ -4,6 +4,7 @@ public class ResponseTO {
 	
 	private boolean isSuccess;
 	private Results results;
+	private String filename;	
 	public boolean isSuccess() {
 		return isSuccess;
 	}
@@ -16,5 +17,10 @@ public class ResponseTO {
 	public void setResults(Results results) {
 		this.results = results;
 	}
-	
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
 }
