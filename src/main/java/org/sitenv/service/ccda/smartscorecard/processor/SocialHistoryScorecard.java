@@ -137,7 +137,7 @@ public class SocialHistoryScorecard {
 	    {
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
 			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SOCIAL_HISTORY_SECTION.getIgReference());
-			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
@@ -239,7 +239,7 @@ public class SocialHistoryScorecard {
 	    {
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
 			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SOCIAL_HISTORY_SECTION.getIgReference());
-			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
 		}
 		return validateTimeScore;
 	}
@@ -359,7 +359,7 @@ public class SocialHistoryScorecard {
 	    {
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
 			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SOCIAL_HISTORY_SECTION.getIgReference());
-			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
@@ -421,7 +421,7 @@ public class SocialHistoryScorecard {
 	    {
 			validSmokingStausScore.setDescription("smoking status code  validation Rubric failed for Social History");
 			validSmokingStausScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SMOKING_STATUS.getIgReference());
-			validSmokingStausScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validSmokingStausScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
 		}
 		return validSmokingStausScore;
 	}
@@ -494,7 +494,7 @@ public class SocialHistoryScorecard {
 	    {
 			validSmokingStausIDScore.setDescription("smoking status observation validation Rubric failed for Social History");
 			validSmokingStausIDScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SMOKING_STATUS.getIgReference());
-			validSmokingStausIDScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validSmokingStausIDScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
 		}
 		return validSmokingStausIDScore;
 	}
@@ -582,7 +582,7 @@ public class SocialHistoryScorecard {
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
 			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SOCIAL_HISTORY_SECTION.getIgReference());
-			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
 		}
 		
 		return narrativeTextIdScore;

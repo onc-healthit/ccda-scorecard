@@ -180,7 +180,7 @@ public class LabresultsScorecard {
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
 			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_ORGANIZER.getIgReference());
-			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
@@ -314,7 +314,7 @@ public class LabresultsScorecard {
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
 			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_ORGANIZER.getIgReference());
-			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS.getTaskforceLink());
 		}
 		return validateTimeScore;
 	}
@@ -434,7 +434,7 @@ public class LabresultsScorecard {
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
 			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_SECTION.getIgReference());
-			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
@@ -521,7 +521,7 @@ public class LabresultsScorecard {
 		{
 			validateUCUMScore.setDescription(ApplicationConstants.RESULTS_UCUM_DESC);
 			validateUCUMScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_OBSERVATION.getIgReference());
-			validateUCUMScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateUCUMScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS_UCUM.getTaskforceLink());
 		}
 		return validateUCUMScore;
 	}
@@ -596,7 +596,7 @@ public class LabresultsScorecard {
 		{
 			validatLoincCodeScore.setDescription(ApplicationConstants.LABRESULTS_LOIN_CODE_REQ);
 			validatLoincCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_OBSERVATION.getIgReference());
-			validatLoincCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validatLoincCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS_UCUM.getTaskforceLink());
 		}
 		return validatLoincCodeScore;
 		
@@ -683,7 +683,7 @@ public class LabresultsScorecard {
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.LABRESULTS_APR_TIME_DESC);
 			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_ORGANIZER.getIgReference());
-			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS.getTaskforceLink());
 		}
 		return validateApprEffectiveTimeScore;
 	}
@@ -746,7 +746,7 @@ public class LabresultsScorecard {
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
 			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_SECTION.getIgReference());
-			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS.getTaskforceLink());
 		}
 		
 		return narrativeTextIdScore;

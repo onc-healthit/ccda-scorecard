@@ -142,7 +142,7 @@ public class MedicationScorecard {
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
 			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
-			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.MEDICATIONS.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
@@ -251,7 +251,7 @@ public class MedicationScorecard {
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
 			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
-			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.MEDICATIONS.getTaskforceLink());
 		}
 		return validateTimeScore;
 	}
@@ -365,7 +365,7 @@ public class MedicationScorecard {
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
 			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_SECTION.getIgReference());
-			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.MEDICATIONS.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
@@ -438,7 +438,7 @@ public class MedicationScorecard {
 		{
 			validateMedActivityScore.setDescription(ApplicationConstants.IMMU_NOTIN_MED_DESC);
 			validateMedActivityScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
-			validateMedActivityScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateMedActivityScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.MEDICATIONS.getTaskforceLink());
 		}
 		return validateMedActivityScore;
 	}
@@ -502,7 +502,7 @@ public class MedicationScorecard {
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
 			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_SECTION.getIgReference());
-			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.MEDICATIONS.getTaskforceLink());
 		}
 		
 		return narrativeTextIdScore;

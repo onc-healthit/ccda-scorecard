@@ -191,7 +191,7 @@ public class ProblemsScorecard {
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
 			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
-			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
@@ -339,7 +339,7 @@ public class ProblemsScorecard {
 		{
 			validDateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
 			validDateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
-			validDateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validDateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validDateTimeScore;
 	}
@@ -482,7 +482,7 @@ public class ProblemsScorecard {
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
 			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_SECTION.getIgReference());
-			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
@@ -559,7 +559,7 @@ public class ProblemsScorecard {
 		{
 			validateProblemCodeScore.setDescription("code validation Rubric failed for Problems");
 			validateProblemCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_OBSERVATION.getIgReference());
-			validateProblemCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateProblemCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateProblemCodeScore;
 		
@@ -623,7 +623,7 @@ public class ProblemsScorecard {
 		{
 			validateStatusCodeScore.setDescription(ApplicationConstants.PROBLEM_APR_TIME_DESC);
 			validateStatusCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
-			validateStatusCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateStatusCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateStatusCodeScore;
 	}
@@ -702,7 +702,7 @@ public class ProblemsScorecard {
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.PROBLEM_TIME_CNST_DESC);
 			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
-			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateApprEffectiveTimeScore;
 	}
@@ -775,7 +775,7 @@ public class ProblemsScorecard {
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.PROBLEM_APR_STATUS_REQ);
 			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
-			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateApprEffectiveTimeScore;
 	}
@@ -838,7 +838,7 @@ public class ProblemsScorecard {
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
 			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_SECTION.getIgReference());
-			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		
 		return narrativeTextIdScore;

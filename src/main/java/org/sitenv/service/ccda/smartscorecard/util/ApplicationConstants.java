@@ -350,5 +350,32 @@ public class ApplicationConstants {
 			return igReferences;
 		}
 	}
+	
+	public static enum TASKFORCE_LINKS
+	{
+		
+		PATIENT("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/DEMO_Record_Target_Example.xml"),
+		ENCOUNTERS("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"),
+		ALLERGIES("https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"),
+		PROBLEMS("https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"),
+		MEDICATIONS("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"),
+		IMMUNIZATIONS("https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"),
+		SOCIALHISTORY("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/SMOKING_Former_Smoker.xml"),
+		RESULTS("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_Less_Than_Physical_Quantity.xml"),
+		RESULTS_UCUM("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_UCUM_Translation.xml"),
+		VITALSIGNS("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"),
+		PROCEDURES("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/PROCEDURE_Observation_Example.xml");
+		
+		private String taskforceLink;
+
+		public String getTaskforceLink() {
+			return taskforceLink;
+		}
+
+		private TASKFORCE_LINKS(final String taskforceLink)
+		{
+			this.taskforceLink = taskforceLink;
+		}
+	}
 
 }
