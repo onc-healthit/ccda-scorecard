@@ -133,6 +133,7 @@ public class CcdaSmartScorecardController {
 				response.setSuccess(false);
 				response.setErrorMessage(ApplicationConstants.EMPTY_DOC_ERROR_MESSAGE);
 			}
+			response.setFilename(ccdaFile.getOriginalFilename());
 		}catch(Exception excp)
 		{
 			excp.printStackTrace();

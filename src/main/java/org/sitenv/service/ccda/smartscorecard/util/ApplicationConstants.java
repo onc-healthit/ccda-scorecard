@@ -150,8 +150,8 @@ public class ApplicationConstants {
 	public static final String NARRATIVE_STRUCTURE_ID_REQ = "Each entry has to be linked to related narrative text";
 	public static final String NARRATIVE_STRUCTURE_ID_DESC = "Each entry has to be linked to related narrative text";
 	
-	public static final String EMPTY_DOC_ERROR_MESSAGE = "Given CCDA document is empty or invalid, Please upload valid CCDA Document";
-	public static final String EXCEPTION_ERROR_MESSAGE = "Our system experienced some unexpected error, please try after some time or email your issue to test@sitenv.org";
+	public static final String EMPTY_DOC_ERROR_MESSAGE = "Given C-CDA document is empty or invalid. Please upload a valid C-CDA Document.";
+	public static final String EXCEPTION_ERROR_MESSAGE = "Our system experienced some unexpected error, please try after some time or email your issue to TestingServices@sitenv.org";
 	
 	public static final String MONTH_FORMAT = "yyyyMM";
 	public static final String MONTH_PATTERN = "\\d{6}";
@@ -306,6 +306,15 @@ public class ApplicationConstants {
 			return status;
 		}
 
+	}
+	
+	public static class Error {
+		public static final String CONTACT = "Please report this issue to TestingServices@sitenv.org.";
+		public static final String GENERIC = "An Unknown error has occurred. ";
+		public static final String GENERIC_WITH_CONTACT = "An Unknown error has occurred. "
+				+ CONTACT;
+		public static final String JSON_TO_JAVA_JACKSON = "An error occurred while converting the Scorecard service JSON response to a Java object via the Jackson API.";
+		public static final String IS_SUCCESS_FALSE = "Note for the developers: isSuccess is equal to false.";
 	}
 
 }
