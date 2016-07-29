@@ -24,7 +24,7 @@ public class ProceduresScorecard {
 		
 		List<CCDAScoreCardRubrics> procedureScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		procedureScoreList.add(getValidDisplayNameScoreCard(procedures));
-		//procedureScoreList.add(getNarrativeStructureIdScore(procedures));
+		procedureScoreList.add(getNarrativeStructureIdScore(procedures));
 		
 		procedureCategory.setCategoryRubrics(procedureScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(procedureScoreList, procedureCategory);
@@ -48,7 +48,7 @@ public class ProceduresScorecard {
 			if(procedures.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(procedures.getSectionCode().getCode(), 
-									ApplicationConstants.CODE_SYSTEM_MAP.get(procedures.getSectionCode().getCodeSystem()),
+									procedures.getSectionCode().getCodeSystem(),
 									procedures.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -77,7 +77,7 @@ public class ProceduresScorecard {
 					if(procAct.getProcCode() != null)
 					{
 						if(ApplicationUtil.validateDisplayName(procAct.getProcCode().getCode(), 
-												ApplicationConstants.CODE_SYSTEM_MAP.get(procAct.getProcCode().getCodeSystem()),
+												procAct.getProcCode().getCodeSystem(),
 												procAct.getProcCode().getDisplayName()))
 						{
 							actualPoints++;
@@ -158,12 +158,18 @@ public class ProceduresScorecard {
 					}
 				}
 			}
+			if(maxPoints ==0)
+			{
+				maxPoints =1;
+				actualPoints =1;
+			}
 		}
-		
-		if(maxPoints==0)
+		else
 		{
-			maxPoints = 1;
-			actualPoints = 1;
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("All sections are empty");
+			issue.setXmlString("All sections are empty");
+			issuesList.add(issue);
 		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);

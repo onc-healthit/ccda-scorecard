@@ -29,7 +29,7 @@ public class MedicationScorecard {
 		medicationScoreList.add(getValidDateTimeScore(medications, birthDate));
 		medicationScoreList.add(getValidDisplayNameScoreCard(medications));
 		medicationScoreList.add(getValidMedActivityScore(medications));
-		//medicationScoreList.add(getNarrativeStructureIdScore(medications));
+		medicationScoreList.add(getNarrativeStructureIdScore(medications));
 		
 		medicationCategory.setCategoryRubrics(medicationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(medicationScoreList, medicationCategory);
@@ -272,7 +272,7 @@ public class MedicationScorecard {
 			if(medications.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(medications.getSectionCode().getCode(), 
-							ApplicationConstants.CODE_SYSTEM_MAP.get(medications.getSectionCode().getCodeSystem()),
+							medications.getSectionCode().getCodeSystem(),
 						medications.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -301,7 +301,7 @@ public class MedicationScorecard {
 					if(medActivity.getApproachSiteCode()!= null)
 					{
 						if(ApplicationUtil.validateDisplayName(medActivity.getApproachSiteCode().getCode(), 
-								ApplicationConstants.CODE_SYSTEM_MAP.get(medActivity.getApproachSiteCode().getCodeSystem()),
+																medActivity.getApproachSiteCode().getCodeSystem(),
 																medActivity.getApproachSiteCode().getDisplayName()))
 						{
 							actualPoints++;
@@ -330,7 +330,7 @@ public class MedicationScorecard {
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
-												ApplicationConstants.CODE_SYSTEM_MAP.get(translationCode.getCodeSystem()),
+														translationCode.getCodeSystem(),
 														translationCode.getDisplayName()))
 								{
 									actualPoints++;
@@ -375,8 +375,8 @@ public class MedicationScorecard {
 		CCDAScoreCardRubrics validateMedActivityScore = new CCDAScoreCardRubrics();
 		validateMedActivityScore.setRule(ApplicationConstants.IMMU_NOTIN_MED_REQ);
 		
-		int actualPoints =1;
-		int maxPoints = 1;
+		int actualPoints =0;
+		int maxPoints = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(medications != null)
@@ -387,20 +387,46 @@ public class MedicationScorecard {
 				{
 					if(!ApplicationUtil.isEmpty(medAct.getTemplateIds()))
 					{
+						maxPoints = maxPoints + medAct.getTemplateIds().size();
 						for (CCDAII templateId : medAct.getTemplateIds())
 						{
-							if(templateId.getValue() != null && templateId.getValue().equals(ApplicationConstants.IMMUNIZATION_ACTIVITY_ID))
+							if(templateId.getRootValue() != null && templateId.getRootValue().equals(ApplicationConstants.MEDICATION_ACTIVITY_ID))
 							{
-								actualPoints = 0;
+								actualPoints++;
+							}
+							else
+							{
 								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(medAct.getLineNumber());
-								issue.setXmlString(medAct.getXmlString());
+								issue.setLineNumber(templateId.getLineNumber());
+								issue.setXmlString(templateId.getXmlString());
 								issuesList.add(issue);
 							}
 						}
 					}
+					else
+					{
+						maxPoints++;
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(medAct.getLineNumber());
+						issue.setXmlString(medAct.getXmlString());
+						issuesList.add(issue);
+					}
 				}
 			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(medications.getLineNumber());
+				issue.setXmlString(medications.getXmlString());
+				issuesList.add(issue);
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Medications section not present");
+			issue.setXmlString("Medications section not present");
+			issuesList.add(issue);
 		}
 		
 		validateMedActivityScore.setActualPoints(actualPoints);
@@ -452,13 +478,20 @@ public class MedicationScorecard {
 					}
 				}
 			}
+			if(maxPoints ==0)
+			{
+				maxPoints=1;
+				actualPoints =1;
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("All sections are empty");
+			issue.setXmlString("All sections are empty");
+			issuesList.add(issue);
 		}
 		
-		if(maxPoints==0)
-		{
-			maxPoints = 1;
-			actualPoints = 1;
-		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);
 		narrativeTextIdScore.setMaxPoints(maxPoints);

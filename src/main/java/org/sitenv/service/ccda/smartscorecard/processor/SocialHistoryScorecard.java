@@ -30,7 +30,7 @@ public class SocialHistoryScorecard {
 		socialHistoryScoreList.add(getValidDisplayNameScoreCard(socialHistory));
 		socialHistoryScoreList.add(getValidSmokingStatusScore(socialHistory));
 		socialHistoryScoreList.add(getValidSmokingStatuIdScore(socialHistory));
-		//socialHistoryScoreList.add(getNarrativeStructureIdScore(socialHistory));
+		socialHistoryScoreList.add(getNarrativeStructureIdScore(socialHistory));
 		
 		socialHistoryCategory.setCategoryRubrics(socialHistoryScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(socialHistoryScoreList, socialHistoryCategory);
@@ -259,7 +259,7 @@ public class SocialHistoryScorecard {
 			if(socialHistory.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(socialHistory.getSectionCode().getCode(), 
-						ApplicationConstants.CODE_SYSTEM_MAP.get(socialHistory.getSectionCode().getCodeSystem()),
+											socialHistory.getSectionCode().getCodeSystem(),
 											socialHistory.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -288,7 +288,7 @@ public class SocialHistoryScorecard {
 					if(smokingStatus.getSmokingStatusCode() != null)
 					{
 						if(ApplicationUtil.validateDisplayName(smokingStatus.getSmokingStatusCode().getCode(), 
-								ApplicationConstants.CODE_SYSTEM_MAP.get(smokingStatus.getSmokingStatusCode().getCodeSystem()),
+																smokingStatus.getSmokingStatusCode().getCodeSystem(),
 																	smokingStatus.getSmokingStatusCode().getDisplayName()))
 						{
 							actualPoints++;
@@ -319,7 +319,7 @@ public class SocialHistoryScorecard {
 					if(tobaccoUse.getTobaccoUseCode() != null)
 					{
 						if(ApplicationUtil.validateDisplayName(tobaccoUse.getTobaccoUseCode().getCode(), 
-								ApplicationConstants.CODE_SYSTEM_MAP.get(tobaccoUse.getTobaccoUseCode().getCodeSystem()),
+														tobaccoUse.getTobaccoUseCode().getCodeSystem(),
 														tobaccoUse.getTobaccoUseCode().getDisplayName()))
 						{
 							actualPoints++;
@@ -453,11 +453,19 @@ public class SocialHistoryScorecard {
 							else
 							{
 								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(smokingStatus.getLineNumber());
-								issue.setXmlString(smokingStatus.getXmlString());
+								issue.setLineNumber(templateId.getLineNumber());
+								issue.setXmlString(templateId.getXmlString());
 								issuesList.add(issue);
 							}
 						}
+					}
+					else
+					{
+						maxPoints++;
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(smokingStatus.getLineNumber());
+						issue.setXmlString(smokingStatus.getXmlString());
+						issuesList.add(issue);
 					}
 				}
 			}
@@ -551,12 +559,18 @@ public class SocialHistoryScorecard {
 					}
 				}
 			}
+			if(maxPoints ==0)
+			{
+				maxPoints=1;
+				actualPoints =1;
+			}
 		}
-		
-		if(maxPoints==0)
+		else
 		{
-			maxPoints = 1;
-			actualPoints = 1;
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("All sections are empty");
+			issue.setXmlString("All sections are empty");
+			issuesList.add(issue);
 		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);
