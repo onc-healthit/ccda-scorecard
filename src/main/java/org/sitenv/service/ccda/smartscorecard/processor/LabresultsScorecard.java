@@ -26,7 +26,7 @@ public class LabresultsScorecard {
 	{
 		
 		CCDALabResult results =null;
-		if(labResults!= null && !ApplicationUtil.isEmpty(labResults.getResultOrg()))
+		if(labResults!= null)
 		{
 			results = labResults;
 			if(labTests!= null && !ApplicationUtil.isEmpty(labTests.getResultOrg()))
@@ -46,7 +46,7 @@ public class LabresultsScorecard {
 		labResultsScoreList.add(getValidUCUMScore(labResults));
 		labResultsScoreList.add(getValidLoincCodesScore(results));
 		labResultsScoreList.add(getApprEffectivetimeScore(results));
-		//labResultsScoreList.add(getNarrativeStructureIdScore(results));
+		labResultsScoreList.add(getNarrativeStructureIdScore(results));
 		
 		labResultsCategory.setCategoryRubrics(labResultsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(labResultsScoreList, labResultsCategory);
@@ -334,7 +334,7 @@ public class LabresultsScorecard {
 			if(labresults.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(labresults.getSectionCode().getCode(), 
-						ApplicationConstants.CODE_SYSTEM_MAP.get(labresults.getSectionCode().getCodeSystem()),
+												labresults.getSectionCode().getCodeSystem(),
 												labresults.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -363,7 +363,7 @@ public class LabresultsScorecard {
 					if(resultOrg.getOrgCode()!= null)
 					{
 						if(ApplicationUtil.validateDisplayName(resultOrg.getOrgCode().getCode(), 
-								ApplicationConstants.CODE_SYSTEM_MAP.get(resultOrg.getOrgCode().getCodeSystem()),
+								resultOrg.getOrgCode().getCodeSystem(),
 								resultOrg.getOrgCode().getDisplayName()))
 						{
 							actualPoints++;
@@ -392,7 +392,7 @@ public class LabresultsScorecard {
 							if(resultobs.getResultCode()!= null)
 							{
 								if(ApplicationUtil.validateDisplayName(resultobs.getResultCode().getCode(), 
-										ApplicationConstants.CODE_SYSTEM_MAP.get(resultobs.getResultCode().getCodeSystem()),
+										resultobs.getResultCode().getCodeSystem(),
 										resultobs.getResultCode().getDisplayName()))
 								{
 									actualPoints++;
@@ -463,7 +463,8 @@ public class LabresultsScorecard {
 								maxPoints++;
 								if(resultsObs.getResultCode()!= null)
 								{
-									if(loincRepository.foundUCUMUnitsForLoincCode(resultsObs.getResultCode().getCode(),resultsObs.getResults().getUnits()))
+									if(loincRepository.foundUCUMUnitsForLoincCode(resultsObs.getResultCode().getCode(),
+																					resultsObs.getResults().getUnits()!=null ? resultsObs.getResults().getUnits() : ""))
 									{
 										actualPoints++;
 									}
@@ -648,6 +649,13 @@ public class LabresultsScorecard {
 							}
 						}
 					}
+					else 
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(resultOrg.getLineNumber());
+						issue.setXmlString(resultOrg.getXmlString());
+						issuesList.add(issue);
+					}
 				}
 			}
 			else
@@ -715,12 +723,18 @@ public class LabresultsScorecard {
 					}
 				}
 			}
+			if(maxPoints ==0)
+			{
+				maxPoints =1;
+				actualPoints =1;
+			}
 		}
-		
-		if(maxPoints==0)
+		else
 		{
-			maxPoints = 1;
-			actualPoints = 1;
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("All sections are empty");
+			issue.setXmlString("All sections are empty");
+			issuesList.add(issue);
 		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);

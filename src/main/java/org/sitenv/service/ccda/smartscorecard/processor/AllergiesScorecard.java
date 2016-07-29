@@ -28,7 +28,7 @@ public class AllergiesScorecard {
 		allergyScoreList.add(getValidDateTimeScore(allergies, birthDate));
 		allergyScoreList.add(getValidDisplayNameScoreCard(allergies));
 		allergyScoreList.add(getApprEffectivetimeScore(allergies));
-		//allergyScoreList.add(getNarrativeStructureIdScore(allergies));
+		allergyScoreList.add(getNarrativeStructureIdScore(allergies));
 		
 		allergyCategory.setCategoryRubrics(allergyScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(allergyScoreList,allergyCategory);
@@ -353,7 +353,7 @@ public class AllergiesScorecard {
 			maxPoints++;
 			if(allergies.getSectionCode() != null)
 			{
-				if(ApplicationUtil.validateDisplayName(allergies.getSectionCode().getCode(), ApplicationConstants.CODE_SYSTEM_MAP.get(allergies.getSectionCode().getCodeSystem()),
+				if(ApplicationUtil.validateDisplayName(allergies.getSectionCode().getCode(), allergies.getSectionCode().getCodeSystem(),
 														allergies.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -385,7 +385,8 @@ public class AllergiesScorecard {
 							maxPoints = maxPoints + 2;
 							if(allergyObs.getAllergyIntoleranceType() != null)
 							{
-								if(ApplicationUtil.validateDisplayName(allergyObs.getAllergyIntoleranceType().getCode(), ApplicationConstants.CODE_SYSTEM_MAP.get(allergyObs.getAllergyIntoleranceType().getCodeSystem()),
+								if(ApplicationUtil.validateDisplayName(allergyObs.getAllergyIntoleranceType().getCode(), 
+																allergyObs.getAllergyIntoleranceType().getCodeSystem(),
 																allergyObs.getAllergyIntoleranceType().getDisplayName()))
 								{
 									actualPoints++;
@@ -409,7 +410,8 @@ public class AllergiesScorecard {
 							
 							if(allergyObs.getAllergySubstance() != null)
 							{
-								if(ApplicationUtil.validateDisplayName(allergyObs.getAllergySubstance().getCode(), ApplicationConstants.CODE_SYSTEM_MAP.get(allergyObs.getAllergySubstance().getCodeSystem()),
+								if(ApplicationUtil.validateDisplayName(allergyObs.getAllergySubstance().getCode(), 
+																allergyObs.getAllergySubstance().getCodeSystem(),
 																allergyObs.getAllergySubstance().getDisplayName()))
 								{
 									actualPoints++;
@@ -570,12 +572,18 @@ public class AllergiesScorecard {
 					}
 				}
 			}
+			if(maxPoints ==0)
+			{
+				maxPoints =1;
+				actualPoints =1;
+			}
 		}
-		
-		if(maxPoints==0)
+		else
 		{
-			maxPoints = 1;
-			actualPoints = 1;
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("All sections are empty");
+			issue.setXmlString("All sections are empty");
+			issuesList.add(issue);
 		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);

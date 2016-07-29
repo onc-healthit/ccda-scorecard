@@ -10,7 +10,7 @@ import org.sitenv.ccdaparsing.model.CCDAVitalSigns;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
-import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.LoincRepository;
+import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.VitalsRepository;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class VitalsScorecard {
 	
 	@Autowired
-	LoincRepository loincRepository;
+	VitalsRepository vitalsRepository;
 	
 	public Category getVitalsCategory(CCDAVitalSigns vitals, String birthDate)
 	{
@@ -35,7 +35,7 @@ public class VitalsScorecard {
 		vitalsScoreList.add(getValidLoincCodesScore(vitals));
 		vitalsScoreList.add(getValidUCUMScore(vitals));
 		vitalsScoreList.add(getApprEffectivetimeScore(vitals));
-		//vitalsScoreList.add(getNarrativeStructureIdScore(vitals));
+		vitalsScoreList.add(getNarrativeStructureIdScore(vitals));
 		
 		vitalsCategory.setCategoryRubrics(vitalsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(vitalsScoreList, vitalsCategory);
@@ -319,7 +319,7 @@ public class VitalsScorecard {
 			if(vitals.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(vitals.getSectionCode().getCode(), 
-						ApplicationConstants.CODE_SYSTEM_MAP.get(vitals.getSectionCode().getCodeSystem()),
+														vitals.getSectionCode().getCodeSystem(),
 														vitals.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -348,7 +348,7 @@ public class VitalsScorecard {
 					if(vitalsOrg.getOrgCode() != null)
 					{
 						if(ApplicationUtil.validateDisplayName(vitalsOrg.getOrgCode().getCode(), 
-								ApplicationConstants.CODE_SYSTEM_MAP.get(vitalsOrg.getOrgCode().getCodeSystem()),
+																vitalsOrg.getOrgCode().getCodeSystem(),
 																		vitalsOrg.getOrgCode().getDisplayName()))
 						{
 							actualPoints++;
@@ -379,7 +379,7 @@ public class VitalsScorecard {
 							if(vitalsObs.getVsCode() != null)
 							{
 								if(ApplicationUtil.validateDisplayName(vitalsObs.getVsCode().getCode(), 
-										ApplicationConstants.CODE_SYSTEM_MAP.get(vitalsObs.getVsCode().getCodeSystem()),
+																	vitalsObs.getVsCode().getCodeSystem(),
 																	vitalsObs.getVsCode().getDisplayName()))
 								{
 									actualPoints++;
@@ -450,7 +450,7 @@ public class VitalsScorecard {
 							{
 								if(vitalObs.getVsCode()!= null)
 								{
-									if(loincRepository.foundUCUMUnitsForLoincCode(vitalObs.getVsCode().getCode(),vitalObs.getVsResult().getUnits()))
+									if(vitalsRepository.isUCUMCodeValidForVitalCode(vitalObs.getVsCode().getCode(),vitalObs.getVsResult().getUnits()))
 									{
 										actualPoints++;
 									}
@@ -702,13 +702,20 @@ public class VitalsScorecard {
 					}
 				}
 			}
+			if(maxPoints ==0)
+			{
+				maxPoints =1;
+				actualPoints =1;
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("All sections are empty");
+			issue.setXmlString("All sections are empty");
+			issuesList.add(issue);
 		}
 		
-		if(maxPoints==0)
-		{
-			maxPoints = 1;
-			actualPoints = 1;
-		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);
 		narrativeTextIdScore.setMaxPoints(maxPoints);

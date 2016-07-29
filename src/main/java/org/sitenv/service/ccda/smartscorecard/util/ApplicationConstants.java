@@ -74,8 +74,12 @@ public class ApplicationConstants {
 			+ "Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low and Observation's EffectiveTime/high should be <= Organizer's "
 			+ "EffectiveTime/high";
 	
-	public static final String TEMPLATEID_DESC = "";
+	public static final String TEMPLATEID_DESC = "All Template Ids should be Valid";
 	public static final String TEMPLATEID_REQ = "All Template Ids should be correct";
+	
+	public static final String IMMU_CODE_REQ = "Immunizations coded with CVX codes";
+	public static final String IMMU_CODE_DESC = "Each Immunization code should be validated aganist CVX Vaccines Administered valueset";
+	
 	
 	
 	public static final String ENCOUNTER_TIMEDATE_VALID_REQUIREMENT = "All effective time elements under Encounters section should contain "
@@ -146,6 +150,9 @@ public class ApplicationConstants {
 	public static final String NARRATIVE_STRUCTURE_ID_REQ = "Each entry has to be linked to related narrative text";
 	public static final String NARRATIVE_STRUCTURE_ID_DESC = "Each entry has to be linked to related narrative text";
 	
+	public static final String EMPTY_DOC_ERROR_MESSAGE = "Given C-CDA document is empty or invalid. Please upload a valid C-CDA Document.";
+	public static final String EXCEPTION_ERROR_MESSAGE = "Our system experienced some unexpected error, please try after some time or email your issue to TestingServices@sitenv.org";
+	
 	public static final String MONTH_FORMAT = "yyyyMM";
 	public static final String MONTH_PATTERN = "\\d{6}";
 	
@@ -178,8 +185,10 @@ public class ApplicationConstants {
 	
 	public static final String SMOKING_STATUS_OBSERVATION_ID = "2.16.840.1.113883.10.20.22.4.78"; 
 	public static final String IMMUNIZATION_ACTIVITY_ID = "2.16.840.1.113883.10.20.22.4.52"; 
+	public static final String MEDICATION_ACTIVITY_ID = "2.16.840.1.113883.10.20.22.4.16";
 	public static final String HITSP_VITAL_VALUESET_OID = "2.16.840.1.113883.3.88.12.80.62";
 	public static final String PROBLEM_TYPE_VALUESET_OID = "2.16.840.1.113883.3.88.12.3221.7.2";
+	public static final String CVX_CODES_VALUSET_OID = "2.16.840.1.113762.1.4.1010.6";
 	
 	public static final String SNOMEDCT_CODE_SYSTEM_NAME = "SNOMED-CT";
 	public static final String SNOMEDCT_CODE_SYSTEM = "2.16.840.1.113883.6.96";
@@ -297,6 +306,15 @@ public class ApplicationConstants {
 			return status;
 		}
 
+	}
+	
+	public static class Error {
+		public static final String CONTACT = "Please report this issue to TestingServices@sitenv.org.";
+		public static final String GENERIC = "An Unknown error has occurred. ";
+		public static final String GENERIC_WITH_CONTACT = "An Unknown error has occurred. "
+				+ CONTACT;
+		public static final String JSON_TO_JAVA_JACKSON = "An error occurred while converting the Scorecard service JSON response to a Java object via the Jackson API.";
+		public static final String IS_SUCCESS_FALSE = "Note for the developers: isSuccess is equal to false.";
 	}
 
 }
