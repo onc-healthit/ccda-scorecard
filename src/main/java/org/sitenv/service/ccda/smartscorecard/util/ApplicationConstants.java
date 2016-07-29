@@ -314,6 +314,7 @@ public class ApplicationConstants {
 				+ CONTACT;
 		public static final String JSON_TO_JAVA_JACKSON = "An error occurred while converting the Scorecard service JSON response to a Java object via the Jackson API.";
 		public static final String IS_SUCCESS_FALSE = "Note for the developers: isSuccess is equal to false.";
+	}
 
 	public static enum IG_REFERENCES
 	{
@@ -374,19 +375,14 @@ public class ApplicationConstants {
 		PROCEDURES("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/PROCEDURE_Observation_Example.xml");
 		
 		private String taskforceLink;
+		
+		private TASKFORCE_LINKS(final String taskforceLink)
+		{
+			this.taskforceLink = taskforceLink;
+		}
 
 		public String getTaskforceLink() {
 			return taskforceLink;
-		}
-
-		private TASKFORCE_LINKS(final String taskforceLink)
-		{
-			this.taskforceLink = taskforceLink;
-		}
-
-		private TASKFORCE_LINKS(final String taskforceLink)
-		{
-			this.taskforceLink = taskforceLink;
 		}
 	}
 }
