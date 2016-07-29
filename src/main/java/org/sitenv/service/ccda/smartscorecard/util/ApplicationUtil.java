@@ -731,4 +731,16 @@ public class ApplicationUtil {
 		
 		return docType;
 	}
+	
+	public static void debugLog(String debugMessage) {
+		if (!ApplicationConstants.IN_DEVELOPMENT_MODE)
+			return;
+		System.out.println(System.lineSeparator() + "Debug Log:");
+		System.out.println(debugMessage + System.lineSeparator());
+	}
+	
+	public static void debugLog(String debugTopic, String debugMessage) {
+		debugLog("For " + debugTopic + ":" + System.lineSeparator() + debugMessage);
+	}
+	
 }

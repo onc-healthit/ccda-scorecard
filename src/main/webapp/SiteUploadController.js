@@ -59,8 +59,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 
   //called by Validate Document button on SiteUploadForm
   $scope.uploadCcdaScFileAndCallServices = function(ccdaScFile, callDebug) {
-    console.log("$scope.uploadDisplay.isValidationLoading (before load):")
-    console.log($scope.uploadDisplay.isValidationLoading);
+    $scope.debugLog("$scope.uploadDisplay.isValidationLoading (before load):")
+    $scope.debugLog($scope.uploadDisplay.isValidationLoading);
     
     resetValidationData();
     
@@ -71,7 +71,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 		: "No file selected: In debug mode";
 
      if(callDebug) {
-       console.log("In main debug mode");
+    	 $scope.debugLog("In main debug mode");
        if($scope.mainDebug.useLocalTestDataForServices) {
     	   $scope.getLocalJsonResultsForDebugging("dataValidation.json", ServiceTypeEnum.CCDA_VALIDATOR);
     	   $scope.getLocalJsonResultsForDebugging("data.json", ServiceTypeEnum.SCORECARD);
@@ -130,7 +130,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 
     ccdaFile.upload.then(function(response) {
       $timeout(function() {
-    	  console.log("response.data" + response.data);
+    	  $scope.debugLog("response.data:");
+    	  $scope.debugLog(response.data);
         if (serviceType !== ServiceTypeEnum.DEBUG) {
           cacheAndProcessReturnedJsonData(response, serviceType);
         }
@@ -164,8 +165,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   
   var collectAndHandleValidationData = function(response) {
       $scope.jsonValidationData = response.data;
-      console.log("$scope.jsonValidationData:");
-      console.log($scope.jsonValidationData);
+      $scope.debugLog("$scope.jsonValidationData:");
+      $scope.debugLog($scope.jsonValidationData);
       $scope.metaResults = $scope.jsonValidationData.resultsMetaData;
       $scope.ccdaResults = $scope.jsonValidationData.ccdaValidationResults;
       checkForValidationErrors();
@@ -230,7 +231,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     }).then(function mySuccess(response) {
       cacheAndProcessReturnedJsonData(response, serviceType);
     }, function myError(response) {
-      console.log("Debug Error: Cannot retrieve local " + serviceType + " data");
+    	$scope.debugLog("Debug Error: Cannot retrieve local " + serviceType + " data");
     });
   }; 
 

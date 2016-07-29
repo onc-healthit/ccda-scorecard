@@ -13,7 +13,8 @@ public class Results {
 	private String industryAverageGrade;
 	private long numberOfDocumentsScored;
 	private String docType;
-	
+	private Boolean passedCertification;
+		
 	public String getFinalGrade() {
 		return finalGrade;
 	}
@@ -67,5 +68,11 @@ public class Results {
 	}
 	public void setDocType(String docType) {
 		this.docType = docType;
+	}
+	public Boolean getPassedCertification() {
+		return passedCertification;
+	}
+	public void setPassedCertification(Boolean passedCertification) {
+		this.passedCertification = passedCertification;
 	}
 }

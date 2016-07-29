@@ -11,6 +11,11 @@ scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$ti
 		inDevelopmentMode: false
 	};
 	
+		$scope.debugLog = function(debugMessage) {
+			if(!$scope.mainDebug.inDebugMode) return;
+			console.log(debugMessage);
+		};
+	
     $scope.jumpToElementViaId = function(elementId, weWait, timeToWaitInMiliseconds) {
 	    if (weWait) {
 	      //this forces the jump in cases such as an outward collapse - 
