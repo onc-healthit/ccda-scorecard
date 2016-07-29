@@ -307,7 +307,6 @@ public class ApplicationConstants {
 		}
 
 	}
-	
 	public static class Error {
 		public static final String CONTACT = "Please report this issue to TestingServices@sitenv.org.";
 		public static final String GENERIC = "An Unknown error has occurred. ";
@@ -378,6 +377,11 @@ public class ApplicationConstants {
 
 		public String getTaskforceLink() {
 			return taskforceLink;
+		}
+
+		private TASKFORCE_LINKS(final String taskforceLink)
+		{
+			this.taskforceLink = taskforceLink;
 		}
 
 		private TASKFORCE_LINKS(final String taskforceLink)
