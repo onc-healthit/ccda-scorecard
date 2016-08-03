@@ -32,7 +32,7 @@ public class ProblemsScorecard {
 		problemsScoreList.add(getValidStatusCodeScoreCard(problems));
 		problemsScoreList.add(getApprEffectivetimeScore(problems));
 		problemsScoreList.add(getApprStatusCodeScore(problems));
-		//problemsScoreList.add(getNarrativeStructureIdScore(problems));
+		problemsScoreList.add(getNarrativeStructureIdScore(problems));
 		
 		ApplicationUtil.calculateSectionGradeAndIssues(problemsScoreList, problemsCategory);
 		
@@ -190,8 +190,8 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
-			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
@@ -338,8 +338,8 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validDateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
-			validDateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validDateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validDateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			validDateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validDateTimeScore;
 	}
@@ -359,7 +359,7 @@ public class ProblemsScorecard {
 			if(problems.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(problems.getSectionCode().getCode(), 
-						ApplicationConstants.CODE_SYSTEM_MAP.get(problems.getSectionCode().getCodeSystem()),
+														problems.getSectionCode().getCodeSystem(),
 														problems.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -394,7 +394,7 @@ public class ProblemsScorecard {
 							if(probObs.getProblemType()!= null)
 							{
 								if(ApplicationUtil.validateDisplayName(probObs.getProblemType().getCode(), 
-										ApplicationConstants.CODE_SYSTEM_MAP.get(probObs.getProblemType().getCodeSystem()),
+																		probObs.getProblemType().getCodeSystem(),
 																		probObs.getProblemType().getDisplayName()))
 								{
 									actualPoints++;
@@ -418,7 +418,7 @@ public class ProblemsScorecard {
 							if(probObs.getProblemCode()!= null)
 							{
 								if(ApplicationUtil.validateDisplayName(probObs.getProblemCode().getCode(), 
-										ApplicationConstants.CODE_SYSTEM_MAP.get(probObs.getProblemCode().getCodeSystem()),
+																		probObs.getProblemCode().getCodeSystem(),
 																		probObs.getProblemCode().getDisplayName()))
 								{
 									actualPoints++;
@@ -445,7 +445,7 @@ public class ProblemsScorecard {
 								{
 									maxPoints++;
 									if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
-											ApplicationConstants.CODE_SYSTEM_MAP.get(translationCode.getCodeSystem()),
+															translationCode.getCodeSystem(),
 															translationCode.getDisplayName()))
 									{
 										actualPoints++;
@@ -481,8 +481,8 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_SECTION.getIgReference());
+			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
@@ -510,7 +510,7 @@ public class ProblemsScorecard {
 						   if(probObs.getProblemCode()!= null)
 						   {
 							   if(ApplicationUtil.validateCodeForCodeSystem(probObs.getProblemCode().getCode(), 
-									   					ApplicationConstants.CODE_SYSTEM_MAP.get(probObs.getProblemCode().getCodeSystem())))
+									   					probObs.getProblemCode().getCodeSystem()))
 							   {
 								   actualPoints++;
 							   }
@@ -558,8 +558,8 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateProblemCodeScore.setDescription("code validation Rubric failed for Problems");
-			validateProblemCodeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validateProblemCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateProblemCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_OBSERVATION.getIgReference());
+			validateProblemCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateProblemCodeScore;
 		
@@ -622,8 +622,8 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateStatusCodeScore.setDescription(ApplicationConstants.PROBLEM_APR_TIME_DESC);
-			validateStatusCodeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validateStatusCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateStatusCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			validateStatusCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateStatusCodeScore;
 	}
@@ -653,7 +653,7 @@ public class ProblemsScorecard {
 								if(problemObs.getEffTime()!=null)
 								{
 									if(ApplicationUtil.checkDateRange(problemObs.getEffTime().getLow(),problemObs.getEffTime().getHigh(),
-														problemObs.getEffTime().getLow(),problemObs.getEffTime().getHigh()))
+														problemAct.getEffTime().getLow(),problemAct.getEffTime().getHigh()))
 									{
 										actualPoints++;
 									}
@@ -701,8 +701,8 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.PROBLEM_TIME_CNST_DESC);
-			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateApprEffectiveTimeScore;
 	}
@@ -725,9 +725,19 @@ public class ProblemsScorecard {
 					if(!ApplicationUtil.isEmpty(problemAct.getProblemObservations()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateProblemStatusCode(problemAct.getStatusCode().getCode(), problemAct.getProblemObservations()))
+						if(problemAct.getStatusCode()!=null)
 						{
-							actualPoints++;
+							if(ApplicationUtil.validateProblemStatusCode(problemAct.getStatusCode().getCode(), problemAct.getProblemObservations()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(problemAct.getLineNumber());
+								issue.setXmlString(problemAct.getXmlString());
+								issuesList.add(issue);
+							}
 						}
 						else
 						{
@@ -750,8 +760,8 @@ public class ProblemsScorecard {
 		else
 		{
 			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problmes section not present");
-			issue.setXmlString("Problmes section not present");
+			issue.setLineNumber("Problems section not present");
+			issue.setXmlString("Problems section not present");
 			issuesList.add(issue);
 		}
 		
@@ -764,8 +774,8 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.PROBLEM_APR_STATUS_REQ);
-			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateApprEffectiveTimeScore;
 	}
@@ -805,12 +815,18 @@ public class ProblemsScorecard {
 					}
 				}
 			}
+			if(maxPoints ==0)
+			{
+				maxPoints =1;
+				actualPoints =1;
+			}
 		}
-		
-		if(maxPoints==0)
+		else
 		{
-			maxPoints = 1;
-			actualPoints = 1;
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("All sections are empty");
+			issue.setXmlString("All sections are empty");
+			issuesList.add(issue);
 		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);
@@ -821,8 +837,8 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_SECTION.getIgReference());
+			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		
 		return narrativeTextIdScore;

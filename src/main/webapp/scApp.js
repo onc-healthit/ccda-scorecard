@@ -44,6 +44,13 @@ scApp.directive('detailedResults', function() {
 	};
 });
 
+scApp.directive('saveScorecardButton', function() {
+	return {
+		restrict: 'E',
+		templateUrl: 'saveScorecardButton.html'
+	};
+});
+
 // *SITE mock related*//
 scApp.directive('siteHeader', function() {
 	return {

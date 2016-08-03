@@ -10,7 +10,7 @@ import org.sitenv.ccdaparsing.model.CCDAVitalSigns;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
-import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.LoincRepository;
+import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.VitalsRepository;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class VitalsScorecard {
 	
 	@Autowired
-	LoincRepository loincRepository;
+	VitalsRepository vitalsRepository;
 	
 	public Category getVitalsCategory(CCDAVitalSigns vitals, String birthDate)
 	{
@@ -35,7 +35,7 @@ public class VitalsScorecard {
 		vitalsScoreList.add(getValidLoincCodesScore(vitals));
 		vitalsScoreList.add(getValidUCUMScore(vitals));
 		vitalsScoreList.add(getApprEffectivetimeScore(vitals));
-		//vitalsScoreList.add(getNarrativeStructureIdScore(vitals));
+		vitalsScoreList.add(getNarrativeStructureIdScore(vitals));
 		
 		vitalsCategory.setCategoryRubrics(vitalsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(vitalsScoreList, vitalsCategory);
@@ -168,8 +168,8 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
-			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_ORGANIZER.getIgReference());
+			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
@@ -298,8 +298,8 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
-			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_ORGANIZER.getIgReference());
+			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		return validateTimeScore;
 	}
@@ -319,7 +319,7 @@ public class VitalsScorecard {
 			if(vitals.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(vitals.getSectionCode().getCode(), 
-						ApplicationConstants.CODE_SYSTEM_MAP.get(vitals.getSectionCode().getCodeSystem()),
+														vitals.getSectionCode().getCodeSystem(),
 														vitals.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -348,7 +348,7 @@ public class VitalsScorecard {
 					if(vitalsOrg.getOrgCode() != null)
 					{
 						if(ApplicationUtil.validateDisplayName(vitalsOrg.getOrgCode().getCode(), 
-								ApplicationConstants.CODE_SYSTEM_MAP.get(vitalsOrg.getOrgCode().getCodeSystem()),
+																vitalsOrg.getOrgCode().getCodeSystem(),
 																		vitalsOrg.getOrgCode().getDisplayName()))
 						{
 							actualPoints++;
@@ -379,7 +379,7 @@ public class VitalsScorecard {
 							if(vitalsObs.getVsCode() != null)
 							{
 								if(ApplicationUtil.validateDisplayName(vitalsObs.getVsCode().getCode(), 
-										ApplicationConstants.CODE_SYSTEM_MAP.get(vitalsObs.getVsCode().getCodeSystem()),
+																	vitalsObs.getVsCode().getCodeSystem(),
 																	vitalsObs.getVsCode().getDisplayName()))
 								{
 									actualPoints++;
@@ -420,8 +420,8 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_SECTION.getIgReference());
+			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
@@ -450,7 +450,7 @@ public class VitalsScorecard {
 							{
 								if(vitalObs.getVsCode()!= null)
 								{
-									if(loincRepository.foundUCUMUnitsForLoincCode(vitalObs.getVsCode().getCode(),vitalObs.getVsResult().getUnits()))
+									if(vitalsRepository.isUCUMCodeValidForVitalCode(vitalObs.getVsCode().getCode(),vitalObs.getVsResult().getUnits()))
 									{
 										actualPoints++;
 									}
@@ -506,8 +506,8 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateUCUMScore.setDescription(ApplicationConstants.VITAL_UCUM_DESCRIPTION);
-			validateUCUMScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validateUCUMScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateUCUMScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_OBSERVATION.getIgReference());
+			validateUCUMScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		return validateUCUMScore;
 	}
@@ -581,8 +581,8 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validatLoincCodeScore.setDescription(ApplicationConstants.VITAL_LOINC_DESCRIPTION);
-			validatLoincCodeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validatLoincCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validatLoincCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_OBSERVATION.getIgReference());
+			validatLoincCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		return validatLoincCodeScore;
 		
@@ -661,8 +661,8 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.VITAL_AAPR_DATE_DESCRIPTION);
-			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_ORGANIZER.getIgReference());
+			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		return validateApprEffectiveTimeScore;
 	}
@@ -702,13 +702,20 @@ public class VitalsScorecard {
 					}
 				}
 			}
+			if(maxPoints ==0)
+			{
+				maxPoints =1;
+				actualPoints =1;
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("All sections are empty");
+			issue.setXmlString("All sections are empty");
+			issuesList.add(issue);
 		}
 		
-		if(maxPoints==0)
-		{
-			maxPoints = 1;
-			actualPoints = 1;
-		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);
 		narrativeTextIdScore.setMaxPoints(maxPoints);
@@ -718,8 +725,8 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_SECTION.getIgReference());
+			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		
 		return narrativeTextIdScore;

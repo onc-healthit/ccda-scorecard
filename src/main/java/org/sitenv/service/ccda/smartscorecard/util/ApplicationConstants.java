@@ -74,8 +74,12 @@ public class ApplicationConstants {
 			+ "Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low and Observation's EffectiveTime/high should be <= Organizer's "
 			+ "EffectiveTime/high";
 	
-	public static final String TEMPLATEID_DESC = "";
+	public static final String TEMPLATEID_DESC = "All Template Ids should be Valid";
 	public static final String TEMPLATEID_REQ = "All Template Ids should be correct";
+	
+	public static final String IMMU_CODE_REQ = "Immunizations coded with CVX codes";
+	public static final String IMMU_CODE_DESC = "Each Immunization code should be validated aganist CVX Vaccines Administered valueset";
+	
 	
 	
 	public static final String ENCOUNTER_TIMEDATE_VALID_REQUIREMENT = "All effective time elements under Encounters section should contain "
@@ -146,6 +150,9 @@ public class ApplicationConstants {
 	public static final String NARRATIVE_STRUCTURE_ID_REQ = "Each entry has to be linked to related narrative text";
 	public static final String NARRATIVE_STRUCTURE_ID_DESC = "Each entry has to be linked to related narrative text";
 	
+	public static final String EMPTY_DOC_ERROR_MESSAGE = "Given C-CDA document is empty or invalid. Please upload a valid C-CDA Document.";
+	public static final String EXCEPTION_ERROR_MESSAGE = "Our system experienced some unexpected error, please try after some time or email your issue to TestingServices@sitenv.org";
+	
 	public static final String MONTH_FORMAT = "yyyyMM";
 	public static final String MONTH_PATTERN = "\\d{6}";
 	
@@ -178,8 +185,10 @@ public class ApplicationConstants {
 	
 	public static final String SMOKING_STATUS_OBSERVATION_ID = "2.16.840.1.113883.10.20.22.4.78"; 
 	public static final String IMMUNIZATION_ACTIVITY_ID = "2.16.840.1.113883.10.20.22.4.52"; 
+	public static final String MEDICATION_ACTIVITY_ID = "2.16.840.1.113883.10.20.22.4.16";
 	public static final String HITSP_VITAL_VALUESET_OID = "2.16.840.1.113883.3.88.12.80.62";
 	public static final String PROBLEM_TYPE_VALUESET_OID = "2.16.840.1.113883.3.88.12.3221.7.2";
+	public static final String CVX_CODES_VALUSET_OID = "2.16.840.1.113762.1.4.1010.6";
 	
 	public static final String SNOMEDCT_CODE_SYSTEM_NAME = "SNOMED-CT";
 	public static final String SNOMEDCT_CODE_SYSTEM = "2.16.840.1.113883.6.96";
@@ -298,5 +307,82 @@ public class ApplicationConstants {
 		}
 
 	}
+	public static class Error {
+		public static final String CONTACT = "Please report this issue to TestingServices@sitenv.org.";
+		public static final String GENERIC = "An Unknown error has occurred. ";
+		public static final String GENERIC_WITH_CONTACT = "An Unknown error has occurred. "
+				+ CONTACT;
+		public static final String JSON_TO_JAVA_JACKSON = "An error occurred while converting the Scorecard service JSON response to a Java object via the Jackson API.";
+		public static final String IS_SUCCESS_FALSE = "Note for the developers: isSuccess is equal to false.";
+	}
 
+	public static enum IG_REFERENCES
+	{
+		RECORD_TARGET("Section 1.1.1.2: recordTarget"),
+		ENCOUNTER_ACTIVITY("Section 3.23: Encounter Actvity"),
+		ENCOUNTER_SECTION("Section 2.16: Encounters"),
+		ALLERGY_CONCERN("Section 3.5: Allergy Concern Act"),
+		ALLERGY_SECTION("Section 2.4.1: Allergies and Intolerances Section"),
+		PROBLEM_OBSERVATION("Section 3.79: Problem Observation"), 
+		PROBLEM_SECTION("Section 2.53.1: Problem Section"),
+		PROBLEM_CONCERN_ACT("Section 3.78: Problem Concern Act"),
+		MEDICATION_SECTION("Section 2.39.1: Medications Section"), 
+		MEDICATION_ACTIVITY("Section 3.48 Medication Activity"),
+		IMMUNIZATION_ACTIVITY("Section 3.41: Immunization Activity"), 
+		IMMUNIZATION_SECTION("Section 2.32.1: Immunizations Section"),
+		SOCIAL_HISTORY_SECTION("Section 2.66: Social History Section"), 
+		SMOKING_STATUS("Section 3.100: Smoking Status - Meaningful Use"),
+		SOCIAL_HISTORY_OBSERVATION("Section 3.101: Social History Observation"),
+		TOBACCO_USE("Section 3.107: Tobacco Use"),
+		RESULT_SECTION("Section 2.64.1: Results Section"),
+		RESULT_ORGANIZER("Section 3.93: Result Organizer"),
+		RESULT_OBSERVATION("Section 3.92: Result Observation"),
+		VITAL_SIGN_ORGANIZER("Section 3.109: Vital Signs Organizer"),
+		VITAL_SIGN_OBSERVATION("Section 3.108: Vital Sign Observation"), 
+		VITAL_SIGN_SECTION("Section 2.70.1: Vital Signs Section"),
+		PROCEDURE_SECTION("Section 2.61.1 :Procedures Section"),
+		PROCEDURE_ACTIVITY_OBSERVATION("Section 3.82 Procedure Activity Observation"),
+		TEMPLATE_IDS("Section 5.0 TEMPLATE IDS IN THIS GUIDE");
+		
+		
+		private String igReferences; 
+		
+		
+		private IG_REFERENCES(final String igReferences)
+		{
+			this.igReferences = igReferences;
+		}
+
+		public String getIgReference()
+		{
+			return igReferences;
+		}
+	}
+	
+	public static enum TASKFORCE_LINKS
+	{
+		
+		PATIENT("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/DEMO_Record_Target_Example.xml"),
+		ENCOUNTERS("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"),
+		ALLERGIES("https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"),
+		PROBLEMS("https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"),
+		MEDICATIONS("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"),
+		IMMUNIZATIONS("https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"),
+		SOCIALHISTORY("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/SMOKING_Former_Smoker.xml"),
+		RESULTS("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_Less_Than_Physical_Quantity.xml"),
+		RESULTS_UCUM("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_UCUM_Translation.xml"),
+		VITALSIGNS("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"),
+		PROCEDURES("https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/PROCEDURE_Observation_Example.xml");
+		
+		private String taskforceLink;
+		
+		private TASKFORCE_LINKS(final String taskforceLink)
+		{
+			this.taskforceLink = taskforceLink;
+		}
+
+		public String getTaskforceLink() {
+			return taskforceLink;
+		}
+	}
 }

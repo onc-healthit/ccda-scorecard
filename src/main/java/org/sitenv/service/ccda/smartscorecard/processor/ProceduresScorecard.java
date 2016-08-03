@@ -24,7 +24,7 @@ public class ProceduresScorecard {
 		
 		List<CCDAScoreCardRubrics> procedureScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		procedureScoreList.add(getValidDisplayNameScoreCard(procedures));
-		//procedureScoreList.add(getNarrativeStructureIdScore(procedures));
+		procedureScoreList.add(getNarrativeStructureIdScore(procedures));
 		
 		procedureCategory.setCategoryRubrics(procedureScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(procedureScoreList, procedureCategory);
@@ -48,7 +48,7 @@ public class ProceduresScorecard {
 			if(procedures.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(procedures.getSectionCode().getCode(), 
-									ApplicationConstants.CODE_SYSTEM_MAP.get(procedures.getSectionCode().getCodeSystem()),
+									procedures.getSectionCode().getCodeSystem(),
 									procedures.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -77,7 +77,7 @@ public class ProceduresScorecard {
 					if(procAct.getProcCode() != null)
 					{
 						if(ApplicationUtil.validateDisplayName(procAct.getProcCode().getCode(), 
-												ApplicationConstants.CODE_SYSTEM_MAP.get(procAct.getProcCode().getCodeSystem()),
+												procAct.getProcCode().getCodeSystem(),
 												procAct.getProcCode().getDisplayName()))
 						{
 							actualPoints++;
@@ -116,8 +116,8 @@ public class ProceduresScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROCEDURE_SECTION.getIgReference());
+			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROCEDURES.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
@@ -158,12 +158,18 @@ public class ProceduresScorecard {
 					}
 				}
 			}
+			if(maxPoints ==0)
+			{
+				maxPoints =1;
+				actualPoints =1;
+			}
 		}
-		
-		if(maxPoints==0)
+		else
 		{
-			maxPoints = 1;
-			actualPoints = 1;
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("All sections are empty");
+			issue.setXmlString("All sections are empty");
+			issuesList.add(issue);
 		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);
@@ -174,8 +180,8 @@ public class ProceduresScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROCEDURE_SECTION.getIgReference());
+			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROCEDURES.getTaskforceLink());
 		}
 		
 		return narrativeTextIdScore;

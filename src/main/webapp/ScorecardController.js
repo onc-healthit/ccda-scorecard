@@ -1,4 +1,5 @@
-scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$anchorScroll', '$timeout', function($scope, $http, $location, $anchorScroll, $timeout) {
+scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$anchorScroll', '$timeout', '$sce', '$window', 
+                                         function($scope, $http, $location, $anchorScroll, $timeout, $sce, $window) {
 
   $scope.debugData = {
     inDebugMode: false
@@ -7,7 +8,12 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   $scope.categories = {};
   $scope.errorData = {
     getJsonDataError: "",
-    getJsonDataErrorForUser: ""
+    getJsonDataErrorForUser: "",
+    saveScorecardError: ""
+  };
+  $scope.saveServiceData = {
+  	isLoading: false,
+  	loadingMessage: "Saving Report..."
   };
   categoryTypes = Object.freeze([
     "Problems", "Medications", "Allergies", "Procedures", "Immunizations",
@@ -33,8 +39,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   //then the service was called and returned new results,
   //so we process them so it is reflected in the view
   $scope.$watch('jsonScorecardData', function() {
-  	console.log("$scope.jsonScorecardData was changed");
-	  console.log($scope.jsonScorecardData);
+  	$scope.debugLog("$scope.jsonScorecardData was changed");
+	  $scope.debugLog($scope.jsonScorecardData);
 	  if(!jQuery.isEmptyObject($scope.jsonScorecardData)) {		  
 		  $scope.ccdaFileName = $scope.ccdaUploadData.fileName;
 		  getAndProcessUploadControllerData();
@@ -49,8 +55,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   //if isLoading changes (from false to true)
   //then we reset our local scorecard data  
   $scope.$watch('uploadDisplay.isLoading', function() {
-	  console.log('$scope.uploadDisplay.isLoading: ');
-	  console.log($scope.uploadDisplay.isLoading);
+  	$scope.debugLog('$scope.uploadDisplay.isLoading: ');
+  	$scope.debugLog($scope.uploadDisplay.isLoading);
 	  if($scope.uploadDisplay.isLoading) {
 		  resetScorecardData();
 	  }
@@ -66,6 +72,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  $scope.categories = $scope.categoriesClone = {};
 	  $scope.errorData.getJsonDataError = "";
 	  $scope.errorData.getJsonDataErrorForUser = "";
+	  $scope.errorData.saveScorecardError = "";
 	  chartAndCategoryIndexMap = [];
 	  $scope.categoryListByGradeFirstColumn = $scope.categoryListByGradeSecondColumn = $scope.categoryListByGradeThirdColumn = [];
   };
@@ -171,12 +178,12 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   		var chartIndexStored = curPair.chartIndex;
   		var categoryIndexStored = curPair.categoryIndex;  		
   		if(chartIndexClicked === chartIndexStored) {
-    		console.log("chartIndexClicked === chartIndexStored: returning categoryIndexStored: ");
-    		console.log(categoryIndexStored);
+  			$scope.debugLog("chartIndexClicked === chartIndexStored: returning categoryIndexStored: ");
+  			$scope.debugLog(categoryIndexStored);
   			return categoryIndexStored;
   		}
   	}
-  	console.log("Error in calculateCategoryIndex(): Sending user to the first category.");
+  	$scope.debugLog("Error in calculateCategoryIndex(): Sending user to the first category.");
   	return 0;
   };
   
@@ -197,10 +204,10 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       }
     }
     elementId = detruncateCategoryName(elementId);
-    console.log("elementId extracted: " + elementId);
+    $scope.debugLog("elementId extracted: " + elementId);
     //move up one level for a cleaner look
     elementId = document.getElementById(elementId).parentNode.id;
-    console.log("parentNode: " + elementId);
+    $scope.debugLog("parentNode: " + elementId);
     $scope.jumpToElementViaId(elementId, weWait, timeToWaitInMiliseconds);
   };
     
@@ -360,9 +367,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       pie: {
         dispatch: {
           elementClick: function(e) {
-            console.log("e.data.key: " + e.data.key);
-            console.log("e.data.y: " + e.data.y);
-            console.log("e.index: " + e.index);
+          	$scope.debugLog("e.data.key: " + e.data.key);
+          	$scope.debugLog("e.data.y: " + e.data.y);
+          	$scope.debugLog("e.index: " + e.index);
             //jump to the related category in the detailed results
             jumpToCategoryViaIndex(e.index);
           }
@@ -377,9 +384,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         },
         dispatch: {
           legendClick: function(e) {
-            console.log("e.key: " + e.key);
-            console.log("e.y: " + e.y);
-            console.log("e.disabled: " + e.disabled);
+          	$scope.debugLog("e.key: " + e.key);
+          	$scope.debugLog("e.y: " + e.y);
+          	$scope.debugLog("e.disabled: " + e.disabled);
             jumpToCategoryViaKey(e.key);
           }
         },
@@ -434,7 +441,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   });
 
   var setChartData = function(chartType, isBarChart) {
-    console.log("\n" + chartType + " Chart set...");
+  	$scope.debugLog("\n" + chartType + " Chart set...");
     var data = [];
     var categoryDisplayName = "";
     var chartIndex = 0;
@@ -459,8 +466,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         }
       }
     }
-		console.log("chartAndCategoryIndexMap built:");
-		console.log(chartAndCategoryIndexMap);
+		$scope.debugLog("chartAndCategoryIndexMap built:");
+		$scope.debugLog(chartAndCategoryIndexMap);
     if (isBarChart) {
       return [{
         key: chartType,
@@ -544,8 +551,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   $scope.getDropdownStateClasses = function(panelDropdownElementId) {
 	  //bypassing for now as going for a clean no icon look...
 	  return "";
-	  console.log('panelDropdownElementId:');
-	  console.log(panelDropdownElementId);	  
+	  $scope.debugLog('panelDropdownElementId:');
+	  $scope.debugLog(panelDropdownElementId);	  
 	  var panelElement = document.getElementById(panelDropdownElementId);
 	  if(angular.element(panelElement).hasClass('collapsed')) {
 		  return "glyphicon glyphicon-triangle-right pull-left";
@@ -570,5 +577,77 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       }
       return classPrefix;
   };
+  
+  //***************SAVE REPORT RELATED*****************
+  
+  var addCertificationResultToJson = function() {  	  	
+  	var jsonWithCert = angular.copy($scope.jsonData);
+  	jsonWithCert.results.passedCertification = $scope.calculatedValidationData.passedCertification;
+  	console.log("jsonWithCert created to be saved:");
+  	console.log(jsonWithCert);
+  	return jsonWithCert;
+  };
+  
+  $scope.saveScorecard = function() {  	
+  	callSaveScorecardService(addCertificationResultToJson());
+  };
+  
+  var callSaveScorecardService = function(jsonWithCert, newLocalUrl) {
+  	$scope.debugLog("Entered callSaveScorecardService()"); 	
+    var externalUrl = 'http://54.200.51.225:8080/ccda-smart-scorecard/savescorecardservice/';
+    var localUrl = 'savescorecardservice/';
+    $scope.saveServiceData.isLoading = true;
+    $http({    	
+      method: "POST",
+      url: newLocalUrl ? newLocalUrl : localUrl,
+      data: jsonWithCert,
+      headers: {
+      	"Content-Type": "application/json"
+      },
+      responseType:"arraybuffer"
+    }).then(function mySuccess(response) {
+    	$scope.saveServiceData.isLoading = false;
+    	$scope.errorData.saveScorecardError = "";
+    	console.log("Scorecard results saved");
+    	var filename = "SITE_C-CDA_Scorecard_" + $scope.ccdaFileName + ".pdf";
+    	triggerPDFReportDownload(response.data, filename);
+    }, function myError(response) {
+    	$scope.saveServiceData.isLoading = false;
+    	var genericMessage = "An error was encountered while saving the Scorecard report.";
+    	var statusMessage = "Status: " + response.status + " | " + "Message: " + response.statusText;
+    	var contactMessage = "Please try again later or contact TestingServices@sitenv.org for help.";
+    	$scope.errorData.saveScorecardError =  genericMessage + " " + contactMessage;
+    	console.log(genericMessage + " " + statusMessage);
+    });
+  };
+
+	var triggerPDFReportDownload = function(responseData, filename) {
+		var pdfType = "application/pdf";		
+		//support IE Blob format vs the standard
+    if (responseData != null && navigator.msSaveBlob) {
+    	console.log('Downloading PDF in IE');
+      return navigator.msSaveBlob(new Blob([responseData], { type: pdfType }), filename);
+		}
+		var pdfFileUrl = URL.createObjectURL(new Blob([responseData], {type: pdfType}));		
+		//allow download of potentially dangerous file type
+		$scope.trustedPdfFileUrl = $sce.trustAsResourceUrl(pdfFileUrl);		
+		//trigger the download via a download tagged anchor element with the binary URL reference
+		var isFirefox = typeof InstallTrigger !== 'undefined';
+		if(isFirefox) {
+			console.log('Downloading (and opening in browser) PDF in FF');			
+		  //as a workaround for FF, this will open the pdf in the current window and the user can save from there
+		  $window.location.href = $scope.trustedPdfFileUrl;
+		} else {
+			console.log('Downloading PDF in browsers which are not Firefox');
+			var anchorElement = angular.element('<a/>');
+		  anchorElement.attr({
+		          href: $scope.trustedPdfFileUrl,
+		          target: '_self',
+		          download: filename
+		  })[0].click();			
+		}
+	  //clear save button focus
+	  $window.document.activeElement.blur(); 	 
+	};
 
 }]);

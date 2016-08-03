@@ -29,7 +29,7 @@ public class EncounterScorecard {
 		encounterScoreList.add(getTimePrecisionScore(encounter));
 		encounterScoreList.add(getValidDateTimeScore(encounter,birthDate));
 		encounterScoreList.add(getValidDisplayNameScoreCard(encounter));
-		//encounterScoreList.add(getNarrativeStructureIdScore(encounter));
+		encounterScoreList.add(getNarrativeStructureIdScore(encounter));
 		
 		encounterCategory.setCategoryRubrics(encounterScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(encounterScoreList, encounterCategory);
@@ -162,8 +162,8 @@ public class EncounterScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
-			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ENCOUNTER_ACTIVITY.getIgReference());
+			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.ENCOUNTERS.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
@@ -292,8 +292,8 @@ public class EncounterScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
-			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ENCOUNTER_ACTIVITY.getIgReference());
+			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.ENCOUNTERS.getTaskforceLink());
 		}
 		return validateTimeScore;
 	}
@@ -313,7 +313,7 @@ public class EncounterScorecard {
 			if(encounters.getSectionCode()!= null)
 			{
 				if(ApplicationUtil.validateDisplayName(encounters.getSectionCode().getCode(), 
-												ApplicationConstants.CODE_SYSTEM_MAP.get(encounters.getSectionCode().getCodeSystem()),
+											encounters.getSectionCode().getCodeSystem(),
 											encounters.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -343,7 +343,7 @@ public class EncounterScorecard {
 					if(encounterActivity.getEncounterTypeCode()!= null)
 					{
 						if(ApplicationUtil.validateDisplayName(encounterActivity.getEncounterTypeCode().getCode(), 
-									ApplicationConstants.CODE_SYSTEM_MAP.get(encounterActivity.getEncounterTypeCode().getCodeSystem()),
+																encounterActivity.getEncounterTypeCode().getCodeSystem(),
 																encounterActivity.getEncounterTypeCode().getDisplayName()))
 						{
 							actualPoints++;
@@ -373,8 +373,8 @@ public class EncounterScorecard {
 							if(indication.getProblemType()!= null)
 							{
 								if(ApplicationUtil.validateDisplayName(indication.getProblemType().getCode(), 
-											ApplicationConstants.CODE_SYSTEM_MAP.get(indication.getProblemType().getCodeSystem()),
-																			indication.getProblemType().getDisplayName()))
+																		indication.getProblemType().getCodeSystem(),
+																		indication.getProblemType().getDisplayName()))
 								{
 									actualPoints++;
 								}
@@ -397,8 +397,8 @@ public class EncounterScorecard {
 							if(indication.getProblemCode()!= null)
 							{
 								if(ApplicationUtil.validateDisplayName(indication.getProblemCode().getCode(), 
-										ApplicationConstants.CODE_SYSTEM_MAP.get(indication.getProblemCode().getCodeSystem()),
-																			indication.getProblemCode().getDisplayName()))
+																		indication.getProblemCode().getCodeSystem(),
+																		indication.getProblemCode().getDisplayName()))
 								{
 									actualPoints++;
 								}
@@ -429,7 +429,7 @@ public class EncounterScorecard {
 							if(diagnosis.getEntryCode()!= null)
 							{
 								if(ApplicationUtil.validateDisplayName(diagnosis.getEntryCode().getCode(), 
-										ApplicationConstants.CODE_SYSTEM_MAP.get(diagnosis.getEntryCode().getCodeSystem()),
+																diagnosis.getEntryCode().getCodeSystem(),
 																diagnosis.getEntryCode().getDisplayName()))
 								{
 									actualPoints++;
@@ -457,7 +457,7 @@ public class EncounterScorecard {
 									if(probObs.getProblemType()!= null)
 									{
 										if(ApplicationUtil.validateDisplayName(probObs.getProblemType().getCode(), 
-												ApplicationConstants.CODE_SYSTEM_MAP.get(probObs.getProblemType().getCodeSystem()),
+																				probObs.getProblemType().getCodeSystem(),
 																				probObs.getProblemType().getDisplayName()))
 										{
 											actualPoints++;
@@ -481,8 +481,8 @@ public class EncounterScorecard {
 									if(probObs.getProblemCode()!= null)
 									{
 										if(ApplicationUtil.validateDisplayName(probObs.getProblemCode().getCode(), 
-												ApplicationConstants.CODE_SYSTEM_MAP.get(probObs.getProblemCode().getCodeSystem()),
-																				probObs.getProblemCode().getDisplayName()))
+																			   probObs.getProblemCode().getCodeSystem(),
+																			   probObs.getProblemCode().getDisplayName()))
 										{
 											actualPoints++;
 										}
@@ -508,7 +508,7 @@ public class EncounterScorecard {
 										{
 											maxPoints++;
 											if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
-													ApplicationConstants.CODE_SYSTEM_MAP.get(translationCode.getCodeSystem()),
+																	translationCode.getCodeSystem(),
 																	translationCode.getDisplayName()))
 											{
 												actualPoints++;
@@ -545,8 +545,8 @@ public class EncounterScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ENCOUNTER_SECTION.getIgReference());
+			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.ENCOUNTERS.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
@@ -587,12 +587,18 @@ public class EncounterScorecard {
 					}
 				}
 			}
+			if(maxPoints ==0)
+			{
+				maxPoints =1;
+				actualPoints =1;
+			}
 		}
-		
-		if(maxPoints==0)
+		else
 		{
-			maxPoints = 1;
-			actualPoints = 1;
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("All sections are empty");
+			issue.setXmlString("All sections are empty");
+			issuesList.add(issue);
 		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);
@@ -603,8 +609,8 @@ public class EncounterScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ENCOUNTER_SECTION.getIgReference());
+			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.ENCOUNTERS.getTaskforceLink());
 		}
 		
 		return narrativeTextIdScore;

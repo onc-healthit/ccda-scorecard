@@ -93,43 +93,52 @@ public class CcdaSmartScorecardController {
 		try
 		{
 			CCDARefModel ccdaModels = CCDAParserAPI.parseCCDA2_1(ccdaFile.getInputStream());
-			if(ccdaModels.getPatient() != null && ccdaModels.getPatient().getDob()!= null)
+			if (!ccdaModels.isEmpty())
 			{
-				birthDate = ccdaModels.getPatient().getDob().getValue();
+				if(ccdaModels.getPatient() != null && ccdaModels.getPatient().getDob()!= null)
+				{
+					birthDate = ccdaModels.getPatient().getDob().getValue();
+				}
+				List<Category> categoryList = new ArrayList<Category>();
+				categoryList.add(patientScorecard.getPatientCategory(ccdaModels.getPatient()));
+				categoryList.add(encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),birthDate));
+				categoryList.add(allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),birthDate));
+				categoryList.add(problemsScorecard.getProblemsCategory(ccdaModels.getProblem(),birthDate));
+				categoryList.add(medicationScorecard.getMedicationCategory(ccdaModels.getMedication(),birthDate));
+				categoryList.add(immunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization(),birthDate));
+				categoryList.add(socialhistoryScorecard.getSocialHistoryCategory(ccdaModels.getSmokingStatus(),birthDate));
+				categoryList.add(labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),birthDate));
+				categoryList.add(vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),birthDate));
+				categoryList.add(procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),birthDate));
+				categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
+				
+				results.setCategoryList(categoryList);
+				ApplicationUtil.calculateFinalGradeAndIssues(categoryList, results);
+				results.setIgReferenceUrl(ApplicationConstants.IG_URL);
+				results.setDocType(ApplicationUtil.checkDocType(ccdaModels));
+				scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename());
+				results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage());
+				results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored());
+				if(results.getIndustryAverageScore() != 0)
+				{
+					results.setIndustryAverageGrade(ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScore()));
+				}else 
+				{
+					results.setIndustryAverageGrade("N/A");
+				}
+				response.setSuccess(true);
+				response.setResults(results);
+			}else
+			{
+				response.setSuccess(false);
+				response.setErrorMessage(ApplicationConstants.EMPTY_DOC_ERROR_MESSAGE);
 			}
-			List<Category> categoryList = new ArrayList<Category>();
-			categoryList.add(patientScorecard.getPatientCategory(ccdaModels.getPatient()));
-			categoryList.add(encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),birthDate));
-			categoryList.add(allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),birthDate));
-			categoryList.add(problemsScorecard.getProblemsCategory(ccdaModels.getProblem(),birthDate));
-			categoryList.add(medicationScorecard.getMedicationCategory(ccdaModels.getMedication(),birthDate));
-			categoryList.add(immunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization(),birthDate));
-			categoryList.add(socialhistoryScorecard.getSocialHistoryCategory(ccdaModels.getSmokingStatus(),birthDate));
-			categoryList.add(labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),birthDate));
-			categoryList.add(vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),birthDate));
-			categoryList.add(procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),birthDate));
-			categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
-			
-			results.setCategoryList(categoryList);
-			ApplicationUtil.calculateFinalGradeAndIssues(categoryList, results);
-			results.setIgReferenceUrl(ApplicationConstants.IG_URL);
-			results.setDocType(ApplicationUtil.checkDocType(ccdaModels));
-			scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename());
-			results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage());
-			results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored());
-			if(results.getIndustryAverageScore() != 0)
-			{
-				results.setIndustryAverageGrade(ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScore()));
-			}else 
-			{
-				results.setIndustryAverageGrade("N/A");
-			}
-			response.setSuccess(true);
-			response.setResults(results);
+			response.setFilename(ccdaFile.getOriginalFilename());
 		}catch(Exception excp)
 		{
 			excp.printStackTrace();
 			response.setSuccess(false);
+			response.setErrorMessage(ApplicationConstants.EXCEPTION_ERROR_MESSAGE);
 		}
 		return response;
 	}
