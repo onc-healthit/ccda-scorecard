@@ -79,8 +79,8 @@ public class PatientScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription("Time precision Rubric failed for Patient DOB");
-			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_SECTION_REFERENCES);
-			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RECORD_TARGET.getIgReference());
+			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PATIENT.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
