@@ -9,7 +9,7 @@ import java.util.TreeMap;
 public class ApplicationConstants {
 	
 	//set this to false for production
-	public static final boolean IN_DEVELOPMENT_MODE = false;
+	public static final boolean IN_DEVELOPMENT_MODE = true;
 	 
 	public static String FILEPATH = "C:/Projects/Dragon/CCDAParser/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	
@@ -165,20 +165,36 @@ public class ApplicationConstants {
 	public static final String SECOND_FORMAT = "yyyyMMddHHmmssZ";
 	public static final String SECOND_PATTERN = "\\d{8}-\\d{4}";
 	
-	private static final String CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org",
+	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
+	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:7080",
+			CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org",
 			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
 			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
 			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
 			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
-			REFERENCE_CCDA_SERVICE = "/referenceccdaservice/";	
+			REFERENCE_CCDA_SERVICE = "/referenceccdaservice/",
+			CCDA_SCORECARD_SERVICE = "/ccda-smart-scorecard/ccdascorecardservice",
+			SAVE_SCORECARD_SERVICE_BACKEND = "/ccda-smart-scorecard/savescorecardservicebackend";
+	// ensure when WAR is headed to the dev server that DEFAULT_LOCAL_SERVER_URL
+	// is replaced with CCDA_DEV_SERVER_URL in the following Strings
 	public static final String CODE_DISPLAYNAME_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL) + CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
+			: CCDA_PROD_SERVER_URL)
+			+ CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
 	public static final String CODE_VALUSET_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL) + CODE_IN_VALUESET_SERVICE;	
+			: CCDA_PROD_SERVER_URL)
+			+ CODE_IN_VALUESET_SERVICE;
 	public static final String CODE_CODESYSTEM_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL) + CODE_IN_CODESYSTEM_SERVICE;	
+			: CCDA_PROD_SERVER_URL)
+			+ CODE_IN_CODESYSTEM_SERVICE;
 	public static final String REFERENCE_VALIDATOR_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL) + REFERENCE_CCDA_SERVICE;
+			: CCDA_PROD_SERVER_URL)
+			+ REFERENCE_CCDA_SERVICE;
+	public static final String SAVESCORECARDSERVICEBACKEND_URL = (IN_DEVELOPMENT_MODE ? DEFAULT_LOCAL_SERVER_URL
+			: CCDA_PROD_SERVER_URL)
+			+ SAVE_SCORECARD_SERVICE_BACKEND;
+	public static final String CCDASCORECARDSERVICE_URL = (IN_DEVELOPMENT_MODE ? DEFAULT_LOCAL_SERVER_URL
+			: CCDA_PROD_SERVER_URL)
+			+ CCDA_SCORECARD_SERVICE;
 	
 	public static final ArrayList<String> SMOKING_STATUS_CODES = new ArrayList<String>(
 		    Arrays.asList("449868002", "428041000124106", "8517006","266919005","77176002","266927001","428071000124103","428061000124105"));
@@ -307,13 +323,18 @@ public class ApplicationConstants {
 		}
 
 	}
+	
 	public static class Error {
 		public static final String CONTACT = "Please report this issue to TestingServices@sitenv.org.";
 		public static final String GENERIC = "An Unknown error has occurred. ";
 		public static final String GENERIC_WITH_CONTACT = "An Unknown error has occurred. "
 				+ CONTACT;
+		public static final String GENERIC_DIFFERENT_FILE_OR_TIME = "Please try a different file or try again at another time.";
 		public static final String JSON_TO_JAVA_JACKSON = "An error occurred while converting the Scorecard service JSON response to a Java object via the Jackson API.";
+		public static final String RESULTS_ARE_NULL = "Note for the developers: The ResponseTO results are null.";
 		public static final String IS_SUCCESS_FALSE = "Note for the developers: isSuccess is equal to false.";
+		public static final String NULL_RESULT_ON_SAVESCORECARDSERVICEBACKEND_CALL = "Error: savescorecardservicebackend did not receive any results (null) from ccdascorecardservice."
+				+ " " + GENERIC_DIFFERENT_FILE_OR_TIME;
 	}
 
 	public static enum IG_REFERENCES
