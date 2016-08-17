@@ -64,7 +64,9 @@ public class ProblemsScorecard {
 						if(problemConcern.getEffTime().getLow() != null)
 						{
 							if(ApplicationUtil.validateDayFormat(problemConcern.getEffTime().getLow().getValue()) ||
-									ApplicationUtil.validateMonthFormat(problemConcern.getEffTime().getLow().getValue()))
+									ApplicationUtil.validateMonthFormat(problemConcern.getEffTime().getLow().getValue()) ||
+									ApplicationUtil.validateMinuteFormat(problemConcern.getEffTime().getLow().getValue()) ||
+									ApplicationUtil.validateSecondFormat(problemConcern.getEffTime().getLow().getValue()))
 							{
 								actualPoints++;
 							}
@@ -87,7 +89,9 @@ public class ProblemsScorecard {
 						{
 							maxPoints++;
 							if(ApplicationUtil.validateDayFormat(problemConcern.getEffTime().getHigh().getValue()) ||
-									ApplicationUtil.validateMonthFormat(problemConcern.getEffTime().getHigh().getValue()))
+									ApplicationUtil.validateMonthFormat(problemConcern.getEffTime().getHigh().getValue()) ||
+									ApplicationUtil.validateMinuteFormat(problemConcern.getEffTime().getHigh().getValue()) ||
+									ApplicationUtil.validateSecondFormat(problemConcern.getEffTime().getHigh().getValue()))
 							{
 								actualPoints++;
 							}
@@ -118,7 +122,9 @@ public class ProblemsScorecard {
 								if(problemObs.getEffTime().getLow() != null)
 								{
 									if(ApplicationUtil.validateDayFormat(problemObs.getEffTime().getLow().getValue()) ||
-											ApplicationUtil.validateMonthFormat(problemObs.getEffTime().getLow().getValue()))
+											ApplicationUtil.validateMonthFormat(problemObs.getEffTime().getLow().getValue()) ||
+											ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getLow().getValue()) ||
+											ApplicationUtil.validateSecondFormat(problemObs.getEffTime().getLow().getValue()))
 									{
 										actualPoints++;
 									}
@@ -141,7 +147,9 @@ public class ProblemsScorecard {
 								{
 									maxPoints++;
 									if(ApplicationUtil.validateDayFormat(problemObs.getEffTime().getHigh().getValue()) ||
-											ApplicationUtil.validateMonthFormat(problemObs.getEffTime().getHigh().getValue()))
+											ApplicationUtil.validateMonthFormat(problemObs.getEffTime().getHigh().getValue()) ||
+											ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getHigh().getValue()) ||
+											ApplicationUtil.validateSecondFormat(problemObs.getEffTime().getHigh().getValue()))
 									{
 										actualPoints++;
 									}

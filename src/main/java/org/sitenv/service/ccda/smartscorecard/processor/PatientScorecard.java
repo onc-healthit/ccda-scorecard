@@ -43,7 +43,10 @@ public class PatientScorecard {
 		{
 			if(patient.getDob()!=null)
 			{
-				if(ApplicationUtil.validateDayFormat(patient.getDob().getValue()) && ApplicationUtil.validateDate(patient.getDob().getValue()))
+				if((ApplicationUtil.validateDayFormat(patient.getDob().getValue()) || 
+						ApplicationUtil.validateMinuteFormat(patient.getDob().getValue()) || 
+						ApplicationUtil.validateSecondFormat(patient.getDob().getValue()))
+						&& ApplicationUtil.validateDate(patient.getDob().getValue()))
 				{
 					actualPoints++;
 				}
