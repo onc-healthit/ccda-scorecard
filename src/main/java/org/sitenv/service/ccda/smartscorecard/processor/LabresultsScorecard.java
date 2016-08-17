@@ -75,7 +75,9 @@ public class LabresultsScorecard {
 					{
 						if(resultOrg.getEffTime().getLow() != null)
 						{
-							if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getLow().getValue()))
+							if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getLow().getValue()) ||
+									ApplicationUtil.validateMinuteFormat(resultOrg.getEffTime().getLow().getValue()) ||
+									ApplicationUtil.validateSecondFormat(resultOrg.getEffTime().getLow().getValue()))
 							{
 								actualPoints++;
 							}
@@ -96,7 +98,9 @@ public class LabresultsScorecard {
 						}
 						if(resultOrg.getEffTime().getHigh() != null)
 						{
-							if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getHigh().getValue()))
+							if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getHigh().getValue()) ||
+									ApplicationUtil.validateMinuteFormat(resultOrg.getEffTime().getHigh().getValue()) ||
+									ApplicationUtil.validateSecondFormat(resultOrg.getEffTime().getHigh().getValue()))
 							{
 								actualPoints++;
 							}
@@ -131,7 +135,9 @@ public class LabresultsScorecard {
 							maxPoints++;
 							if(resultObs.getMeasurementTime() != null)
 							{
-								if(ApplicationUtil.validateDayFormat(resultObs.getMeasurementTime().getValue()))
+								if(ApplicationUtil.validateDayFormat(resultObs.getMeasurementTime().getValue()) ||
+										ApplicationUtil.validateMinuteFormat(resultObs.getMeasurementTime().getValue()) ||
+										ApplicationUtil.validateSecondFormat(resultObs.getMeasurementTime().getValue()))
 								{
 									actualPoints++;
 								}

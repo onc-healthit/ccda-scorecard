@@ -65,7 +65,9 @@ public class VitalsScorecard {
 					{
 						if(vitalOrg.getEffTime().getLow() != null)
 						{
-							if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getLow().getValue()))
+							if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getLow().getValue()) ||
+									ApplicationUtil.validateMinuteFormat(vitalOrg.getEffTime().getLow().getValue()) ||
+									ApplicationUtil.validateSecondFormat(vitalOrg.getEffTime().getLow().getValue()))
 							{
 								actualPoints++;
 							}
@@ -86,7 +88,9 @@ public class VitalsScorecard {
 						}
 						if(vitalOrg.getEffTime().getHigh() != null)
 						{
-							if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getHigh().getValue()))
+							if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getHigh().getValue()) ||
+									ApplicationUtil.validateMinuteFormat(vitalOrg.getEffTime().getHigh().getValue()) ||
+									ApplicationUtil.validateSecondFormat(vitalOrg.getEffTime().getHigh().getValue()))
 							{
 								actualPoints++;
 							}
@@ -121,7 +125,8 @@ public class VitalsScorecard {
 							maxPoints++;
 							if(vitalObs.getMeasurementTime() != null)
 							{
-								if(ApplicationUtil.validateMinuteFormat(vitalObs.getMeasurementTime().getValue()))
+								if(ApplicationUtil.validateMinuteFormat(vitalObs.getMeasurementTime().getValue()) ||
+										ApplicationUtil.validateSecondFormat(vitalObs.getMeasurementTime().getValue()))
 								{
 									actualPoints++;
 								}
@@ -634,6 +639,12 @@ public class VitalsScorecard {
 							    }
 							}
 						}
+					}else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(vitalOrg.getLineNumber());
+						issue.setXmlString(vitalOrg.getXmlString());
+						issuesList.add(issue);
 					}
 				}
 			}
