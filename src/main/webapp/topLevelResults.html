@@ -60,10 +60,10 @@
                         <h2>{{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade + " / 100" : "Scoring..."}}</h2>
                     </div>
                     <div class="col-md-12 scSubHeadingBottom">
-                        <!-- total number of rubrics which have failed -->
-                        <!--<h2>{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>-->
-                        <!-- sum of all occurrences in each rubric -->
-                        <h2>{{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "Scoring..."}}</h2>
+                        <!-- (front-end calculated) sum of all occurrences in each rubric -->
+                        <!-- <h2>{{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "Scoring..."}}</h2> -->
+                        <!-- (back-end now-given calculated) sum of all occurrences in each rubric -->
+                        <h2>{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>                        
                     </div>
                 </div>
                 <div class="col-md-4 scHeading">
