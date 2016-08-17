@@ -42,9 +42,10 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 	{id: 1, value: "Scorecard and Validation results"}, 
 	{id: 2, value: "Scorecard results only"}		  
   ];
+  //default to run both services since we no longer have a selection option
+  $scope.selectedValidationOption = $scope.validationOptions[0];
 
-    //default to run both services since we no longer have a selection option
-    $scope.selectedValidationOption = $scope.validationOptions[0];
+  $scope.isFirefox = typeof InstallTrigger !== 'undefined';
   
   var resetValidationData = function() {	  	  
 		$scope.jsonScorecardData = {};
@@ -73,8 +74,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
      if(callDebug) {
     	 $scope.debugLog("In main debug mode");
        if($scope.mainDebug.useLocalTestDataForServices) {
-    	   $scope.getLocalJsonResultsForDebugging("dataValidation.json", ServiceTypeEnum.CCDA_VALIDATOR);
-    	   $scope.getLocalJsonResultsForDebugging("data.json", ServiceTypeEnum.SCORECARD);
+    	   getLocalJsonResults("dataValidation.json", ServiceTypeEnum.CCDA_VALIDATOR);
+    	   getLocalJsonResults("data.json", ServiceTypeEnum.SCORECARD);
        } else {
     	   callDebugService(ccdaScFile);
        }
@@ -153,7 +154,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   var cacheAndProcessReturnedJsonData = function(response, serviceType) {
     switch (serviceType) {
       case ServiceTypeEnum.CCDA_VALIDATOR:
-    	collectAndHandleValidationData(response);
+      	collectAndHandleValidationData(response);
         break;
       case ServiceTypeEnum.SCORECARD:
         $scope.jsonScorecardData = response.data;
@@ -224,16 +225,70 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
         }
     }
   
-  $scope.getLocalJsonResultsForDebugging = function(localJsonFileLocation, serviceType) {
+  var getLocalJsonResults = function(localJsonFileLocation, serviceType) {
     $http({
       method: "GET",
       url: localJsonFileLocation
     }).then(function mySuccess(response) {
       cacheAndProcessReturnedJsonData(response, serviceType);
     }, function myError(response) {
-    	$scope.debugLog("Debug Error: Cannot retrieve local " + serviceType + " data");
+    	$scope.debugLog("Error: Cannot retrieve local " + serviceType + " data");
     });
-  }; 
+  };
+  
+  $scope.tryScorecard = function() {
+  	$scope.ccdaUploadData = new UploadData(
+		"170.315_b1_toc_amb_ccd_r21_sample1_v5.xml",
+		"C-CDA_IG_Only");
+  	var localFolder = "resources";
+  	var extension = ".json";
+  	getLocalJsonResults(localFolder
+		+ "/170.315_b1_toc_amb_ccd_r21_sample1_cert"
+		+ extension, ServiceTypeEnum.CCDA_VALIDATOR);
+  	getLocalJsonResults(localFolder
+		+ "/170.315_b1_toc_amb_ccd_r21_sample1_scorecard"
+		+ extension, ServiceTypeEnum.SCORECARD); 	
+  };
+  
+  $scope.downloadViaAnchor = function(link, name) {
+  	var anchorElement = angular.element('<a/>');
+	  anchorElement.attr({
+      href: link,
+      target: '_self',
+      download: name
+	  })[0].click();
+  };   
+  
+	$scope.triggerTryScorecardFileDownload = function() {		
+		/*var mediaType = "text/xml";*/
+		var filename = "170.315_b1_toc_amb_ccd_r21_sample1_v5.xml";
+		var fileLocation = "resources/" + filename;
+		
+		//support IE Blob format vs the standard
+		/*
+    if (navigator.msSaveBlob) {
+    	console.log('Downloading file in IE');
+      return navigator.msSaveBlob(new Blob([fileLocation], { type: mediaType }), filename);
+		}
+		var fileUrl = URL.createObjectURL(new Blob([fileLocation], {type: mediaType}));		
+		//allow download of potentially dangerous file type
+		var trustedFileUrl = $sce.trustAsResourceUrl(fileUrl);
+		*/
+		
+		if($scope.isFirefox || navigator.msSaveBlob) {
+			//ignore FF and IE requests for now as we probably need back-end to implement
+			document.getElementById("scTryMeDownload").blur();
+			return;
+			//console.log('Downloading file (and opening in browser) in FF');			
+		  //as a workaround for FF, this will open the file in the current window and the user can save from there			
+		  //$window.location.href = fileLocation;
+		} else {
+			console.log('Downloading file in browsers which are not Firefox');
+			$scope.downloadViaAnchor(fileLocation, filename);			
+		}
+	  //clear download button focus
+	  document.getElementById("scTryMeDownload").blur();
+	};  
 
   var IssueTypeEnum = Object.freeze({
     MDHT_ERROR: "C-CDA MDHT Conformance Error",

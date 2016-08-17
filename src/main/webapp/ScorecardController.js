@@ -620,7 +620,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     	console.log(genericMessage + " " + statusMessage);
     });
   };
-
+  
 	var triggerPDFReportDownload = function(responseData, filename) {
 		var pdfType = "application/pdf";		
 		//support IE Blob format vs the standard
@@ -630,24 +630,19 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 		}
 		var pdfFileUrl = URL.createObjectURL(new Blob([responseData], {type: pdfType}));		
 		//allow download of potentially dangerous file type
-		$scope.trustedPdfFileUrl = $sce.trustAsResourceUrl(pdfFileUrl);		
+		$scope.trustedPdfFileUrl = $sce.trustAsResourceUrl(pdfFileUrl);	
 		//trigger the download via a download tagged anchor element with the binary URL reference
-		var isFirefox = typeof InstallTrigger !== 'undefined';
-		if(isFirefox) {
+		if($scope.isFirefox) {
 			console.log('Downloading (and opening in browser) PDF in FF');			
 		  //as a workaround for FF, this will open the pdf in the current window and the user can save from there
 		  $window.location.href = $scope.trustedPdfFileUrl;
-		} else {
+		} else {			
 			console.log('Downloading PDF in browsers which are not Firefox');
-			var anchorElement = angular.element('<a/>');
-		  anchorElement.attr({
-		          href: $scope.trustedPdfFileUrl,
-		          target: '_self',
-		          download: filename
-		  })[0].click();			
+			$scope.downloadViaAnchor($scope.trustedPdfFileUrl, filename);			
 		}
 	  //clear save button focus
-	  $window.document.activeElement.blur(); 	 
+	  $window.document.activeElement.blur();		
 	};
+	
 
 }]);
