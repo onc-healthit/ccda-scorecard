@@ -18,12 +18,51 @@
 
             <div id="CCDAReference">
 
-              <div id="CCDAReferenceWrapper">              
-              <p>There are two ways of running the scorecard. You
-                can either upload your C-CDA document using the
-                interface below and then press "Score" to obtain the
-                result. Or, you can directly call the API below to
-                invoke the scorecard programmatically.</p>                
+              <div id="CCDAReferenceWrapper">
+              <p>There are three ways of running the Scorecard. You
+                can either try out the Scorecard with our test document,
+                upload your document using the interface below and then
+                press "Score", or, directly call the API to invoke the
+                Scorecard programmatically.</p>
+
+              <span class="directions">Try:</span>
+              <form name="scTestForm">
+
+                  <ul>
+
+                    <li>Try out the Scorecard with our C-CDA document
+                      <div style="position: relative;">
+                        <div class="row">
+                          <div class="col-md-12 form-group">
+                            <!--try me button-->
+                            <button ng-click="tryScorecard()"  
+                              id="scTryMe"
+                              class="btn btn-primary start"
+                              data-toggle="modal" data-target="#resultModal"
+                              tabindex="1" type="button">
+                              <i class="glyphicon glyphicon-user"></i> <span>Try Me</span>
+                            </button>
+                          </div>
+                        </div>                         
+                      </div>
+                    </li>                                      
+                    
+                    <li>Download the C-CDA file used for the test
+                      <div>
+                        <!--download button-->
+                        <button ng-click="triggerTryScorecardFileDownload()"  
+                          id="scTryMeDownload"
+                          class="btn btn-primary start"                          
+                          tabindex="1" type="button">
+                          <i class="glyphicon glyphicon-download-alt"></i> <span>Download</span>
+                        </button>                         
+                      </div>
+                    </li>                                                  
+
+                  </ul>
+
+                </form>
+                          
               <span class="directions">Manual:</span>
               <form name="scUploadForm">
 
@@ -68,9 +107,10 @@
 
                     <li>Click Score.
                       <div>
-                        <!--submit button-->
-                        <button ng-disabled="!scUploadForm.$valid && !mainDebug.inDebugMode"
-                          ng-click="uploadCcdaScFileAndCallServices(ccdaScFile, mainDebug.inDebugMode)"
+                        <!--score button-->
+                        <button ng-disabled="(!scUploadForm.$valid && !mainDebug.inDebugMode) || 
+                        ((mainDebug.inDebugMode && !mainDebug.useLocalTestDataForServices) && !scUploadForm.$valid)"
+                          ng-click="uploadCcdaScFileAndCallServices(ccdaScFile, mainDebug.inDebugMode && mainDebug.useLocalTestDataForServices)"
                           id="scFormSubmit"
                           class="btn btn-primary start"
                           data-toggle="modal" data-target="#resultModal"
