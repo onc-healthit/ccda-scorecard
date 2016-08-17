@@ -58,7 +58,8 @@ public class AllergiesScorecard {
 						if(allergyConcern.getEffTime().getLow() != null)
 						{
 							if(ApplicationUtil.validateDayFormat(allergyConcern.getEffTime().getLow().getValue())||
-									ApplicationUtil.validateMonthFormat(allergyConcern.getEffTime().getLow().getValue()))
+									ApplicationUtil.validateMinuteFormat(allergyConcern.getEffTime().getLow().getValue()) ||
+									ApplicationUtil.validateSecondFormat(allergyConcern.getEffTime().getLow().getValue()))
 							{
 								actualPoints++;
 							}
@@ -81,7 +82,8 @@ public class AllergiesScorecard {
 						{
 							maxPoints++;
 							if(ApplicationUtil.validateDayFormat(allergyConcern.getEffTime().getHigh().getValue()) ||
-									ApplicationUtil.validateMonthFormat(allergyConcern.getEffTime().getHigh().getValue()))
+									ApplicationUtil.validateMinuteFormat(allergyConcern.getEffTime().getHigh().getValue()) ||
+									ApplicationUtil.validateSecondFormat(allergyConcern.getEffTime().getHigh().getValue()))
 							{
 								actualPoints++;
 							}
@@ -112,7 +114,8 @@ public class AllergiesScorecard {
 								if(allergyObservation.getEffTime().getLow() != null)
 								{
 									if(ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getLow().getValue()) || 
-											ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getLow().getValue()))
+											ApplicationUtil.validateMinuteFormat(allergyObservation.getEffTime().getLow().getValue()) ||
+											ApplicationUtil.validateSecondFormat(allergyObservation.getEffTime().getLow().getValue()))
 									{
 										actualPoints++;
 									}
@@ -135,7 +138,8 @@ public class AllergiesScorecard {
 								{
 									maxPoints++;
 									if(ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getHigh().getValue()) || 
-											ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getHigh().getValue()))
+											ApplicationUtil.validateMinuteFormat(allergyObservation.getEffTime().getHigh().getValue()) ||
+											ApplicationUtil.validateSecondFormat(allergyObservation.getEffTime().getHigh().getValue()))
 									{
 										actualPoints++;
 									}

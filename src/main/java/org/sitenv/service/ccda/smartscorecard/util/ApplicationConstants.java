@@ -80,6 +80,10 @@ public class ApplicationConstants {
 	public static final String IMMU_CODE_REQ = "Immunizations coded with CVX codes";
 	public static final String IMMU_CODE_DESC = "Each Immunization code should be validated aganist CVX Vaccines Administered valueset";
 	
+	public static final String MEDICATION_CODE_REQ = "Medications coded with RxNorm SCD, SBD, GPCK, or BPCPK codes";
+	public static final String MEDICATION_CODE_DESC = "C-CDA medication lists should contain medications coded as RxNorm Semantic Clinical Drugs, "
+							+ "Semantic Branded Drugs, and packs. This means prescribable products on the level of 'loratadine 10mg oral tablet'.";
+	
 	
 	
 	public static final String ENCOUNTER_TIMEDATE_VALID_REQUIREMENT = "All effective time elements under Encounters section should contain "
@@ -189,6 +193,7 @@ public class ApplicationConstants {
 	public static final String HITSP_VITAL_VALUESET_OID = "2.16.840.1.113883.3.88.12.80.62";
 	public static final String PROBLEM_TYPE_VALUESET_OID = "2.16.840.1.113883.3.88.12.3221.7.2";
 	public static final String CVX_CODES_VALUSET_OID = "2.16.840.1.113762.1.4.1010.6";
+	public static final String MEDICATION_CLINICAL_DRUG_VALUSET_OID = "2.16.840.1.113762.1.4.1010.4";
 	
 	public static final String SNOMEDCT_CODE_SYSTEM_NAME = "SNOMED-CT";
 	public static final String SNOMEDCT_CODE_SYSTEM = "2.16.840.1.113883.6.96";

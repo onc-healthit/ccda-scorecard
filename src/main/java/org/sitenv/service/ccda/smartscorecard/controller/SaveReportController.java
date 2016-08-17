@@ -18,7 +18,6 @@ import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
-import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -328,7 +327,7 @@ public class SaveReportController {
 					e.printStackTrace();
 				}
 			}
-			ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
+			//ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
 		}
 	}
 

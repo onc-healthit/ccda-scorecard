@@ -56,7 +56,8 @@ public class EncounterScorecard {
 					maxPoints++;
 					if(encounterActivity.getEffectiveTime() != null)
 					{
-						if(ApplicationUtil.validateMinuteFormat(encounterActivity.getEffectiveTime().getValue()))
+						if(ApplicationUtil.validateMinuteFormat(encounterActivity.getEffectiveTime().getValue()) ||
+								ApplicationUtil.validateSecondFormat(encounterActivity.getEffectiveTime().getValue()))
 						{
 							actualPoints++;
 						}
@@ -89,7 +90,8 @@ public class EncounterScorecard {
 									{
 										if(problemObs.getEffTime().getLow() != null)
 										{
-											if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getLow().getValue()))
+											if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getLow().getValue()) ||
+													ApplicationUtil.validateSecondFormat(problemObs.getEffTime().getLow().getValue()))
 											{
 												actualPoints++;
 											}
@@ -112,7 +114,8 @@ public class EncounterScorecard {
 										if(problemObs.getEffTime().getHigh() != null)
 										{
 											maxPoints++;
-											if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getHigh().getValue()))
+											if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getHigh().getValue()) ||
+													ApplicationUtil.validateSecondFormat(problemObs.getEffTime().getHigh().getValue()))
 											{
 												actualPoints++;
 											}
