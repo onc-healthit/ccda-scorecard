@@ -16,15 +16,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProceduresScorecard {
 	
-	public Category getProceduresCategory(CCDAProcedure procedures, String birthDate)
+	public Category getProceduresCategory(CCDAProcedure procedures, String birthDate,String docType)
 	{
 		
 		Category procedureCategory = new Category();
 		procedureCategory.setCategoryName(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> procedureScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		procedureScoreList.add(getValidDisplayNameScoreCard(procedures));
-		procedureScoreList.add(getNarrativeStructureIdScore(procedures));
+		procedureScoreList.add(getValidDisplayNameScoreCard(procedures,docType));
+		procedureScoreList.add(getNarrativeStructureIdScore(procedures,docType));
 		
 		procedureCategory.setCategoryRubrics(procedureScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(procedureScoreList, procedureCategory);
@@ -33,7 +33,7 @@ public class ProceduresScorecard {
 	
 	
 	
-	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAProcedure procedures)
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAProcedure procedures,String docType)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
@@ -116,14 +116,21 @@ public class ProceduresScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROCEDURE_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROCEDURE_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROCEDURE_SECTION.getIgReference());
+			}
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROCEDURES.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
 	
 	
-	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAProcedure procedures)
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAProcedure procedures,String docType)
 	{
 		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
 		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
@@ -180,7 +187,14 @@ public class ProceduresScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROCEDURE_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROCEDURE_SECTION.getIgReference());
+			}
+			else if(docType.equalsIgnoreCase("R1.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROCEDURE_SECTION.getIgReference());
+			}
 			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROCEDURES.getTaskforceLink());
 		}
 		

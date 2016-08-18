@@ -17,18 +17,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class ImmunizationScorecard {
 	
-	public Category getImmunizationCategory(CCDAImmunization immunizations, String birthDate)
+	public Category getImmunizationCategory(CCDAImmunization immunizations, String birthDate,String docType)
 	{
 		
 		Category immunizationCategory = new Category();
 		immunizationCategory.setCategoryName(ApplicationConstants.CATEGORIES.IMMUNIZATIONS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> immunizationScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		immunizationScoreList.add(getTimePrecisionScore(immunizations));
-		immunizationScoreList.add(getValidDateTimeScore(immunizations,birthDate));
-		immunizationScoreList.add(getValidDisplayNameScoreCard(immunizations));
-		immunizationScoreList.add(getValidImmunizationCodeScoreCard(immunizations));
-		immunizationScoreList.add(getNarrativeStructureIdScore(immunizations));
+		immunizationScoreList.add(getTimePrecisionScore(immunizations,docType));
+		immunizationScoreList.add(getValidDateTimeScore(immunizations,birthDate,docType));
+		immunizationScoreList.add(getValidDisplayNameScoreCard(immunizations,docType));
+		immunizationScoreList.add(getValidImmunizationCodeScoreCard(immunizations,docType));
+		immunizationScoreList.add(getNarrativeStructureIdScore(immunizations,docType));
 		
 		immunizationCategory.setCategoryRubrics(immunizationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(immunizationScoreList, immunizationCategory);
@@ -37,7 +37,7 @@ public class ImmunizationScorecard {
 		
 	}
 	
-	public CCDAScoreCardRubrics getTimePrecisionScore(CCDAImmunization immunizatons)
+	public CCDAScoreCardRubrics getTimePrecisionScore(CCDAImmunization immunizatons,String docType)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
 		timePrecisionScore.setRule(ApplicationConstants.TIME_PRECISION_REQUIREMENT);
@@ -56,7 +56,8 @@ public class ImmunizationScorecard {
 					if(immunizationActivity.getTime() != null)
 					{
 						if(ApplicationUtil.validateDayFormat(immunizationActivity.getTime().getValue()) ||
-								ApplicationUtil.validateMonthFormat(immunizationActivity.getTime().getValue()))
+								ApplicationUtil.validateMinuteFormat(immunizationActivity.getTime().getValue()) ||
+								ApplicationUtil.validateSecondFormat(immunizationActivity.getTime().getValue()))
 						{
 							actualPoints++;
 						}
@@ -101,14 +102,20 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
-			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_ACTIVITY.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_ACTIVITY.getIgReference());
+			}else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.IMMUNIZATION_ACTIVITY.getIgReference());
+			}
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.IMMUNIZATIONS.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAImmunization immunizatons, String birthDate)
+	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAImmunization immunizatons, String birthDate,String docType)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
 		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -172,14 +179,21 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
-			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_ACTIVITY.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_ACTIVITY.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.IMMUNIZATION_ACTIVITY.getIgReference());
+			}
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.IMMUNIZATIONS.getTaskforceLink());
 		}
 		return validateTimeScore;
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAImmunization immunizatons)
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAImmunization immunizatons,String docType)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
@@ -286,13 +300,19 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_SECTION.getIgReference());
+			}else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.IMMUNIZATION_SECTION.getIgReference());
+			}
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.IMMUNIZATIONS.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidImmunizationCodeScoreCard(CCDAImmunization immunizations)
+	public CCDAScoreCardRubrics getValidImmunizationCodeScoreCard(CCDAImmunization immunizations,String docType)
 	{
 		CCDAScoreCardRubrics validateImmuCodeScore = new CCDAScoreCardRubrics();
 		validateImmuCodeScore.setRule(ApplicationConstants.IMMU_CODE_REQ);
@@ -365,13 +385,20 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateImmuCodeScore.setDescription(ApplicationConstants.IMMU_CODE_DESC);
-			validateImmuCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_ACTIVITY.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateImmuCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_ACTIVITY.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateImmuCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.IMMUNIZATION_ACTIVITY.getIgReference());
+			}
 			validateImmuCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.IMMUNIZATIONS.getTaskforceLink());
 		}
 		return validateImmuCodeScore;
 	}
 	
-	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAImmunization immunizations)
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAImmunization immunizations,String docType)
 	{
 		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
 		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
@@ -430,7 +457,13 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_SECTION.getIgReference());
+			}else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.IMMUNIZATION_SECTION.getIgReference());
+			}
 			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.IMMUNIZATIONS.getTaskforceLink());
 		}
 		

@@ -22,20 +22,20 @@ public class VitalsScorecard {
 	@Autowired
 	VitalsRepository vitalsRepository;
 	
-	public Category getVitalsCategory(CCDAVitalSigns vitals, String birthDate)
+	public Category getVitalsCategory(CCDAVitalSigns vitals, String birthDate,String docType)
 	{
 		
 		Category vitalsCategory = new Category();
 		vitalsCategory.setCategoryName(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> vitalsScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		vitalsScoreList.add(getTimePrecisionScore(vitals));
-		vitalsScoreList.add(getValidDateTimeScore(vitals,birthDate));
-		vitalsScoreList.add(getValidDisplayNameScoreCard(vitals));
-		vitalsScoreList.add(getValidLoincCodesScore(vitals));
-		vitalsScoreList.add(getValidUCUMScore(vitals));
-		vitalsScoreList.add(getApprEffectivetimeScore(vitals));
-		vitalsScoreList.add(getNarrativeStructureIdScore(vitals));
+		vitalsScoreList.add(getTimePrecisionScore(vitals,docType));
+		vitalsScoreList.add(getValidDateTimeScore(vitals,birthDate,docType));
+		vitalsScoreList.add(getValidDisplayNameScoreCard(vitals,docType));
+		vitalsScoreList.add(getValidLoincCodesScore(vitals,docType));
+		vitalsScoreList.add(getValidUCUMScore(vitals,docType));
+		vitalsScoreList.add(getApprEffectivetimeScore(vitals,docType));
+		vitalsScoreList.add(getNarrativeStructureIdScore(vitals,docType));
 		
 		vitalsCategory.setCategoryRubrics(vitalsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(vitalsScoreList, vitalsCategory);
@@ -45,7 +45,7 @@ public class VitalsScorecard {
 	}
 	
 	
-	public CCDAScoreCardRubrics getTimePrecisionScore(CCDAVitalSigns vitals)
+	public CCDAScoreCardRubrics getTimePrecisionScore(CCDAVitalSigns vitals,String docType)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
 		timePrecisionScore.setRule(ApplicationConstants.TIME_PRECISION_REQUIREMENT);
@@ -65,7 +65,9 @@ public class VitalsScorecard {
 					{
 						if(vitalOrg.getEffTime().getLow() != null)
 						{
-							if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getLow().getValue()))
+							if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getLow().getValue()) ||
+									ApplicationUtil.validateMinuteFormat(vitalOrg.getEffTime().getLow().getValue()) ||
+									ApplicationUtil.validateSecondFormat(vitalOrg.getEffTime().getLow().getValue()))
 							{
 								actualPoints++;
 							}
@@ -86,7 +88,9 @@ public class VitalsScorecard {
 						}
 						if(vitalOrg.getEffTime().getHigh() != null)
 						{
-							if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getHigh().getValue()))
+							if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getHigh().getValue()) ||
+									ApplicationUtil.validateMinuteFormat(vitalOrg.getEffTime().getHigh().getValue()) ||
+									ApplicationUtil.validateSecondFormat(vitalOrg.getEffTime().getHigh().getValue()))
 							{
 								actualPoints++;
 							}
@@ -121,7 +125,8 @@ public class VitalsScorecard {
 							maxPoints++;
 							if(vitalObs.getMeasurementTime() != null)
 							{
-								if(ApplicationUtil.validateMinuteFormat(vitalObs.getMeasurementTime().getValue()))
+								if(ApplicationUtil.validateMinuteFormat(vitalObs.getMeasurementTime().getValue()) ||
+										ApplicationUtil.validateSecondFormat(vitalObs.getMeasurementTime().getValue()))
 								{
 									actualPoints++;
 								}
@@ -168,14 +173,20 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
-			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_ORGANIZER.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_ORGANIZER.getIgReference());
+			}else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.VITAL_SIGN_ORGANIZER.getIgReference());
+			}
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAVitalSigns vitals, String birthDate)
+	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAVitalSigns vitals, String birthDate,String docType)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
 		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -298,13 +309,20 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
-			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_ORGANIZER.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_ORGANIZER.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.VITAL_SIGN_ORGANIZER.getIgReference());
+			}
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		return validateTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAVitalSigns vitals)
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAVitalSigns vitals,String docType)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
@@ -420,13 +438,20 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.VITAL_SIGN_SECTION.getIgReference());
+			}
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidUCUMScore(CCDAVitalSigns vitals)
+	public CCDAScoreCardRubrics getValidUCUMScore(CCDAVitalSigns vitals,String docType)
 	{
 		CCDAScoreCardRubrics validateUCUMScore = new CCDAScoreCardRubrics();
 		validateUCUMScore.setRule(ApplicationConstants.VITAL_UCUM_REQUIREMENT);
@@ -506,13 +531,20 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateUCUMScore.setDescription(ApplicationConstants.VITAL_UCUM_DESCRIPTION);
-			validateUCUMScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_OBSERVATION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateUCUMScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_OBSERVATION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateUCUMScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.VITAL_SIGN_OBSERVATION.getIgReference());
+			}
 			validateUCUMScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		return validateUCUMScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidLoincCodesScore(CCDAVitalSigns vitals)
+	public CCDAScoreCardRubrics getValidLoincCodesScore(CCDAVitalSigns vitals,String docType)
 	{
 		CCDAScoreCardRubrics validatLoincCodeScore = new CCDAScoreCardRubrics();
 		validatLoincCodeScore.setRule(ApplicationConstants.VITAL_LOINC_REQUIREMENT);
@@ -581,14 +613,21 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validatLoincCodeScore.setDescription(ApplicationConstants.VITAL_LOINC_DESCRIPTION);
-			validatLoincCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_OBSERVATION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validatLoincCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_OBSERVATION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validatLoincCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.VITAL_SIGN_OBSERVATION.getIgReference());
+			}
 			validatLoincCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		return validatLoincCodeScore;
 		
 	}
 	
-	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDAVitalSigns vitals)
+	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDAVitalSigns vitals, String docType)
 	{
 		CCDAScoreCardRubrics validateApprEffectiveTimeScore = new CCDAScoreCardRubrics();
 		validateApprEffectiveTimeScore.setRule(ApplicationConstants.VITAL_AAPR_DATE_REQUIREMENT);
@@ -634,6 +673,12 @@ public class VitalsScorecard {
 							    }
 							}
 						}
+					}else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(vitalOrg.getLineNumber());
+						issue.setXmlString(vitalOrg.getXmlString());
+						issuesList.add(issue);
 					}
 				}
 			}
@@ -661,13 +706,20 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.VITAL_AAPR_DATE_DESCRIPTION);
-			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_ORGANIZER.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_ORGANIZER.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.VITAL_SIGN_ORGANIZER.getIgReference());
+			}
 			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		return validateApprEffectiveTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAVitalSigns vitals)
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAVitalSigns vitals,String docType)
 	{
 		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
 		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
@@ -725,7 +777,14 @@ public class VitalsScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.VITAL_SIGN_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.VITAL_SIGN_SECTION.getIgReference());
+			}
 			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.VITALSIGNS.getTaskforceLink());
 		}
 		
