@@ -1,12 +1,15 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.sitenv.ccdaparsing.model.CCDAAllergyConcern;
 import org.sitenv.ccdaparsing.model.CCDAAllergyObs;
 import org.sitenv.ccdaparsing.model.CCDAEncounterActivity;
 import org.sitenv.ccdaparsing.model.CCDAEncounterDiagnosis;
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAImmunizationActivity;
 import org.sitenv.ccdaparsing.model.CCDALabResultObs;
@@ -44,10 +47,65 @@ public class MiscScorecard {
 		
 		List<CCDAScoreCardRubrics> miscScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		miscScoreList.add(getTemplateIdScore(ccdaModels));
+		miscScoreList.add(getUniqueIdScore(ccdaModels));
 		miscCategory.setCategoryRubrics(miscScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(miscScoreList,miscCategory);
 		
 		return miscCategory;
+	}
+	
+	public CCDAScoreCardRubrics getUniqueIdScore(CCDARefModel ccdaModels)
+	{
+		CCDAScoreCardRubrics uniqeIdScore = new CCDAScoreCardRubrics();
+		uniqeIdScore.setRule(ApplicationConstants.UNIQUEID_REQ);
+		
+		int actualPoints =0;
+		int maxPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		
+		List<CCDAID> duplicates = new ArrayList<CCDAID>();
+		Set<CCDAID> set = new HashSet<CCDAID>();
+		for(CCDAID id : ccdaModels.getIdList())
+		{
+		    if(!set.add(id))
+		    {
+		        duplicates.add(id);
+		    }
+		}
+		
+		maxPoints = ccdaModels.getIdList().size();
+		actualPoints = set.size();
+		
+		for (CCDAID id : duplicates)
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber(id.getLineNumber());
+			issue.setXmlString(id.getXmlString());
+			issuesList.add(issue);
+		}
+		
+		if(maxPoints==0)
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("All sections are empty");
+			issue.setXmlString("All sections are empty");
+			issuesList.add(issue);
+		}
+		
+		uniqeIdScore.setActualPoints(actualPoints);
+		uniqeIdScore.setMaxPoints(maxPoints);
+		uniqeIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		uniqeIdScore.setIssuesList(issuesList);
+		uniqeIdScore.setNumberOfIssues(issuesList.size());
+		
+		if(issuesList.size() > 0)
+		{
+			uniqeIdScore.setDescription(ApplicationConstants.UNIQUEID_DESC);
+			uniqeIdScore.getIgReferences().add(ApplicationConstants.IG_URL);
+			uniqeIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_URL);
+		}
+		return uniqeIdScore;
 	}
 	
 	

@@ -18,21 +18,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProblemsScorecard {
 	
-	public Category getProblemsCategory(CCDAProblem problems, String birthDate)
+	public Category getProblemsCategory(CCDAProblem problems, String birthDate,String docType)
 	{
 		
 		Category problemsCategory = new Category();
 		problemsCategory.setCategoryName(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> problemsScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		problemsScoreList.add(getTimePrecisionScore(problems));
-		problemsScoreList.add(getValidDateTimeScore(problems,birthDate));
-		problemsScoreList.add(getValidDisplayNameScoreCard(problems));
-		problemsScoreList.add(getValidProblemCodeScoreCard(problems));
-		problemsScoreList.add(getValidStatusCodeScoreCard(problems));
-		problemsScoreList.add(getApprEffectivetimeScore(problems));
-		problemsScoreList.add(getApprStatusCodeScore(problems));
-		problemsScoreList.add(getNarrativeStructureIdScore(problems));
+		problemsScoreList.add(getTimePrecisionScore(problems,docType));
+		problemsScoreList.add(getValidDateTimeScore(problems,birthDate,docType));
+		problemsScoreList.add(getValidDisplayNameScoreCard(problems,docType));
+		problemsScoreList.add(getValidProblemCodeScoreCard(problems,docType));
+		problemsScoreList.add(getValidStatusCodeScoreCard(problems,docType));
+		problemsScoreList.add(getApprEffectivetimeScore(problems,docType));
+		problemsScoreList.add(getApprStatusCodeScore(problems,docType));
+		problemsScoreList.add(getNarrativeStructureIdScore(problems,docType));
 		
 		ApplicationUtil.calculateSectionGradeAndIssues(problemsScoreList, problemsCategory);
 		
@@ -43,7 +43,7 @@ public class ProblemsScorecard {
 	}
 	
 	
-	public  CCDAScoreCardRubrics getTimePrecisionScore(CCDAProblem problem)
+	public  CCDAScoreCardRubrics getTimePrecisionScore(CCDAProblem problem,String docType)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
 		timePrecisionScore.setRule(ApplicationConstants.TIME_PRECISION_REQUIREMENT);
@@ -198,13 +198,20 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
-			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_CONCERN_ACT.getIgReference());
+			}
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
 	
-	public  CCDAScoreCardRubrics getValidDateTimeScore(CCDAProblem problem,String birthDate)
+	public  CCDAScoreCardRubrics getValidDateTimeScore(CCDAProblem problem,String birthDate,String docType)
 	{
 		CCDAScoreCardRubrics validDateTimeScore = new CCDAScoreCardRubrics();
 		validDateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -346,13 +353,20 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validDateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
-			validDateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validDateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			}
+			else if(docType.equalsIgnoreCase("R1.1"))
+			{
+				validDateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_CONCERN_ACT.getIgReference());
+			}
 			validDateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validDateTimeScore;
 	}
 	
-	public  CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAProblem problems)
+	public  CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAProblem problems,String docType)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
@@ -489,13 +503,19 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_SECTION.getIgReference());
+			}else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_SECTION.getIgReference());
+			}
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
 	
-	public  CCDAScoreCardRubrics getValidProblemCodeScoreCard(CCDAProblem problems)
+	public  CCDAScoreCardRubrics getValidProblemCodeScoreCard(CCDAProblem problems,String docType)
 	{
 		CCDAScoreCardRubrics validateProblemCodeScore = new CCDAScoreCardRubrics();
 		validateProblemCodeScore.setRule(ApplicationConstants.PROBLEMS_CODE_LOINC_REQUIREMENT);
@@ -566,7 +586,14 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateProblemCodeScore.setDescription("code validation Rubric failed for Problems");
-			validateProblemCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_OBSERVATION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateProblemCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_OBSERVATION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R2.1"))
+			{
+				validateProblemCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_OBSERVATION.getIgReference());
+			}
 			validateProblemCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateProblemCodeScore;
@@ -574,7 +601,7 @@ public class ProblemsScorecard {
 	}
 	
 	
-	public  CCDAScoreCardRubrics getValidStatusCodeScoreCard(CCDAProblem problems)
+	public  CCDAScoreCardRubrics getValidStatusCodeScoreCard(CCDAProblem problems,String docType)
 	{
 		CCDAScoreCardRubrics validateStatusCodeScore = new CCDAScoreCardRubrics();
 		validateStatusCodeScore.setRule(ApplicationConstants.PROBLEM_APR_TIME_REQ);
@@ -630,13 +657,19 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateStatusCodeScore.setDescription(ApplicationConstants.PROBLEM_APR_TIME_DESC);
-			validateStatusCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateStatusCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			}else if(docType.equalsIgnoreCase("R1.1"))
+			{
+				validateStatusCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_CONCERN_ACT.getIgReference());
+			}
 			validateStatusCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateStatusCodeScore;
 	}
 	
-	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDAProblem problems)
+	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDAProblem problems,String docType)
 	{
 		CCDAScoreCardRubrics validateApprEffectiveTimeScore = new CCDAScoreCardRubrics();
 		validateApprEffectiveTimeScore.setRule(ApplicationConstants.PROBLEM_TIME_CNST_REQ);
@@ -709,13 +742,19 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.PROBLEM_TIME_CNST_DESC);
-			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			}else if (docType.equalsIgnoreCase("R2.1"))
+			{
+				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_CONCERN_ACT.getIgReference());
+			}
 			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateApprEffectiveTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getApprStatusCodeScore(CCDAProblem problems)
+	public CCDAScoreCardRubrics getApprStatusCodeScore(CCDAProblem problems,String docType)
 	{
 		CCDAScoreCardRubrics validateApprEffectiveTimeScore = new CCDAScoreCardRubrics();
 		validateApprEffectiveTimeScore.setRule(ApplicationConstants.PROBLEM_APR_STATUS_REQ);
@@ -782,13 +821,19 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.PROBLEM_APR_STATUS_REQ);
-			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			}else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+			}
 			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		return validateApprEffectiveTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAProblem problems)
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAProblem problems,String docType)
 	{
 		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
 		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
@@ -845,7 +890,14 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_SECTION.getIgReference());
+			}
 			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}
 		

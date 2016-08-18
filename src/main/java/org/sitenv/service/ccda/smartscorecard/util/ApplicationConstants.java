@@ -77,6 +77,10 @@ public class ApplicationConstants {
 	public static final String TEMPLATEID_DESC = "All Template Ids should be Valid";
 	public static final String TEMPLATEID_REQ = "All Template Ids should be correct";
 	
+	public static final String UNIQUEID_DESC = "Instance Identifiers should be unique";
+	public static final String UNIQUEID_REQ = "Generally, the identifiers found within a CDA document should be unique and non-reoccurring within the same document.";
+	
+	
 	public static final String IMMU_CODE_REQ = "Immunizations coded with CVX codes";
 	public static final String IMMU_CODE_DESC = "Each Immunization code should be validated aganist CVX Vaccines Administered valueset";
 	
@@ -375,6 +379,50 @@ public class ApplicationConstants {
 		
 		
 		private IG_REFERENCES(final String igReferences)
+		{
+			this.igReferences = igReferences;
+		}
+
+		public String getIgReference()
+		{
+			return igReferences;
+		}
+	}
+	
+	
+	public static enum IG_REFERENCES_R1
+	{
+		RECORD_TARGET("Section 2.2.1 RecordTarget"),
+		ENCOUNTER_ACTIVITY("Section 5.21 Encounter Activities"),
+		ENCOUNTER_SECTION("Section 4.11 Encounters"),
+		ALLERGY_CONCERN("Section 5.5 Allergy Problem Act"),
+		ALLERGY_SECTION("Section 4.2 Allergies"),
+		PROBLEM_OBSERVATION("Section 5.59	Problem Observation"), 
+		PROBLEM_SECTION("Section 4.44 Problem Section"),
+		PROBLEM_CONCERN_ACT("Section 5.58 Problem Concern Act"),
+		MEDICATION_SECTION("Section 4.33 Medications Section "), 
+		MEDICATION_ACTIVITY("Section 5.39 Medication Activity"),
+		IMMUNIZATION_ACTIVITY("Section 5.34 Immunization Activity"), 
+		IMMUNIZATION_SECTION("Section 4.27 Immunizations Section"),
+		SOCIAL_HISTORY_SECTION("Section 4.57 Social History Section"), 
+		SMOKING_STATUS("Section 5.75 Smoking Status Observation"),
+		SOCIAL_HISTORY_OBSERVATION("Section 5.76 Social History Observation"),
+		TOBACCO_USE("Section 5.80 Tobacco Use"),
+		RESULT_SECTION("Section 4.55 Results Section"),
+		RESULT_ORGANIZER("Section 5.71 Result Organizer"),
+		RESULT_OBSERVATION("Section 5.70 Result Observation"),
+		VITAL_SIGN_ORGANIZER("Section 5.82 Vital Signs Organizer "),
+		VITAL_SIGN_OBSERVATION("Section 5.81 Vital Sign Observation"), 
+		VITAL_SIGN_SECTION("Section 4.60 Vital Sign Section"),
+		PROCEDURE_SECTION("Section 4.52 Procedures Section"),
+		PROCEDURE_ACTIVITY_OBSERVATION("Section 5.62 Procedure Activity Observation"),
+		TEMPLATE_IDS("Appendix C : Template ID's in this Guide");
+		
+		
+		private String igReferences; 
+		
+		
+		private IG_REFERENCES_R1(final String igReferences)
 		{
 			this.igReferences = igReferences;
 		}

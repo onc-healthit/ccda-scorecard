@@ -18,19 +18,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class SocialHistoryScorecard {
 	
-	public Category getSocialHistoryCategory(CCDASocialHistory socialHistory, String birthDate)
+	public Category getSocialHistoryCategory(CCDASocialHistory socialHistory, String birthDate,String docType)
 	{
 		
 		Category socialHistoryCategory = new Category();
 		socialHistoryCategory.setCategoryName(ApplicationConstants.CATEGORIES.SOCIALHISTORY.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> socialHistoryScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		socialHistoryScoreList.add(getTimePrecisionScore(socialHistory));
-		socialHistoryScoreList.add(getValidDateTimeScore(socialHistory,birthDate));
-		socialHistoryScoreList.add(getValidDisplayNameScoreCard(socialHistory));
-		socialHistoryScoreList.add(getValidSmokingStatusScore(socialHistory));
-		socialHistoryScoreList.add(getValidSmokingStatuIdScore(socialHistory));
-		socialHistoryScoreList.add(getNarrativeStructureIdScore(socialHistory));
+		socialHistoryScoreList.add(getTimePrecisionScore(socialHistory,docType));
+		socialHistoryScoreList.add(getValidDateTimeScore(socialHistory,birthDate,docType));
+		socialHistoryScoreList.add(getValidDisplayNameScoreCard(socialHistory,docType));
+		socialHistoryScoreList.add(getValidSmokingStatusScore(socialHistory,docType));
+		socialHistoryScoreList.add(getValidSmokingStatuIdScore(socialHistory,docType));
+		socialHistoryScoreList.add(getNarrativeStructureIdScore(socialHistory,docType));
 		
 		socialHistoryCategory.setCategoryRubrics(socialHistoryScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(socialHistoryScoreList, socialHistoryCategory);
@@ -39,7 +39,7 @@ public class SocialHistoryScorecard {
 		
 	}
 	
-	public  CCDAScoreCardRubrics getTimePrecisionScore(CCDASocialHistory socialHistory)
+	public  CCDAScoreCardRubrics getTimePrecisionScore(CCDASocialHistory socialHistory,String docType)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
 		timePrecisionScore.setRule(ApplicationConstants.TIME_PRECISION_REQUIREMENT);
@@ -142,13 +142,19 @@ public class SocialHistoryScorecard {
 		if(issuesList.size() > 0)
 	    {
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
-			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SOCIAL_HISTORY_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SOCIAL_HISTORY_SECTION.getIgReference());
+			}else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.SOCIAL_HISTORY_SECTION.getIgReference());
+			}
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
 	
-	public  CCDAScoreCardRubrics getValidDateTimeScore(CCDASocialHistory socialHistory, String birthDate)
+	public  CCDAScoreCardRubrics getValidDateTimeScore(CCDASocialHistory socialHistory, String birthDate,String docType)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
 		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -244,13 +250,20 @@ public class SocialHistoryScorecard {
 		if(issuesList.size() > 0)
 	    {
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
-			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SOCIAL_HISTORY_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SOCIAL_HISTORY_SECTION.getIgReference());
+			}
+			else if(docType.equalsIgnoreCase("R1.1"))
+			{
+				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.SOCIAL_HISTORY_SECTION.getIgReference());
+			}
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
 		}
 		return validateTimeScore;
 	}
 	
-	public  CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDASocialHistory socialHistory)
+	public  CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDASocialHistory socialHistory,String docType)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
@@ -364,13 +377,19 @@ public class SocialHistoryScorecard {
 		if(issuesList.size() > 0)
 	    {
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SOCIAL_HISTORY_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SOCIAL_HISTORY_SECTION.getIgReference());
+			}else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.SOCIAL_HISTORY_SECTION.getIgReference());
+			}
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
 	
-	public  CCDAScoreCardRubrics getValidSmokingStatusScore(CCDASocialHistory socialHistory)
+	public  CCDAScoreCardRubrics getValidSmokingStatusScore(CCDASocialHistory socialHistory,String docType)
 	{
 		CCDAScoreCardRubrics validSmokingStausScore = new CCDAScoreCardRubrics();
 		validSmokingStausScore.setRule(ApplicationConstants.SOCIALHISTORY_SMOKING_STATUS_REQUIREMENT);
@@ -426,13 +445,19 @@ public class SocialHistoryScorecard {
 		if(issuesList.size() > 0)
 	    {
 			validSmokingStausScore.setDescription("smoking status code  validation Rubric failed for Social History");
-			validSmokingStausScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SMOKING_STATUS.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validSmokingStausScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SMOKING_STATUS.getIgReference());
+			}else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validSmokingStausScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.SMOKING_STATUS.getIgReference());
+			}
 			validSmokingStausScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
 		}
 		return validSmokingStausScore;
 	}
 	
-	public static CCDAScoreCardRubrics getValidSmokingStatuIdScore(CCDASocialHistory socialHistory)
+	public static CCDAScoreCardRubrics getValidSmokingStatuIdScore(CCDASocialHistory socialHistory,String docType)
 	{
 		CCDAScoreCardRubrics validSmokingStausIDScore = new CCDAScoreCardRubrics();
 		validSmokingStausIDScore.setRule(ApplicationConstants.SOCIALHISTORY_SMOKING_STATUS_OBS_ID_REQUIREMENT);
@@ -499,13 +524,20 @@ public class SocialHistoryScorecard {
 		if(issuesList.size() > 0)
 	    {
 			validSmokingStausIDScore.setDescription("smoking status observation validation Rubric failed for Social History");
-			validSmokingStausIDScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SMOKING_STATUS.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validSmokingStausIDScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SMOKING_STATUS.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validSmokingStausIDScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.SMOKING_STATUS.getIgReference());
+			}
 			validSmokingStausIDScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
 		}
 		return validSmokingStausIDScore;
 	}
 	
-	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDASocialHistory socialHistory)
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDASocialHistory socialHistory,String docType)
 	{
 		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
 		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
@@ -587,7 +619,14 @@ public class SocialHistoryScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SOCIAL_HISTORY_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SOCIAL_HISTORY_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.SOCIAL_HISTORY_SECTION.getIgReference());
+			}
 			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
 		}
 		
