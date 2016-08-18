@@ -442,7 +442,7 @@ public class SaveReportController {
 					e.printStackTrace();
 				}
 			}
-			ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
+			//ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
 		}
 	}
 
