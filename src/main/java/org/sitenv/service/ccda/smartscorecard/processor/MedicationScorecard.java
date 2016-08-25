@@ -18,18 +18,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class MedicationScorecard {
 	
-	public Category getMedicationCategory(CCDAMedication medications, String birthDate)
+	public Category getMedicationCategory(CCDAMedication medications, String birthDate,String docType)
 	{
 		
 		Category medicationCategory = new Category();
 		medicationCategory.setCategoryName(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> medicationScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		medicationScoreList.add(getTimePrecisionScore(medications));
-		medicationScoreList.add(getValidDateTimeScore(medications, birthDate));
-		medicationScoreList.add(getValidDisplayNameScoreCard(medications));
-		medicationScoreList.add(getValidMedActivityScore(medications));
-		medicationScoreList.add(getNarrativeStructureIdScore(medications));
+		medicationScoreList.add(getTimePrecisionScore(medications,docType));
+		medicationScoreList.add(getValidDateTimeScore(medications, birthDate,docType));
+		medicationScoreList.add(getValidDisplayNameScoreCard(medications,docType));
+		medicationScoreList.add(getValidMedicationCodeScoreCard(medications,docType));
+		medicationScoreList.add(getValidMedActivityScore(medications,docType));
+		medicationScoreList.add(getNarrativeStructureIdScore(medications,docType));
 		
 		medicationCategory.setCategoryRubrics(medicationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(medicationScoreList, medicationCategory);
@@ -38,7 +39,7 @@ public class MedicationScorecard {
 		
 	}
 	
-	public CCDAScoreCardRubrics getTimePrecisionScore(CCDAMedication medications)
+	public CCDAScoreCardRubrics getTimePrecisionScore(CCDAMedication medications,String docType)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
 		timePrecisionScore.setRule(ApplicationConstants.TIME_PRECISION_REQUIREMENT);
@@ -58,7 +59,8 @@ public class MedicationScorecard {
 					{
 						if(medActivity.getDuration().getSingleAdministration() != null)
 						{
-							if(ApplicationUtil.validateMinuteFormat(medActivity.getDuration().getSingleAdministration()))
+							if(ApplicationUtil.validateMinuteFormat(medActivity.getDuration().getSingleAdministration()) ||
+									ApplicationUtil.validateSecondFormat(medActivity.getDuration().getSingleAdministration()))
 							{
 								actualPoints++;
 							}
@@ -73,7 +75,9 @@ public class MedicationScorecard {
 						else if(medActivity.getDuration().getLow() != null)
 						{
 							if(ApplicationUtil.validateDayFormat(medActivity.getDuration().getLow().getValue()) ||
-									ApplicationUtil.validateMonthFormat(medActivity.getDuration().getLow().getValue()))
+									ApplicationUtil.validateMonthFormat(medActivity.getDuration().getLow().getValue()) ||
+									ApplicationUtil.validateMinuteFormat(medActivity.getDuration().getLow().getValue()) ||
+									ApplicationUtil.validateSecondFormat(medActivity.getDuration().getLow().getValue()))
 							{
 								actualPoints++;
 							}else
@@ -87,7 +91,9 @@ public class MedicationScorecard {
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDayFormat(medActivity.getDuration().getHigh().getValue()) ||
-										ApplicationUtil.validateMonthFormat(medActivity.getDuration().getHigh().getValue()))
+										ApplicationUtil.validateMonthFormat(medActivity.getDuration().getHigh().getValue()) ||
+										ApplicationUtil.validateMinuteFormat(medActivity.getDuration().getHigh().getValue()) ||
+										ApplicationUtil.validateSecondFormat(medActivity.getDuration().getHigh().getValue()))
 								{
 									actualPoints++;
 								}
@@ -141,14 +147,20 @@ public class MedicationScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
-			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
+			}else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.MEDICATION_ACTIVITY.getIgReference());
+			}
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.MEDICATIONS.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAMedication medications, String birthDate)
+	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAMedication medications, String birthDate,String docType)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
 		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -250,14 +262,20 @@ public class MedicationScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
-			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
+			}else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
+			}
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.MEDICATIONS.getTaskforceLink());
 		}
 		return validateTimeScore;
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAMedication medications)
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAMedication medications,String docType)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
@@ -364,13 +382,104 @@ public class MedicationScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_SECTION.getIgReference());
+			}else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.MEDICATION_SECTION.getIgReference());
+			}
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.MEDICATIONS.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidMedActivityScore(CCDAMedication medications)
+	public CCDAScoreCardRubrics getValidMedicationCodeScoreCard(CCDAMedication medications,String docType)
+	{
+		CCDAScoreCardRubrics validateImmuCodeScore = new CCDAScoreCardRubrics();
+		validateImmuCodeScore.setRule(ApplicationConstants.MEDICATION_CODE_REQ);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(medications != null)
+		{
+			if(!ApplicationUtil.isEmpty(medications.getMedActivities()))
+			{
+				for (CCDAMedicationActivity medAct : medications.getMedActivities())
+				{
+					maxPoints++;
+					if(medAct.getConsumable()!=null)
+					{
+						if(medAct.getConsumable().getMedcode()!=null)
+						{
+							if(ApplicationUtil.validateCodeForValueset(medAct.getConsumable().getMedcode().getCode(), 
+																			ApplicationConstants.MEDICATION_CLINICAL_DRUG_VALUSET_OID))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(medAct.getConsumable().getMedcode().getLineNumber());
+								issue.setXmlString(medAct.getConsumable().getMedcode().getXmlString());
+								issuesList.add(issue);
+							}
+						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(medAct.getConsumable().getLineNumber());
+							issue.setXmlString(medAct.getConsumable().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(medAct.getLineNumber());
+						issue.setXmlString(medAct.getXmlString());
+						issuesList.add(issue);
+					}
+				}
+			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(medications.getLineNumber());
+				issue.setXmlString(medications.getXmlString());
+				issuesList.add(issue);
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Medications section not present");
+			issue.setXmlString("Medications section not present");
+			issuesList.add(issue);
+		}
+		validateImmuCodeScore.setActualPoints(actualPoints);
+		validateImmuCodeScore.setMaxPoints(maxPoints);
+		validateImmuCodeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		validateImmuCodeScore.setIssuesList(issuesList);
+		validateImmuCodeScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			validateImmuCodeScore.setDescription(ApplicationConstants.MEDICATION_CODE_DISPLAYNAME_REQUIREMENT);
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateImmuCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
+			}else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateImmuCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.MEDICATION_ACTIVITY.getIgReference());
+			}
+			validateImmuCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.MEDICATIONS.getTaskforceLink());
+		}
+		return validateImmuCodeScore;
+	}
+	
+	public CCDAScoreCardRubrics getValidMedActivityScore(CCDAMedication medications,String docType)
 	{
 		CCDAScoreCardRubrics validateMedActivityScore = new CCDAScoreCardRubrics();
 		validateMedActivityScore.setRule(ApplicationConstants.IMMU_NOTIN_MED_REQ);
@@ -437,13 +546,20 @@ public class MedicationScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateMedActivityScore.setDescription(ApplicationConstants.IMMU_NOTIN_MED_DESC);
-			validateMedActivityScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateMedActivityScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
+			}
+			else if(docType.equalsIgnoreCase("R1.1"))
+			{
+				validateMedActivityScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.MEDICATION_ACTIVITY.getIgReference());
+			}
 			validateMedActivityScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.MEDICATIONS.getTaskforceLink());
 		}
 		return validateMedActivityScore;
 	}
 	
-	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAMedication medications)
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAMedication medications,String docType)
 	{
 		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
 		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
@@ -501,7 +617,14 @@ public class MedicationScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.MEDICATION_SECTION.getIgReference());
+			}
 			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.MEDICATIONS.getTaskforceLink());
 		}
 		
