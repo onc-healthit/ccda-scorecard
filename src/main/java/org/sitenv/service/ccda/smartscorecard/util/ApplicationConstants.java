@@ -9,7 +9,7 @@ import java.util.TreeMap;
 public class ApplicationConstants {
 	
 	//set this to false for production
-	public static final boolean IN_DEVELOPMENT_MODE = false;
+	public static final boolean IN_DEVELOPMENT_MODE = true;
 	 
 	public static String FILEPATH = "C:/Projects/Dragon/CCDAParser/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	
@@ -77,8 +77,16 @@ public class ApplicationConstants {
 	public static final String TEMPLATEID_DESC = "All Template Ids should be Valid";
 	public static final String TEMPLATEID_REQ = "All Template Ids should be correct";
 	
+	public static final String UNIQUEID_DESC = "Instance Identifiers should be unique";
+	public static final String UNIQUEID_REQ = "Generally, the identifiers found within a CDA document should be unique and non-reoccurring within the same document.";
+	
+	
 	public static final String IMMU_CODE_REQ = "Immunizations coded with CVX codes";
 	public static final String IMMU_CODE_DESC = "Each Immunization code should be validated aganist CVX Vaccines Administered valueset";
+	
+	public static final String MEDICATION_CODE_REQ = "Medications coded with RxNorm SCD, SBD, GPCK, or BPCPK codes";
+	public static final String MEDICATION_CODE_DESC = "C-CDA medication lists should contain medications coded as RxNorm Semantic Clinical Drugs, "
+							+ "Semantic Branded Drugs, and packs. This means prescribable products on the level of 'loratadine 10mg oral tablet'.";
 	
 	
 	
@@ -165,20 +173,36 @@ public class ApplicationConstants {
 	public static final String SECOND_FORMAT = "yyyyMMddHHmmssZ";
 	public static final String SECOND_PATTERN = "\\d{8}-\\d{4}";
 	
-	private static final String CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org",
+	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
+	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:7080",
+			CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org",
 			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
 			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
 			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
 			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
-			REFERENCE_CCDA_SERVICE = "/referenceccdaservice/";	
+			REFERENCE_CCDA_SERVICE = "/referenceccdaservice/",
+			CCDA_SCORECARD_SERVICE = "/ccda-smart-scorecard/ccdascorecardservice",
+			SAVE_SCORECARD_SERVICE_BACKEND = "/ccda-smart-scorecard/savescorecardservicebackend";
+	// ensure when WAR is headed to the dev server that DEFAULT_LOCAL_SERVER_URL
+	// is replaced with CCDA_DEV_SERVER_URL in the following Strings
 	public static final String CODE_DISPLAYNAME_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL) + CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
+			: CCDA_PROD_SERVER_URL)
+			+ CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
 	public static final String CODE_VALUSET_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL) + CODE_IN_VALUESET_SERVICE;	
+			: CCDA_PROD_SERVER_URL)
+			+ CODE_IN_VALUESET_SERVICE;
 	public static final String CODE_CODESYSTEM_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL) + CODE_IN_CODESYSTEM_SERVICE;	
+			: CCDA_PROD_SERVER_URL)
+			+ CODE_IN_CODESYSTEM_SERVICE;
 	public static final String REFERENCE_VALIDATOR_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL) + REFERENCE_CCDA_SERVICE;
+			: CCDA_PROD_SERVER_URL)
+			+ REFERENCE_CCDA_SERVICE;
+	public static final String SAVESCORECARDSERVICEBACKEND_URL = (IN_DEVELOPMENT_MODE ? DEFAULT_LOCAL_SERVER_URL
+			: CCDA_PROD_SERVER_URL)
+			+ SAVE_SCORECARD_SERVICE_BACKEND;
+	public static final String CCDASCORECARDSERVICE_URL = (IN_DEVELOPMENT_MODE ? DEFAULT_LOCAL_SERVER_URL
+			: CCDA_PROD_SERVER_URL)
+			+ CCDA_SCORECARD_SERVICE;
 	
 	public static final ArrayList<String> SMOKING_STATUS_CODES = new ArrayList<String>(
 		    Arrays.asList("449868002", "428041000124106", "8517006","266919005","77176002","266927001","428071000124103","428061000124105"));
@@ -189,6 +213,7 @@ public class ApplicationConstants {
 	public static final String HITSP_VITAL_VALUESET_OID = "2.16.840.1.113883.3.88.12.80.62";
 	public static final String PROBLEM_TYPE_VALUESET_OID = "2.16.840.1.113883.3.88.12.3221.7.2";
 	public static final String CVX_CODES_VALUSET_OID = "2.16.840.1.113762.1.4.1010.6";
+	public static final String MEDICATION_CLINICAL_DRUG_VALUSET_OID = "2.16.840.1.113762.1.4.1010.4";
 	
 	public static final String SNOMEDCT_CODE_SYSTEM_NAME = "SNOMED-CT";
 	public static final String SNOMEDCT_CODE_SYSTEM = "2.16.840.1.113883.6.96";
@@ -307,13 +332,18 @@ public class ApplicationConstants {
 		}
 
 	}
+	
 	public static class Error {
 		public static final String CONTACT = "Please report this issue to TestingServices@sitenv.org.";
 		public static final String GENERIC = "An Unknown error has occurred. ";
 		public static final String GENERIC_WITH_CONTACT = "An Unknown error has occurred. "
 				+ CONTACT;
+		public static final String GENERIC_DIFFERENT_FILE_OR_TIME = "Please try a different file or try again at another time.";
 		public static final String JSON_TO_JAVA_JACKSON = "An error occurred while converting the Scorecard service JSON response to a Java object via the Jackson API.";
+		public static final String RESULTS_ARE_NULL = "Note for the developers: The ResponseTO results are null.";
 		public static final String IS_SUCCESS_FALSE = "Note for the developers: isSuccess is equal to false.";
+		public static final String NULL_RESULT_ON_SAVESCORECARDSERVICEBACKEND_CALL = "Error: savescorecardservicebackend did not receive any results (null) from ccdascorecardservice."
+				+ " " + GENERIC_DIFFERENT_FILE_OR_TIME;
 	}
 
 	public static enum IG_REFERENCES
@@ -349,6 +379,50 @@ public class ApplicationConstants {
 		
 		
 		private IG_REFERENCES(final String igReferences)
+		{
+			this.igReferences = igReferences;
+		}
+
+		public String getIgReference()
+		{
+			return igReferences;
+		}
+	}
+	
+	
+	public static enum IG_REFERENCES_R1
+	{
+		RECORD_TARGET("Section 2.2.1 RecordTarget"),
+		ENCOUNTER_ACTIVITY("Section 5.21 Encounter Activities"),
+		ENCOUNTER_SECTION("Section 4.11 Encounters"),
+		ALLERGY_CONCERN("Section 5.5 Allergy Problem Act"),
+		ALLERGY_SECTION("Section 4.2 Allergies"),
+		PROBLEM_OBSERVATION("Section 5.59	Problem Observation"), 
+		PROBLEM_SECTION("Section 4.44 Problem Section"),
+		PROBLEM_CONCERN_ACT("Section 5.58 Problem Concern Act"),
+		MEDICATION_SECTION("Section 4.33 Medications Section "), 
+		MEDICATION_ACTIVITY("Section 5.39 Medication Activity"),
+		IMMUNIZATION_ACTIVITY("Section 5.34 Immunization Activity"), 
+		IMMUNIZATION_SECTION("Section 4.27 Immunizations Section"),
+		SOCIAL_HISTORY_SECTION("Section 4.57 Social History Section"), 
+		SMOKING_STATUS("Section 5.75 Smoking Status Observation"),
+		SOCIAL_HISTORY_OBSERVATION("Section 5.76 Social History Observation"),
+		TOBACCO_USE("Section 5.80 Tobacco Use"),
+		RESULT_SECTION("Section 4.55 Results Section"),
+		RESULT_ORGANIZER("Section 5.71 Result Organizer"),
+		RESULT_OBSERVATION("Section 5.70 Result Observation"),
+		VITAL_SIGN_ORGANIZER("Section 5.82 Vital Signs Organizer "),
+		VITAL_SIGN_OBSERVATION("Section 5.81 Vital Sign Observation"), 
+		VITAL_SIGN_SECTION("Section 4.60 Vital Sign Section"),
+		PROCEDURE_SECTION("Section 4.52 Procedures Section"),
+		PROCEDURE_ACTIVITY_OBSERVATION("Section 5.62 Procedure Activity Observation"),
+		TEMPLATE_IDS("Appendix C : Template ID's in this Guide");
+		
+		
+		private String igReferences; 
+		
+		
+		private IG_REFERENCES_R1(final String igReferences)
 		{
 			this.igReferences = igReferences;
 		}

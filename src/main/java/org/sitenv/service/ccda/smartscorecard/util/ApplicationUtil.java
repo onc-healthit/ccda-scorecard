@@ -1,5 +1,7 @@
 package org.sitenv.service.ccda.smartscorecard.util;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -741,6 +743,13 @@ public class ApplicationUtil {
 	
 	public static void debugLog(String debugTopic, String debugMessage) {
 		debugLog("For " + debugTopic + ":" + System.lineSeparator() + debugMessage);
+	}
+	
+	public static String convertStackTraceToString(Exception e) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		e.printStackTrace(pw);
+		return sw.toString();
 	}
 	
 }

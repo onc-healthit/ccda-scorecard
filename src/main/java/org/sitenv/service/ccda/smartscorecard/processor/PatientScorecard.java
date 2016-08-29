@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class PatientScorecard {
 	
-	public Category getPatientCategory(CCDAPatient patient)
+	public Category getPatientCategory(CCDAPatient patient,String docType)
 	{
 		
 		Category patientCategory = new Category();
 		patientCategory.setCategoryName(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc());
 		List<CCDAScoreCardRubrics> patientScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		patientScoreList.add(getDOBTimePrecisionScore(patient));
+		patientScoreList.add(getDOBTimePrecisionScore(patient,docType));
 		
 		patientCategory.setCategoryRubrics(patientScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(patientScoreList, patientCategory);
@@ -30,7 +30,7 @@ public class PatientScorecard {
 	}
 	
 	
-	public static CCDAScoreCardRubrics getDOBTimePrecisionScore(CCDAPatient patient)
+	public static CCDAScoreCardRubrics getDOBTimePrecisionScore(CCDAPatient patient, String docType)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
 		timePrecisionScore.setRule(ApplicationConstants.PATIENT_DOB_REQUIREMENT);
@@ -43,7 +43,10 @@ public class PatientScorecard {
 		{
 			if(patient.getDob()!=null)
 			{
-				if(ApplicationUtil.validateDayFormat(patient.getDob().getValue()) && ApplicationUtil.validateDate(patient.getDob().getValue()))
+				if((ApplicationUtil.validateDayFormat(patient.getDob().getValue()) || 
+						ApplicationUtil.validateMinuteFormat(patient.getDob().getValue()) || 
+						ApplicationUtil.validateSecondFormat(patient.getDob().getValue()))
+						&& ApplicationUtil.validateDate(patient.getDob().getValue()))
 				{
 					actualPoints++;
 				}
@@ -79,7 +82,14 @@ public class PatientScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription("Time precision Rubric failed for Patient DOB");
-			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RECORD_TARGET.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RECORD_TARGET.getIgReference());
+			}
+			else if(docType.equalsIgnoreCase("R1.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RECORD_TARGET.getIgReference());
+			}
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PATIENT.getTaskforceLink());
 		}
 		return timePrecisionScore;

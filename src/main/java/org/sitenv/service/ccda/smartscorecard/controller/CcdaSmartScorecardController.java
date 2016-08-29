@@ -89,33 +89,35 @@ public class CcdaSmartScorecardController {
 		ResponseTO response = new ResponseTO();
 		String birthDate = null;
 		Results results = new Results();
+		String docType = null;
 		
 		try
 		{
 			CCDARefModel ccdaModels = CCDAParserAPI.parseCCDA2_1(ccdaFile.getInputStream());
 			if (!ccdaModels.isEmpty())
 			{
+				docType = ApplicationUtil.checkDocType(ccdaModels);
 				if(ccdaModels.getPatient() != null && ccdaModels.getPatient().getDob()!= null)
 				{
 					birthDate = ccdaModels.getPatient().getDob().getValue();
 				}
 				List<Category> categoryList = new ArrayList<Category>();
-				categoryList.add(patientScorecard.getPatientCategory(ccdaModels.getPatient()));
-				categoryList.add(encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),birthDate));
-				categoryList.add(allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),birthDate));
-				categoryList.add(problemsScorecard.getProblemsCategory(ccdaModels.getProblem(),birthDate));
-				categoryList.add(medicationScorecard.getMedicationCategory(ccdaModels.getMedication(),birthDate));
-				categoryList.add(immunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization(),birthDate));
-				categoryList.add(socialhistoryScorecard.getSocialHistoryCategory(ccdaModels.getSmokingStatus(),birthDate));
-				categoryList.add(labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),birthDate));
-				categoryList.add(vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),birthDate));
-				categoryList.add(procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),birthDate));
+				categoryList.add(patientScorecard.getPatientCategory(ccdaModels.getPatient(),docType));
+				categoryList.add(encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),birthDate,docType));
+				categoryList.add(allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),birthDate,docType));
+				categoryList.add(problemsScorecard.getProblemsCategory(ccdaModels.getProblem(),birthDate,docType));
+				categoryList.add(medicationScorecard.getMedicationCategory(ccdaModels.getMedication(),birthDate,docType));
+				categoryList.add(immunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization(),birthDate,docType));
+				categoryList.add(socialhistoryScorecard.getSocialHistoryCategory(ccdaModels.getSmokingStatus(),birthDate,docType));
+				categoryList.add(labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),birthDate,docType));
+				categoryList.add(vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),birthDate,docType));
+				categoryList.add(procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),birthDate,docType));
 				categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
 				
 				results.setCategoryList(categoryList);
 				ApplicationUtil.calculateFinalGradeAndIssues(categoryList, results);
 				results.setIgReferenceUrl(ApplicationConstants.IG_URL);
-				results.setDocType(ApplicationUtil.checkDocType(ccdaModels));
+				results.setDocType(docType);
 				scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename());
 				results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage());
 				results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored());

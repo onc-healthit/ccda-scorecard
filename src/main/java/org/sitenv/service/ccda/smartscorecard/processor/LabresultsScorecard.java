@@ -22,7 +22,7 @@ public class LabresultsScorecard {
 	@Autowired
 	LoincRepository loincRepository;
 	
-	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, String birthDate)
+	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, String birthDate,String docType)
 	{
 		
 		CCDALabResult results =null;
@@ -40,13 +40,13 @@ public class LabresultsScorecard {
 		labResultsCategory.setCategoryName(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> labResultsScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		labResultsScoreList.add(getTimePrecisionScore(results));
-		labResultsScoreList.add(getValidDateTimeScore(results,birthDate));
-		labResultsScoreList.add(getValidDisplayNameScoreCard(results));
-		labResultsScoreList.add(getValidUCUMScore(labResults));
-		labResultsScoreList.add(getValidLoincCodesScore(results));
-		labResultsScoreList.add(getApprEffectivetimeScore(results));
-		labResultsScoreList.add(getNarrativeStructureIdScore(results));
+		labResultsScoreList.add(getTimePrecisionScore(results,docType));
+		labResultsScoreList.add(getValidDateTimeScore(results,birthDate,docType));
+		labResultsScoreList.add(getValidDisplayNameScoreCard(results,docType));
+		labResultsScoreList.add(getValidUCUMScore(labResults,docType));
+		labResultsScoreList.add(getValidLoincCodesScore(results,docType));
+		labResultsScoreList.add(getApprEffectivetimeScore(results,docType));
+		labResultsScoreList.add(getNarrativeStructureIdScore(results,docType));
 		
 		labResultsCategory.setCategoryRubrics(labResultsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(labResultsScoreList, labResultsCategory);
@@ -55,7 +55,7 @@ public class LabresultsScorecard {
 		
 	}
 	
-	public CCDAScoreCardRubrics getTimePrecisionScore(CCDALabResult labResults)
+	public CCDAScoreCardRubrics getTimePrecisionScore(CCDALabResult labResults,String docType)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
 		timePrecisionScore.setRule(ApplicationConstants.TIME_PRECISION_REQUIREMENT);
@@ -75,7 +75,9 @@ public class LabresultsScorecard {
 					{
 						if(resultOrg.getEffTime().getLow() != null)
 						{
-							if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getLow().getValue()))
+							if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getLow().getValue()) ||
+									ApplicationUtil.validateMinuteFormat(resultOrg.getEffTime().getLow().getValue()) ||
+									ApplicationUtil.validateSecondFormat(resultOrg.getEffTime().getLow().getValue()))
 							{
 								actualPoints++;
 							}
@@ -96,7 +98,9 @@ public class LabresultsScorecard {
 						}
 						if(resultOrg.getEffTime().getHigh() != null)
 						{
-							if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getHigh().getValue()))
+							if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getHigh().getValue()) ||
+									ApplicationUtil.validateMinuteFormat(resultOrg.getEffTime().getHigh().getValue()) ||
+									ApplicationUtil.validateSecondFormat(resultOrg.getEffTime().getHigh().getValue()))
 							{
 								actualPoints++;
 							}
@@ -131,7 +135,9 @@ public class LabresultsScorecard {
 							maxPoints++;
 							if(resultObs.getMeasurementTime() != null)
 							{
-								if(ApplicationUtil.validateDayFormat(resultObs.getMeasurementTime().getValue()))
+								if(ApplicationUtil.validateDayFormat(resultObs.getMeasurementTime().getValue()) ||
+										ApplicationUtil.validateMinuteFormat(resultObs.getMeasurementTime().getValue()) ||
+										ApplicationUtil.validateSecondFormat(resultObs.getMeasurementTime().getValue()))
 								{
 									actualPoints++;
 								}
@@ -179,14 +185,21 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
-			timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_ORGANIZER.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_ORGANIZER.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_ORGANIZER.getIgReference());
+			}
 			timePrecisionScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS.getTaskforceLink());
 		}
 		return timePrecisionScore;
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDateTimeScore(CCDALabResult labResults, String birthDate)
+	public CCDAScoreCardRubrics getValidDateTimeScore(CCDALabResult labResults, String birthDate,String docType)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
 		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -313,13 +326,20 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
-			validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_ORGANIZER.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_ORGANIZER.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_ORGANIZER.getIgReference());
+			}
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS.getTaskforceLink());
 		}
 		return validateTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDALabResult labresults)
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDALabResult labresults,String docType)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
@@ -433,13 +453,20 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_SECTION.getIgReference());
+			}
 			validateDisplayNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS.getTaskforceLink());
 		}
 		return validateDisplayNameScore;
 	}
 	
-	public  CCDAScoreCardRubrics getValidUCUMScore(CCDALabResult labresults)
+	public  CCDAScoreCardRubrics getValidUCUMScore(CCDALabResult labresults,String docType)
 	{
 		CCDAScoreCardRubrics validateUCUMScore = new CCDAScoreCardRubrics();
 		validateUCUMScore.setRule(ApplicationConstants.RESULTS_UCUM_REQ);
@@ -520,13 +547,20 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateUCUMScore.setDescription(ApplicationConstants.RESULTS_UCUM_DESC);
-			validateUCUMScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_OBSERVATION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateUCUMScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_OBSERVATION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validateUCUMScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_OBSERVATION.getIgReference());
+			}
 			validateUCUMScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS_UCUM.getTaskforceLink());
 		}
 		return validateUCUMScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidLoincCodesScore(CCDALabResult labresults)
+	public CCDAScoreCardRubrics getValidLoincCodesScore(CCDALabResult labresults,String docType)
 	{
 		CCDAScoreCardRubrics validatLoincCodeScore = new CCDAScoreCardRubrics();
 		validatLoincCodeScore.setRule(ApplicationConstants.LABRESULTS_LOIN_CODE_REQ);
@@ -595,14 +629,21 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validatLoincCodeScore.setDescription(ApplicationConstants.LABRESULTS_LOIN_CODE_REQ);
-			validatLoincCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_OBSERVATION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validatLoincCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_OBSERVATION.getIgReference());
+			}
+			else if(docType.equalsIgnoreCase("R1.1"))
+			{
+				validatLoincCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_OBSERVATION.getIgReference());
+			}
 			validatLoincCodeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS_UCUM.getTaskforceLink());
 		}
 		return validatLoincCodeScore;
 		
 	}
 	
-	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDALabResult results)
+	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDALabResult results,String docType)
 	{
 		CCDAScoreCardRubrics validateApprEffectiveTimeScore = new CCDAScoreCardRubrics();
 		validateApprEffectiveTimeScore.setRule(ApplicationConstants.LABRESULTS_APR_TIME_REQ);
@@ -682,13 +723,20 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.LABRESULTS_APR_TIME_DESC);
-			validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_ORGANIZER.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_ORGANIZER.getIgReference());
+			}
+			else if(docType.equalsIgnoreCase("R1.1"))
+			{
+				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_ORGANIZER.getIgReference());
+			}
 			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS.getTaskforceLink());
 		}
 		return validateApprEffectiveTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDALabResult results)
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDALabResult results,String docType)
 	{
 		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
 		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
@@ -745,7 +793,14 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_SECTION.getIgReference());
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_SECTION.getIgReference());
+			}
 			narrativeTextIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.RESULTS.getTaskforceLink());
 		}
 		

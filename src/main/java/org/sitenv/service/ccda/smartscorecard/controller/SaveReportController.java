@@ -1,8 +1,11 @@
 package org.sitenv.service.ccda.smartscorecard.controller;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -11,6 +14,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
@@ -19,10 +23,20 @@ import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xml.sax.SAXException;
@@ -32,6 +46,8 @@ import com.lowagie.text.DocumentException;
 
 @RestController
 public class SaveReportController {
+
+	public static final String SAVE_REPORT_CHARSET_NAME = "UTF8";
 
 	/**
 	 * Converts received JSON to a ResponseTO POJO (via method signature
@@ -55,6 +71,89 @@ public class SaveReportController {
 	}
 
 	/**
+	 * A single service to handle a pure back-end implementation of the
+	 * scorecard which streams back a PDF report without running or recording
+	 * C-CDA validation (certification)
+	 * 
+	 * @param ccdaFile
+	 *            The C-CDA XML file intended to be scored
+	 */
+	@RequestMapping(value = "/savescorecardservicebackend", method = RequestMethod.POST)
+	public void savescorecardservicebackend(
+			@RequestParam("ccdaFile") MultipartFile ccdaFile,
+			HttpServletResponse response) {
+
+		ResponseTO pojoResponse = callCcdascorecardservice(ccdaFile);
+		if (pojoResponse == null) {
+			pojoResponse = new ResponseTO();
+			pojoResponse.setResults(null);
+			pojoResponse.setSuccess(false);
+			pojoResponse
+					.setErrorMessage(ApplicationConstants.Error.NULL_RESULT_ON_SAVESCORECARDSERVICEBACKEND_CALL);
+		} else {
+			if (!ApplicationUtil.isEmpty(ccdaFile.getOriginalFilename())
+					&& ccdaFile.getOriginalFilename().contains(".")) {
+				pojoResponse.setFilename(ccdaFile.getOriginalFilename());
+			} else if (!ApplicationUtil.isEmpty(ccdaFile.getName())
+					&& ccdaFile.getName().contains(".")) {
+				pojoResponse.setFilename(ccdaFile.getName());
+			}
+			// otherwise it uses the name given by ccdascorecardservice
+		}
+		convertHTMLToPDFAndStreamToOutput(
+				ensureLogicalParseTreeInHTML(convertReportToHTML(pojoResponse)),
+				response);
+
+	}
+
+	protected static ResponseTO callCcdascorecardservice(MultipartFile ccdaFile) {
+		ResponseTO pojoResponse = null;
+
+		LinkedMultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<>();
+		FileOutputStream out = null;
+		File tempFile = null;
+		try {
+			final String tempCcdaFileName = "ccdaFile";
+			tempFile = File.createTempFile(tempCcdaFileName, "xml");
+			out = new FileOutputStream(tempFile);
+			IOUtils.copy(ccdaFile.getInputStream(), out);
+			requestMap.add(tempCcdaFileName, new FileSystemResource(tempFile));
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+			HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(
+					requestMap, headers);
+
+			FormHttpMessageConverter formConverter = new FormHttpMessageConverter();
+			formConverter.setCharset(Charset.forName(SAVE_REPORT_CHARSET_NAME));
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.getMessageConverters().add(formConverter);
+			restTemplate.getMessageConverters().add(
+					new MappingJackson2HttpMessageConverter());
+
+			pojoResponse = restTemplate.postForObject(
+					ApplicationConstants.CCDASCORECARDSERVICE_URL,
+					requestEntity, ResponseTO.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				try {
+					out.flush();
+					out.close();
+				} catch (IOException ioe) {
+					ioe.printStackTrace();
+				}
+			}
+			if (tempFile != null && tempFile.isFile()) {
+				tempFile.delete();
+			}
+		}
+
+		return pojoResponse;
+	}
+
+	/**
 	 * Parses (POJO ResponseTO converted) JSON and builds the results into an
 	 * HTML report
 	 * 
@@ -65,29 +164,40 @@ public class SaveReportController {
 	protected static String convertReportToHTML(ResponseTO report) {
 		StringBuffer sb = new StringBuffer();
 		appendOpeningHtml(sb);
-				
-		if (report != null && report.getResults() != null) {
-			if (report.isSuccess()) {
-				Results results = report.getResults();
-				List<Category> categories = results.getCategoryList();
 
-				appendHeader(sb, report, results);
-				appendHorizontalRuleWithBreaks(sb);
-
-				appendTopLevelResults(sb, results, categories);
-				appendHorizontalRuleWithBreaks(sb);
-
-				appendDetailedResults(sb, categories);
-			}
+		if (report == null) {
+			report = new ResponseTO();
+			report.setResults(null);
+			report.setSuccess(false);
+			report.setErrorMessage(ApplicationConstants.Error.GENERIC_WITH_CONTACT);
+			appendErrorMessageFromReport(sb, report,
+					ApplicationConstants.Error.RESULTS_ARE_NULL);
 		} else {
-			if (!report.isSuccess()) {
-				appendErrorMessageFromReport(sb, report,
-						ApplicationConstants.Error.IS_SUCCESS_FALSE);
+			// report != null
+			if (report.getResults() != null) {
+				if (report.isSuccess()) {
+					Results results = report.getResults();
+					List<Category> categories = results.getCategoryList();
+
+					appendHeader(sb, report, results);
+					appendHorizontalRuleWithBreaks(sb);
+
+					appendTopLevelResults(sb, results, categories);
+					appendHorizontalRuleWithBreaks(sb);
+
+					appendDetailedResults(sb, categories);
+				}
 			} else {
-				appendErrorMessageFromReport(sb, report);
+				// report.getResults() == null
+				if (!report.isSuccess()) {
+					appendErrorMessageFromReport(sb, report,
+							ApplicationConstants.Error.IS_SUCCESS_FALSE);
+				} else {
+					appendErrorMessageFromReport(sb, report);
+				}
 			}
 		}
-		
+
 		appendClosingHtml(sb);
 		return sb.toString();
 	}
@@ -253,29 +363,33 @@ public class SaveReportController {
 		sb.append("<br />");
 		// sb.append("<br />");
 	}
-	
+
 	private static void appendErrorMessage(StringBuffer sb, String errorMessage) {
 		sb.append("<h2 style='color:red; background-color: #ffe6e6'>");
 		sb.append(errorMessage);
 		sb.append("</h2>");
+		sb.append("<p>" + ApplicationConstants.Error.CONTACT + "</p>");
 	}
-	
+
 	private static void appendGenericErrorMessage(StringBuffer sb) {
 		sb.append("<p>" + ApplicationConstants.Error.JSON_TO_JAVA_JACKSON
 				+ "<br />" + ApplicationConstants.Error.CONTACT + "</p>");
 	}
-	
-	private static void appendErrorMessageFromReport(StringBuffer sb, ResponseTO report) {
+
+	private static void appendErrorMessageFromReport(StringBuffer sb,
+			ResponseTO report) {
 		appendErrorMessageFromReport(sb, report, null);
 	}
-	
-	private static void appendErrorMessageFromReport(StringBuffer sb, ResponseTO report, String extraMessage) {
-		if(report.getErrorMessage() != null && !report.getErrorMessage().isEmpty()) {
+
+	private static void appendErrorMessageFromReport(StringBuffer sb,
+			ResponseTO report, String extraMessage) {
+		if (report.getErrorMessage() != null
+				&& !report.getErrorMessage().isEmpty()) {
 			appendErrorMessage(sb, report.getErrorMessage());
 		} else {
 			appendGenericErrorMessage(sb);
 		}
-		if(extraMessage != null && !extraMessage.isEmpty()) {
+		if (extraMessage != null && !extraMessage.isEmpty()) {
 			sb.append("<p>" + extraMessage + "</p>");
 		}
 	}
@@ -328,7 +442,7 @@ public class SaveReportController {
 					e.printStackTrace();
 				}
 			}
-			ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
+			//ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
 		}
 	}
 
