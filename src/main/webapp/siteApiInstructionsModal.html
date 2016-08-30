@@ -1,0 +1,60 @@
+<div class="modal modal-wide fade" id="siteApiInstructionsModal" tabindex="-1"
+  role="dialog" aria-labelledby="siteApiInstructionsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <div class="modal-header">
+        
+        <!--
+        <div class="pull-right">
+          <button type="button" class="btn btn-default closeResultsBtn"
+            data-dismiss="modal">Close Results</button>
+        </div>
+        -->             
+        
+        <div class="row">
+          <div class="col-md-12">
+            <div id="ApiInstructionsHeader">
+              <h2>Scorecard API Instructions</h2>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+                         
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div id="ApiInstructionsFBody">
+             <p>Invoke the following API:</p>
+              <ul>
+                <li>Endpoint
+                  <ul>
+                    <li>POST:
+                      https://sitenv.org/ccda-smart-scorecard/ccdascorecardservice</li>
+                  </ul>
+                </li>
+                <li>The POST method takes one parameter which is
+                  <ul>
+                    <li>ccdaFile: The file that is being submitted for scoring</li>
+                   <!--  <li>Type: File</li> -->
+                  </ul>
+                </li>
+                <li>Use the multipart/form-data to encode the file as part of the body parameters for the POST request
+                </li>
+              </ul>            
+            </div>
+          </div>
+        </div>
+        
+      </div>
+        
+      <div class="modal-footer">        
+        <button type="button" class="btn btn-default closeResultsBtn"
+          data-dismiss="modal">Close Results</button>
+      </div>
+        
+    </div>
+  </div>
+</div>
