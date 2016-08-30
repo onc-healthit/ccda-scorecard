@@ -12,7 +12,7 @@
             </span>          
         </div>                  
         <div class="pull-right">
-          <save-scorecard-button></save-scorecard-button>          
+          <!--<save-scorecard-button></save-scorecard-button>-->       
           <!--<button type="button" class="btn btn-default closeResultsBtn"
             data-dismiss="modal">Close Results</button> -->
         </div>               
@@ -26,7 +26,8 @@
         
       <div class="modal-footer">
         <save-scorecard-button></save-scorecard-button>
-        <button type="button" class="btn btn-default closeResultsBtn"
+        <button ng-show="!uploadDisplay.isLoading && !uploadDisplay.isValidationLoading" 
+          type="button" class="btn btn-default closeResultsBtn"
           data-dismiss="modal">Close Results</button>
       </div>
         

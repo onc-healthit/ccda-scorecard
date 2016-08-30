@@ -107,3 +107,17 @@ scApp.directive('siteScoringCriteriaModal', function() {
 		templateUrl : 'siteScoringCriteriaModal.html'
 	};
 });
+
+scApp.directive('siteApiInstructionsModal', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'siteApiInstructionsModal.html'
+	};
+});
+
+scApp.directive('siteIntroductionModal', function() {
+	return {
+		restrict: 'E',
+		templateUrl: 'siteIntroductionModal.html'
+	};
+});

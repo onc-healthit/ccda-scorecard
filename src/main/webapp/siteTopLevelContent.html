@@ -2,77 +2,16 @@
   <h1>C-CDA Scorecard</h1>
   <h1 style="font-size: 250%">(Beta Release)</h1>
   <hr />
-</div>
-
-
-<div class="row">
-  <div class="col-lg-12">
-    <p>
-      The C-CDA Scorecard leverages the work completed by an ONC-funded
-      grant &mdash; <a
-        href="https://www.healthit.gov/policy-researchers-implementers/substitutable-medical-apps-reusable-technologies" target='_blank'>SMART
-        (Substitutable Medical Apps Reusable Technologies)</a> and promotes
-      best practices in C-CDA implementation by assessing key aspects of
-      the structured data found in individual documents. It is a tool
-      designed to allow implementers to gain insight and information
-      regarding industry best practice and usage overall. It also
-      provides a rough quantitative assessment and highlights areas of
-      improvement which can be made today to move the needle forward.
-      The <a href="http://www.hl7.org/documentcenter/public/wg/structure/C-CDA%20Scorecard%20Rubrics%203.pptx" target="_blank"> 
-      best practices and quantitative scoring criteria</a> have been
-      developed by HL7 through the HL7-ONC Cooperative agreement to
-      improve the implementation of health care standards. We hope that
-      providers and health IT developers will use the tool to identify
-      and resolve issues of C-CDA document interoperability in their
-      health IT systems.
-    </p>
-  </div>
-</div>
-
-
-
-<div class="row">
-  <div class="col-lg-12">
-    <p>
-      <b>Please Note:</b> The C-CDA Scorecard does not retain your submitted C-CDA file as
-      the file is deleted from the server immediately after processing.
-      However, we strongly suggest that you do not include any Protected
-      Health Information (PHI) or Personally Identifiable Information
-      (PII) in your C-CDA file submissions to the Scorecard. Click <a
-        href="http://www.hhs.gov/hipaa/for-professionals/privacy/special-topics/de-identification/index.html" target="_blank">here</a>
-      for more information on how to de-identify PHI.
-    </p>
-  </div>
-</div>
-
-
-
-<div class="row">
-  <div class="col-lg-12">
-    <h2 style="font-size: 24px">How to Interpret Results</h2>
-    <p>The Scorecard tool provides two scores:
-    <ol>
-      <li>Certification Score</li>
-      <li>Grade</li>
-    </ol>
-    </p>
-    <p>The "Certification Score" indicates whether the C-CDA document meets the requirements of the 
-       2015 Edition Health IT Certification for Transitions of Care 170.315(b)(1) criteria and the result is indicated 
-       simply as "Pass" or "Fail".</p>
-    <p>Additionally, each C-CDA document is scored and graded for
-      set of enhanced interoperability rules developed by HL7. A higher
-      score (grade) means that information is coded with appropriate
-      structure and semantics and hence has a better chance of
-      interoperating with disparate systems. The maximum score is 100
-      points and the grades are:
-    <ul>
-      <li>A+ (more than 94 points)</li>
-      <li>A- (90 to 94 points)</li>
-      <li>B+ (85 to 89 points)</li>
-      <li>B- (80 to 84 points)</li>
-      <li>C (70 to 79 points)</li>
-      <li>D (less than 70 points)</li>
-    </ul>
-    <p>&nbsp;</p>
+  <div class="row">
+    <div class="col-lg-12 text-center">
+      <!--try me button-->
+      <button ng-click="tryScorecard()" id="scTryMe"
+        class="btn btn-success btn-lg start" data-toggle="modal"
+        data-target="#resultModal" tabindex="1" type="button"
+        style="width: 25%; height: 100px">
+        <!--<i class="glyphicon glyphicon-user"></i>-->
+        <span>Try Me!</span>
+      </button>
+    </div>
   </div>
 </div>

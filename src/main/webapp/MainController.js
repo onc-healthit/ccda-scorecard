@@ -37,6 +37,10 @@ scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$ti
   	  $timeout(function() {
   	  	  window.dispatchEvent(new Event('resize'));
   	  }, timeToWaitInMiliseconds);
-    };    
+    };
+    
+    $scope.removeElementFocusById = function(elementId) {
+    	document.getElementById(elementId).blur();
+    };
 
 }]);
