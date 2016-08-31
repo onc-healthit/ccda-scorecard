@@ -630,19 +630,68 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 		}
 		var pdfFileUrl = URL.createObjectURL(new Blob([responseData], {type: pdfType}));		
 		//allow download of potentially dangerous file type
-		$scope.trustedPdfFileUrl = $sce.trustAsResourceUrl(pdfFileUrl);	
-		//trigger the download via a download tagged anchor element with the binary URL reference
+		$scope.trustedPdfFileUrl = $sce.trustAsResourceUrl(pdfFileUrl);
 		if($scope.isFirefox) {
 			console.log('Downloading (and opening in browser) PDF in FF');			
 		  //as a workaround for FF, this will open the pdf in the current window and the user can save from there
 		  $window.location.href = $scope.trustedPdfFileUrl;
-		} else {			
+		} else {
 			console.log('Downloading PDF in browsers which are not Firefox');
+			//trigger the download via a download tagged anchor element with the binary URL reference
 			$scope.downloadViaAnchor($scope.trustedPdfFileUrl, filename);			
 		}
 	  //clear save button focus
 	  $window.document.activeElement.blur();		
-	};
+	};		
 	
+  $scope.downloadTryMeXml = function() {
+    var localUrl = 'downloadtrymefileservice/';
+    var mediaType = "text/xml";
+    var filename = "170.315_b1_toc_amb_ccd_r21_sample1_v5.xml";
+    $http({
+      method: "GET",
+      url: localUrl,
+      headers: {
+      	"Content-Type": mediaType
+      },
+      responseType:"arraybuffer"
+    }).then(function mySuccess(response) {
+    	console.log("Try Me XML processs started");    	
+    	triggerTryScorecardXmlDownload(response.data, mediaType, filename);
+    	console.log("Try Me XML saved");
+    }, function myError(response) {
+    	var genericMessage = "An error was encountered while downloading the Try Me XML.";
+    	var statusMessage = "Status: " + response.status + " | " + "Message: " + response.statusText;
+    	console.log(genericMessage + " " + statusMessage);
+    });
+  };	
+	
+	var triggerTryScorecardXmlDownload = function(responseData, mediaType, filename) {
+		//TODO: use this code as a template for a new nethod to call from here and triggerPDFReportDownload (restructure for code re-use)
+		//support IE Blob format vs the standard
+    if (responseData != null && navigator.msSaveBlob) {
+    	console.log('Downloading ' + mediaType + ' in IE');
+      return navigator.msSaveBlob(new Blob([responseData], { type: mediaType }), filename);
+		} else {
+			console.log('Downloading ' + mediaType + ' in browsers which are not IE');
+			var fileUrl = URL.createObjectURL(new Blob([responseData], {type: mediaType}));		
+			//allow download of potentially dangerous file type
+			$scope.trustedFileUrl = $sce.trustAsResourceUrl(fileUrl);	
+			//trigger the download via a download tagged anchor element with the binary URL reference		
+			//Firefox requires a basic JS anchor vs an angular derived one to work, but this works for other browsers too
+	    var anchor = document.createElement('a');
+	    anchor.style = "display: none";  
+	    anchor.href = $scope.trustedFileUrl;
+	    anchor.download = filename;
+	    document.body.appendChild(anchor);
+	    anchor.click();
+	    setTimeout(function() {
+        document.body.removeChild(anchor);
+        window.URL.revokeObjectURL($scope.trustedFileUrl);  
+	    }, 100);
+		}
+	  //clear download button focus
+	  document.getElementById("scTryMeDownload").blur();
+	};
 
 }]);

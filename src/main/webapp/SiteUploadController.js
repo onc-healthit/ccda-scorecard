@@ -263,38 +263,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
       target: '_self',
       download: name
 	  })[0].click();
-  };   
-  
-	$scope.triggerTryScorecardFileDownload = function() {		
-		/*var mediaType = "text/xml";*/
-		var filename = "170.315_b1_toc_amb_ccd_r21_sample1_v5.xml";
-		var fileLocation = "resources/" + filename;
-		
-		//support IE Blob format vs the standard
-		/*
-    if (navigator.msSaveBlob) {
-    	console.log('Downloading file in IE');
-      return navigator.msSaveBlob(new Blob([fileLocation], { type: mediaType }), filename);
-		}
-		var fileUrl = URL.createObjectURL(new Blob([fileLocation], {type: mediaType}));		
-		//allow download of potentially dangerous file type
-		var trustedFileUrl = $sce.trustAsResourceUrl(fileUrl);
-		*/
-		
-		if($scope.isFirefox || navigator.msSaveBlob) {
-			//ignore FF and IE requests for now as we probably need back-end to implement
-			document.getElementById("scTryMeDownload").blur();
-			return;
-			//console.log('Downloading file (and opening in browser) in FF');			
-		  //as a workaround for FF, this will open the file in the current window and the user can save from there			
-		  //$window.location.href = fileLocation;
-		} else {
-			console.log('Downloading file in browsers which are not Firefox');
-			$scope.downloadViaAnchor(fileLocation, filename);			
-		}
-	  //clear download button focus
-	  document.getElementById("scTryMeDownload").blur();
-	};  
+  };  
 
   var IssueTypeEnum = Object.freeze({
     MDHT_ERROR: "C-CDA MDHT Conformance Error",
