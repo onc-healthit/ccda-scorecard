@@ -2,6 +2,7 @@
   role="dialog" aria-labelledby="scoringCriteriaModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
+    
       <div class="modal-header">
         
         <!--
@@ -9,22 +10,46 @@
           <button type="button" class="btn btn-default closeResultsBtn"
             data-dismiss="modal">Close Results</button>
         </div>
-        -->        
+        -->             
         
         <div class="row">
           <div class="col-md-12">
             <div id="scoringCriteriaHeader">
-              <h2>&lt;scoringCriteriaHeader&gt;</h2>
+              <h2>How to Interpret Results</h2>
             </div>
           </div>
         </div>
+        
+      </div>
                          
       <div class="modal-body">
 
         <div class="row">
           <div class="col-md-12">
             <div id="scoringCriteriaBody">
-              <h4>&lt;scoringCriteriaBody text&gt;</h4>
+              <p>The Scorecard tool provides two scores:
+              <ol>
+                <li>Certification Score</li>
+                <li>Grade</li>
+              </ol>
+              </p>
+              <p>The "Certification Score" indicates whether the C-CDA document meets the requirements of the 
+                 2015 Edition Health IT Certification for Transitions of Care 170.315(b)(1) criteria and the result is indicated 
+                 simply as "Pass" or "Fail".</p>
+              <p>Additionally, each C-CDA document is scored and graded for
+                set of enhanced interoperability rules developed by HL7. A higher
+                score (grade) means that information is coded with appropriate
+                structure and semantics and hence has a better chance of
+                interoperating with disparate systems. The maximum score is 100
+                points and the grades are:
+              <ul>
+                <li>A+ (more than 94 points)</li>
+                <li>A- (90 to 94 points)</li>
+                <li>B+ (85 to 89 points)</li>
+                <li>B- (80 to 84 points)</li>
+                <li>C (70 to 79 points)</li>
+                <li>D (less than 70 points)</li>
+              </ul>
             </div>
           </div>
         </div>
