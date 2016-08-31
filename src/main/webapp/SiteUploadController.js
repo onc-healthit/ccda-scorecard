@@ -31,6 +31,10 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   		isLoading: true,
   		isValidationLoading: true,
   };
+  
+  $scope.tryMeData = {
+    	isTryMeActive: false	
+  };
 
   var ServiceTypeEnum = Object.freeze({
     CCDA_VALIDATOR: "C-CDA R2.1 Validator Service",
@@ -64,6 +68,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     $scope.debugLog($scope.uploadDisplay.isValidationLoading);
     
     resetValidationData();
+    $scope.tryMeData.isTryMeActive = false;
     
 	//static for now since we are not using the selector/sending this manually
     $scope.ccdaUploadData.docTypeSelected = "C-CDA_IG_Only";
@@ -237,6 +242,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   };
   
   $scope.tryScorecard = function() {
+  	$scope.tryMeData.isTryMeActive = true;
   	$scope.ccdaUploadData = new UploadData(
 		"170.315_b1_toc_amb_ccd_r21_sample1_v5.xml",
 		"C-CDA_IG_Only");

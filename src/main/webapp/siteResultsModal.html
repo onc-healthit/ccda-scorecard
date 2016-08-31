@@ -25,6 +25,13 @@
       </div>
         
       <div class="modal-footer">
+        <!--download test xml button-->
+        <button ng-show="tryMeData.isTryMeActive" ng-click="triggerTryScorecardFileDownload()"  
+          id="scTryMeDownload"
+          class="btn btn-primary start"                          
+          tabindex="1" type="button">
+          Download 'Try Me' C-CDA Document
+        </button>      
         <save-scorecard-button></save-scorecard-button>
         <button ng-show="!uploadDisplay.isLoading && !uploadDisplay.isValidationLoading" 
           type="button" class="btn btn-default closeResultsBtn"
