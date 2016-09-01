@@ -22,17 +22,7 @@
 			  <div class="panel-body">
 
 				<div id="CCDAReference">
-				  <div id="CCDAReferenceWrapper">							  
-                     
-                          <p>
-                            <b>PHI Note:</b> The C-CDA Scorecard does not retain your submitted C-CDA file as
-                            the file is deleted from the server immediately after processing.
-                            However, we strongly suggest that you do not include any Protected
-                            Health Information (PHI) or Personally Identifiable Information
-                            (PII) in your C-CDA file submissions to the Scorecard. Click <a
-                              href="http://www.hhs.gov/hipaa/for-professionals/privacy/special-topics/de-identification/index.html" target="_blank">here</a>
-                            for more information on how to de-identify PHI.
-                          </p>
+				  <div id="CCDAReferenceWrapper">                     
                       
 						  <span class="directions">Run:</span>
 						  <form name="scUploadForm">
@@ -52,13 +42,13 @@
 								</li>
 								-->
 
-								<li>Upload your C-CDA Document.
+								<li>Select your C-CDA Document.
 								  <div style="position: relative;">
 									<div class="row">
 									  <div class="col-md-12 form-group">
 										<span
 										  class="btn btn-success fileinput-button">
-										  <i class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload</span> <input type="file"
+										  <i class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select</span> <input type="file"
 										  ngf-select ng-model="ccdaScFile"
 										  name="file" accept=".xml"
 										  ngf-max-size="3MB" required
@@ -105,7 +95,17 @@
 
 							  </ol>
 
-						   </form>				  		 			 
+						   </form>
+               
+               			  <p>
+                            <b>PHI Note:</b> The C-CDA Scorecard does not retain your submitted C-CDA file as
+                            the file is deleted from the server immediately after processing.
+                            However, we strongly suggest that you do not include any Protected
+                            Health Information (PHI) or Personally Identifiable Information
+                            (PII) in your C-CDA file submissions to the Scorecard. Click <a
+                              href="http://www.hhs.gov/hipaa/for-professionals/privacy/special-topics/de-identification/index.html" target="_blank">here</a>
+                            for more information on how to de-identify PHI.
+                          </p>
 				  
 				  </div>
 				</div>
