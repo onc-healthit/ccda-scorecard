@@ -121,3 +121,10 @@ scApp.directive('siteIntroductionModal', function() {
 		templateUrl: 'siteIntroductionModal.html'
 	};
 });
+
+scApp.directive('siteDownloadLocalModal', function() {
+	return {
+		restrict: 'E',
+		templateUrl: 'siteDownloadLocalModal.html'
+	};
+});
