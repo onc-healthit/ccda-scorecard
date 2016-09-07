@@ -1,75 +1,6 @@
 <div class="row">
 
 	<div class="col-md-6">
-	 <div class="panel panel-default removeBorder">  
-
-		<div id="TryMeAccordion">
-
-		  <div class="panel panel-default">
-		  
-			<div class="panel-heading">
-			  <h3 class="panel-title">
-				<a data-toggle="collapse" data-parent="#TryMeAccordion"
-				  href="#collapseTryMeAccordion" tabindex="1">Try the Scorecard</a>
-			  </h3>
-			</div>
-			
-			<div id="collapseTryMeAccordion"
-			  class="panel-collapse collapse in">
-			  <div class="panel-body">
-
-				<div>
-				  <div>                     
-                      
-				    <!-- <span class="directions">Try:</span> -->
-                    <!--try me button-->
-                    <div class="jumbotron text-center">
-                      <button ng-click="tryScorecard()" id="scTryMe"
-                        class="btn btn-success btn-lg start" data-toggle="modal"
-                        data-target="#resultModal" tabindex="1" type="button">
-                        <!--<i class="glyphicon glyphicon-user"></i>-->
-                        <span>Try Me!</span>
-                      </button>
-                    </div>
-				  
-				  </div>
-				</div>
-				
-			  </div>
-			</div>
-			
-		  </div>
-		  
-		</div>
-
-	 </div> <!-- end 'Try the Scorecard' panel -->
-	</div> <!-- end Try Me column -->
-  
-    <div class="col-md-6">
-    <h2 style="font-size: 18px">Learn</h2>
-     <div class="btn-group-vertical btn-block">                     
-    <a class="btn btn-default" type="button" tabindex="1" data-toggle="modal" data-target="#siteIntroductionModal" id="introductionButton"
-      href="javascript:void(0)" onclick="this.blur();">History and Introduction to the Scorecard</a> 
-    <a class="btn btn-default" type="button" tabindex="1" data-toggle="modal" data-target="#scoringCriteriaModal" id="scoringCriteriaButton"
-      href="javascript:void(0)" onclick="this.blur();">How to Interpret the Scorecard Results</a>
-    <!--<a class="btn btn-default" type="button" tabindex="1" target="_blank" 
-      href="http://ccda-scorecard.smartplatforms.org/static/ccdaScorecard/#/" onclick="this.blur();">Navigate to the SMART Scorecard</a>-->          
-    <!--
-    <span class="inline-ext">
-      <a class="ext-icon" href="http://www.hhs.gov/disclaimer.html" tabindex="1" target="_blank" title="Web Site Disclaimers">
-        <span class="hiddenText">Web Site Disclaimers</span>
-      </a>
-    </span>
-    -->
-     </div>       
-    </div> <!-- end 'Learn' Button Group column -->     
-
-</div> <!-- end Try Me and Learn row -->
-
-
-<div class="row">
-
-	<div class="col-md-6">
 	 <div id="CCDAvalidator" class="panel panel-default removeBorder">  
 
 		<div id="ScorecardAccordion">
@@ -92,6 +23,16 @@
 
 				<div>
 				  <div>                     
+                      
+                          <!--try me button-->
+                          <div class="jumbotron text-center">
+                            <button ng-click="tryScorecard()" id="scTryMe"
+                              class="btn btn-success btn-lg start" data-toggle="modal"
+                              data-target="#resultModal" tabindex="1" type="button">
+                              <!--<i class="glyphicon glyphicon-user"></i>-->
+                              <span>Try Me!</span>
+                            </button>
+                          </div>
                       
 						  <span class="directions">Run:</span>
 						  <form name="scUploadForm">
@@ -164,7 +105,7 @@
 
 							  </ol>
 
-						   </form>               
+						   </form>           
 				  
 				  </div>
 				</div>
@@ -179,26 +120,42 @@
 	 </div> <!-- end 'Run the Scorecard' panel -->
 	</div> <!-- end Scorecard column -->
 	
-    <div class="col-md-6">
-    <h2 style="font-size: 18px">Implement</h2>
-     <div class="btn-group-vertical btn-block">                         
-      <a class="btn btn-default" type="button" tabindex="1" data-toggle="modal" data-target="#siteApiInstructionsModal" id="siteApiInstructionsButton"
-        href="javascript:void(0)" onclick="this.blur();">How to Invoke the Scorecard APIs</a>
-      <a class="btn btn-default" type="button" tabindex="1" target="_blank"
-        href="deadLinkForNow" onclick="this.blur();">Download the Scorecard for Local Instantiation</a>
-     </div>       
-    </div> <!-- end 'Implement' Button Group column -->     
-  
-    <div class="col-md-6" style="padding-top: 22px">
-      <p>
-        <b>PHI Note:</b> The C-CDA Scorecard does not retain your submitted C-CDA file as
-        the file is deleted from the server immediately after processing.
-        However, we strongly suggest that you do not include any Protected
-        Health Information (PHI) or Personally Identifiable Information
-        (PII) in your C-CDA file submissions to the Scorecard. Click <a
-          href="http://www.hhs.gov/hipaa/for-professionals/privacy/special-topics/de-identification/index.html" target="_blank">here</a>
-        for more information on how to de-identify PHI.
-      </p>    
-    </div>     
+    <div class="row">      
+        <div class="col-md-6">
+        
+        <h2 style="font-size: 18px">Learn</h2>
+         <div class="btn-group-vertical btn-block">                     
+        <a class="btn btn-default" type="button" tabindex="1" data-toggle="modal" data-target="#siteIntroductionModal" id="introductionButton"
+          href="javascript:void(0)" onclick="this.blur();">History and Introduction to the Scorecard</a> 
+        <a class="btn btn-default" type="button" tabindex="1" data-toggle="modal" data-target="#scoringCriteriaModal" id="scoringCriteriaButton"
+          href="javascript:void(0)" onclick="this.blur();">How to Interpret the Scorecard Results</a>          
+        <!--
+        <span class="inline-ext">
+          <a class="ext-icon" href="http://www.hhs.gov/disclaimer.html" tabindex="1" target="_blank" title="Web Site Disclaimers">
+            <span class="hiddenText">Web Site Disclaimers</span>
+          </a>
+        </span>
+        -->
+                                     
+        <h2 style="font-size: 18px">Implement</h2>
+         <div class="btn-group-vertical btn-block">                         
+          <a class="btn btn-default" type="button" tabindex="1" data-toggle="modal" data-target="#siteApiInstructionsModal" id="siteApiInstructionsButton"
+            href="javascript:void(0)" onclick="this.blur();">How to Invoke the Scorecard APIs</a>
+          <a class="btn btn-default" type="button" tabindex="1" target="_blank"
+            href="deadLinkForNow" onclick="this.blur();">Download the Scorecard for Local Instantiation</a>
+         </div>                
+                
+        <p style="margin-top: 15px">
+          <b>PHI Note:</b> The C-CDA Scorecard does not retain your submitted C-CDA file as
+          the file is deleted from the server immediately after processing.
+          However, we strongly suggest that you do not include any Protected
+          Health Information (PHI) or Personally Identifiable Information
+          (PII) in your C-CDA file submissions to the Scorecard. Click <a
+            href="http://www.hhs.gov/hipaa/for-professionals/privacy/special-topics/de-identification/index.html" target="_blank">here</a>
+          for more information on how to de-identify PHI.
+        </p>
+                             
+      </div> <!-- end sidebar column -->
+    </div> <!-- end sidebar row -->     
 
-</div> <!-- end Scorecard and Implement and PHI row -->
+</div> <!-- end outer Scorecard (left), Learn, Implement, PHI (right) row -->
