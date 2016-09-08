@@ -8,7 +8,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 
   $scope.userMessageConstant = Object.freeze ({
 	GENERIC: "Please try a different file and report the issue to TestingServices@sitenv.org.",
-	UPLOAD_ERROR: "Error uploading <unknownFileName>: " 
+	GENERIC_LATER: "Please try again later or contact TestingServices@sitenv.org for help.",
+	UPLOAD_ERROR: "Error uploading <unknownFileName>: "
   });
   
   $scope.uploadErrorData = {

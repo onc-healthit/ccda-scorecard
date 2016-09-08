@@ -51,6 +51,13 @@ scApp.directive('saveScorecardButton', function() {
 	};
 });
 
+scApp.directive('saveTryMeXmlButton', function() {
+	return {
+		restict: 'E',
+		templateUrl: 'saveTryMeXmlButton.html'
+	};
+});
+
 // *SITE mock related*//
 scApp.directive('siteHeader', function() {
 	return {
@@ -119,5 +126,12 @@ scApp.directive('siteIntroductionModal', function() {
 	return {
 		restrict: 'E',
 		templateUrl: 'siteIntroductionModal.html'
+	};
+});
+
+scApp.directive('siteDownloadLocalModal', function() {
+	return {
+		restrict: 'E',
+		templateUrl: 'siteDownloadLocalModal.html'
 	};
 });
