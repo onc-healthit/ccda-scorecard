@@ -104,15 +104,27 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  $scope.jsonData = $scope.jsonScorecardData;
 	  
 	  //make sure valid data was returned before accessing invalid results
-	  if($scope.jsonData.success && $scope.jsonData.results != null) {
+	  if($scope.jsonData.success && $scope.jsonData.results != null && $scope.jsonData.errorMessage == null) {
 		  storeDataAndPopulateResults();
 	  } else {
 		  //the scorecard service could not handle the file sent
-	      $scope.errorData.getJsonDataError = "Error thrown from ScorecardController: The C-CDA R2.1 Scorecard web service failed to return valid data to the controller when posting " + $scope.ccdaFileName;
-	      console.log('$scope.errorData.getJsonDataError:');
-	      console.log($scope.errorData.getJsonDataError);
-        $scope.errorData.getJsonDataErrorForUser = "The scorecard application is unable to score the C-CDA document. Please try a file other than " + $scope.ccdaFileName + " or contact TestingServices@sitenv.org for help."
-        $scope.disableAllLoading();
+	  	if($scope.jsonData.errorMessage != null) {
+	  		//apply a specific message
+	  		$scope.errorData.getJsonDataErrorForUser = 
+        	"The following error was encountered while scoring " +  $scope.ccdaFileName + ": " + $scope.jsonData.errorMessage;
+	  	} else {
+	  		//apply a generic message
+        $scope.errorData.getJsonDataErrorForUser = 
+        	"The scorecard application is unable to score the C-CDA document. " + 
+        	"Please try a file other than " + $scope.ccdaFileName + " or contact TestingServices@sitenv.org for help."	  		
+	  	}
+	  	//log dev data
+      $scope.errorData.getJsonDataError = 
+      	"Error thrown from ScorecardController: The C-CDA R2.1 Scorecard web service failed " + 
+      	" to return valid data to the controller when posting " + $scope.ccdaFileName;
+      console.log('$scope.errorData.getJsonDataError:');
+      console.log($scope.errorData.getJsonDataError);
+      $scope.disableAllLoading();
 	  }
   };
 
