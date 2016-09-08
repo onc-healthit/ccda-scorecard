@@ -174,7 +174,7 @@ public class ApplicationConstants {
 	public static final String SECOND_PATTERN = "\\d{14}-\\d{4}";
 	
 	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
-	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:8082",
+	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:7080",
 			CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org",
 			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
 			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
