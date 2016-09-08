@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-md-12">
+    <p ng-show="errorData.saveTryMeFileError" style="margin-right: 10px"
+      class="pull-left failCertColor">{{errorData.saveTryMeFileError}}</p>
+  </div>
+</div>
+
+<button ng-show="tryMeData.isTryMeActive" ng-click="callDownloadTryMeFileService()"  
+  id="saveTryMeXmlButton"
+  class="btn btn-primary start"                          
+  tabindex="1" type="button">
+  Download 'Try Me' C-CDA Document
+</button>

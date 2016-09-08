@@ -9,7 +9,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   $scope.errorData = {
     getJsonDataError: "",
     getJsonDataErrorForUser: "",
-    saveScorecardError: ""
+    saveScorecardError: "",
+    saveTryMeFileError: ""
   };
   $scope.saveServiceData = {
   	isLoading: false,
@@ -73,6 +74,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  $scope.errorData.getJsonDataError = "";
 	  $scope.errorData.getJsonDataErrorForUser = "";
 	  $scope.errorData.saveScorecardError = "";
+	  $scope.errorData.saveTryMeFileError = "";
 	  chartAndCategoryIndexMap = [];
 	  $scope.categoryListByGradeFirstColumn = $scope.categoryListByGradeSecondColumn = $scope.categoryListByGradeThirdColumn = [];
   };
@@ -102,15 +104,27 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  $scope.jsonData = $scope.jsonScorecardData;
 	  
 	  //make sure valid data was returned before accessing invalid results
-	  if($scope.jsonData.success && $scope.jsonData.results != null) {
+	  if($scope.jsonData.success && $scope.jsonData.results != null && $scope.jsonData.errorMessage == null) {
 		  storeDataAndPopulateResults();
 	  } else {
 		  //the scorecard service could not handle the file sent
-	      $scope.errorData.getJsonDataError = "Error thrown from ScorecardController: The C-CDA R2.1 Scorecard web service failed to return valid data to the controller when posting " + $scope.ccdaFileName;
-	      console.log('$scope.errorData.getJsonDataError:');
-	      console.log($scope.errorData.getJsonDataError);
-        $scope.errorData.getJsonDataErrorForUser = "The scorecard application is unable to score the C-CDA document. Please try a file other than " + $scope.ccdaFileName + " or contact TestingServices@sitenv.org for help."
-        $scope.disableAllLoading();
+	  	if($scope.jsonData.errorMessage != null) {
+	  		//apply a specific message
+	  		$scope.errorData.getJsonDataErrorForUser = 
+        	"The following error was encountered while scoring " +  $scope.ccdaFileName + ": " + $scope.jsonData.errorMessage;
+	  	} else {
+	  		//apply a generic message
+        $scope.errorData.getJsonDataErrorForUser = 
+        	"The scorecard application is unable to score the C-CDA document. " + 
+        	"Please try a file other than " + $scope.ccdaFileName + " or contact TestingServices@sitenv.org for help."	  		
+	  	}
+	  	//log dev data
+      $scope.errorData.getJsonDataError = 
+      	"Error thrown from ScorecardController: The C-CDA R2.1 Scorecard web service failed " + 
+      	" to return valid data to the controller when posting " + $scope.ccdaFileName;
+      console.log('$scope.errorData.getJsonDataError:');
+      console.log($scope.errorData.getJsonDataError);
+      $scope.disableAllLoading();
 	  }
   };
 
@@ -578,7 +592,22 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       return classPrefix;
   };
   
-  //***************SAVE REPORT RELATED*****************
+  //***************SAVE REPORT AND SAVE XML RELATED*****************
+  
+	var downloadViaAnchorWithPureJS = function(filename) {
+    //triggers the download via a download tagged anchor element with the binary URL reference
+		//Firefox requires a basic JS anchor vs an angular derived one to work so applying this form to all non-IE browsers
+    var anchor = document.createElement('a');
+    anchor.style = "display: none";  
+    anchor.href = $scope.trustedFileUrl;
+    anchor.download = filename;
+    document.body.appendChild(anchor);
+    anchor.click();
+    setTimeout(function() {
+      document.body.removeChild(anchor);
+      window.URL.revokeObjectURL($scope.trustedFileUrl);  
+    }, 100);
+	};  
   
   var addCertificationResultToJson = function() {  	  	
   	var jsonWithCert = angular.copy($scope.jsonData);
@@ -593,16 +622,18 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   };
   
   var callSaveScorecardService = function(jsonWithCert, newLocalUrl) {
-  	$scope.debugLog("Entered callSaveScorecardService()"); 	
+  	$scope.debugLog("Entered callSaveScorecardService()");
     var externalUrl = 'http://54.200.51.225:8080/ccda-smart-scorecard/savescorecardservice/';
     var localUrl = 'savescorecardservice/';
+    var postedMediaType = "application/json";
+    var returnedMediaType = "application/pdf";
     $scope.saveServiceData.isLoading = true;
     $http({    	
       method: "POST",
       url: newLocalUrl ? newLocalUrl : localUrl,
       data: jsonWithCert,
       headers: {
-      	"Content-Type": "application/json"
+      	"Content-Type": postedMediaType
       },
       responseType:"arraybuffer"
     }).then(function mySuccess(response) {
@@ -610,42 +641,19 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     	$scope.errorData.saveScorecardError = "";
     	console.log("Scorecard results saved");
     	var filename = "SITE_C-CDA_Scorecard_" + $scope.ccdaFileName + ".pdf";
-    	triggerPDFReportDownload(response.data, filename);
+    	triggerFileDownload(response.data, returnedMediaType, filename, "saveScorecardButton");
     }, function myError(response) {
     	$scope.saveServiceData.isLoading = false;
     	var genericMessage = "An error was encountered while saving the Scorecard report.";
     	var statusMessage = "Status: " + response.status + " | " + "Message: " + response.statusText;
-    	var contactMessage = "Please try again later or contact TestingServices@sitenv.org for help.";
-    	$scope.errorData.saveScorecardError =  genericMessage + " " + contactMessage;
+    	$scope.errorData.saveScorecardError = genericMessage + " " + $scope.userMessageConstant.GENERIC_LATER;
     	console.log(genericMessage + " " + statusMessage);
     });
-  };
-  
-	var triggerPDFReportDownload = function(responseData, filename) {
-		var pdfType = "application/pdf";		
-		//support IE Blob format vs the standard
-    if (responseData != null && navigator.msSaveBlob) {
-    	console.log('Downloading PDF in IE');
-      return navigator.msSaveBlob(new Blob([responseData], { type: pdfType }), filename);
-		}
-		var pdfFileUrl = URL.createObjectURL(new Blob([responseData], {type: pdfType}));		
-		//allow download of potentially dangerous file type
-		$scope.trustedPdfFileUrl = $sce.trustAsResourceUrl(pdfFileUrl);
-		if($scope.isFirefox) {
-			console.log('Downloading (and opening in browser) PDF in FF');			
-		  //as a workaround for FF, this will open the pdf in the current window and the user can save from there
-		  $window.location.href = $scope.trustedPdfFileUrl;
-		} else {
-			console.log('Downloading PDF in browsers which are not Firefox');
-			//trigger the download via a download tagged anchor element with the binary URL reference
-			$scope.downloadViaAnchor($scope.trustedPdfFileUrl, filename);			
-		}
-	  //clear save button focus
-	  $window.document.activeElement.blur();		
-	};		
+  };	
 	
-  $scope.downloadTryMeXml = function() {
-    var localUrl = 'downloadtrymefileservice/';
+  $scope.callDownloadTryMeFileService = function() {
+  	$scope.debugLog("Entered callDownloadTryMeFileService()");
+  	var localUrl = 'downloadtrymefileservice/';    
     var mediaType = "text/xml";
     var filename = "170.315_b1_toc_amb_ccd_r21_sample1_v5.xml";
     $http({
@@ -655,19 +663,19 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       	"Content-Type": mediaType
       },
       responseType:"arraybuffer"
-    }).then(function mySuccess(response) {
-    	console.log("Try Me XML processs started");    	
-    	triggerTryScorecardXmlDownload(response.data, mediaType, filename);
+    }).then(function mySuccess(response) { 	
+    	$scope.errorData.saveTryMeFileError = "";    	
+    	triggerFileDownload(response.data, mediaType, filename, "saveTryMeXmlButton");
     	console.log("Try Me XML saved");
-    }, function myError(response) {
+    }, function myError(response) {    	
     	var genericMessage = "An error was encountered while downloading the Try Me XML.";
     	var statusMessage = "Status: " + response.status + " | " + "Message: " + response.statusText;
+    	$scope.errorData.saveTryMeFileError = genericMessage + " " + $scope.userMessageConstant.GENERIC_LATER;
     	console.log(genericMessage + " " + statusMessage);
     });
-  };	
+  };
 	
-	var triggerTryScorecardXmlDownload = function(responseData, mediaType, filename) {
-		//TODO: use this code as a template for a new nethod to call from here and triggerPDFReportDownload (restructure for code re-use)
+	var triggerFileDownload = function(responseData, mediaType, filename, downloadButtonElementId) {
 		//support IE Blob format vs the standard
     if (responseData != null && navigator.msSaveBlob) {
     	console.log('Downloading ' + mediaType + ' in IE');
@@ -676,22 +684,11 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 			console.log('Downloading ' + mediaType + ' in browsers which are not IE');
 			var fileUrl = URL.createObjectURL(new Blob([responseData], {type: mediaType}));		
 			//allow download of potentially dangerous file type
-			$scope.trustedFileUrl = $sce.trustAsResourceUrl(fileUrl);	
-			//trigger the download via a download tagged anchor element with the binary URL reference		
-			//Firefox requires a basic JS anchor vs an angular derived one to work, but this works for other browsers too
-	    var anchor = document.createElement('a');
-	    anchor.style = "display: none";  
-	    anchor.href = $scope.trustedFileUrl;
-	    anchor.download = filename;
-	    document.body.appendChild(anchor);
-	    anchor.click();
-	    setTimeout(function() {
-        document.body.removeChild(anchor);
-        window.URL.revokeObjectURL($scope.trustedFileUrl);  
-	    }, 100);
+			$scope.trustedFileUrl = $sce.trustAsResourceUrl(fileUrl);		
+			downloadViaAnchorWithPureJS(filename);
 		}
 	  //clear download button focus
-	  document.getElementById("scTryMeDownload").blur();
-	};
+	  document.getElementById(downloadButtonElementId).blur();
+	};	
 
 }]);
