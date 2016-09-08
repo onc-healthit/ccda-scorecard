@@ -192,7 +192,7 @@ public class AllergiesScorecard {
 		   {
 			   timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ALLERGY_CONCERN.getIgReference());
 		   }
-		   if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+		   if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R1.1"))
 		   {
 			   timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.ALLERGY_CONCERN.getIgReference());
 		   }
