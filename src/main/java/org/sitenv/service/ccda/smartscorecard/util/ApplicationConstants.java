@@ -171,7 +171,7 @@ public class ApplicationConstants {
 	public static final String MINUTE_PATTERN = "\\d{12}-\\d{4}";
 	
 	public static final String SECOND_FORMAT = "yyyyMMddHHmmssZ";
-	public static final String SECOND_PATTERN = "\\d{8}-\\d{4}";
+	public static final String SECOND_PATTERN = "\\d{14}-\\d{4}";
 	
 	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
 	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:7080",
