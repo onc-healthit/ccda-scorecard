@@ -17,6 +17,14 @@
   <!-- local custom stylesheets -->
   <link rel="stylesheet" href="css/custom/custom.css">
   <link rel="stylesheet" href="css/custom/scorecardStyle.css">
+  <!-- Google Analytics -->
+  <script>
+  	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	  ga('create', 'UA-40163006-1', 'sitenv.org');
+  </script>
 </head>
 
 <body ng-app="scorecard">
@@ -29,7 +37,10 @@
     <div class="container" ng-controller="SiteUploadController">
       <site-top-level-content
         ng-show="mainDisplayData.showTopLevelContent"></site-top-level-content>
+      <site-introduction-modal></site-introduction-modal>
       <site-scoring-criteria-modal></site-scoring-criteria-modal>
+      <site-api-instructions-modal></site-api-instructions-modal>
+      <site-download-local-modal></site-download-local-modal>
       <site-upload-form></site-upload-form>
       <site-results-modal></site-results-modal>
     </div>

@@ -590,7 +590,7 @@ public class ProblemsScorecard {
 			{
 				validateProblemCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_OBSERVATION.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R2.1"))
+			else if (docType.equalsIgnoreCase("R1.1"))
 			{
 				validateProblemCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_OBSERVATION.getIgReference());
 			}
@@ -745,7 +745,7 @@ public class ProblemsScorecard {
 			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
 			{
 				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
-			}else if (docType.equalsIgnoreCase("R2.1"))
+			}else if (docType.equalsIgnoreCase("R1.1"))
 			{
 				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_CONCERN_ACT.getIgReference());
 			}
@@ -826,7 +826,7 @@ public class ProblemsScorecard {
 				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
 			}else if (docType.equalsIgnoreCase("R1.1"))
 			{
-				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
+				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_CONCERN_ACT.getIgReference());
 			}
 			validateApprEffectiveTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
 		}

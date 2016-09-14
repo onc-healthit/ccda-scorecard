@@ -8,7 +8,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 
   $scope.userMessageConstant = Object.freeze ({
 	GENERIC: "Please try a different file and report the issue to TestingServices@sitenv.org.",
-	UPLOAD_ERROR: "Error uploading <unknownFileName>: " 
+	GENERIC_LATER: "Please try again later or contact TestingServices@sitenv.org for help.",
+	UPLOAD_ERROR: "Error uploading <unknownFileName>: "
   });
   
   $scope.uploadErrorData = {
@@ -30,6 +31,10 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   $scope.uploadDisplay = {
   		isLoading: true,
   		isValidationLoading: true,
+  };
+  
+  $scope.tryMeData = {
+    	isTryMeActive: false	
   };
 
   var ServiceTypeEnum = Object.freeze({
@@ -64,6 +69,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     $scope.debugLog($scope.uploadDisplay.isValidationLoading);
     
     resetValidationData();
+    $scope.tryMeData.isTryMeActive = false;
     
 	//static for now since we are not using the selector/sending this manually
     $scope.ccdaUploadData.docTypeSelected = "C-CDA_IG_Only";
@@ -237,6 +243,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   };
   
   $scope.tryScorecard = function() {
+  	$scope.tryMeData.isTryMeActive = true;
   	$scope.ccdaUploadData = new UploadData(
 		"170.315_b1_toc_amb_ccd_r21_sample1_v5.xml",
 		"C-CDA_IG_Only");
@@ -257,38 +264,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
       target: '_self',
       download: name
 	  })[0].click();
-  };   
-  
-	$scope.triggerTryScorecardFileDownload = function() {		
-		/*var mediaType = "text/xml";*/
-		var filename = "170.315_b1_toc_amb_ccd_r21_sample1_v5.xml";
-		var fileLocation = "resources/" + filename;
-		
-		//support IE Blob format vs the standard
-		/*
-    if (navigator.msSaveBlob) {
-    	console.log('Downloading file in IE');
-      return navigator.msSaveBlob(new Blob([fileLocation], { type: mediaType }), filename);
-		}
-		var fileUrl = URL.createObjectURL(new Blob([fileLocation], {type: mediaType}));		
-		//allow download of potentially dangerous file type
-		var trustedFileUrl = $sce.trustAsResourceUrl(fileUrl);
-		*/
-		
-		if($scope.isFirefox || navigator.msSaveBlob) {
-			//ignore FF and IE requests for now as we probably need back-end to implement
-			document.getElementById("scTryMeDownload").blur();
-			return;
-			//console.log('Downloading file (and opening in browser) in FF');			
-		  //as a workaround for FF, this will open the file in the current window and the user can save from there			
-		  //$window.location.href = fileLocation;
-		} else {
-			console.log('Downloading file in browsers which are not Firefox');
-			$scope.downloadViaAnchor(fileLocation, filename);			
-		}
-	  //clear download button focus
-	  document.getElementById("scTryMeDownload").blur();
-	};  
+  };  
 
   var IssueTypeEnum = Object.freeze({
     MDHT_ERROR: "C-CDA MDHT Conformance Error",

@@ -267,7 +267,7 @@ public class MedicationScorecard {
 				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
 			}else if (docType.equalsIgnoreCase("R1.1"))
 			{
-				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
+				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.MEDICATION_ACTIVITY.getIgReference());
 			}
 			validateTimeScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.MEDICATIONS.getTaskforceLink());
 		}
