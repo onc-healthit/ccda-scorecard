@@ -661,6 +661,14 @@ a.ext-icon {
   margin-top: -35px;
 }
 
+.embedded-navbar {
+  position: relative;
+  right: 5px;
+  z-index: 100;
+  float: right;
+  margin-top: -25px;
+}
+
 .thumbnail-ext {
   position: absolute;
   right: 20px;
