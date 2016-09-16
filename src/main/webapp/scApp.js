@@ -135,3 +135,10 @@ scApp.directive('siteDownloadLocalModal', function() {
 		templateUrl: 'siteDownloadLocalModal.html'
 	};
 });
+
+scApp.directive('linkDisclaimer', function() {
+	return {
+		retrict: 'E',
+		templateUrl: 'siteExternalLinkDisclaimer.html'
+	};
+});
