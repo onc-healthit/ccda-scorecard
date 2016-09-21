@@ -10,6 +10,13 @@ scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$ti
 		useLocalTestDataForServices: false
 	};
 	
+	$scope.siteUiData = {
+		disclaimer: {
+			classesForNavbar: "external-page embedded-navbar",
+			classesForButton: "external-page embedded"
+		}		
+	};
+	
 		$scope.debugLog = function(debugMessage) {
 			if(!$scope.mainDebug.inDebugMode) return;
 			console.log(debugMessage);
