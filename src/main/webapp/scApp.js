@@ -139,6 +139,9 @@ scApp.directive('siteDownloadLocalModal', function() {
 scApp.directive('linkDisclaimer', function() {
 	return {
 		retrict: 'E',
+		scope: {
+			spanClass: "="
+		},
 		templateUrl: 'siteExternalLinkDisclaimer.html'
 	};
 });
