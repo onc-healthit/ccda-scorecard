@@ -51,6 +51,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   $scope.selectedValidationOption = $scope.validationOptions[0];
 
   $scope.isFirefox = typeof InstallTrigger !== 'undefined';
+  $scope.isSafari = typeof safari !== 'undefined';
   
   var resetValidationData = function() {	  	  
 		$scope.jsonScorecardData = {};
