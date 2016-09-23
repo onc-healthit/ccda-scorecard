@@ -58,12 +58,13 @@
 									  <div class="col-md-12 form-group">
 										<span
 										  class="btn btn-success fileinput-button">
-										  <i class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select</span> <input type="file"
-										  ngf-select ng-model="ccdaScFile"
-										  name="file" accept=".xml"
-										  ngf-max-size="3MB" required
-										  ngf-model-invalid="invalidCcdaScFile"
-										  tabindex="1" />
+										  <i class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select</span>
+                                          <!-- label is for 508 compliance -->
+                                          <label for="select-a-ccda-file" style="display: none">Select</label>
+                                          <!-- value is for 508 compliance -->
+                                          <input id="select-a-ccda-file" type="file" ngf-select ng-model="ccdaScFile"
+										  name="file" accept=".xml" ngf-max-size="3MB" required
+										  ngf-model-invalid="invalidCcdaScFile" tabindex="1" value="Select" />
 										</span> <span class="infoColor"> <i
 										  ng-show="scUploadForm.file.$error.required">&nbsp;*Please
 											select a C-CDA file.</i> <i
