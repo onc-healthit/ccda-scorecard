@@ -66,16 +66,18 @@ public class MiscScorecard {
 		
 		List<CCDAID> duplicates = new ArrayList<CCDAID>();
 		Set<CCDAID> set = new HashSet<CCDAID>();
-		for(CCDAID id : ccdaModels.getIdList())
+		if(ccdaModels.getIdList()!= null)
 		{
-		    if(!set.add(id))
-		    {
-		        duplicates.add(id);
-		    }
+			for(CCDAID id : ccdaModels.getIdList())
+			{
+				if(!set.add(id))
+				{
+					duplicates.add(id);
+				}
+			}
+			maxPoints = ccdaModels.getIdList().size();
+			actualPoints = set.size();
 		}
-		
-		maxPoints = ccdaModels.getIdList().size();
-		actualPoints = set.size();
 		
 		for (CCDAID id : duplicates)
 		{
