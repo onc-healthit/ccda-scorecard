@@ -15,47 +15,25 @@
 
 .scHeading {
     color: black;
-    text-align: center;
+    /*text-align: center;*/
 /*    border-top: 2px solid darkBlue;*/
     background-color: white;
     margin-top: 5px;
 }
 
-.scSubHeading {
-/*    color: black;*/
-/*    text-align: center;*/
-/*    border-bottom: 1px solid darkBlue;*/
-/*    border-left: 1px solid darkBlue;*/
-/*    border-right: 1px solid darkBlue;*/
-/*    background-color: white;*/
-/*    margin-top: 5px;    */
-}
-
-.scCertificationScoreSubHeading {
-    padding-bottom: 7.44px;
-/*    padding-bottom: 1.53em;*/
-/*        padding-bottom: 95.4px;*/
-/*    padding-bottom: 6.85em;    */
-/*    border-bottom: 1px solid darkBlue;*/
-/*    border-left: 1px solid darkBlue;*/
-/*    border-right: 1px solid darkBlue;*/
-}
-
-.scSubHeadingBottom {
-/*    border-bottom: 1px solid darkBlue;*/
-/*    border-left: 1px solid darkBlue;*/
-/*    border-right: 1px solid darkBlue;*/
-    margin-bottom: 5px;
-}
-
 .scHeaderDescriptionText {
-    text-align: left;
-    font-size: 90.1%;
+	padding-top: 5px;
+}
+
+.scDescriptionText {
+	text-align: left;
+    font-size: 100%;
     font-weight: bold;
 }
 
 #topLevelResultsTable {
-    padding-top: 25px
+    padding-top: 25px;
+    /*maybe add padding to the bottom too...*/
 }
 
 .fitGlyphiconToScHeadingSize {

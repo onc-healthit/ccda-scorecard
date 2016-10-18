@@ -1,85 +1,95 @@
 <div class="container-fluid">
 
-    <div id="scHeaderContainer">        
+    <div id="scHeaderContainer">
+      
         <div class="row scHeadingSummary">
             <div class="col-md-12">
                 <h1 id="resultModalLabel">{{jsonData.results.finalGrade ? 'C-CDA ' + jsonData.results.docType : ''}} Scorecard For:</h1>
                 <h2>{{ccdaUploadData.fileName}}</h2>
             </div>
         </div>
+		
         <div id="topLevelResultsTable">
-            <div class="row">
-                <div class="col-md-4 scHeading">
-                    <div class="col-md-12 scCertificationScoreSubHeading">
-                        <h2>Certification Score</h2>
-                        <h2>      
-                            <span ng-show="!calculatedValidationData.certificationResult">
-                              <span ng-show="!uploadErrorData.validationServiceError">
-                                <span>Certifying...</span><br/>
-                                <img src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 35px; padding-top: 11px; padding-bottom: 5px;">
-                              </span>
-                            </span>
-                            <span ng-show="uploadErrorData.validationServiceError">
-                              <span class="failCertColor">Certification Service Error</span>
-                              <span style="font-size: 55%">
-                                <span>Please try again at another time or try another file.</span>
-                                <br/>
-                                <span>Note: The Scorecard results may still be accurate.</span>
-                              </span>                                
-                            </span>                            
-                            <span ng-show="calculatedValidationData.certificationResult && !uploadErrorData.validationServiceError">
-                                <div class="col-md-6 fitGlyphiconToScHeadingSize" ng-class="setPassingCertificationColors('col-md-6 fitGlyphiconToScHeadingSize')">
-                                    <span class="glyphicon glyphicon-ok" title="Passed Certification" alt="{{calculatedValidationData.certificationResult}}"></span>
-                                    <br>Pass
-                                </div>
-                                <div class="col-md-6 fitGlyphiconToScHeadingSize" ng-class="setFailingCertificationColors('col-md-6 fitGlyphiconToScHeadingSize')">
-                                    <span class="glyphicon glyphicon-remove" title="Failed Certification" alt="{{calculatedValidationData.certificationResult}}"></span>
-                                    <br>Fail
-                                </div>
-                            </span>
-                        </h2>                        
-                    </div>
-                </div>
-                <div class="col-md-2 scHeading">
-                    <div class="col-md-12 scSubHeading">
-                        <h2>Grade:</h2>
-                    </div>
-                    <div class="col-md-12 scSubHeading">
-                        <h2>Score:</h2>
-                    </div>
-                    <div class="col-md-12 scSubHeadingBottom">
-                        <h2>{{calculatedValidationData.passedCertification ? "Improvements" : "Issues"}}:</h2>
-                    </div>
-                </div>            
-                <div class="col-md-2 scHeading">
-                    <div class="col-md-12 scSubHeading">
-                        <!--<h2>{{jsonData.results.finalGrade ? jsonData.results.finalGrade + " (" + jsonData.results.industryAverageGrade + ")" : "Scoring..."}}</h2>-->
-                        <h2>{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "Scoring..."}}</h2>
-                    </div>
-                    <div class="col-md-12 scSubHeading">
-                        <h2>{{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade + " / 100" : "Scoring..."}}</h2>
-                    </div>
-                    <div class="col-md-12 scSubHeadingBottom">
-                        <!-- (front-end calculated) sum of all occurrences in each rubric -->
-                        <!-- <h2>{{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "Scoring..."}}</h2> -->
-                        <!-- (back-end now-given calculated) sum of all occurrences in each rubric -->
-                        <h2>{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>                        
-                    </div>
-                </div>
-                <div class="col-md-4 scHeading">
-                    <div class="col-md-12 scSubHeading">                        
-                        <h5 class="scHeaderDescriptionText">Your document scored {{jsonData.results.finalGrade && jsonData.results.finalGrade === 'A' ? 'an' : 'a'}}&nbsp;{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "?"}} compared to an industry average of <b>{{jsonData.results.finalGrade ? jsonData.results.industryAverageGrade : "?"}}</b>.</h5>
-                    </div>
-                    <div class="col-md-12 scSubHeading">
-                        <h5 class="scHeaderDescriptionText">Your document scored {{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade : "?"}} out of 100 total possible points.</h5>
-                    </div>
-                    <div class="col-md-12 scSubHeadingBottom">
-                        <h5 class="scHeaderDescriptionText">There are {{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "?"}} specific {{calculatedValidationData.passedCertification ? "improvements that you can make to" : "issues in"}} your document.</h5>
-                    </div>
-                </div>                
-            </div>
-        </div>
-    </div>    
+    		<!-- Grade row -->
+    		<div class="row">
+    			<div class="col-md-4 scHeading">
+    			   <h2>Grade:</h2>
+    			</div>
+    			<div class="col-md-2 scHeading">
+    			   <h2>{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "Scoring..."}}</h2>
+    			</div>
+    			<div class="col-md-6 scHeading scHeaderDescriptionText">
+    			   <h4 class="scDescriptionText">
+                   Your document scored {{jsonData.results.finalGrade && jsonData.results.finalGrade === 'A' ? 'an' : 'a'}}
+                   {{jsonData.results.finalGrade ? jsonData.results.finalGrade : "?"}} compared to an industry average of
+                   <b>{{jsonData.results.finalGrade ? jsonData.results.industryAverageGrade : "?"}}</b>.
+                   </h4>
+    			</div>
+    		</div>
+    		<!-- Score row -->
+    		<div class="row">
+    			<div class="col-md-4 scHeading">
+    			   <h2>Score:</h2>
+    			</div>
+    			<div class="col-md-2 scHeading">
+    			   <h2>{{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade + " / 100" : "Scoring..."}}</h2>
+    			</div>
+    			<div class="col-md-6 scHeading scHeaderDescriptionText">
+    			   <h4 class="scDescriptionText">
+                   Your document scored {{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade : "?"}}
+                   out of 100 total possible points.
+                   </h4>
+    			</div>	
+    		</div>
+    		<!-- Improvements row -->
+    		<div class="row">
+    			<div class="col-md-4 scHeading">
+    			   <h2>{{calculatedValidationData.passedCertification ? "Improvements" : "Issues"}}:</h2>
+    			</div>
+    			<div class="col-md-2 scHeading">
+    			   <h2>{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>
+    			</div>
+    			<div class="col-md-6 scHeading scHeaderDescriptionText">
+    			   <h4 class="scDescriptionText">There are {{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "?"}}
+                   specific {{calculatedValidationData.passedCertification ? "improvements that you can make to" : "issues in"}} your document.
+                   </h4>
+    			</div>
+    		</div>
+    		<!-- IG Conformance Errors -->
+    		<div class="row">
+    			<div class="col-md-4 scHeading">
+    			   <h2>IG Conformance Errors:</h2>
+    			</div>
+    			<div class="col-md-2 scHeading">
+    			   <h2>
+                      <a href="#" title="Navigate to IG Conformance Errors" aria-label="Navigate to IG Conformance Errors">
+                      TODO
+                      </a>
+                   </h2>
+    			</div>
+    			<div class="col-md-6 scHeading scHeaderDescriptionText">
+    			   <h4 class="scDescriptionText">C-CDA IG Conformance Errors TODO *add more text here*</h4>
+    			</div>		
+    		</div>
+    		<!-- 2015 Certification Errors row -->
+    		<div class="row">
+    			<div class="col-md-4 scHeading">
+    		       <h2>2015 Certification Errors:</h2>
+    			</div>
+    			<div class="col-md-2 scHeading">
+    			   <h2>
+                      <a href="#" title="Navigate to IG Conformance Errors" aria-label="Navigate to IG Conformance Errors">
+                      TODO
+                      </a>
+                   </h2>
+    			</div>
+    			<div class="col-md-6 scHeading scHeaderDescriptionText">
+    			   <h4 class="scDescriptionText">2015 Certification Feedback TODO *add more text here*</h4>
+    			</div>		
+    		</div>
+        </div> <!-- END topLevelResultsTable -->		                		
+	
+    </div> <!-- END scHeaderContainer -->    
 
     <charts></charts>
 
