@@ -250,11 +250,13 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         //var issues = curCategory.numberOfIssues;
         var issues = curCategory.numberOfOccurrences;        
         var score = curCategory.categoryNumericalScore;
+        var failed = curCategory.isFailingConformance;
         var sectionData = {
           name: name,
           grade: grade,
           sectionIssueCount: issues,
-          score: score
+          score: score,
+          failed: failed
         };
         allCategories.push(sectionData);
       };
@@ -267,7 +269,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
             name: "UNK",
             grade: "UNK",
             sectionIssueCount: 0,
-            score: 0
+            score: 0,
+            failed: false
           };
           if(allCategories.length === 10) {
             allCategories.push(emptySectionData, emptySectionData);
@@ -312,17 +315,20 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	    }
   	}
     return "UNK.";
-  };
-
+  }; 
+  
   $scope.getHeatMapCategoryGrade = function(row, columnNumber) {
   	if(!isCategoryListByGradeEmpty()) {
 	    switch (columnNumber) {
 	      case 1:
-	        return $scope.categoryListByGradeFirstColumn[row].grade;
+	        return $scope.categoryListByGradeFirstColumn[row].failed ? '' : 
+	        	$scope.categoryListByGradeFirstColumn[row].grade + ' ';
 	      case 2:
-	        return $scope.categoryListByGradeSecondColumn[row].grade;
+	        return $scope.categoryListByGradeSecondColumn[row].failed ? '' : 
+	        	$scope.categoryListByGradeSecondColumn[row].grade + ' ';
 	      case 3:
-	        return $scope.categoryListByGradeThirdColumn[row].grade;
+	        return $scope.categoryListByGradeThirdColumn[row].failed ? '' : 
+	        	$scope.categoryListByGradeThirdColumn[row].grade + ' ';
 	    }
   	}
     return "UNK.";
@@ -330,13 +336,17 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 
   $scope.getHeatMapCategoryIssueCount = function(row, columnNumber) {
   	if(!isCategoryListByGradeEmpty()) {
+  		var failedConformanceString = "Conformance Errors";
 	    switch (columnNumber) {
 	      case 1:
-	        return $scope.categoryListByGradeFirstColumn[row].sectionIssueCount;
+	        return $scope.categoryListByGradeFirstColumn[row].failed ? failedConformanceString : 
+	        	$scope.categoryListByGradeFirstColumn[row].sectionIssueCount;
 	      case 2:
-	        return $scope.categoryListByGradeSecondColumn[row].sectionIssueCount;
+	        return $scope.categoryListByGradeSecondColumn[row].failed ? failedConformanceString : 
+	        	$scope.categoryListByGradeSecondColumn[row].sectionIssueCount;
 	      case 3:
-	        return $scope.categoryListByGradeThirdColumn[row].sectionIssueCount;
+	        return $scope.categoryListByGradeThirdColumn[row].failed ? failedConformanceString : 
+	        	$scope.categoryListByGradeThirdColumn[row].sectionIssueCount;
 	    }
   	}
     return "UNK.";
@@ -344,13 +354,17 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 
   $scope.getGradeClass = function(row, columnNumber, classPrefix) {
   	if(!isCategoryListByGradeEmpty()) {
+  		var failedClasses = classPrefix + " heatMapFail";
 	    switch (columnNumber) {
-	      case 1:
-	        return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeFirstColumn[row].grade);
+	      case 1:	        
+	        return $scope.categoryListByGradeFirstColumn[row].failed ? failedClasses : 
+	        	$scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeFirstColumn[row].grade);
 	      case 2:
-	        return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeSecondColumn[row].grade);
+	        return $scope.categoryListByGradeSecondColumn[row].failed ? failedClasses : 
+	        	$scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeSecondColumn[row].grade);	      	
 	      case 3:
-	        return $scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeThirdColumn[row].grade);
+	        return $scope.categoryListByGradeThirdColumn[row].failed ? failedClasses : 
+	        	$scope.calculateCategoryColor(classPrefix, $scope.categoryListByGradeThirdColumn[row].grade);
 	    }
   	}
     return classPrefix + " unknownGradeColor";
@@ -469,7 +483,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       	//make map for navigation
         chartAndCategoryIndexMap.push(new ChartAndCategoryTracker(chartIndex++, catIndex));
         //ensure visibility of longer category names
-        categoryDisplayName = truncateCategoryName(curCategory.categoryName);
+        categoryDisplayName = $scope.truncateCategoryName(curCategory.categoryName);
         //process data for charts
         switch (chartType) {
           case chartTypeEnum.ISSUES_PER_SECTION_WITH_GRADE:
@@ -490,8 +504,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     }
     return data;
   };
-
-  var truncateCategoryName = function(curCategoryName) {
+  
+  $scope.truncateCategoryName = function(curCategoryName) {
     if (curCategoryName === categoryTypes[5]) {
       return ShortCategoryNamesEnum.LABORATORY_TESTS_AND_RESULTS;
     } else if (curCategoryName === categoryTypes[7]) {
@@ -563,14 +577,14 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   };
   
   $scope.getDropdownStateClasses = function(panelDropdownElementId) {
-	  //bypassing for now as going for a clean no icon look...
-	  return "";
 	  $scope.debugLog('panelDropdownElementId:');
 	  $scope.debugLog(panelDropdownElementId);	  
 	  var panelElement = document.getElementById(panelDropdownElementId);
 	  if(angular.element(panelElement).hasClass('collapsed')) {
+	  	$scope.detailedResultsTextPrefix = "Click Here For ";
 		  return "glyphicon glyphicon-triangle-right pull-left";
 	  }
+	  $scope.detailedResultsTextPrefix = '';
 	  return "glyphicon glyphicon-triangle-bottom pull-left";	  
   };
     
