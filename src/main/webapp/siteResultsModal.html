@@ -12,9 +12,11 @@
             </span>          
         </div>                  
         <div class="pull-right">
-          <!--<save-scorecard-button></save-scorecard-button>-->       
-          <!--<button type="button" class="btn btn-default closeResultsBtn"
-            data-dismiss="modal">Close Results</button> -->
+          <save-try-me-xml-button></save-try-me-xml-button>        
+          <save-scorecard-button></save-scorecard-button>
+          <button ng-show="!uploadDisplay.isLoading && !uploadDisplay.isValidationLoading" 
+            type="button" class="btn btn-default closeResultsBtn"
+            data-dismiss="modal">Close Results</button>
         </div>               
       </div>
         

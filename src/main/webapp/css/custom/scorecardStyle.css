@@ -134,16 +134,20 @@ overriding for a larger heading */
 }
 
 .categoryPanelHeading {
-/*    background-color: white !important;*/
     background-image: none !important;
     color: black !important;
     border-bottom-color: black !important;
 }
 
+.validationCategoryPanelHeading {
+    color: white !important;
+}
+
 .resultsButton {
     color: black;
-	border: 1px solid black;
-    border-bottom: 1px solid black;
+	/*border: 1px solid black;*/
+	/*border-top: 1px solid black;
+    border-bottom: 1px solid black;*/
 }
 
 .resultsButton:hover {
@@ -294,7 +298,9 @@ we don't use data-target as we don't want the user redirected */
 .Dcolor {
     background-color: #F1784D !important;
 }
-
+.blackBackground {
+	background-color: #000000 !important;
+}
 .unknownGradeColor {
     background-color: lightGray !important;
 }
@@ -357,6 +363,16 @@ we don't use data-target as we don't want the user redirected */
     font-weight: bold;
 }
 .heatMapD:focus {
+    color: white !important;
+}
+.heatMapFail {
+    background-color: #000000 !important;   
+    color: white !important;
+}
+.heatMapFail:hover {
+    font-weight: bold;
+}
+.heatMapFail:focus {
     color: white !important;
 }
 
