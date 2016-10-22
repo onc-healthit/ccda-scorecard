@@ -15,47 +15,25 @@
 
 .scHeading {
     color: black;
-    text-align: center;
+    /*text-align: center;*/
 /*    border-top: 2px solid darkBlue;*/
     background-color: white;
     margin-top: 5px;
 }
 
-.scSubHeading {
-/*    color: black;*/
-/*    text-align: center;*/
-/*    border-bottom: 1px solid darkBlue;*/
-/*    border-left: 1px solid darkBlue;*/
-/*    border-right: 1px solid darkBlue;*/
-/*    background-color: white;*/
-/*    margin-top: 5px;    */
-}
-
-.scCertificationScoreSubHeading {
-    padding-bottom: 7.44px;
-/*    padding-bottom: 1.53em;*/
-/*        padding-bottom: 95.4px;*/
-/*    padding-bottom: 6.85em;    */
-/*    border-bottom: 1px solid darkBlue;*/
-/*    border-left: 1px solid darkBlue;*/
-/*    border-right: 1px solid darkBlue;*/
-}
-
-.scSubHeadingBottom {
-/*    border-bottom: 1px solid darkBlue;*/
-/*    border-left: 1px solid darkBlue;*/
-/*    border-right: 1px solid darkBlue;*/
-    margin-bottom: 5px;
-}
-
 .scHeaderDescriptionText {
-    text-align: left;
-    font-size: 90.1%;
+	padding-top: 5px;
+}
+
+.scDescriptionText {
+	text-align: left;
+    font-size: 100%;
     font-weight: bold;
 }
 
 #topLevelResultsTable {
-    padding-top: 25px
+    padding-top: 25px;
+    /*maybe add padding to the bottom too...*/
 }
 
 .fitGlyphiconToScHeadingSize {
@@ -156,16 +134,20 @@ overriding for a larger heading */
 }
 
 .categoryPanelHeading {
-/*    background-color: white !important;*/
     background-image: none !important;
     color: black !important;
     border-bottom-color: black !important;
 }
 
+.validationCategoryPanelHeading {
+    color: white !important;
+}
+
 .resultsButton {
     color: black;
-	border: 1px solid black;
-    border-bottom: 1px solid black;
+	/*border: 1px solid black;*/
+	/*border-top: 1px solid black;
+    border-bottom: 1px solid black;*/
 }
 
 .resultsButton:hover {
@@ -316,7 +298,9 @@ we don't use data-target as we don't want the user redirected */
 .Dcolor {
     background-color: #F1784D !important;
 }
-
+.blackBackground {
+	background-color: #000000 !important;
+}
 .unknownGradeColor {
     background-color: lightGray !important;
 }
@@ -379,6 +363,16 @@ we don't use data-target as we don't want the user redirected */
     font-weight: bold;
 }
 .heatMapD:focus {
+    color: white !important;
+}
+.heatMapFail {
+    background-color: #000000 !important;   
+    color: white !important;
+}
+.heatMapFail:hover {
+    font-weight: bold;
+}
+.heatMapFail:focus {
     color: white !important;
 }
 

@@ -20,7 +20,6 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   };
 
   $scope.jsonValidationData = $scope.metaResults = $scope.ccdaResults = {};
-  $scope.mdhtMetaIssues = $scope.vocabMetaIssues = {};
   $scope.jsonScorecardData = {};
     
   $scope.calculatedValidationData = {
@@ -215,9 +214,21 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 
   var setIssueCounts = function() {  	
 	    var metaData = $scope.metaResults.resultMetaData;
-	    mdhtMetaIssues = [metaData[0], metaData[1], metaData[2]];
-	    vocabMetaIssues = [metaData[3], metaData[4], metaData[5]];
-	    $scope.allUsedMetaIssues = [mdhtMetaIssues, vocabMetaIssues];
+
+	    //TODO: delete these lines when done with old version of validation results
+      /*
+    	var mdhtMetaIssues = [metaData[0], metaData[1], metaData[2]];
+    	var vocabMetaIssues = [metaData[3], metaData[4], metaData[5]];
+    	var referenceMetaIssues = [metaData[6], metaData[7], metaData[8]];
+    	$scope.allUsedMetaIssues = [mdhtMetaIssues, vocabMetaIssues, referenceMetaIssues];
+    	*/
+  
+	    var mdhtErrors = metaData[0];
+	    var vocabErrors = metaData[3];
+	    var referenceErrors = metaData[6];
+	    $scope.allUsedMetaIssues = [mdhtErrors, vocabErrors, referenceErrors];
+	    //TODO: delete this line when done with old version of validaiton results
+	    $scope.allUsedMetaIssuesOldStyle = [[mdhtErrors], [vocabErrors], [referenceErrors]];	    
   };
     
     var setCertificationResult = function() {
@@ -265,55 +276,97 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
       target: '_self',
       download: name
 	  })[0].click();
-  };  
-
+  };
+  
   var IssueTypeEnum = Object.freeze({
     MDHT_ERROR: "C-CDA MDHT Conformance Error",
     MDHT_WARNING: "C-CDA MDHT Conformance Warning",
     MDHT_INFO: "C-CDA MDHT Conformance Info",
     VOCAB_ERROR: "ONC 2015 S&CC Vocabulary Validation Conformance Error",
     VOCAB_WARNING: "ONC 2015 S&CC Vocabulary Validation Conformance Warning",
-    VOCAB_INFO: "ONC 2015 S&CC Vocabulary Validation Conformance Info"
+    VOCAB_INFO: "ONC 2015 S&CC Vocabulary Validation Conformance Info",
+    REFERENCE_ERROR: "ONC 2015 S&CC Reference C-CDA Validation Error",
+    REFERENCE_WARNING: "ONC 2015 S&CC Reference C-CDA Validation Warning",
+    REFERENCE_INFO: "ONC 2015 S&CC Reference C-CDA Validation Info"    
   });
+  
+  var ResultCategoryEnum = Object.freeze({
+  	MDHT: "C-CDA MDHT Conformance",
+  	VOCAB: "ONC 2015 S&CC Vocabulary Validation Conformance",
+  	REFERENCE: "ONC 2015 S&CC Reference C-CDA Validation",
+  	UNKNOWN: "Unknown"
+  });
+  
+  var getValidationCategoryViaType = function(curResultOrMetaCategoryType) {
+    switch (curResultOrMetaCategoryType) {
+      case IssueTypeEnum.MDHT_ERROR:
+      case IssueTypeEnum.MDHT_WARNING:
+      case IssueTypeEnum.MDHT_INFO:
+        return ResultCategoryEnum.MDHT;
+      case IssueTypeEnum.VOCAB_ERROR:
+      case IssueTypeEnum.VOCAB_WARNING:
+      case IssueTypeEnum.VOCAB_INFO:      
+      	return ResultCategoryEnum.VOCAB;      
+      case IssueTypeEnum.REFERENCE_ERROR:
+      case IssueTypeEnum.REFERENCE_WARNING:
+      case IssueTypeEnum.REFERENCE_INFO:      	
+      	return ResultCategoryEnum.REFERENCE;
+      default:
+        return ResultCategoryEnum.UNKNOWN;
+    }
+  };
 
-  var ResultTypeEnum = Object.freeze({
+  var ResultSeverityEnum = Object.freeze({
     ERROR: "Error",
     WARNING: "Warning",
     INFO: "Info",
     UNKNOWN: "Unknown"
   });
 
-  var getValidationResultType = function(curResultType) {
+  var getValidationResultSeverityViaType = function(curResultType) {
     switch (curResultType) {
       case IssueTypeEnum.MDHT_ERROR:
       case IssueTypeEnum.VOCAB_ERROR:
-        return ResultTypeEnum.ERROR;
+      case IssueTypeEnum.REFERENCE_ERROR:
+        return ResultSeverityEnum.ERROR;
       case IssueTypeEnum.MDHT_WARNING:
       case IssueTypeEnum.VOCAB_WARNING:
-        return ResultTypeEnum.WARNING;
+      case IssueTypeEnum.REFERENCE_WARNING:
+        return ResultSeverityEnum.WARNING;
       case IssueTypeEnum.MDHT_INFO:
       case IssueTypeEnum.VOCAB_INFO:
-        return ResultTypeEnum.INFO;
+      case IssueTypeEnum.REFERENCE_INFO:
+        return ResultSeverityEnum.INFO;
       default:
-        return ResultTypeEnum.UNKNOWN;
+        return ResultSeverityEnum.UNKNOWN;
     }
+  };
+  
+  $scope.determineResultsToShow = function(curResult, curMetaCategory) {
+    if(getValidationResultSeverityViaType(curResult.type) === ResultSeverityEnum.ERROR
+    		&& getValidationCategoryViaType(curResult.type) === getValidationCategoryViaType(curMetaCategory.type)) {
+    	return true;
+    } else {
+    	return false;
+    }
+  	return true;
   };
 
   $scope.getValidationResultColorViaType = function(curResult, isBadge) {
-    switch (getValidationResultType(curResult.type)) {
-      case ResultTypeEnum.ERROR:
+    switch (getValidationResultSeverityViaType(curResult.type)) {
+      case ResultSeverityEnum.ERROR:
         if (isBadge)
           return "badge btn-danger";
         return "errorColor";
-      case ResultTypeEnum.WARNING:
+      case ResultSeverityEnum.WARNING:
         if (isBadge)
           return "badge btn-warning";
         return "warningColor";
-      case ResultTypeEnum.INFO:
+      case ResultSeverityEnum.INFO:
         if (isBadge)
           return "badge btn-info";
         return "infoColor";
-      case ResultTypeEnum.UNKNOWN:
+      case ResultSeverityEnum.UNKNOWN:
         if (isBadge)
           return "badge btn-primary";
         return "unknownColor";

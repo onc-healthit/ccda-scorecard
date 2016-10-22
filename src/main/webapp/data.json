@@ -7,6 +7,7 @@
         "categoryName": "Patient Demographics",
         "categoryGrade": "A+",
         "categoryNumericalScore": 100,
+        "isFailingConformance": false,
         "categoryRubrics": [
           {
             "rule": "Patient DOB should be valid and properly precisioned",
@@ -23,6 +24,7 @@
         "categoryName": "Encounters",
         "categoryGrade": "D",
         "categoryNumericalScore": 25,
+        "isFailingConformance": true,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -90,6 +92,7 @@
         "categoryName": "Allergies",
         "categoryGrade": "D",
         "categoryNumericalScore": 42,
+        "isFailingConformance": true,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -211,6 +214,7 @@
         "categoryName": "Problems",
         "categoryGrade": "D",
         "categoryNumericalScore": 13,
+        "isFailingConformance": false,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -346,6 +350,7 @@
         "categoryName": "Medications",
         "categoryGrade": "B-",
         "categoryNumericalScore": 80,
+        "isFailingConformance": false,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -411,6 +416,7 @@
         "categoryName": "Immunizations",
         "categoryGrade": "D",
         "categoryNumericalScore": 60,
+        "isFailingConformance": false,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -505,6 +511,7 @@
         "categoryName": "Social History",
         "categoryGrade": "B+",
         "categoryNumericalScore": 89,
+        "isFailingConformance": false,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -574,6 +581,7 @@
         "categoryName": "Laboratory Tests and Results",
         "categoryGrade": "D",
         "categoryNumericalScore": 14,
+        "isFailingConformance": true,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -692,6 +700,7 @@
         "categoryName": "Vital Signs",
         "categoryGrade": "D",
         "categoryNumericalScore": 66,
+        "isFailingConformance": false,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -867,6 +876,7 @@
         "categoryName": "Procedures",
         "categoryGrade": "D",
         "categoryNumericalScore": 50,
+        "isFailingConformance": false,
         "categoryRubrics": [
           {
             "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
@@ -892,6 +902,7 @@
         "categoryName": "Miscellaneous",
         "categoryGrade": "D",
         "categoryNumericalScore": 0,
+        "isFailingConformance": false,
         "categoryRubrics": [
           {
             "rule": "All Template Ids should be correct",

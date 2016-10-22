@@ -1,52 +1,104 @@
-<div class="container-fluid">
+      <!--START Validation PANELS -->
+      <div ng-repeat="curMetaCategory in allUsedMetaIssues"
+        id="validationAccordion{{$index}}" class="panel-group category">
+        <div id="{{curMetaCategory.count}}.{{$index}}"
+          class="panel panel-primary removeBorder">
 
-  <div ng-show="uploadDisplay.isValidationLoading && !ngFileUploadError" id="loading">
-    <h1>Upload Complete.</h1>
-    <h1>Validating...</h1>
-  </div>
-  <h3 ng-show="uploadErrorData.validationServiceError" class="webServiceError">
-    <span class="errorColor">Web Service Error:&nbsp;</span>{{uploadErrorData.validationServiceError}}
-  </h3>
-  <h3 ng-show="ngFileUploadError" class="fileUploadError">
-    <span class="errorColor">File Upload Error:&nbsp;</span>{{uploadErrorData.uploadError}}
-  </h3>
-
-  <div ng-hide="uploadDisplay.isValidationLoading || uploadErrorData.validationServiceError || ngFileUploadError">
-
-    <!-- Upload results -->
-    <div class="row">
-      <div class="col-md-12">
-        <div id="uploadResults">
-          <p>
-            <b>Upload Results:&nbsp;</b><span>{{ccdaUploadData.fileName}}&nbsp;{{uploadErrorData.getValidationResultsAsJsonError}}</span>
-          </p>
-          <p>
-            <b>Document Type Selected:&nbsp;</b><span>{{ccdaUploadData.docTypeSelected}}</span>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Issue Counts (MDHT and Vocab) -->
-    <div class="row">
-      <div class="panel panel-primary col-md-2 col-lg-2 removeBorder"
-        ng-repeat="curMetaCategory in allUsedMetaIssues">
-        <div class="list-group"
-          ng-repeat="curMetaResult in curMetaCategory">
-          <div class="list-group-item validatorListGroupItem">
-            <span
-              ng-class="getValidationResultColorViaType(curMetaResult, true)"
-              class="badge btn-primary">{{curMetaResult.count}}</span> <a
-              href="#{{curMetaResult.type}}" target="_self">{{curMetaResult.type}}</a>
+          <div class="panel-heading categoryPanelHeading validationCategoryPanelHeading" style="border-radius: 0px">
+            <h2 class="panel-title">
+              <a data-toggle="collapse" data-parent="validationAccordion{{$index}}" 
+              href="#validationCategoryData{{$index}}">{{curMetaCategory.type}}</a>
+              <span ng-show="curMetaCategory.count > 0" class="pull-right numberOfIssuesHeader">
+                <b>{{curMetaCategory.count}}</b>&nbsp;{{curMetaCategory.count > 1 ? 'Errors' : 'Error'}}
+              </span>
+            </h2>
           </div>
+
+          <!--START REQUIREMENT PANELS -->
+          <div id="validationCategoryData{{$index}}"
+            class="panel-collapse collapse in">
+            <div class="panel-body">
+
+              <!-- START rule message -->
+              <div ng-repeat="curResult in ccdaResults" ng-show="determineResultsToShow(curResult, curMetaCategory)" class="panel basicBorder">
+                <div class="panel-heading requirementWrapper">
+                  <h3 class="panel-title">
+                    <a data-toggle="collapse"
+                      href="#validationRubricBody{{$parent.$index}}-{{$index}}">Error: {{curResult.description}}
+                    </a>
+                  </h3>
+                </div>
+
+
+                <!-- START expandable details panel -->
+                <div id="validationRubricBody{{$parent.$index}}-{{$index}}" class="panel-collapse collapse out">
+                  <div class="panel-body rubricColor">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Document Line Number (approximate)</h3>
+                            <h4>{{curResult.documentLineNumber}}</h4>                        
+                            <h3>xPath</h3>
+                            <h5>{{curResult.xPath}}</h5>                     
+                        </div>
+                    </div>
+
+                  </div>
+                </div> <!-- END expandable details panel -->
+        
+              </div> <!-- END rule message -->
+
+            </div> <!-- END requirement/rule panel-body -->
+            <div class="panel-footer scFooter">
+              <button ng-click="jumpToElementViaId('ValidationResult', true, 0)" 
+                class="btn btn-default btn-block scButton removeBorder" type="button" title="Back to Summary" 
+                alt="Back to Summary" tabindex="0" role="button" onclick="this.blur();" aria-label="Back to Summary">
+                <span class="glyphicon glyphicon-triangle-top" title="Back to Summary" alt="Back to Summary"></span>
+              </button>
+            </div>
+          </div> <!-- END requirement/rule panel header -->
+
+        </div> <!-- END category name -->
+      </div> <!-- END category -->
+
+<!--<div ng-hide="uploadDisplay.isValidationLoading || uploadErrorData.validationServiceError || ngFileUploadError">-->
+<div ng-show="false">
+
+  <!-- Upload results -->
+  <div class="row">
+    <div class="col-md-12">
+      <div id="uploadResults">
+        <p>
+          <b>Upload Results:&nbsp;</b><span>{{ccdaUploadData.fileName}}&nbsp;{{uploadErrorData.getValidationResultsAsJsonError}}</span>
+        </p>
+        <p>
+          <b>Document Type Selected:&nbsp;</b><span>{{ccdaUploadData.docTypeSelected}}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Issue Counts (MDHT and Vocab) -->
+  <div class="row">
+    <div class="panel panel-primary col-md-2 col-lg-2 removeBorder"
+      ng-repeat="curMetaCategory in allUsedMetaIssuesOldStyle">
+      <div class="list-group"
+        ng-repeat="curMetaResult in curMetaCategory">
+        <div class="list-group-item validatorListGroupItem">
+          <span
+            ng-class="getValidationResultColorViaType(curMetaResult, true)"
+            class="badge btn-primary">{{curMetaResult.count}}</span> <a
+            href="#{{curMetaResult.type}}" target="_self">{{curMetaResult.type}}</a>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Detailed Results -->
-    <div class="row">
-      <div class="col-md-12">
-        <div ng-repeat="curResult in ccdaResults">
+  <!-- Detailed Results -->
+  <div class="row">
+    <div class="col-md-12">
+      <div ng-repeat="curResult in ccdaResults">
+        <!--  <div ng-show="determineResultsToShow(curResult)"> -->
           <div ng-class="getValidationResultColorViaType(curResult)">
             <a name="{{curResult.type}}"></a>
             <li>{{curResult.type}}
@@ -61,11 +113,10 @@
           <hr>
           <div class="pull-right">
             <a href="#uploadResults" target="_self" title="top">^</a>
-          </div>          
-        </div>
+          </div>
+        </div>          
       </div>
     </div>
-
   </div>
 
 </div>
