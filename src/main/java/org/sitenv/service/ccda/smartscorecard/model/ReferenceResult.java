@@ -2,20 +2,21 @@ package org.sitenv.service.ccda.smartscorecard.model;
 
 import java.util.List;
 
-public class ReferenceResult {
+import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ReferenceInstanceType;
 
-	// e.g. 'C-CDA IG Conformance', '2015 Certification', future types...
-	private String type;
+public class ReferenceResult {
+	
+	private ReferenceInstanceType type;
 	// e.g. Add all instance specific errors found + vocab
 	private int totalErrorCount;
 	// e.g. description, xPath, Line Number, etc.
 	private List<ReferenceError> referenceErrors;
 
-	public String getType() {
+	public ReferenceInstanceType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(ReferenceInstanceType type) {
 		this.type = type;
 	}
 
