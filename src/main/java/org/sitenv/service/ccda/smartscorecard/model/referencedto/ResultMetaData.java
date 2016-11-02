@@ -1,5 +1,8 @@
 package org.sitenv.service.ccda.smartscorecard.model.referencedto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ResultMetaData {
 	private String type;
 	private int count;
