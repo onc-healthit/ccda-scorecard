@@ -1,6 +1,5 @@
 package org.sitenv.service.ccda.smartscorecard.model;
 
-import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ValidationResultType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -14,53 +13,80 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class ReferenceError {
 
 	private String description;
-	// not required for scorecard results display but are useful for sorting
-	private ValidationResultType type;
+	private String type;
 	private String xPath;
-	// this is a String vs an int the referenceccdavalidator so matching that
+	private String validatorConfiguredXpath;
 	private String documentLineNumber;
-	// extracted from the validation message or by following the xPath if
-	// required
-	private String sectionName;
-
+	private String actualCode;
+	private String actualCodeSystem;
+	private String actualCodeSystemName;
+	private String actualDisplayName;
+	private Boolean schemaError;
+	private Boolean dataTypeSchemaError;
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public ValidationResultType getType() {
+	public String getType() {
 		return type;
 	}
-
-	public void setType(ValidationResultType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
-
 	public String getxPath() {
 		return xPath;
 	}
-
 	public void setxPath(String xPath) {
 		this.xPath = xPath;
 	}
-
+	public String getValidatorConfiguredXpath() {
+		return validatorConfiguredXpath;
+	}
+	public void setValidatorConfiguredXpath(String validatorConfiguredXpath) {
+		this.validatorConfiguredXpath = validatorConfiguredXpath;
+	}
 	public String getDocumentLineNumber() {
 		return documentLineNumber;
 	}
-
 	public void setDocumentLineNumber(String documentLineNumber) {
 		this.documentLineNumber = documentLineNumber;
 	}
-
-	public String getSectionName() {
-		return sectionName;
+	public String getActualCode() {
+		return actualCode;
 	}
-
-	public void setSectionName(String sectionName) {
-		this.sectionName = sectionName;
+	public void setActualCode(String actualCode) {
+		this.actualCode = actualCode;
 	}
-
+	public String getActualCodeSystem() {
+		return actualCodeSystem;
+	}
+	public void setActualCodeSystem(String actualCodeSystem) {
+		this.actualCodeSystem = actualCodeSystem;
+	}
+	public String getActualCodeSystemName() {
+		return actualCodeSystemName;
+	}
+	public void setActualCodeSystemName(String actualCodeSystemName) {
+		this.actualCodeSystemName = actualCodeSystemName;
+	}
+	public String getActualDisplayName() {
+		return actualDisplayName;
+	}
+	public void setActualDisplayName(String actualDisplayName) {
+		this.actualDisplayName = actualDisplayName;
+	}
+	public Boolean getSchemaError() {
+		return schemaError;
+	}
+	public void setSchemaError(Boolean schemaError) {
+		this.schemaError = schemaError;
+	}
+	public Boolean getDataTypeSchemaError() {
+		return dataTypeSchemaError;
+	}
+	public void setDataTypeSchemaError(Boolean dataTypeSchemaError) {
+		this.dataTypeSchemaError = dataTypeSchemaError;
+	}
 }

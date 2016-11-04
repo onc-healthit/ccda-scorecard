@@ -13,6 +13,10 @@ public class ResponseTO {
 	// (first requirement is 2 instances)
 	private List<ReferenceResult> referenceResults;
 	
+	private List<ReferenceError> schemaErrorList;
+	
+	private boolean schemaErrors;
+	
 	// scorecard accessor methods
 	public boolean isSuccess() {
 		return isSuccess;
@@ -45,7 +49,17 @@ public class ResponseTO {
 	}
 	public void setReferenceResults(List<ReferenceResult> referenceResults) {
 		this.referenceResults = referenceResults;
-	}	
-
-	
+	}
+	public List<ReferenceError> getSchemaErrorList() {
+		return schemaErrorList;
+	}
+	public void setSchemaErrorList(List<ReferenceError> schemaErrorList) {
+		this.schemaErrorList = schemaErrorList;
+	}
+	public boolean isSchemaErrors() {
+		return schemaErrors;
+	}
+	public void setSchemaErrors(boolean schemaErrors) {
+		this.schemaErrors = schemaErrors;
+	}
 }

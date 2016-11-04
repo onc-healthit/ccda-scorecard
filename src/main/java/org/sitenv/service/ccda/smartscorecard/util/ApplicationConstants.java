@@ -248,6 +248,8 @@ public class ApplicationConstants {
 	public static final String IG_SECTION_REFERENCES = "Section #.#.# CONF:ABC";
 	public static final String TASKFORCE_URL = "http://wiki.hl7.org/index.php?title=CDA_Example_Task_Force";
 	
+	public static final String TEMPLATEID_XPATH = "./templateId" ;
+	
 	public static final Map<String, String> CODE_SYSTEM_MAP = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
 	
 	static {
@@ -260,6 +262,20 @@ public class ApplicationConstants {
 		CODE_SYSTEM_MAP.put(RXNORM_CODE_SYSTEM, RXNORM_CODE_SYSTEM_NAME);
 		CODE_SYSTEM_MAP.put(CPT4_CODE_SYSTEM, CPT4_CODE_SYSTEM_NAME);
 		CODE_SYSTEM_MAP.put(CVX_CODE_SYSTEM, CVX_CODE_SYSTEM_NAME);
+	}
+	
+	public static final Map<String, String> SECTION_TEMPLATEID_MAP = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+	
+	static {
+		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.6.1", CATEGORIES.ALLERGIES.getCategoryDesc());
+		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.22.1", CATEGORIES.ENCOUNTERS.getCategoryDesc());
+		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.2.1", CATEGORIES.IMMUNIZATIONS.getCategoryDesc());
+		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.3.1", CATEGORIES.RESULTS.getCategoryDesc());
+		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.1.1", CATEGORIES.MEDICATIONS.getCategoryDesc());
+		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.5.1", CATEGORIES.PROBLEMS.getCategoryDesc());
+		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.7.1", CATEGORIES.PROCEDURES.getCategoryDesc());
+		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.17", CATEGORIES.SOCIALHISTORY.getCategoryDesc());
+		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.4.1", CATEGORIES.VITALS.getCategoryDesc());
 	}
 	
 	public static enum CATEGORIES
@@ -457,6 +473,25 @@ public class ApplicationConstants {
 
 		public String getTaskforceLink() {
 			return taskforceLink;
+		}
+	}
+	
+	public static enum VALIDATION_OBJECTIVES
+	{
+		CCDA_IG_PLUS_VOCAB("CCDA IG Plus Vocab");
+		
+		
+		private String validationObjective; 
+		
+		
+		private VALIDATION_OBJECTIVES(final String validationObjective)
+		{
+			this.validationObjective = validationObjective;
+		}
+
+		public String getValidationObjective()
+		{
+			return validationObjective;
 		}
 	}
 }

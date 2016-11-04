@@ -125,8 +125,7 @@ public class PersistanceConfiguration {
     public VocabularyLoaderFactory vocabularyLoaderFactory() {
         return (VocabularyLoaderFactory) vocabularyLoaderFactoryServiceLocatorFactoryBean().getObject();
     }
-
-
+    
     @Autowired
     @Bean
     VocabularyLoadRunner vocabularyLoadRunner(final Environment environment, final VocabularyLoaderFactory vocabularyLoaderFactory, final  DataSourceInitializer dataSourceInitializer, final DataSource dataSource){
