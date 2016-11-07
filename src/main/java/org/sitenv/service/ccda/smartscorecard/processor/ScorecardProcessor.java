@@ -19,7 +19,11 @@ import org.sitenv.ccdaparsing.service.CCDAParserAPI;
 import org.sitenv.ccdaparsing.util.PositionalXMLReader;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceError;
+import org.sitenv.service.ccda.smartscorecard.model.ReferenceResult;
+import org.sitenv.service.ccda.smartscorecard.model.Results;
+import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ReferenceInstanceType;
 import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
+import org.sitenv.service.ccda.smartscorecard.model.referencedto.ResultMetaData;
 import org.sitenv.service.ccda.smartscorecard.model.referencedto.ValidationResultsDto;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
@@ -80,17 +84,20 @@ public class ScorecardProcessor {
 	public ResponseTO processCCDAFile(MultipartFile ccdaFile)
 	{
 		ValidationResultsDto referenceValidatorResults;
+		ValidationResultsDto certificationResult;
 		List<ReferenceError> schemaErrorList;
 		ResponseTO scorecardResponse = new ResponseTO();
-		List<String> errorSectionList;
+		List<String> errorSectionList = new ArrayList<>();
 		String birthDate = null;
 		List<Category> categoryList = new ArrayList<Category>();
 		String docType = null;
+		Results results = new Results();
 		try{
 			CCDARefModel ccdaModels = CCDAParserAPI.parseCCDA2_1(ccdaFile.getInputStream());
 			if (!ccdaModels.isEmpty())
 			{
-				referenceValidatorResults = callReferenceValidator(ccdaFile, ApplicationConstants.VALIDATION_OBJECTIVES.CCDA_IG_PLUS_VOCAB.getValidationObjective(), "No Scenario File");
+				referenceValidatorResults = callReferenceValidator(ccdaFile, ApplicationConstants.VALIDATION_OBJECTIVES.CCDA_IG_PLUS_VOCAB.getValidationObjective(), 
+																			"No Scenario File");
 				schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults()); 
 				if(schemaErrorList.size() > 0)
 				{
@@ -98,7 +105,22 @@ public class ScorecardProcessor {
 					scorecardResponse.setSchemaErrors(true);
 					return scorecardResponse;
 				}
-				errorSectionList = getErrorSectionList(referenceValidatorResults.getCcdaValidationResults(), ccdaFile);
+				if(checkForReferenceValidatorErrors(referenceValidatorResults.getResultsMetaData().getResultMetaData()))
+				{
+					ReferenceResult referenceResult = getReferenceResults(referenceValidatorResults.getCcdaValidationResults(),ReferenceInstanceType.IG_CONFORMANCE);
+					scorecardResponse.getReferenceResults().add(referenceResult);
+					errorSectionList = getErrorSectionList(referenceResult.getReferenceErrors(), ccdaFile);
+				}
+				
+				certificationResult = callReferenceValidator(ccdaFile, ApplicationConstants.VALIDATION_OBJECTIVES.CERTIFICATION_OBJECTIVE.getValidationObjective(), 
+																"No Scenario File");
+				
+				if(checkForReferenceValidatorErrors(certificationResult.getResultsMetaData().getResultMetaData()))
+				{
+					scorecardResponse.getReferenceResults().add((getReferenceResults(certificationResult.getCcdaValidationResults(), 
+																								ReferenceInstanceType.CERTIFICATION_2015)));
+				}
+				
 				docType = ApplicationUtil.checkDocType(ccdaModels);
 				if(ccdaModels.getPatient() != null && ccdaModels.getPatient().getDob()!= null)
 				{
@@ -109,9 +131,9 @@ public class ScorecardProcessor {
 				categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
 			
 				for (Entry<String, String> entry : ApplicationConstants.SECTION_TEMPLATEID_MAP.entrySet()) {
-					if(!errorSectionList.contains(entry.getKey()))
+					if(!errorSectionList.contains(entry.getValue()))
 					{
-						getSectionCategory(entry.getValue(),ccdaModels,birthDate,docType);
+						categoryList.add(getSectionCategory(entry.getValue(),ccdaModels,birthDate,docType));
 					}
 				}
 			}else
@@ -121,9 +143,27 @@ public class ScorecardProcessor {
 			}
 			scorecardResponse.setFilename(ccdaFile.getOriginalFilename());
 			
+			results.setCategoryList(categoryList);
+			ApplicationUtil.calculateFinalGradeAndIssues(categoryList, results);
+			results.setIgReferenceUrl(ApplicationConstants.IG_URL);
+			results.setDocType(docType);
+			scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename());
+			results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage());
+			results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored());
+			if(results.getIndustryAverageScore() != 0)
+			{
+				results.setIndustryAverageGrade(ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScore()));
+			}else 
+			{
+				results.setIndustryAverageGrade("N/A");
+			}
+			scorecardResponse.setResults(results);
+			scorecardResponse.setSuccess(true);
+			
 		}catch(Exception exc)
 		{
 			exc.printStackTrace();
+			scorecardResponse.setSuccess(false);
 		}
 		return scorecardResponse;
 	}
@@ -169,6 +209,36 @@ public class ScorecardProcessor {
 		return schemaErrorList;
 	}
 	
+	public boolean checkForReferenceValidatorErrors(List<ResultMetaData> resultMetaData)
+	{
+		boolean value = false;
+		for(ResultMetaData result : resultMetaData)
+		{
+			if(ApplicationConstants.referenceValidatorErrorList.contains(result.getType()) && result.getCount() > 0)
+			{
+				value = true;
+			}
+		}
+		return value;
+	}
+	
+	public ReferenceResult getReferenceResults(List<ReferenceError> referenceValidatorErrors, ReferenceInstanceType instanceType)
+	{
+		ReferenceResult results = new ReferenceResult();
+		results.setType(instanceType);
+		List<ReferenceError> referenceErrors = new ArrayList<>();
+		for(ReferenceError error : referenceValidatorErrors)
+		{
+			if(ApplicationConstants.referenceValidatorErrorList.contains(error.getType().getTypePrettyName()))
+			{
+				referenceErrors.add(error);
+			}
+		}
+		results.setReferenceErrors(referenceErrors);
+		results.setTotalErrorCount(referenceErrors.size());
+		return results;
+	}
+	
 	public List<String> getErrorSectionList(List<ReferenceError> ccdaValidationResults,MultipartFile ccdaFile)throws SAXException,IOException,XPathExpressionException
 	{
 		List<String> errorSectionList = new ArrayList<>();
@@ -177,19 +247,25 @@ public class ScorecardProcessor {
 		Element errorElement;
 		Element parentElement;
 		Element templateId;
+		String sectionName;
 		for(ReferenceError referenceError : ccdaValidationResults)
 		{
-			errorElement = (Element) xPath.compile(referenceError.getxPath()).evaluate(doc, XPathConstants.NODE);
-			parentElement = (Element)errorElement.getParentNode();
-			System.out.println("Tag Name:"+ parentElement.getTagName());
-			do {
-				parentElement = (Element)parentElement.getParentNode();
-		      }while( !parentElement.getTagName().equals("section"));
-			
-			if(parentElement.getTagName().equals("section"))
+			if(referenceError.getxPath()!= null && referenceError.getxPath()!= "" && referenceError.getxPath() != "/ClinicalDocument")
 			{
-				templateId = (Element) xPath.compile(ApplicationConstants.TEMPLATEID_XPATH).evaluate(doc, XPathConstants.NODE);
-				errorSectionList.add(ApplicationConstants.SECTION_TEMPLATEID_MAP.get(templateId));
+				errorElement = (Element) xPath.compile(referenceError.getxPath()).evaluate(doc, XPathConstants.NODE);
+				parentElement = (Element)errorElement.getParentNode();
+				while(!(parentElement.getTagName().equals("section") || parentElement.getTagName().equals("ClinicalDocument")))
+				{
+					parentElement = (Element)parentElement.getParentNode();
+				}
+				
+				if(parentElement.getTagName().equals("section"))
+				{
+					templateId = (Element) xPath.compile(ApplicationConstants.TEMPLATEID_XPATH).evaluate(parentElement, XPathConstants.NODE);
+					sectionName = ApplicationConstants.SECTION_TEMPLATEID_MAP.get(templateId.getAttribute("root"));
+					errorSectionList.add(sectionName);
+					referenceError.setSectionName(sectionName);
+				}
 			}
 		}
 		

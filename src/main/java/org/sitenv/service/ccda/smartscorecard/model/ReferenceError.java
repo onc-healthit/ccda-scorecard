@@ -1,19 +1,16 @@
 package org.sitenv.service.ccda.smartscorecard.model;
 
 
+import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ValidationResultType;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/**
- * This is a limited version of
- * referenceccdavalidator/src/main/java/org/sitenv/referenceccda
- * /validators/RefCCDAValidationResult.java with the exception that it also has
- * a sectionName String
- */
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ReferenceError {
 
 	private String description;
-	private String type;
+	private ValidationResultType type;
 	private String xPath;
 	private String validatorConfiguredXpath;
 	private String documentLineNumber;
@@ -23,16 +20,20 @@ public class ReferenceError {
 	private String actualDisplayName;
 	private Boolean schemaError;
 	private Boolean dataTypeSchemaError;
+	private String sectionName;
+	
+	
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getType() {
+	
+	public ValidationResultType getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(ValidationResultType type) {
 		this.type = type;
 	}
 	public String getxPath() {
@@ -89,4 +90,11 @@ public class ReferenceError {
 	public void setDataTypeSchemaError(Boolean dataTypeSchemaError) {
 		this.dataTypeSchemaError = dataTypeSchemaError;
 	}
+	public String getSectionName() {
+		return sectionName;
+	}
+	public void setSectionName(String sectionName) {
+		this.sectionName = sectionName;
+	}
+	
 }

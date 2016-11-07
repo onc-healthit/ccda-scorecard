@@ -89,7 +89,7 @@ public class SaveReportController {
 			pojoResponse.setResults(null);
 			pojoResponse.setSuccess(false);
 			pojoResponse
-					.setErrorMessage(ApplicationConstants.Error.NULL_RESULT_ON_SAVESCORECARDSERVICEBACKEND_CALL);
+					.setErrorMessage(ApplicationConstants.ErrorMessages.NULL_RESULT_ON_SAVESCORECARDSERVICEBACKEND_CALL);
 		} else {
 			if (!ApplicationUtil.isEmpty(ccdaFile.getOriginalFilename())
 					&& ccdaFile.getOriginalFilename().contains(".")) {
@@ -169,9 +169,9 @@ public class SaveReportController {
 			report = new ResponseTO();
 			report.setResults(null);
 			report.setSuccess(false);
-			report.setErrorMessage(ApplicationConstants.Error.GENERIC_WITH_CONTACT);
+			report.setErrorMessage(ApplicationConstants.ErrorMessages.GENERIC_WITH_CONTACT);
 			appendErrorMessageFromReport(sb, report,
-					ApplicationConstants.Error.RESULTS_ARE_NULL);
+					ApplicationConstants.ErrorMessages.RESULTS_ARE_NULL);
 		} else {
 			// report != null
 			if (report.getResults() != null) {
@@ -191,7 +191,7 @@ public class SaveReportController {
 				// report.getResults() == null
 				if (!report.isSuccess()) {
 					appendErrorMessageFromReport(sb, report,
-							ApplicationConstants.Error.IS_SUCCESS_FALSE);
+							ApplicationConstants.ErrorMessages.IS_SUCCESS_FALSE);
 				} else {
 					appendErrorMessageFromReport(sb, report);
 				}
@@ -368,12 +368,12 @@ public class SaveReportController {
 		sb.append("<h2 style='color:red; background-color: #ffe6e6'>");
 		sb.append(errorMessage);
 		sb.append("</h2>");
-		sb.append("<p>" + ApplicationConstants.Error.CONTACT + "</p>");
+		sb.append("<p>" + ApplicationConstants.ErrorMessages.CONTACT + "</p>");
 	}
 
 	private static void appendGenericErrorMessage(StringBuffer sb) {
-		sb.append("<p>" + ApplicationConstants.Error.JSON_TO_JAVA_JACKSON
-				+ "<br />" + ApplicationConstants.Error.CONTACT + "</p>");
+		sb.append("<p>" + ApplicationConstants.ErrorMessages.JSON_TO_JAVA_JACKSON
+				+ "<br />" + ApplicationConstants.ErrorMessages.CONTACT + "</p>");
 	}
 
 	private static void appendErrorMessageFromReport(StringBuffer sb,
