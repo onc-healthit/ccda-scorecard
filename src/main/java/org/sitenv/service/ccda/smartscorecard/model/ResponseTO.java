@@ -1,5 +1,6 @@
 package org.sitenv.service.ccda.smartscorecard.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResponseTO {
@@ -45,6 +46,10 @@ public class ResponseTO {
 	
 	// referenceccdavalidator accessor methods
 	public List<ReferenceResult> getReferenceResults() {
+		if(this.referenceResults == null)
+		{
+			this.referenceResults = new ArrayList<ReferenceResult>();
+		}
 		return referenceResults;
 	}
 	public void setReferenceResults(List<ReferenceResult> referenceResults) {

@@ -2,6 +2,7 @@ package org.sitenv.service.ccda.smartscorecard.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -248,7 +249,7 @@ public class ApplicationConstants {
 	public static final String IG_SECTION_REFERENCES = "Section #.#.# CONF:ABC";
 	public static final String TASKFORCE_URL = "http://wiki.hl7.org/index.php?title=CDA_Example_Task_Force";
 	
-	public static final String TEMPLATEID_XPATH = "./templateId" ;
+	public static final String TEMPLATEID_XPATH = "./templateId[@extension='2014-06-09']" ;
 	
 	public static final Map<String, String> CODE_SYSTEM_MAP = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
 	
@@ -267,16 +268,22 @@ public class ApplicationConstants {
 	public static final Map<String, String> SECTION_TEMPLATEID_MAP = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
 	
 	static {
-		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.6.1", CATEGORIES.ALLERGIES.getCategoryDesc());
-		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.22.1", CATEGORIES.ENCOUNTERS.getCategoryDesc());
-		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.2.1", CATEGORIES.IMMUNIZATIONS.getCategoryDesc());
-		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.3.1", CATEGORIES.RESULTS.getCategoryDesc());
-		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.1.1", CATEGORIES.MEDICATIONS.getCategoryDesc());
-		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.5.1", CATEGORIES.PROBLEMS.getCategoryDesc());
-		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.7.1", CATEGORIES.PROCEDURES.getCategoryDesc());
-		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.17", CATEGORIES.SOCIALHISTORY.getCategoryDesc());
-		CODE_SYSTEM_MAP.put("2.16.840.1.113883.10.20.22.2.4.1", CATEGORIES.VITALS.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.6.1", CATEGORIES.ALLERGIES.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.22.1", CATEGORIES.ENCOUNTERS.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.2.1", CATEGORIES.IMMUNIZATIONS.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.3.1", CATEGORIES.RESULTS.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.1.1", CATEGORIES.MEDICATIONS.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.5.1", CATEGORIES.PROBLEMS.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.7.1", CATEGORIES.PROCEDURES.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.17", CATEGORIES.SOCIALHISTORY.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.4.1", CATEGORIES.VITALS.getCategoryDesc());
 	}
+	
+	
+	public static final List<String> referenceValidatorErrorList = new ArrayList<>(Arrays.asList("C-CDA MDHT Conformance Error", 
+																			"ONC 2015 S&CC Vocabulary Validation Conformance Error",
+																			"ONC 2015 S&CC Reference C-CDA Validation Error"));
+
 	
 	public static enum CATEGORIES
 	{
@@ -349,7 +356,7 @@ public class ApplicationConstants {
 
 	}
 	
-	public static class Error {
+	public static class ErrorMessages {
 		public static final String CONTACT = "Please report this issue to TestingServices@sitenv.org.";
 		public static final String GENERIC = "An Unknown error has occurred. ";
 		public static final String GENERIC_WITH_CONTACT = "An Unknown error has occurred. "
@@ -478,7 +485,8 @@ public class ApplicationConstants {
 	
 	public static enum VALIDATION_OBJECTIVES
 	{
-		CCDA_IG_PLUS_VOCAB("CCDA IG Plus Vocab");
+		CCDA_IG_PLUS_VOCAB("CCDA IG Plus Vocab"),
+		CERTIFICATION_OBJECTIVE("170_315_b9_CP_Amb");
 		
 		
 		private String validationObjective; 
