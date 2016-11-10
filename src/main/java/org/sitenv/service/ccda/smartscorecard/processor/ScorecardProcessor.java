@@ -14,7 +14,9 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDARefModel;
+import org.sitenv.ccdaparsing.model.UsrhSubType;
 import org.sitenv.ccdaparsing.service.CCDAParserAPI;
 import org.sitenv.ccdaparsing.util.PositionalXMLReader;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
@@ -26,6 +28,7 @@ import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
 import org.sitenv.service.ccda.smartscorecard.model.referencedto.ResultMetaData;
 import org.sitenv.service.ccda.smartscorecard.model.referencedto.ValidationResultsDto;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
+import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants.VALIDATION_OBJECTIVES;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -81,6 +84,8 @@ public class ScorecardProcessor {
 	@Autowired
 	ScoreCardStatisticProcessor scoreCardStatisticProcessor;
 	
+	private static final Logger logger = Logger.getLogger(ScorecardProcessor.class);
+	
 	public ResponseTO processCCDAFile(MultipartFile ccdaFile)
 	{
 		ValidationResultsDto referenceValidatorResults;
@@ -94,17 +99,26 @@ public class ScorecardProcessor {
 		Results results = new Results();
 		try{
 			CCDARefModel ccdaModels = CCDAParserAPI.parseCCDA2_1(ccdaFile.getInputStream());
-			if (!ccdaModels.isEmpty())
-			{
-				referenceValidatorResults = callReferenceValidator(ccdaFile, ApplicationConstants.VALIDATION_OBJECTIVES.CCDA_IG_PLUS_VOCAB.getValidationObjective(), 
-																			"No Scenario File");
-				schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults()); 
+			if (!ccdaModels.isEmpty() && ccdaModels.getUsrhSubType() != UsrhSubType.UNSTRUCTURED_DOCUMENT)
+			{	
+				VALIDATION_OBJECTIVES validationObjective = 
+						determineValidationObjectiveType(ccdaModels, ReferenceInstanceType.IG_CONFORMANCE);
+				logger.info("Calling ReferenceInstanceType.IG_CONFORMANCE with:" + System.lineSeparator()
+						+ "validationObjective: " + validationObjective.getValidationObjective()
+						+ " determined by ccdaModels.getUsrhSubType(): " + ccdaModels.getUsrhSubType());
+				referenceValidatorResults = 
+						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File");
+				schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults());
+				
 				if(schemaErrorList.size() > 0)
 				{
 					scorecardResponse.setSchemaErrorList(schemaErrorList);
 					scorecardResponse.setSchemaErrors(true);
+					scorecardResponse.setErrorMessage(ApplicationConstants.ErrorMessages.SCHEMA_ERRORS_GENERIC);
+					logger.info("Halting collection and processing of more results due to schema errors found in first instance");
 					return scorecardResponse;
 				}
+				
 				if(checkForReferenceValidatorErrors(referenceValidatorResults.getResultsMetaData().getResultMetaData()))
 				{
 					ReferenceResult referenceResult = getReferenceResults(referenceValidatorResults.getCcdaValidationResults(),ReferenceInstanceType.IG_CONFORMANCE);
@@ -112,8 +126,12 @@ public class ScorecardProcessor {
 					errorSectionList = getErrorSectionList(referenceResult.getReferenceErrors(), ccdaFile);
 				}
 				
-				certificationResult = callReferenceValidator(ccdaFile, ApplicationConstants.VALIDATION_OBJECTIVES.CERTIFICATION_OBJECTIVE.getValidationObjective(), 
-																"No Scenario File");
+				validationObjective = determineValidationObjectiveType(ccdaModels, ReferenceInstanceType.CERTIFICATION_2015);
+				logger.info("Calling ReferenceInstanceType.CERTIFICATION_2015 with:" + System.lineSeparator()
+						+ "validationObjective: " + validationObjective.getValidationObjective()
+						+ " determined by ccdaModels.getUsrhSubType(): " + ccdaModels.getUsrhSubType());
+				certificationResult = 
+						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File");
 				
 				if(checkForReferenceValidatorErrors(certificationResult.getResultsMetaData().getResultMetaData()))
 				{
@@ -138,8 +156,21 @@ public class ScorecardProcessor {
 				}
 			}else
 			{
+				String specificErrorReason = "unknown reason";
+				String errorMessage = ApplicationConstants.ErrorMessages.GENERIC_WITH_CONTACT;
 				scorecardResponse.setSuccess(false);
-				scorecardResponse.setErrorMessage(ApplicationConstants.EMPTY_DOC_ERROR_MESSAGE);
+				if(ccdaModels.isEmpty()) 
+				{
+					errorMessage = ApplicationConstants.EMPTY_DOC_ERROR_MESSAGE;
+					specificErrorReason = "empty model";
+				} else if(ccdaModels.getUsrhSubType() == UsrhSubType.UNSTRUCTURED_DOCUMENT) 
+				{
+					errorMessage = ApplicationConstants.ErrorMessages.UNSTRUCTURED_DOCUMENT;
+					specificErrorReason = "Unstructured Document type";
+				}
+				scorecardResponse.setErrorMessage(errorMessage);
+				logger.warn("Skipped ReferenceInstanceType calls due to: " + specificErrorReason
+						+ ", and applied an appropriate error message to the response");
 			}
 			scorecardResponse.setFilename(ccdaFile.getOriginalFilename());
 			
@@ -313,6 +344,53 @@ public class ScorecardProcessor {
 		{
 			return null;
 		}
+	}	
+	
+	private static VALIDATION_OBJECTIVES determineValidationObjectiveType(
+			CCDARefModel ccdaModels, ReferenceInstanceType refType) {		
+		if (refType != null) {
+			switch (refType) {
+			case IG_CONFORMANCE:
+				return VALIDATION_OBJECTIVES.CCDA_IG_PLUS_VOCAB;
+			case CERTIFICATION_2015:
+				if (ccdaModels.getUsrhSubType() != null) {
+					switch (ccdaModels.getUsrhSubType()) {
+					case CARE_PLAN:
+						return VALIDATION_OBJECTIVES.CERTIFICATION_B9_CP_OBJECTIVE;
+					case CONTINUITY_OF_CARE_DOCUMENT:
+					case DISCHARGE_SUMMARY:
+					case REFERRAL_NOTE:
+					case TRANSFER_SUMMARY:
+						return VALIDATION_OBJECTIVES.CERTIFICATION_B1_CCD_DS_RN_OBJECTIVE;
+					case CONSULTATION_NOTE:
+					case DIAGNOSTIC_IMAGING_REPORT:
+					case HISTORY_AND_PHYSICAL_NOTE:
+					case OPERATIVE_NOTE:
+					case PROCEDURE_NOTE:
+					case PROGRESS_NOTE:
+					case US_REALM_HEADER_PATIENT_GENERATED_DOCUMENT:
+						return VALIDATION_OBJECTIVES.CCDA_IG_PLUS_VOCAB;
+					case UNSTRUCTURED_DOCUMENT:
+						return null; //Reject Unstructured Document since we cannot score them
+					}
+				}
+				//a null ccdaModels.getUsrhSubType() means a valid document type was not found in the XML
+				//we don't reject documents without a type, only identified Unstructured Documents				
+				return VALIDATION_OBJECTIVES.CCDA_IG_PLUS_VOCAB;
+			}
+		}
+		throw new NullReferenceInstanceTypeArgumentException(
+				"The ReferenceInstanceType was null at compile time (but we can only check at runtime). "
+				+ "This is a programmer error since it should have been specified as an argument "
+				+ "and should not make it to production as is.");
 	}
+		
+}
 
+class NullReferenceInstanceTypeArgumentException extends RuntimeException {
+	private static final long serialVersionUID = 1L;
+
+	public NullReferenceInstanceTypeArgumentException(String message) {
+		super(message);
+	}
 }

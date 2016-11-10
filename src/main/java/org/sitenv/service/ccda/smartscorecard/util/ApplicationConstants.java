@@ -175,7 +175,7 @@ public class ApplicationConstants {
 	public static final String SECOND_PATTERN = "\\d{14}-\\d{4}";
 	
 	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
-	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:7080",
+	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:8000",
 			CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org",
 			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
 			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
@@ -367,6 +367,10 @@ public class ApplicationConstants {
 		public static final String IS_SUCCESS_FALSE = "Note for the developers: isSuccess is equal to false.";
 		public static final String NULL_RESULT_ON_SAVESCORECARDSERVICEBACKEND_CALL = "Error: savescorecardservicebackend did not receive any results (null) from ccdascorecardservice."
 				+ " " + GENERIC_DIFFERENT_FILE_OR_TIME;
+		public static final String UNSTRUCTURED_DOCUMENT = "The supplied C-CDA XML document has been identified as an Unstructured Document "
+				+ "urn:hl7ii:2.16.840.1.113883.10.20.22.1.10. The C-CDA Scorecard tool does not score this document type. "
+				+ "Please try submitting another document type for review such as a Continuity of Care Document, Care Plan, etc.";
+		public static final String SCHEMA_ERRORS_GENERIC = "Schema errors must be addressed before a score can be provided.";
 	}
 
 	public static enum IG_REFERENCES
@@ -486,7 +490,8 @@ public class ApplicationConstants {
 	public static enum VALIDATION_OBJECTIVES
 	{
 		CCDA_IG_PLUS_VOCAB("CCDA IG Plus Vocab"),
-		CERTIFICATION_OBJECTIVE("170_315_b9_CP_Amb");
+		CERTIFICATION_B1_CCD_DS_RN_OBJECTIVE("170_315_b1_ToC_Amb"),
+		CERTIFICATION_B9_CP_OBJECTIVE("170_315_b9_CP_Amb");
 		
 		
 		private String validationObjective; 
