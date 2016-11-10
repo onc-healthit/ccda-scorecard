@@ -233,7 +233,15 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     
   //*************HEAT MAP RELATED****************
     
-
+   
+  /**
+   * Allows us to delay the heat-map directive load 
+   * (in combination with ng-if) until we have data
+   */
+  $scope.isFinalCategoryListByGradeInitialized = function() {
+  	return $scope.finalCategoryListByGrade.length > 0;
+  };
+    
   /**
 	 * The calculation orders by the numerical grade, which in turn
 	 * orders by the letter based grade. The order is not intended
@@ -250,7 +258,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         //var issues = curCategory.numberOfIssues;
         var issues = curCategory.numberOfOccurrences;        
         var score = curCategory.categoryNumericalScore;
-        var failed = curCategory.isFailingConformance;
+        var failed = curCategory.failingConformance;
         var sectionData = {
           name: name,
           grade: grade,
