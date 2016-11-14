@@ -592,12 +592,15 @@ public class ApplicationUtil {
 		
 		for (Category category : categoryList)
 		{
-			for(CCDAScoreCardRubrics rubrics : category.getCategoryRubrics())
+			if(!category.isFailingConformance())
 			{
-				finalMaxPoints++;
-				finalActualPoints = finalActualPoints + rubrics.getRubricScore();
+				for(CCDAScoreCardRubrics rubrics : category.getCategoryRubrics())
+				{
+					finalMaxPoints++;
+					finalActualPoints = finalActualPoints + rubrics.getRubricScore();
+				}
+				numberOfIssues = numberOfIssues + category.getNumberOfIssues();
 			}
-			numberOfIssues = numberOfIssues + category.getNumberOfIssues();
 		}
 		
 		int percentage = Math.round((finalActualPoints * 100)/finalMaxPoints);
