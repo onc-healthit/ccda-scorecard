@@ -4,6 +4,18 @@ import java.util.List;
 
 public class Category {
 	
+	
+	public Category(boolean isFailingConformance,String categoryName)
+	{
+		this.isFailingConformance = isFailingConformance;
+		this.categoryName = categoryName;
+	}
+	
+	public Category()
+	{
+		
+	}
+	
 	// scorecard properties
 	private String categoryName;
 	private String categoryGrade;
