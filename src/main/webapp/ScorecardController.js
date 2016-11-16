@@ -507,7 +507,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     //loop through all the categories
     for (var catIndex = 0; catIndex < $scope.categories.length; catIndex++) {
       var curCategory = $scope.categories[catIndex];
-      var numberOfIssues = $scope.categories[catIndex].categoryRubrics.length;
+      var curRubrics = $scope.categories[catIndex].categoryRubrics;
+      var numberOfIssues = curRubrics ? curRubrics.length : 0;
       var numberOfFailingIssuesPerSection = calculateNumberOfFailingIssuesPerSection(curCategory);            
       //apply logic to all categories whether they fail or not
       if (numberOfIssues) {
