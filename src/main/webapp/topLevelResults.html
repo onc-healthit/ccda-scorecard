@@ -13,7 +13,7 @@
     		<!-- Grade row -->
     		<div class="row">
     			<div class="col-md-4 scHeading">
-    			   <h2>Grade:</h2>
+    			   <h2>Scorecard Grade:</h2>
     			</div>
     			<div class="col-md-2 scHeading">
     			   <h2>{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "Scoring..."}}</h2>
@@ -29,7 +29,7 @@
     		<!-- Score row -->
     		<div class="row">
     			<div class="col-md-4 scHeading">
-    			   <h2>Score:</h2>
+    			   <h2>Scorecard Score:</h2>
     			</div>
     			<div class="col-md-2 scHeading">
     			   <h2>{{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade + " / 100" : "Scoring..."}}</h2>
@@ -44,47 +44,64 @@
     		<!-- Improvements row -->
     		<div class="row">
     			<div class="col-md-4 scHeading">
-    			   <h2>{{calculatedValidationData.passedCertification ? "Improvements" : "Issues"}}:</h2>
+    			   <h2>{{calculatedValidationData.passedCertification ? "Improvements" : "Scorecard Issues"}}:</h2>
     			</div>
     			<div class="col-md-2 scHeading">
     			   <h2>{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>
     			</div>
     			<div class="col-md-6 scHeading scHeaderDescriptionText">
     			   <h4 class="scDescriptionText">There are {{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "?"}}
-                   specific {{calculatedValidationData.passedCertification ? "improvements that you can make to" : "issues in"}} your document.
+                   specific scorecard {{calculatedValidationData.passedCertification ? "improvements that you can make to" : "issues in"}} your document.
                    </h4>
     			</div>
     		</div>
-    		<!-- IG Conformance Errors -->
+    		<!-- C-CDA IG Conformance Errors row -->
     		<div class="row">
     			<div class="col-md-4 scHeading">
-    			   <h2>IG Conformance Errors:</h2>
+    			   <h2>{{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}:</h2>
     			</div>
     			<div class="col-md-2 scHeading">
     			   <h2>
-                      <a href="#" title="Navigate to IG Conformance Errors" aria-label="Navigate to IG Conformance Errors">
-                      TODO
+                      <a ng-if="igResults.totalErrorCount" href="javascript:void(0)"  
+                      ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.IG_CONFORMANCE)" 
+                      title="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}" 
+                      aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}">
+                      {{igResults.totalErrorCount}}
                       </a>
+                      <span ng-show="!igResults.totalErrorCount">0</span>                      
                    </h2>
     			</div>
     			<div class="col-md-6 scHeading scHeaderDescriptionText">
-    			   <h4 class="scDescriptionText">C-CDA IG Conformance Errors TODO *add more text here*</h4>
+                   <h4 class="scDescriptionText">
+                     There{{igResults.totalErrorCount === 1 ? ' is ' : ' are '}}
+                     {{igResults.totalErrorCount}}
+                     {{igResults.totalErrorCount === 1 ? ' C-CDA IG Conformance Error ' : ' ' + ReferenceInstanceTypeEnum.IG_CONFORMANCE + ' '}}
+                     in your document.
+                   </h4>             
     			</div>		
     		</div>
-    		<!-- 2015 Certification Errors row -->
+    		<!-- 2015 Certification Feedback row -->
     		<div class="row">
     			<div class="col-md-4 scHeading">
-    		       <h2>2015 Certification Errors:</h2>
+    		       <h2>{{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}:</h2>
     			</div>
     			<div class="col-md-2 scHeading">
     			   <h2>
-                      <a href="#" title="Navigate to 2015 Certification Errors" aria-label="Navigate to 2015 Certification Errors">
-                      TODO
+                      <a ng-if="certResults.totalErrorCount" href="javascript:void(0)"  
+                      ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.CERTIFICATION_2015)"              
+                      title="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}" 
+                      aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}">
+                      {{certResults.totalErrorCount}}
                       </a>
+                      <span ng-show="!certResults.totalErrorCount">0</span>               
                    </h2>
     			</div>
     			<div class="col-md-6 scHeading scHeaderDescriptionText">
-    			   <h4 class="scDescriptionText">2015 Certification Feedback TODO *add more text here*</h4>
+    			   <h4 class="scDescriptionText">
+                     There{{certResults.totalErrorCount === 1 ? ' is ' : ' are '}}
+                     {{certResults.totalErrorCount}} {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}
+                     {{certResults.totalErrorCount === 1 ? ' result ' : ' results '}} in your document.
+                   </h4>
     			</div>		
     		</div>
         </div> <!-- END topLevelResultsTable -->		                		

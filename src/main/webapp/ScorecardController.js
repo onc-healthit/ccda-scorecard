@@ -36,6 +36,11 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   
   $scope.finalCategoryListByGrade = [];
   
+  $scope.ReferenceInstanceTypeEnum = Object.freeze({  	
+		IG_CONFORMANCE: "C-CDA IG Conformance Errors",
+		CERTIFICATION_2015: "2015 Certification Feedback"    
+  });  
+  
   //if the SiteUploadControllers $scope.jsonScorecardData changes, 
   //then the service was called and returned new results,
   //so we process them so it is reflected in the view
@@ -89,15 +94,38 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   });
   
   var storeDataAndPopulateResults = function() {
-	  //store the sub-data in a more usable/direct manner
+	  //store scorecard sub-data in a more usable/direct manner
 	  $scope.categories = $scope.jsonData.results.categoryList;
 	  $scope.finalGrade = $scope.jsonData.results.finalGrade;
 	  populateTotalNumberOfScorecardOccurrences();
 	  //Note: populateCategoryListsByGrade() must be run after populateTotalNumberOfScorecardOccurrences() 
 	  //as it uses modified local data
 	  populateCategoryListsByGrade();	  
-	  populateChartsData(); 
-  };  
+	  populateChartsData();
+	  //store scorecard2 referenceResults and then restore in a new array
+	  //it may seem pointless but it ensures the data we are working with is exactly what we expect -
+	  //and verified by the limited types we expect and know how to process
+	  $scope.igResults = getReferenceResultViaType($scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE);
+	  $scope.certResults = getReferenceResultViaType($scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015);
+	  $scope.referenceResults = [];
+	  if($scope.igResults) {
+	  	$scope.referenceResults.push($scope.igResults);
+	  }
+	  if($scope.certResults) {
+	  	$scope.referenceResults.push($scope.certResults);
+	  }	  
+	  console.log("$scope.referenceResults");console.log($scope.referenceResults);
+  };
+  
+  var getReferenceResultViaType = function(referenceInstanceTypeEnum) {
+  	var referenceResults = $scope.jsonData.referenceResults;
+  	for(var i = 0; i < referenceResults.length; i++) {
+  		var refInstance = referenceResults[i];
+	  	if(refInstance.type === referenceInstanceTypeEnum) {
+	  		return refInstance;
+	  	}
+	  }
+  };
   
   var getAndProcessUploadControllerData = function() {
 	  //reference data from parent (SiteUploadController)
@@ -111,7 +139,19 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  	if($scope.jsonData.errorMessage != null) {
 	  		//apply a specific message
 	  		$scope.errorData.getJsonDataErrorForUser = 
-        	"The following error was encountered while scoring " +  $scope.ccdaFileName + ": " + $scope.jsonData.errorMessage;
+        	"The following error was encountered while scoring " +  $scope.ccdaFileName + ": " 
+        	+ $scope.jsonData.errorMessage;
+	  		//check for schema errors (there will always be a specific message if there are schema errors)
+	  		if($scope.jsonData.schemaErrorList.length > 0 || schemaErrors) {
+	  			if($scope.jsonData.schemaErrorList.length > 0) {
+		  			for(var schemaError in $scope.jsonData.schemaErrorList) {
+		  				$scope.errorData.getJsonDataErrorForUser += "<br />" + schemaError; 
+		  			}
+	  			} else {
+	  				$scope.errorData.getJsonDataErrorForUser += "<br />" 
+	  				+ "The specific schema errors encountered have not been identified.";
+	  			}
+	  		}	  		
 	  	} else {
 	  		//apply a generic message
         $scope.errorData.getJsonDataErrorForUser = 
@@ -184,7 +224,12 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
             }
         }
         return classPrefix + " unknownGradeColor";
-    };    
+    };
+    
+    $scope.getGradeClassForCategory = function(classPrefix, grade, curCategoryFailingConformance) { 
+      return curCategoryFailingConformance ? 
+      		classPrefix + " heatMapFail" : $scope.calculateCategoryColor(classPrefix, grade);
+    };  
 
   var calculateCategoryIndex = function(chartIndexClicked) {
   	for(var i = 0; i < chartAndCategoryIndexMap.length; i++) {
@@ -229,6 +274,14 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         elementId = detruncateCategoryName(key);
         elementId = document.getElementById(elementId).parentNode.id;
         $scope.jumpToElementViaId(elementId, weWait, timeToWaitInMiliseconds);
+    };
+    
+    $scope.convertReferenceInstanceTypeToId = function(referenceInstanceTypeFromJson) {
+    	return "referenceInstance" + $scope.removeWhiteSpaceFromString(referenceInstanceTypeFromJson);
+    };
+    
+    $scope.jumpToReferenceInstanceTypeViaId = function(referenceInstanceTypeFromJson) {
+    	$scope.jumpToElementViaId($scope.convertReferenceInstanceTypeToId(referenceInstanceTypeFromJson));
     };
     
   //*************HEAT MAP RELATED****************
@@ -342,7 +395,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   $scope.getGradeClass = function(row, columnNumber, classPrefix) {
 		var failedClasses = classPrefix + " heatMapFail";
 		var curSection = getCurrentHeatMapSectionData(row, columnNumber); 
-    var positiveResult = curSection.failed ? failedClasses : $scope.calculateCategoryColor(classPrefix, curSection.grade);
+    var positiveResult = curSection.failed ? 
+    		failedClasses : $scope.calculateCategoryColor(classPrefix, curSection.grade);
     var negativeResult = classPrefix + " unknownGradeColor"; 
 		return heatMapCategoryController(row, columnNumber, positiveResult, negativeResult);
   };
@@ -554,8 +608,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   };
   
   $scope.getDropdownStateClasses = function(panelDropdownElementId) {
-	  $scope.debugLog('panelDropdownElementId:');
-	  $scope.debugLog(panelDropdownElementId);	  
+//	  $scope.debugLog('panelDropdownElementId:');
+//	  $scope.debugLog(panelDropdownElementId);
 	  var panelElement = document.getElementById(panelDropdownElementId);
 	  if(angular.element(panelElement).hasClass('collapsed')) {
 	  	$scope.detailedResultsTextPrefix = "Click Here For ";
@@ -681,6 +735,25 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 		}
 	  //clear download button focus
 	  document.getElementById(downloadButtonElementId).blur();
-	};	
+	};
+	
+	$scope.getIssueTextForReferenceInstance = function(refInstanceType) {
+		switch (refInstanceType) {
+		case $scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE:
+			return "Error"
+		case $scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015:
+			return "Feedback"
+		default:
+			return "Issue";
+		}
+	};
+	
+	$scope.getIssueTextSingularOrPluralFormForReferenceInstance = function(refInstanceType, refInstanceTotalErrorCount) {
+		var singularResult = $scope.getIssueTextForReferenceInstance(refInstanceType);
+		if(refInstanceTotalErrorCount !== 1) {
+			return singularResult === "Feedback" ? "Results" : singularResult + 's';
+		}
+		return singularResult === "Feedback" ? "Result" : singularResult;
+	};
 
 }]);

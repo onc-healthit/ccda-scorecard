@@ -44,6 +44,13 @@ scApp.directive('detailedResults', function() {
 	};
 });
 
+scApp.directive('scorecardTwoResults', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'scorecardTwoResults.html'
+	};
+});
+
 scApp.directive('saveScorecardButton', function() {
 	return {
 		restrict: 'E',

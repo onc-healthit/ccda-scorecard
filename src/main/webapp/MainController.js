@@ -6,8 +6,8 @@ scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$ti
 	};
 	
 	$scope.mainDebug = {
-		inDebugMode: false,
-		useLocalTestDataForServices: false
+		inDebugMode: true,
+		useLocalTestDataForServices: true
 	};
 	
 	$scope.siteUiData = {
@@ -48,6 +48,10 @@ scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$ti
     
     $scope.removeElementFocusById = function(elementId) {
     	document.getElementById(elementId).blur();
+    };
+    
+    $scope.removeWhiteSpaceFromString = function(stringWithWhiteSpace) {
+    	return stringWithWhiteSpace.replace(/\s+/g, '');
     };
 
 }]);
