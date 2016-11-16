@@ -99,6 +99,7 @@ public class ScorecardProcessor {
 		Results results = new Results();
 		try{
 			CCDARefModel ccdaModels = CCDAParserAPI.parseCCDA2_1(ccdaFile.getInputStream());
+			scorecardResponse.setFilename(ccdaFile.getOriginalFilename());
 			if (!ccdaModels.isEmpty() && ccdaModels.getUsrhSubType() != UsrhSubType.UNSTRUCTURED_DOCUMENT)
 			{	
 				VALIDATION_OBJECTIVES validationObjective = 
@@ -145,19 +146,21 @@ public class ScorecardProcessor {
 					birthDate = ccdaModels.getPatient().getDob().getValue();
 				}
 			
-				categoryList.add(patientScorecard.getPatientCategory(ccdaModels.getPatient(),docType));
 				categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
 			
 				for (Entry<String, String> entry : ApplicationConstants.SECTION_TEMPLATEID_MAP.entrySet()) {
 					if(!errorSectionList.contains(entry.getValue()))
 					{
 						categoryList.add(getSectionCategory(entry.getValue(),ccdaModels,birthDate,docType));
+					}else
+					{
+						categoryList.add(new Category(true,entry.getValue()));
 					}
 				}
 			}else
 			{
-				String specificErrorReason = "unknown reason";
-				String errorMessage = ApplicationConstants.ErrorMessages.GENERIC_WITH_CONTACT;
+				String specificErrorReason= null;
+				String errorMessage= null;
 				scorecardResponse.setSuccess(false);
 				if(ccdaModels.isEmpty()) 
 				{
@@ -171,9 +174,8 @@ public class ScorecardProcessor {
 				scorecardResponse.setErrorMessage(errorMessage);
 				logger.warn("Skipped ReferenceInstanceType calls due to: " + specificErrorReason
 						+ ", and applied an appropriate error message to the response");
+			    return scorecardResponse;
 			}
-			scorecardResponse.setFilename(ccdaFile.getOriginalFilename());
-			
 			results.setCategoryList(categoryList);
 			ApplicationUtil.calculateFinalGradeAndIssues(categoryList, results);
 			results.setIgReferenceUrl(ApplicationConstants.IG_URL);
@@ -193,8 +195,9 @@ public class ScorecardProcessor {
 			
 		}catch(Exception exc)
 		{
-			exc.printStackTrace();
+			logger.error("Exception while processing CCDA DOC", exc);
 			scorecardResponse.setSuccess(false);
+			scorecardResponse.setErrorMessage(ApplicationConstants.ErrorMessages.GENERIC_WITH_CONTACT);
 		}
 		return scorecardResponse;
 	}
@@ -285,7 +288,7 @@ public class ScorecardProcessor {
 			{
 				errorElement = (Element) xPath.compile(referenceError.getxPath()).evaluate(doc, XPathConstants.NODE);
 				parentElement = (Element)errorElement.getParentNode();
-				while(!(parentElement.getTagName().equals("section") || parentElement.getTagName().equals("ClinicalDocument")))
+				while(!(parentElement.getTagName().equals("section") || parentElement.getTagName().equals("patientRole")))
 				{
 					parentElement = (Element)parentElement.getParentNode();
 				}
@@ -296,6 +299,9 @@ public class ScorecardProcessor {
 					sectionName = ApplicationConstants.SECTION_TEMPLATEID_MAP.get(templateId.getAttribute("root"));
 					errorSectionList.add(sectionName);
 					referenceError.setSectionName(sectionName);
+				}else if(parentElement.getTagName().equals("patientRole"))
+				{
+					errorSectionList.add(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc());
 				}
 			}
 		}
@@ -340,7 +346,12 @@ public class ScorecardProcessor {
 		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc()))
 		{
 			return vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),birthDate,docType);
-		}else 
+		}
+		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc()))
+		{
+			return patientScorecard.getPatientCategory(ccdaModels.getPatient(),docType);
+		}
+		else 
 		{
 			return null;
 		}
