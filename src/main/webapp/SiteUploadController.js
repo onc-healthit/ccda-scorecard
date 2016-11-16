@@ -1,5 +1,9 @@
 scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout', function($scope, $http, Upload, $timeout) {
 	
+	$scope.TryMeConstants = Object.freeze({
+		FILENAME: "170.315_b1_toc_amb_ccd_r21_sample1_v8"
+	});
+	
   function UploadData(fileName, docTypeSelected) {
     this.fileName = fileName;
     this.docTypeSelected = docTypeSelected;
@@ -211,7 +215,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   		$scope.calculatedValidationData.certificationResult = false;
     }  	
   }
-
+  
+  //TODO: delete this entire method when done with old UI based reference call
   var setIssueCounts = function() {  	
 	    var metaData = $scope.metaResults.resultMetaData;
 
@@ -256,17 +261,14 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   
   $scope.tryScorecard = function() {
   	$scope.tryMeData.isTryMeActive = true;
+  	var extension = ".xml";
   	$scope.ccdaUploadData = new UploadData(
-		"170.315_b1_toc_amb_ccd_r21_sample1_v5.xml",
+  			$scope.TryMeConstants.FILENAME + extension,
 		"C-CDA_IG_Only");
   	var localFolder = "resources";
-  	var extension = ".json";
-  	getLocalJsonResults(localFolder
-		+ "/170.315_b1_toc_amb_ccd_r21_sample1_cert"
-		+ extension, ServiceTypeEnum.CCDA_VALIDATOR);
-  	getLocalJsonResults(localFolder
-		+ "/170.315_b1_toc_amb_ccd_r21_sample1_scorecard"
-		+ extension, ServiceTypeEnum.SCORECARD); 	
+  	extension = ".json";
+  	getLocalJsonResults(localFolder + "/" + $scope.TryMeConstants.FILENAME + extension, 
+  			ServiceTypeEnum.SCORECARD); 	
   };
   
   $scope.downloadViaAnchor = function(link, name) {

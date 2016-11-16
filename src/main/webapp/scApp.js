@@ -101,13 +101,6 @@ scApp.directive('siteResultsModal', function() {
 	};
 });
 
-scApp.directive('siteValidationResults', function() {
-	return {
-		restrict : 'E',
-		templateUrl : 'siteValidationResults.html'
-	};
-});
-
 scApp.directive('siteFooter', function() {
 	return {
 		restrict : 'E',

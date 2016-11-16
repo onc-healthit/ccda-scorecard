@@ -16,7 +16,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   	isLoading: false,
   	loadingMessage: "Saving Report..."
   };
-  categoryTypes = Object.freeze([
+  var categoryTypes = Object.freeze([
     "Problems", "Medications", "Allergies", "Procedures", "Immunizations",
     "Laboratory Tests and Results", "Vital Signs", "Patient Demographics", "Encounters",
     "Social History"
@@ -702,7 +702,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   	var localUrl = 'downloadtrymefileservice/';
   	//due to Safari limitations, text/plain is set so it can be rendered in-browser and then saved from there
     var mediaType = $scope.isSafari ? "text/plain" : "text/xml";
-    var filename = "170.315_b1_toc_amb_ccd_r21_sample1_v5.xml";
+    var filename = $scope.TryMeConstants.FILENAME + ".xml";
     $http({
       method: "GET",
       url: localUrl,
