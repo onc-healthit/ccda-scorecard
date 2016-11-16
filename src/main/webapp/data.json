@@ -938,8 +938,8 @@
       },
       {
         "categoryName": "Patient Demographics",
-        "categoryGrade": null,
-        "categoryNumericalScore": 0,
+        "categoryGrade": "F",
+        "categoryNumericalScore": -1,
         "categoryRubrics": [],
         "numberOfIssues": 0,
         "failingConformance": true
@@ -949,7 +949,7 @@
     "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
     "industryAverageScore": 62,
     "industryAverageGrade": "D",
-    "numberOfDocumentsScored": 304,
+    "numberOfDocumentsScored": 307,
     "docType": "R2.1",
     "passedCertification": null
   },
