@@ -1,8 +1,9 @@
 <div id="mainPanelBody" class="panel-collapse collapse in">
   <div class="panel-body">
     <div class="panel panel-default mainPanelPanel">
-
-      <site-validation-results></site-validation-results>
+      
+      <scorecard-two-results><</scorecard-two-results>
+      <site-validation-results ng-if="false"></site-validation-results>
 
       <!--START CATEGORY PANELS -->
       <div ng-repeat="currentCategory in categories"
@@ -11,7 +12,8 @@
         <div id="{{currentCategory.categoryName}}"
           class="panel panel-primary removeBorder">
 
-            <div ng-class="calculateCategoryColor('panel-heading categoryPanelHeading', currentCategory.categoryGrade)"
+            <div ng-class="getGradeClassForCategory('panel-heading categoryPanelHeading', 
+            currentCategory.categoryGrade, currentCategory.failingConformance)" 
                  class="panel-heading categoryPanelHeading" style="border-radius: 0px">
             <h2 class="panel-title">
               <a data-toggle="collapse" data-parent="#catAccordion{{$index}}" 

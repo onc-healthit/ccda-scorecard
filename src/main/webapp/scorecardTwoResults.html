@@ -1,0 +1,68 @@
+  <!--START PANELS / REFERENCE TYPE-->
+  <div ng-repeat="refInstance in referenceResults"
+	id="{{convertReferenceInstanceTypeToId(refInstance.type)}}" class="panel-group category">
+	<div id="{{refInstance.totalErrorCount}}.{{$index}}"
+	  class="panel panel-primary removeBorder">
+
+	  <div class="panel-heading categoryPanelHeading validationCategoryPanelHeading" style="border-radius: 0px">
+		<h2 class="panel-title">
+		  <a data-toggle="collapse" data-parent="referenceAccordion{{$index}}" 
+		  href="#referenceCategoryData{{$index}}">{{refInstance.type}}</a>
+		  <span ng-show="refInstance.totalErrorCount > 0" class="pull-right numberOfIssuesHeader">
+			<b>{{refInstance.totalErrorCount}}</b>
+            {{' ' + getIssueTextSingularOrPluralFormForReferenceInstance(refInstance.type, refInstance.totalErrorCount)}}
+		  </span>
+		</h2>
+	  </div>
+
+	  <!--START REQUIREMENT PANELS -->
+	  <div id="referenceCategoryData{{$index}}"
+		class="panel-collapse collapse in">
+		<div class="panel-body">
+
+		  <!-- START rule message -->
+		  <div ng-repeat="curResult in refInstance.referenceErrors" class="panel basicBorder">
+			<div class="panel-heading requirementWrapper">
+			  <h3 class="panel-title">
+				<a data-toggle="collapse"
+				  href="#referenceRubricBody{{$parent.$index}}-{{$index}}">
+                  {{getIssueTextForReferenceInstance(refInstance.type)}}: {{curResult.description}}
+				</a>
+			  </h3>
+			</div>
+
+
+			<!-- START expandable details panel -->
+			<div id="referenceRubricBody{{$parent.$index}}-{{$index}}" class="panel-collapse collapse out">
+			  <div class="panel-body rubricColor">
+
+				<div class="row">
+					<div class="col-md-12">
+                        <div ng-if="curResult.sectionName">
+                          <h3>Related Section</h3>
+                          <h5>{{curResult.sectionName}}</h5>
+                        </div>          
+						<h3>Document Line Number (approximate)</h3>
+						<h5>{{curResult.documentLineNumber}}</h5>                        
+						<h3>xPath</h3>
+						<h5 style="word-wrap:break-word">{{curResult.xPath}}</h5>
+					</div>
+				</div>
+
+			  </div>
+			</div> <!-- END expandable details panel -->
+	
+		  </div> <!-- END rule message -->
+
+		</div> <!-- END requirement/rule panel-body -->
+		<div class="panel-footer scFooter">
+		  <button ng-click="jumpToElementViaId('ValidationResult', true, 0)" 
+			class="btn btn-default btn-block scButton removeBorder" type="button" title="Back to Summary" 
+			alt="Back to Summary" tabindex="0" role="button" onclick="this.blur();" aria-label="Back to Summary">
+			<span class="glyphicon glyphicon-triangle-top" title="Back to Summary" alt="Back to Summary"></span>
+		  </button>
+		</div>
+	  </div> <!-- END requirement/rule panel header -->
+
+	</div> <!-- END category name -->
+  </div> <!--END PANELS / REFERENCE TYPE-->
