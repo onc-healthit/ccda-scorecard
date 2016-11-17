@@ -36,6 +36,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   
   $scope.finalCategoryListByGrade = [];
   
+  $scope.igResults = []; $scope.certResults = []; $scope.referenceResults = [];  
+  
   $scope.ReferenceInstanceTypeEnum = Object.freeze({  	
 		IG_CONFORMANCE: "C-CDA IG Conformance Errors",
 		CERTIFICATION_2015: "2015 Certification Feedback"    
@@ -82,6 +84,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  $scope.errorData.saveTryMeFileError = "";
 	  chartAndCategoryIndexMap = [];
 	  $scope.finalCategoryListByGrade = [];
+	  $scope.igResults = []; $scope.certResults = []; $scope.referenceResults = [];
   };
 
   //adjust the chart type here and it will be reflected live using $scope.charts.currentChartOption
@@ -107,7 +110,6 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  //and verified by the limited types we expect and know how to process
 	  $scope.igResults = getReferenceResultViaType($scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE);
 	  $scope.certResults = getReferenceResultViaType($scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015);
-	  $scope.referenceResults = [];
 	  if($scope.igResults) {
 	  	$scope.referenceResults.push($scope.igResults);
 	  }

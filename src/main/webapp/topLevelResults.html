@@ -66,7 +66,7 @@
                       ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.IG_CONFORMANCE)" 
                       title="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}" 
                       aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}">
-                      {{jsonData.results.finalGrade ? igResults.totalErrorCount : "Validating..."}}
+                      {{jsonData.results.finalGrade ? igResults.totalErrorCount : ''}}
                       </a>
                       <span ng-show="!igResults.totalErrorCount">
                         {{jsonData.results.finalGrade ? "0" : "Validating..."}}
@@ -93,7 +93,7 @@
                       ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.CERTIFICATION_2015)"              
                       title="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}" 
                       aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}">
-                      {{jsonData.results.finalGrade ? certResults.totalErrorCount : "Certifying..."}}
+                      {{jsonData.results.finalGrade ? certResults.totalErrorCount : ''}}
                       </a>
                       <span ng-show="!certResults.totalErrorCount">
                         {{jsonData.results.finalGrade ? "0" : "Certifying..."}}
