@@ -4,11 +4,10 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 		FILENAME: "170.315_b1_toc_amb_ccd_r21_sample1_v8"
 	});
 	
-  function UploadData(fileName, docTypeSelected) {
+  function UploadData(fileName) {
     this.fileName = fileName;
-    this.docTypeSelected = docTypeSelected;
   }
-  $scope.ccdaUploadData = new UploadData("Unknown File (Upload)", "Unknown Document Type");
+  $scope.ccdaUploadData = new UploadData("Unknown File (Upload)");
 
   $scope.userMessageConstant = Object.freeze ({
 	GENERIC: "Please try a different file and report the issue to TestingServices@sitenv.org.",
@@ -45,13 +44,6 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     SCORECARD: "C-CDA R2.1 Scorecard Service",
     DEBUG: "Debug Service"
   });
-  
-  $scope.validationOptions = [
-	{id: 1, value: "Scorecard and Validation results"}, 
-	{id: 2, value: "Scorecard results only"}		  
-  ];
-  //default to run scorecard only since we get reference results from the same JSON now
-  $scope.selectedValidationOption = $scope.validationOptions[1];
 
   $scope.isFirefox = typeof InstallTrigger !== 'undefined';
   $scope.isSafari = typeof safari !== 'undefined';
@@ -69,20 +61,18 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 
   //called by Validate Document button on SiteUploadForm
   $scope.uploadCcdaScFileAndCallServices = function(ccdaScFile, callDebug) {
+  	//TODO: remove isValidationLoading and all references
     $scope.debugLog("$scope.uploadDisplay.isValidationLoading (before load):")
     $scope.debugLog($scope.uploadDisplay.isValidationLoading);
     
+    //TODO: remove resetValidationData and variables that are reset
     resetValidationData();
     $scope.tryMeData.isTryMeActive = false;
     
-    //static for now since we are not using the selector/sending this manually
-    //TODO: Remove $scope.ccdaUploadData.docTypeSelected and all references
-    $scope.ccdaUploadData.docTypeSelected = "C-CDA_IG_Only";
     $scope.ccdaUploadData.fileName = (!$scope.mainDebug.inDebugMode || $scope.mainDebug.inDebugMode && ccdaScFile) 
     	? ccdaScFile.name
 		: "No file selected: In debug mode";
      
-     //TODO: get rid of the else if options and remove $scope.selectedValidationOption.id references
      if(callDebug) {
     	 $scope.debugLog("In main debug mode");
        if($scope.mainDebug.useLocalTestDataForServices) {
@@ -90,13 +80,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
        } else {
     	   callDebugService(ccdaScFile);
        }
-     } else if ($scope.selectedValidationOption.id === 1) {
-       callCcdaR2ValidatorService(ccdaScFile);  	 
-       callCcdaScorecardService(ccdaScFile);
-     } else if ($scope.selectedValidationOption.id === 2) {
-       $scope.uploadDisplay.isValidationLoading = false;
-       callCcdaScorecardService(ccdaScFile);
-     } else {      
+     } else {
        callCcdaScorecardService(ccdaScFile);    	 
      }
   };
@@ -260,12 +244,11 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     });
   };
   
+  //called by try me button
   $scope.tryScorecard = function() {
   	$scope.tryMeData.isTryMeActive = true;
   	var extension = ".xml";
-  	$scope.ccdaUploadData = new UploadData(
-  			$scope.TryMeConstants.FILENAME + extension,
-		"C-CDA_IG_Only");
+  	$scope.ccdaUploadData = new UploadData($scope.TryMeConstants.FILENAME + extension);
   	var localFolder = "resources";
   	extension = ".json";
   	getLocalJsonResults(localFolder + "/" + $scope.TryMeConstants.FILENAME + extension, 
