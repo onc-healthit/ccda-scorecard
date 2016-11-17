@@ -1,5 +1,9 @@
 scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout', function($scope, $http, Upload, $timeout) {
 	
+	$scope.TryMeConstants = Object.freeze({
+		FILENAME: "170.315_b1_toc_amb_ccd_r21_sample1_v8"
+	});
+	
   function UploadData(fileName, docTypeSelected) {
     this.fileName = fileName;
     this.docTypeSelected = docTypeSelected;
@@ -46,8 +50,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 	{id: 1, value: "Scorecard and Validation results"}, 
 	{id: 2, value: "Scorecard results only"}		  
   ];
-  //default to run both services since we no longer have a selection option
-  $scope.selectedValidationOption = $scope.validationOptions[0];
+  //default to run scorecard only since we get reference results from the same JSON now
+  $scope.selectedValidationOption = $scope.validationOptions[1];
 
   $scope.isFirefox = typeof InstallTrigger !== 'undefined';
   $scope.isSafari = typeof safari !== 'undefined';
@@ -71,28 +75,28 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     resetValidationData();
     $scope.tryMeData.isTryMeActive = false;
     
-	//static for now since we are not using the selector/sending this manually
+    //static for now since we are not using the selector/sending this manually
+    //TODO: Remove $scope.ccdaUploadData.docTypeSelected and all references
     $scope.ccdaUploadData.docTypeSelected = "C-CDA_IG_Only";
     $scope.ccdaUploadData.fileName = (!$scope.mainDebug.inDebugMode || $scope.mainDebug.inDebugMode && ccdaScFile) 
     	? ccdaScFile.name
 		: "No file selected: In debug mode";
-
+     
+     //TODO: get rid of the else if options and remove $scope.selectedValidationOption.id references
      if(callDebug) {
     	 $scope.debugLog("In main debug mode");
        if($scope.mainDebug.useLocalTestDataForServices) {
-    	   getLocalJsonResults("dataValidation.json", ServiceTypeEnum.CCDA_VALIDATOR);
     	   getLocalJsonResults("data.json", ServiceTypeEnum.SCORECARD);
        } else {
     	   callDebugService(ccdaScFile);
        }
      } else if ($scope.selectedValidationOption.id === 1) {
-       callCcdaR2ValidatorService(ccdaScFile);    	 
+       callCcdaR2ValidatorService(ccdaScFile);  	 
        callCcdaScorecardService(ccdaScFile);
      } else if ($scope.selectedValidationOption.id === 2) {
        $scope.uploadDisplay.isValidationLoading = false;
        callCcdaScorecardService(ccdaScFile);
-     } else {
-       callCcdaR2ValidatorService(ccdaScFile);    	 
+     } else {      
        callCcdaScorecardService(ccdaScFile);    	 
      }
   };
@@ -105,6 +109,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     uploadFileAndCallServices(ccdaScFile, 'https://angular-file-upload-cors-srv.appspot.com/upload', dataObject);
   };
 
+  //TODO: remove this method and follow path to remove all dead code
   var callCcdaR2ValidatorService = function(ccdaScFile) {
     var externalUrl = 'http://54.200.51.225:8080/referenceccdaservice/';
     var localUrl = 'ccdavalidatorservice/';
@@ -118,8 +123,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   };
 
   var callCcdaScorecardService = function(ccdaScFile, newLocalUrl) {
-    var externalUrl = 'http://54.200.51.225:8080/ccda-smart-scorecard/ccdascorecardservice/';
-    var localUrl = 'ccdascorecardservice/';
+    var externalUrl = 'http://54.200.51.225:8080/ccda-smart-scorecard/ccdascorecardservice2/';
+    var localUrl = 'ccdascorecardservice2/';
     if(newLocalUrl) {
     	localUrl = newLocalUrl;
     }
@@ -211,7 +216,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   		$scope.calculatedValidationData.certificationResult = false;
     }  	
   }
-
+  
+  //TODO: delete this entire method when done with old UI based reference call
   var setIssueCounts = function() {  	
 	    var metaData = $scope.metaResults.resultMetaData;
 
@@ -256,17 +262,14 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   
   $scope.tryScorecard = function() {
   	$scope.tryMeData.isTryMeActive = true;
+  	var extension = ".xml";
   	$scope.ccdaUploadData = new UploadData(
-		"170.315_b1_toc_amb_ccd_r21_sample1_v5.xml",
+  			$scope.TryMeConstants.FILENAME + extension,
 		"C-CDA_IG_Only");
   	var localFolder = "resources";
-  	var extension = ".json";
-  	getLocalJsonResults(localFolder
-		+ "/170.315_b1_toc_amb_ccd_r21_sample1_cert"
-		+ extension, ServiceTypeEnum.CCDA_VALIDATOR);
-  	getLocalJsonResults(localFolder
-		+ "/170.315_b1_toc_amb_ccd_r21_sample1_scorecard"
-		+ extension, ServiceTypeEnum.SCORECARD); 	
+  	extension = ".json";
+  	getLocalJsonResults(localFolder + "/" + $scope.TryMeConstants.FILENAME + extension, 
+  			ServiceTypeEnum.SCORECARD); 	
   };
   
   $scope.downloadViaAnchor = function(link, name) {

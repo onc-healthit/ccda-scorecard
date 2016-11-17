@@ -66,15 +66,17 @@
                       ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.IG_CONFORMANCE)" 
                       title="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}" 
                       aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}">
-                      {{igResults.totalErrorCount}}
+                      {{jsonData.results.finalGrade ? igResults.totalErrorCount : "Validating..."}}
                       </a>
-                      <span ng-show="!igResults.totalErrorCount">0</span>                      
+                      <span ng-show="!igResults.totalErrorCount">
+                        {{jsonData.results.finalGrade ? "0" : "Validating..."}}
+                      </span>                      
                    </h2>
     			</div>
     			<div class="col-md-6 scHeading scHeaderDescriptionText">
                    <h4 class="scDescriptionText">
                      There{{igResults.totalErrorCount === 1 ? ' is ' : ' are '}}
-                     {{igResults.totalErrorCount}}
+                     {{jsonData.results.finalGrade ? (igResults.totalErrorCount ? igResults.totalErrorCount : '0') : '?'}}
                      {{igResults.totalErrorCount === 1 ? ' C-CDA IG Conformance Error ' : ' ' + ReferenceInstanceTypeEnum.IG_CONFORMANCE + ' '}}
                      in your document.
                    </h4>             
@@ -91,15 +93,18 @@
                       ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.CERTIFICATION_2015)"              
                       title="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}" 
                       aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}">
-                      {{certResults.totalErrorCount}}
+                      {{jsonData.results.finalGrade ? certResults.totalErrorCount : "Certifying..."}}
                       </a>
-                      <span ng-show="!certResults.totalErrorCount">0</span>               
+                      <span ng-show="!certResults.totalErrorCount">
+                        {{jsonData.results.finalGrade ? "0" : "Certifying..."}}
+                      </span>               
                    </h2>
     			</div>
     			<div class="col-md-6 scHeading scHeaderDescriptionText">
     			   <h4 class="scDescriptionText">
                      There{{certResults.totalErrorCount === 1 ? ' is ' : ' are '}}
-                     {{certResults.totalErrorCount}} {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}
+                     {{jsonData.results.finalGrade ? (certResults.totalErrorCount ? certResults.totalErrorCount : '0') : '?'}}
+                     {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}
                      {{certResults.totalErrorCount === 1 ? ' result ' : ' results '}} in your document.
                    </h4>
     			</div>		
