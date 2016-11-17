@@ -122,8 +122,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   };
 
   var callCcdaScorecardService = function(ccdaScFile, newLocalUrl) {
-    var externalUrl = 'http://54.200.51.225:8080/ccda-smart-scorecard/ccdascorecardservice/';
-    var localUrl = 'ccdascorecardservice/';
+    var externalUrl = 'http://54.200.51.225:8080/ccda-smart-scorecard/ccdascorecardservice2/';
+    var localUrl = 'ccdascorecardservice2/';
     if(newLocalUrl) {
     	localUrl = newLocalUrl;
     }

@@ -76,7 +76,7 @@
     			<div class="col-md-6 scHeading scHeaderDescriptionText">
                    <h4 class="scDescriptionText">
                      There{{igResults.totalErrorCount === 1 ? ' is ' : ' are '}}
-                     {{jsonData.results.finalGrade ? igResults.totalErrorCount : '?'}}
+                     {{jsonData.results.finalGrade ? (igResults.totalErrorCount ? igResults.totalErrorCount : '0') : '?'}}
                      {{igResults.totalErrorCount === 1 ? ' C-CDA IG Conformance Error ' : ' ' + ReferenceInstanceTypeEnum.IG_CONFORMANCE + ' '}}
                      in your document.
                    </h4>             
@@ -96,14 +96,15 @@
                       {{jsonData.results.finalGrade ? certResults.totalErrorCount : "Certifying..."}}
                       </a>
                       <span ng-show="!certResults.totalErrorCount">
-                        {{jsonData.results.finalGrade ? "0" : "Validating..."}}
+                        {{jsonData.results.finalGrade ? "0" : "Certifying..."}}
                       </span>               
                    </h2>
     			</div>
     			<div class="col-md-6 scHeading scHeaderDescriptionText">
     			   <h4 class="scDescriptionText">
                      There{{certResults.totalErrorCount === 1 ? ' is ' : ' are '}}
-                     {{jsonData.results.finalGrade ? certResults.totalErrorCount : '?'}} {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}
+                     {{jsonData.results.finalGrade ? (certResults.totalErrorCount ? certResults.totalErrorCount : '0') : '?'}}
+                     {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}
                      {{certResults.totalErrorCount === 1 ? ' result ' : ' results '}} in your document.
                    </h4>
     			</div>		
