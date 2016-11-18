@@ -44,15 +44,19 @@
     		<!-- Improvements row -->
     		<div class="row">
     			<div class="col-md-4 scHeading">
-    			   <h2>{{calculatedValidationData.passedCertification ? "Improvements" : "Scorecard Issues"}}:</h2>
+    			   <!--<h2>{{calculatedValidationData.passedCertification ? "Improvements" : "Scorecard Issues"}}:</h2>-->
+                   <h2>{{false ? "Improvements" : "Scorecard Issues"}}:</h2>             
     			</div>
     			<div class="col-md-2 scHeading">
     			   <h2>{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>
     			</div>
     			<div class="col-md-6 scHeading scHeaderDescriptionText">
-    			   <h4 class="scDescriptionText">There are {{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "?"}}
+    			   <!--<h4 class="scDescriptionText">There are {{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "?"}}
                    specific scorecard {{calculatedValidationData.passedCertification ? "improvements that you can make to" : "issues in"}} your document.
-                   </h4>
+                   </h4>-->
+                   <h4 class="scDescriptionText">There are {{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "?"}}
+                   specific scorecard {{false ? "improvements that you can make to" : "issues in"}} your document.
+                   </h4>                   
     			</div>
     		</div>
     		<!-- C-CDA IG Conformance Errors row -->
@@ -66,7 +70,7 @@
                       ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.IG_CONFORMANCE)" 
                       title="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}" 
                       aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}">
-                      {{jsonData.results.finalGrade ? igResults.totalErrorCount : "Validating..."}}
+                      {{jsonData.results.finalGrade ? igResults.totalErrorCount : ''}}
                       </a>
                       <span ng-show="!igResults.totalErrorCount">
                         {{jsonData.results.finalGrade ? "0" : "Validating..."}}
@@ -93,7 +97,7 @@
                       ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.CERTIFICATION_2015)"              
                       title="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}" 
                       aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}">
-                      {{jsonData.results.finalGrade ? certResults.totalErrorCount : "Certifying..."}}
+                      {{jsonData.results.finalGrade ? certResults.totalErrorCount : ''}}
                       </a>
                       <span ng-show="!certResults.totalErrorCount">
                         {{jsonData.results.finalGrade ? "0" : "Certifying..."}}
@@ -116,7 +120,7 @@
     <charts></charts>
 
     <!-- Access to Detailed Results -->
-    <div id="detailedResults" class="row" ng-show="!uploadDisplay.isLoading && !uploadErrorData.validationServiceError && !errorData.getJsonDataError">
+    <div id="detailedResults" class="row" ng-show="!uploadDisplay.isLoading && !errorData.getJsonDataError">
         <div class="col-md-12">
             <a id="detailedResultsPanelDropdownAnchor" class="panelDropdownButton" data-toggle="collapse" href="#mainPanelBody" data-target="#mainPanelBody">
                 <h2 id="detailedResultsButton" ng-click="jumpToElementViaId('detailedResults', true, 100)" type="button" class="btn btn-block resultsButton">

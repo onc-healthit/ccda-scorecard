@@ -1,8 +1,7 @@
 scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$timeout', function($scope, $location, $anchorScroll, $timeout) {
 
 	$scope.mainDisplayData = {
-		showTopLevelContent : true,
-		showScorecard : true
+		showTopLevelContent : true
 	};
 	
 	$scope.mainDebug = {
