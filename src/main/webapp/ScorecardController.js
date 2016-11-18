@@ -53,9 +53,6 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 		  $scope.ccdaFileName = $scope.ccdaUploadData.fileName;
 		  getAndProcessUploadControllerData();
 		  $scope.uploadDisplay.isLoading = false;
-		  if($scope.uploadErrorData.validationServiceError) {
-		  	$scope.uploadDisplay.isValidationLoading = false;
-		  }
 		  $scope.resizeWindow(300);
 	  }
   }, true);
@@ -116,7 +113,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  if($scope.certResults) {
 	  	$scope.referenceResults.push($scope.certResults);
 	  }	  
-	  console.log("$scope.referenceResults");console.log($scope.referenceResults);
+	  $scope.debugLog("$scope.referenceResults");$scope.debugLog($scope.referenceResults);
   };
   
   var getReferenceResultViaType = function(referenceInstanceTypeEnum) {
@@ -287,8 +284,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     };
     
   //*************HEAT MAP RELATED****************
-    
-   
+
   /**
    * Allows us to delay the heat-map directive load 
    * (in combination with ng-if) until we have data
@@ -621,24 +617,6 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  $scope.detailedResultsTextPrefix = '';
 	  return "glyphicon glyphicon-triangle-bottom pull-left";	  
   };
-    
-  $scope.setPassingCertificationColors = function(classPrefix) {
-      if($scope.calculatedValidationData.passedCertification) {
-          return classPrefix + " passCertColor";
-      } else {
-          return classPrefix + " darkGrayBackground";
-      }
-      return classPrefix;
-  };
-    
-  $scope.setFailingCertificationColors = function(classPrefix) {
-      if(!$scope.calculatedValidationData.passedCertification) {
-          return classPrefix + " failCertColor";
-      } else {
-          return classPrefix + " darkGrayBackground";
-      }
-      return classPrefix;
-  };
   
   //***************SAVE REPORT AND SAVE XML RELATED*****************
   
@@ -655,21 +633,13 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       document.body.removeChild(anchor);
       window.URL.revokeObjectURL($scope.trustedFileUrl);  
     }, 100);
-	};  
-  
-  var addCertificationResultToJson = function() {  	  	
-  	var jsonWithCert = angular.copy($scope.jsonData);
-  	jsonWithCert.results.passedCertification = $scope.calculatedValidationData.passedCertification;
-  	console.log("jsonWithCert created to be saved:");
-  	console.log(jsonWithCert);
-  	return jsonWithCert;
-  };
+	};
   
   $scope.saveScorecard = function() {  	
-  	callSaveScorecardService(addCertificationResultToJson());
+  	callSaveScorecardService();
   };
   
-  var callSaveScorecardService = function(jsonWithCert, newLocalUrl) {
+  var callSaveScorecardService = function(newLocalUrl) {
   	$scope.debugLog("Entered callSaveScorecardService()");
     var externalUrl = 'http://54.200.51.225:8080/ccda-smart-scorecard/savescorecardservice/';
     var localUrl = 'savescorecardservice/';
@@ -679,7 +649,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     $http({    	
       method: "POST",
       url: newLocalUrl ? newLocalUrl : localUrl,
-      data: jsonWithCert,
+      data: $scope.jsonData,
       headers: {
       	"Content-Type": postedMediaType
       },
@@ -740,6 +710,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  document.getElementById(downloadButtonElementId).blur();
 	};
 	
+	//*************REFERENCE RESULTS SORTING RELATED****************	
+	
 	$scope.getIssueTextForReferenceInstance = function(refInstanceType) {
 		switch (refInstanceType) {
 		case $scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE:
@@ -758,5 +730,100 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 		}
 		return singularResult === "Feedback" ? "Result" : singularResult;
 	};
+	
+  var IssueTypeEnum = Object.freeze({
+    MDHT_ERROR: "C-CDA MDHT Conformance Error",
+    MDHT_WARNING: "C-CDA MDHT Conformance Warning",
+    MDHT_INFO: "C-CDA MDHT Conformance Info",
+    VOCAB_ERROR: "ONC 2015 S&CC Vocabulary Validation Conformance Error",
+    VOCAB_WARNING: "ONC 2015 S&CC Vocabulary Validation Conformance Warning",
+    VOCAB_INFO: "ONC 2015 S&CC Vocabulary Validation Conformance Info",
+    REFERENCE_ERROR: "ONC 2015 S&CC Reference C-CDA Validation Error",
+    REFERENCE_WARNING: "ONC 2015 S&CC Reference C-CDA Validation Warning",
+    REFERENCE_INFO: "ONC 2015 S&CC Reference C-CDA Validation Info"    
+  });
+  
+  var ResultCategoryEnum = Object.freeze({
+  	MDHT: "C-CDA MDHT Conformance",
+  	VOCAB: "ONC 2015 S&CC Vocabulary Validation Conformance",
+  	REFERENCE: "ONC 2015 S&CC Reference C-CDA Validation",
+  	UNKNOWN: "Unknown"
+  });	
+  
+  var getValidationCategoryViaType = function(curResultOrMetaCategoryType) {
+    switch (curResultOrMetaCategoryType) {
+      case IssueTypeEnum.MDHT_ERROR:
+      case IssueTypeEnum.MDHT_WARNING:
+      case IssueTypeEnum.MDHT_INFO:
+        return ResultCategoryEnum.MDHT;
+      case IssueTypeEnum.VOCAB_ERROR:
+      case IssueTypeEnum.VOCAB_WARNING:
+      case IssueTypeEnum.VOCAB_INFO:      
+      	return ResultCategoryEnum.VOCAB;      
+      case IssueTypeEnum.REFERENCE_ERROR:
+      case IssueTypeEnum.REFERENCE_WARNING:
+      case IssueTypeEnum.REFERENCE_INFO:      	
+      	return ResultCategoryEnum.REFERENCE;
+      default:
+        return ResultCategoryEnum.UNKNOWN;
+    }
+  };
+
+  var ResultSeverityEnum = Object.freeze({
+    ERROR: "Error",
+    WARNING: "Warning",
+    INFO: "Info",
+    UNKNOWN: "Unknown"
+  });
+
+  var getValidationResultSeverityViaType = function(curResultType) {
+    switch (curResultType) {
+      case IssueTypeEnum.MDHT_ERROR:
+      case IssueTypeEnum.VOCAB_ERROR:
+      case IssueTypeEnum.REFERENCE_ERROR:
+        return ResultSeverityEnum.ERROR;
+      case IssueTypeEnum.MDHT_WARNING:
+      case IssueTypeEnum.VOCAB_WARNING:
+      case IssueTypeEnum.REFERENCE_WARNING:
+        return ResultSeverityEnum.WARNING;
+      case IssueTypeEnum.MDHT_INFO:
+      case IssueTypeEnum.VOCAB_INFO:
+      case IssueTypeEnum.REFERENCE_INFO:
+        return ResultSeverityEnum.INFO;
+      default:
+        return ResultSeverityEnum.UNKNOWN;
+    }
+  };
+  
+  $scope.determineResultsToShow = function(curResult, curMetaCategory) {
+    if(getValidationResultSeverityViaType(curResult.type) === ResultSeverityEnum.ERROR
+    		&& getValidationCategoryViaType(curResult.type) === getValidationCategoryViaType(curMetaCategory.type)) {
+    	return true;
+    } else {
+    	return false;
+    }
+  	return true;
+  };
+
+  $scope.getValidationResultColorViaType = function(curResult, isBadge) {
+    switch (getValidationResultSeverityViaType(curResult.type)) {
+      case ResultSeverityEnum.ERROR:
+        if (isBadge)
+          return "badge btn-danger";
+        return "errorColor";
+      case ResultSeverityEnum.WARNING:
+        if (isBadge)
+          return "badge btn-warning";
+        return "warningColor";
+      case ResultSeverityEnum.INFO:
+        if (isBadge)
+          return "badge btn-info";
+        return "infoColor";
+      case ResultSeverityEnum.UNKNOWN:
+        if (isBadge)
+          return "badge btn-primary";
+        return "unknownColor";
+    }
+  };	
 
 }]);

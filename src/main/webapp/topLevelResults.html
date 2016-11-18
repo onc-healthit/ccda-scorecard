@@ -44,15 +44,19 @@
     		<!-- Improvements row -->
     		<div class="row">
     			<div class="col-md-4 scHeading">
-    			   <h2>{{calculatedValidationData.passedCertification ? "Improvements" : "Scorecard Issues"}}:</h2>
+    			   <!--<h2>{{calculatedValidationData.passedCertification ? "Improvements" : "Scorecard Issues"}}:</h2>-->
+                   <h2>{{false ? "Improvements" : "Scorecard Issues"}}:</h2>             
     			</div>
     			<div class="col-md-2 scHeading">
     			   <h2>{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>
     			</div>
     			<div class="col-md-6 scHeading scHeaderDescriptionText">
-    			   <h4 class="scDescriptionText">There are {{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "?"}}
+    			   <!--<h4 class="scDescriptionText">There are {{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "?"}}
                    specific scorecard {{calculatedValidationData.passedCertification ? "improvements that you can make to" : "issues in"}} your document.
-                   </h4>
+                   </h4>-->
+                   <h4 class="scDescriptionText">There are {{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "?"}}
+                   specific scorecard {{false ? "improvements that you can make to" : "issues in"}} your document.
+                   </h4>                   
     			</div>
     		</div>
     		<!-- C-CDA IG Conformance Errors row -->
@@ -116,7 +120,7 @@
     <charts></charts>
 
     <!-- Access to Detailed Results -->
-    <div id="detailedResults" class="row" ng-show="!uploadDisplay.isLoading && !uploadErrorData.validationServiceError && !errorData.getJsonDataError">
+    <div id="detailedResults" class="row" ng-show="!uploadDisplay.isLoading && !errorData.getJsonDataError">
         <div class="col-md-12">
             <a id="detailedResultsPanelDropdownAnchor" class="panelDropdownButton" data-toggle="collapse" href="#mainPanelBody" data-target="#mainPanelBody">
                 <h2 id="detailedResultsButton" ng-click="jumpToElementViaId('detailedResults', true, 100)" type="button" class="btn btn-block resultsButton">
