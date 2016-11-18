@@ -47,9 +47,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   //then the service was called and returned new results,
   //so we process them so it is reflected in the view
   $scope.$watch('jsonScorecardData', function() {
-  	$scope.debugLog("$scope.jsonScorecardData was changed");
-	  $scope.debugLog($scope.jsonScorecardData);
-	  if(!jQuery.isEmptyObject($scope.jsonScorecardData)) {		  
+  	$scope.debugLog("$scope.jsonScorecardData was changed");$scope.debugLog($scope.jsonScorecardData);
+	  if(!jQuery.isEmptyObject($scope.jsonScorecardData)) {  
 		  $scope.ccdaFileName = $scope.ccdaUploadData.fileName;
 		  getAndProcessUploadControllerData();
 		  $scope.uploadDisplay.isLoading = false;
@@ -140,17 +139,11 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  		$scope.errorData.getJsonDataErrorForUser = 
         	"The following error was encountered while scoring " +  $scope.ccdaFileName + ": " 
         	+ $scope.jsonData.errorMessage;
-	  		//check for schema errors (there will always be a specific message if there are schema errors)
-	  		if($scope.jsonData.schemaErrorList.length > 0 || schemaErrors) {
-	  			if($scope.jsonData.schemaErrorList.length > 0) {
-		  			for(var schemaError in $scope.jsonData.schemaErrorList) {
-		  				$scope.errorData.getJsonDataErrorForUser += "<br />" + schemaError; 
-		  			}
-	  			} else {
-	  				$scope.errorData.getJsonDataErrorForUser += "<br />" 
-	  				+ "The specific schema errors encountered have not been identified.";
-	  			}
-	  		}	  		
+	  		//handle schema errors when the list is empty or null (should really never happen)
+	  		if($scope.jsonData.schemaErrors && !$scope.jsonData.schemaErrorList) {
+	  				$scope.errorData.getJsonDataErrorForUser += 
+	  					("\r\n" + "The specific schema errors encountered have not been identified.");
+	  		}
 	  	} else {
 	  		//apply a generic message
         $scope.errorData.getJsonDataErrorForUser = 

@@ -7,12 +7,25 @@
 
         <div id="scorecardResults">
           
-          <h3 ng-show="errorData.getJsonDataError" class="webServiceError">
-            <span class="errorColor">Web Service Error:&nbsp;</span>{{errorData.getJsonDataErrorForUser}}
-          </h3>
-          <h3 ng-show="ngFileUploadError" class="fileUploadError">
-            <span class="errorColor">File Upload Error:&nbsp;</span>{{uploadErrorData.uploadError}}
-          </h3>
+          <div style="word-wrap:break-word">
+            <div ng-show="errorData.getJsonDataError" class="webServiceError">
+              <h3>
+                <span ng-show="!jsonData.schemaErrorList" class="errorColor">
+                  Web Service Error:&nbsp;
+                </span>
+                {{errorData.getJsonDataErrorForUser}}
+              </h3>
+              <div ng-show="jsonData.schemaErrors && jsonData.schemaErrorList">
+                <h5 ng-repeat="curSchemaError in jsonData.schemaErrorList" style="text-align: left">
+                  <span class="errorColor">Schema Error {{$index + 1}}:</span> {{curSchemaError.description + 
+                  (curSchemaError.documentLineNumber ? " - at line number: " + curSchemaError.documentLineNumber : '')}}
+                </h5>
+              </div>
+            </div>
+            <h3 ng-show="ngFileUploadError" class="fileUploadError">
+              <span class="errorColor">File Upload Error:&nbsp;</span>{{uploadErrorData.uploadError}}
+            </h3>
+          </div>
                     
           <debug></debug>
           
