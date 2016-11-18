@@ -249,7 +249,7 @@ public class ApplicationConstants {
 	public static final String IG_SECTION_REFERENCES = "Section #.#.# CONF:ABC";
 	public static final String TASKFORCE_URL = "http://wiki.hl7.org/index.php?title=CDA_Example_Task_Force";
 	
-	public static final String TEMPLATEID_XPATH = "./templateId[@extension='2014-06-09']" ;
+	public static final String TEMPLATEID_XPATH = "./templateId";
 	
 	public static final Map<String, String> CODE_SYSTEM_MAP = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
 	

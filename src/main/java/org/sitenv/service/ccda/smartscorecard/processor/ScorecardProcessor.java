@@ -245,15 +245,14 @@ public class ScorecardProcessor {
 	
 	public boolean checkForReferenceValidatorErrors(List<ResultMetaData> resultMetaData)
 	{
-		boolean value = false;
 		for(ResultMetaData result : resultMetaData)
 		{
 			if(ApplicationConstants.referenceValidatorErrorList.contains(result.getType()) && result.getCount() > 0)
 			{
-				value = true;
+				return true;
 			}
 		}
-		return value;
+		return false;
 	}
 	
 	public ReferenceResult getReferenceResults(List<ReferenceError> referenceValidatorErrors, ReferenceInstanceType instanceType)
