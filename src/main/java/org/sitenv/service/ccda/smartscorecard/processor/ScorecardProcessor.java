@@ -301,6 +301,7 @@ public class ScorecardProcessor {
 				}else if(parentElement.getTagName().equals("patientRole"))
 				{
 					errorSectionList.add(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc());
+					referenceError.setSectionName(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc());
 				}
 			}
 		}
