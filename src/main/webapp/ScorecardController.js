@@ -23,16 +23,6 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   ]);
 
   $scope.ccdaFileName = "Scoring...";
-  $scope.totalNumberOfScorecardOccurrences = 0;
-  
-  //this is populated after the JSON is returned
-  $scope.chartsData = {};
-  
-  function ChartAndCategoryTracker(chartIndex, categoryIndex) {
-  	this.chartIndex = chartIndex;
-  	this.categoryIndex = categoryIndex;
-  }
-  var chartAndCategoryIndexMap = [];
   
   $scope.finalCategoryListByGrade = [];
   
@@ -70,37 +60,25 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  if(!$scope.ngFileUploadError) {
 		  $scope.ccdaFileName = "Scoring...";
 	  }
-	  $scope.totalNumberOfScorecardOccurrences = 0;
-	  $scope.chartsData = {};
 	  $scope.jsonData = {};
 	  $scope.categories = $scope.categoriesClone = {};
 	  $scope.errorData.getJsonDataError = "";
 	  $scope.errorData.getJsonDataErrorForUser = "";
 	  $scope.errorData.saveScorecardError = "";
 	  $scope.errorData.saveTryMeFileError = "";
-	  chartAndCategoryIndexMap = [];
 	  $scope.finalCategoryListByGrade = [];
 	  $scope.igResults = []; $scope.certResults = []; $scope.referenceResults = [];
   };
-
-  //adjust the chart type here and it will be reflected live using $scope.charts.currentChartOption
-  var chartFormatBools = {
-    isIssuesPerSectionWithGradeBar: false //false is best due to length of display names in this case
-  };
-
-  var chartTypeEnum = Object.freeze({
-    ISSUES_PER_SECTION_WITH_GRADE: "C-CDA Scorecard Chart Overview"
-  });
   
   var storeDataAndPopulateResults = function() {
 	  //store scorecard sub-data in a more usable/direct manner
 	  $scope.categories = $scope.jsonData.results.categoryList;
 	  $scope.finalGrade = $scope.jsonData.results.finalGrade;
-	  populateTotalNumberOfScorecardOccurrences();
-	  //Note: populateCategoryListsByGrade() must be run after populateTotalNumberOfScorecardOccurrences() 
-	  //as it uses modified local data
-	  populateCategoryListsByGrade();	  
-	  populateChartsData();
+	  //The clone allows for us to modify the local data for heatmap display purposes (if we want)
+	  //while keeping the original json for detailed results
+	  $scope.categoriesClone = angular.copy($scope.categories);
+	  populateCategoryListsByGrade();
+	  
 	  //store scorecard2 referenceResults and then restore in a new array
 	  //it may seem pointless but it ensures the data we are working with is exactly what we expect -
 	  //and verified by the limited types we expect and know how to process
@@ -221,46 +199,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     $scope.getGradeClassForCategory = function(classPrefix, grade, curCategoryFailingConformance) { 
       return curCategoryFailingConformance ? 
       		classPrefix + " heatMapFail" : $scope.calculateCategoryColor(classPrefix, grade);
-    };  
-
-  var calculateCategoryIndex = function(chartIndexClicked) {
-  	for(var i = 0; i < chartAndCategoryIndexMap.length; i++) {
-  		var curPair = chartAndCategoryIndexMap[i];
-  		var chartIndexStored = curPair.chartIndex;
-  		var categoryIndexStored = curPair.categoryIndex;  		
-  		if(chartIndexClicked === chartIndexStored) {
-  			$scope.debugLog("chartIndexClicked === chartIndexStored: returning categoryIndexStored: ");
-  			$scope.debugLog(categoryIndexStored);
-  			return categoryIndexStored;
-  		}
-  	}
-  	$scope.debugLog("Error in calculateCategoryIndex(): Sending user to the first category.");
-  	return 0;
-  };
-  
-  var jumpToCategoryViaIndex = function(index, weWait, timeToWaitInMiliseconds) {
-    $scope.jumpToElementViaId("catAccordion" + calculateCategoryIndex(index), weWait, timeToWaitInMiliseconds);
-  };
-
-  var jumpToCategoryViaKey = function(key, weWait, timeToWaitInMiliseconds) {
-    //get string up to and not including the separator
-    var elementId = "";
-    var SEPARATOR = ':';
-    for (var i = 0; i < key.length - 1; i++) {
-      var curChar = key[i];
-      var nextChar = key[i + 1];
-      elementId += curChar;
-      if (nextChar === SEPARATOR) {
-        break;
-      }
-    }
-    elementId = detruncateCategoryName(elementId);
-    $scope.debugLog("elementId extracted: " + elementId);
-    //move up one level for a cleaner look
-    elementId = document.getElementById(elementId).parentNode.id;
-    $scope.debugLog("parentNode: " + elementId);
-    $scope.jumpToElementViaId(elementId, weWait, timeToWaitInMiliseconds);
-  };
+    };
     
     $scope.jumpToCategoryViaName = function(key, weWait, timeToWaitInMiliseconds) {
         elementId = detruncateCategoryName(key);
@@ -276,8 +215,43 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     	$scope.jumpToElementViaId($scope.convertReferenceInstanceTypeToId(referenceInstanceTypeFromJson));
     };
     
-  //*************HEAT MAP RELATED****************
+    $scope.getDropdownStateClasses = function(panelDropdownElementId) {
+    //$scope.debugLog('panelDropdownElementId:');$scope.debugLog(panelDropdownElementId);
+    var panelElement = document.getElementById(panelDropdownElementId);
+    if(angular.element(panelElement).hasClass('collapsed')) {
+    	$scope.detailedResultsTextPrefix = "Click Here For ";
+  	  return "glyphicon glyphicon-triangle-right pull-left";
+    }
+    $scope.detailedResultsTextPrefix = '';
+    return "glyphicon glyphicon-triangle-bottom pull-left";	  
+    };    
+  
+    
+  //*************HEATMAP RELATED****************
 
+  var ShortCategoryNamesEnum = Object.freeze({
+    LABORATORY_TESTS_AND_RESULTS: "Lab Results",
+    PATIENT_DEMOGRAPHICS: "Patient"
+  });
+  
+  $scope.truncateCategoryName = function(curCategoryName) {
+    if (curCategoryName === categoryTypes[5]) {
+      return ShortCategoryNamesEnum.LABORATORY_TESTS_AND_RESULTS;
+    } else if (curCategoryName === categoryTypes[7]) {
+      return ShortCategoryNamesEnum.PATIENT_DEMOGRAPHICS;
+    }
+    return curCategoryName;
+  };
+
+  var detruncateCategoryName = function(curCategoryName) {
+    if (curCategoryName === ShortCategoryNamesEnum.LABORATORY_TESTS_AND_RESULTS) {
+      return categoryTypes[5];
+    } else if (curCategoryName === ShortCategoryNamesEnum.PATIENT_DEMOGRAPHICS) {
+      return categoryTypes[7];
+    }
+    return curCategoryName;
+  };  
+    
   /**
    * Allows us to delay the heat-map directive load 
    * (in combination with ng-if) until we have data
@@ -299,8 +273,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         var curCategory = $scope.categoriesClone[catIndex];
         var name = curCategory.categoryName;
         var grade = curCategory.categoryGrade;
-        //var issues = curCategory.numberOfIssues;
-        var issues = curCategory.numberOfOccurrences;        
+        var issues = curCategory.numberOfIssues;        
         var score = curCategory.categoryNumericalScore;
         var failed = curCategory.failingConformance;
         var sectionData = {
@@ -391,225 +364,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     var negativeResult = classPrefix + " unknownGradeColor"; 
 		return heatMapCategoryController(row, columnNumber, positiveResult, negativeResult);
   };
-    
-  //***************CHART RELATED*****************
-
-  $scope.pieChartOptions = {
-    chart: {
-      type: 'pieChart',
-      height: 625,
-      margin: {
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0
-      },      
-      x: function(d) {
-        return d.key;
-      },
-      y: function(d) {
-        return d.y;
-      },
-      showLabels: true,
-      duration: 550,
-      labelThreshold: 0.01,
-      labelSunbeamLayout: true,
-      pie: {
-        dispatch: {
-          elementClick: function(e) {
-          	$scope.debugLog("e.data.key: " + e.data.key);
-          	$scope.debugLog("e.data.y: " + e.data.y);
-          	$scope.debugLog("e.index: " + e.index);
-            //jump to the related category in the detailed results
-            jumpToCategoryViaIndex(e.index);
-          }
-        }
-      },
-      legend: {
-        margin: {
-          top: 3,
-          right: 30,
-          bottom: -10,
-          left: 0
-        },
-        dispatch: {
-          legendClick: function(e) {
-          	$scope.debugLog("e.key: " + e.key);
-          	$scope.debugLog("e.y: " + e.y);
-          	$scope.debugLog("e.disabled: " + e.disabled);
-            jumpToCategoryViaKey(e.key);
-          }
-        },
-        //disable/enable pie chart item removal/resize via legend item click
-        //Note: This may pose a problem if we are working with dynamic results
-        updateState: false
-      },
-      tooltip: {
-        enabled: false
-      }
-    }
-  };
-
-  $scope.barChartOptions = {
-    chart: {
-      type: 'discreteBarChart',
-      height: 450,
-      margin: {
-        top: 20,
-        right: 20,
-        bottom: 50,
-        left: 55
-      },
-      x: function(d) {
-        return d.label;
-      },
-      y: function(d) {
-        return d.value + (1e-10);
-      },
-      showValues: true,
-      valueFormat: function(d) {
-        return d3.format(',.4f')(d);
-      },
-      duration: 500,
-      xAxis: {
-        axisLabel: 'X Axis'
-      },
-      yAxis: {
-        axisLabel: 'Y Axis',
-        axisLabelDistance: -10
-      }
-    }
-  };
-
-  var getChartOption = function(isBar) {
-    return isBar ? $scope.barChartOptions : $scope.pieChartOptions;
-  };
-
-  var ShortCategoryNamesEnum = Object.freeze({
-    LABORATORY_TESTS_AND_RESULTS: "Lab Results",
-    PATIENT_DEMOGRAPHICS: "Patient"
-  });
-
-  var setChartData = function(chartType, isBarChart) {
-  	$scope.debugLog("\n" + chartType + " Chart set...");
-    var data = [];
-    var categoryDisplayName = "";
-    var chartIndex = 0;
-    //loop through all the categories
-    for (var catIndex = 0; catIndex < $scope.categories.length; catIndex++) {
-      var curCategory = $scope.categories[catIndex];
-      var curRubrics = $scope.categories[catIndex].categoryRubrics;
-      var numberOfIssues = curRubrics ? curRubrics.length : 0;
-      var numberOfFailingIssuesPerSection = calculateNumberOfFailingIssuesPerSection(curCategory);            
-      //apply logic to all categories whether they fail or not
-      if (numberOfIssues) {
-      	//make map for navigation
-        chartAndCategoryIndexMap.push(new ChartAndCategoryTracker(chartIndex++, catIndex));
-        //ensure visibility of longer category names
-        categoryDisplayName = $scope.truncateCategoryName(curCategory.categoryName);
-        //process data for charts
-        switch (chartType) {
-          case chartTypeEnum.ISSUES_PER_SECTION_WITH_GRADE:
-            var curGrade = curCategory.categoryGrade;
-                var keyAndLabelVal = categoryDisplayName + ": " + curGrade + " (" + numberOfIssues + ")";
-                data.push(pushChartDataByDisplayType(isBarChart, keyAndLabelVal, numberOfIssues, keyAndLabelVal, numberOfIssues));
-            break;
-        }
-      }
-    }
-		$scope.debugLog("chartAndCategoryIndexMap built:");
-		$scope.debugLog(chartAndCategoryIndexMap);
-    if (isBarChart) {
-      return [{
-        key: chartType,
-        values: data
-      }];
-    }
-    return data;
-  };
   
-  $scope.truncateCategoryName = function(curCategoryName) {
-    if (curCategoryName === categoryTypes[5]) {
-      return ShortCategoryNamesEnum.LABORATORY_TESTS_AND_RESULTS;
-    } else if (curCategoryName === categoryTypes[7]) {
-      return ShortCategoryNamesEnum.PATIENT_DEMOGRAPHICS;
-    }
-    return curCategoryName;
-  };
-
-  var detruncateCategoryName = function(curCategoryName) {
-    if (curCategoryName === ShortCategoryNamesEnum.LABORATORY_TESTS_AND_RESULTS) {
-      return categoryTypes[5];
-    } else if (curCategoryName === ShortCategoryNamesEnum.PATIENT_DEMOGRAPHICS) {
-      return categoryTypes[7];
-    }
-    return curCategoryName;
-  };
-
-  var pushChartDataByDisplayType = function(isBarChart, keyVal, yVal, labelVal, valueVal) {
-    if (isBarChart) {
-      return {
-        "label": labelVal,
-        "value": valueVal
-      };
-    }
-    //pie chart
-    return {
-      key: keyVal,
-      y: yVal
-    };
-  };
-
-  //called after JSON scorecard data is returned
-  var populateChartsData = function() {
-    $scope.chartsData = {
-      issuesPerSectionWithGrade: {
-        chartTitle: chartTypeEnum.ISSUES_PER_SECTION_WITH_GRADE,
-        chartDescription: "The C-CDA scorecard chart to the left provides a top level view of the data domains, the grade for each domain and the number of rubrics scored.",
-        movingForwardText: "Providers and implementers can quickly focus on specific domains which have data quality issues and use the detailed reports below to improve the data quality of the C-CDA.",
-        displayOnLeft: true,
-        isBar: chartFormatBools.isIssuesPerSectionWithGradeBar,
-        chartData: setChartData(chartTypeEnum.ISSUES_PER_SECTION_WITH_GRADE, chartFormatBools.isIssuesPerSectionWithGradeBar),
-        chartOption: getChartOption(chartFormatBools.isIssuesPerSectionWithGradeBar)
-      }
-    };
-  };
-  
-  var calculateNumberOfFailingIssuesPerSection = function(curCategory) {
-  	return curCategory.numberOfIssues;
-  };
-  
-  var populateTotalNumberOfScorecardOccurrences = function() {
-  	$scope.categoriesClone = angular.copy($scope.categories);
-    for (var catIndex = 0; catIndex < $scope.categoriesClone.length; catIndex++) {
-    	var curCategory = $scope.categoriesClone[catIndex];
-    	var curCategoryNumberOfOccurrences = 0;
-      if (curCategory.numberOfIssues > 0) {
-      	//get into the rubrics to get the sum of the rubric level numberOfIssues (occurrences)
-      	for (var rubricIndex = 0; rubricIndex < curCategory.categoryRubrics.length; rubricIndex++) {
-          var curRubric = curCategory.categoryRubrics[rubricIndex];
-          if(curRubric.numberOfIssues > 0) {
-            $scope.totalNumberOfScorecardOccurrences += curRubric.numberOfIssues;
-            curCategoryNumberOfOccurrences += curRubric.numberOfIssues;
-          }
-        }
-      }
-    	//add numberOfOccurrences at current category to local data object for access in view
-    	curCategory.numberOfOccurrences = curCategoryNumberOfOccurrences;      
-    }
-  };
-  
-  $scope.getDropdownStateClasses = function(panelDropdownElementId) {
-//	  $scope.debugLog('panelDropdownElementId:');
-//	  $scope.debugLog(panelDropdownElementId);
-	  var panelElement = document.getElementById(panelDropdownElementId);
-	  if(angular.element(panelElement).hasClass('collapsed')) {
-	  	$scope.detailedResultsTextPrefix = "Click Here For ";
-		  return "glyphicon glyphicon-triangle-right pull-left";
-	  }
-	  $scope.detailedResultsTextPrefix = '';
-	  return "glyphicon glyphicon-triangle-bottom pull-left";	  
-  };
   
   //***************SAVE REPORT AND SAVE XML RELATED*****************
   
@@ -702,6 +457,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  //clear download button focus
 	  document.getElementById(downloadButtonElementId).blur();
 	};
+	
 	
 	//*************REFERENCE RESULTS SORTING RELATED****************	
 	

@@ -1,4 +1,4 @@
-var scApp = angular.module('scorecard', [ 'nvd3', 'ngFileUpload' ]);
+var scApp = angular.module('scorecard', ['ngFileUpload']);
 
 // *************** DIRECTIVES ********************
 // *Scorecard related*//
@@ -23,10 +23,10 @@ scApp.directive('topLevelResults', function() {
 	};
 });
 
-scApp.directive('charts', function() {
+scApp.directive('summary', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'charts.html'
+		templateUrl : 'summary.html'
 	};
 });
 

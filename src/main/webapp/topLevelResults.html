@@ -51,10 +51,7 @@
     			   <h2>{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>
     			</div>
     			<div class="col-md-6 scHeading scHeaderDescriptionText">
-    			   <!--<h4 class="scDescriptionText">There are {{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "?"}}
-                   specific scorecard {{calculatedValidationData.passedCertification ? "improvements that you can make to" : "issues in"}} your document.
-                   </h4>-->
-                   <h4 class="scDescriptionText">There are {{jsonData.results.finalGrade ? totalNumberOfScorecardOccurrences : "?"}}
+                   <h4 class="scDescriptionText">There are {{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "?"}}
                    specific scorecard {{false ? "improvements that you can make to" : "issues in"}} your document.
                    </h4>                   
     			</div>
@@ -117,7 +114,7 @@
 	
     </div> <!-- END scHeaderContainer -->    
 
-    <charts></charts>
+    <summary></summary>
 
     <!-- Access to Detailed Results -->
     <div id="detailedResults" class="row" ng-show="!uploadDisplay.isLoading && !errorData.getJsonDataError">
