@@ -5,7 +5,7 @@ scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$ti
 	};
 	
 	$scope.mainDebug = {
-		inDebugMode: true,
+		inDebugMode: false,
 		useLocalTestDataForServices: false
 	};
 	
