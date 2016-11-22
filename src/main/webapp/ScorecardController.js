@@ -482,14 +482,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	
   var IssueTypeEnum = Object.freeze({
     MDHT_ERROR: "C-CDA MDHT Conformance Error",
-    MDHT_WARNING: "C-CDA MDHT Conformance Warning",
-    MDHT_INFO: "C-CDA MDHT Conformance Info",
     VOCAB_ERROR: "ONC 2015 S&CC Vocabulary Validation Conformance Error",
-    VOCAB_WARNING: "ONC 2015 S&CC Vocabulary Validation Conformance Warning",
-    VOCAB_INFO: "ONC 2015 S&CC Vocabulary Validation Conformance Info",
-    REFERENCE_ERROR: "ONC 2015 S&CC Reference C-CDA Validation Error",
-    REFERENCE_WARNING: "ONC 2015 S&CC Reference C-CDA Validation Warning",
-    REFERENCE_INFO: "ONC 2015 S&CC Reference C-CDA Validation Info"    
+    REFERENCE_ERROR: "ONC 2015 S&CC Reference C-CDA Validation Error"
   });
   
   var ResultCategoryEnum = Object.freeze({
@@ -499,80 +493,17 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   	UNKNOWN: "Unknown"
   });	
   
-  var getValidationCategoryViaType = function(curResultOrMetaCategoryType) {
-    switch (curResultOrMetaCategoryType) {
+  var getValidationCategoryViaIssueTypeEnum = function(curIssueTypeEnum) {
+    switch (curIssueTypeEnum) {
       case IssueTypeEnum.MDHT_ERROR:
-      case IssueTypeEnum.MDHT_WARNING:
-      case IssueTypeEnum.MDHT_INFO:
         return ResultCategoryEnum.MDHT;
-      case IssueTypeEnum.VOCAB_ERROR:
-      case IssueTypeEnum.VOCAB_WARNING:
-      case IssueTypeEnum.VOCAB_INFO:      
+      case IssueTypeEnum.VOCAB_ERROR:  
       	return ResultCategoryEnum.VOCAB;      
-      case IssueTypeEnum.REFERENCE_ERROR:
-      case IssueTypeEnum.REFERENCE_WARNING:
-      case IssueTypeEnum.REFERENCE_INFO:      	
+      case IssueTypeEnum.REFERENCE_ERROR:     	
       	return ResultCategoryEnum.REFERENCE;
       default:
         return ResultCategoryEnum.UNKNOWN;
     }
   };
-
-  var ResultSeverityEnum = Object.freeze({
-    ERROR: "Error",
-    WARNING: "Warning",
-    INFO: "Info",
-    UNKNOWN: "Unknown"
-  });
-
-  var getValidationResultSeverityViaType = function(curResultType) {
-    switch (curResultType) {
-      case IssueTypeEnum.MDHT_ERROR:
-      case IssueTypeEnum.VOCAB_ERROR:
-      case IssueTypeEnum.REFERENCE_ERROR:
-        return ResultSeverityEnum.ERROR;
-      case IssueTypeEnum.MDHT_WARNING:
-      case IssueTypeEnum.VOCAB_WARNING:
-      case IssueTypeEnum.REFERENCE_WARNING:
-        return ResultSeverityEnum.WARNING;
-      case IssueTypeEnum.MDHT_INFO:
-      case IssueTypeEnum.VOCAB_INFO:
-      case IssueTypeEnum.REFERENCE_INFO:
-        return ResultSeverityEnum.INFO;
-      default:
-        return ResultSeverityEnum.UNKNOWN;
-    }
-  };
-  
-  $scope.determineResultsToShow = function(curResult, curMetaCategory) {
-    if(getValidationResultSeverityViaType(curResult.type) === ResultSeverityEnum.ERROR
-    		&& getValidationCategoryViaType(curResult.type) === getValidationCategoryViaType(curMetaCategory.type)) {
-    	return true;
-    } else {
-    	return false;
-    }
-  	return true;
-  };
-
-  $scope.getValidationResultColorViaType = function(curResult, isBadge) {
-    switch (getValidationResultSeverityViaType(curResult.type)) {
-      case ResultSeverityEnum.ERROR:
-        if (isBadge)
-          return "badge btn-danger";
-        return "errorColor";
-      case ResultSeverityEnum.WARNING:
-        if (isBadge)
-          return "badge btn-warning";
-        return "warningColor";
-      case ResultSeverityEnum.INFO:
-        if (isBadge)
-          return "badge btn-info";
-        return "infoColor";
-      case ResultSeverityEnum.UNKNOWN:
-        if (isBadge)
-          return "badge btn-primary";
-        return "unknownColor";
-    }
-  };	
 
 }]);
