@@ -41,7 +41,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   var resetValidationData = function() {	  	  
 		$scope.jsonScorecardData = {};
 		$scope.ngFileUploadError = null;
-		$scope.uploadDisplay.isLoading = true;		
+		$scope.uploadDisplay.isLoading = true; //set to false by ScorecardController $watch upon collection of new json data		
 		$scope.uploadErrorData.uploadError = $scope.userMessageConstant.UPLOAD_ERROR + $scope.userMessageConstant.GENERIC;
   };  
 
@@ -50,7 +50,6 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
    * */
   $scope.uploadCcdaScFileAndCallServices = function(ccdaScFile, callDebug) {  	
     resetValidationData();
-    
     $scope.tryMeData.isTryMeActive = false;
     
     $scope.ccdaUploadData.fileName = (!$scope.mainDebug.inDebugMode || $scope.mainDebug.inDebugMode && ccdaScFile) 
@@ -146,7 +145,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   /**
    * Called by try me button
    */
-  $scope.tryScorecard = function() {  	
+  $scope.tryScorecard = function() {
+  	resetValidationData();
   	$scope.tryMeData.isTryMeActive = true;
   	var extension = ".xml";
   	$scope.ccdaUploadData = new UploadData($scope.TryMeConstants.FILENAME + extension);
