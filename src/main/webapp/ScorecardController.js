@@ -34,7 +34,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   });  
   
   //if the SiteUploadControllers $scope.jsonScorecardData changes, 
-  //then the service was called and returned new results,
+  //then the service was called (or try me collected local data) and returned new results,
   //so we process them so it is reflected in the view
   $scope.$watch('jsonScorecardData', function() {
   	$scope.debugLog("$scope.jsonScorecardData was changed");$scope.debugLog($scope.jsonScorecardData);
@@ -49,8 +49,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   //if isLoading changes (from false to true)
   //then we reset our local scorecard data  
   $scope.$watch('uploadDisplay.isLoading', function() {
-  	$scope.debugLog('$scope.uploadDisplay.isLoading: ');
-  	$scope.debugLog($scope.uploadDisplay.isLoading);
+  	$scope.debugLog('$scope.uploadDisplay.isLoading:');$scope.debugLog($scope.uploadDisplay.isLoading);
 	  if($scope.uploadDisplay.isLoading) {
 		  resetScorecardData();
 	  }
