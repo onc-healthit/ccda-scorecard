@@ -25,12 +25,14 @@ import org.sitenv.service.ccda.smartscorecard.model.ReferenceResult;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ReferenceInstanceType;
 import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
+import org.sitenv.service.ccda.smartscorecard.model.ScorecardProperties;
 import org.sitenv.service.ccda.smartscorecard.model.referencedto.ResultMetaData;
 import org.sitenv.service.ccda.smartscorecard.model.referencedto.ValidationResultsDto;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants.VALIDATION_OBJECTIVES;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -84,6 +86,10 @@ public class ScorecardProcessor {
 	@Autowired
 	ScoreCardStatisticProcessor scoreCardStatisticProcessor;
 	
+	@Autowired
+	@Qualifier("scorecardProperties")
+	ScorecardProperties scorecardProperties;
+	
 	private static final Logger logger = Logger.getLogger(ScorecardProcessor.class);
 	
 	public ResponseTO processCCDAFile(MultipartFile ccdaFile)
@@ -96,48 +102,55 @@ public class ScorecardProcessor {
 		String birthDate = null;
 		List<Category> categoryList = new ArrayList<Category>();
 		String docType = null;
+		VALIDATION_OBJECTIVES validationObjective = null;
 		Results results = new Results();
 		try{
 			CCDARefModel ccdaModels = CCDAParserAPI.parseCCDA2_1(ccdaFile.getInputStream());
 			scorecardResponse.setFilename(ccdaFile.getOriginalFilename());
 			if (!ccdaModels.isEmpty() && ccdaModels.getUsrhSubType() != UsrhSubType.UNSTRUCTURED_DOCUMENT)
 			{	
-				VALIDATION_OBJECTIVES validationObjective = 
+				if(scorecardProperties.getIgConformanceCall())
+				{
+					validationObjective = 
 						determineValidationObjectiveType(ccdaModels, ReferenceInstanceType.IG_CONFORMANCE);
-				logger.info("Calling ReferenceInstanceType.IG_CONFORMANCE with:" + System.lineSeparator()
+					logger.info("Calling ReferenceInstanceType.IG_CONFORMANCE with:" + System.lineSeparator()
 						+ "validationObjective: " + validationObjective.getValidationObjective()
 						+ " determined by ccdaModels.getUsrhSubType(): " + ccdaModels.getUsrhSubType());
-				referenceValidatorResults = 
-						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File");
-				schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults());
+					referenceValidatorResults = 
+						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File",scorecardProperties.getIgConformanceURL());
+					schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults());
 				
-				if(schemaErrorList.size() > 0)
-				{
-					scorecardResponse.setSchemaErrorList(schemaErrorList);
-					scorecardResponse.setSchemaErrors(true);
-					scorecardResponse.setErrorMessage(ApplicationConstants.ErrorMessages.SCHEMA_ERRORS_GENERIC);
-					logger.info("Halting collection and processing of more results due to schema errors found in first instance");
-					return scorecardResponse;
+					if(schemaErrorList.size() > 0)
+					{
+						scorecardResponse.setSchemaErrorList(schemaErrorList);
+						scorecardResponse.setSchemaErrors(true);
+						scorecardResponse.setErrorMessage(ApplicationConstants.ErrorMessages.SCHEMA_ERRORS_GENERIC);
+						logger.info("Halting collection and processing of more results due to schema errors found in first instance");
+						return scorecardResponse;
+					}
+				
+					if(checkForReferenceValidatorErrors(referenceValidatorResults.getResultsMetaData().getResultMetaData()))
+					{
+						ReferenceResult referenceResult = getReferenceResults(referenceValidatorResults.getCcdaValidationResults(),ReferenceInstanceType.IG_CONFORMANCE);
+						scorecardResponse.getReferenceResults().add(referenceResult);
+						errorSectionList = getErrorSectionList(referenceResult.getReferenceErrors(), ccdaFile);
+					}
 				}
 				
-				if(checkForReferenceValidatorErrors(referenceValidatorResults.getResultsMetaData().getResultMetaData()))
+				if(scorecardProperties.getCertificationResultsCall())
 				{
-					ReferenceResult referenceResult = getReferenceResults(referenceValidatorResults.getCcdaValidationResults(),ReferenceInstanceType.IG_CONFORMANCE);
-					scorecardResponse.getReferenceResults().add(referenceResult);
-					errorSectionList = getErrorSectionList(referenceResult.getReferenceErrors(), ccdaFile);
-				}
-				
-				validationObjective = determineValidationObjectiveType(ccdaModels, ReferenceInstanceType.CERTIFICATION_2015);
-				logger.info("Calling ReferenceInstanceType.CERTIFICATION_2015 with:" + System.lineSeparator()
+					validationObjective = determineValidationObjectiveType(ccdaModels, ReferenceInstanceType.CERTIFICATION_2015);
+					logger.info("Calling ReferenceInstanceType.CERTIFICATION_2015 with:" + System.lineSeparator()
 						+ "validationObjective: " + validationObjective.getValidationObjective()
 						+ " determined by ccdaModels.getUsrhSubType(): " + ccdaModels.getUsrhSubType());
-				certificationResult = 
-						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File");
+					certificationResult = 
+						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File",scorecardProperties.getCertificatinResultsURL());
 				
-				if(checkForReferenceValidatorErrors(certificationResult.getResultsMetaData().getResultMetaData()))
-				{
-					scorecardResponse.getReferenceResults().add((getReferenceResults(certificationResult.getCcdaValidationResults(), 
+					if(checkForReferenceValidatorErrors(certificationResult.getResultsMetaData().getResultMetaData()))
+					{
+						scorecardResponse.getReferenceResults().add((getReferenceResults(certificationResult.getCcdaValidationResults(), 
 																								ReferenceInstanceType.CERTIFICATION_2015)));
+					}
 				}
 				
 				docType = ApplicationUtil.checkDocType(ccdaModels);
@@ -202,7 +215,7 @@ public class ScorecardProcessor {
 		return scorecardResponse;
 	}
 	
-	public ValidationResultsDto callReferenceValidator(MultipartFile ccdaFile, String validationObjective, String referenceFileName)throws Exception
+	public ValidationResultsDto callReferenceValidator(MultipartFile ccdaFile, String validationObjective, String referenceFileName,String referenceValidatorUrl)throws Exception
 	{
 		LinkedMultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<String, Object>();
 		ValidationResultsDto referenceValidatorResults = null;
@@ -224,7 +237,7 @@ public class ScorecardProcessor {
 		formConverter.setCharset(Charset.forName("UTF8"));
 		restTemplate.getMessageConverters().add(formConverter);
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-		referenceValidatorResults = restTemplate.postForObject(ApplicationConstants.REFERENCE_VALIDATOR_URL, requestEntity, ValidationResultsDto.class);
+		referenceValidatorResults = restTemplate.postForObject(referenceValidatorUrl, requestEntity, ValidationResultsDto.class);
 		tempFile.delete();
 		
 		return referenceValidatorResults;

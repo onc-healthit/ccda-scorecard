@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.sitenv.services</groupId>
-	<artifactId>ccda-smart-scorecard</artifactId>
+	<artifactId>scorecard</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ccda-smart-scorecard Maven Webapp</name>
@@ -167,7 +167,7 @@
 
 
 	<build>
-		<finalName>ccda-smart-scorecard</finalName>
+		<finalName>scorecard</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
