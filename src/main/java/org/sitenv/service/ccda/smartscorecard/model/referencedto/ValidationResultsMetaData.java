@@ -2,6 +2,7 @@ package org.sitenv.service.ccda.smartscorecard.model.referencedto;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -15,6 +16,18 @@ public class ValidationResultsMetaData {
 	private String ccdaFileContents;
 	private List<ResultMetaData> resultMetaData;
 
+	public ValidationResultsMetaData() {}
+
+	public ValidationResultsMetaData(ValidationResultsMetaData resultsToCopy) {
+		this.ccdaDocumentType = resultsToCopy.getCcdaDocumentType();
+		this.serviceError = resultsToCopy.isServiceError();
+		this.serviceErrorMessage = resultsToCopy.getServiceErrorMessage();
+		this.ccdaFileName = resultsToCopy.getCcdaFileName();
+		this.ccdaFileContents = resultsToCopy.getCcdaFileContents();
+		resultMetaData = new ArrayList<ResultMetaData>(
+				resultsToCopy.getResultMetaData());
+	}	
+	
 	public String getCcdaDocumentType() {
 		return ccdaDocumentType;
 	}

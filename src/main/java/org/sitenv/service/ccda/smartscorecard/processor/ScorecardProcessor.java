@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -22,6 +23,7 @@ import org.sitenv.ccdaparsing.util.PositionalXMLReader;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceError;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceResult;
+import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ValidationResultType;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ReferenceInstanceType;
 import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
@@ -94,8 +96,8 @@ public class ScorecardProcessor {
 	
 	public ResponseTO processCCDAFile(MultipartFile ccdaFile)
 	{
-		ValidationResultsDto referenceValidatorResults;
-		ValidationResultsDto certificationResult;
+		ValidationResultsDto referenceValidatorResults = null;
+		ValidationResultsDto certificationResults;
 		List<ReferenceError> schemaErrorList;
 		ResponseTO scorecardResponse = new ResponseTO();
 		List<String> errorSectionList = new ArrayList<>();
@@ -109,6 +111,7 @@ public class ScorecardProcessor {
 			scorecardResponse.setFilename(ccdaFile.getOriginalFilename());
 			if (!ccdaModels.isEmpty() && ccdaModels.getUsrhSubType() != UsrhSubType.UNSTRUCTURED_DOCUMENT)
 			{	
+				boolean referenceValidatorCallReturnedErrors = false;
 				if(scorecardProperties.getIgConformanceCall())
 				{
 					validationObjective = 
@@ -129,29 +132,54 @@ public class ScorecardProcessor {
 						return scorecardResponse;
 					}
 				
-					if(checkForReferenceValidatorErrors(referenceValidatorResults.getResultsMetaData().getResultMetaData()))
+					referenceValidatorCallReturnedErrors = 
+							checkForReferenceValidatorErrors(referenceValidatorResults.getResultsMetaData().getResultMetaData());
+					if(referenceValidatorCallReturnedErrors)
 					{
-						ReferenceResult referenceResult = getReferenceResults(referenceValidatorResults.getCcdaValidationResults(),ReferenceInstanceType.IG_CONFORMANCE);
-						scorecardResponse.getReferenceResults().add(referenceResult);
-						errorSectionList = getErrorSectionList(referenceResult.getReferenceErrors(), ccdaFile);
+						errorSectionList = getErrorSectionList(getReferenceResults(referenceValidatorResults.getCcdaValidationResults(), 
+								ReferenceInstanceType.IG_CONFORMANCE).getReferenceErrors(), ccdaFile);
 					}
 				}
 				
+				// Commenting 2nd call for now as the results are currently the same as the 1st
+				/*				
 				if(scorecardProperties.getCertificationResultsCall())
 				{
 					validationObjective = determineValidationObjectiveType(ccdaModels, ReferenceInstanceType.CERTIFICATION_2015);
 					logger.info("Calling ReferenceInstanceType.CERTIFICATION_2015 with:" + System.lineSeparator()
 						+ "validationObjective: " + validationObjective.getValidationObjective()
 						+ " determined by ccdaModels.getUsrhSubType(): " + ccdaModels.getUsrhSubType());
-					certificationResult = 
+					certificationResults = 
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File",scorecardProperties.getCertificatinResultsURL());
 				
-					if(checkForReferenceValidatorErrors(certificationResult.getResultsMetaData().getResultMetaData()))
+					if(checkForReferenceValidatorErrors(certificationResults.getResultsMetaData().getResultMetaData()))
 					{
-						scorecardResponse.getReferenceResults().add((getReferenceResults(certificationResult.getCcdaValidationResults(), 
+						scorecardResponse.getReferenceResults().add((getReferenceResults(certificationResults.getCcdaValidationResults(), 
 																								ReferenceInstanceType.CERTIFICATION_2015)));
 					}
 				}
+				*/
+				
+				if(referenceValidatorCallReturnedErrors) 
+				{				
+					// Copy results from referenceValidatorResults (IG_CONFORMANCE) to certificationResults (CERTIFICATION_2015)
+					certificationResults = new ValidationResultsDto(referenceValidatorResults);
+					// Remove non-IG (MDHT) based results from referenceValidatorResults (IG_CONFORMANCE)				
+					for (Iterator<ReferenceError> errorIterator = referenceValidatorResults
+							.getCcdaValidationResults().iterator(); errorIterator.hasNext();) 
+					{
+						ReferenceError currentError = errorIterator.next();
+						if (currentError.getType() != ValidationResultType.CCDA_MDHT_CONFORMANCE_ERROR) 
+						{
+							errorIterator.remove();
+						}
+					}								
+					// Store the 2 instances in the JSON (referenceResults array)
+					scorecardResponse.getReferenceResults().add(getReferenceResults(referenceValidatorResults.getCcdaValidationResults(), 
+							ReferenceInstanceType.IG_CONFORMANCE));
+					scorecardResponse.getReferenceResults().add((getReferenceResults(certificationResults.getCcdaValidationResults(), 
+							ReferenceInstanceType.CERTIFICATION_2015)));
+				}				
 				
 				docType = ApplicationUtil.checkDocType(ccdaModels);
 				if(ccdaModels.getPatient() != null && ccdaModels.getPatient().getDob()!= null)

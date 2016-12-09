@@ -388,7 +388,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   
   var callSaveScorecardService = function(newLocalUrl) {
   	$scope.debugLog("Entered callSaveScorecardService()");
-    var externalUrl = 'http://54.200.51.225:8080/ccda-smart-scorecard/savescorecardservice/';
+    var externalUrl = 'http://54.200.51.225:8080/scorecard/savescorecardservice/';
     var localUrl = 'savescorecardservice/';
     var postedMediaType = "application/json";
     var returnedMediaType = "application/pdf";
