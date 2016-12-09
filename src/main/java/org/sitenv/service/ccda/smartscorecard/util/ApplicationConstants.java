@@ -182,8 +182,8 @@ public class ApplicationConstants {
 			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
 			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
 			REFERENCE_CCDA_SERVICE = "/referenceccdaservice/",
-			CCDA_SCORECARD_SERVICE = "/ccda-smart-scorecard/ccdascorecardservice2",
-			SAVE_SCORECARD_SERVICE_BACKEND = "/ccda-smart-scorecard/savescorecardservicebackend";
+			CCDA_SCORECARD_SERVICE = "/scorecard/ccdascorecardservice2",
+			SAVE_SCORECARD_SERVICE_BACKEND = "/scorecard/savescorecardservicebackend";
 	// ensure when WAR is headed to the dev server that DEFAULT_LOCAL_SERVER_URL
 	// is replaced with CCDA_DEV_SERVER_URL in the following Strings
 	public static final String CODE_DISPLAYNAME_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
