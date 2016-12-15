@@ -319,30 +319,33 @@ public class ScorecardProcessor {
 		Document doc = PositionalXMLReader.readXML(ccdaFile.getInputStream());
 		XPath xPath = XPathFactory.newInstance().newXPath();
 		Element errorElement;
-		Element parentElement;
+		Element parentElement= null;
 		Element templateId;
 		String sectionName;
 		for(ReferenceError referenceError : ccdaValidationResults)
 		{
-			if(referenceError.getxPath()!= null && referenceError.getxPath()!= "" && referenceError.getxPath() != "/ClinicalDocument")
+			if(referenceError.getxPath()!= null && referenceError.getxPath()!= "")
 			{
-				errorElement = (Element) xPath.compile(referenceError.getxPath()).evaluate(doc, XPathConstants.NODE);
-				parentElement = (Element)errorElement.getParentNode();
-				while(!(parentElement.getTagName().equals("section") || parentElement.getTagName().equals("patientRole")))
+				if(!referenceError.getxPath().equals("/ClinicalDocument"))
 				{
-					parentElement = (Element)parentElement.getParentNode();
-				}
-				
-				if(parentElement.getTagName().equals("section"))
-				{
-					templateId = (Element) xPath.compile(ApplicationConstants.TEMPLATEID_XPATH).evaluate(parentElement, XPathConstants.NODE);
-					sectionName = ApplicationConstants.SECTION_TEMPLATEID_MAP.get(templateId.getAttribute("root"));
-					errorSectionList.add(sectionName);
-					referenceError.setSectionName(sectionName);
-				}else if(parentElement.getTagName().equals("patientRole"))
-				{
-					errorSectionList.add(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc());
-					referenceError.setSectionName(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc());
+					errorElement = (Element) xPath.compile(referenceError.getxPath()).evaluate(doc, XPathConstants.NODE);
+					parentElement = (Element)errorElement.getParentNode();
+					while(!(parentElement.getTagName().equals("section") || parentElement.getTagName().equals("patientRole") || parentElement.getTagName().equals("ClinicalDocument")))
+					{
+						parentElement = (Element)parentElement.getParentNode();
+					}
+					
+					if(parentElement.getTagName().equals("section"))
+					{
+						templateId = (Element) xPath.compile(ApplicationConstants.TEMPLATEID_XPATH).evaluate(parentElement, XPathConstants.NODE);
+						sectionName = ApplicationConstants.SECTION_TEMPLATEID_MAP.get(templateId.getAttribute("root"));
+						errorSectionList.add(sectionName);
+						referenceError.setSectionName(sectionName);
+					}else if(parentElement.getTagName().equals("patientRole"))
+					{
+						errorSectionList.add(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc());
+						referenceError.setSectionName(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc());
+					}
 				}
 			}
 		}
