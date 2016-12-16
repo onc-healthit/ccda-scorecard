@@ -25,11 +25,14 @@
             <h3 ng-show="ngFileUploadError" class="fileUploadError">
               <span class="errorColor">File Upload Error:&nbsp;</span>{{uploadErrorData.uploadError}}
             </h3>
+            <h3 ng-show="timeoutData.errorMessage" class="webServiceError">
+              <span class="errorColor">Timeout Error:&nbsp;</span>{{timeoutData.errorMessage}}
+            </h3>
           </div>
                     
           <debug></debug>
           
-          <span ng-hide="errorData.getJsonDataError || ngFileUploadError">
+          <span ng-hide="errorData.getJsonDataError || ngFileUploadError || timeoutData.errorMessage">
             <top-level-results></top-level-results>          
             <detailed-results></detailed-results>
           </span>          

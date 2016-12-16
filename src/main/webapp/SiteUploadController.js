@@ -12,12 +12,21 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   $scope.userMessageConstant = Object.freeze ({
 	GENERIC: "Please try a different file and report the issue to TestingServices@sitenv.org.",
 	GENERIC_LATER: "Please try again later or contact TestingServices@sitenv.org for help.",
-	UPLOAD_ERROR: "Error uploading <unknownFileName>: "
+	GENERIC_COMBINED: "Please try again later, try a different file, or contact TestingServices@sitenv.org for help.",
+	UPLOAD_ERROR: "Error uploading <unknownFileName>: ",
+	TIMEOUT_ERROR: "The scorecard application has been stopped " +
+	"due to the length of time it has been processing the given request. "
   });
   
   $scope.uploadErrorData = {
     serviceTypeError: "No error encountered.",
     uploadError: $scope.userMessageConstant.UPLOAD_ERROR + $scope.userMessageConstant.GENERIC
+  };
+  
+  $scope.timeoutData = {
+  	lengthInMilliseconds: 300000, //5 minutes
+  	errorMessage: null,
+  	timer: null
   };
 
   $scope.jsonScorecardData = {};
@@ -43,12 +52,17 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
 		$scope.ngFileUploadError = null;
 		$scope.uploadDisplay.isLoading = true; //set to false by ScorecardController $watch upon collection of new json data		
 		$scope.uploadErrorData.uploadError = $scope.userMessageConstant.UPLOAD_ERROR + $scope.userMessageConstant.GENERIC;
+		$scope.timeoutData.errorMessage = null;
   };  
 
   /**
    * Called by score button on SiteUploadForm
    * */
-  $scope.uploadCcdaScFileAndCallServices = function(ccdaScFile, callDebug) {  	
+  $scope.uploadCcdaScFileAndCallServices = function(ccdaScFile, callDebug) {
+    if($scope.timeoutData.timer) {
+    	 //disable timer from last call so it doesn't independently interfere with this call
+    	$timeout.cancel($scope.timeoutData.timer);
+    }
     resetValidationData();
     $scope.tryMeData.isTryMeActive = false;
     
@@ -93,7 +107,18 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
       url: urlOfServiceToCall,
       data: dataObject
     });
-
+    
+    //if we don't already have valid JSON returned, then after the specified time, 
+    //we cancel the active scorecard service request and post an error message
+    $scope.timeoutData.timer = $timeout(function() {
+  			if(jQuery.isEmptyObject($scope.jsonScorecardData)) {
+	  			$scope.timeoutData.errorMessage = $scope.userMessageConstant.TIMEOUT_ERROR + $scope.userMessageConstant.GENERIC_COMBINED;      
+	    		console.log($scope.timeoutData.errorMessage);
+	        $scope.disableAllLoading();
+	        ccdaFile.upload.abort(); //cancels the following service request (defined in ccdaFile.upload.then)
+  			}
+  	}, $scope.timeoutData.lengthInMilliseconds);
+  	  	
     ccdaFile.upload.then(function(response) {
       $timeout(function() {
     	  $scope.debugLog("response.data:");$scope.debugLog(response.data);
@@ -113,7 +138,7 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
       }
     }, function(evt) {
       ccdaFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-    });
+    });    
   };
 
   var cacheAndProcessReturnedJsonData = function(response, serviceType) {
