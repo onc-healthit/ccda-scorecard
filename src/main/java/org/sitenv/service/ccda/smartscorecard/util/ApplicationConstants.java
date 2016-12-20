@@ -10,7 +10,7 @@ import java.util.TreeMap;
 public class ApplicationConstants {
 	
 	//set this to false for production
-	public static final boolean IN_DEVELOPMENT_MODE = true;
+	public static final boolean IN_DEVELOPMENT_MODE = false;
 	 
 	public static String FILEPATH = "C:/Projects/Dragon/CCDAParser/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	
