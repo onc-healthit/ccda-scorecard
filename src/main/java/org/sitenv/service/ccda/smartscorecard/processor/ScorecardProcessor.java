@@ -162,24 +162,35 @@ public class ScorecardProcessor {
 				
 				if(referenceValidatorCallReturnedErrors) 
 				{				
-					// Copy results from referenceValidatorResults (IG_CONFORMANCE) to certificationResults (CERTIFICATION_2015)
-					certificationResults = new ValidationResultsDto(referenceValidatorResults);
-					// Remove non-IG (MDHT) based results from referenceValidatorResults (IG_CONFORMANCE)				
+					if(scorecardProperties.getCertificationResultsCall())
+					{
+						// Copy results from referenceValidatorResults (IG_CONFORMANCE) to certificationResults (CERTIFICATION_2015)
+						certificationResults = new ValidationResultsDto(referenceValidatorResults);
+						
+					}else 
+					{
+						certificationResults = new ValidationResultsDto();
+					}
+						
+					// Remove non-IG based results from referenceValidatorResults (IG_CONFORMANCE)				
 					for (Iterator<ReferenceError> errorIterator = referenceValidatorResults
 							.getCcdaValidationResults().iterator(); errorIterator.hasNext();) 
-					{
+					{	
 						ReferenceError currentError = errorIterator.next();
 						if (currentError.getType() != ValidationResultType.CCDA_MDHT_CONFORMANCE_ERROR) 
 						{
 							errorIterator.remove();
 						}
-					}								
+					}	
+					
 					// Store the 2 instances in the JSON (referenceResults array)
-					scorecardResponse.getReferenceResults().add(getReferenceResults(referenceValidatorResults.getCcdaValidationResults(), 
-							ReferenceInstanceType.IG_CONFORMANCE));
-					scorecardResponse.getReferenceResults().add((getReferenceResults(certificationResults.getCcdaValidationResults(), 
-							ReferenceInstanceType.CERTIFICATION_2015)));
-				}				
+				     scorecardResponse.getReferenceResults().add(getReferenceResults(referenceValidatorResults.getCcdaValidationResults(), 
+				       ReferenceInstanceType.IG_CONFORMANCE));
+				     
+				     
+					     scorecardResponse.getReferenceResults().add((getReferenceResults(certificationResults.getCcdaValidationResults(), 
+					       ReferenceInstanceType.CERTIFICATION_2015)));
+				}
 				
 				docType = ApplicationUtil.checkDocType(ccdaModels);
 				if(ccdaModels.getPatient() != null && ccdaModels.getPatient().getDob()!= null)
@@ -301,11 +312,14 @@ public class ScorecardProcessor {
 		ReferenceResult results = new ReferenceResult();
 		results.setType(instanceType);
 		List<ReferenceError> referenceErrors = new ArrayList<>();
-		for(ReferenceError error : referenceValidatorErrors)
+		if(referenceValidatorErrors != null)
 		{
-			if(ApplicationConstants.referenceValidatorErrorList.contains(error.getType().getTypePrettyName()))
+			for(ReferenceError error : referenceValidatorErrors)
 			{
-				referenceErrors.add(error);
+				if(ApplicationConstants.referenceValidatorErrorList.contains(error.getType().getTypePrettyName()))
+				{
+					referenceErrors.add(error);
+				}
 			}
 		}
 		results.setReferenceErrors(referenceErrors);
