@@ -490,7 +490,7 @@ public class ApplicationConstants {
 	
 	public static enum VALIDATION_OBJECTIVES
 	{
-		CCDA_IG_PLUS_VOCAB("CCDA IG Plus Vocab"),
+		CCDA_IG_PLUS_VOCAB("C-CDA_IG_Plus_Vocab"),
 		CERTIFICATION_B1_CCD_DS_RN_OBJECTIVE("170_315_b1_ToC_Amb"),
 		CERTIFICATION_B9_CP_OBJECTIVE("170_315_b9_CP_Amb");
 		
