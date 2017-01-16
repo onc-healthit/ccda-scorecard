@@ -2,6 +2,7 @@ package org.sitenv.service.ccda.smartscorecard.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -9,7 +10,7 @@ import java.util.TreeMap;
 public class ApplicationConstants {
 	
 	//set this to false for production
-	public static final boolean IN_DEVELOPMENT_MODE = true;
+	public static final boolean IN_DEVELOPMENT_MODE = false;
 	 
 	public static String FILEPATH = "C:/Projects/Dragon/CCDAParser/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	
@@ -174,15 +175,15 @@ public class ApplicationConstants {
 	public static final String SECOND_PATTERN = "\\d{14}-\\d{4}";
 	
 	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
-	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:7080",
+	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:8000",
 			CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org",
 			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
 			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
 			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
 			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
 			REFERENCE_CCDA_SERVICE = "/referenceccdaservice/",
-			CCDA_SCORECARD_SERVICE = "/ccda-smart-scorecard/ccdascorecardservice",
-			SAVE_SCORECARD_SERVICE_BACKEND = "/ccda-smart-scorecard/savescorecardservicebackend";
+			CCDA_SCORECARD_SERVICE = "/scorecard/ccdascorecardservice2",
+			SAVE_SCORECARD_SERVICE_BACKEND = "/scorecard/savescorecardservicebackend";
 	// ensure when WAR is headed to the dev server that DEFAULT_LOCAL_SERVER_URL
 	// is replaced with CCDA_DEV_SERVER_URL in the following Strings
 	public static final String CODE_DISPLAYNAME_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
@@ -248,6 +249,8 @@ public class ApplicationConstants {
 	public static final String IG_SECTION_REFERENCES = "Section #.#.# CONF:ABC";
 	public static final String TASKFORCE_URL = "http://wiki.hl7.org/index.php?title=CDA_Example_Task_Force";
 	
+	public static final String TEMPLATEID_XPATH = "./templateId";
+	
 	public static final Map<String, String> CODE_SYSTEM_MAP = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
 	
 	static {
@@ -261,6 +264,27 @@ public class ApplicationConstants {
 		CODE_SYSTEM_MAP.put(CPT4_CODE_SYSTEM, CPT4_CODE_SYSTEM_NAME);
 		CODE_SYSTEM_MAP.put(CVX_CODE_SYSTEM, CVX_CODE_SYSTEM_NAME);
 	}
+	
+	public static final Map<String, String> SECTION_TEMPLATEID_MAP = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+	
+	static {
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.6.1", CATEGORIES.ALLERGIES.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.22.1", CATEGORIES.ENCOUNTERS.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.2.1", CATEGORIES.IMMUNIZATIONS.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.3.1", CATEGORIES.RESULTS.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.1.1", CATEGORIES.MEDICATIONS.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.5.1", CATEGORIES.PROBLEMS.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.7.1", CATEGORIES.PROCEDURES.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.17", CATEGORIES.SOCIALHISTORY.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put("2.16.840.1.113883.10.20.22.2.4.1", CATEGORIES.VITALS.getCategoryDesc());
+		SECTION_TEMPLATEID_MAP.put(CATEGORIES.PATIENT.getCategoryDesc(), CATEGORIES.PATIENT.getCategoryDesc());
+	}
+	
+	
+	public static final List<String> referenceValidatorErrorList = new ArrayList<>(Arrays.asList("C-CDA MDHT Conformance Error", 
+																			"ONC 2015 S&CC Vocabulary Validation Conformance Error",
+																			"ONC 2015 S&CC Reference C-CDA Validation Error"));
+
 	
 	public static enum CATEGORIES
 	{
@@ -333,7 +357,7 @@ public class ApplicationConstants {
 
 	}
 	
-	public static class Error {
+	public static class ErrorMessages {
 		public static final String CONTACT = "Please report this issue to TestingServices@sitenv.org.";
 		public static final String GENERIC = "An Unknown error has occurred. ";
 		public static final String GENERIC_WITH_CONTACT = "An Unknown error has occurred. "
@@ -344,6 +368,10 @@ public class ApplicationConstants {
 		public static final String IS_SUCCESS_FALSE = "Note for the developers: isSuccess is equal to false.";
 		public static final String NULL_RESULT_ON_SAVESCORECARDSERVICEBACKEND_CALL = "Error: savescorecardservicebackend did not receive any results (null) from ccdascorecardservice."
 				+ " " + GENERIC_DIFFERENT_FILE_OR_TIME;
+		public static final String UNSTRUCTURED_DOCUMENT = "The supplied C-CDA XML document has been identified as an Unstructured Document "
+				+ "urn:hl7ii:2.16.840.1.113883.10.20.22.1.10. The C-CDA Scorecard tool does not score this document type. "
+				+ "Please try submitting another document type for review such as a Continuity of Care Document, Care Plan, etc.";
+		public static final String SCHEMA_ERRORS_GENERIC = "Schema errors must be addressed before a score can be provided.";
 	}
 
 	public static enum IG_REFERENCES
@@ -457,6 +485,27 @@ public class ApplicationConstants {
 
 		public String getTaskforceLink() {
 			return taskforceLink;
+		}
+	}
+	
+	public static enum VALIDATION_OBJECTIVES
+	{
+		CCDA_IG_PLUS_VOCAB("CCDA IG Plus Vocab"),
+		CERTIFICATION_B1_CCD_DS_RN_OBJECTIVE("170_315_b1_ToC_Amb"),
+		CERTIFICATION_B9_CP_OBJECTIVE("170_315_b9_CP_Amb");
+		
+		
+		private String validationObjective; 
+		
+		
+		private VALIDATION_OBJECTIVES(final String validationObjective)
+		{
+			this.validationObjective = validationObjective;
+		}
+
+		public String getValidationObjective()
+		{
+			return validationObjective;
 		}
 	}
 }

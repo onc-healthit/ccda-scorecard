@@ -1,4 +1,4 @@
-var scApp = angular.module('scorecard', [ 'nvd3', 'ngFileUpload' ]);
+var scApp = angular.module('scorecard', ['ngFileUpload']);
 
 // *************** DIRECTIVES ********************
 // *Scorecard related*//
@@ -23,10 +23,10 @@ scApp.directive('topLevelResults', function() {
 	};
 });
 
-scApp.directive('charts', function() {
+scApp.directive('summary', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'charts.html'
+		templateUrl : 'summary.html'
 	};
 });
 
@@ -41,6 +41,13 @@ scApp.directive('detailedResults', function() {
 	return {
 		restrict : 'E',
 		templateUrl : 'detailedResults.html'
+	};
+});
+
+scApp.directive('scorecardTwoResults', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'scorecardTwoResults.html'
 	};
 });
 
@@ -94,13 +101,6 @@ scApp.directive('siteResultsModal', function() {
 	};
 });
 
-scApp.directive('siteValidationResults', function() {
-	return {
-		restrict : 'E',
-		templateUrl : 'siteValidationResults.html'
-	};
-});
-
 scApp.directive('siteFooter', function() {
 	return {
 		restrict : 'E',
@@ -133,5 +133,15 @@ scApp.directive('siteDownloadLocalModal', function() {
 	return {
 		restrict: 'E',
 		templateUrl: 'siteDownloadLocalModal.html'
+	};
+});
+
+scApp.directive('linkDisclaimer', function() {
+	return {
+		retrict: 'E',
+		scope: {
+			spanClass: "="
+		},
+		templateUrl: 'siteExternalLinkDisclaimer.html'
 	};
 });

@@ -1,13 +1,19 @@
 scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$timeout', function($scope, $location, $anchorScroll, $timeout) {
 
 	$scope.mainDisplayData = {
-		showTopLevelContent : true,
-		showScorecard : true
+		showTopLevelContent : true
 	};
 	
 	$scope.mainDebug = {
 		inDebugMode: false,
 		useLocalTestDataForServices: false
+	};
+	
+	$scope.siteUiData = {
+		disclaimer: {
+			classesForNavbar: "external-page embedded-navbar",
+			classesForButton: "external-page embedded"
+		}		
 	};
 	
 		$scope.debugLog = function(debugMessage) {
@@ -41,6 +47,10 @@ scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$ti
     
     $scope.removeElementFocusById = function(elementId) {
     	document.getElementById(elementId).blur();
+    };
+    
+    $scope.removeWhiteSpaceFromString = function(stringWithWhiteSpace) {
+    	return stringWithWhiteSpace.replace(/\s+/g, '');
     };
 
 }]);

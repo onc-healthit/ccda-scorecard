@@ -7,7 +7,7 @@
 </span>
 
 <button ng-click="saveScorecard()"
-  ng-show="!uploadDisplay.isLoading && !uploadDisplay.isValidationLoading && !errorData.getJsonDataError && !ngFileUploadError"
+  ng-show="!uploadDisplay.isLoading && !errorData.getJsonDataError && !ngFileUploadError && !timeoutData.errorMessage"
   type="button" class="btn btn-primary saveResultsBtn" id="saveScorecardButton">Save
   Results
 </button>

@@ -27,7 +27,7 @@ public Void ccdascorecardservice(MultipartFile ccdaFile)
 		formConverter.setCharset(Charset.forName("UTF8"));
 		restTemplate.getMessageConverters().add(formConverter);
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-		response = restTemplate.postForObject("http://sitenv.org/ccda-smart-scorecard/ccdascorecardservice", 
+		response = restTemplate.postForObject("http://sitenv.org/scorecard/ccdascorecardservice", 
 												requestEntity, String.class);
 		tempFile.delete();
 	}catch(Exception exc)

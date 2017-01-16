@@ -122,7 +122,7 @@
 			where its type is Author (CONF:1198-9442) each SHALL contain exactly one [1..1] assignedAuthor,
 			where  (CONF:1198-9443) assignedAuthor SHALL contain exactly one [1..1] assignedPerson and/or exactly one [1..1]
 			representedOrganization (CONF:1198-8456) -->			
-		        <representedOrganization>
+		    <representedOrganization>
 			  <id root="2.16.840.1.113883.19.5"/>
 			  <name>Neighborhood Physicians Practice</name>
 			</representedOrganization>
@@ -1072,7 +1072,7 @@
 								<translation code="AMB" codeSystem="2.16.840.1.113883.5.4" displayName="Ambulatory" codeSystemName="HL7 ActEncounterCode"/>
 								-->
 							</code>
-							<effectiveTime value="20150622"/>
+							<effectiveTime value="201506221000-0500"/>
 							<performer>
 								<assignedEntity>
 									<!-- Provider NPI "99999999" -db -->
@@ -1555,6 +1555,7 @@
 							<reference value="#BirthSexInfo"/>
 						  </text>
 						  <statusCode code="completed"/>
+						  <effectiveTime value="20150622"/>
 						  <value code="F" codeSystem="2.16.840.1.113883.5.1" xsi:type="CD" displayName="Female"/>
 						</observation>
 					</entry>

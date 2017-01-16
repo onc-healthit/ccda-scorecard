@@ -3,6 +3,7 @@ package org.sitenv.service.ccda.smartscorecard.cofiguration;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.sitenv.service.ccda.smartscorecard.loader.VocabularyLoadRunner;
 import org.sitenv.service.ccda.smartscorecard.loader.VocabularyLoaderFactory;
+import org.sitenv.service.ccda.smartscorecard.model.ScorecardProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ServiceLocatorFactoryBean;
@@ -125,14 +126,23 @@ public class PersistanceConfiguration {
     public VocabularyLoaderFactory vocabularyLoaderFactory() {
         return (VocabularyLoaderFactory) vocabularyLoaderFactoryServiceLocatorFactoryBean().getObject();
     }
-
-
+    
+    @Autowired
+    @Bean(name="scorecardProperties")
+    public ScorecardProperties scorecardPropertiesLoader(final Environment environment){
+    	ScorecardProperties scorecardProperties = new ScorecardProperties();
+    	scorecardProperties.setIgConformanceCall(Boolean.parseBoolean(environment.getProperty("scorecard.igConformanceCall")));
+    	scorecardProperties.setCertificationResultsCall(Boolean.parseBoolean(environment.getProperty("scorecard.certificatinResultsCall")));
+    	scorecardProperties.setIgConformanceURL(environment.getProperty("scorecard.igConformanceUrl"));
+    	scorecardProperties.setCertificatinResultsURL(environment.getProperty("scorecard.certificationResultsUrl"));
+        return scorecardProperties;
+    }
+    
     @Autowired
     @Bean
     VocabularyLoadRunner vocabularyLoadRunner(final Environment environment, final VocabularyLoaderFactory vocabularyLoaderFactory, final  DataSourceInitializer dataSourceInitializer, final DataSource dataSource){
         VocabularyLoadRunner vocabularyLoadRunner = null;
         String localCodeRepositoryDir = environment.getProperty("vocabulary.localCodeRepositoryDir");
-        //String localCodeRepositoryDir = "C:/Projects/Dragon/CCDAScorecard/code_repository/";
         vocabularyLoadRunner = new VocabularyLoadRunner();
         System.out.println("LOADING VOCABULARY DATABASES FROM THE FOLLOWING RESOURCES:CODES - " + localCodeRepositoryDir);
         vocabularyLoadRunner.setCodeDirectory(localCodeRepositoryDir);

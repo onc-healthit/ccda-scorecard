@@ -1,36 +1,38 @@
 scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout', function($scope, $http, Upload, $timeout) {
 	
-  function UploadData(fileName, docTypeSelected) {
+	$scope.TryMeConstants = Object.freeze({
+		FILENAME: "170.315_b1_toc_amb_ccd_r21_sample1_v8"
+	});
+	
+  function UploadData(fileName) {
     this.fileName = fileName;
-    this.docTypeSelected = docTypeSelected;
   }
-  $scope.ccdaUploadData = new UploadData("Unknown File (Upload)", "Unknown Document Type");
+  $scope.ccdaUploadData = new UploadData("Unknown File (Upload)");
 
   $scope.userMessageConstant = Object.freeze ({
 	GENERIC: "Please try a different file and report the issue to TestingServices@sitenv.org.",
 	GENERIC_LATER: "Please try again later or contact TestingServices@sitenv.org for help.",
-	UPLOAD_ERROR: "Error uploading <unknownFileName>: "
+	GENERIC_COMBINED: "Please try again later, try a different file, or contact TestingServices@sitenv.org for help.",
+	UPLOAD_ERROR: "Error uploading <unknownFileName>: ",
+	TIMEOUT_ERROR: "The scorecard application has been stopped " +
+	"due to the length of time it has been processing the given request. "
   });
   
   $scope.uploadErrorData = {
-    getValidationResultsAsJsonError: "was uploaded successfully.",
     serviceTypeError: "No error encountered.",
-    uploadError: $scope.userMessageConstant.UPLOAD_ERROR + $scope.userMessageConstant.GENERIC,
-    validationServiceError: ""
+    uploadError: $scope.userMessageConstant.UPLOAD_ERROR + $scope.userMessageConstant.GENERIC
+  };
+  
+  $scope.timeoutData = {
+  	lengthInMilliseconds: 300000, //5 minutes
+  	errorMessage: null,
+  	timer: null
   };
 
-  $scope.jsonValidationData = $scope.metaResults = $scope.ccdaResults = {};
-  $scope.mdhtMetaIssues = $scope.vocabMetaIssues = {};
   $scope.jsonScorecardData = {};
-    
-  $scope.calculatedValidationData = {
-      passedCertification: false,
-      certificationResult: ""
-  }
   
   $scope.uploadDisplay = {
-  		isLoading: true,
-  		isValidationLoading: true,
+  		isLoading: true
   };
   
   $scope.tryMeData = {
@@ -38,63 +40,46 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   };
 
   var ServiceTypeEnum = Object.freeze({
-    CCDA_VALIDATOR: "C-CDA R2.1 Validator Service",
     SCORECARD: "C-CDA R2.1 Scorecard Service",
     DEBUG: "Debug Service"
   });
-  
-  $scope.validationOptions = [
-	{id: 1, value: "Scorecard and Validation results"}, 
-	{id: 2, value: "Scorecard results only"}		  
-  ];
-  //default to run both services since we no longer have a selection option
-  $scope.selectedValidationOption = $scope.validationOptions[0];
 
   $scope.isFirefox = typeof InstallTrigger !== 'undefined';
+  $scope.isSafari = typeof safari !== 'undefined';
   
   var resetValidationData = function() {	  	  
 		$scope.jsonScorecardData = {};
 		$scope.ngFileUploadError = null;
-		$scope.uploadDisplay.isLoading = true;
-		$scope.uploadDisplay.isValidationLoading = true;
-		$scope.uploadErrorData.validationServiceError = "";
+		$scope.uploadDisplay.isLoading = true; //set to false by ScorecardController $watch upon collection of new json data		
 		$scope.uploadErrorData.uploadError = $scope.userMessageConstant.UPLOAD_ERROR + $scope.userMessageConstant.GENERIC;
-    $scope.calculatedValidationData.certificationResult = "";
-    $scope.calculatedValidationData.passedCertification = false;
+		$scope.timeoutData.errorMessage = null;
   };  
 
-  //called by Validate Document button on SiteUploadForm
+  /**
+   * Called by score button on SiteUploadForm
+   * */
   $scope.uploadCcdaScFileAndCallServices = function(ccdaScFile, callDebug) {
-    $scope.debugLog("$scope.uploadDisplay.isValidationLoading (before load):")
-    $scope.debugLog($scope.uploadDisplay.isValidationLoading);
-    
+    if($scope.timeoutData.timer) {
+    	 //disable timer from last call so it doesn't independently interfere with this call
+    	$timeout.cancel($scope.timeoutData.timer);
+    }
     resetValidationData();
     $scope.tryMeData.isTryMeActive = false;
     
-	//static for now since we are not using the selector/sending this manually
-    $scope.ccdaUploadData.docTypeSelected = "C-CDA_IG_Only";
     $scope.ccdaUploadData.fileName = (!$scope.mainDebug.inDebugMode || $scope.mainDebug.inDebugMode && ccdaScFile) 
     	? ccdaScFile.name
 		: "No file selected: In debug mode";
-
+     
      if(callDebug) {
     	 $scope.debugLog("In main debug mode");
        if($scope.mainDebug.useLocalTestDataForServices) {
-    	   getLocalJsonResults("dataValidation.json", ServiceTypeEnum.CCDA_VALIDATOR);
     	   getLocalJsonResults("data.json", ServiceTypeEnum.SCORECARD);
        } else {
     	   callDebugService(ccdaScFile);
        }
-     } else if ($scope.selectedValidationOption.id === 1) {
-       callCcdaR2ValidatorService(ccdaScFile);    	 
-       callCcdaScorecardService(ccdaScFile);
-     } else if ($scope.selectedValidationOption.id === 2) {
-       $scope.uploadDisplay.isValidationLoading = false;
-       callCcdaScorecardService(ccdaScFile);
      } else {
-       callCcdaR2ValidatorService(ccdaScFile);    	 
        callCcdaScorecardService(ccdaScFile);    	 
-     }
+     }     
   };
 
   var callDebugService = function(ccdaScFile) {
@@ -105,21 +90,9 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     uploadFileAndCallServices(ccdaScFile, 'https://angular-file-upload-cors-srv.appspot.com/upload', dataObject);
   };
 
-  var callCcdaR2ValidatorService = function(ccdaScFile) {
-    var externalUrl = 'http://54.200.51.225:8080/referenceccdaservice/';
-    var localUrl = 'ccdavalidatorservice/';
-    var dataObject = {
-      ccdaFile: ccdaScFile,
-      referenceFileName: 'test',
-      validationObjective: 'NonSpecificCCDAR2',
-      debug_mode: true
-    };
-    uploadFileAndCallServices(ccdaScFile, localUrl, dataObject, ServiceTypeEnum.CCDA_VALIDATOR);
-  };
-
   var callCcdaScorecardService = function(ccdaScFile, newLocalUrl) {
-    var externalUrl = 'http://54.200.51.225:8080/ccda-smart-scorecard/ccdascorecardservice/';
-    var localUrl = 'ccdascorecardservice/';
+    var externalUrl = 'http://54.200.51.225:8080/scorecard/ccdascorecardservice2/';
+    var localUrl = 'ccdascorecardservice2/';
     if(newLocalUrl) {
     	localUrl = newLocalUrl;
     }
@@ -134,18 +107,29 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
       url: urlOfServiceToCall,
       data: dataObject
     });
-
+    
+    //if we don't already have valid JSON returned, then after the specified time, 
+    //we cancel the active scorecard service request and post an error message
+    $scope.timeoutData.timer = $timeout(function() {
+  			if(jQuery.isEmptyObject($scope.jsonScorecardData)) {
+	  			$scope.timeoutData.errorMessage = $scope.userMessageConstant.TIMEOUT_ERROR + $scope.userMessageConstant.GENERIC_COMBINED;      
+	    		console.log($scope.timeoutData.errorMessage);
+	        $scope.disableAllLoading();
+	        ccdaFile.upload.abort(); //cancels the following service request (defined in ccdaFile.upload.then)
+  			}
+  	}, $scope.timeoutData.lengthInMilliseconds);
+  	  	
     ccdaFile.upload.then(function(response) {
       $timeout(function() {
-    	  $scope.debugLog("response.data:");
-    	  $scope.debugLog(response.data);
+    	  $scope.debugLog("response.data:");$scope.debugLog(response.data);
         if (serviceType !== ServiceTypeEnum.DEBUG) {
           cacheAndProcessReturnedJsonData(response, serviceType);
         }
       });
     }, function(response) {
       if (response.status > 0) {
-    	$scope.uploadErrorData.uploadError = $scope.uploadErrorData.uploadError.replace("unknownFileName", $scope.ccdaUploadData.fileName);
+      	$scope.uploadErrorData.uploadError = 
+      		$scope.uploadErrorData.uploadError.replace("unknownFileName", $scope.ccdaUploadData.fileName);
         $scope.ngFileUploadError = 'Status: ' + response.status + ' - ' + "Data: " + response.data;
         console.log("Error uploading file or calling service(s):");
         console.log($scope.uploadErrorData.uploadError);
@@ -154,82 +138,23 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
       }
     }, function(evt) {
       ccdaFile.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-    });
+    });    
   };
 
   var cacheAndProcessReturnedJsonData = function(response, serviceType) {
     switch (serviceType) {
-      case ServiceTypeEnum.CCDA_VALIDATOR:
-      	collectAndHandleValidationData(response);
-        break;
       case ServiceTypeEnum.SCORECARD:
         $scope.jsonScorecardData = response.data;
         break;
       default:
-        $scope.uploadErrorData.serviceTypeError = "Error in cacheAndProcessReturnedJsonData(): The ServiceTypeEnum sent does not exist: " + serviceType;
+        $scope.uploadErrorData.serviceTypeError = 
+        	"Error in cacheAndProcessReturnedJsonData(): The ServiceTypeEnum sent does not exist: " + serviceType;
     }
-  };
-  
-  var collectAndHandleValidationData = function(response) {
-      $scope.jsonValidationData = response.data;
-      $scope.debugLog("$scope.jsonValidationData:");
-      $scope.debugLog($scope.jsonValidationData);
-      $scope.metaResults = $scope.jsonValidationData.resultsMetaData;
-      $scope.ccdaResults = $scope.jsonValidationData.ccdaValidationResults;
-      checkForValidationErrors();
-      //only process results if there are results
-      if(typeof $scope.metaResults !== 'undefined') {
-	      setIssueCounts();
-	      setCertificationResult();
-	      $scope.uploadDisplay.isValidationLoading = false;
-      }
   };
   
   $scope.disableAllLoading = function() {
-    $scope.uploadDisplay.isValidationLoading = false;
     $scope.uploadDisplay.isLoading = false;
   }
-  
-  var checkForValidationErrors = function() {
-  	if(typeof $scope.metaResults !== 'undefined') {
-    	//invalid results returned due to a defined service error
-      if($scope.metaResults.serviceError) {
-    		$scope.uploadErrorData.validationServiceError = $scope.metaResults.serviceErrorMessage + 
-    			" The file uploaded which encountered the error is " + $scope.ccdaUploadData.fileName + ". " + 
-    				$scope.userMessageConstant.GENERIC;
-    		console.log("Validation Service Error: " + $scope.uploadErrorData.validationServiceError);    		
-    		$scope.uploadDisplay.isValidationLoading = false;
-    		$scope.calculatedValidationData.certificationResult = false;
-      }
-  	} else if(!$scope.ccdaResults) {
-    	//invalid results returned due to an undefined service error
-  		$scope.uploadErrorData.validationServiceError = "The SITE C-CDA R2.1 Validation web service has failed to return results " +
-			"for an unknown reason. Please try a file other than " + $scope.ccdaUploadData.fileName + " and report " +
-					"the issue to TestingServices@sitenv.org.";
-  		console.log("Validation Service Error: " + $scope.uploadErrorData.validationServiceError);
-  		$scope.uploadDisplay.isValidationLoading = false;
-  		$scope.calculatedValidationData.certificationResult = false;
-    }  	
-  }
-
-  var setIssueCounts = function() {  	
-	    var metaData = $scope.metaResults.resultMetaData;
-	    mdhtMetaIssues = [metaData[0], metaData[1], metaData[2]];
-	    vocabMetaIssues = [metaData[3], metaData[4], metaData[5]];
-	    $scope.allUsedMetaIssues = [mdhtMetaIssues, vocabMetaIssues];
-  };
-    
-    var setCertificationResult = function() {
-        var passesValidation = $scope.metaResults.resultMetaData[0].count === 0;
-        var passesVocabulary = $scope.metaResults.resultMetaData[3].count === 0;
-        if(passesValidation && passesVocabulary) {
-            $scope.calculatedValidationData.passedCertification = true;
-            $scope.calculatedValidationData.certificationResult = "Pass";
-        } else {
-            $scope.calculatedValidationData.passedCertification = false;
-            $scope.calculatedValidationData.certificationResult = "Fail";                        
-        }
-    }
   
   var getLocalJsonResults = function(localJsonFileLocation, serviceType) {
     $http({
@@ -242,81 +167,18 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
     });
   };
   
+  /**
+   * Called by try me button
+   */
   $scope.tryScorecard = function() {
+  	resetValidationData();
   	$scope.tryMeData.isTryMeActive = true;
-  	$scope.ccdaUploadData = new UploadData(
-		"170.315_b1_toc_amb_ccd_r21_sample1_v5.xml",
-		"C-CDA_IG_Only");
+  	var extension = ".xml";
+  	$scope.ccdaUploadData = new UploadData($scope.TryMeConstants.FILENAME + extension);
   	var localFolder = "resources";
-  	var extension = ".json";
-  	getLocalJsonResults(localFolder
-		+ "/170.315_b1_toc_amb_ccd_r21_sample1_cert"
-		+ extension, ServiceTypeEnum.CCDA_VALIDATOR);
-  	getLocalJsonResults(localFolder
-		+ "/170.315_b1_toc_amb_ccd_r21_sample1_scorecard"
-		+ extension, ServiceTypeEnum.SCORECARD); 	
-  };
-  
-  $scope.downloadViaAnchor = function(link, name) {
-  	var anchorElement = angular.element('<a/>');
-	  anchorElement.attr({
-      href: link,
-      target: '_self',
-      download: name
-	  })[0].click();
-  };  
-
-  var IssueTypeEnum = Object.freeze({
-    MDHT_ERROR: "C-CDA MDHT Conformance Error",
-    MDHT_WARNING: "C-CDA MDHT Conformance Warning",
-    MDHT_INFO: "C-CDA MDHT Conformance Info",
-    VOCAB_ERROR: "ONC 2015 S&CC Vocabulary Validation Conformance Error",
-    VOCAB_WARNING: "ONC 2015 S&CC Vocabulary Validation Conformance Warning",
-    VOCAB_INFO: "ONC 2015 S&CC Vocabulary Validation Conformance Info"
-  });
-
-  var ResultTypeEnum = Object.freeze({
-    ERROR: "Error",
-    WARNING: "Warning",
-    INFO: "Info",
-    UNKNOWN: "Unknown"
-  });
-
-  var getValidationResultType = function(curResultType) {
-    switch (curResultType) {
-      case IssueTypeEnum.MDHT_ERROR:
-      case IssueTypeEnum.VOCAB_ERROR:
-        return ResultTypeEnum.ERROR;
-      case IssueTypeEnum.MDHT_WARNING:
-      case IssueTypeEnum.VOCAB_WARNING:
-        return ResultTypeEnum.WARNING;
-      case IssueTypeEnum.MDHT_INFO:
-      case IssueTypeEnum.VOCAB_INFO:
-        return ResultTypeEnum.INFO;
-      default:
-        return ResultTypeEnum.UNKNOWN;
-    }
-  };
-
-  $scope.getValidationResultColorViaType = function(curResult, isBadge) {
-    switch (getValidationResultType(curResult.type)) {
-      case ResultTypeEnum.ERROR:
-        if (isBadge)
-          return "badge btn-danger";
-        return "errorColor";
-      case ResultTypeEnum.WARNING:
-        if (isBadge)
-          return "badge btn-warning";
-        return "warningColor";
-      case ResultTypeEnum.INFO:
-        if (isBadge)
-          return "badge btn-info";
-        return "infoColor";
-      case ResultTypeEnum.UNKNOWN:
-        if (isBadge)
-          return "badge btn-primary";
-        return "unknownColor";
-    }
+  	extension = ".json";
+  	getLocalJsonResults(localFolder + "/" + $scope.TryMeConstants.FILENAME + extension, 
+  			ServiceTypeEnum.SCORECARD);  	
   };
 
 }]);

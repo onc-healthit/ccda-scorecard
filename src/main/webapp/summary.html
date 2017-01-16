@@ -1,5 +1,5 @@
-<!-- Charts -->
-<div id="charts" ng-show="true">
+<!-- Summary -->
+<div id="summary">
 
   <!-- Access to Results Summary -->
   <!--
@@ -20,17 +20,6 @@
   <!-- <div id="topPanelBody" class="collapse in">-->
   <div id="topPanelBody">
     <div id="chartWell" class="well removePanelGradient removeBorder">
-    
-      <!--
-      <div class="row">
-        <div ng-show="jsonData.results.finalGrade" class="col-md-12">
-          <h4>
-            Note: The scorecard results are for a C-CDA <b>{{jsonData.results.docType}}</b>
-            document.
-          </h4>
-        </div>
-      </div>
-      -->
 
       <div class="row">
         <div class="col-md-6">
@@ -56,7 +45,7 @@
 
       <div class="row">      
         <div class="col-md-12">
-          <heat-map></heat-map>
+          <heat-map ng-if="isFinalCategoryListByGradeInitialized()"></heat-map>
         </div>
       </div>
 

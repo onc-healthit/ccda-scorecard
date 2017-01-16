@@ -1,4 +1,4 @@
-<div id="heatMap" ng-show="!uploadDisplay.isLoading && !uploadErrorData.validationServiceError && !errorData.getJsonDataError">
+<div id="heatMap" ng-show="!uploadDisplay.isLoading && !errorData.getJsonDataError">
 
     <div ng-repeat="row in [0,1,2,3]" class="row heatMapRow">
 
@@ -6,7 +6,7 @@
             <button ng-click="jumpToCategoryViaName(getHeatMapCategoryName(row, 1))" 
             ng-class="getGradeClass(row, 1, 'btn btn-large btn-block heatMapButton')" class="btn btn-large btn-block heatMapButton" 
             type="button" onclick="this.blur();">
-                {{getHeatMapCategoryName(row, 1)}}:&nbsp;{{getHeatMapCategoryGrade(row, 1)}}&nbsp;({{getHeatMapCategoryIssueCount(row, 1)}})
+                {{truncateCategoryName(getHeatMapCategoryName(row, 1))}}:&nbsp;{{getHeatMapCategoryGrade(row, 1)}}({{getHeatMapCategoryIssueCount(row, 1)}})
             </button>
         </div>
 
@@ -14,7 +14,7 @@
             <button ng-click="jumpToCategoryViaName(getHeatMapCategoryName(row, 2))" 
             ng-class="getGradeClass(row, 2, 'btn btn-large btn-block heatMapButton')" class="btn btn-large btn-block heatMapButton" 
             type="button" onclick="this.blur();">
-                {{getHeatMapCategoryName(row, 2)}}:&nbsp;{{getHeatMapCategoryGrade(row, 2)}}&nbsp;({{getHeatMapCategoryIssueCount(row, 2)}})
+                {{truncateCategoryName(getHeatMapCategoryName(row, 2))}}:&nbsp;{{getHeatMapCategoryGrade(row, 2)}}({{getHeatMapCategoryIssueCount(row, 2)}})
             </button>
         </div>
 
@@ -22,7 +22,7 @@
             <button ng-click="jumpToCategoryViaName(getHeatMapCategoryName(row, 3))" 
             ng-show="getHeatMapCategoryName(row, 3) !== 'UNK'" ng-class="getGradeClass(row, 3, 'btn btn-large btn-block heatMapButton')" 
             class="btn btn-large btn-block heatMapButton" type="button" onclick="this.blur();">
-                {{getHeatMapCategoryName(row, 3)}}:&nbsp;{{getHeatMapCategoryGrade(row, 3)}}&nbsp;({{getHeatMapCategoryIssueCount(row, 3)}})
+                {{truncateCategoryName(getHeatMapCategoryName(row, 3))}}:&nbsp;{{getHeatMapCategoryGrade(row, 3)}}({{getHeatMapCategoryIssueCount(row, 3)}})
             </button>
         </div>
 

@@ -1,4 +1,4 @@
-<div ng-show="mainDisplayData.showScorecard" class="container">
+<div class="container">
 
   <div class="panel-group">
 
@@ -7,16 +7,32 @@
 
         <div id="scorecardResults">
           
-          <h3 ng-show="errorData.getJsonDataError" class="webServiceError">
-            <span class="errorColor">Web Service Error:&nbsp;</span>{{errorData.getJsonDataErrorForUser}}
-          </h3>
-          <h3 ng-show="ngFileUploadError" class="fileUploadError">
-            <span class="errorColor">File Upload Error:&nbsp;</span>{{uploadErrorData.uploadError}}
-          </h3>
+          <div style="word-wrap:break-word">
+            <div ng-show="errorData.getJsonDataError" class="webServiceError">
+              <h3>
+                <span ng-show="!jsonData.schemaErrorList" class="errorColor">
+                  Web Service Error:&nbsp;
+                </span>
+                {{errorData.getJsonDataErrorForUser}}
+              </h3>
+              <div ng-show="jsonData.schemaErrors && jsonData.schemaErrorList">
+                <h5 ng-repeat="curSchemaError in jsonData.schemaErrorList" style="text-align: left">
+                  <span class="errorColor">Schema Error {{$index + 1}}:</span> {{curSchemaError.description + 
+                  (curSchemaError.documentLineNumber ? " - at line number: " + curSchemaError.documentLineNumber : '')}}
+                </h5>
+              </div>
+            </div>
+            <h3 ng-show="ngFileUploadError" class="fileUploadError">
+              <span class="errorColor">File Upload Error:&nbsp;</span>{{uploadErrorData.uploadError}}
+            </h3>
+            <h3 ng-show="timeoutData.errorMessage" class="webServiceError">
+              <span class="errorColor">Timeout Error:&nbsp;</span>{{timeoutData.errorMessage}}
+            </h3>
+          </div>
                     
           <debug></debug>
           
-          <span ng-hide="errorData.getJsonDataError || ngFileUploadError">
+          <span ng-hide="errorData.getJsonDataError || ngFileUploadError || timeoutData.errorMessage">
             <top-level-results></top-level-results>          
             <detailed-results></detailed-results>
           </span>          

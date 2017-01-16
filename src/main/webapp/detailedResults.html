@@ -1,16 +1,18 @@
-<div id="mainPanelBody" class="panel-collapse collapse out">
+<div id="mainPanelBody" class="panel-collapse collapse in">
   <div class="panel-body">
     <div class="panel panel-default mainPanelPanel">
-
+      
+      <scorecard-two-results><</scorecard-two-results>
 
       <!--START CATEGORY PANELS -->
       <div ng-repeat="currentCategory in categories"
-        id="catAccordion{{$index}}" class="panel-group category"
-        ng-show="currentCategory.categoryRubrics.length > 0">
+        id="catAccordion{{$index}}" class="panel-group category">
+        <!-- ng-show="currentCategory.categoryRubrics.length > 0" -->
         <div id="{{currentCategory.categoryName}}"
           class="panel panel-primary removeBorder">
 
-            <div ng-class="calculateCategoryColor('panel-heading categoryPanelHeading', currentCategory.categoryGrade)"
+            <div ng-class="getGradeClassForCategory('panel-heading categoryPanelHeading', 
+            currentCategory.categoryGrade, currentCategory.failingConformance)" 
                  class="panel-heading categoryPanelHeading" style="border-radius: 0px">
             <h2 class="panel-title">
               <a data-toggle="collapse" data-parent="#catAccordion{{$index}}" 
@@ -57,7 +59,8 @@
                           <div class="row">
                               <div class="col-md-4">
                                   <a href ng-click="detailsToShow!=='XML' ? detailsToShow='XML' : detailsToShow='NULL'">
-                                    <h3>{{calculatedValidationData.passedCertification ? "Improvements" : "Issues"}}</h3>
+                                    <!--<h3>{{calculatedValidationData.passedCertification ? "Improvements" : "Issues"}}</h3>-->
+                                    <h3>{{false ? "Improvements" : "Issues"}}</h3>
                                   </a>
                               </div>
                               <div class="col-md-4">
@@ -171,8 +174,8 @@
             <!-- END panel-body -->
             <div class="panel-footer scFooter">
               <button ng-click="jumpToElementViaId('ValidationResult', true, 0)" 
-                class="btn btn-default btn-block scButton removeBorder" type="button" title="Back to Summary"
-                tabindex="0" role="button" onclick="this.blur();">
+                class="btn btn-default btn-block scButton removeBorder" type="button" title="Back to Summary" 
+                alt="Back to Summary" tabindex="0" role="button" onclick="this.blur();" aria-label="Back to Summary">
                 <span class="glyphicon glyphicon-triangle-top" title="Back to Summary" alt="Back to Summary"></span>
               </button>
             </div>

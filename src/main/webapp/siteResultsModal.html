@@ -5,16 +5,18 @@
     
       <div class="modal-header">        
         <div class="pull-left">
-            <span ng-show="uploadDisplay.isLoading || uploadDisplay.isValidationLoading">
+            <span ng-show="uploadDisplay.isLoading">
               <img 
                    src="images/validationSpinner.gif"
-                   alt="scorecard loading indicator" style="width: 30px">&nbsp;Scoring...
+                   alt="scorecard loading indicator" style="width: 30px">&nbsp;Processing...
             </span>          
         </div>                  
         <div class="pull-right">
-          <!--<save-scorecard-button></save-scorecard-button>-->       
-          <!--<button type="button" class="btn btn-default closeResultsBtn"
-            data-dismiss="modal">Close Results</button> -->
+          <save-try-me-xml-button></save-try-me-xml-button>        
+          <save-scorecard-button></save-scorecard-button>
+          <button ng-show="!uploadDisplay.isLoading" 
+            type="button" class="btn btn-default closeResultsBtn"
+            data-dismiss="modal">Close Results</button>
         </div>               
       </div>
         
@@ -27,7 +29,7 @@
       <div class="modal-footer">
         <save-try-me-xml-button></save-try-me-xml-button>        
         <save-scorecard-button></save-scorecard-button>
-        <button ng-show="!uploadDisplay.isLoading && !uploadDisplay.isValidationLoading" 
+        <button ng-show="!uploadDisplay.isLoading" 
           type="button" class="btn btn-default closeResultsBtn"
           data-dismiss="modal">Close Results</button>
       </div>

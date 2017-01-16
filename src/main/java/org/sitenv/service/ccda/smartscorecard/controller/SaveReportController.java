@@ -19,6 +19,9 @@ import org.jsoup.Jsoup;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
+import org.sitenv.service.ccda.smartscorecard.model.ReferenceError;
+import org.sitenv.service.ccda.smartscorecard.model.ReferenceResult;
+import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ReferenceInstanceType;
 import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
@@ -72,8 +75,7 @@ public class SaveReportController {
 
 	/**
 	 * A single service to handle a pure back-end implementation of the
-	 * scorecard which streams back a PDF report without running or recording
-	 * C-CDA validation (certification)
+	 * scorecard which streams back a PDF report
 	 * 
 	 * @param ccdaFile
 	 *            The C-CDA XML file intended to be scored
@@ -89,7 +91,7 @@ public class SaveReportController {
 			pojoResponse.setResults(null);
 			pojoResponse.setSuccess(false);
 			pojoResponse
-					.setErrorMessage(ApplicationConstants.Error.NULL_RESULT_ON_SAVESCORECARDSERVICEBACKEND_CALL);
+					.setErrorMessage(ApplicationConstants.ErrorMessages.NULL_RESULT_ON_SAVESCORECARDSERVICEBACKEND_CALL);
 		} else {
 			if (!ApplicationUtil.isEmpty(ccdaFile.getOriginalFilename())
 					&& ccdaFile.getOriginalFilename().contains(".")) {
@@ -169,29 +171,32 @@ public class SaveReportController {
 			report = new ResponseTO();
 			report.setResults(null);
 			report.setSuccess(false);
-			report.setErrorMessage(ApplicationConstants.Error.GENERIC_WITH_CONTACT);
+			report.setErrorMessage(ApplicationConstants.ErrorMessages.GENERIC_WITH_CONTACT);
 			appendErrorMessageFromReport(sb, report,
-					ApplicationConstants.Error.RESULTS_ARE_NULL);
+					ApplicationConstants.ErrorMessages.RESULTS_ARE_NULL);
 		} else {
 			// report != null
 			if (report.getResults() != null) {
 				if (report.isSuccess()) {
 					Results results = report.getResults();
 					List<Category> categories = results.getCategoryList();
+					List<ReferenceResult> referenceResults = report
+							.getReferenceResults();
 
 					appendHeader(sb, report, results);
 					appendHorizontalRuleWithBreaks(sb);
 
-					appendTopLevelResults(sb, results, categories);
+					appendTopLevelResults(sb, results, categories,
+							referenceResults);
 					appendHorizontalRuleWithBreaks(sb);
 
-					appendDetailedResults(sb, categories);
+					appendDetailedResults(sb, categories, referenceResults);
 				}
 			} else {
 				// report.getResults() == null
 				if (!report.isSuccess()) {
 					appendErrorMessageFromReport(sb, report,
-							ApplicationConstants.Error.IS_SUCCESS_FALSE);
+							ApplicationConstants.ErrorMessages.IS_SUCCESS_FALSE);
 				} else {
 					appendErrorMessageFromReport(sb, report);
 				}
@@ -228,115 +233,200 @@ public class SaveReportController {
 	}
 
 	private static void appendTopLevelResults(StringBuffer sb, Results results,
-			List<Category> categories) {
+			List<Category> categories, List<ReferenceResult> referenceResults) {
 
-		// If it's null we don't append the certification results since we
-		// never received them. The typical scenario for this would be a pure
-		// back-end (most likely local) implementation which already/only has
-		// the results from ccdascorecardservice.
-		// If it's not null, then it is true or false, which means it was set
-		// after calling ccdascorecardservice and combined those results with
-		// the (calculated) pass or fail result from referenceccdaservice (most
-		// likely by a front-end call), and we do append the results.
-		Boolean passedCertification = results.getPassedCertification();
-		if (passedCertification != null) {
-			sb.append("<center>");
-			sb.append("<h2 style='color: "
-					+ (passedCertification ? "green" : "red")
-					+ ";background-color: "
-					+ (passedCertification ? "#e6ffe6" : "#ffe6e6") + "'>");
-			sb.append("Certification Score: "
-					+ (passedCertification ? "Pass" : "Fail") + "</h2>");
-			sb.append("</center>");
-		}
-
-		sb.append("<h3>Grade: " + results.getFinalGrade() + "</h3>");
+		sb.append("<h3>Scorecard Grade: " + results.getFinalGrade() + "</h3>");
 		sb.append("<ul><li>");
 		sb.append("<p>Your document scored a " + "<b>"
 				+ results.getFinalGrade() + "</b>"
 				+ " compared to an industry average of " + "<b>"
 				+ results.getIndustryAverageGrade() + "</b>" + ".</p>");
 		sb.append("</ul></li>");
-		sb.append("<h3>Score: " + results.getFinalNumericalGrade() + "</h3>");
+
+		sb.append("<h3>Scorecard Score: " + results.getFinalNumericalGrade()
+				+ "</h3>");
 		sb.append("<ul><li>");
 		sb.append("<p>Your document scored " + "<b>"
 				+ +results.getFinalNumericalGrade() + "</b>" + " out of "
 				+ "<b>" + " 100 " + "</b>" + " total possible points.</p>");
 		sb.append("</ul></li>");
-		sb.append("<h3> Number of Issues: " + results.getNumberOfIssues()
-				+ "</h3>");
-		sb.append("<ul><li>");
-		sb.append("<p>There are " + "<b>" + results.getNumberOfIssues()
-				+ "</b>" + " specific issues in your document.</p>");
+
+		boolean isSingular = results.getNumberOfIssues() == 1;
+		appendSummaryRow(sb, results.getNumberOfIssues(), "Scorecard Issues",
+				null, isSingular ? "Scorecard Issue" : "Scorecard Issues",
+				isSingular);
 		sb.append("</ul></li>");
+
+		String messageSuffix = null;
+		if (ApplicationUtil.isEmpty(referenceResults)) {
+			for (ReferenceInstanceType refType : ReferenceInstanceType.values()) {
+				if (refType == ReferenceInstanceType.CERTIFICATION_2015) {
+					messageSuffix = "results";
+				}
+				appendSummaryRow(sb, 0, refType.getTypePrettyName(),
+						messageSuffix, refType.getTypePrettyName(), false);
+				sb.append("</ul></li>");
+			}
+		} else {
+			for (ReferenceResult refResult : referenceResults) {
+				int refErrorCount = refResult.getTotalErrorCount();
+				isSingular = refErrorCount == 1;
+				String refTypeName = refResult.getType().getTypePrettyName();
+				String messageSubject = "";
+				if (refResult.getType() == ReferenceInstanceType.IG_CONFORMANCE) {
+					messageSubject = isSingular ? refTypeName.substring(0,
+							refTypeName.length() - 1) : refTypeName;
+				} else if (refResult.getType() == ReferenceInstanceType.CERTIFICATION_2015) {
+					messageSuffix = isSingular ? "result" : "results";
+					messageSubject = refTypeName;
+				}
+				appendSummaryRow(sb, refErrorCount, refTypeName, messageSuffix,
+						messageSubject, isSingular);
+				sb.append("</ul></li>");
+			}
+		}
 
 		appendHorizontalRuleWithBreaks(sb);
 
-		sb.append("<h2 id='sectionList'>"
-				+ "Section Grades with Number of Issues per Section" + "</h2>");
+		sb.append("<span id='heatMap'>" + "</span>");
 		for (Category curCategory : categories) {
 			sb.append("<h3>" + "<a href='#" + curCategory.getCategoryName()
 					+ "-category" + "'>" + curCategory.getCategoryName()
 					+ "</a>" + "</h3>");
+
 			sb.append("<ul>");
-			sb.append("<li>" + "Section Grade: " + "<b>"
-					+ curCategory.getCategoryGrade() + "</b>" + "</li>"
-					+ "<li>" + "Number of Issues: " + "<b>"
-					+ curCategory.getNumberOfIssues() + "</b>" + "</li>");
+			if (curCategory.getCategoryNumericalScore() != -1) {
+				sb.append("<li>" + "Section Grade: " + "<b>"
+						+ curCategory.getCategoryGrade() + "</b>" + "</li>"
+						+ "<li>" + "Number of Issues: " + "<b>"
+						+ curCategory.getNumberOfIssues() + "</b>" + "</li>");
+			} else {
+				sb.append("<li>"
+						+ "This category was not scored as it contains "
+						+ "<b>" + "Conformance Errors" + "</b>" + "</li>");
+			}
 			sb.append("</ul></li>");
 		}
+
+	}
+
+	private static void appendSummaryRow(StringBuffer sb, int result,
+			String header, String messageSuffix, String messageSubject,
+			boolean isSingular) {
+		sb.append("<h3>"
+				+ header
+				+ ": "
+				+ ("Scorecard Issues".equals(header) || result < 1 ? result
+						: ("<a href=\"#" + header + "-category\">" + result + "</a>"))
+				+ "</h3>");
+		sb.append("<ul><li>");
+		sb.append("<p>There " + (isSingular ? "is" : "are") + " " + "<b>"
+				+ result + "</b>" + " " + messageSubject
+				+ (messageSuffix != null ? " " + messageSuffix : "")
+				+ " in your document.</p>");
 	}
 
 	private static void appendDetailedResults(StringBuffer sb,
-			List<Category> categories) {
+			List<Category> categories, List<ReferenceResult> referenceResults) {
 
 		sb.append("<h2>" + "Detailed Results" + "</h2>");
+
+		if (!ApplicationUtil.isEmpty(referenceResults)) {
+			for (ReferenceResult curRefInstance : referenceResults) {
+
+				ReferenceInstanceType refType = curRefInstance.getType();
+				String refTypeName = refType.getTypePrettyName();
+				sb.append("<h3 id=\"" + refTypeName + "-category\">"
+						+ refTypeName + "</h3>");
+
+				sb.append("<ul>"); // START curRefInstance ul
+				sb.append("<li>"
+						+ "Number of "
+						+ (refType == ReferenceInstanceType.CERTIFICATION_2015 ? "Results:"
+								: "Errors:") + " "
+						+ curRefInstance.getTotalErrorCount() + "</li>");
+
+				sb.append("<ol>"); // START reference errors ol
+
+				if (curRefInstance.getTotalErrorCount() > 0) {
+					for (ReferenceError curRefError : curRefInstance
+							.getReferenceErrors()) {
+
+						sb.append("<li>"
+								+ (refType == ReferenceInstanceType.CERTIFICATION_2015 ? "Feedback:"
+										: "Error:") + " "
+								+ curRefError.getDescription() + "</li>");
+
+						sb.append("<ul>"); // START ul within the curRefError
+						if (!ApplicationUtil.isEmpty(curRefError
+								.getSectionName())) {
+							sb.append("<li>" + "Related Section: "
+									+ curRefError.getSectionName() + "</li>");
+						}
+						sb.append("<li>"
+								+ "Document Line Number (approximate): "
+								+ curRefError.getDocumentLineNumber() + "</li>");
+						sb.append("<li>"
+								+ "xPath: "
+								+ "<xmp style='font-family: Consolas, monaco, monospace;'>"
+								+ curRefError.getxPath() + "</xmp>" + "</li>");
+						sb.append("</ul>"); // END ul within the curRefError
+					}
+				}
+				sb.append("</ol>"); // END reference errors ol
+				sb.append("</ul>"); // END curRefInstance ul
+				appendBackToTopWithBreaks(sb);
+
+			}
+		}
 
 		for (Category curCategory : categories) {
 			sb.append("<h3 id='" + curCategory.getCategoryName() + "-category"
 					+ "'>" + curCategory.getCategoryName() + "</h3>");
-			sb.append("<ul>"); // START curCategory ul
-			sb.append("<li>" + "Section Grade: "
-					+ curCategory.getCategoryGrade() + "</li>" + "<li>"
-					+ "Number of Issues: " + curCategory.getNumberOfIssues()
-					+ "</li>");
 
-			if (curCategory.getNumberOfIssues() > 0) {
+			if (curCategory.getCategoryNumericalScore() != -1) {
+				sb.append("<ul>"); // START curCategory ul
+				sb.append("<li>" + "Section Grade: "
+						+ curCategory.getCategoryGrade() + "</li>" + "<li>"
+						+ "Number of Issues: "
+						+ curCategory.getNumberOfIssues() + "</li>");
 
-				sb.append("<ol>"); // START rules ol
-				for (CCDAScoreCardRubrics curRubric : curCategory
-						.getCategoryRubrics()) {
-					if (curRubric.getNumberOfIssues() > 0) {
-						sb.append("<li>" + "Rule: " + curRubric.getRule()
-								+ "</li>");
-						if (curRubric.getDescription() != null) {
-							sb.append("<ul>" + "<li>" + "Description" + "</li>"
-									+ "<ul>" + "<li>"
-									+ curRubric.getDescription() + "</li>"
-									+ "</ul>" + "</ul>");
-							sb.append("<br />");
+				if (curCategory.getNumberOfIssues() > 0) {
+					sb.append("<ol>"); // START rules ol
+					for (CCDAScoreCardRubrics curRubric : curCategory
+							.getCategoryRubrics()) {
+						if (curRubric.getNumberOfIssues() > 0) {
+							sb.append("<li>" + "Rule: " + curRubric.getRule()
+									+ "</li>");
+							if (curRubric.getDescription() != null) {
+								sb.append("<ul>" + "<li>" + "Description"
+										+ "</li>" + "<ul>" + "<li>"
+										+ curRubric.getDescription() + "</li>"
+										+ "</ul>" + "</ul>");
+								sb.append("<br />");
 
-							sb.append("<ol>"); // START snippets ol
-							for (CCDAXmlSnippet curSnippet : curRubric
-									.getIssuesList()) {
-								sb.append("<li>"
-										+ "XML at line number "
-										+ curSnippet.getLineNumber()
-										+ "</li>"
-										+ "<br /><xmp style='font-family: Consolas, monaco, monospace;'>"
-										+ curSnippet.getXmlString()
-										+ "</xmp><br /><br />");
+								sb.append("<ol>"); // START snippets ol
+								for (CCDAXmlSnippet curSnippet : curRubric
+										.getIssuesList()) {
+									sb.append("<li>"
+											+ "XML at line number "
+											+ curSnippet.getLineNumber()
+											+ "</li>"
+											+ "<br /><xmp style='font-family: Consolas, monaco, monospace;'>"
+											+ curSnippet.getXmlString()
+											+ "</xmp><br /><br />");
+								}
+								sb.append("</ol>"); // END snippets ol
 							}
-							sb.append("</ol>"); // END snippets ol
+						} else {
+							// don't display rules without occurrences
+							sb.append("</ol>");
 						}
-					} else {
-						// don't display rules without occurrences
-						sb.append("</ol>");
 					}
+					sb.append("</ol>"); // END rules ol
 				}
-				sb.append("</ol>"); // END rules ol
+				sb.append("</ul>"); // END curCategory ul
 			}
-			sb.append("</ul>"); // END curCategory ul
 			appendBackToTopWithBreaks(sb);
 		}
 
@@ -359,7 +449,7 @@ public class SaveReportController {
 		// sb.append("<br />");
 		// A PDF conversion bug is not processing this valid HTML so commenting
 		// out until time to address
-		// sb.append("<a href='#sectionList'>Back to Section List</a>");
+		// sb.append("<a href='#heatMap'>Back to Section List</a>");
 		sb.append("<br />");
 		// sb.append("<br />");
 	}
@@ -368,12 +458,14 @@ public class SaveReportController {
 		sb.append("<h2 style='color:red; background-color: #ffe6e6'>");
 		sb.append(errorMessage);
 		sb.append("</h2>");
-		sb.append("<p>" + ApplicationConstants.Error.CONTACT + "</p>");
+		sb.append("<p>" + ApplicationConstants.ErrorMessages.CONTACT + "</p>");
 	}
 
 	private static void appendGenericErrorMessage(StringBuffer sb) {
-		sb.append("<p>" + ApplicationConstants.Error.JSON_TO_JAVA_JACKSON
-				+ "<br />" + ApplicationConstants.Error.CONTACT + "</p>");
+		sb.append("<p>"
+				+ ApplicationConstants.ErrorMessages.JSON_TO_JAVA_JACKSON
+				+ "<br />" + ApplicationConstants.ErrorMessages.CONTACT
+				+ "</p>");
 	}
 
 	private static void appendErrorMessageFromReport(StringBuffer sb,
@@ -442,7 +534,7 @@ public class SaveReportController {
 					e.printStackTrace();
 				}
 			}
-			//ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
+			ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
 		}
 	}
 
