@@ -10,59 +10,20 @@
         </div>
 		
         <div id="topLevelResultsTable">
-    		<!-- Grade row -->
+		
     		<div class="row">
     			<div class="col-md-4 scHeading">
     			   <h2>Scorecard Grade:</h2>
+				   <h2 class="scHeaderDescriptionText">Scorecard Score:</h2>
+				   <h2 class="scHeaderDescriptionText">Scorecard Issues:</h2>
+				   <h2 class="scHeaderDescriptionText">{{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}:</h2>
+    		       <h2 class="scHeaderDescriptionText">{{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}:</h2>				   
     			</div>
     			<div class="col-md-2 scHeading">
     			   <h2>{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "Scoring..."}}</h2>
-    			</div>
-    			<div class="col-md-6 scHeading scHeaderDescriptionText">
-    			   <h4 class="scDescriptionText">
-                   Your document scored {{jsonData.results.finalGrade && jsonData.results.finalGrade === 'A' ? 'an' : 'a'}}
-                   {{jsonData.results.finalGrade ? jsonData.results.finalGrade : "?"}} compared to an industry average of
-                   <b>{{jsonData.results.finalGrade ? jsonData.results.industryAverageGrade : "?"}}</b>.
-                   </h4>
-    			</div>
-    		</div>
-    		<!-- Score row -->
-    		<div class="row">
-    			<div class="col-md-4 scHeading">
-    			   <h2>Scorecard Score:</h2>
-    			</div>
-    			<div class="col-md-2 scHeading">
-    			   <h2>{{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade + " / 100" : "Scoring..."}}</h2>
-    			</div>
-    			<div class="col-md-6 scHeading scHeaderDescriptionText">
-    			   <h4 class="scDescriptionText">
-                   Your document scored {{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade : "?"}}
-                   out of 100 total possible points.
-                   </h4>
-    			</div>	
-    		</div>
-    		<!-- Improvements row -->
-    		<div class="row">
-    			<div class="col-md-4 scHeading">
-    			   <!--<h2>{{calculatedValidationData.passedCertification ? "Improvements" : "Scorecard Issues"}}:</h2>-->
-                   <h2>{{false ? "Improvements" : "Scorecard Issues"}}:</h2>             
-    			</div>
-    			<div class="col-md-2 scHeading">
-    			   <h2>{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>
-    			</div>
-    			<div class="col-md-6 scHeading scHeaderDescriptionText">
-                   <h4 class="scDescriptionText">There are {{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "?"}}
-                   specific scorecard {{false ? "improvements that you can make to" : "issues in"}} your document.
-                   </h4>                   
-    			</div>
-    		</div>
-    		<!-- C-CDA IG Conformance Errors row -->
-    		<div class="row">
-    			<div class="col-md-4 scHeading">
-    			   <h2>{{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}:</h2>
-    			</div>
-    			<div class="col-md-2 scHeading">
-    			   <h2>
+				   <h2 class="scHeaderDescriptionText">{{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade + " / 100" : "Scoring..."}}</h2>
+				   <h2 class="scHeaderDescriptionText">{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>
+    			   <h2 class="scHeaderDescriptionText">
                       <a ng-if="igResults.totalErrorCount" href="javascript:void(0)"  
                       ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.IG_CONFORMANCE)" 
                       title="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}" 
@@ -73,23 +34,7 @@
                         {{jsonData.results.finalGrade ? "0" : "Validating..."}}
                       </span>                      
                    </h2>
-    			</div>
-    			<div class="col-md-6 scHeading scHeaderDescriptionText">
-                   <h4 class="scDescriptionText">
-                     There{{igResults.totalErrorCount === 1 ? ' is ' : ' are '}}
-                     {{jsonData.results.finalGrade ? (igResults.totalErrorCount ? igResults.totalErrorCount : '0') : '?'}}
-                     {{igResults.totalErrorCount === 1 ? ' C-CDA IG Conformance Error ' : ' ' + ReferenceInstanceTypeEnum.IG_CONFORMANCE + ' '}}
-                     in your document.
-                   </h4>             
-    			</div>		
-    		</div>
-    		<!-- 2015 Ed. Certification Feedback row -->
-    		<div class="row">
-    			<div class="col-md-4 scHeading">
-    		       <h2>{{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}:</h2>
-    			</div>
-    			<div class="col-md-2 scHeading">
-    			   <h2>
+    			   <h2 class="scHeaderDescriptionText">
                       <a ng-if="certResults.totalErrorCount" href="javascript:void(0)"  
                       ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.CERTIFICATION_2015)"              
                       title="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}" 
@@ -99,17 +44,23 @@
                       <span ng-show="!certResults.totalErrorCount">
                         {{jsonData.results.finalGrade ? "0" : "Certifying..."}}
                       </span>               
-                   </h2>
+                   </h2>				   
     			</div>
-    			<div class="col-md-6 scHeading scHeaderDescriptionText">
-    			   <h4 class="scDescriptionText">
-                     There{{certResults.totalErrorCount === 1 ? ' is ' : ' are '}}
-                     {{jsonData.results.finalGrade ? (certResults.totalErrorCount ? certResults.totalErrorCount : '0') : '?'}}
-                     {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}
-                     {{certResults.totalErrorCount === 1 ? ' result ' : ' results '}} in your document.
-                   </h4>
-    			</div>		
+    			<div class="col-md-6 scHeading" style="padding-top: 6px">
+    			   <h3>
+                     Your document scored {{jsonData.results.finalGrade && jsonData.results.finalGrade === 'A' ? 'an' : 'a'}}
+                     <b>{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "?"}}</b> compared to an industry average of
+                     <b>{{jsonData.results.finalGrade ? jsonData.results.industryAverageGrade : "?"}}</b>.
+                   </h3>
+                   <h4>
+                     Industry average is the average of all grades for C-CDAs that have been scored by the ONC Scorecard. It is computed
+                     on an on-going basis, since June 2016, when the Scorecard tool was first made available to users. Since
+                     then, <b>{{jsonData.results.finalGrade ? jsonData.results.numberOfDocumentsScored : '?'}}</b> documents
+                     have been graded by the ONC Scorecard.
+                   </h4>                   
+    			</div>
     		</div>
+			
         </div> <!-- END topLevelResultsTable -->		                		
 	
     </div> <!-- END scHeaderContainer -->    
