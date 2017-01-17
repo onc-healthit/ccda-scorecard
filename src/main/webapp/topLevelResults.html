@@ -48,7 +48,7 @@
     			</div>
     			<div class="col-md-6 scHeading" style="padding-top: 6px">
     			   <h3>
-                     Your document scored {{jsonData.results.finalGrade && jsonData.results.finalGrade === 'A' ? 'an' : 'a'}}
+                     Your {{jsonData.ccdaDocumentType ? jsonData.ccdaDocumentType : "document"}} scored {{jsonData.results.finalGrade && jsonData.results.finalGrade === 'A' ? 'an' : 'a'}}
                      <b>{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "?"}}</b> compared to an industry average of
                      <b>{{jsonData.results.finalGrade ? jsonData.results.industryAverageGrade : "?"}}</b>.
                    </h3>

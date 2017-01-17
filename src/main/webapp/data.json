@@ -1,6 +1,7 @@
 {
   "errorMessage": null,
   "filename": "administrativeGenderCodeIsUNK_ExpectFAIL.xml",
+  "ccdaDocumentType": "CCD",
   "results": {
     "finalGrade": "D",
     "finalNumericalGrade": 43,
@@ -883,7 +884,7 @@
     "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
     "industryAverageScore": 60,
     "industryAverageGrade": "D",
-    "numberOfDocumentsScored": 453,
+    "numberOfDocumentsScored": 455,
     "docType": "R2.1",
     "passedCertification": null
   },

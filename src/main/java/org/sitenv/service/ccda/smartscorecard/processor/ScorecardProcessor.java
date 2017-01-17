@@ -109,7 +109,10 @@ public class ScorecardProcessor {
 		try{
 			CCDARefModel ccdaModels = CCDAParserAPI.parseCCDA2_1(ccdaFile.getInputStream());
 			scorecardResponse.setFilename(ccdaFile.getOriginalFilename());
-			if (!ccdaModels.isEmpty() && ccdaModels.getUsrhSubType() != UsrhSubType.UNSTRUCTURED_DOCUMENT)
+			boolean ccdaModelsIsEmpty = ccdaModels.isEmpty();
+			if(!ccdaModelsIsEmpty && ccdaModels.getUsrhSubType() != null) 
+				scorecardResponse.setCcdaDocumentType(ccdaModels.getUsrhSubType().getName());
+			if (!ccdaModelsIsEmpty && ccdaModels.getUsrhSubType() != UsrhSubType.UNSTRUCTURED_DOCUMENT)
 			{	
 				boolean referenceValidatorCallReturnedErrors = false;
 				if(scorecardProperties.getIgConformanceCall())
@@ -214,7 +217,7 @@ public class ScorecardProcessor {
 				String specificErrorReason= null;
 				String errorMessage= null;
 				scorecardResponse.setSuccess(false);
-				if(ccdaModels.isEmpty()) 
+				if(ccdaModelsIsEmpty) 
 				{
 					errorMessage = ApplicationConstants.EMPTY_DOC_ERROR_MESSAGE;
 					specificErrorReason = "empty model";

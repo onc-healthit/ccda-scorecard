@@ -8,6 +8,7 @@ public class ResponseTO {
 	private boolean isSuccess;
 	private String errorMessage;
 	private String filename;
+	private String ccdaDocumentType;
 	// scorecard results
 	private Results results;
 	// multiple instances of referenceccdavalidator results 
@@ -42,6 +43,12 @@ public class ResponseTO {
 	}
 	public void setFilename(String filename) {
 		this.filename = filename;
+	}
+	public String getCcdaDocumentType() {
+		return ccdaDocumentType;
+	}
+	public void setCcdaDocumentType(String ccdaDocumentType) {
+		this.ccdaDocumentType = ccdaDocumentType;
 	}
 	
 	// referenceccdavalidator accessor methods
