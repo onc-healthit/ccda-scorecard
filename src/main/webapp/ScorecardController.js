@@ -30,7 +30,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   
   $scope.ReferenceInstanceTypeEnum = Object.freeze({  	
 		IG_CONFORMANCE: "C-CDA IG Conformance Errors",
-		CERTIFICATION_2015: "2015 Certification Feedback"    
+		CERTIFICATION_2015: "2015 Ed. Certification Feedback"    
   });  
   
   //if the SiteUploadControllers $scope.jsonScorecardData changes, 
