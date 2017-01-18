@@ -31,7 +31,7 @@
                       {{jsonData.results.finalGrade ? igResults.totalErrorCount : ''}}
                       </a>
                       <span ng-show="!igResults.totalErrorCount">
-                        {{jsonData.results.finalGrade ? "0" : "Validating..."}}
+                        {{jsonData.results.finalGrade ? "0" : "Processing..."}}
                       </span>                      
                    </h2>
     			   <h2 class="scHeaderDescriptionText">
@@ -42,7 +42,7 @@
                       {{jsonData.results.finalGrade ? certResults.totalErrorCount : ''}}
                       </a>
                       <span ng-show="!certResults.totalErrorCount">
-                        {{jsonData.results.finalGrade ? "0" : "Certifying..."}}
+                        {{jsonData.results.finalGrade ? "0" : "Processing..."}}
                       </span>               
                    </h2>				   
     			</div>
