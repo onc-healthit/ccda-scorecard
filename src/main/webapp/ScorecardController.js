@@ -31,7 +31,11 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   $scope.ReferenceInstanceTypeEnum = Object.freeze({  	
 		IG_CONFORMANCE: "C-CDA IG Conformance Errors",
 		CERTIFICATION_2015: "2015 Ed. Certification Feedback"    
-  });  
+  });
+  
+  $scope.ScorecardConstants = Object.freeze({
+  	IG_URL: "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379"
+  });
   
   //if the SiteUploadControllers $scope.jsonScorecardData changes, 
   //then the service was called (or try me collected local data) and returned new results,
