@@ -556,13 +556,11 @@ public class ApplicationUtil {
 		int percentage ;
 		int categoryIssues=0;
 		String categoryGrade;
+		
 		for(CCDAScoreCardRubrics rubrics : rubricsList)
 		{
-			if(!rubrics.getRule().equalsIgnoreCase(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT))
-			{
-				actualPoints = actualPoints + rubrics.getRubricScore();
-				maxPoints++;
-			}
+			actualPoints = actualPoints + rubrics.getRubricScore();
+			maxPoints++;
 			if(rubrics.getNumberOfIssues()!=0)
 			{
 				categoryIssues = categoryIssues + rubrics.getNumberOfIssues();
