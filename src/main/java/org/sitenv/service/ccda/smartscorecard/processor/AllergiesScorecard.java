@@ -20,6 +20,10 @@ public class AllergiesScorecard {
 	public Category getAllergiesCategory(CCDAAllergy allergies, String birthDate,String docType)
 	{
 		
+		if(allergies.isSectionNullFlavourWithNI())
+		{
+			return new Category(ApplicationConstants.CATEGORIES.ALLERGIES.getCategoryDesc(),true);
+		}
 		Category allergyCategory = new Category();
 		allergyCategory.setCategoryName(ApplicationConstants.CATEGORIES.ALLERGIES.getCategoryDesc());
 		
