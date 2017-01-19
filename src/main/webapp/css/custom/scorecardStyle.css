@@ -381,6 +381,27 @@ we don't use data-target as we don't want the user redirected */
 	width: 100%;
 }
 
+.smallPadFromTop {
+	padding-top: 5px;
+}
+
+.mediumPadFromTop {
+	padding-top: 10px;
+}
+
+.largePadFromTop {
+	padding-top: 15px;
+}
+
+.extraLargePadFromTop {
+	padding-top: 20px;
+}
+
+.subDescriptionTabs {
+	/*font-weight: bold;*/
+	font-size: 140%;
+}
+
 /*
 .panel {
 border: 0;

@@ -62,20 +62,26 @@
                               </span>
                             </p>                            
                         </div>
-                    </div>
+                    </div>				
 
-                    <!--START DETAILS-->
-                      <div ng-show="rubric.numberOfIssues > 0" ng-init="detailsToShow='XML'">
+                    <!--START TABBED DETAILS-->
+                      <div ng-show="rubric.numberOfIssues > 0" ng-init="detailsToShow='XML'" class="mediumPadFromTop">
+                      
+                          <ul class="nav nav-tabs">
+                            <li ng-class="detailsToShow === 'XML' ? 'active' : ''">
+                              <a ng-click="detailsToShow = 'XML'"
+                                data-toggle="tab" href="javascript:void(0)"><span class="subDescriptionTabs">Issues</span>
+                              </a>
+                            </li>
+                            <li ng-class="detailsToShow === 'HL7' ? 'active' : ''">
+                              <a ng-click="detailsToShow = 'HL7'"
+                                data-toggle="tab" href="javascript:void(0)"><span class="subDescriptionTabs">Best Practice</span>
+                              </a>
+                            </li>
+                          </ul>
+                          
                           <div class="row">
-                              <div class="col-md-6">
-                                  <a href ng-click="detailsToShow!=='XML' ? detailsToShow='XML' : detailsToShow='NULL'"><h3>Issues</h3></a>
-                              </div>
-                              <div class="col-md-6">
-                                  <a href ng-click="detailsToShow!=='HL7' ? detailsToShow='HL7' : detailsToShow='NULL'"><h3>Best Practice</h3></a>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-md-12">
+                              <div class="col-md-12 mediumPadFromTop">
 
                                   <div ng-show="detailsToShow === 'XML'">
                                       <ol>
