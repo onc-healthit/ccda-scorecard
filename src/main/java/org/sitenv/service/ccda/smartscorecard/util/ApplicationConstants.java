@@ -213,6 +213,9 @@ public class ApplicationConstants {
 	public static final String EMPTY_DOC_ERROR_MESSAGE = "Given C-CDA document is empty or invalid. Please upload a valid C-CDA Document.";
 	public static final String EXCEPTION_ERROR_MESSAGE = "Our system experienced some unexpected error, please try after some time or email your issue to TestingServices@sitenv.org";
 	
+	public static final String YEAR_FORMAT = "yyyy";
+	public static final String YEAR_PATTERN = "\\d{4}";
+	
 	public static final String MONTH_FORMAT = "yyyyMM";
 	public static final String MONTH_PATTERN = "\\d{6}";
 	

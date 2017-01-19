@@ -21,6 +21,10 @@ public class MedicationScorecard {
 	public Category getMedicationCategory(CCDAMedication medications, String birthDate,String docType)
 	{
 		
+		if(medications.isSectionNullFlavourWithNI())
+		{
+			return new Category(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc(),true);
+		}
 		Category medicationCategory = new Category();
 		medicationCategory.setCategoryName(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc());
 		

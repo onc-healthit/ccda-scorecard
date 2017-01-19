@@ -111,7 +111,9 @@ public class ScorecardProcessor {
 			scorecardResponse.setFilename(ccdaFile.getOriginalFilename());
 			boolean ccdaModelsIsEmpty = ccdaModels.isEmpty();
 			if(!ccdaModelsIsEmpty && ccdaModels.getUsrhSubType() != null) 
+			{
 				scorecardResponse.setCcdaDocumentType(ccdaModels.getUsrhSubType().getName());
+			}
 			if (!ccdaModelsIsEmpty && ccdaModels.getUsrhSubType() != UsrhSubType.UNSTRUCTURED_DOCUMENT)
 			{	
 				boolean referenceValidatorCallReturnedErrors = false;
@@ -125,6 +127,7 @@ public class ScorecardProcessor {
 					referenceValidatorResults = 
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), 
 								"No Scenario File", scorecardProperties.getIgConformanceURL());
+						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File",scorecardProperties.getIgConformanceURL());
 					schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults());
 				
 					if(schemaErrorList.size() > 0)
@@ -154,8 +157,12 @@ public class ScorecardProcessor {
 						+ "validationObjective: " + validationObjective.getValidationObjective()
 						+ " determined by ccdaModels.getUsrhSubType(): " + ccdaModels.getUsrhSubType());
 					certificationResults = 
+<<<<<<< HEAD
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), 
 								"No Scenario File", scorecardProperties.getCertificatinResultsURL());
+=======
+						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File",scorecardProperties.getCertificatinResultsURL());
+>>>>>>> SITE 2501 and SITE 2497 changes
 				
 					if(checkForReferenceValidatorErrors(certificationResults.getResultsMetaData().getResultMetaData()))
 					{
@@ -189,10 +196,12 @@ public class ScorecardProcessor {
 					}	
 					
 					// Store the 2 instances in the JSON (referenceResults array)
-					scorecardResponse.getReferenceResults().add(getReferenceResults(referenceValidatorResults.getCcdaValidationResults(),
-									ReferenceInstanceType.IG_CONFORMANCE));
-					scorecardResponse.getReferenceResults().add((getReferenceResults(certificationResults.getCcdaValidationResults(),
-									ReferenceInstanceType.CERTIFICATION_2015)));
+				     scorecardResponse.getReferenceResults().add(getReferenceResults(referenceValidatorResults.getCcdaValidationResults(), 
+				       ReferenceInstanceType.IG_CONFORMANCE));
+				     
+				     
+					     scorecardResponse.getReferenceResults().add((getReferenceResults(certificationResults.getCcdaValidationResults(), 
+					       ReferenceInstanceType.CERTIFICATION_2015)));
 				}
 				
 				docType = ApplicationUtil.checkDocType(ccdaModels);
@@ -202,11 +211,16 @@ public class ScorecardProcessor {
 				}
 			
 				categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
+				Category scorecardCategory = null;
 			
 				for (Entry<String, String> entry : ApplicationConstants.SECTION_TEMPLATEID_MAP.entrySet()) {
 					if(!errorSectionList.contains(entry.getValue()))
 					{
-						categoryList.add(getSectionCategory(entry.getValue(),ccdaModels,birthDate,docType));
+						scorecardCategory = getSectionCategory(entry.getValue(),ccdaModels,birthDate,docType);
+						if(scorecardCategory!= null)
+						{
+							categoryList.add(scorecardCategory);
+						}
 					}else
 					{
 						categoryList.add(new Category(true,entry.getValue()));
