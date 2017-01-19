@@ -4,6 +4,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.sitenv.service.ccda.smartscorecard.loader.VocabularyLoadRunner;
 import org.sitenv.service.ccda.smartscorecard.loader.VocabularyLoaderFactory;
 import org.sitenv.service.ccda.smartscorecard.model.ScorecardProperties;
+import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ServiceLocatorFactoryBean;
@@ -131,6 +132,13 @@ public class PersistanceConfiguration {
     @Bean(name="scorecardProperties")
     public ScorecardProperties scorecardPropertiesLoader(final Environment environment){
     	ScorecardProperties scorecardProperties = new ScorecardProperties();
+    	if(ApplicationConstants.OVERRIDE_SCORECARD_XML_CONFIG)
+    	{
+    		scorecardProperties.setIgConformanceCall(true);
+        	scorecardProperties.setCertificationResultsCall(true);
+        	scorecardProperties.setIgConformanceURL(ApplicationConstants.REFERENCE_VALIDATOR_URL);
+        	return scorecardProperties;
+    	}
     	scorecardProperties.setIgConformanceCall(Boolean.parseBoolean(environment.getProperty("scorecard.igConformanceCall")));
     	scorecardProperties.setCertificationResultsCall(Boolean.parseBoolean(environment.getProperty("scorecard.certificatinResultsCall")));
     	scorecardProperties.setIgConformanceURL(environment.getProperty("scorecard.igConformanceUrl"));

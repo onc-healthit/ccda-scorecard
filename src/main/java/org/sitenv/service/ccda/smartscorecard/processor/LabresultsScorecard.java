@@ -25,6 +25,10 @@ public class LabresultsScorecard {
 	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, String birthDate,String docType)
 	{
 		
+		if(labResults.isSectionNullFlavourWithNI())
+		{
+			return new Category(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc(),true);
+		}
 		CCDALabResult results =null;
 		if(labResults!= null)
 		{

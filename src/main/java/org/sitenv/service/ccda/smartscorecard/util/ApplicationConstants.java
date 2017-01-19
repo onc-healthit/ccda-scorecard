@@ -13,24 +13,12 @@ public class ApplicationConstants {
 	 * True allows switching the various service URLs from the prod to the dev server and enables local logs
 	 * Note: Never commit true as to ensure this is always set to false for production
 	 */
-	public static final boolean IN_DEVELOPMENT_MODE = false;	
+	public static final boolean IN_DEVELOPMENT_MODE = true;	
 	/**
 	 * True allows setting default scorecard.xml values externally FOR DEVELOPMENT PURPOSES ONLY
 	 * Note: Never commit true as to ensure this is always set to false for production
 	 */
-	public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = false;
-	/**
-	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG == true
-	 * When overridden, the URL property is set by ApplicationConstants.REFERENCE_VALIDATOR_URL
-	 * True allows for 'C-CDA IG Conformance Errors' results
-	 */
-	public static final boolean IG_CONFORMANCE_CALL = false;	
-	/**
-	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG == true
-	 * When overridden, the URL property is set by ApplicationConstants.REFERENCE_VALIDATOR_URL
-	 * True allows for '2015 Certification Feedback' results
-	 */
-	public static final boolean CERTIFICATION_RESULTS_CALL = false;
+	public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = true;
 	
 	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
 	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:8000",
@@ -212,6 +200,9 @@ public class ApplicationConstants {
 	
 	public static final String EMPTY_DOC_ERROR_MESSAGE = "Given C-CDA document is empty or invalid. Please upload a valid C-CDA Document.";
 	public static final String EXCEPTION_ERROR_MESSAGE = "Our system experienced some unexpected error, please try after some time or email your issue to TestingServices@sitenv.org";
+	
+	public static final String YEAR_FORMAT = "yyyy";
+	public static final String YEAR_PATTERN = "\\d{4}";
 	
 	public static final String MONTH_FORMAT = "yyyyMM";
 	public static final String MONTH_PATTERN = "\\d{6}";
