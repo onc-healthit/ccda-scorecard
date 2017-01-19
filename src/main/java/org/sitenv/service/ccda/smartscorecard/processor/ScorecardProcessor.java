@@ -115,6 +115,7 @@ public class ScorecardProcessor {
 				scorecardResponse.setCcdaDocumentType(ccdaModels.getUsrhSubType().getName());
 			}
 			if (!ccdaModelsIsEmpty && ccdaModels.getUsrhSubType() != UsrhSubType.UNSTRUCTURED_DOCUMENT)
+			if (!ccdaModels.isEmpty() && ccdaModels.getUsrhSubType() != UsrhSubType.UNSTRUCTURED_DOCUMENT)
 			{	
 				boolean referenceValidatorCallReturnedErrors = false;
 				if(scorecardProperties.getIgConformanceCall())
@@ -158,8 +159,12 @@ public class ScorecardProcessor {
 						+ " determined by ccdaModels.getUsrhSubType(): " + ccdaModels.getUsrhSubType());
 					certificationResults = 
 <<<<<<< HEAD
+<<<<<<< HEAD
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), 
 								"No Scenario File", scorecardProperties.getCertificatinResultsURL());
+=======
+						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File",scorecardProperties.getCertificatinResultsURL());
+>>>>>>> SITE 2501 and SITE 2497 changes
 =======
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File",scorecardProperties.getCertificatinResultsURL());
 >>>>>>> SITE 2501 and SITE 2497 changes
@@ -231,7 +236,7 @@ public class ScorecardProcessor {
 				String specificErrorReason= null;
 				String errorMessage= null;
 				scorecardResponse.setSuccess(false);
-				if(ccdaModelsIsEmpty) 
+				if(ccdaModels.isEmpty()) 
 				{
 					errorMessage = ApplicationConstants.EMPTY_DOC_ERROR_MESSAGE;
 					specificErrorReason = "empty model";
