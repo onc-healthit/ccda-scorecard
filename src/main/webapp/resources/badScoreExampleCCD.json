@@ -1,0 +1,1522 @@
+{
+    "errorMessage": null,
+    "filename": "badScoreExampleCCD.xml",
+    "ccdaDocumentType": "CCD",
+    "results": {
+        "finalGrade": "D",
+        "finalNumericalGrade": 54,
+        "categoryList": [
+            {
+                "categoryName": "Miscellaneous",
+                "categoryGrade": "D",
+                "categoryNumericalScore": 63,
+                "categoryRubrics": [
+                    {
+                        "rule": "All Template Ids should be correct",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    },
+                    {
+                        "rule": "Generally, the identifiers found within a CDA document should be unique and non-reoccurring within the same document.",
+                        "numberOfIssues": 33,
+                        "issuesList": [
+                            {
+                                "lineNumber": "3013",
+                                "xmlString": "<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>"
+                            },
+                            {
+                                "lineNumber": "403",
+                                "xmlString": "<id extension=\"10382928\" root=\"1.3.6.1.4.1.22812.4.17.11.4.1.2.1\"/>"
+                            },
+                            {
+                                "lineNumber": "469",
+                                "xmlString": "<id extension=\"10382930\" root=\"1.3.6.1.4.1.22812.4.17.11.4.1\"/>"
+                            },
+                            {
+                                "lineNumber": "487",
+                                "xmlString": "<id extension=\"10382930\" root=\"1.3.6.1.4.1.22812.4.17.11.4.1.2.1\"/>"
+                            },
+                            {
+                                "lineNumber": "553",
+                                "xmlString": "<id extension=\"10242228\" root=\"1.3.6.1.4.1.22812.4.17.11.4.1\"/>"
+                            },
+                            {
+                                "lineNumber": "571",
+                                "xmlString": "<id extension=\"10242228\" root=\"1.3.6.1.4.1.22812.4.17.11.4.1.2.1\"/>"
+                            },
+                            {
+                                "lineNumber": "637",
+                                "xmlString": "<id extension=\"10382936\" root=\"1.3.6.1.4.1.22812.4.17.11.4.1\"/>"
+                            },
+                            {
+                                "lineNumber": "655",
+                                "xmlString": "<id extension=\"10382936\" root=\"1.3.6.1.4.1.22812.4.17.11.4.1.2.1\"/>"
+                            },
+                            {
+                                "lineNumber": "721",
+                                "xmlString": "<id extension=\"10382929\" root=\"1.3.6.1.4.1.22812.4.17.11.4.1\"/>"
+                            },
+                            {
+                                "lineNumber": "739",
+                                "xmlString": "<id extension=\"10382929\" root=\"1.3.6.1.4.1.22812.4.17.11.4.1.2.1\"/>"
+                            },
+                            {
+                                "lineNumber": "1284",
+                                "xmlString": "<id extension=\"1039534\" root=\"1.3.6.1.4.1.22812.4.17.11.4.9\"/>"
+                            },
+                            {
+                                "lineNumber": "1349",
+                                "xmlString": "<id extension=\"10126740\" root=\"1.3.6.1.4.1.22812.4.17.11.4.9\"/>"
+                            },
+                            {
+                                "lineNumber": "980",
+                                "xmlString": "<id extension=\"10382926\" root=\"1.3.6.1.4.1.22812.4.17.11.4.10\"/>"
+                            },
+                            {
+                                "lineNumber": "998",
+                                "xmlString": "<id extension=\"10382926\" root=\"1.3.6.1.4.1.22812.4.17.11.4.10.2\"/>"
+                            },
+                            {
+                                "lineNumber": "2399",
+                                "xmlString": "<id extension=\"10194933\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>"
+                            },
+                            {
+                                "lineNumber": "2427",
+                                "xmlString": "<id extension=\"10194931\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>"
+                            },
+                            {
+                                "lineNumber": "2455",
+                                "xmlString": "<id extension=\"10194929\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>"
+                            },
+                            {
+                                "lineNumber": "2483",
+                                "xmlString": "<id extension=\"10194928\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>"
+                            },
+                            {
+                                "lineNumber": "2511",
+                                "xmlString": "<id extension=\"10194927\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>"
+                            },
+                            {
+                                "lineNumber": "2539",
+                                "xmlString": "<id extension=\"10194930\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>"
+                            },
+                            {
+                                "lineNumber": "2575",
+                                "xmlString": "<id extension=\"10194932\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>"
+                            },
+                            {
+                                "lineNumber": "2781",
+                                "xmlString": "<id extension=\"100638507\" root=\"1.3.6.1.4.1.22812.4.17.11.4.6\"/>"
+                            },
+                            {
+                                "lineNumber": "2792",
+                                "xmlString": "<id extension=\"100638503\" root=\"1.3.6.1.4.1.22812.4.17.11.4.6\"/>"
+                            },
+                            {
+                                "lineNumber": "2812",
+                                "xmlString": "<id extension=\"100638501\" root=\"1.3.6.1.4.1.22812.4.17.11.4.6\"/>"
+                            },
+                            {
+                                "lineNumber": "2832",
+                                "xmlString": "<id extension=\"100638504\" root=\"1.3.6.1.4.1.22812.4.17.11.4.6\"/>"
+                            },
+                            {
+                                "lineNumber": "2852",
+                                "xmlString": "<id extension=\"100638505\" root=\"1.3.6.1.4.1.22812.4.17.11.4.6\"/>"
+                            },
+                            {
+                                "lineNumber": "2872",
+                                "xmlString": "<id extension=\"100638506\" root=\"1.3.6.1.4.1.22812.4.17.11.4.6\"/>"
+                            },
+                            {
+                                "lineNumber": "2892",
+                                "xmlString": "<id extension=\"100638511\" root=\"1.3.6.1.4.1.22812.4.17.11.4.6\"/>"
+                            },
+                            {
+                                "lineNumber": "2903",
+                                "xmlString": "<id extension=\"100638508\" root=\"1.3.6.1.4.1.22812.4.17.11.4.6\"/>"
+                            },
+                            {
+                                "lineNumber": "2914",
+                                "xmlString": "<id extension=\"100638513\" root=\"1.3.6.1.4.1.22812.4.17.11.4.6\"/>"
+                            },
+                            {
+                                "lineNumber": "2925",
+                                "xmlString": "<id extension=\"100638514\" root=\"1.3.6.1.4.1.22812.4.17.11.4.6\"/>"
+                            },
+                            {
+                                "lineNumber": "1559",
+                                "xmlString": "<id extension=\"10173315\" root=\"1.3.6.1.4.1.22812.4.17.11.4.7\"/>"
+                            },
+                            {
+                                "lineNumber": "1700",
+                                "xmlString": "<id extension=\"10492051\" root=\"1.3.6.1.4.1.22812.4.17.11.4.4\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "http://wiki.hl7.org/index.php?title=CDA_Example_Task_Force"
+                        ],
+                        "igReferences": [
+                            "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379"
+                        ],
+                        "description": "Instance Identifiers should be unique"
+                    }
+                ],
+                "numberOfIssues": 33,
+                "failingConformance": false
+            },
+            {
+                "categoryName": "Medications",
+                "categoryGrade": "C",
+                "categoryNumericalScore": 79,
+                "categoryRubrics": [
+                    {
+                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    },
+                    {
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    },
+                    {
+                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+                        "numberOfIssues": 10,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1102",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"10160-0\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "1182 - 1277",
+                                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"INT\">\r\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.16\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.16\"/>\r\n\t\t\t\t\t\t\t<id extension=\"10126730\" root=\"1.3.6.1.4.1.22812.4.17.11.4.9\"/>\r\n\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t<reference value=\"#_f61e6389-8f52-4ba4-bf2e-12610148116a\"/>\r\n\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\r\n\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t<high nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>\r\n\t\t\t\t\t\t\t<effectiveTime institutionSpecified=\"true\" operator=\"A\" xsi:type=\"PIVL_TS\">\r\n\t\t\t\t\t\t\t\t<period unit=\"d\" value=\"0.5\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>\r\n\t\t\t\t\t\t\t<routeCode code=\"C28161\" codeSystem=\"2.16.840.1.113883.3.26.1.1\"/>\r\n\t\t\t\t\t\t\t<doseQuantity unit=\"{Unit}\" value=\"1\"/>\r\n\t\t\t\t\t\t\t<administrationUnitCode code=\"C42986\" codeSystem=\"2.16.840.1.113883.3.26.1.1\"/>\r\n\t\t\t\t\t\t\t<consumable>\r\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t<code code=\"309090\" codeSystem=\"2.16.840.1.113883.6.88\">\r\n\t\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_906af92a-7307-454e-87ce-9b3f893841fe\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"125320\" codeSystem=\"2.16.840.1.113883.6.253\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"02300090102180\" codeSystem=\"2.16.840.1.113883.6.68\"/>\r\n\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t\t<name>CefTRIAXone Sodium</name>\r\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t</consumable>\r\n\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t<time value=\"20150622165937+0000\"/>\r\n\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"REFR\">\r\n\t\t\t\t\t\t\t\t<supply classCode=\"SPLY\" moodCode=\"INT\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.17\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.17\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10126730\" root=\"1.3.6.1.4.1.22812.4.17.11.4.9.5\"/>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<repeatNumber value=\"1\"/>\r\n\t\t\t\t\t\t\t\t\t<quantity unit=\"{Syringe}\" value=\"18\"/>\r\n\t\t\t\t\t\t\t\t\t<product>\r\n\t\t\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"309090\" codeSystem=\"2.16.840.1.113883.6.88\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_906af92a-7307-454e-87ce-9b3f893841fe\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<translation code=\"125320\" codeSystem=\"2.16.840.1.113883.6.253\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<translation code=\"02300090102180\" codeSystem=\"2.16.840.1.113883.6.68\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<name>CefTRIAXone Sodium</name>\r\n\t\t\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t\t\t</product>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622165937+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t</supply>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"COMP\">\r\n\t\t\t\t\t\t\t\t<substanceAdministration classCode=\"SBADM\" moodCode=\"INT\">\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.147\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"76662-6\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_23439127-1aa2-4c24-a069-3713c357b4a5\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<consumable>\r\n\t\t\t\t\t\t\t\t\t\t<manufacturedProduct>\r\n\t\t\t\t\t\t\t\t\t\t\t<manufacturedLabeledDrug nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t\t\t</consumable>\r\n\t\t\t\t\t\t\t\t</substanceAdministration>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t</substanceAdministration>"
+                            },
+                            {
+                                "lineNumber": "1209",
+                                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"125320\" codeSystem=\"2.16.840.1.113883.6.253\"/>"
+                            },
+                            {
+                                "lineNumber": "1210",
+                                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"02300090102180\" codeSystem=\"2.16.840.1.113883.6.68\"/>"
+                            },
+                            {
+                                "lineNumber": "1280 - 1343",
+                                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"INT\">\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.16\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.16\"/>\r\n\t\t\t\t\t\t\t<id extension=\"1039534\" root=\"1.3.6.1.4.1.22812.4.17.11.4.9\"/>\r\n\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t<reference value=\"#_909a9f02-acc7-4b6c-b1ce-32ebc450a54d\"/>\r\n\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\r\n\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t<high nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>\r\n\t\t\t\t\t\t\t<effectiveTime institutionSpecified=\"true\" operator=\"A\" xsi:type=\"PIVL_TS\">\r\n\t\t\t\t\t\t\t\t<period unit=\"wk\" value=\"1\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>\r\n\t\t\t\t\t\t\t<routeCode code=\"C28161\" codeSystem=\"2.16.840.1.113883.3.26.1.1\"/>\r\n\t\t\t\t\t\t\t<doseQuantity unit=\"{Unit}\" value=\"1\"/>\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t<administrationUnitCode code=\"C71204\" codeSystem=\"2.16.840.1.113883.3.26.1.1\"/>\r\n\t\t\t\t\t\t\t<consumable>\r\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t<code code=\"731184\" codeSystem=\"2.16.840.1.113883.6.88\">\r\n\t\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_e3ec204e-16a3-41cd-a748-ab0061f6aee5\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"188849\" codeSystem=\"2.16.840.1.113883.6.253\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"8240101510E590\" codeSystem=\"2.16.840.1.113883.6.68\"/>\r\n\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t</consumable>\r\n\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t<time value=\"20150622202727+0000\"/>\r\n\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"COMP\">\r\n\t\t\t\t\t\t\t\t<substanceAdministration classCode=\"SBADM\" moodCode=\"INT\">\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.147\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"76662-6\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_b11a4bba-20cf-4791-ac3f-5efd264f8625\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<consumable>\r\n\t\t\t\t\t\t\t\t\t\t<manufacturedProduct>\r\n\t\t\t\t\t\t\t\t\t\t\t<manufacturedLabeledDrug nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t\t\t</consumable>\r\n\t\t\t\t\t\t\t\t</substanceAdministration>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t</substanceAdministration>"
+                            },
+                            {
+                                "lineNumber": "1310",
+                                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"188849\" codeSystem=\"2.16.840.1.113883.6.253\"/>"
+                            },
+                            {
+                                "lineNumber": "1311",
+                                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8240101510E590\" codeSystem=\"2.16.840.1.113883.6.68\"/>"
+                            },
+                            {
+                                "lineNumber": "1346 - 1454",
+                                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"INT\">\r\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.16\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.16\"/>\r\n\t\t\t\t\t\t\t<id extension=\"10126740\" root=\"1.3.6.1.4.1.22812.4.17.11.4.9\"/>\r\n\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t<reference value=\"#_ae42dc4c-a522-46f5-94bc-be658a7afc27\"/>\r\n\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\r\n\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t<high nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>\r\n\t\t\t\t\t\t\t<routeCode code=\"C38288\" codeSystem=\"2.16.840.1.113883.3.26.1.1\"/>\r\n\t\t\t\t\t\t\t<doseQuantity unit=\"{Tablet}\" value=\"1\"/>\r\n\t\t\t\t\t\t\t<administrationUnitCode code=\"C42998\" codeSystem=\"2.16.840.1.113883.3.26.1.1\"/>\r\n\t\t\t\t\t\t\t<consumable>\r\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t<code code=\"209459\" codeSystem=\"2.16.840.1.113883.6.88\">\r\n\t\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_5d0d5d37-2e12-41bb-9fa7-3d19a970c223\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"022567\" codeSystem=\"2.16.840.1.113883.6.253\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"64200010000315\" codeSystem=\"2.16.840.1.113883.6.68\"/>\r\n\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t\t<name>Tylenol Extra Strength</name>\r\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t</consumable>\r\n\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t<time value=\"20150622170121+0000\"/>\r\n\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"REFR\">\r\n\t\t\t\t\t\t\t\t<supply classCode=\"SPLY\" moodCode=\"INT\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.17\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.17\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10126740\" root=\"1.3.6.1.4.1.22812.4.17.11.4.9.5\"/>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<repeatNumber value=\"1\"/>\r\n\t\t\t\t\t\t\t\t\t<product>\r\n\t\t\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"209459\" codeSystem=\"2.16.840.1.113883.6.88\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_5d0d5d37-2e12-41bb-9fa7-3d19a970c223\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<translation code=\"022567\" codeSystem=\"2.16.840.1.113883.6.253\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<translation code=\"64200010000315\" codeSystem=\"2.16.840.1.113883.6.68\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<name>Tylenol Extra Strength</name>\r\n\t\t\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t\t\t</product>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622170121+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t</supply>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"COMP\">\r\n\t\t\t\t\t\t\t\t<substanceAdministration classCode=\"SBADM\" moodCode=\"INT\">\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.147\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"76662-6\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_10221257-69fb-4133-8405-6b3f5298321a\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<consumable>\r\n\t\t\t\t\t\t\t\t\t\t<manufacturedProduct>\r\n\t\t\t\t\t\t\t\t\t\t\t<manufacturedLabeledDrug nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t\t\t</consumable>\r\n\t\t\t\t\t\t\t\t</substanceAdministration>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t<act classCode=\"ACT\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.64\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"48767-8\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_97bd98bd-c008-43dd-b7f7-ab0d7c6541ef\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t</act>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t<precondition typeCode=\"PRCN\">\r\n\t\t\t\t\t\t\t\t<criterion>\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.25\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.25\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\r\n\t\t\t\t\t\t\t\t\t<value nullFlavor=\"NI\" xsi:type=\"CD\"/>\r\n\t\t\t\t\t\t\t\t</criterion>\r\n\t\t\t\t\t\t\t</precondition>\r\n\t\t\t\t\t\t</substanceAdministration>"
+                            },
+                            {
+                                "lineNumber": "1370",
+                                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"022567\" codeSystem=\"2.16.840.1.113883.6.253\"/>"
+                            },
+                            {
+                                "lineNumber": "1371",
+                                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"64200010000315\" codeSystem=\"2.16.840.1.113883.6.68\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.39.1: Medications Section"
+                        ],
+                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+                    },
+                    {
+                        "rule": "Medications coded with RxNorm SCD, SBD, GPCK, or BPCPK codes",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    },
+                    {
+                        "rule": "Immunizations should be represented in the appropriate section.",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    },
+                    {
+                        "rule": "Each entry has to be linked to related narrative text",
+                        "numberOfIssues": 3,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1187",
+                                "xmlString": "<reference value=\"#_f61e6389-8f52-4ba4-bf2e-12610148116a\"/>"
+                            },
+                            {
+                                "lineNumber": "1286",
+                                "xmlString": "<reference value=\"#_909a9f02-acc7-4b6c-b1ce-32ebc450a54d\"/>"
+                            },
+                            {
+                                "lineNumber": "1351",
+                                "xmlString": "<reference value=\"#_ae42dc4c-a522-46f5-94bc-be658a7afc27\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.39.1: Medications Section"
+                        ],
+                        "description": "Each entry has to be linked to related narrative text"
+                    }
+                ],
+                "numberOfIssues": 13,
+                "failingConformance": false
+            },
+            {
+                "categoryName": "Social History",
+                "categoryGrade": "D",
+                "categoryNumericalScore": 50,
+                "categoryRubrics": [
+                    {
+                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+                        "numberOfIssues": 1,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1863 - 1871",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.78\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.78\"/>\r\n\t\t\t\t\t\t\t<id nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t<code code=\"72166-2\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t<value code=\"77176002\" codeSystem=\"2.16.840.1.113883.6.96\" xsi:type=\"CD\"/>\r\n\t\t\t\t\t\t</observation>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/SMOKING_Former_Smoker.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.66: Social History Section"
+                        ],
+                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+                    },
+                    {
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "numberOfIssues": 1,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1863 - 1871",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.78\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.78\"/>\r\n\t\t\t\t\t\t\t<id nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t<code code=\"72166-2\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t<value code=\"77176002\" codeSystem=\"2.16.840.1.113883.6.96\" xsi:type=\"CD\"/>\r\n\t\t\t\t\t\t</observation>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/SMOKING_Former_Smoker.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.66: Social History Section"
+                        ],
+                        "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
+                    },
+                    {
+                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+                        "numberOfIssues": 2,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1745",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29762-2\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "1870",
+                                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"77176002\" codeSystem=\"2.16.840.1.113883.6.96\" xsi:type=\"CD\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/SMOKING_Former_Smoker.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.66: Social History Section"
+                        ],
+                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+                    },
+                    {
+                        "rule": "Smoking status code value should be valid",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    },
+                    {
+                        "rule": "Smoking status observation Template Id should be valid",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    },
+                    {
+                        "rule": "Each entry has to be linked to related narrative text",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    }
+                ],
+                "numberOfIssues": 4,
+                "failingConformance": false
+            },
+            {
+                "categoryName": "Immunizations",
+                "categoryGrade": "C",
+                "categoryNumericalScore": 70,
+                "categoryRubrics": [
+                    {
+                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    },
+                    {
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    },
+                    {
+                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+                        "numberOfIssues": 3,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1613",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"11369-6\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "1657 - 1694",
+                                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\" negationInd=\"false\">\r\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.52\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.52\"/>\r\n\t\t\t\t\t\t\t<id extension=\"10492050\" root=\"1.3.6.1.4.1.22812.4.17.11.4.4\"/>\r\n\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t<reference value=\"#_600276ca-1286-44e7-8534-265804681eb5\"/>\r\n\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t<effectiveTime value=\"20120104\"/>\r\n\t\t\t\t\t\t\t<doseQuantity value=\"0\"/>\r\n\t\t\t\t\t\t\t<consumable>\r\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.54\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.54\"/>\r\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t<code code=\"106\" codeSystem=\"2.16.840.1.113883.12.292\">\r\n\t\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_afde6696-d693-4b60-8c04-92a404ab2c72\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t\t<lotNumberText nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t</consumable>\r\n\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t<time value=\"20150622174633+0000\"/>\r\n\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t</substanceAdministration>"
+                            },
+                            {
+                                "lineNumber": "1697 - 1737",
+                                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\" negationInd=\"false\">\r\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.52\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.52\"/>\r\n\t\t\t\t\t\t\t<id extension=\"10492051\" root=\"1.3.6.1.4.1.22812.4.17.11.4.4\"/>\r\n\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t<reference value=\"#_a5dc2384-b355-4f75-a931-51a643b5ca72\"/>\r\n\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t<effectiveTime value=\"20140510\"/>\r\n\t\t\t\t\t\t\t<doseQuantity value=\"0\"/>\r\n\t\t\t\t\t\t\t<consumable>\r\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.54\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.54\"/>\r\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t<code code=\"88\" codeSystem=\"2.16.840.1.113883.12.292\">\r\n\t\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_4d12afa3-6fce-478d-b969-4880876f6a88\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t\t<lotNumberText nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t<manufacturerOrganization>\r\n\t\t\t\t\t\t\t\t\t\t<name>Immuno-U.S., Inc.</name>\r\n\t\t\t\t\t\t\t\t\t</manufacturerOrganization>\r\n\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t</consumable>\r\n\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t<time value=\"20150622181101+0000\"/>\r\n\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t</substanceAdministration>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.32.1: Immunizations Section"
+                        ],
+                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+                    },
+                    {
+                        "rule": "Immunizations coded with CVX codes",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    },
+                    {
+                        "rule": "Each entry has to be linked to related narrative text",
+                        "numberOfIssues": 2,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1662",
+                                "xmlString": "<reference value=\"#_600276ca-1286-44e7-8534-265804681eb5\"/>"
+                            },
+                            {
+                                "lineNumber": "1702",
+                                "xmlString": "<reference value=\"#_a5dc2384-b355-4f75-a931-51a643b5ca72\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.32.1: Immunizations Section"
+                        ],
+                        "description": "Each entry has to be linked to related narrative text"
+                    }
+                ],
+                "numberOfIssues": 5,
+                "failingConformance": false
+            },
+            {
+                "categoryName": "Encounters",
+                "categoryGrade": "D",
+                "categoryNumericalScore": 25,
+                "categoryRubrics": [
+                    {
+                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+                        "numberOfIssues": 3,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2995",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low value=\"20161118131743+0000\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "3019",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low value=\"20150622153801+0000\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "3048 - 3050",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</effectiveTime>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.23: Encounter Actvity"
+                        ],
+                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+                    },
+                    {
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "numberOfIssues": 3,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2995",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low value=\"20161118131743+0000\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "3019",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low value=\"20150622153801+0000\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "3048 - 3050",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</effectiveTime>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.23: Encounter Actvity"
+                        ],
+                        "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
+                    },
+                    {
+                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+                        "numberOfIssues": 7,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2945",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"46240-8\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2986 - 3007",
+                                "xmlString": "<encounter xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.49\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.49\"/>\r\n\t\t\t\t\t\t\t<id extension=\"10045454\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t<code nullFlavor=\"NI\">\r\n\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t<reference value=\"#_cea573b4-2e33-4794-a268-1647d54c7648\"/>\r\n\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low value=\"20161118131743+0000\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>\r\n\t\t\t\t\t\t\t<participant typeCode=\"LOC\">\r\n\t\t\t\t\t\t\t\t<participantRole classCode=\"SDLOC\">\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.32\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"1212-0\" codeSystem=\"2.16.840.1.113883.6.259\"/>\r\n\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"PLC\">\r\n\t\t\t\t\t\t\t\t\t\t<name>Healthmatics Clinic - Main Location</name>\r\n\t\t\t\t\t\t\t\t\t</playingEntity>\r\n\t\t\t\t\t\t\t\t</participantRole>\r\n\t\t\t\t\t\t\t</participant>\r\n\t\t\t\t\t\t</encounter>"
+                            },
+                            {
+                                "lineNumber": "3010 - 3060",
+                                "xmlString": "<encounter xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.49\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.49\"/>\r\n\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t<code nullFlavor=\"NI\">\r\n\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t<reference value=\"#_17b06bd1-8945-4605-ae62-040374abe8e0\"/>\r\n\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low value=\"20150622153801+0000\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>\r\n\t\t\t\t\t\t\t<participant typeCode=\"LOC\">\r\n\t\t\t\t\t\t\t\t<participantRole classCode=\"SDLOC\">\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.32\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"1212-0\" codeSystem=\"2.16.840.1.113883.6.259\"/>\r\n\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"PLC\">\r\n\t\t\t\t\t\t\t\t\t\t<name>Healthmatics Clinic - Main Location</name>\r\n\t\t\t\t\t\t\t\t\t</playingEntity>\r\n\t\t\t\t\t\t\t\t</participantRole>\r\n\t\t\t\t\t\t\t</participant>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"REFR\">\r\n\t\t\t\t\t\t\t\t<act classCode=\"ACT\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.80\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.80\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"29308-4\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10242228\" root=\"1.3.6.1.4.1.22812.4.17.11.4.1.2.1\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"55607006\" codeSystem=\"2.16.840.1.113883.6.96\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<translation code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_ae5e6582-83a2-4aa8-bcfa-090fe88d840f\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</effectiveTime>\r\n\t\t\t\t\t\t\t\t\t\t\t<value nullFlavor=\"NI\" xsi:type=\"CD\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_ae5e6582-83a2-4aa8-bcfa-090fe88d840f\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t</value>\r\n\t\t\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</act>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t</encounter>"
+                            },
+                            {
+                                "lineNumber": "3035",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29308-4\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "3041",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"55607006\" codeSystem=\"2.16.840.1.113883.6.96\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<translation code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</code>"
+                            },
+                            {
+                                "lineNumber": "3037 - 3056",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10242228\" root=\"1.3.6.1.4.1.22812.4.17.11.4.1.2.1\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"55607006\" codeSystem=\"2.16.840.1.113883.6.96\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<translation code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_ae5e6582-83a2-4aa8-bcfa-090fe88d840f\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</effectiveTime>\r\n\t\t\t\t\t\t\t\t\t\t\t<value nullFlavor=\"NI\" xsi:type=\"CD\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_ae5e6582-83a2-4aa8-bcfa-090fe88d840f\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t</value>\r\n\t\t\t\t\t\t\t\t\t\t</observation>"
+                            },
+                            {
+                                "lineNumber": "3042",
+                                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.16: Encounters"
+                        ],
+                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+                    },
+                    {
+                        "rule": "Each entry has to be linked to related narrative text",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    }
+                ],
+                "numberOfIssues": 13,
+                "failingConformance": false
+            },
+            {
+                "categoryName": "Laboratory Tests and Results",
+                "categoryGrade": "D",
+                "categoryNumericalScore": 58,
+                "categoryRubrics": [
+                    {
+                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+                        "numberOfIssues": 1,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2381 - 2607",
+                                "xmlString": "<organizer xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"BATTERY\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.1\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.1\"/>\r\n\t\t\t\t\t\t\t<id extension=\"10031668\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t<code code=\"81000\" codeSystem=\"2.16.840.1.113883.6.12\"/>\r\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t<time value=\"20150622203940+0000\"/>\r\n\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194933\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5804-0\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_5377919e-2328-44ec-b8e0-29221924b2df\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value unit=\"mg/dL\" value=\"100\" xsi:type=\"PQ\"/>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194931\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5797-6\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_a8c28c35-822a-4d01-b2da-e49d1ae93cae\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value xsi:type=\"ST\">negative</value>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194929\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5792-7\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_721b374b-1aba-439a-bce1-1bd5eb4a358c\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value unit=\"mg/dL\" value=\"50\" xsi:type=\"PQ\"/>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194928\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5778-6\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_153274c9-f434-4ac2-b951-21cbccac8cee\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value xsi:type=\"ST\">yellow</value>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194927\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5767-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_c434469a-9c2d-4be8-ad11-6df48a10d380\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value xsi:type=\"ST\">clear</value>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194930\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5803-2\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_b1d535ed-57c2-4037-9df4-ace7cfb65f3e\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value unit=\"1\" value=\"5\" xsi:type=\"PQ\"/>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t\t<referenceRange>\r\n\t\t\t\t\t\t\t\t\t\t<observationRange>\r\n\t\t\t\t\t\t\t\t\t\t\t<value xsi:type=\"IVL_PQ\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<low value=\"5.0\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<high value=\"8.0\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</value>\r\n\t\t\t\t\t\t\t\t\t\t</observationRange>\r\n\t\t\t\t\t\t\t\t\t</referenceRange>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194932\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5811-5\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_bb126cf0-27b1-4064-af38-a356be62b74a\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value unit=\"1\" value=\"1.015\" xsi:type=\"PQ\"/>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t\t<referenceRange>\r\n\t\t\t\t\t\t\t\t\t\t<observationRange>\r\n\t\t\t\t\t\t\t\t\t\t\t<value xsi:type=\"IVL_PQ\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<low value=\"1.005\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<high value=\"1.030\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</value>\r\n\t\t\t\t\t\t\t\t\t\t</observationRange>\r\n\t\t\t\t\t\t\t\t\t</referenceRange>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t</organizer>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_Less_Than_Physical_Quantity.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.93: Result Organizer"
+                        ],
+                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+                    },
+                    {
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "numberOfIssues": 1,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2381 - 2607",
+                                "xmlString": "<organizer xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"BATTERY\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.1\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.1\"/>\r\n\t\t\t\t\t\t\t<id extension=\"10031668\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t<code code=\"81000\" codeSystem=\"2.16.840.1.113883.6.12\"/>\r\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t<time value=\"20150622203940+0000\"/>\r\n\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194933\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5804-0\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_5377919e-2328-44ec-b8e0-29221924b2df\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value unit=\"mg/dL\" value=\"100\" xsi:type=\"PQ\"/>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194931\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5797-6\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_a8c28c35-822a-4d01-b2da-e49d1ae93cae\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value xsi:type=\"ST\">negative</value>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194929\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5792-7\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_721b374b-1aba-439a-bce1-1bd5eb4a358c\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value unit=\"mg/dL\" value=\"50\" xsi:type=\"PQ\"/>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194928\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5778-6\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_153274c9-f434-4ac2-b951-21cbccac8cee\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value xsi:type=\"ST\">yellow</value>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194927\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5767-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_c434469a-9c2d-4be8-ad11-6df48a10d380\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value xsi:type=\"ST\">clear</value>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194930\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5803-2\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_b1d535ed-57c2-4037-9df4-ace7cfb65f3e\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value unit=\"1\" value=\"5\" xsi:type=\"PQ\"/>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t\t<referenceRange>\r\n\t\t\t\t\t\t\t\t\t\t<observationRange>\r\n\t\t\t\t\t\t\t\t\t\t\t<value xsi:type=\"IVL_PQ\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<low value=\"5.0\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<high value=\"8.0\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</value>\r\n\t\t\t\t\t\t\t\t\t\t</observationRange>\r\n\t\t\t\t\t\t\t\t\t</referenceRange>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194932\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5811-5\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_bb126cf0-27b1-4064-af38-a356be62b74a\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value unit=\"1\" value=\"1.015\" xsi:type=\"PQ\"/>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t\t<referenceRange>\r\n\t\t\t\t\t\t\t\t\t\t<observationRange>\r\n\t\t\t\t\t\t\t\t\t\t\t<value xsi:type=\"IVL_PQ\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<low value=\"1.005\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<high value=\"1.030\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</value>\r\n\t\t\t\t\t\t\t\t\t\t</observationRange>\r\n\t\t\t\t\t\t\t\t\t</referenceRange>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t</organizer>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_Less_Than_Physical_Quantity.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.93: Result Organizer"
+                        ],
+                        "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
+                    },
+                    {
+                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+                        "numberOfIssues": 9,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2266",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"30954-2\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2385",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"81000\" codeSystem=\"2.16.840.1.113883.6.12\"/>"
+                            },
+                            {
+                                "lineNumber": "2400",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"5804-0\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2428",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"5797-6\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2456",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"5792-7\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2484",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"5778-6\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2512",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"5767-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2540",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"5803-2\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2576",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"5811-5\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_Less_Than_Physical_Quantity.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.64.1: Results Section"
+                        ],
+                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+                    },
+                    {
+                        "rule": "All Lab Results should use UCUM units to express the result values.",
+                        "numberOfIssues": 2,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2546",
+                                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" unit=\"1\" value=\"5\" xsi:type=\"PQ\"/>"
+                            },
+                            {
+                                "lineNumber": "2582",
+                                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" unit=\"1\" value=\"1.015\" xsi:type=\"PQ\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_UCUM_Translation.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.92: Result Observation"
+                        ],
+                        "description": "The recommended UCUM units should be used to represent the Lab Result values as part of the observation."
+                    },
+                    {
+                        "rule": "Lab results should be expressed with LOINC codes",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    },
+                    {
+                        "rule": "The EffectiveDate/Time elements for the Result Organizer must encompass the underlying observations.",
+                        "numberOfIssues": 1,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2381 - 2607",
+                                "xmlString": "<organizer xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"BATTERY\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.1\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.1\"/>\r\n\t\t\t\t\t\t\t<id extension=\"10031668\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t<code code=\"81000\" codeSystem=\"2.16.840.1.113883.6.12\"/>\r\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t<time value=\"20150622203940+0000\"/>\r\n\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194933\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5804-0\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_5377919e-2328-44ec-b8e0-29221924b2df\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value unit=\"mg/dL\" value=\"100\" xsi:type=\"PQ\"/>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194931\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5797-6\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_a8c28c35-822a-4d01-b2da-e49d1ae93cae\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value xsi:type=\"ST\">negative</value>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194929\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5792-7\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_721b374b-1aba-439a-bce1-1bd5eb4a358c\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value unit=\"mg/dL\" value=\"50\" xsi:type=\"PQ\"/>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194928\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5778-6\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_153274c9-f434-4ac2-b951-21cbccac8cee\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value xsi:type=\"ST\">yellow</value>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194927\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5767-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_c434469a-9c2d-4be8-ad11-6df48a10d380\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value xsi:type=\"ST\">clear</value>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194930\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5803-2\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_b1d535ed-57c2-4037-9df4-ace7cfb65f3e\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value unit=\"1\" value=\"5\" xsi:type=\"PQ\"/>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t\t<referenceRange>\r\n\t\t\t\t\t\t\t\t\t\t<observationRange>\r\n\t\t\t\t\t\t\t\t\t\t\t<value xsi:type=\"IVL_PQ\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<low value=\"5.0\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<high value=\"8.0\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</value>\r\n\t\t\t\t\t\t\t\t\t\t</observationRange>\r\n\t\t\t\t\t\t\t\t\t</referenceRange>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t\t<component>\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10194932\" root=\"1.3.6.1.4.1.22812.4.17.11.4.5\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5811-5\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_bb126cf0-27b1-4064-af38-a356be62b74a\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t<value unit=\"1\" value=\"1.015\" xsi:type=\"PQ\"/>\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622195703+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t\t<referenceRange>\r\n\t\t\t\t\t\t\t\t\t\t<observationRange>\r\n\t\t\t\t\t\t\t\t\t\t\t<value xsi:type=\"IVL_PQ\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<low value=\"1.005\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<high value=\"1.030\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</value>\r\n\t\t\t\t\t\t\t\t\t\t</observationRange>\r\n\t\t\t\t\t\t\t\t\t</referenceRange>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</component>\r\n\t\t\t\t\t\t</organizer>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_Less_Than_Physical_Quantity.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.93: Result Organizer"
+                        ],
+                        "description": "The EffectiveDate/Time elements of the Results Organizer cannot be out of sync with the Result Observation. Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low and Observation's EffectiveTime/high should be <= Organizer's EffectiveTime/high"
+                    },
+                    {
+                        "rule": "Each entry has to be linked to related narrative text",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    }
+                ],
+                "numberOfIssues": 14,
+                "failingConformance": false
+            },
+            {
+                "categoryName": "Vital Signs",
+                "categoryGrade": "D",
+                "categoryNumericalScore": 37,
+                "categoryRubrics": [
+                    {
+                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+                        "numberOfIssues": 12,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2747 - 2747",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2747 - 2747",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2784",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2795",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2815",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2835",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2855",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2875",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2895",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2906",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2917",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2928",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.109: Vital Signs Organizer"
+                        ],
+                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+                    },
+                    {
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "numberOfIssues": 12,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2747 - 2747",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2747 - 2747",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2784",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2795",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2815",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2835",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2855",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2875",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2895",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2906",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2917",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2928",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.109: Vital Signs Organizer"
+                        ],
+                        "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
+                    },
+                    {
+                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+                        "numberOfIssues": 12,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2617",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8716-3\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2743",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"46680005\" codeSystem=\"2.16.840.1.113883.6.96\">\r\n\t\t\t\t\t\t\t\t<translation code=\"74728-7\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t</code>"
+                            },
+                            {
+                                "lineNumber": "2782",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8310-5\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2793",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8867-4\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2813",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"9279-1\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2833",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"59408-5\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2853",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2873",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2893",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29463-7\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2904",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2915",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"39156-5\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2926",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"3140-1\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.70.1: Vital Signs Section"
+                        ],
+                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+                    },
+                    {
+                        "rule": "The Vital Sign Observation entries should use LOINC codes to represent the type of vital sign being captured",
+                        "numberOfIssues": 2,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2833",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"59408-5\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2893",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29463-7\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.108: Vital Sign Observation"
+                        ],
+                        "description": "Each of the vital sign observation present in the document should use the recommended LOINC codes to represent the vital sign."
+                    },
+                    {
+                        "rule": "Each of the Vital Sign Observation should use the recommended UCUM units to represent the vital sign measurement result.",
+                        "numberOfIssues": 2,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2836",
+                                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" unit=\"%\" value=\"95\" xsi:type=\"PQ\"/>"
+                            },
+                            {
+                                "lineNumber": "2896",
+                                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" unit=\"kg\" value=\"88\" xsi:type=\"PQ\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.108: Vital Sign Observation"
+                        ],
+                        "description": "The recommended UCUM units should be used to represent the Vital Sign result values as part of the observation."
+                    },
+                    {
+                        "rule": "The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations.",
+                        "numberOfIssues": 10,
+                        "issuesList": [
+                            {
+                                "lineNumber": "2784",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2795",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2815",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2835",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2855",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2875",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2895",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2906",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2917",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            },
+                            {
+                                "lineNumber": "2928",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622140533+0000\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.109: Vital Signs Organizer"
+                        ],
+                        "description": "The EffectiveDate/Time elements of the Vital Signs Organizer cannot be out of sync with the Vital Signs Observation. Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low and Observation's EffectiveTime/high should be <= Organizer's EffectiveTime/high"
+                    },
+                    {
+                        "rule": "Each entry has to be linked to related narrative text",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    }
+                ],
+                "numberOfIssues": 50,
+                "failingConformance": false
+            },
+            {
+                "categoryName": "Problems",
+                "categoryGrade": "D",
+                "categoryNumericalScore": 58,
+                "categoryRubrics": [
+                    {
+                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+                        "numberOfIssues": 6,
+                        "issuesList": [
+                            {
+                                "lineNumber": "373 - 375",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "472 - 474",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "556 - 558",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "579 - 581",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "640 - 642",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "724 - 726",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.78: Problem Concern Act"
+                        ],
+                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+                    },
+                    {
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "numberOfIssues": 6,
+                        "issuesList": [
+                            {
+                                "lineNumber": "373 - 375",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "472 - 474",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "556 - 558",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "579 - 581",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "640 - 642",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "724 - 726",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.78: Problem Concern Act"
+                        ],
+                        "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
+                    },
+                    {
+                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+                        "numberOfIssues": 16,
+                        "issuesList": [
+                            {
+                                "lineNumber": "273",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"11450-4\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "404",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"55607006\" codeSystem=\"2.16.840.1.113883.6.96\">\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t</code>"
+                            },
+                            {
+                                "lineNumber": "414",
+                                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"59621000\" codeSystem=\"2.16.840.1.113883.6.96\" xsi:type=\"CD\">\r\n\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_c65c723a-08f1-4f6e-9fc4-e232ff28367f\"/>\r\n\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"58052941\" codeSystem=\"2.16.840.1.113883.3.247.1.1\"/>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"I10\" codeSystem=\"2.16.840.1.113883.6.90\"/>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"401.9\" codeSystem=\"2.16.840.1.113883.6.103\"/>\r\n\t\t\t\t\t\t\t\t\t</value>"
+                            },
+                            {
+                                "lineNumber": "405",
+                                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "488",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"55607006\" codeSystem=\"2.16.840.1.113883.6.96\">\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t</code>"
+                            },
+                            {
+                                "lineNumber": "498",
+                                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"236578006\" codeSystem=\"2.16.840.1.113883.6.96\" xsi:type=\"CD\">\r\n\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_e9bdf121-fa6a-46fb-8561-d9fbe9317568\"/>\r\n\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"706070\" codeSystem=\"2.16.840.1.113883.3.247.1.1\"/>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"T86.11\" codeSystem=\"2.16.840.1.113883.6.90\"/>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"996.81\" codeSystem=\"2.16.840.1.113883.6.103\"/>\r\n\t\t\t\t\t\t\t\t\t</value>"
+                            },
+                            {
+                                "lineNumber": "489",
+                                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "572",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"55607006\" codeSystem=\"2.16.840.1.113883.6.96\">\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t</code>"
+                            },
+                            {
+                                "lineNumber": "582",
+                                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"386661006\" codeSystem=\"2.16.840.1.113883.6.96\" xsi:type=\"CD\">\r\n\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_8a83616a-b680-42cd-925b-c55dc96f5ff4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"27348\" codeSystem=\"2.16.840.1.113883.3.247.1.1\"/>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"R50.9\" codeSystem=\"2.16.840.1.113883.6.90\"/>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"780.60\" codeSystem=\"2.16.840.1.113883.6.103\"/>\r\n\t\t\t\t\t\t\t\t\t</value>"
+                            },
+                            {
+                                "lineNumber": "573",
+                                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "656",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"55607006\" codeSystem=\"2.16.840.1.113883.6.96\">\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t</code>"
+                            },
+                            {
+                                "lineNumber": "666",
+                                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"238131007\" codeSystem=\"2.16.840.1.113883.6.96\" xsi:type=\"CD\">\r\n\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_90291bbe-6455-4fac-81e5-07c0b1aac6b3\"/>\r\n\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"50813\" codeSystem=\"2.16.840.1.113883.3.247.1.1\"/>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"E66.3\" codeSystem=\"2.16.840.1.113883.6.90\"/>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"278.02\" codeSystem=\"2.16.840.1.113883.6.103\"/>\r\n\t\t\t\t\t\t\t\t\t</value>"
+                            },
+                            {
+                                "lineNumber": "657",
+                                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "740",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"55607006\" codeSystem=\"2.16.840.1.113883.6.96\">\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t</code>"
+                            },
+                            {
+                                "lineNumber": "750",
+                                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"83986005\" codeSystem=\"2.16.840.1.113883.6.96\" xsi:type=\"CD\">\r\n\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_16904644-bbd9-42e3-9143-09911806c1d4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"18857\" codeSystem=\"2.16.840.1.113883.3.247.1.1\"/>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"E03.8\" codeSystem=\"2.16.840.1.113883.6.90\"/>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"244.8\" codeSystem=\"2.16.840.1.113883.6.103\"/>\r\n\t\t\t\t\t\t\t\t\t</value>"
+                            },
+                            {
+                                "lineNumber": "741",
+                                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.53.1: Problem Section"
+                        ],
+                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+                    },
+                    {
+                        "rule": "All problem codes are should express with core subset of SNOMED codes",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    },
+                    {
+                        "rule": "Problem Concern effective times reflect the appropriate problem concern status.",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    },
+                    {
+                        "rule": "The EffectiveDate/Time elements for the Problem Concern Act must encompass the underlying observations.",
+                        "numberOfIssues": 5,
+                        "issuesList": [
+                            {
+                                "lineNumber": "411 - 413",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t<low value=\"20111005\"/>\r\n\t\t\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "495 - 497",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t<low value=\"20111231\"/>\r\n\t\t\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "579 - 581",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "663 - 665",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t<low value=\"20061231\"/>\r\n\t\t\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "747 - 749",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t<low value=\"20061231\"/>\r\n\t\t\t\t\t\t\t\t\t</effectiveTime>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.78: Problem Concern Act"
+                        ],
+                        "description": "The EffectiveDate/Time elements of the Problem Concern Act cannot be out of sync with the Problem Observation. Each of the Observation's EffectiveTime/low >= Problem Concern's EffectiveTime/low and Observation's EffectiveTime/high should be <= Problem Concern's EffectiveTime/high"
+                    },
+                    {
+                        "rule": "Problem Concern status and Problem Observation status are consistent with each other.",
+                        "numberOfIssues": 1,
+                        "issuesList": [
+                            {
+                                "lineNumber": "550 - 631",
+                                "xmlString": "<act xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"ACT\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.3\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.3\"/>\r\n\t\t\t\t\t\t\t<id extension=\"10242228\" root=\"1.3.6.1.4.1.22812.4.17.11.4.1\"/>\r\n\t\t\t\t\t\t\t<code code=\"CONC\" codeSystem=\"2.16.840.1.113883.5.6\"/>\r\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\r\n\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>\r\n\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t<time value=\"20150622203920+0000\"/>\r\n\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.4\"/>\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10242228\" root=\"1.3.6.1.4.1.22812.4.17.11.4.1.2.1\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"55607006\" codeSystem=\"2.16.840.1.113883.6.96\">\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"75326-9\" codeSystem=\"2.16.840.1.113883.6.1\"/>\r\n\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#_8a83616a-b680-42cd-925b-c55dc96f5ff4\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t\t\t</effectiveTime>\r\n\t\t\t\t\t\t\t\t\t<value code=\"386661006\" codeSystem=\"2.16.840.1.113883.6.96\" xsi:type=\"CD\">\r\n\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_8a83616a-b680-42cd-925b-c55dc96f5ff4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"27348\" codeSystem=\"2.16.840.1.113883.3.247.1.1\"/>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"R50.9\" codeSystem=\"2.16.840.1.113883.6.90\"/>\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"780.60\" codeSystem=\"2.16.840.1.113883.6.103\"/>\r\n\t\t\t\t\t\t\t\t\t</value>\r\n\t\t\t\t\t\t\t\t\t<performer typeCode=\"PRF\">\r\n\t\t\t\t\t\t\t\t\t\t<assignedEntity>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<addr>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>2472 Rocky Place</streetAddressLine>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<city>Beaverton</city>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<state>OR</state>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<postalCode>97006</postalCode>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<country>US</country>\r\n\t\t\t\t\t\t\t\t\t\t\t</addr>\r\n\t\t\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"tel:+1-(555)555-1002\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<assignedPerson>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<name>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<family>Davis</family>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<given>Albert</given>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<prefix>Dr</prefix>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</name>\r\n\t\t\t\t\t\t\t\t\t\t\t</assignedPerson>\r\n\t\t\t\t\t\t\t\t\t\t</assignedEntity>\r\n\t\t\t\t\t\t\t\t\t</performer>\r\n\t\t\t\t\t\t\t\t\t<author>\r\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\r\n\t\t\t\t\t\t\t\t\t\t<time value=\"20150622203920+0000\"/>\r\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10108\" root=\"1.3.6.1.4.1.22812.4.17.11\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"260000000X\" codeSystem=\"2.16.840.1.113883.6.101\"/>\r\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\r\n\t\t\t\t\t\t\t\t\t</author>\r\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t\t</observation>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\r\n\t\t\t\t\t\t\t\t<encounter classCode=\"ENC\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t<id extension=\"10045446\" root=\"1.3.6.1.4.1.22812.4.17.11.3.4\"/>\r\n\t\t\t\t\t\t\t\t</encounter>\r\n\t\t\t\t\t\t\t</entryRelationship>\r\n\t\t\t\t\t\t</act>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.78: Problem Concern Act"
+                        ],
+                        "description": "Problem Concern status and Problem Observation status are consistent with each other."
+                    },
+                    {
+                        "rule": "Each entry has to be linked to related narrative text",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    }
+                ],
+                "numberOfIssues": 34,
+                "failingConformance": false
+            },
+            {
+                "categoryName": "Allergies",
+                "categoryGrade": "D",
+                "categoryNumericalScore": 40,
+                "categoryRubrics": [
+                    {
+                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+                        "numberOfIssues": 2,
+                        "issuesList": [
+                            {
+                                "lineNumber": "865 - 867",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "983 - 985",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.5: Allergy Concern Act"
+                        ],
+                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+                    },
+                    {
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "numberOfIssues": 2,
+                        "issuesList": [
+                            {
+                                "lineNumber": "865 - 867",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "983 - 985",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\r\n\t\t\t\t\t\t\t</effectiveTime>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.5: Allergy Concern Act"
+                        ],
+                        "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
+                    },
+                    {
+                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+                        "numberOfIssues": 5,
+                        "issuesList": [
+                            {
+                                "lineNumber": "809",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"48765-2\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "886",
+                                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"416098002\" codeSystem=\"2.16.840.1.113883.6.96\" xsi:type=\"CD\"/>"
+                            },
+                            {
+                                "lineNumber": "919",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"733\" codeSystem=\"2.16.840.1.113883.6.88\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_9c95b462-b1df-4227-becb-f170517f7bd3\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</code>"
+                            },
+                            {
+                                "lineNumber": "1004",
+                                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"416098002\" codeSystem=\"2.16.840.1.113883.6.96\" xsi:type=\"CD\"/>"
+                            },
+                            {
+                                "lineNumber": "1037",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"7980\" codeSystem=\"2.16.840.1.113883.6.88\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#_a3e7aab8-6e2c-4901-8eed-50a023d52bcb\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</code>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.4.1: Allergies and Intolerances Section"
+                        ],
+                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+                    },
+                    {
+                        "rule": "Allergies observation effective should align with Allergies concern act effective time",
+                        "numberOfIssues": 2,
+                        "issuesList": [
+                            {
+                                "lineNumber": "883 - 885",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t<low value=\"19800510\"/>\r\n\t\t\t\t\t\t\t\t\t</effectiveTime>"
+                            },
+                            {
+                                "lineNumber": "1001 - 1003",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"IVL_TS\">\r\n\t\t\t\t\t\t\t\t\t\t<low value=\"19800510\"/>\r\n\t\t\t\t\t\t\t\t\t</effectiveTime>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.5: Allergy Concern Act"
+                        ],
+                        "description": "Allergies observation effective should align with Allergies concern act effective time"
+                    },
+                    {
+                        "rule": "Each entry has to be linked to related narrative text",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    }
+                ],
+                "numberOfIssues": 11,
+                "failingConformance": false
+            },
+            {
+                "categoryName": "Procedures",
+                "categoryGrade": "D",
+                "categoryNumericalScore": 50,
+                "categoryRubrics": [
+                    {
+                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+                        "numberOfIssues": 3,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1464",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"47519-4\" codeSystem=\"2.16.840.1.113883.6.1\"/>"
+                            },
+                            {
+                                "lineNumber": "1509",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"94640\" codeSystem=\"2.16.840.1.113883.6.12\">\r\n\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t<reference value=\"#_bb5c15cd-30c3-45f6-ae37-3ae745859d22\"/>\r\n\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t</code>"
+                            },
+                            {
+                                "lineNumber": "1560",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"90630\" codeSystem=\"2.16.840.1.113883.6.12\">\r\n\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t<reference value=\"#_a6d694d7-c1bf-4234-b05d-f83c55e6b4d3\"/>\r\n\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t</code>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/PROCEDURE_Observation_Example.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.61.1 :Procedures Section"
+                        ],
+                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+                    },
+                    {
+                        "rule": "Each entry has to be linked to related narrative text",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    }
+                ],
+                "numberOfIssues": 3,
+                "failingConformance": false
+            },
+            {
+                "categoryName": "Patient Demographics",
+                "categoryGrade": "A+",
+                "categoryNumericalScore": 100,
+                "categoryRubrics": [
+                    {
+                        "rule": "Patient DOB should be valid and properly precisioned",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
+                    }
+                ],
+                "numberOfIssues": 0,
+                "failingConformance": false
+            }
+        ],
+        "numberOfIssues": 180,
+        "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
+        "industryAverageScore": 59,
+        "industryAverageGrade": "D",
+        "numberOfDocumentsScored": 8000,
+        "docType": "R2.1",
+        "passedCertification": null
+    },
+    "referenceResults": [
+        {
+            "type": "C-CDA IG Conformance Errors",
+            "totalErrorCount": 2,
+            "referenceErrors": [
+                {
+                    "description": "Consol Criticality Observation SHALL contain exactly one [1..1] code (CONF:1198-32919)/@code=\"82606-5\" Allergy or intolerance criticality (CodeSystem: 2.16.840.1.113883.6.1 LOINC) (CONF:1198-32925, CONF:1198-32926, DSTU:872)",
+                    "type": "C-CDA MDHT Conformance Error",
+                    "xPath": "/ClinicalDocument/component/structuredBody/component[2]/section/entry/act/entryRelationship/observation/entryRelationship[2]/observation",
+                    "validatorConfiguredXpath": null,
+                    "documentLineNumber": "955",
+                    "actualCode": null,
+                    "actualCodeSystem": null,
+                    "actualCodeSystemName": null,
+                    "actualDisplayName": null,
+                    "schemaError": false,
+                    "dataTypeSchemaError": false,
+                    "sectionName": null
+                },
+                {
+                    "description": "Consol Criticality Observation SHALL contain exactly one [1..1] code (CONF:1198-32919)/@code=\"82606-5\" Allergy or intolerance criticality (CodeSystem: 2.16.840.1.113883.6.1 LOINC) (CONF:1198-32925, CONF:1198-32926, DSTU:872)",
+                    "type": "C-CDA MDHT Conformance Error",
+                    "xPath": "/ClinicalDocument/component/structuredBody/component[2]/section/entry[2]/act/entryRelationship/observation/entryRelationship[2]/observation",
+                    "validatorConfiguredXpath": null,
+                    "documentLineNumber": "1073",
+                    "actualCode": null,
+                    "actualCodeSystem": null,
+                    "actualCodeSystemName": null,
+                    "actualDisplayName": null,
+                    "schemaError": false,
+                    "dataTypeSchemaError": false,
+                    "sectionName": null
+                }
+            ]
+        },
+        {
+            "type": "2015 Ed. Certification Feedback",
+            "totalErrorCount": 4,
+            "referenceErrors": [
+                {
+                    "description": "Consol Criticality Observation SHALL contain exactly one [1..1] code (CONF:1198-32919)/@code=\"82606-5\" Allergy or intolerance criticality (CodeSystem: 2.16.840.1.113883.6.1 LOINC) (CONF:1198-32925, CONF:1198-32926, DSTU:872)",
+                    "type": "C-CDA MDHT Conformance Error",
+                    "xPath": "/ClinicalDocument/component/structuredBody/component[2]/section/entry/act/entryRelationship/observation/entryRelationship[2]/observation",
+                    "validatorConfiguredXpath": null,
+                    "documentLineNumber": "955",
+                    "actualCode": null,
+                    "actualCodeSystem": null,
+                    "actualCodeSystemName": null,
+                    "actualDisplayName": null,
+                    "schemaError": false,
+                    "dataTypeSchemaError": false,
+                    "sectionName": null
+                },
+                {
+                    "description": "Consol Criticality Observation SHALL contain exactly one [1..1] code (CONF:1198-32919)/@code=\"82606-5\" Allergy or intolerance criticality (CodeSystem: 2.16.840.1.113883.6.1 LOINC) (CONF:1198-32925, CONF:1198-32926, DSTU:872)",
+                    "type": "C-CDA MDHT Conformance Error",
+                    "xPath": "/ClinicalDocument/component/structuredBody/component[2]/section/entry[2]/act/entryRelationship/observation/entryRelationship[2]/observation",
+                    "validatorConfiguredXpath": null,
+                    "documentLineNumber": "1073",
+                    "actualCode": null,
+                    "actualCodeSystem": null,
+                    "actualCodeSystemName": null,
+                    "actualDisplayName": null,
+                    "schemaError": false,
+                    "dataTypeSchemaError": false,
+                    "sectionName": null
+                },
+                {
+                    "description": "Code C42986 does not exist in the value set(s) 2.16.840.1.113762.1.4.1021.30",
+                    "type": "ONC 2015 S&CC Vocabulary Validation Conformance Error",
+                    "xPath": "/ClinicalDocument[1]/component[1]/structuredBody[1]/component[3]/section[1]/entry[1]/substanceAdministration[1]/administrationUnitCode[1]",
+                    "validatorConfiguredXpath": "//v3:substanceAdministration/v3:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']/ancestor::v3:substanceAdministration[1]/v3:administrationUnitCode[not(@nullFlavor) and ancestor::v3:section[not(@nullFlavor)]]",
+                    "documentLineNumber": "1199",
+                    "actualCode": "C42986",
+                    "actualCodeSystem": "2.16.840.1.113883.3.26.1.1",
+                    "actualCodeSystemName": "",
+                    "actualDisplayName": "",
+                    "schemaError": false,
+                    "dataTypeSchemaError": false,
+                    "sectionName": null
+                },
+                {
+                    "description": "Code C42998 does not exist in the value set(s) 2.16.840.1.113762.1.4.1021.30",
+                    "type": "ONC 2015 S&CC Vocabulary Validation Conformance Error",
+                    "xPath": "/ClinicalDocument[1]/component[1]/structuredBody[1]/component[3]/section[1]/entry[3]/substanceAdministration[1]/administrationUnitCode[1]",
+                    "validatorConfiguredXpath": "//v3:substanceAdministration/v3:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']/ancestor::v3:substanceAdministration[1]/v3:administrationUnitCode[not(@nullFlavor) and ancestor::v3:section[not(@nullFlavor)]]",
+                    "documentLineNumber": "1360",
+                    "actualCode": "C42998",
+                    "actualCodeSystem": "2.16.840.1.113883.3.26.1.1",
+                    "actualCodeSystemName": "",
+                    "actualDisplayName": "",
+                    "schemaError": false,
+                    "dataTypeSchemaError": false,
+                    "sectionName": null
+                }
+            ]
+        }
+    ],
+    "schemaErrorList": null,
+    "schemaErrors": false,
+    "success": true
+}
