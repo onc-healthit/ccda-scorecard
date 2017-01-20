@@ -1,6 +1,7 @@
 {
   "errorMessage": null,
   "filename": "170.315_b1_toc_amb_ccd_r21_sample1_v8.xml",
+  "ccdaDocumentType": "CCD",
   "results": {
     "finalGrade": "B+",
     "finalNumericalGrade": 88,
@@ -744,9 +745,9 @@
     ],
     "numberOfIssues": 37,
     "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
-    "industryAverageScore": 62,
+    "industryAverageScore": 59,
     "industryAverageGrade": "D",
-    "numberOfDocumentsScored": 305,
+    "numberOfDocumentsScored": 8000,
     "docType": "R2.1",
     "passedCertification": null
   },

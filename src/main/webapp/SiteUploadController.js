@@ -1,13 +1,21 @@
 scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout', function($scope, $http, Upload, $timeout) {
 	
-	$scope.TryMeConstants = Object.freeze({
-		FILENAME: "170.315_b1_toc_amb_ccd_r21_sample1_v8"
-	});
-	
   function UploadData(fileName) {
     this.fileName = fileName;
   }
   $scope.ccdaUploadData = new UploadData("Unknown File (Upload)");
+  
+	var tryMeConstants = Object.freeze({
+		DEFAULT_GOOD_SCORE: "170.315_b1_toc_amb_ccd_r21_sample1_v8",
+		BAD_SCORE_1: "badScoreExampleCCD"
+	});
+  $scope.tryMeData = {
+    	isTryMeActive: false,
+      tryMeDocs: [
+	      {id: 1, value: "High scoring sample", filename: tryMeConstants.DEFAULT_GOOD_SCORE}, 
+        {id: 2, value: "Low scoring sample", filename: tryMeConstants.BAD_SCORE_1}		  
+      ]
+  };
 
   $scope.userMessageConstant = Object.freeze ({
 	GENERIC: "Please try a different file and report the issue to TestingServices@sitenv.org.",
@@ -33,10 +41,6 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   
   $scope.uploadDisplay = {
   		isLoading: true
-  };
-  
-  $scope.tryMeData = {
-    	isTryMeActive: false	
   };
 
   var ServiceTypeEnum = Object.freeze({
@@ -174,10 +178,10 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   	resetValidationData();
   	$scope.tryMeData.isTryMeActive = true;
   	var extension = ".xml";
-  	$scope.ccdaUploadData = new UploadData($scope.TryMeConstants.FILENAME + extension);
+  	$scope.ccdaUploadData = new UploadData($scope.selectedTryMeDoc.filename + extension);
   	var localFolder = "resources";
   	extension = ".json";
-  	getLocalJsonResults(localFolder + "/" + $scope.TryMeConstants.FILENAME + extension, 
+  	getLocalJsonResults(localFolder + "/" + $scope.selectedTryMeDoc.filename + extension, 
   			ServiceTypeEnum.SCORECARD);  	
   };
 

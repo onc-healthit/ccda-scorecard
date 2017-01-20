@@ -402,6 +402,10 @@ we don't use data-target as we don't want the user redirected */
 	font-size: 140%;
 }
 
+#tryMeSampleSelector {
+	margin-top: 12px;
+}
+
 /*
 .panel {
 border: 0;

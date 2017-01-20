@@ -425,10 +425,11 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   	var localUrl = 'downloadtrymefileservice/';
   	//due to Safari limitations, text/plain is set so it can be rendered in-browser and then saved from there
     var mediaType = $scope.isSafari ? "text/plain" : "text/xml";
-    var filename = $scope.TryMeConstants.FILENAME + ".xml";
+    var filename = $scope.selectedTryMeDoc.filename + ".xml";
     $http({
-      method: "GET",
+      method: "POST",
       url: localUrl,
+      params: {filenameWithExtension: filename},           
       headers: {
       	"Content-Type": mediaType
       },
