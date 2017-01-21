@@ -22,6 +22,10 @@ public class EncounterScorecard {
 	public Category getEncounterCategory(CCDAEncounter encounter, String birthDate,String docType)
 	{
 		
+		if(encounter.isSectionNullFlavourWithNI())
+		{
+			return new Category(ApplicationConstants.CATEGORIES.ENCOUNTERS.getCategoryDesc(),true);
+		}
 		Category encounterCategory = new Category();
 		encounterCategory.setCategoryName(ApplicationConstants.CATEGORIES.ENCOUNTERS.getCategoryDesc());
 		

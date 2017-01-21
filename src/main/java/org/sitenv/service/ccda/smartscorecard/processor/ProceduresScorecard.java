@@ -18,7 +18,10 @@ public class ProceduresScorecard {
 	
 	public Category getProceduresCategory(CCDAProcedure procedures, String birthDate,String docType)
 	{
-		
+		if(procedures.isSectionNullFlavourWithNI())
+		{
+			return new Category(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc(),true);
+		}
 		Category procedureCategory = new Category();
 		procedureCategory.setCategoryName(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc());
 		
