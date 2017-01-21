@@ -13,7 +13,7 @@ public class ApplicationConstants {
 	 * True allows switching the various service URLs from the prod to the dev server and enables local logs
 	 * Note: Never commit true as to ensure this is always set to false for production
 	 */
-	public static final boolean IN_DEVELOPMENT_MODE = true;	
+	public static final boolean IN_DEVELOPMENT_MODE = false;	
 	/**
 	 * True allows setting default scorecard.xml values externally FOR DEVELOPMENT PURPOSES ONLY
 	 * Note: Never commit true as to ensure this is always set to false for production
@@ -24,7 +24,7 @@ public class ApplicationConstants {
 	 * When overridden, the URL property is set by ApplicationConstants.REFERENCE_VALIDATOR_URL
 	 * True allows for 'C-CDA IG Conformance Errors' results
 	 */
-	public static final boolean IG_CONFORMANCE_CALL = true;
+	public static final boolean IG_CONFORMANCE_CALL = false;
 	/**
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG == true
 	 * When overridden, the URL property is set by ApplicationConstants.REFERENCE_VALIDATOR_URL

@@ -115,7 +115,6 @@ public class ScorecardProcessor {
 				scorecardResponse.setCcdaDocumentType(ccdaModels.getUsrhSubType().getName());
 			}
 			if (!ccdaModelsIsEmpty && ccdaModels.getUsrhSubType() != UsrhSubType.UNSTRUCTURED_DOCUMENT)
-			if (!ccdaModels.isEmpty() && ccdaModels.getUsrhSubType() != UsrhSubType.UNSTRUCTURED_DOCUMENT)
 			{	
 				boolean referenceValidatorCallReturnedErrors = false;
 				if(scorecardProperties.getIgConformanceCall())
@@ -128,7 +127,6 @@ public class ScorecardProcessor {
 					referenceValidatorResults = 
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), 
 								"No Scenario File", scorecardProperties.getIgConformanceURL());
-						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File",scorecardProperties.getIgConformanceURL());
 					schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults());
 				
 					if(schemaErrorList.size() > 0)
@@ -158,20 +156,8 @@ public class ScorecardProcessor {
 						+ "validationObjective: " + validationObjective.getValidationObjective()
 						+ " determined by ccdaModels.getUsrhSubType(): " + ccdaModels.getUsrhSubType());
 					certificationResults = 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), 
 								"No Scenario File", scorecardProperties.getCertificatinResultsURL());
-=======
-						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File",scorecardProperties.getCertificatinResultsURL());
->>>>>>> SITE 2501 and SITE 2497 changes
-=======
-						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File",scorecardProperties.getCertificatinResultsURL());
->>>>>>> SITE 2501 and SITE 2497 changes
-=======
-						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File",scorecardProperties.getCertificatinResultsURL());
->>>>>>> f9bea32243feadd660242c2a498a7461ea88bc1a
 				
 					if(checkForReferenceValidatorErrors(certificationResults.getResultsMetaData().getResultMetaData()))
 					{
@@ -205,12 +191,10 @@ public class ScorecardProcessor {
 					}	
 					
 					// Store the 2 instances in the JSON (referenceResults array)
-				     scorecardResponse.getReferenceResults().add(getReferenceResults(referenceValidatorResults.getCcdaValidationResults(), 
-				       ReferenceInstanceType.IG_CONFORMANCE));
-				     
-				     
-					     scorecardResponse.getReferenceResults().add((getReferenceResults(certificationResults.getCcdaValidationResults(), 
-					       ReferenceInstanceType.CERTIFICATION_2015)));
+					scorecardResponse.getReferenceResults().add(getReferenceResults(referenceValidatorResults.getCcdaValidationResults(),
+									ReferenceInstanceType.IG_CONFORMANCE));
+					scorecardResponse.getReferenceResults().add((getReferenceResults(certificationResults.getCcdaValidationResults(),
+									ReferenceInstanceType.CERTIFICATION_2015)));
 				}
 				
 				docType = ApplicationUtil.checkDocType(ccdaModels);
@@ -221,7 +205,6 @@ public class ScorecardProcessor {
 			
 				categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
 				Category scorecardCategory = null;
-			
 				for (Entry<String, String> entry : ApplicationConstants.SECTION_TEMPLATEID_MAP.entrySet()) {
 					if(!errorSectionList.contains(entry.getValue()))
 					{
@@ -240,7 +223,7 @@ public class ScorecardProcessor {
 				String specificErrorReason= null;
 				String errorMessage= null;
 				scorecardResponse.setSuccess(false);
-				if(ccdaModels.isEmpty()) 
+				if(ccdaModelsIsEmpty) 
 				{
 					errorMessage = ApplicationConstants.EMPTY_DOC_ERROR_MESSAGE;
 					specificErrorReason = "empty model";
