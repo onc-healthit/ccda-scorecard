@@ -559,11 +559,8 @@ public class ApplicationUtil {
 		
 		for(CCDAScoreCardRubrics rubrics : rubricsList)
 		{
-			if(!rubrics.getRule().equalsIgnoreCase(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT))
-			{
-				actualPoints = actualPoints + rubrics.getRubricScore();
-				maxPoints++;
-			}
+			actualPoints = actualPoints + rubrics.getRubricScore();
+			maxPoints++;
 			if(rubrics.getNumberOfIssues()!=0)
 			{
 				categoryIssues = categoryIssues + rubrics.getNumberOfIssues();
@@ -611,11 +608,8 @@ public class ApplicationUtil {
 			{
 				for(CCDAScoreCardRubrics rubrics : category.getCategoryRubrics())
 				{
-					if(!rubrics.getRule().equalsIgnoreCase(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT))
-					{
-						finalMaxPoints++;
-						finalActualPoints = finalActualPoints + rubrics.getRubricScore();
-					}
+					finalMaxPoints++;
+					finalActualPoints = finalActualPoints + rubrics.getRubricScore();
 				}
 				numberOfIssues = numberOfIssues + category.getNumberOfIssues();
 			}
