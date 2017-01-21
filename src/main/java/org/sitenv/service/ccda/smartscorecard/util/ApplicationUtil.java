@@ -559,8 +559,11 @@ public class ApplicationUtil {
 		
 		for(CCDAScoreCardRubrics rubrics : rubricsList)
 		{
-			actualPoints = actualPoints + rubrics.getRubricScore();
-			maxPoints++;
+			if(!rubrics.getRule().equalsIgnoreCase(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT))
+			{
+				actualPoints = actualPoints + rubrics.getRubricScore();
+				maxPoints++;
+			}
 			if(rubrics.getNumberOfIssues()!=0)
 			{
 				categoryIssues = categoryIssues + rubrics.getNumberOfIssues();

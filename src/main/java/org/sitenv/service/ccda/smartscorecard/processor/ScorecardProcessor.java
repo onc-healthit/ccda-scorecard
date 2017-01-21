@@ -160,6 +160,7 @@ public class ScorecardProcessor {
 					certificationResults = 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), 
 								"No Scenario File", scorecardProperties.getCertificatinResultsURL());
 =======
@@ -168,6 +169,9 @@ public class ScorecardProcessor {
 =======
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File",scorecardProperties.getCertificatinResultsURL());
 >>>>>>> SITE 2501 and SITE 2497 changes
+=======
+						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), "No Scenario File",scorecardProperties.getCertificatinResultsURL());
+>>>>>>> f9bea32243feadd660242c2a498a7461ea88bc1a
 				
 					if(checkForReferenceValidatorErrors(certificationResults.getResultsMetaData().getResultMetaData()))
 					{
