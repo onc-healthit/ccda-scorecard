@@ -17,6 +17,13 @@ public class Category {
 		}
 	}
 	
+	public Category(String categoryName, boolean isNullFlavorNI)
+	{
+		this.isNullFlavorNI = isNullFlavorNI;
+		this.categoryName = categoryName;
+		this.categoryRubrics = new ArrayList<CCDAScoreCardRubrics>();
+	}
+	
 	public Category()
 	{
 		
@@ -31,6 +38,8 @@ public class Category {
 	
 	// referenceccdavalidator properties
 	private boolean isFailingConformance;
+	
+	private boolean isNullFlavorNI;
 	
 	public String getCategoryName() {
 		return categoryName;
@@ -67,6 +76,13 @@ public class Category {
 	}
 	public void setFailingConformance(boolean isFailingConformance) {
 		this.isFailingConformance = isFailingConformance;
-	}	
-	
+	}
+
+	public boolean isNullFlavorNI() {
+		return isNullFlavorNI;
+	}
+
+	public void setNullFlavorNI(boolean isNullFlavorNI) {
+		this.isNullFlavorNI = isNullFlavorNI;
+	}
 }

@@ -108,14 +108,16 @@ public class ApplicationUtil {
 	public static boolean isExtensionPresent(List<CCDAII> templateIds)
 	{
 		boolean value = false;
-		for (CCDAII templateId : templateIds)
+		if(templateIds!= null)
 		{
-			if(templateId.getExtValue()!= null)
+			for (CCDAII templateId : templateIds)
 			{
-				return true;
+				if(templateId.getExtValue()!= null)
+				{
+					return true;
+				}
 			}
 		}
-		
 		return value;
 	}
 	
@@ -127,8 +129,7 @@ public class ApplicationUtil {
 			final DateFormat formatter = new SimpleDateFormat(format,
 						Locale.ENGLISH);
 			formatter.setLenient(false);
-			final Date utilDate = formatter.parse(string);
-			date = new java.sql.Date(utilDate.getTime());
+			date = formatter.parse(string);
 		}
 		return date;
 	}
@@ -201,7 +202,8 @@ public class ApplicationUtil {
 		{
 			format = getFormat(actualDate);
 			date = convertStringToDate(actualDate, format);
-			isValid =  date.after(convertStringToDate(minDate, ApplicationConstants.DAY_FORMAT)) && date.before(new Date());
+			format = getFormat(minDate);
+			isValid =  date.after(convertStringToDate(minDate, format)) && date.before(new Date());
 		}catch(ParseException pe)
 		{
 			isValid = false;
@@ -216,7 +218,11 @@ public class ApplicationUtil {
 	public static String getFormat(String date)
 	{
 		String format;
-		if(validateMonthFormat(date))
+		if(validateYearFormat(date))
+		{
+			format = ApplicationConstants.YEAR_FORMAT;
+		}
+		else if(validateMonthFormat(date))
 		{
 			format = ApplicationConstants.MONTH_FORMAT;
 		}else if (validateDayFormat(date) )
@@ -230,7 +236,7 @@ public class ApplicationUtil {
 			format = ApplicationConstants.SECOND_FORMAT;
 		}else 
 		{
-			format = ApplicationConstants.DAY_FORMAT;
+			format = "";
 		}
 		return format;
 	}
@@ -333,6 +339,11 @@ public class ApplicationUtil {
 		return isValid;
 	}
 	
+	
+	public static boolean validateYearFormat(String date)
+	{
+		return date!=null ? date.matches(ApplicationConstants.YEAR_PATTERN) : false;
+	}
 	
 	public static boolean validateMonthFormat(String date)
 	{
@@ -545,6 +556,7 @@ public class ApplicationUtil {
 		int percentage ;
 		int categoryIssues=0;
 		String categoryGrade;
+		
 		for(CCDAScoreCardRubrics rubrics : rubricsList)
 		{
 			actualPoints = actualPoints + rubrics.getRubricScore();
@@ -592,7 +604,7 @@ public class ApplicationUtil {
 		
 		for (Category category : categoryList)
 		{
-			if(!category.isFailingConformance())
+			if(!(category.isFailingConformance() || category.isNullFlavorNI()))
 			{
 				for(CCDAScoreCardRubrics rubrics : category.getCategoryRubrics())
 				{
@@ -670,7 +682,7 @@ public class ApplicationUtil {
 	{
 		String docType = "";
 		
-		if(ccdaModels.getAllergy()!=null)
+		if(ccdaModels.getAllergy()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getAllergy().getSectionTemplateId()))
 			{
@@ -681,7 +693,7 @@ public class ApplicationUtil {
 			}
 				
 		}
-		else if(ccdaModels.getEncounter()!=null)
+		else if(ccdaModels.getEncounter()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getEncounter().getTemplateId()))
 			{
@@ -692,7 +704,7 @@ public class ApplicationUtil {
 			}
 				
 		}
-		else if(ccdaModels.getAllergy()!=null)
+		else if(ccdaModels.getAllergy()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getMedication().getTemplateIds()))
 			{
@@ -703,7 +715,7 @@ public class ApplicationUtil {
 			}
 				
 		}
-		else if(ccdaModels.getAllergy()!=null)
+		else if(ccdaModels.getAllergy()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getImmunization().getTemplateIds()))
 			{
@@ -713,7 +725,7 @@ public class ApplicationUtil {
 				docType = "R1.1";
 			}
 		}
-		else if(ccdaModels.getVitalSigns()!=null)
+		else if(ccdaModels.getVitalSigns()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getVitalSigns().getTemplateIds()))
 			{
@@ -723,7 +735,7 @@ public class ApplicationUtil {
 				docType = "R1.1";
 			}
 		}
-		else if(ccdaModels.getSmokingStatus()!=null)
+		else if(ccdaModels.getSmokingStatus()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getSmokingStatus().getSectionTemplateIds()))
 			{

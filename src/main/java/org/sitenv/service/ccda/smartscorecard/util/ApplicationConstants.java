@@ -13,7 +13,7 @@ public class ApplicationConstants {
 	 * True allows switching the various service URLs from the prod to the dev server and enables local logs
 	 * Note: Never commit true as to ensure this is always set to false for production
 	 */
-	public static final boolean IN_DEVELOPMENT_MODE = false;
+	public static final boolean IN_DEVELOPMENT_MODE = false;	
 	/**
 	 * True allows setting default scorecard.xml values externally FOR DEVELOPMENT PURPOSES ONLY
 	 * Note: Never commit true as to ensure this is always set to false for production
@@ -212,6 +212,9 @@ public class ApplicationConstants {
 	
 	public static final String EMPTY_DOC_ERROR_MESSAGE = "Given C-CDA document is empty or invalid. Please upload a valid C-CDA Document.";
 	public static final String EXCEPTION_ERROR_MESSAGE = "Our system experienced some unexpected error, please try after some time or email your issue to TestingServices@sitenv.org";
+	
+	public static final String YEAR_FORMAT = "yyyy";
+	public static final String YEAR_PATTERN = "\\d{4}";
 	
 	public static final String MONTH_FORMAT = "yyyyMM";
 	public static final String MONTH_PATTERN = "\\d{6}";

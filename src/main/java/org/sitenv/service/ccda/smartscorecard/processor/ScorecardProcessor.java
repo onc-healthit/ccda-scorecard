@@ -111,7 +111,9 @@ public class ScorecardProcessor {
 			scorecardResponse.setFilename(ccdaFile.getOriginalFilename());
 			boolean ccdaModelsIsEmpty = ccdaModels.isEmpty();
 			if(!ccdaModelsIsEmpty && ccdaModels.getUsrhSubType() != null) 
+			{
 				scorecardResponse.setCcdaDocumentType(ccdaModels.getUsrhSubType().getName());
+			}
 			if (!ccdaModelsIsEmpty && ccdaModels.getUsrhSubType() != UsrhSubType.UNSTRUCTURED_DOCUMENT)
 			{	
 				boolean referenceValidatorCallReturnedErrors = false;
@@ -202,11 +204,15 @@ public class ScorecardProcessor {
 				}
 			
 				categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
-			
+				Category scorecardCategory = null;
 				for (Entry<String, String> entry : ApplicationConstants.SECTION_TEMPLATEID_MAP.entrySet()) {
 					if(!errorSectionList.contains(entry.getValue()))
 					{
-						categoryList.add(getSectionCategory(entry.getValue(),ccdaModels,birthDate,docType));
+						scorecardCategory = getSectionCategory(entry.getValue(),ccdaModels,birthDate,docType);
+						if(scorecardCategory!= null)
+						{
+							categoryList.add(scorecardCategory);
+						}
 					}else
 					{
 						categoryList.add(new Category(true,entry.getValue()));
