@@ -187,8 +187,8 @@ public class ProblemsScorecard {
 		else
 		{
 			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problmes section not present");
-			issue.setXmlString("Problmes section not present");
+			issue.setLineNumber("Problems section not present");
+			issue.setXmlString("Problems section not present");
 			issuesList.add(issue);
 		}
 		
@@ -343,8 +343,8 @@ public class ProblemsScorecard {
 		else
 		{
 			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problmes section not present");
-			issue.setXmlString("Problmes section not present");
+			issue.setLineNumber("Problems section not present");
+			issue.setXmlString("Problems section not present");
 			issuesList.add(issue);
 		}
 		
@@ -493,8 +493,8 @@ public class ProblemsScorecard {
 		else
 		{
 			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problmes section not present");
-			issue.setXmlString("Problmes section not present");
+			issue.setLineNumber("Problems section not present");
+			issue.setXmlString("Problems section not present");
 			issuesList.add(issue);
 		}
 		
@@ -576,8 +576,8 @@ public class ProblemsScorecard {
 		else
 		{
 			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problmes section not present");
-			issue.setXmlString("Problmes section not present");
+			issue.setLineNumber("Problems section not present");
+			issue.setXmlString("Problems section not present");
 			issuesList.add(issue);
 		}
 		
@@ -647,8 +647,8 @@ public class ProblemsScorecard {
 		else
 		{
 			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problmes section not present");
-			issue.setXmlString("Problmes section not present");
+			issue.setLineNumber("Problems section not present");
+			issue.setXmlString("Problems section not present");
 			issuesList.add(issue);
 		}
 		
@@ -732,8 +732,8 @@ public class ProblemsScorecard {
 		else
 		{
 			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problmes section not present");
-			issue.setXmlString("Problmes section not present");
+			issue.setLineNumber("Problems section not present");
+			issue.setXmlString("Problems section not present");
 			issuesList.add(issue);
 		}
 		
