@@ -1,8 +1,8 @@
-<div id="mainPanelBody" class="panel-collapse collapse in">
+<div ng-show="detailedResultsData.showDetailedResults" id="mainPanelBody" class="panel">
   <div class="panel-body">
     <div class="panel panel-default mainPanelPanel">
       
-      <scorecard-two-results><</scorecard-two-results>
+      <scorecard-two-results></scorecard-two-results>
 
       <!--START CATEGORY PANELS -->
       <div ng-repeat="currentCategory in categories"
@@ -74,7 +74,7 @@
                               </a>
                             </li>
                             <li ng-class="detailsToShow === 'HL7' ? 'active' : ''">
-                              <a ng-click="detailsToShow = 'HL7'"
+                              <a ng-click="detailsToShow = 'HL7' "
                                 data-toggle="tab" href="javascript:void(0)"><span class="subDescriptionTabs">Best Practice</span>
                               </a>
                             </li>

@@ -152,7 +152,7 @@ overriding for a larger heading */
 
 .resultsButton:hover {
     background-color: #F6F6F6;
-/*    border: 1px solid black;*/
+	border: 1px solid black;
 }
 
 .categoryGrade {    

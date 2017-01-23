@@ -37,6 +37,10 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   	IG_URL: "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379"
   });
   
+  $scope.detailedResultsData = {
+  		showDetailedResults: true
+  };
+  
   //if the SiteUploadControllers $scope.jsonScorecardData changes, 
   //then the service was called (or try me collected local data) and returned new results,
   //so we process them so it is reflected in the view
@@ -205,6 +209,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     };
     
     $scope.jumpToCategoryViaName = function(key, weWait, timeToWaitInMiliseconds) {
+    		$scope.detailedResultsData.showDetailedResults = true;
         elementId = detruncateCategoryName(key);
         elementId = document.getElementById(elementId).parentNode.id;
         $scope.jumpToElementViaId(elementId, weWait, timeToWaitInMiliseconds);
@@ -219,15 +224,34 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     };
     
     $scope.getDropdownStateClasses = function(panelDropdownElementId) {
-    //$scope.debugLog('panelDropdownElementId:');$scope.debugLog(panelDropdownElementId);
-    var panelElement = document.getElementById(panelDropdownElementId);
-    if(angular.element(panelElement).hasClass('collapsed')) {
-    	$scope.detailedResultsTextPrefix = "Click Here For ";
-  	  return "glyphicon glyphicon-triangle-right pull-left";
-    }
-    $scope.detailedResultsTextPrefix = '';
-    return "glyphicon glyphicon-triangle-bottom pull-left";	  
-    };    
+      //$scope.debugLog('panelDropdownElementId:');$scope.debugLog(panelDropdownElementId);
+      var panelElement = document.getElementById(panelDropdownElementId);
+      if(angular.element(panelElement).hasClass('collapsed')) {
+  	    return "glyphicon glyphicon-triangle-right pull-left";
+      }
+      return "glyphicon glyphicon-triangle-bottom pull-left";
+    };
+    
+    $scope.getDetailedResultsHideShowClasses = function() {
+      $scope.debugLog('$scope.detailedResultsData.showDetailedResults');$scope.debugLog($scope.detailedResultsData.showDetailedResults);
+      if($scope.detailedResultsData.showDetailedResults) {
+        $scope.detailedResultsTextPrefix = '';
+        return "glyphicon glyphicon-triangle-bottom pull-left";
+      }
+      $scope.detailedResultsTextPrefix = "Click Here For ";
+      return "glyphicon glyphicon-triangle-right pull-left";      
+    };
+    
+    $scope.flipDetailedResultsVisibilityAndNavigate = function() {
+    	$scope.detailedResultsData.showDetailedResults = !$scope.detailedResultsData.showDetailedResults;
+    	var weWait = false;
+    	var timeToWaitInMiliseconds = 0;
+    	if($scope.detailedResultsData.showDetailedResults) {
+    		$scope.jumpToElementViaId('detailedResults', weWait, timeToWaitInMiliseconds);
+    	} else {
+    		$scope.jumpToElementViaId('root', weWait, timeToWaitInMiliseconds);
+    	}
+    };
   
     
   //*************HEATMAP RELATED****************
