@@ -10,11 +10,6 @@ public class Category {
 		this.isFailingConformance = isFailingConformance;
 		this.categoryName = categoryName;
 		this.categoryRubrics = new ArrayList<CCDAScoreCardRubrics>();
-		if(isFailingConformance) {
-			//does not affect overall score since failed conformance
-			this.categoryGrade = "F";
-			this.categoryNumericalScore = -1;
-		}
 	}
 	
 	public Category(String categoryName, boolean isNullFlavorNI)

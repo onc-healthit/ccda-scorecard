@@ -306,17 +306,20 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         var nullFlavorNI = curCategory.nullFlavorNI;
         var sectionData = {
           name: name,
-          grade: grade,
+          grade: grade ? grade : 'F',
           sectionIssueCount: issues,
-          score: score,
+          score: score ? score : '-1',
           failedIGConformance: failedIGConformance,
           hasCertificationFeedback: hasCertificationFeedback,
           nullFlavorNI: nullFlavorNI
         };
+        var failingSectionOrderScore = getFailingSectionOrderScore(sectionData);
+        if(failingSectionOrderScore !== null) { //checking null vs truthy since -1/-2/-3 are our positive values
+        	sectionData.score = failingSectionOrderScore;
+        }
         allCategories.push(sectionData);
       };
       
-
       allCategories.sort(compareNumericalGradesInSectionData);
       
       if(allCategories.length < 12) {
@@ -342,6 +345,17 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       $scope.finalCategoryListByGrade = [categoryListByGradeFirstColumn, categoryListByGradeSecondColumn, categoryListByGradeThirdColumn];
 
     };
+    
+  var getFailingSectionOrderScore = function(curSection) {
+  	var sectionFailType = $scope.getSectionFailType(curSection);
+  	if(sectionFailType !== null) {
+	  	var failingScore = sectionFailType.failingScore;
+	  	if(failingScore === -1 || failingScore === -2 || failingScore === -3) {
+	  		return failingScore;
+	  	}
+  	}
+  	return null;
+  };
   
   var compareNumericalGradesInSectionData = function(a, b) {
     if (a.score > b.score)
@@ -403,15 +417,18 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   var SectionFailTypeEnum = Object.freeze({
   	CONFORMANCE_ERRORS: {
   		label: "Conformance Errors",
-  		cssClass: " heatMapFailedIGConformance"
+  		cssClass: " heatMapFailedIGConformance",
+  		failingScore: -3
   	},
   	CERTIFICATION_FEEDBACK: {
   		label: "Certification Feedback",
-  		cssClass: " heatMapHasCertificationFeedback"
+  		cssClass: " heatMapHasCertificationFeedback",
+  		failingScore: -2
   	},
   	EMPTY_SECTION: {
   		label: "Empty Section",
-  		cssClass: " heatMapNullFlavorNI"
+  		cssClass: " heatMapNullFlavorNI",
+  		failingScore: -1
   	}
   });
   
