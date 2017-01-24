@@ -415,7 +415,7 @@ public class AllergiesScorecard {
 								}
 							}
 							
-							if(allergyObs.getAllergySubstance() != null && ApplicationUtil.isEmpty(allergyObs.getAllergySubstance().getDisplayName()))
+							if(allergyObs.getAllergySubstance() != null && !ApplicationUtil.isEmpty(allergyObs.getAllergySubstance().getDisplayName()))
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(allergyObs.getAllergySubstance().getCode(), 

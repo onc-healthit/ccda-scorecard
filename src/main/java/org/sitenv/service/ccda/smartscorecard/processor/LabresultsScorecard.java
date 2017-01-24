@@ -398,7 +398,7 @@ public class LabresultsScorecard {
 					{
 						for (CCDALabResultObs resultobs : resultOrg.getResultObs())
 						{
-							if(resultobs.getResultCode()!= null && ApplicationUtil.isEmpty(resultobs.getResultCode().getDisplayName()))
+							if(resultobs.getResultCode()!= null && !ApplicationUtil.isEmpty(resultobs.getResultCode().getDisplayName()))
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(resultobs.getResultCode().getCode(), 
