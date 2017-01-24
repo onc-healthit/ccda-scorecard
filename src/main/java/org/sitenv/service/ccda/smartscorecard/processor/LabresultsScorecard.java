@@ -354,9 +354,9 @@ public class LabresultsScorecard {
 		CCDAXmlSnippet issue= null;
 		if(labresults != null)
 		{
-			maxPoints++;
-			if(labresults.getSectionCode()!= null)
+			if(labresults.getSectionCode()!= null && !ApplicationUtil.isEmpty(labresults.getSectionCode().getDisplayName()))
 			{
+				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(labresults.getSectionCode().getCode(), 
 												labresults.getSectionCode().getCodeSystem(),
 												labresults.getSectionCode().getDisplayName()))
@@ -371,21 +371,14 @@ public class LabresultsScorecard {
 					issuesList.add(issue);
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(labresults.getLineNumber());
-				issue.setXmlString(labresults.getXmlString());
-				issuesList.add(issue);
-			}
 			
 			if(!ApplicationUtil.isEmpty(labresults.getResultOrg()))
 			{
 				for (CCDALabResultOrg resultOrg : labresults.getResultOrg())
 				{
-					maxPoints++;
-					if(resultOrg.getOrgCode()!= null)
+					if(resultOrg.getOrgCode()!= null && !ApplicationUtil.isEmpty(resultOrg.getOrgCode().getDisplayName()))
 					{
+						maxPoints++;
 						if(ApplicationUtil.validateDisplayName(resultOrg.getOrgCode().getCode(), 
 								resultOrg.getOrgCode().getCodeSystem(),
 								resultOrg.getOrgCode().getDisplayName()))
@@ -400,21 +393,14 @@ public class LabresultsScorecard {
 							issuesList.add(issue);
 						}
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(resultOrg.getLineNumber());
-						issue.setXmlString(resultOrg.getXmlString());
-						issuesList.add(issue);
-					}
 					
 					if(!ApplicationUtil.isEmpty(resultOrg.getResultObs()))
 					{
 						for (CCDALabResultObs resultobs : resultOrg.getResultObs())
 						{
-							maxPoints++;
-							if(resultobs.getResultCode()!= null)
+							if(resultobs.getResultCode()!= null && !ApplicationUtil.isEmpty(resultobs.getResultCode().getDisplayName()))
 							{
+								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(resultobs.getResultCode().getCode(), 
 										resultobs.getResultCode().getCodeSystem(),
 										resultobs.getResultCode().getDisplayName()))
@@ -429,26 +415,16 @@ public class LabresultsScorecard {
 									issuesList.add(issue);
 								}
 							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(resultobs.getLineNumber());
-								issue.setXmlString(resultobs.getXmlString());
-								issuesList.add(issue);
-							}
 						}
 					}
 				}
 			}
 		}
-		else
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Results section not present");
-			issue.setXmlString("Results section not present");
-			issuesList.add(issue);
+			actualPoints = 1;
+			maxPoints =1;
 		}
-		
 		validateDisplayNameScore.setActualPoints(actualPoints);
 		validateDisplayNameScore.setMaxPoints(maxPoints);
 		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));

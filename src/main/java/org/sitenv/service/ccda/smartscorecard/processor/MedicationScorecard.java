@@ -290,9 +290,9 @@ public class MedicationScorecard {
 		CCDAXmlSnippet issue= null;
 		if(medications != null)
 		{
-			maxPoints++;
-			if(medications.getSectionCode()!= null)
+			if(medications.getSectionCode()!= null && !ApplicationUtil.isEmpty(medications.getSectionCode().getDisplayName()))
 			{
+				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(medications.getSectionCode().getCode(), 
 							medications.getSectionCode().getCodeSystem(),
 						medications.getSectionCode().getDisplayName()))
@@ -307,21 +307,14 @@ public class MedicationScorecard {
 					issuesList.add(issue);
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(medications.getLineNumber());
-				issue.setXmlString(medications.getXmlString());
-				issuesList.add(issue);
-			}
 			
 			if(!ApplicationUtil.isEmpty(medications.getMedActivities()))
 			{
 				for (CCDAMedicationActivity medActivity : medications.getMedActivities())
 				{
-					maxPoints++;
-					if(medActivity.getApproachSiteCode()!= null)
+					if(medActivity.getApproachSiteCode()!= null && !ApplicationUtil.isEmpty(medActivity.getApproachSiteCode().getDisplayName()))
 					{
+						maxPoints++;
 						if(ApplicationUtil.validateDisplayName(medActivity.getApproachSiteCode().getCode(), 
 																medActivity.getApproachSiteCode().getCodeSystem(),
 																medActivity.getApproachSiteCode().getDisplayName()))
@@ -336,20 +329,13 @@ public class MedicationScorecard {
 							issuesList.add(issue);
 						}
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(medActivity.getLineNumber());
-						issue.setXmlString(medActivity.getXmlString());
-						issuesList.add(issue);
-					}
-					
 					if(medActivity.getConsumable() != null)
 					{
 						if(!ApplicationUtil.isEmpty(medActivity.getConsumable().getTranslations()))
 						{
 							for (CCDACode translationCode : medActivity.getConsumable().getTranslations())
 							{
+								if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()))
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
 														translationCode.getCodeSystem(),
@@ -370,12 +356,11 @@ public class MedicationScorecard {
 				}
 			}
 		}
-		else
+		
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Medications section not present");
-			issue.setXmlString("Medications section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		validateDisplayNameScore.setActualPoints(actualPoints);
