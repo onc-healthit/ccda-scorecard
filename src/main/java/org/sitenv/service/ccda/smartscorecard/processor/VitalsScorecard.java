@@ -336,9 +336,9 @@ public class VitalsScorecard {
 		CCDAXmlSnippet issue= null;
 		if(vitals != null)
 		{
-			maxPoints++;
-			if(vitals.getSectionCode()!= null)
+			if(vitals.getSectionCode()!= null && !ApplicationUtil.isEmpty(vitals.getSectionCode().getDisplayName()))
 			{
+				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(vitals.getSectionCode().getCode(), 
 														vitals.getSectionCode().getCodeSystem(),
 														vitals.getSectionCode().getDisplayName()))
@@ -353,21 +353,13 @@ public class VitalsScorecard {
 					issuesList.add(issue);
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(vitals.getLineNumber());
-				issue.setXmlString(vitals.getXmlString());
-				issuesList.add(issue);
-			}
-			
 			if(!ApplicationUtil.isEmpty(vitals.getVitalsOrg()))
 			{
 				for (CCDAVitalOrg vitalsOrg : vitals.getVitalsOrg())
 				{
-					maxPoints++;
-					if(vitalsOrg.getOrgCode() != null)
+					if(vitalsOrg.getOrgCode() != null && !ApplicationUtil.isEmpty(vitalsOrg.getOrgCode().getDisplayName()))
 					{
+						maxPoints++;
 						if(ApplicationUtil.validateDisplayName(vitalsOrg.getOrgCode().getCode(), 
 																vitalsOrg.getOrgCode().getCodeSystem(),
 																		vitalsOrg.getOrgCode().getDisplayName()))
@@ -383,22 +375,13 @@ public class VitalsScorecard {
 						}
 					}
 					
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(vitalsOrg.getLineNumber());
-						issue.setXmlString(vitalsOrg.getXmlString());
-						issuesList.add(issue);
-					}
-					
 					if(!ApplicationUtil.isEmpty(vitalsOrg.getVitalObs()))
 					{
-					
 						for(CCDAVitalObs vitalsObs : vitalsOrg.getVitalObs())
 						{
-							maxPoints++;
-							if(vitalsObs.getVsCode() != null)
+							if(vitalsObs.getVsCode() != null && !ApplicationUtil.isEmpty(vitalsObs.getVsCode().getDisplayName()))
 							{
+								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(vitalsObs.getVsCode().getCode(), 
 																	vitalsObs.getVsCode().getCodeSystem(),
 																	vitalsObs.getVsCode().getDisplayName()))
@@ -413,24 +396,16 @@ public class VitalsScorecard {
 									issuesList.add(issue);
 								}
 							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(vitalsObs.getLineNumber());
-								issue.setXmlString(vitalsObs.getXmlString());
-								issuesList.add(issue);
-							}
 						}
 					}
 				}
 			}
 		}
-		else
+		
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Vitals section not present");
-			issue.setXmlString("Vitals section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints=1;
 		}
 		
 		validateDisplayNameScore.setActualPoints(actualPoints);
