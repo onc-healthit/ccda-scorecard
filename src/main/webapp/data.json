@@ -3,8 +3,8 @@
   "filename": "administrativeGenderCodeIsUNK_ExpectFAIL.xml",
   "ccdaDocumentType": "CCD",
   "results": {
-    "finalGrade": "D",
-    "finalNumericalGrade": 43,
+    "finalGrade": "C",
+    "finalNumericalGrade": 73,
     "categoryList": [
       {
         "categoryName": "Miscellaneous",
@@ -50,7 +50,8 @@
           }
         ],
         "numberOfIssues": 4,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Medications",
@@ -58,7 +59,8 @@
         "categoryNumericalScore": -1,
         "categoryRubrics": [],
         "numberOfIssues": 0,
-        "failingConformance": true
+        "failingConformance": true,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Social History",
@@ -128,7 +130,8 @@
           }
         ],
         "numberOfIssues": 2,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Immunizations",
@@ -232,212 +235,26 @@
           }
         ],
         "numberOfIssues": 10,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Encounters",
-        "categoryGrade": "D",
+        "categoryGrade": null,
         "categoryNumericalScore": 0,
-        "categoryRubrics": [
-          {
-            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Encounter section not present",
-                "xmlString": "Encounter Section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"
-            ],
-            "igReferences": [
-              "Section 3.23: Encounter Actvity"
-            ],
-            "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
-          },
-          {
-            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Encounter section not present",
-                "xmlString": "Encounter Section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"
-            ],
-            "igReferences": [
-              "Section 3.23: Encounter Actvity"
-            ],
-            "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
-          },
-          {
-            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Encounter section not present",
-                "xmlString": "Encounter section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"
-            ],
-            "igReferences": [
-              "Section 2.16: Encounters"
-            ],
-            "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
-          },
-          {
-            "rule": "Each entry has to be linked to related narrative text",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "All sections are empty",
-                "xmlString": "All sections are empty"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"
-            ],
-            "igReferences": [
-              "Section 2.16: Encounters"
-            ],
-            "description": "Each entry has to be linked to related narrative text"
-          }
-        ],
-        "numberOfIssues": 4,
-        "failingConformance": false
+        "categoryRubrics": [],
+        "numberOfIssues": 0,
+        "failingConformance": false,
+        "nullFlavorNI": true
       },
       {
         "categoryName": "Laboratory Tests and Results",
-        "categoryGrade": "D",
+        "categoryGrade": null,
         "categoryNumericalScore": 0,
-        "categoryRubrics": [
-          {
-            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Results section not present",
-                "xmlString": "Results section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_Less_Than_Physical_Quantity.xml"
-            ],
-            "igReferences": [
-              "Section 3.93: Result Organizer"
-            ],
-            "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
-          },
-          {
-            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Results section not present",
-                "xmlString": "Results section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_Less_Than_Physical_Quantity.xml"
-            ],
-            "igReferences": [
-              "Section 3.93: Result Organizer"
-            ],
-            "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
-          },
-          {
-            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Results section not present",
-                "xmlString": "Results section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_Less_Than_Physical_Quantity.xml"
-            ],
-            "igReferences": [
-              "Section 2.64.1: Results Section"
-            ],
-            "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
-          },
-          {
-            "rule": "All Lab Results should use UCUM units to express the result values.",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Results section not present",
-                "xmlString": "Results section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_UCUM_Translation.xml"
-            ],
-            "igReferences": [
-              "Section 3.92: Result Observation"
-            ],
-            "description": "The recommended UCUM units should be used to represent the Lab Result values as part of the observation."
-          },
-          {
-            "rule": "Lab results should be expressed with LOINC codes",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Results section not present",
-                "xmlString": "Results section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_UCUM_Translation.xml"
-            ],
-            "igReferences": [
-              "Section 3.92: Result Observation"
-            ],
-            "description": "Lab results should be expressed with LOINC codes"
-          },
-          {
-            "rule": "The EffectiveDate/Time elements for the Result Organizer must encompass the underlying observations.",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Results section not present",
-                "xmlString": "Results section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_Less_Than_Physical_Quantity.xml"
-            ],
-            "igReferences": [
-              "Section 3.93: Result Organizer"
-            ],
-            "description": "The EffectiveDate/Time elements of the Results Organizer cannot be out of sync with the Result Observation. Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low and Observation's EffectiveTime/high should be <= Organizer's EffectiveTime/high"
-          },
-          {
-            "rule": "Each entry has to be linked to related narrative text",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "All sections are empty",
-                "xmlString": "All sections are empty"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_Less_Than_Physical_Quantity.xml"
-            ],
-            "igReferences": [
-              "Section 2.64.1: Results Section"
-            ],
-            "description": "Each entry has to be linked to related narrative text"
-          }
-        ],
-        "numberOfIssues": 7,
-        "failingConformance": false
+        "categoryRubrics": [],
+        "numberOfIssues": 0,
+        "failingConformance": false,
+        "nullFlavorNI": true
       },
       {
         "categoryName": "Vital Signs",
@@ -576,152 +393,17 @@
           }
         ],
         "numberOfIssues": 16,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Problems",
-        "categoryGrade": "D",
+        "categoryGrade": null,
         "categoryNumericalScore": 0,
-        "categoryRubrics": [
-          {
-            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Problems section not present",
-                "xmlString": "Problems section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
-            ],
-            "igReferences": [
-              "Section 3.78: Problem Concern Act"
-            ],
-            "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
-          },
-          {
-            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Problems section not present",
-                "xmlString": "Problems section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
-            ],
-            "igReferences": [
-              "Section 3.78: Problem Concern Act"
-            ],
-            "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
-          },
-          {
-            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Problems section not present",
-                "xmlString": "Problems section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
-            ],
-            "igReferences": [
-              "Section 2.53.1: Problem Section"
-            ],
-            "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
-          },
-          {
-            "rule": "All problem codes are should express with core subset of SNOMED codes",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Problems section not present",
-                "xmlString": "Problems section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
-            ],
-            "igReferences": [
-              "Section 3.79: Problem Observation"
-            ],
-            "description": "code validation Rubric failed for Problems"
-          },
-          {
-            "rule": "Problem Concern effective times reflect the appropriate problem concern status.",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Problems section not present",
-                "xmlString": "Problems section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
-            ],
-            "igReferences": [
-              "Section 3.78: Problem Concern Act"
-            ],
-            "description": "A Problem Concern of completed or suspended should have a Problem Concern effectiveTime/high value present.Similarly a Problem Concern which is Active shall not have a Problem Concern effectiveTime/high value."
-          },
-          {
-            "rule": "The EffectiveDate/Time elements for the Problem Concern Act must encompass the underlying observations.",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Problems section not present",
-                "xmlString": "Problems section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
-            ],
-            "igReferences": [
-              "Section 3.78: Problem Concern Act"
-            ],
-            "description": "The EffectiveDate/Time elements of the Problem Concern Act cannot be out of sync with the Problem Observation. Each of the Observation's EffectiveTime/low >= Problem Concern's EffectiveTime/low and Observation's EffectiveTime/high should be <= Problem Concern's EffectiveTime/high"
-          },
-          {
-            "rule": "Problem Concern status and Problem Observation status are consistent with each other.",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "Problems section not present",
-                "xmlString": "Problems section not present"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
-            ],
-            "igReferences": [
-              "Section 3.78: Problem Concern Act"
-            ],
-            "description": "Problem Concern status and Problem Observation status are consistent with each other."
-          },
-          {
-            "rule": "Each entry has to be linked to related narrative text",
-            "numberOfIssues": 1,
-            "issuesList": [
-              {
-                "lineNumber": "All sections are empty",
-                "xmlString": "All sections are empty"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
-            ],
-            "igReferences": [
-              "Section 2.53.1: Problem Section"
-            ],
-            "description": "Each entry has to be linked to related narrative text"
-          }
-        ],
-        "numberOfIssues": 8,
-        "failingConformance": false
+        "categoryRubrics": [],
+        "numberOfIssues": 0,
+        "failingConformance": false,
+        "nullFlavorNI": true
       },
       {
         "categoryName": "Allergies",
@@ -835,7 +517,8 @@
           }
         ],
         "numberOfIssues": 10,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Procedures",
@@ -869,7 +552,8 @@
           }
         ],
         "numberOfIssues": 1,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Patient Demographics",
@@ -877,14 +561,15 @@
         "categoryNumericalScore": -1,
         "categoryRubrics": [],
         "numberOfIssues": 0,
-        "failingConformance": true
+        "failingConformance": true,
+        "nullFlavorNI": false
       }
     ],
-    "numberOfIssues": 62,
+    "numberOfIssues": 43,
     "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
-    "industryAverageScore": 60,
+    "industryAverageScore": 59,
     "industryAverageGrade": "D",
-    "numberOfDocumentsScored": 455,
+    "numberOfDocumentsScored": 515,
     "docType": "R2.1",
     "passedCertification": null
   },

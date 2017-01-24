@@ -365,15 +365,56 @@ we don't use data-target as we don't want the user redirected */
 .heatMapD:focus {
     color: white !important;
 }
-.heatMapFail {
+.heatMapFailedIGConformance {
     background-color: #000000 !important;   
     color: white !important;
 }
-.heatMapFail:hover {
+.heatMapFailedIGConformance[disabled] {
+    background-color: #000000 !important;   
+    color: white !important;
+    opacity: 1
+}
+/*
+.heatMapFailedIGConformance:hover {
     font-weight: bold;
 }
-.heatMapFail:focus {
+*/
+.heatMapFailedIGConformance:focus {
     color: white !important;
+}
+.heatMapHasCertificationFeedback {
+    background-color: #424242 !important /*very dark flat gray*/;	    
+    color: white !important;
+}
+.heatMapHasCertificationFeedback[disabled] {
+    background-color: #424242 !important /*very dark flat gray*/;	    
+    color: white !important;
+    opacity: 1
+}
+/*
+.heatMapHasCertificationFeedback:hover {
+    font-weight: bold;
+}
+*/
+.heatMapHasCertificationFeedback:focus {
+    color: white !important;
+}
+.heatMapNullFlavorNI {
+    background-color: lightGray !important;	   
+    color: black !important;
+}
+.heatMapNullFlavorNI[disabled] {
+    background-color: lightGray !important;	   
+    color: black !important;
+    opacity: 1
+}
+/*
+.heatMapNullFlavorNI:hover {
+    font-weight: bold;
+}
+*/
+.heatMapNullFlavorNI:focus {
+    color: black !important;
 }
 
 .heatMapButton {
