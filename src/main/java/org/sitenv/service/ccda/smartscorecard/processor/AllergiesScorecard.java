@@ -372,9 +372,9 @@ public class AllergiesScorecard {
 		CCDAXmlSnippet issue= null;
 		if(allergies != null)
 		{
-			maxPoints++;
-			if(allergies.getSectionCode() != null)
+			if(allergies.getSectionCode() != null && !ApplicationUtil.isEmpty(allergies.getSectionCode().getDisplayName()))
 			{
+				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(allergies.getSectionCode().getCode(), allergies.getSectionCode().getCodeSystem(),
 														allergies.getSectionCode().getDisplayName()))
 				{
@@ -388,13 +388,6 @@ public class AllergiesScorecard {
 					issuesList.add(issue);
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(allergies.getLineNumber());
-				issue.setXmlString(allergies.getXmlString());
-				issuesList.add(issue);
-			}
 			
 			if(!ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
 			{
@@ -404,9 +397,9 @@ public class AllergiesScorecard {
 					{
 						for (CCDAAllergyObs allergyObs : allergyConcern.getAllergyObs())
 						{
-							maxPoints = maxPoints + 2;
-							if(allergyObs.getAllergyIntoleranceType() != null)
+							if(allergyObs.getAllergyIntoleranceType() != null && !ApplicationUtil.isEmpty(allergyObs.getAllergyIntoleranceType().getDisplayName()))
 							{
+								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(allergyObs.getAllergyIntoleranceType().getCode(), 
 																allergyObs.getAllergyIntoleranceType().getCodeSystem(),
 																allergyObs.getAllergyIntoleranceType().getDisplayName()))
@@ -421,17 +414,10 @@ public class AllergiesScorecard {
 									issuesList.add(issue);
 								}
 							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(allergyObs.getLineNumber());
-								issue.setXmlString(allergyObs.getXmlString());
-								issuesList.add(issue);
-							}
-								
 							
-							if(allergyObs.getAllergySubstance() != null)
+							if(allergyObs.getAllergySubstance() != null && ApplicationUtil.isEmpty(allergyObs.getAllergySubstance().getDisplayName()))
 							{
+								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(allergyObs.getAllergySubstance().getCode(), 
 																allergyObs.getAllergySubstance().getCodeSystem(),
 																allergyObs.getAllergySubstance().getDisplayName()))
@@ -446,26 +432,16 @@ public class AllergiesScorecard {
 									issuesList.add(issue);
 								}
 							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(allergyObs.getLineNumber());
-								issue.setXmlString(allergyObs.getXmlString());
-								issuesList.add(issue);
-							}
 						}
 					}
 				}
 			}
 		}
-		else
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Allergies Section not present");
-			issue.setXmlString("Allergies section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
-		
 		validateDisplayNameScore.setActualPoints(actualPoints);
 		validateDisplayNameScore.setMaxPoints(maxPoints);
 		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));

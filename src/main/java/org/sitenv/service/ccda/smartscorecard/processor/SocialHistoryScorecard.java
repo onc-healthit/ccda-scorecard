@@ -277,9 +277,9 @@ public class SocialHistoryScorecard {
 		CCDAXmlSnippet issue= null;
 		if(socialHistory != null)
 		{
-			maxPoints++;
-			if(socialHistory.getSectionCode()!= null)
+			if(socialHistory.getSectionCode()!= null && !ApplicationUtil.isEmpty(socialHistory.getSectionCode().getDisplayName()))
 			{
+				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(socialHistory.getSectionCode().getCode(), 
 											socialHistory.getSectionCode().getCodeSystem(),
 											socialHistory.getSectionCode().getDisplayName()))
@@ -294,21 +294,14 @@ public class SocialHistoryScorecard {
 					issuesList.add(issue);
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(socialHistory.getLineNumber());
-				issue.setXmlString(socialHistory.getXmlString());
-				issuesList.add(issue);
-			}
 			
 			if(!ApplicationUtil.isEmpty(socialHistory.getSmokingStatus()))
 			{
 				for (CCDASmokingStatus smokingStatus : socialHistory.getSmokingStatus())
 				{
-					maxPoints++;
-					if(smokingStatus.getSmokingStatusCode() != null)
+					if(smokingStatus.getSmokingStatusCode() != null && !ApplicationUtil.isEmpty(smokingStatus.getSmokingStatusCode().getDisplayName()))
 					{
+						maxPoints++;
 						if(ApplicationUtil.validateDisplayName(smokingStatus.getSmokingStatusCode().getCode(), 
 																smokingStatus.getSmokingStatusCode().getCodeSystem(),
 																	smokingStatus.getSmokingStatusCode().getDisplayName()))
@@ -323,13 +316,6 @@ public class SocialHistoryScorecard {
 							issuesList.add(issue);
 						}
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(smokingStatus.getLineNumber());
-						issue.setXmlString(smokingStatus.getXmlString());
-						issuesList.add(issue);
-					}
 				}
 			}
 			
@@ -337,9 +323,9 @@ public class SocialHistoryScorecard {
 			{
 				for (CCDATobaccoUse tobaccoUse : socialHistory.getTobaccoUse())
 				{
-					maxPoints++;
-					if(tobaccoUse.getTobaccoUseCode() != null)
+					if(tobaccoUse.getTobaccoUseCode() != null && !ApplicationUtil.isEmpty(tobaccoUse.getTobaccoUseCode().getDisplayName()))
 					{
+						maxPoints++;
 						if(ApplicationUtil.validateDisplayName(tobaccoUse.getTobaccoUseCode().getCode(), 
 														tobaccoUse.getTobaccoUseCode().getCodeSystem(),
 														tobaccoUse.getTobaccoUseCode().getDisplayName()))
@@ -354,22 +340,14 @@ public class SocialHistoryScorecard {
 							issuesList.add(issue);
 						}
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(tobaccoUse.getLineNumber());
-						issue.setXmlString(tobaccoUse.getXmlString());
-						issuesList.add(issue);
-					}
 				}
 			}
 		}
-		else
+		
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Social History section not present");
-			issue.setXmlString("Social History section not present");
-			issuesList.add(issue);
+			actualPoints=1;
+			maxPoints=1;
 		}
 		
 		validateDisplayNameScore.setActualPoints(actualPoints);
