@@ -29,7 +29,8 @@
           }
         ],
         "numberOfIssues": 0,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Medications",
@@ -107,7 +108,8 @@
           }
         ],
         "numberOfIssues": 4,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Social History",
@@ -173,7 +175,8 @@
           }
         ],
         "numberOfIssues": 1,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Immunizations",
@@ -243,7 +246,8 @@
           }
         ],
         "numberOfIssues": 4,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Encounters",
@@ -314,7 +318,8 @@
           }
         ],
         "numberOfIssues": 5,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Laboratory Tests and Results",
@@ -405,7 +410,8 @@
           }
         ],
         "numberOfIssues": 4,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Vital Signs",
@@ -521,7 +527,8 @@
           }
         ],
         "numberOfIssues": 9,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Problems",
@@ -623,7 +630,8 @@
           }
         ],
         "numberOfIssues": 6,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Allergies",
@@ -689,7 +697,8 @@
           }
         ],
         "numberOfIssues": 3,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Procedures",
@@ -723,7 +732,8 @@
           }
         ],
         "numberOfIssues": 1,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Patient Demographics",
@@ -740,14 +750,15 @@
           }
         ],
         "numberOfIssues": 0,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       }
     ],
     "numberOfIssues": 37,
     "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
     "industryAverageScore": 59,
     "industryAverageGrade": "D",
-    "numberOfDocumentsScored": 8000,
+    "numberOfDocumentsScored": 526,
     "docType": "R2.1",
     "passedCertification": null
   },

@@ -4,7 +4,7 @@
     "ccdaDocumentType": "CCD",
     "results": {
         "finalGrade": "D",
-        "finalNumericalGrade": 54,
+        "finalNumericalGrade": 56,
         "categoryList": [
             {
                 "categoryName": "Miscellaneous",
@@ -166,12 +166,13 @@
                     }
                 ],
                 "numberOfIssues": 33,
-                "failingConformance": false
+                "failingConformance": false,
+                "nullFlavorNI": false
             },
             {
                 "categoryName": "Medications",
-                "categoryGrade": "C",
-                "categoryNumericalScore": 79,
+                "categoryGrade": "B-",
+                "categoryNumericalScore": 83,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -260,32 +261,16 @@
                     },
                     {
                         "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 3,
-                        "issuesList": [
-                            {
-                                "lineNumber": "1187",
-                                "xmlString": "<reference value=\"#_f61e6389-8f52-4ba4-bf2e-12610148116a\"/>"
-                            },
-                            {
-                                "lineNumber": "1286",
-                                "xmlString": "<reference value=\"#_909a9f02-acc7-4b6c-b1ce-32ebc450a54d\"/>"
-                            },
-                            {
-                                "lineNumber": "1351",
-                                "xmlString": "<reference value=\"#_ae42dc4c-a522-46f5-94bc-be658a7afc27\"/>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
-                        ],
-                        "igReferences": [
-                            "Section 2.39.1: Medications Section"
-                        ],
-                        "description": "Each entry has to be linked to related narrative text"
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
                     }
                 ],
-                "numberOfIssues": 13,
-                "failingConformance": false
+                "numberOfIssues": 10,
+                "failingConformance": false,
+                "nullFlavorNI": false
             },
             {
                 "categoryName": "Social History",
@@ -373,12 +358,13 @@
                     }
                 ],
                 "numberOfIssues": 4,
-                "failingConformance": false
+                "failingConformance": false,
+                "nullFlavorNI": false
             },
             {
                 "categoryName": "Immunizations",
-                "categoryGrade": "C",
-                "categoryNumericalScore": 70,
+                "categoryGrade": "B-",
+                "categoryNumericalScore": 80,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -431,28 +417,16 @@
                     },
                     {
                         "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 2,
-                        "issuesList": [
-                            {
-                                "lineNumber": "1662",
-                                "xmlString": "<reference value=\"#_600276ca-1286-44e7-8534-265804681eb5\"/>"
-                            },
-                            {
-                                "lineNumber": "1702",
-                                "xmlString": "<reference value=\"#_a5dc2384-b355-4f75-a931-51a643b5ca72\"/>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
-                        ],
-                        "igReferences": [
-                            "Section 2.32.1: Immunizations Section"
-                        ],
-                        "description": "Each entry has to be linked to related narrative text"
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
                     }
                 ],
-                "numberOfIssues": 5,
-                "failingConformance": false
+                "numberOfIssues": 3,
+                "failingConformance": false,
+                "nullFlavorNI": false
             },
             {
                 "categoryName": "Encounters",
@@ -560,7 +534,8 @@
                     }
                 ],
                 "numberOfIssues": 13,
-                "failingConformance": false
+                "failingConformance": false,
+                "nullFlavorNI": false
             },
             {
                 "categoryName": "Laboratory Tests and Results",
@@ -706,7 +681,8 @@
                     }
                 ],
                 "numberOfIssues": 14,
-                "failingConformance": false
+                "failingConformance": false,
+                "nullFlavorNI": false
             },
             {
                 "categoryName": "Vital Signs",
@@ -1001,7 +977,8 @@
                     }
                 ],
                 "numberOfIssues": 50,
-                "failingConformance": false
+                "failingConformance": false,
+                "nullFlavorNI": false
             },
             {
                 "categoryName": "Problems",
@@ -1235,7 +1212,8 @@
                     }
                 ],
                 "numberOfIssues": 34,
-                "failingConformance": false
+                "failingConformance": false,
+                "nullFlavorNI": false
             },
             {
                 "categoryName": "Allergies",
@@ -1348,7 +1326,8 @@
                     }
                 ],
                 "numberOfIssues": 11,
-                "failingConformance": false
+                "failingConformance": false,
+                "nullFlavorNI": false
             },
             {
                 "categoryName": "Procedures",
@@ -1390,7 +1369,8 @@
                     }
                 ],
                 "numberOfIssues": 3,
-                "failingConformance": false
+                "failingConformance": false,
+                "nullFlavorNI": false
             },
             {
                 "categoryName": "Patient Demographics",
@@ -1407,14 +1387,15 @@
                     }
                 ],
                 "numberOfIssues": 0,
-                "failingConformance": false
+                "failingConformance": false,
+                "nullFlavorNI": false
             }
         ],
-        "numberOfIssues": 180,
+        "numberOfIssues": 175,
         "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
         "industryAverageScore": 59,
         "industryAverageGrade": "D",
-        "numberOfDocumentsScored": 8000,
+        "numberOfDocumentsScored": 527,
         "docType": "R2.1",
         "passedCertification": null
     },
