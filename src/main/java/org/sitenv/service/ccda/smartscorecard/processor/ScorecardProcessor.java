@@ -20,13 +20,14 @@ import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.ccdaparsing.model.UsrhSubType;
 import org.sitenv.ccdaparsing.service.CCDAParserAPI;
 import org.sitenv.ccdaparsing.util.PositionalXMLReader;
+import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceError;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceResult;
-import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ValidationResultType;
-import org.sitenv.service.ccda.smartscorecard.model.Results;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ReferenceInstanceType;
+import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ValidationResultType;
 import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
+import org.sitenv.service.ccda.smartscorecard.model.Results;
 import org.sitenv.service.ccda.smartscorecard.model.ScorecardProperties;
 import org.sitenv.service.ccda.smartscorecard.model.referencedto.ResultMetaData;
 import org.sitenv.service.ccda.smartscorecard.model.referencedto.ValidationResultsDto;
@@ -101,6 +102,7 @@ public class ScorecardProcessor {
 		List<ReferenceError> schemaErrorList;
 		ResponseTO scorecardResponse = new ResponseTO();
 		List<String> errorSectionList = new ArrayList<>();
+		List<String> certSectionList = new ArrayList<>();
 		String birthDate = null;
 		List<Category> categoryList = new ArrayList<Category>();
 		String docType = null;
@@ -140,11 +142,6 @@ public class ScorecardProcessor {
 				
 					referenceValidatorCallReturnedErrors = 
 							checkForReferenceValidatorErrors(referenceValidatorResults.getResultsMetaData().getResultMetaData());
-					if(referenceValidatorCallReturnedErrors)
-					{
-						errorSectionList = getErrorSectionList(getReferenceResults(referenceValidatorResults.getCcdaValidationResults(), 
-								ReferenceInstanceType.IG_CONFORMANCE).getReferenceErrors(), ccdaFile);
-					}
 				}
 				
 				// Commenting 2nd call for now as the results are currently the same as the 1st
@@ -173,7 +170,6 @@ public class ScorecardProcessor {
 					{
 						// Copy results from referenceValidatorResults (IG_CONFORMANCE) to certificationResults (CERTIFICATION_2015)
 						certificationResults = new ValidationResultsDto(referenceValidatorResults);
-						
 					}else 
 					{
 						certificationResults = new ValidationResultsDto();
@@ -188,7 +184,19 @@ public class ScorecardProcessor {
 						{
 							errorIterator.remove();
 						}
-					}	
+					}
+					
+					if(scorecardProperties.getIgConformanceCall()) 
+					{
+						// set IG errors AFTER non-IG results are removed so current cert results aren't flagged as failingConformance						
+						errorSectionList = getErrorSectionList(getReferenceResults(referenceValidatorResults.getCcdaValidationResults(), 
+								ReferenceInstanceType.IG_CONFORMANCE).getReferenceErrors(), ccdaFile);
+					}
+					if(scorecardProperties.getCertificationResultsCall())
+					{
+						certSectionList = getErrorSectionList(getReferenceResults(certificationResults.getCcdaValidationResults(), 
+								ReferenceInstanceType.CERTIFICATION_2015).getReferenceErrors(), ccdaFile);
+					}
 					
 					// Store the 2 instances in the JSON (referenceResults array)
 					scorecardResponse.getReferenceResults().add(getReferenceResults(referenceValidatorResults.getCcdaValidationResults(),
@@ -205,7 +213,10 @@ public class ScorecardProcessor {
 			
 				categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
 				Category scorecardCategory = null;
-				for (Entry<String, String> entry : ApplicationConstants.SECTION_TEMPLATEID_MAP.entrySet()) {
+				ApplicationUtil.debugLog("certSectionList", certSectionList.toString());
+				for (Entry<String, String> entry : ApplicationConstants.SECTION_TEMPLATEID_MAP.entrySet()) 
+				{
+										
 					if(!errorSectionList.contains(entry.getValue()))
 					{
 						scorecardCategory = getSectionCategory(entry.getValue(),ccdaModels,birthDate,docType);
@@ -217,6 +228,29 @@ public class ScorecardProcessor {
 					{
 						categoryList.add(new Category(true,entry.getValue()));
 					}
+					
+					
+					if(certSectionList.contains(entry.getValue()))
+					{						
+						int indexOfScorecardCategory = -1;
+						for(int i = 0; i < categoryList.size(); i++) {
+							String curCatName = categoryList.get(i).getCategoryName();
+							if(entry.getValue().equals(curCatName)) {
+								indexOfScorecardCategory = i;
+								break;
+							}
+						}						
+						if(indexOfScorecardCategory != -1)
+						{							
+							Category curCat = categoryList.get(indexOfScorecardCategory);
+							curCat.setCertificationFeedback(true);
+							curCat.setCategoryGrade(null);
+							curCat.setCategoryNumericalScore(0);
+							curCat.setCategoryRubrics(new ArrayList<CCDAScoreCardRubrics>());
+							curCat.setNumberOfIssues(0);
+						}
+					}
+					
 				}
 			}else
 			{

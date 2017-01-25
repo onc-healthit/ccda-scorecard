@@ -11,8 +11,7 @@
         <div id="{{currentCategory.categoryName}}"
           class="panel panel-primary removeBorder">
 
-            <div ng-class="getGradeClassForCategory('panel-heading categoryPanelHeading', 
-            currentCategory.categoryGrade, currentCategory.failingConformance)" 
+            <div ng-class="getClassForCategory(currentCategory, 'panel-heading categoryPanelHeading')" 
                  class="panel-heading categoryPanelHeading" style="border-radius: 0px">
             <h2 class="panel-title">
               <a data-toggle="collapse" data-parent="#catAccordion{{$index}}" 

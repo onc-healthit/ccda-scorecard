@@ -33,7 +33,7 @@ public class Category {
 	
 	// referenceccdavalidator properties
 	private boolean isFailingConformance;
-	
+	private boolean certificationFeedback;	
 	private boolean isNullFlavorNI;
 	
 	public String getCategoryName() {
@@ -71,13 +71,18 @@ public class Category {
 	}
 	public void setFailingConformance(boolean isFailingConformance) {
 		this.isFailingConformance = isFailingConformance;
+	}	
+	public boolean isCertificationFeedback() {
+		return certificationFeedback;
 	}
-
+	public void setCertificationFeedback(boolean certificationFeedback) {
+		this.certificationFeedback = certificationFeedback;
+	}
 	public boolean isNullFlavorNI() {
 		return isNullFlavorNI;
 	}
-
 	public void setNullFlavorNI(boolean isNullFlavorNI) {
 		this.isNullFlavorNI = isNullFlavorNI;
 	}
+	
 }

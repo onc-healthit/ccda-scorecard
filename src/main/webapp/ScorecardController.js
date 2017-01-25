@@ -202,9 +202,11 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         return classPrefix + " unknownGradeColor";
     };
     
-    $scope.getGradeClassForCategory = function(classPrefix, grade, curCategoryFailingConformance) { 
-      return curCategoryFailingConformance ? 
-      		classPrefix + " heatMapFailedIGConformance" : $scope.calculateCategoryColor(classPrefix, grade);
+    $scope.getClassForCategory = function(category, classPrefix) {
+    	var sectionFailClasses = getSectionFailClasses(category, classPrefix);
+    	/*$scope.debugLog("sectionFailClasses:");$scope.debugLog(sectionFailClasses);*/
+      return sectionFailClasses ? 
+      		sectionFailClasses : $scope.calculateCategoryColor(classPrefix, category.categoryGrade);
     };
     
     $scope.jumpToCategoryViaName = function(key, weWait, timeToWaitInMiliseconds) {
@@ -300,17 +302,16 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         var grade = curCategory.categoryGrade;
         var issues = curCategory.numberOfIssues;        
         var score = curCategory.categoryNumericalScore;
-        var failedIGConformance = curCategory.failingConformance;
-        /*var hasCertificationFeedback = curCategory.certificationFeedback;*/
-        var hasCertificationFeedback = false; //preprogrammed test data until implemented in backend
+        var failingConformance = curCategory.failingConformance;
+        var certificationFeedback = curCategory.certificationFeedback;
         var nullFlavorNI = curCategory.nullFlavorNI;
         var sectionData = {
           name: name,
           grade: grade ? grade : 'F',
           sectionIssueCount: issues,
           score: score ? score : '-1',
-          failedIGConformance: failedIGConformance,
-          hasCertificationFeedback: hasCertificationFeedback,
+          failingConformance: failingConformance,
+          certificationFeedback: certificationFeedback,
           nullFlavorNI: nullFlavorNI
         };
         var failingSectionOrderScore = getFailingSectionOrderScore(sectionData);
@@ -328,8 +329,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
           grade: "UNK",
           sectionIssueCount: 0,
           score: 0,
-          failedIGConformance: false,
-          hasCertificationFeedback: false,
+          failingConformance: false,
+          certificationFeedback: false,
           nullFlavorNI: false          
         };
         if(allCategories.length === 10) {
@@ -392,7 +393,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   
   $scope.getHeatMapCategoryGrade = function(row, columnNumber) {
   	var curSection = $scope.getCurrentHeatMapSectionData(row, columnNumber);
-  	var result = curSection.failedIGConformance || curSection.hasCertificationFeedback || curSection.nullFlavorNI ? '' 
+  	var result = curSection.failingConformance || curSection.certificationFeedback || curSection.nullFlavorNI ? '' 
   			: curSection.grade + ' ';
   	return heatMapCategoryController(row, columnNumber, result);
   };
@@ -407,7 +408,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   $scope.getHeatMapClass = function(row, columnNumber, classPrefix) {
 		var curSection = $scope.getCurrentHeatMapSectionData(row, columnNumber);
   	var sectionFailClasses = getSectionFailClasses(curSection, classPrefix);
-  	$scope.debugLog("sectionFailClasses:");$scope.debugLog(sectionFailClasses);
+  	//$scope.debugLog("sectionFailClasses:");$scope.debugLog(sectionFailClasses);
     var knownResult = sectionFailClasses ? 
     		sectionFailClasses : $scope.calculateCategoryColor(classPrefix, curSection.grade);
     var unknownResult = classPrefix + " unknownGradeColor"; 
@@ -433,9 +434,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   });
   
   $scope.getSectionFailType = function(curSection) {
-  	if(curSection.failedIGConformance) {
+  	if(curSection.failingConformance) {
   		return SectionFailTypeEnum.CONFORMANCE_ERRORS;
-  	} else if(curSection.hasCertificationFeedback) {
+  	} else if(curSection.certificationFeedback) {
   		return SectionFailTypeEnum.CERTIFICATION_FEEDBACK;
   	} else if(curSection.nullFlavorNI) {
   		return SectionFailTypeEnum.EMPTY_SECTION;

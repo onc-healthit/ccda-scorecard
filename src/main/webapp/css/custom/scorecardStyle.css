@@ -383,11 +383,11 @@ we don't use data-target as we don't want the user redirected */
     color: white !important;
 }
 .heatMapHasCertificationFeedback {
-    background-color: #424242 !important /*very dark flat gray*/;	    
+    background-color: #545454 !important /*very dark flat gray*/;	    
     color: white !important;
 }
 .heatMapHasCertificationFeedback[disabled] {
-    background-color: #424242 !important /*very dark flat gray*/;	    
+    background-color: #545454 !important /*very dark flat gray*/;	    
     color: white !important;
     opacity: 1
 }
