@@ -287,18 +287,6 @@ we don't use data-target as we don't want the user redirected */
     /* padding: 15px; */    
 }
 
-.Acolor {
-    background-color: #87B822 !important;
-}
-.Bcolor {
-    background-color: #F0C42C !important;
-}
-.Ccolor {
-    background-color: #F1784D !important;
-}
-.Dcolor {
-    background-color: #F1784D !important;
-}
 .blackBackground {
 	background-color: #000000 !important;
 }
@@ -307,7 +295,6 @@ we don't use data-target as we don't want the user redirected */
 }
 
 .heatMapAPlus {
-/*    background-color: #87B822 !important;*/
     background-color: #01B830 !important;
     color: white !important;
 }
@@ -317,8 +304,9 @@ we don't use data-target as we don't want the user redirected */
 .heatMapAPlus:focus {
     color: white;
 }
-.heatMapAMinus {    
-    background-color: #018833 !important;
+.heatMapAMinus {
+    /*background-color: #018833 !important;*/
+    background-color: #01B830 !important;    
     color: white !important;
 }
 .heatMapAMinus:hover {
@@ -336,8 +324,8 @@ we don't use data-target as we don't want the user redirected */
 .heatMapBPlus:focus {
 }
 .heatMapBMinus {
-    background-color: #FFE00C !important;
-    background-color: #F0E002 !important;
+    /*background-color: #F0E002 !important;*/
+    background-color: #F0EF6C !important;
 }
 .heatMapBMinus:hover {
     font-weight: bold;
@@ -345,18 +333,17 @@ we don't use data-target as we don't want the user redirected */
 .heatMapBMinus:focus {
 }
 .heatMapC {
-    background-color: #F1704A !important;
-/*    color: white !important;*/
+    /*background-color: #F1704A !important;*/
+    background-color: #C0392B !important;    
+    color: white !important;	
 }
 .heatMapC:hover {
     font-weight: bold;
 }
 .heatMapC:focus {
-    color: white;
+    color: white !important;
 }
 .heatMapD {
-/*    background-color: #F1784D !important;*/
-/*    background-color: #96281B !important;*/
     background-color: #C0392B !important;    
     color: white !important;
 }
