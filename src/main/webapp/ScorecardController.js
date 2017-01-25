@@ -428,7 +428,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   		failingScore: -2
   	},
   	EMPTY_SECTION: {
-  		label: "Empty Section",
+  		label: "Empty Section Not Scored",
   		cssClass: " heatMapNullFlavorNI",
   		failingScore: -1
   	}
