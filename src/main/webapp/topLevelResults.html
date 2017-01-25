@@ -16,8 +16,24 @@
     			   <h2>Scorecard Grade:</h2>
 				   <h2 class="scHeaderDescriptionText">Scorecard Score:</h2>
 				   <h2 class="scHeaderDescriptionText">Scorecard Issues:</h2>
-				   <h2 class="scHeaderDescriptionText">{{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}:</h2>
-    		       <h2 class="scHeaderDescriptionText">{{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}:</h2>				   
+				   <h2 class="scHeaderDescriptionText">
+                    <span ng-if="!igResults.totalErrorCount">{{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}:</span>
+                    <a ng-if="igResults.totalErrorCount" href="javascript:void(0)"  
+                    ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.IG_CONFORMANCE)" 
+                    title="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}" 
+                    aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}">
+                      <span>{{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}:</span>
+                    </a>
+                   </h2>
+    		       <h2 class="scHeaderDescriptionText">
+                    <span ng-if="!certResults.totalErrorCount">{{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}:</span>
+                    <a ng-if="certResults.totalErrorCount" href="javascript:void(0)"  
+                    ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.CERTIFICATION_2015)"              
+                    title="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}" 
+                    aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}">
+                      <span>{{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}:</span>
+                    </a>               
+                   </h2> 				   
     			</div>
     			<div class="col-md-2 scHeading">
     			   <!--<h2>{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "Scoring..."}}</h2>-->
