@@ -425,6 +425,7 @@ public class ProblemsScorecard {
 							}
 							if(probObs.getProblemCode()!= null && !ApplicationUtil.isEmpty(probObs.getProblemCode().getDisplayName()))
 							{
+								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(probObs.getProblemCode().getCode(), 
 																		probObs.getProblemCode().getCodeSystem(),
 																		probObs.getProblemCode().getDisplayName()))
