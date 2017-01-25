@@ -221,6 +221,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     };
     
     $scope.jumpToReferenceInstanceTypeViaId = function(referenceInstanceTypeFromJson) {
+    	$scope.detailedResultsData.showDetailedResults = true;
     	$scope.jumpToElementViaId($scope.convertReferenceInstanceTypeToId(referenceInstanceTypeFromJson));
     };
     
