@@ -11,8 +11,8 @@
         <div id="{{currentCategory.categoryName}}"
           class="panel panel-primary removeBorder">
 
-            <div ng-class="getClassForCategory(currentCategory, 'panel-heading categoryPanelHeading')" 
-                 class="panel-heading categoryPanelHeading" style="border-radius: 0px">
+            <div ng-class="getClassForCategory(currentCategory, 'panel-heading categoryPanelHeading removeBoxShadowAndTextShadow')" 
+                 class="panel-heading categoryPanelHeading removeBoxShadowAndTextShadow" style="border-radius: 0px">
             <h2 class="panel-title">
               <a data-toggle="collapse" data-parent="#catAccordion{{$index}}" 
                 href="#scorecardCategoryData{{$index}}">{{currentCategory.categoryName}}</a>

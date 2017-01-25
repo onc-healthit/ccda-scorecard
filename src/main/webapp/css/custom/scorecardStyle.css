@@ -295,65 +295,78 @@ we don't use data-target as we don't want the user redirected */
 }
 
 .heatMapAPlus {
+	font-weight: bold;
     background-color: #01B830 !important;
     color: white !important;
 }
-.heatMapAPlus:hover {
-    font-weight: bold;
+.heatMapAPlus:hover {	
+	text-shadow: 1px 1px black;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 .heatMapAPlus:focus {
     color: white;
 }
 .heatMapAMinus {
     /*background-color: #018833 !important;*/
+    font-weight: bold;
     background-color: #01B830 !important;    
     color: white !important;
 }
-.heatMapAMinus:hover {
-    font-weight: bold;
+.heatMapAMinus:hover {    
+	text-shadow: 1px 1px black;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 .heatMapAMinus:focus {
     color: white;
 }
 .heatMapBPlus {
+	font-weight: bold;
     background-color: #F0EF6C !important;
 }
 .heatMapBPlus:hover {
-    font-weight: bold;
+	text-shadow: 1px 1px white;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;    
 }
 .heatMapBPlus:focus {
 }
 .heatMapBMinus {
     /*background-color: #F0E002 !important;*/
+    font-weight: bold;
     background-color: #F0EF6C !important;
 }
 .heatMapBMinus:hover {
-    font-weight: bold;
+	text-shadow: 1px 1px white;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 .heatMapBMinus:focus {
 }
 .heatMapC {
     /*background-color: #F1704A !important;*/
+    font-weight: bold;
     background-color: #C0392B !important;    
     color: white !important;	
 }
 .heatMapC:hover {
-    font-weight: bold;
+	text-shadow: 1px 1px black;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 .heatMapC:focus {
     color: white !important;
 }
 .heatMapD {
+	font-weight: bold;
     background-color: #C0392B !important;    
     color: white !important;
 }
 .heatMapD:hover {
-    font-weight: bold;
+	text-shadow: 1px 1px black;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 .heatMapD:focus {
     color: white !important;
 }
 .heatMapFailedIGConformance {
+	font-weight: bold;
     background-color: #000000 !important;   
     color: white !important;
 }
@@ -364,14 +377,16 @@ we don't use data-target as we don't want the user redirected */
 }
 /*
 .heatMapFailedIGConformance:hover {
-    font-weight: bold;
+	text-shadow: 1px 1px black;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 */
 .heatMapFailedIGConformance:focus {
     color: white !important;
 }
-.heatMapHasCertificationFeedback {
+.heatMapHasCertificationFeedback {	
     /*background-color: #545454 !important; //very dark flat gray*/
+    font-weight: bold;
     background-color: #000000 !important;	    
     color: white !important;
 }
@@ -383,13 +398,15 @@ we don't use data-target as we don't want the user redirected */
 }
 /*
 .heatMapHasCertificationFeedback:hover {
-    font-weight: bold;
+	text-shadow: 1px 1px black;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 */
 .heatMapHasCertificationFeedback:focus {
     color: white !important;
 }
 .heatMapNullFlavorNI {
+	font-weight: bold;
     background-color: lightGray !important;	   
     color: black !important;
 }
@@ -400,11 +417,17 @@ we don't use data-target as we don't want the user redirected */
 }
 /*
 .heatMapNullFlavorNI:hover {
-    font-weight: bold;
+	text-shadow: 1px 1px white;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 */
 .heatMapNullFlavorNI:focus {
     color: black !important;
+}
+
+.removeBoxShadowAndTextShadow {
+	text-shadow: none !important;
+	box-shadow: none !important;
 }
 
 .heatMapButton {
