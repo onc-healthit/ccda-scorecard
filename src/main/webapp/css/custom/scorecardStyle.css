@@ -299,7 +299,7 @@ we don't use data-target as we don't want the user redirected */
     background-color: #01B830 !important;
     color: white !important;
 }
-.heatMapAPlus:hover {	
+.heatMapAPlus:not([disabled]):hover {	
 	text-shadow: 1px 1px black;
 	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
@@ -312,7 +312,7 @@ we don't use data-target as we don't want the user redirected */
     background-color: #01B830 !important;    
     color: white !important;
 }
-.heatMapAMinus:hover {    
+.heatMapAMinus:not([disabled]):hover {    
 	text-shadow: 1px 1px black;
 	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
@@ -323,7 +323,7 @@ we don't use data-target as we don't want the user redirected */
 	font-weight: bold;
     background-color: #F0EF6C !important;
 }
-.heatMapBPlus:hover {
+.heatMapBPlus:not([disabled]):hover {
 	text-shadow: 1px 1px white;
 	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;    
 }
@@ -334,7 +334,7 @@ we don't use data-target as we don't want the user redirected */
     font-weight: bold;
     background-color: #F0EF6C !important;
 }
-.heatMapBMinus:hover {
+.heatMapBMinus:not([disabled]):hover {
 	text-shadow: 1px 1px white;
 	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
@@ -346,7 +346,7 @@ we don't use data-target as we don't want the user redirected */
     background-color: #C0392B !important;    
     color: white !important;	
 }
-.heatMapC:hover {
+.heatMapC:not([disabled]):hover {
 	text-shadow: 1px 1px black;
 	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
@@ -358,13 +358,18 @@ we don't use data-target as we don't want the user redirected */
     background-color: #C0392B !important;    
     color: white !important;
 }
-.heatMapD:hover {
+.heatMapD:not([disabled]):hover {
 	text-shadow: 1px 1px black;
 	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 .heatMapD:focus {
     color: white !important;
 }
+.heatMapAPlus[disabled], .heatMapAMinus[disabled], .heatMapBPlus[disabled], 
+.heatMapBMinus[disabled], .heatMapC[disabled], .heatMapD[disabled] {	
+    opacity: 1
+}
+
 .heatMapFailedIGConformance {
 	font-weight: bold;
     background-color: #000000 !important;   

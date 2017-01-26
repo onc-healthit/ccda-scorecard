@@ -5,7 +5,8 @@
         <div class="col-md-4 heatMapData">
             <button ng-click="jumpToCategoryViaName(getHeatMapCategoryName(row, 1))" 
             ng-class="getHeatMapClass(row, 1, 'btn btn-large btn-block heatMapButton')" class="btn btn-large btn-block heatMapButton" 
-            ng-disabled="isFinalCategoryListByGradeInitialized() ? isSectionNullFlavored(getCurrentHeatMapSectionData(row, 1)) : false"
+            ng-disabled="isFinalCategoryListByGradeInitialized() ? isSectionNullFlavored(getCurrentHeatMapSectionData(row, 1)) 
+            || !getCurrentHeatMapSectionData(row, 1).numberOfIssues : false"
             type="button" onclick="this.blur();">
                 {{truncateCategoryName(getHeatMapCategoryName(row, 1))}}:&nbsp;{{getHeatMapCategoryGrade(row, 1)}}({{getHeatMapCategoryIssueCount(row, 1)}})
             </button>

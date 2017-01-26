@@ -309,7 +309,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         var sectionData = {
           name: name,
           grade: grade ? grade : 'F',
-          sectionIssueCount: issues,
+          numberOfIssues: issues,
           score: score ? score : '-1',
           failingConformance: failingConformance,
           certificationFeedback: certificationFeedback,
@@ -328,7 +328,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         var emptySectionData = {
           name: "UNK",
           grade: "UNK",
-          sectionIssueCount: 0,
+          numberOfIssues: 0,
           score: 0,
           failingConformance: false,
           certificationFeedback: false,
@@ -402,7 +402,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   $scope.getHeatMapCategoryIssueCount = function(row, columnNumber) {
 		var curSection = $scope.getCurrentHeatMapSectionData(row, columnNumber);
 		var sectionFailLabel = getSectionFailLabel(curSection);
-		var result = sectionFailLabel ? sectionFailLabel : curSection.sectionIssueCount;
+		var result = sectionFailLabel ? sectionFailLabel : curSection.numberOfIssues;
 		return heatMapCategoryController(row, columnNumber, result);
   };
 

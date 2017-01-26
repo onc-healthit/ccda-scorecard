@@ -6,13 +6,13 @@
 
       <!--START CATEGORY PANELS -->
       <div ng-repeat="currentCategory in categories"
+        ng-show="currentCategory.numberOfIssues > 0"
         id="catAccordion{{$index}}" class="panel-group category">
-        <!-- ng-show="currentCategory.categoryRubrics.length > 0" -->
         <div id="{{currentCategory.categoryName}}"
           class="panel panel-primary removeBorder">
 
-            <div ng-class="getClassForCategory(currentCategory, 'panel-heading categoryPanelHeading removeBoxShadowAndTextShadow')" 
-                 class="panel-heading categoryPanelHeading removeBoxShadowAndTextShadow" style="border-radius: 0px">
+          <div ng-class="getClassForCategory(currentCategory, 'panel-heading categoryPanelHeading removeBoxShadowAndTextShadow')" 
+            class="panel-heading categoryPanelHeading removeBoxShadowAndTextShadow" style="border-radius: 0px">
             <h2 class="panel-title">
               <a data-toggle="collapse" data-parent="#catAccordion{{$index}}" 
                 href="#scorecardCategoryData{{$index}}">{{currentCategory.categoryName}}</a>
