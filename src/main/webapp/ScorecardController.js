@@ -220,10 +220,10 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     };
     
     var jumpToCategoryViaName = function(key) {
-    		$scope.detailedResultsData.showDetailedResults = true;
-        elementId = detruncateCategoryName(key);
-        elementId = document.getElementById(elementId).parentNode.id;
-        $scope.jumpToElementViaId(elementId, true, 25);
+  		$scope.detailedResultsData.showDetailedResults = true;
+      elementId = detruncateCategoryName(key);
+      elementId = document.getElementById(elementId).parentNode.id;
+      $scope.jumpToElementViaId(elementId, true, 25);
     };    
     
 	  var getReferenceInstanceTypeEnumToJumpTo = function(curSection) {
