@@ -38,7 +38,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   });
   
   $scope.detailedResultsData = {
-  		showDetailedResults: true
+  		showDetailedResults: $scope.mainDebug.inDebugMode ? true : false 
   };
   
   //if the SiteUploadControllers $scope.jsonScorecardData changes, 
@@ -75,6 +75,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  $scope.errorData.saveTryMeFileError = "";
 	  $scope.finalCategoryListByGrade = [];
 	  $scope.igResults = []; $scope.certResults = []; $scope.referenceResults = [];
+	  $scope.detailedResultsData.showDetailedResults = $scope.mainDebug.inDebugMode ? true : false;
   };
   
   var storeDataAndPopulateResults = function() {
@@ -209,11 +210,11 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       		sectionFailClasses : $scope.calculateCategoryColor(classPrefix, category.categoryGrade);
     };
     
-    $scope.jumpToCategoryViaName = function(key, weWait, timeToWaitInMiliseconds) {
+    $scope.jumpToCategoryViaName = function(key) {
     		$scope.detailedResultsData.showDetailedResults = true;
         elementId = detruncateCategoryName(key);
         elementId = document.getElementById(elementId).parentNode.id;
-        $scope.jumpToElementViaId(elementId, weWait, timeToWaitInMiliseconds);
+        $scope.jumpToElementViaId(elementId, true, 25);
     };
     
     $scope.convertReferenceInstanceTypeToId = function(referenceInstanceTypeFromJson) {
