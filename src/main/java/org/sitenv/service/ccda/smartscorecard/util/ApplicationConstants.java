@@ -28,7 +28,7 @@ public class ApplicationConstants {
 	/**
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG == true
 	 * When overridden, the URL property is set by ApplicationConstants.REFERENCE_VALIDATOR_URL
-	 * True allows for '2015 Ed. Certification Feedback' results
+	 * True allows for '2015 Edition Certification Feedback' results
 	 */
 	public static final boolean CERTIFICATION_RESULTS_CALL = false;
 	
