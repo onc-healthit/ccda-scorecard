@@ -407,14 +407,18 @@ we don't use data-target as we don't want the user redirected */
     color: black !important;
 }
 .heatMapNullFlavorNI[disabled] {
+	font-weight: normal;
+	font-style: italic;
     background-color: lightGray !important;	   
     color: black !important;
     opacity: 1
 }
+/*
 .heatMapNullFlavorNI:hover {
 	text-shadow: 1px 1px white;
 	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
+*/
 .heatMapNullFlavorNI:focus {
     color: black !important;
 }
