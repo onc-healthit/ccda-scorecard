@@ -375,12 +375,10 @@ we don't use data-target as we don't want the user redirected */
     color: white !important;
     opacity: 1
 }
-/*
 .heatMapFailedIGConformance:hover {
 	text-shadow: 1px 1px black;
 	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
-*/
 .heatMapFailedIGConformance:focus {
     color: white !important;
 }
@@ -396,12 +394,10 @@ we don't use data-target as we don't want the user redirected */
     color: white !important;
     opacity: 1
 }
-/*
 .heatMapHasCertificationFeedback:hover {
 	text-shadow: 1px 1px black;
 	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
-*/
 .heatMapHasCertificationFeedback:focus {
     color: white !important;
 }
@@ -415,12 +411,10 @@ we don't use data-target as we don't want the user redirected */
     color: black !important;
     opacity: 1
 }
-/*
 .heatMapNullFlavorNI:hover {
 	text-shadow: 1px 1px white;
 	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
-*/
 .heatMapNullFlavorNI:focus {
     color: black !important;
 }
