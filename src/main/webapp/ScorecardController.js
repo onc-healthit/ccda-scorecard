@@ -454,6 +454,16 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   	return sectionFailType ? sectionFailType.label : null;
   };
   
+  $scope.isSectionFailingConformance = function(curSection) {
+  	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.CONFORMANCE_ERRORS;
+  };  
+  $scope.isSectionFailingCertification = function(curSection) {
+  	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.CERTIFICATION_FEEDBACK;
+  };  
+  $scope.isSectionNullFlavored = function(curSection) {
+  	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.EMPTY_SECTION;
+  };
+  
   
   //***************SAVE REPORT AND SAVE XML RELATED*****************
   
