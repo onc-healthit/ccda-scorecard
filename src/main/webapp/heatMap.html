@@ -3,7 +3,7 @@
     <div ng-repeat="row in [0,1,2,3]" class="row heatMapRow">
 
         <div class="col-md-4 heatMapData">
-            <button ng-click="jumpToCategoryViaName(getHeatMapCategoryName(row, 1))" 
+            <button ng-click="jumpToCategory(getCurrentHeatMapSectionData(row, 1))" 
             ng-class="getHeatMapClass(row, 1, 'btn btn-large btn-block heatMapButton')" class="btn btn-large btn-block heatMapButton" 
             ng-disabled="isFinalCategoryListByGradeInitialized() ? isSectionNullFlavored(getCurrentHeatMapSectionData(row, 1)) 
             || !getCurrentHeatMapSectionData(row, 1).numberOfIssues : false"
@@ -13,7 +13,7 @@
         </div>
 
         <div class="col-md-4 heatMapData">
-            <button ng-click="jumpToCategoryViaName(getHeatMapCategoryName(row, 2))" 
+            <button ng-click="jumpToCategory(getCurrentHeatMapSectionData(row, 2))" 
             ng-class="getHeatMapClass(row, 2, 'btn btn-large btn-block heatMapButton')" class="btn btn-large btn-block heatMapButton" 
             ng-disabled="isFinalCategoryListByGradeInitialized() ? isSectionNullFlavored(getCurrentHeatMapSectionData(row, 2)) : false"
             type="button" onclick="this.blur();">
@@ -22,7 +22,7 @@
         </div>
 
         <div class="col-md-4 heatMapData">
-            <button ng-click="jumpToCategoryViaName(getHeatMapCategoryName(row, 3))" 
+            <button ng-click="jumpToCategory(getCurrentHeatMapSectionData(row, 3))" 
             ng-show="getHeatMapCategoryName(row, 3) !== 'UNK'" ng-class="getHeatMapClass(row, 3, 'btn btn-large btn-block heatMapButton')" 
             class="btn btn-large btn-block heatMapButton" 
             ng-disabled="isFinalCategoryListByGradeInitialized() ? isSectionNullFlavored(getCurrentHeatMapSectionData(row, 3)) : false"

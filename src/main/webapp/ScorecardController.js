@@ -209,13 +209,43 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       return sectionFailClasses ? 
       		sectionFailClasses : $scope.calculateCategoryColor(classPrefix, category.categoryGrade);
     };
+
+    $scope.jumpToCategory = function(category) {
+    	var referenceInstanceTypeEnumToJumpTo = getReferenceInstanceTypeEnumToJumpTo(category);
+  		if(referenceInstanceTypeEnumToJumpTo) {
+  			$scope.jumpToReferenceInstanceTypeViaId(referenceInstanceTypeEnumToJumpTo);
+  		} else {
+  			jumpToCategoryViaName(category.name);
+  		}
+    };
     
-    $scope.jumpToCategoryViaName = function(key) {
+    var jumpToCategoryViaName = function(key) {
     		$scope.detailedResultsData.showDetailedResults = true;
         elementId = detruncateCategoryName(key);
         elementId = document.getElementById(elementId).parentNode.id;
         $scope.jumpToElementViaId(elementId, true, 25);
-    };
+    };    
+    
+	  var getReferenceInstanceTypeEnumToJumpTo = function(curSection) {
+	  	var sectionFailType = $scope.getSectionFailType(curSection);
+	  	var failingConformance = sectionFailType === SectionFailTypeEnum.CONFORMANCE_ERRORS;
+	  	var failingCertification = sectionFailType === SectionFailTypeEnum.CERTIFICATION_FEEDBACK;
+	  	if(sectionFailType === SectionFailTypeEnum.EMPTY_SECTION) {
+	  		return null;
+	  	}
+	  	if(failingConformance || failingCertification) {	  		
+		  	if(failingConformance && failingCertification || failingConformance && !failingCertification) {
+		  		//we default to IG if in both since IG is considered a more serious issue (same with the heatmap label, so we match that)
+		  		//there could be a duplicate for two reasons, right now, there's always at least one duplicate since we derive ig from cert in the backend
+		  		//in the future this might not be the case, but, there could be multiple section fails in the same section, so we have a default for those too		  		
+		    	return $scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE;
+		  	} else if(failingCertification && !failingConformance) {
+		  		return $scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015;
+		  	}
+	  	}
+	  	//must be a non section failing category 
+	  	return null;
+	  };    
     
     $scope.convertReferenceInstanceTypeToId = function(referenceInstanceTypeFromJson) {
     	return "referenceInstance" + $scope.removeWhiteSpaceFromString(referenceInstanceTypeFromJson);
@@ -455,15 +485,17 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   	return sectionFailType ? sectionFailType.label : null;
   };
   
+  $scope.isSectionNullFlavored = function(curSection) {
+  	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.EMPTY_SECTION;
+  };
+  /*
   $scope.isSectionFailingConformance = function(curSection) {
   	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.CONFORMANCE_ERRORS;
   };  
   $scope.isSectionFailingCertification = function(curSection) {
   	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.CERTIFICATION_FEEDBACK;
-  };  
-  $scope.isSectionNullFlavored = function(curSection) {
-  	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.EMPTY_SECTION;
   };
+  */
   
   
   //***************SAVE REPORT AND SAVE XML RELATED*****************
