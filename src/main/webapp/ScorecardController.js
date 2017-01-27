@@ -467,12 +467,17 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 
   $scope.getHeatMapCategoryIssueCount = function(row, columnNumber) {
 		var curSection = $scope.getCurrentHeatMapSectionData(row, columnNumber);
-		var result = curSection.numberOfIssues //set non-failing default (but may or may not have scorecard issues)		
-		if(isSectionFailingConformance(curSection)) {
-			result = curSection.conformanceErrorCount ? curSection.conformanceErrorCount : 'N/A';
-		} else if(isSectionFailingCertification(curSection)) {
-			result = curSection.certificationErrorCount ? curSection.certificationErrorCount : 'N/A';
-		}		
+		var sectionFailType = $scope.getSectionFailType(curSection);
+		var result = curSection.numberOfIssues //set non-failing default (but may or may not have scorecard issues)
+		if(sectionFailType) {
+			if(sectionFailType === SectionFailTypeEnum.EMPTY_SECTION) {
+				result = SectionFailTypeEnum.EMPTY_SECTION.grade;
+			} else if(sectionFailType === SectionFailTypeEnum.CONFORMANCE_ERRORS) {
+				result = curSection.conformanceErrorCount ? curSection.conformanceErrorCount : 'N/A';
+			} else if(sectionFailType === SectionFailTypeEnum.CERTIFICATION_FEEDBACK) {
+				result = curSection.certificationErrorCount ? curSection.certificationErrorCount : 'N/A';
+			}
+		}
 		return heatMapCategoryController(row, columnNumber, result);
   };
 
@@ -500,7 +505,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   	EMPTY_SECTION: {
   		label: "Empty Section",
   		cssClass: " heatMapNullFlavorNI",
-  		failingScore: -1
+  		failingScore: -1,
+  		grade: "Not Scored"
   	}
   });
   
