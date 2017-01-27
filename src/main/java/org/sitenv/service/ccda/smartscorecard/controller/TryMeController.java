@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +23,7 @@ public class TryMeController {
 	private static final String FORCED_OUTPUT_FILE_NAME_WITH_EXTENSION = "overridden-filename.xml";
 
 	@RequestMapping(value = "/downloadtrymefileservice", method = RequestMethod.POST)
-	public ResponseEntity<byte[]> downloadtrymefileservice(@RequestParam("filenameWithExtension") String filenameWithExtension) {
+	public ResponseEntity<byte[]> downloadtrymefileservice(@RequestBody String filenameWithExtension) {
 		String filePath = "/" + (FORCE_OUTPUT_FILE ? FORCED_OUTPUT_FILE_NAME_WITH_EXTENSION : filenameWithExtension);
 		return FORCE_OUTPUT_FILE 
 				? downloadLocalFile(filePath, MEDIA_TYPE, FORCED_OUTPUT_FILE_NAME_WITH_EXTENSION) 

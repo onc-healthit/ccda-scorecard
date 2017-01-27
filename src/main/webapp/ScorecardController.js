@@ -590,25 +590,26 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     	$scope.errorData.saveScorecardError = genericMessage + " " + $scope.userMessageConstant.GENERIC_LATER;
     	console.log(genericMessage + " " + statusMessage);
     });
-  };	
+  };
 	
   $scope.callDownloadTryMeFileService = function() {
   	$scope.debugLog("Entered callDownloadTryMeFileService()");
   	var localUrl = 'downloadtrymefileservice/';
+  	var postedMediaType = "text/plain";
   	//due to Safari limitations, text/plain is set so it can be rendered in-browser and then saved from there
-    var mediaType = $scope.isSafari ? "text/plain" : "text/xml";
+    var returnedMediaType = $scope.isSafari ? "text/plain" : "text/xml";
     var filename = $scope.selectedTryMeDoc.filename + ".xml";
     $http({
       method: "POST",
       url: localUrl,
-      params: {filenameWithExtension: filename},           
+      data: filename,
       headers: {
-      	"Content-Type": mediaType
+      	"Content-Type": postedMediaType
       },
       responseType:"arraybuffer"
-    }).then(function mySuccess(response) { 	
+    }).then(function mySuccess(response) {
     	$scope.errorData.saveTryMeFileError = "";    	
-    	triggerFileDownload(response.data, mediaType, filename, "saveTryMeXmlButton");
+    	triggerFileDownload(response.data, returnedMediaType, filename, "saveTryMeXmlButton");
     	console.log("Try Me XML saved");
     }, function myError(response) {    	
     	var genericMessage = "An error was encountered while downloading the Try Me XML.";
