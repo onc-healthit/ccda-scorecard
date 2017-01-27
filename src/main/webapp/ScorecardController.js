@@ -97,7 +97,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  }
 	  if($scope.certResults) {
 	  	$scope.referenceResults.push($scope.certResults);
-	  }	  
+	  }
 	  $scope.debugLog("$scope.referenceResults");$scope.debugLog($scope.referenceResults);
   };
   
@@ -324,6 +324,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	 * orders by the letter based grade. The order is not intended
 	 * to be related to the amount of occurrences of issues, but
 	 * instead, the actual underlying categorical score.
+	 * It also stores category-specific information relevant to the UI display 
+	 * not provided in a directly relatable manner via the JSON response
 	 */
     var populateCategoryListsByGrade = function() {
 
@@ -344,7 +346,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
           score: score ? score : '-1',
           failingConformance: failingConformance,
           certificationFeedback: certificationFeedback,
-          nullFlavorNI: nullFlavorNI
+          nullFlavorNI: nullFlavorNI,
+          conformanceErrorCount: getFailingSectionSpecificErrorCount(name, $scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE),
+          certificationErrorCount: getFailingSectionSpecificErrorCount(name, $scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015)
         };
         var failingSectionOrderScore = getFailingSectionOrderScore(sectionData);
         if(failingSectionOrderScore !== null) { //checking null vs truthy since -1/-2/-3 are our positive values
@@ -363,7 +367,9 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
           score: 0,
           failingConformance: false,
           certificationFeedback: false,
-          nullFlavorNI: false          
+          nullFlavorNI: false,
+          conformanceErrorCount: 'N/A',
+          certificationErrorCount: 'N/A'          
         };
         if(allCategories.length === 10) {
           allCategories.push(emptySectionData, emptySectionData);
@@ -378,6 +384,35 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       $scope.finalCategoryListByGrade = [categoryListByGradeFirstColumn, categoryListByGradeSecondColumn, categoryListByGradeThirdColumn];
 
     };
+    
+	var getFailingSectionSpecificErrorCount = function(categoryName, referenceInstanceTypeEnumCertOrIG) {
+		if($scope.jsonData.referenceResults.length > 0) {
+			if(referenceInstanceTypeEnumCertOrIG === $scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE) {
+				var igResults = getReferenceResultViaType($scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE).referenceErrors;
+				if(igResults) {					
+					return getFailingSectionSpecificErrorCountProcessor(categoryName, igResults);
+				}
+			} else if(referenceInstanceTypeEnumCertOrIG === $scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015) {
+				var certResults = getReferenceResultViaType($scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015).referenceErrors;
+				if(certResults) {
+					return getFailingSectionSpecificErrorCountProcessor(categoryName, certResults);
+				}
+			}		 
+		}
+		return null;
+	};
+  var getFailingSectionSpecificErrorCountProcessor = function(categoryName, resultsArray) {
+		var count = 0;
+		for(var i = 0; i < resultsArray.length; i++) {
+			var currentSectionInReferenceErrors = resultsArray[i].sectionName;
+			if(currentSectionInReferenceErrors !== null) {
+				if(currentSectionInReferenceErrors === categoryName) {
+					count++;
+				}
+			}
+		}
+		return count;
+  };    
     
   var getFailingSectionOrderScore = function(curSection) {
   	var sectionFailType = $scope.getSectionFailType(curSection);
@@ -425,15 +460,19 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   
   $scope.getHeatMapCategoryGrade = function(row, columnNumber) {
   	var curSection = $scope.getCurrentHeatMapSectionData(row, columnNumber);
-  	var result = curSection.failingConformance || curSection.certificationFeedback || curSection.nullFlavorNI ? '' 
-  			: curSection.grade + ' ';
+  	var sectionFailLabel = getSectionFailLabel(curSection);
+  	var result = sectionFailLabel ? sectionFailLabel : curSection.grade;
   	return heatMapCategoryController(row, columnNumber, result);
   };
 
   $scope.getHeatMapCategoryIssueCount = function(row, columnNumber) {
 		var curSection = $scope.getCurrentHeatMapSectionData(row, columnNumber);
-		var sectionFailLabel = getSectionFailLabel(curSection);
-		var result = sectionFailLabel ? sectionFailLabel : curSection.numberOfIssues;
+		var result = curSection.numberOfIssues //set non-failing default (but may or may not have scorecard issues)		
+		if(isSectionFailingConformance(curSection)) {
+			result = curSection.conformanceErrorCount ? curSection.conformanceErrorCount : 'N/A';
+		} else if(isSectionFailingCertification(curSection)) {
+			result = curSection.certificationErrorCount ? curSection.certificationErrorCount : 'N/A';
+		}		
 		return heatMapCategoryController(row, columnNumber, result);
   };
 
@@ -459,7 +498,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   		failingScore: -2
   	},
   	EMPTY_SECTION: {
-  		label: "Empty Section Not Scored",
+  		label: "Empty Section",
   		cssClass: " heatMapNullFlavorNI",
   		failingScore: -1
   	}
@@ -488,14 +527,12 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   $scope.isSectionNullFlavored = function(curSection) {
   	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.EMPTY_SECTION;
   };
-  /*
-  $scope.isSectionFailingConformance = function(curSection) {
+  isSectionFailingConformance = function(curSection) {
   	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.CONFORMANCE_ERRORS;
   };  
-  $scope.isSectionFailingCertification = function(curSection) {
+  isSectionFailingCertification = function(curSection) {
   	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.CERTIFICATION_FEEDBACK;
   };
-  */
   
   
   //***************SAVE REPORT AND SAVE XML RELATED*****************

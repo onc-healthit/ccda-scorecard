@@ -8,7 +8,8 @@
             ng-disabled="isFinalCategoryListByGradeInitialized() ? isSectionNullFlavored(getCurrentHeatMapSectionData(row, 1)) 
             || !getCurrentHeatMapSectionData(row, 1).numberOfIssues : false"
             type="button" onclick="this.blur();">
-                {{truncateCategoryName(getHeatMapCategoryName(row, 1))}}:&nbsp;{{getHeatMapCategoryGrade(row, 1)}}({{getHeatMapCategoryIssueCount(row, 1)}})
+                {{truncateCategoryName(getHeatMapCategoryName(row, 1))}}:&nbsp;{{getHeatMapCategoryGrade(row, 1)}}
+                ({{getHeatMapCategoryIssueCount(row, 1)}})
             </button>
         </div>
 
@@ -17,7 +18,8 @@
             ng-class="getHeatMapClass(row, 2, 'btn btn-large btn-block heatMapButton')" class="btn btn-large btn-block heatMapButton" 
             ng-disabled="isFinalCategoryListByGradeInitialized() ? isSectionNullFlavored(getCurrentHeatMapSectionData(row, 2)) : false"
             type="button" onclick="this.blur();">
-                {{truncateCategoryName(getHeatMapCategoryName(row, 2))}}:&nbsp;{{getHeatMapCategoryGrade(row, 2)}}({{getHeatMapCategoryIssueCount(row, 2)}})
+                {{truncateCategoryName(getHeatMapCategoryName(row, 2))}}:&nbsp;{{getHeatMapCategoryGrade(row, 2)}}
+                ({{getHeatMapCategoryIssueCount(row, 2)}})
             </button>
         </div>
 
@@ -27,7 +29,8 @@
             class="btn btn-large btn-block heatMapButton" 
             ng-disabled="isFinalCategoryListByGradeInitialized() ? isSectionNullFlavored(getCurrentHeatMapSectionData(row, 3)) : false"
             type="button" onclick="this.blur();">
-                {{truncateCategoryName(getHeatMapCategoryName(row, 3))}}:&nbsp;{{getHeatMapCategoryGrade(row, 3)}}({{getHeatMapCategoryIssueCount(row, 3)}})
+                {{truncateCategoryName(getHeatMapCategoryName(row, 3))}}:&nbsp;{{getHeatMapCategoryGrade(row, 3)}}
+                ({{getHeatMapCategoryIssueCount(row, 3)}})
             </button>
         </div>
 
