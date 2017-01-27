@@ -7,13 +7,15 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   
 	var tryMeConstants = Object.freeze({
 		DEFAULT_GOOD_SCORE: "170.315_b1_toc_amb_ccd_r21_sample1_v8",
-		BAD_SCORE_1: "badScoreExampleCCD"
+		BAD_SCORE_1: "badScoreExampleCCD",
+		HAS_CONF_AND_CERT_ERRORS_1: "sampleWithErrors"
 	});
   $scope.tryMeData = {
     	isTryMeActive: false,
       tryMeDocs: [
 	      {id: 1, value: "High scoring sample", filename: tryMeConstants.DEFAULT_GOOD_SCORE}, 
-        {id: 2, value: "Low scoring sample", filename: tryMeConstants.BAD_SCORE_1}		  
+        {id: 2, value: "Low scoring sample", filename: tryMeConstants.BAD_SCORE_1},
+        {id: 3, value: "Sample with errors", filename: tryMeConstants.HAS_CONF_AND_CERT_ERRORS_1}
       ]
   };
 
