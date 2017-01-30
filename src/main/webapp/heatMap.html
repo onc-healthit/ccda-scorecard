@@ -16,7 +16,8 @@
         <div class="col-md-4 heatMapData">
             <button ng-click="jumpToCategory(getCurrentHeatMapSectionData(row, 2))" 
             ng-class="getHeatMapClass(row, 2, 'btn btn-large btn-block heatMapButton')" class="btn btn-large btn-block heatMapButton" 
-            ng-disabled="isFinalCategoryListByGradeInitialized() ? isSectionNullFlavored(getCurrentHeatMapSectionData(row, 2)) : false"
+            ng-disabled="isFinalCategoryListByGradeInitialized() ? isSectionNullFlavored(getCurrentHeatMapSectionData(row, 2)) 
+            || !getCurrentHeatMapSectionData(row, 2).numberOfIssues : false"
             type="button" onclick="this.blur();">
                 {{truncateCategoryName(getHeatMapCategoryName(row, 2))}}:&nbsp;{{getHeatMapCategoryGrade(row, 2)}}
                 ({{getHeatMapCategoryIssueCount(row, 2)}})
@@ -27,7 +28,8 @@
             <button ng-click="jumpToCategory(getCurrentHeatMapSectionData(row, 3))" 
             ng-show="getHeatMapCategoryName(row, 3) !== 'UNK'" ng-class="getHeatMapClass(row, 3, 'btn btn-large btn-block heatMapButton')" 
             class="btn btn-large btn-block heatMapButton" 
-            ng-disabled="isFinalCategoryListByGradeInitialized() ? isSectionNullFlavored(getCurrentHeatMapSectionData(row, 3)) : false"
+            ng-disabled="isFinalCategoryListByGradeInitialized() ? isSectionNullFlavored(getCurrentHeatMapSectionData(row, 3)) 
+            || !getCurrentHeatMapSectionData(row, 3).numberOfIssues : false"
             type="button" onclick="this.blur();">
                 {{truncateCategoryName(getHeatMapCategoryName(row, 3))}}:&nbsp;{{getHeatMapCategoryGrade(row, 3)}}
                 ({{getHeatMapCategoryIssueCount(row, 3)}})
