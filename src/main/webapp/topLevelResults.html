@@ -109,7 +109,8 @@
     <summary></summary>
 
     <!-- Access to Detailed Results -->
-    <div id="detailedResults" class="row" ng-show="!uploadDisplay.isLoading && !errorData.getJsonDataError">
+    <div id="detailedResults" class="row" ng-show="!uploadDisplay.isLoading && !errorData.getJsonDataError"
+      ng-if="jsonData.results.finalNumericalGrade !== 100 || igResults.totalErrorCount || certResults.totalErrorCount">
         <div class="col-md-12">
             <div id="detailedResultsPanelDropdownAnchor" class="panelDropdownButton">
                 <h2 id="detailedResultsButton" ng-click="flipDetailedResultsVisibilityAndNavigate()" type="button" class="btn btn-block resultsButton">
