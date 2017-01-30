@@ -530,7 +530,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   	return sectionFailType ? sectionFailType.label : null;
   };
   
-  $scope.isSectionNullFlavored = function(curSection) {
+  isSectionNullFlavored = function(curSection) {
   	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.EMPTY_SECTION;
   };
   isSectionFailingConformance = function(curSection) {
@@ -538,6 +538,11 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   };  
   isSectionFailingCertification = function(curSection) {
   	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.CERTIFICATION_FEEDBACK;
+  };
+  
+  $scope.isHeatMapSectionDisabled = function(curSection) {
+  	return isSectionNullFlavored(curSection) || 
+  		(!curSection.numberOfIssues && !curSection.conformanceErrorCount && !curSection.certificationErrorCount) 
   };
   
   
