@@ -20,7 +20,7 @@ public class ImmunizationScorecard {
 	public Category getImmunizationCategory(CCDAImmunization immunizations, String birthDate,String docType)
 	{
 		
-		if(immunizations.isSectionNullFlavourWithNI())
+		if(immunizations!= null && immunizations.isSectionNullFlavourWithNI())
 		{
 			return new Category(ApplicationConstants.CATEGORIES.IMMUNIZATIONS.getCategoryDesc(),true);
 		}
