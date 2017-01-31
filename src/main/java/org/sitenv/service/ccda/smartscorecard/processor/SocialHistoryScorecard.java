@@ -20,7 +20,7 @@ public class SocialHistoryScorecard {
 	
 	public Category getSocialHistoryCategory(CCDASocialHistory socialHistory, String birthDate,String docType)
 	{
-		if(socialHistory.isSectionNullFlavourWithNI())
+		if(socialHistory!=null && socialHistory.isSectionNullFlavourWithNI())
 		{
 			return new Category(ApplicationConstants.CATEGORIES.SOCIALHISTORY.getCategoryDesc(),true);
 		}

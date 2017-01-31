@@ -20,7 +20,7 @@ public class ProblemsScorecard {
 	
 	public Category getProblemsCategory(CCDAProblem problems, String birthDate,String docType)
 	{
-		if(problems.isSectionNullFlavourWithNI())
+		if(problems!=null && problems.isSectionNullFlavourWithNI())
 		{
 			return new Category(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc(),true);
 		}

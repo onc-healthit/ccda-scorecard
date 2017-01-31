@@ -24,7 +24,7 @@ public class VitalsScorecard {
 	
 	public Category getVitalsCategory(CCDAVitalSigns vitals, String birthDate,String docType)
 	{
-		if(vitals.isSectionNullFlavourWithNI())
+		if(vitals!=null && vitals.isSectionNullFlavourWithNI())
 		{
 			return new Category(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc(),true);
 		}
