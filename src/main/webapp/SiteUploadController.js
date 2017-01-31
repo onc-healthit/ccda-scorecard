@@ -6,8 +6,8 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   $scope.ccdaUploadData = new UploadData("Unknown File (Upload)");
   
 	var tryMeConstants = Object.freeze({
-		DEFAULT_GOOD_SCORE: "170.315_b1_toc_amb_ccd_r21_sample1_v8",
-		BAD_SCORE_1: "badScoreExampleCCD",
+		DEFAULT_GOOD_SCORE: "highScoringSample",
+		BAD_SCORE_1: "lowScoringSample",
 		HAS_CONF_AND_CERT_ERRORS_1: "sampleWithErrors"
 	});
   $scope.tryMeData = {

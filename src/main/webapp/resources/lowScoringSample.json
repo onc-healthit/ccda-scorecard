@@ -1,6 +1,6 @@
 {
     "errorMessage": null,
-    "filename": "badScoreExampleCCD.xml",
+    "filename": "lowScoringSample.xml",
     "ccdaDocumentType": "CCD",
     "results": {
         "finalGrade": "C",

@@ -1,6 +1,6 @@
 {
     "errorMessage": null,
-    "filename": "administrativeGenderCodeIsUNK_ExpectFAIL.xml",
+    "filename": "sampleWithErrors.xml",
     "ccdaDocumentType": "CCD",
     "results": {
         "finalGrade": "C",
