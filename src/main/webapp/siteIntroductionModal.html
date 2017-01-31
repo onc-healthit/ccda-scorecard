@@ -52,38 +52,99 @@
                   interoperability in their health IT systems.
                 </li>
               </ul>
+              
               <h4>Release Notes</h4>
+
               <ul>
-                <li>Updates included in the SITE <b>3.0
-                    12/20/2016</b> Release for the C-CDA Scorecard
+                <li>Updates included in the SITE 3.1.0
+                    01/30/2017 Release for the C-CDA Scorecard 'Beta 3'
                 </li>
                 <ul>
-                    <li>Improvements</li>
-                    <ol>
-                      <li><a href="https://github.com/siteadmin/scorecard-batch/tree/master/artifacts">
-					  Ability to score multiple CDAs in batch mode</a></li>
-                      <li>Ability to turn ON/OFF IG Conformance/Certification results in config file</li>
-                      <li>Added (these) release notes to the Scorecard page within the 
-                      'Scorecard Introduction and Release Notes' modal (here)</li>
-                      <li>Improved processing time for and organization of conformance and certification results</li>
-					  <li>Other minor display updates:</li>
-					  <ul>
-						<li>Updated API text to include batch processing and the PDF service</li>
-						<li>Updated the 'Download the Scorecard for Local Instantiation' button 
-						to link to Scorecard-Local-Instantiation vs CCDA-Score-CARD</li>
-						<li>Removed outdated certification information from the 'How to interpret Scorecard Results' modal</li>
-					  </ul>
-                    </ol>                             
-                </ul>
-                <ul>
-                    <li>Fixes</li>
-                    <ol>
-                      <li>Fixed Null Pointer exceptions for some
-                        documents caused by integration of IG
-                        Conformance/Certification Results</li>
-                  </ol>                    
+                  <li>Improvements</li>
+                  <ol>
+                    <li>Updated Effective Date Time Rule to
+                        handle partial dates/times</li>
+                    <li>Updated Unique Id rule to not apply
+                        on the header participants such as Author</li>
+                    <li>Updated Display Name rule to not
+                        apply when display names are not present</li>
+                    <li>Updated Text Reference Checking Rule
+                        to account for sub elements in tables in the
+                        narrative text</li>
+                    <li>Updated Scoring criteria to not
+                        apply rules to No Information or Null Sections
+                        which have no data or are completely absent</li>
+                    <li>Updated Try Me to support multiple
+                        files (a high and low scoring sample and a
+                        sample with errors) and provided new and updated
+                        data</li>
+                    <li>Updated top level results and
+                        summary UI layout</li>
+                    <li>Added ability to identify 2015
+                        Edition Certification Feedback and Empty
+                        Sections in the heatmap</li>
+                    <li>For clarity, converted rubric
+                        sub-Description data ('Issues' and 'Best
+                        Practice') into tabs versus links</li>
+                    <li>Embolden heat map text by default
+                        and hover attributes so that categories are both
+                        easier to read upfront and understand the status
+                        of overall</li>
+                    <li>Added disabled option to the heatmap
+                        when categories have no issues to navigate to or
+                        are empty sections</li>
+                    <li>Updated Conformance and
+                        Certification section to display a related issue
+                        count in brackets</li>
+                    <li>Updated heatmap to jump to
+                        Certification or Conformance when a section has
+                        related issues versus jumping to a no-issue
+                        scorecard result</li>
+                    <li>Categories (including Conformance
+                        and Certification) which have no issues are no
+                        longer shown in the detailed results which
+                        allows for a cleaner, more focused interface</li>
+                    <li>Updated IG/Cert. links to navigate
+                        via their label versus error count alone</li>
+                    <li>Added C-CDA Document Type (e.g. CCD)
+                        scored</li>
+                    <li>Each rubrics 'Issues' tab is now
+                        selected/expanded by default</li>
+                    <li>Replaced loading text with
+                        animations</li>
+                    <li>Reworded and moved 'Standard' option
+                        text to the end of each rubrics description
+                        versus in its own tab</li>
+                    <li>Updated to not load 'Detailed
+                        Results' button on a full pass scenario
+                        (100/100)</li>
+                    <li>Added 'Edition' to 2015
+                        Certification Feedback</li>
+                    <li>Updated color schemes</li>
+                    <ul>
+                      <li>3 colors only (green, yellow, red)
+                          for all grade results</li>
+                      <li>Category headers black versus blue
+                          to match heatmap</li>
+                      <li>Cert and IG black in heatmap and
+                          detailed results</li>
+                    </ul>
+
+                  </ol>
+                  <li>Fixes</li>
+                  <ol>
+                    <li>Fixed heatmap category click/IG and
+                        Cert. links not opening detailed results if
+                        closed</li>
+                    <li>Fixed issue where a C-CDA IG
+                        Conformance Error could be identified as a 2015
+                        Edition Certification Feedback issue in the
+                        heatmap</li>
+                    <li>Fixed typos</li>
+                  </ol>
                 </ul>
               </ul>
+
             </div>
           </div>
         </div>
