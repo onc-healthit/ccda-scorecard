@@ -20,6 +20,10 @@ public class ImmunizationScorecard {
 	public Category getImmunizationCategory(CCDAImmunization immunizations, String birthDate,String docType)
 	{
 		
+		if(immunizations!= null && immunizations.isSectionNullFlavourWithNI())
+		{
+			return new Category(ApplicationConstants.CATEGORIES.IMMUNIZATIONS.getCategoryDesc(),true);
+		}
 		Category immunizationCategory = new Category();
 		immunizationCategory.setCategoryName(ApplicationConstants.CATEGORIES.IMMUNIZATIONS.getCategoryDesc());
 		
@@ -204,9 +208,9 @@ public class ImmunizationScorecard {
 		CCDAXmlSnippet issue= null;
 		if(immunizatons != null)
 		{
-			maxPoints++;
-			if(immunizatons.getSectionCode()!= null)
+			if(immunizatons.getSectionCode()!= null && !ApplicationUtil.isEmpty(immunizatons.getSectionCode().getDisplayName()))
 			{
+				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(immunizatons.getSectionCode().getCode(), 
 														immunizatons.getSectionCode().getCodeSystem(),
 														immunizatons.getSectionCode().getDisplayName()))
@@ -221,21 +225,13 @@ public class ImmunizationScorecard {
 					issuesList.add(issue);
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(immunizatons.getLineNumber());
-				issue.setXmlString(immunizatons.getXmlString());
-				issuesList.add(issue);
-			}
-			
 			if(!ApplicationUtil.isEmpty(immunizatons.getImmActivity()))
 			{
 				for (CCDAImmunizationActivity immuActivity : immunizatons.getImmActivity())
 				{
-					maxPoints++;
-					if(immuActivity.getApproachSiteCode() != null)
+					if(immuActivity.getApproachSiteCode() != null && !ApplicationUtil.isEmpty(immuActivity.getApproachSiteCode().getDisplayName()))
 					{
+						maxPoints++;
 						if(ApplicationUtil.validateDisplayName(immuActivity.getApproachSiteCode().getCode(), 
 															   immuActivity.getApproachSiteCode().getCodeSystem(),
 															   immuActivity.getApproachSiteCode().getDisplayName()))
@@ -250,33 +246,28 @@ public class ImmunizationScorecard {
 							issuesList.add(issue);
 						}
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(immuActivity.getLineNumber());
-						issue.setXmlString(immuActivity.getXmlString());
-						issuesList.add(issue);
-					}
-					
 					if(immuActivity.getConsumable() != null)
 					{
 						if(!ApplicationUtil.isEmpty(immuActivity.getConsumable().getTranslations()))
 						{
 							for (CCDACode translationCode : immuActivity.getConsumable().getTranslations())
 							{
-								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
+								if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()))
+								{
+									maxPoints++;
+									if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
 													translationCode.getCodeSystem().toUpperCase(),
 														translationCode.getDisplayName()))
-								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(translationCode.getLineNumber());
-									issue.setXmlString(translationCode.getXmlString());
-									issuesList.add(issue);
+									{
+										actualPoints++;
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(translationCode.getLineNumber());
+										issue.setXmlString(translationCode.getXmlString());
+										issuesList.add(issue);
+									}
 								}
 							}
 						}
@@ -284,14 +275,12 @@ public class ImmunizationScorecard {
 				}
 			}
 		}
-		else
+
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Immunization section not present");
-			issue.setXmlString("Immunization section not present");
-			issuesList.add(issue);
+			maxPoints=1;
+			actualPoints=1;
 		}
-		
 		validateDisplayNameScore.setActualPoints(actualPoints);
 		validateDisplayNameScore.setMaxPoints(maxPoints);
 		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));

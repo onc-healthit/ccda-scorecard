@@ -1,5 +1,5 @@
   <!--START PANELS / REFERENCE TYPE-->
-  <div ng-repeat="refInstance in referenceResults"
+  <div ng-repeat="refInstance in referenceResults" ng-show="refInstance.totalErrorCount > 0"
 	id="{{convertReferenceInstanceTypeToId(refInstance.type)}}" class="panel-group category">
 	<div id="{{refInstance.totalErrorCount}}.{{$index}}"
 	  class="panel panel-primary removeBorder">

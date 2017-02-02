@@ -1,19 +1,18 @@
-<div id="mainPanelBody" class="panel-collapse collapse in">
+<div ng-show="detailedResultsData.showDetailedResults" id="mainPanelBody" class="panel">
   <div class="panel-body">
     <div class="panel panel-default mainPanelPanel">
       
-      <scorecard-two-results><</scorecard-two-results>
+      <scorecard-two-results></scorecard-two-results>
 
       <!--START CATEGORY PANELS -->
       <div ng-repeat="currentCategory in categories"
+        ng-show="currentCategory.numberOfIssues > 0"
         id="catAccordion{{$index}}" class="panel-group category">
-        <!-- ng-show="currentCategory.categoryRubrics.length > 0" -->
         <div id="{{currentCategory.categoryName}}"
           class="panel panel-primary removeBorder">
 
-            <div ng-class="getGradeClassForCategory('panel-heading categoryPanelHeading', 
-            currentCategory.categoryGrade, currentCategory.failingConformance)" 
-                 class="panel-heading categoryPanelHeading" style="border-radius: 0px">
+          <div ng-class="getClassForCategory(currentCategory, 'panel-heading categoryPanelHeading removeBoxShadowAndTextShadow')" 
+            class="panel-heading categoryPanelHeading removeBoxShadowAndTextShadow" style="border-radius: 0px">
             <h2 class="panel-title">
               <a data-toggle="collapse" data-parent="#catAccordion{{$index}}" 
                 href="#scorecardCategoryData{{$index}}">{{currentCategory.categoryName}}</a>
@@ -51,27 +50,37 @@
                         <div class="col-md-12">
                             <h3>Description</h3>
                             <span>{{rubric.description}}</span>
+                            <p>
+                              <span ng-if="!rubric.igReferences[0] || rubric.igReferences[0] === ScorecardConstants.IG_URL">
+                                Please refer to the <a href="{{jsonData.results.igReferenceUrl}}">C-CDA Implementation Guide</a> for help resolving the issue.
+                              </span>                   
+                              <span ng-if="rubric.igReferences[0] && rubric.igReferences[0] !== ScorecardConstants.IG_URL">
+                                Please refer to: 
+                                <span ng-repeat="igRef in rubric.igReferences">{{igRef}},</span> 
+                                in the <a href="{{jsonData.results.igReferenceUrl}}">C-CDA Implementation Guide</a> for help resolving the issue.
+                              </span>
+                            </p>                            
                         </div>
-                    </div>
+                    </div>				
 
-                    <!--START DETAILS-->
-                      <div ng-show="rubric.numberOfIssues > 0">
+                    <!--START TABBED DETAILS-->
+                      <div ng-show="rubric.numberOfIssues > 0" ng-init="detailsToShow='XML'" class="mediumPadFromTop">
+                      
+                          <ul class="nav nav-tabs">
+                            <li ng-class="detailsToShow === 'XML' ? 'active' : ''">
+                              <a ng-click="detailsToShow = 'XML'"
+                                data-toggle="tab" href="javascript:void(0)"><span class="subDescriptionTabs">Issues</span>
+                              </a>
+                            </li>
+                            <li ng-class="detailsToShow === 'HL7' ? 'active' : ''">
+                              <a ng-click="detailsToShow = 'HL7' "
+                                data-toggle="tab" href="javascript:void(0)"><span class="subDescriptionTabs">Best Practice</span>
+                              </a>
+                            </li>
+                          </ul>
+                          
                           <div class="row">
-                              <div class="col-md-4">
-                                  <a href ng-click="detailsToShow!=='XML' ? detailsToShow='XML' : detailsToShow='NULL'">
-                                    <!--<h3>{{calculatedValidationData.passedCertification ? "Improvements" : "Issues"}}</h3>-->
-                                    <h3>{{false ? "Improvements" : "Issues"}}</h3>
-                                  </a>
-                              </div>
-                              <div class="col-md-4">
-                                  <a href ng-click="detailsToShow!=='HL7' ? detailsToShow='HL7' : detailsToShow='NULL'"><h3>Best Practice</h3></a>
-                              </div>
-                              <div class="col-md-4">
-                                  <a href ng-click="detailsToShow!=='IG' ? detailsToShow='IG' : detailsToShow='NULL'"><h3>Standard</h3></a>
-                              </div>                        
-                          </div>
-                          <div class="row">
-                              <div class="col-md-12">
+                              <div class="col-md-12 mediumPadFromTop">
 
                                   <div ng-show="detailsToShow === 'XML'">
                                       <ol>
@@ -111,29 +120,6 @@
                                               </table>
                                           </li>
                                       </ol>                                      
-                                  </div>
-
-                                  <div ng-show="detailsToShow === 'IG'">                                        
-                                      <ol>
-                                          <li ng-repeat="igRef in rubric.igReferences">
-                                              <table class="table table-striped table-condensed">
-                                                  <thead>
-                                                      <tr>
-                                                          <th>C-CDA Implementation Guide reference</th>
-                                                      </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                      <tr>
-                                                          <td>{{igRef}}</td>
-                                                      </tr>                           
-                                                  </tbody>
-                                              </table>
-                                          </li>
-                                      </ol>
-                                      <span>
-                                          <p style="font-weight: bold">C-CDA Implementation Guide link</p>
-                                          <p><a href="{{jsonData.results.igReferenceUrl}}" target="_blank">{{jsonData.results.igReferenceUrl}}</a></p>
-                                      </span>                                      
                                   </div>
 
                               </div>                         

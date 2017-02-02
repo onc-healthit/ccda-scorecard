@@ -20,7 +20,10 @@ public class ProblemsScorecard {
 	
 	public Category getProblemsCategory(CCDAProblem problems, String birthDate,String docType)
 	{
-		
+		if(problems!=null && problems.isSectionNullFlavourWithNI())
+		{
+			return new Category(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc(),true);
+		}
 		Category problemsCategory = new Category();
 		problemsCategory.setCategoryName(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc());
 		
@@ -184,8 +187,8 @@ public class ProblemsScorecard {
 		else
 		{
 			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problmes section not present");
-			issue.setXmlString("Problmes section not present");
+			issue.setLineNumber("Problems section not present");
+			issue.setXmlString("Problems section not present");
 			issuesList.add(issue);
 		}
 		
@@ -340,8 +343,8 @@ public class ProblemsScorecard {
 		else
 		{
 			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problmes section not present");
-			issue.setXmlString("Problmes section not present");
+			issue.setLineNumber("Problems section not present");
+			issue.setXmlString("Problems section not present");
 			issuesList.add(issue);
 		}
 		
@@ -377,9 +380,9 @@ public class ProblemsScorecard {
 		CCDAXmlSnippet issue= null;
 		if(problems != null)
 		{
-			maxPoints++;
-			if(problems.getSectionCode()!= null)
+			if(problems.getSectionCode()!= null && !ApplicationUtil.isEmpty(problems.getSectionCode().getDisplayName()))
 			{
+				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(problems.getSectionCode().getCode(), 
 														problems.getSectionCode().getCodeSystem(),
 														problems.getSectionCode().getDisplayName()))
@@ -394,27 +397,18 @@ public class ProblemsScorecard {
 					issuesList.add(issue);
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(problems.getLineNumber());
-				issue.setXmlString(problems.getXmlString());
-				issuesList.add(issue);
-			}
 			
 			if(!ApplicationUtil.isEmpty(problems.getProblemConcerns()))
 			{
-				
 				for(CCDAProblemConcern probCon : problems.getProblemConcerns())
 				{
 					if(!ApplicationUtil.isEmpty(probCon.getProblemObservations()))
 					{
-					
 						for (CCDAProblemObs probObs : probCon.getProblemObservations())
 						{
-							maxPoints= maxPoints + 2;
-							if(probObs.getProblemType()!= null)
+							if(probObs.getProblemType()!= null && !ApplicationUtil.isEmpty(probObs.getProblemType().getDisplayName()))
 							{
+								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(probObs.getProblemType().getCode(), 
 																		probObs.getProblemType().getCodeSystem(),
 																		probObs.getProblemType().getDisplayName()))
@@ -429,16 +423,9 @@ public class ProblemsScorecard {
 									issuesList.add(issue);
 								}
 							}
-							else
+							if(probObs.getProblemCode()!= null && !ApplicationUtil.isEmpty(probObs.getProblemCode().getDisplayName()))
 							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(probObs.getLineNumber());
-								issue.setXmlString(probObs.getXmlString());
-								issuesList.add(issue);
-							}
-							
-							if(probObs.getProblemCode()!= null)
-							{
+								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(probObs.getProblemCode().getCode(), 
 																		probObs.getProblemCode().getCodeSystem(),
 																		probObs.getProblemCode().getDisplayName()))
@@ -453,33 +440,27 @@ public class ProblemsScorecard {
 									issuesList.add(issue);
 								}
 							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(probObs.getLineNumber());
-								issue.setXmlString(probObs.getXmlString());
-								issuesList.add(issue);
-							}
-							
 							if(!ApplicationUtil.isEmpty(probObs.getTranslationProblemType()))
 							{
 								for (CCDACode translationCode : probObs.getTranslationProblemType())
 								{
-									maxPoints++;
-									if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
+									if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()))
+									{
+										maxPoints++;
+										if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
 															translationCode.getCodeSystem(),
 															translationCode.getDisplayName()))
-									{
-										actualPoints++;
+										{
+											actualPoints++;
+										}
+										else 
+										{
+											issue = new CCDAXmlSnippet();
+											issue.setLineNumber(translationCode.getLineNumber());
+											issue.setXmlString(translationCode.getXmlString());
+											issuesList.add(issue);
+										}
 									}
-									else 
-									{
-										issue = new CCDAXmlSnippet();
-										issue.setLineNumber(translationCode.getLineNumber());
-										issue.setXmlString(translationCode.getXmlString());
-										issuesList.add(issue);
-									}
-									
 								}
 							}
 						}
@@ -487,12 +468,10 @@ public class ProblemsScorecard {
 				}
 			}
 		}
-		else
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problmes section not present");
-			issue.setXmlString("Problmes section not present");
-			issuesList.add(issue);
+			maxPoints=1;
+			actualPoints=1;
 		}
 		
 		validateDisplayNameScore.setActualPoints(actualPoints);
@@ -573,8 +552,8 @@ public class ProblemsScorecard {
 		else
 		{
 			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problmes section not present");
-			issue.setXmlString("Problmes section not present");
+			issue.setLineNumber("Problems section not present");
+			issue.setXmlString("Problems section not present");
 			issuesList.add(issue);
 		}
 		
@@ -644,8 +623,8 @@ public class ProblemsScorecard {
 		else
 		{
 			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problmes section not present");
-			issue.setXmlString("Problmes section not present");
+			issue.setLineNumber("Problems section not present");
+			issue.setXmlString("Problems section not present");
 			issuesList.add(issue);
 		}
 		
@@ -729,8 +708,8 @@ public class ProblemsScorecard {
 		else
 		{
 			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problmes section not present");
-			issue.setXmlString("Problmes section not present");
+			issue.setLineNumber("Problems section not present");
+			issue.setXmlString("Problems section not present");
 			issuesList.add(issue);
 		}
 		

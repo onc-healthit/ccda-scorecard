@@ -7,7 +7,7 @@ public class ReferenceTypes {
 	public enum ReferenceInstanceType {
 
 		IG_CONFORMANCE("C-CDA IG Conformance Errors"), 
-		CERTIFICATION_2015("2015 Certification Feedback");
+		CERTIFICATION_2015("2015 Edition Certification Feedback");
 
 		private String typePrettyName;
 

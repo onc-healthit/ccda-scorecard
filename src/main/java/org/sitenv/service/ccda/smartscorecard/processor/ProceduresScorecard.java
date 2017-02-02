@@ -18,7 +18,10 @@ public class ProceduresScorecard {
 	
 	public Category getProceduresCategory(CCDAProcedure procedures, String birthDate,String docType)
 	{
-		
+		if(procedures!=null && procedures.isSectionNullFlavourWithNI())
+		{
+			return new Category(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc(),true);
+		}
 		Category procedureCategory = new Category();
 		procedureCategory.setCategoryName(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc());
 		
@@ -44,9 +47,9 @@ public class ProceduresScorecard {
 		CCDAXmlSnippet issue= null;
 		if(procedures != null)
 		{
-			maxPoints++;
-			if(procedures.getSectionCode()!= null)
+			if(procedures.getSectionCode()!= null && !ApplicationUtil.isEmpty(procedures.getSectionCode().getDisplayName()))
 			{
+				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(procedures.getSectionCode().getCode(), 
 									procedures.getSectionCode().getCodeSystem(),
 									procedures.getSectionCode().getDisplayName()))
@@ -61,21 +64,14 @@ public class ProceduresScorecard {
 					issuesList.add(issue);
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(procedures.getLineNumber());
-				issue.setXmlString(procedures.getXmlString());
-				issuesList.add(issue);
-			}
 			
 			if(!ApplicationUtil.isEmpty(procedures.getProcActsProcs()))
 			{
 				for (CCDAProcActProc procAct : procedures.getProcActsProcs())
 				{
-					maxPoints++;
-					if(procAct.getProcCode() != null)
+					if(procAct.getProcCode() != null && !ApplicationUtil.isEmpty(procAct.getProcCode().getDisplayName()))
 					{
+						maxPoints++;
 						if(ApplicationUtil.validateDisplayName(procAct.getProcCode().getCode(), 
 												procAct.getProcCode().getCodeSystem(),
 												procAct.getProcCode().getDisplayName()))
@@ -90,22 +86,13 @@ public class ProceduresScorecard {
 							issuesList.add(issue);
 						}
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(procAct.getLineNumber());
-						issue.setXmlString(procAct.getXmlString());
-						issuesList.add(issue);
-					}
 				}
 			}
 		}
-		else
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Procedures section not present");
-			issue.setXmlString("Procedures section not present");
-			issuesList.add(issue);
+			maxPoints=1;
+			actualPoints=1;
 		}
 		
 		validateDisplayNameScore.setActualPoints(actualPoints);

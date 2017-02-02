@@ -30,8 +30,16 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   
   $scope.ReferenceInstanceTypeEnum = Object.freeze({  	
 		IG_CONFORMANCE: "C-CDA IG Conformance Errors",
-		CERTIFICATION_2015: "2015 Certification Feedback"    
-  });  
+		CERTIFICATION_2015: "2015 Edition Certification Feedback"    
+  });
+  
+  $scope.ScorecardConstants = Object.freeze({
+  	IG_URL: "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379"
+  });
+  
+  $scope.detailedResultsData = {
+  		showDetailedResults: $scope.mainDebug.inDebugMode ? true : false 
+  };
   
   //if the SiteUploadControllers $scope.jsonScorecardData changes, 
   //then the service was called (or try me collected local data) and returned new results,
@@ -67,6 +75,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  $scope.errorData.saveTryMeFileError = "";
 	  $scope.finalCategoryListByGrade = [];
 	  $scope.igResults = []; $scope.certResults = []; $scope.referenceResults = [];
+	  $scope.detailedResultsData.showDetailedResults = $scope.mainDebug.inDebugMode ? true : false;
   };
   
   var storeDataAndPopulateResults = function() {
@@ -88,7 +97,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  }
 	  if($scope.certResults) {
 	  	$scope.referenceResults.push($scope.certResults);
-	  }	  
+	  }
 	  $scope.debugLog("$scope.referenceResults");$scope.debugLog($scope.referenceResults);
   };
   
@@ -176,7 +185,6 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   };
     
     $scope.calculateCategoryColor = function(classPrefix, grade) {
-        //panel-heading categoryPanelHeading
         if(typeof grade !== "undefined") {
             if(grade === "A+") {
                 return classPrefix + " heatMapAPlus";
@@ -195,35 +203,87 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         return classPrefix + " unknownGradeColor";
     };
     
-    $scope.getGradeClassForCategory = function(classPrefix, grade, curCategoryFailingConformance) { 
-      return curCategoryFailingConformance ? 
-      		classPrefix + " heatMapFail" : $scope.calculateCategoryColor(classPrefix, grade);
+    $scope.getClassForCategory = function(category, classPrefix) {
+    	var sectionFailClasses = getSectionFailClasses(category, classPrefix);
+    	/*$scope.debugLog("sectionFailClasses:");$scope.debugLog(sectionFailClasses);*/
+      return sectionFailClasses ? 
+      		sectionFailClasses : $scope.calculateCategoryColor(classPrefix, category.categoryGrade);
+    };
+
+    $scope.jumpToCategory = function(category) {
+    	var referenceInstanceTypeEnumToJumpTo = getReferenceInstanceTypeEnumToJumpTo(category);
+  		if(referenceInstanceTypeEnumToJumpTo) {
+  			$scope.jumpToReferenceInstanceTypeViaId(referenceInstanceTypeEnumToJumpTo);
+  		} else {
+  			jumpToCategoryViaName(category.name);
+  		}
     };
     
-    $scope.jumpToCategoryViaName = function(key, weWait, timeToWaitInMiliseconds) {
-        elementId = detruncateCategoryName(key);
-        elementId = document.getElementById(elementId).parentNode.id;
-        $scope.jumpToElementViaId(elementId, weWait, timeToWaitInMiliseconds);
-    };
+    var jumpToCategoryViaName = function(key) {
+  		$scope.detailedResultsData.showDetailedResults = true;
+      elementId = detruncateCategoryName(key);
+      elementId = document.getElementById(elementId).parentNode.id;
+      $scope.jumpToElementViaId(elementId, true, 25);
+    };    
+    
+	  var getReferenceInstanceTypeEnumToJumpTo = function(curSection) {
+	  	var sectionFailType = $scope.getSectionFailType(curSection);
+	  	var failingConformance = sectionFailType === SectionFailTypeEnum.CONFORMANCE_ERRORS;
+	  	var failingCertification = sectionFailType === SectionFailTypeEnum.CERTIFICATION_FEEDBACK;
+	  	if(sectionFailType === SectionFailTypeEnum.EMPTY_SECTION) {
+	  		return null;
+	  	}
+	  	if(failingConformance || failingCertification) {	  		
+		  	if(failingConformance && failingCertification || failingConformance && !failingCertification) {
+		  		//we default to IG if in both since IG is considered a more serious issue (same with the heatmap label, so we match that)
+		  		//there could be a duplicate for two reasons, right now, there's always at least one duplicate since we derive ig from cert in the backend
+		  		//in the future this might not be the case, but, there could be multiple section fails in the same section, so we have a default for those too		  		
+		    	return $scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE;
+		  	} else if(failingCertification && !failingConformance) {
+		  		return $scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015;
+		  	}
+	  	}
+	  	//must be a non section failing category 
+	  	return null;
+	  };    
     
     $scope.convertReferenceInstanceTypeToId = function(referenceInstanceTypeFromJson) {
     	return "referenceInstance" + $scope.removeWhiteSpaceFromString(referenceInstanceTypeFromJson);
     };
     
     $scope.jumpToReferenceInstanceTypeViaId = function(referenceInstanceTypeFromJson) {
+    	$scope.detailedResultsData.showDetailedResults = true;
     	$scope.jumpToElementViaId($scope.convertReferenceInstanceTypeToId(referenceInstanceTypeFromJson));
     };
     
     $scope.getDropdownStateClasses = function(panelDropdownElementId) {
-    //$scope.debugLog('panelDropdownElementId:');$scope.debugLog(panelDropdownElementId);
-    var panelElement = document.getElementById(panelDropdownElementId);
-    if(angular.element(panelElement).hasClass('collapsed')) {
-    	$scope.detailedResultsTextPrefix = "Click Here For ";
-  	  return "glyphicon glyphicon-triangle-right pull-left";
-    }
-    $scope.detailedResultsTextPrefix = '';
-    return "glyphicon glyphicon-triangle-bottom pull-left";	  
-    };    
+      //$scope.debugLog('panelDropdownElementId:');$scope.debugLog(panelDropdownElementId);
+      var panelElement = document.getElementById(panelDropdownElementId);
+      if(angular.element(panelElement).hasClass('collapsed')) {
+  	    return "glyphicon glyphicon-triangle-right pull-left";
+      }
+      return "glyphicon glyphicon-triangle-bottom pull-left";
+    };
+    
+    $scope.getDetailedResultsHideShowClasses = function() {
+      if($scope.detailedResultsData.showDetailedResults) {
+        $scope.detailedResultsTextPrefix = '';
+        return "glyphicon glyphicon-triangle-bottom pull-left";
+      }
+      $scope.detailedResultsTextPrefix = "Click Here For ";
+      return "glyphicon glyphicon-triangle-right pull-left";      
+    };
+    
+    $scope.flipDetailedResultsVisibilityAndNavigate = function() {
+    	$scope.detailedResultsData.showDetailedResults = !$scope.detailedResultsData.showDetailedResults;
+    	var weWait = false;
+    	var timeToWaitInMiliseconds = 0;
+    	if($scope.detailedResultsData.showDetailedResults) {
+    		$scope.jumpToElementViaId('detailedResults', weWait, timeToWaitInMiliseconds);
+    	} else {
+    		$scope.jumpToElementViaId('root', weWait, timeToWaitInMiliseconds);
+    	}
+    };
   
     
   //*************HEATMAP RELATED****************
@@ -264,6 +324,8 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	 * orders by the letter based grade. The order is not intended
 	 * to be related to the amount of occurrences of issues, but
 	 * instead, the actual underlying categorical score.
+	 * It also stores category-specific information relevant to the UI display 
+	 * not provided in a directly relatable manner via the JSON response
 	 */
     var populateCategoryListsByGrade = function() {
 
@@ -274,27 +336,40 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
         var grade = curCategory.categoryGrade;
         var issues = curCategory.numberOfIssues;        
         var score = curCategory.categoryNumericalScore;
-        var failed = curCategory.failingConformance;
+        var failingConformance = curCategory.failingConformance;
+        var certificationFeedback = curCategory.certificationFeedback;
+        var nullFlavorNI = curCategory.nullFlavorNI;
         var sectionData = {
           name: name,
-          grade: grade,
-          sectionIssueCount: issues,
-          score: score,
-          failed: failed
+          grade: grade ? grade : 'F',
+          numberOfIssues: issues,
+          score: score ? score : '-1',
+          failingConformance: failingConformance,
+          certificationFeedback: certificationFeedback,
+          nullFlavorNI: nullFlavorNI,
+          conformanceErrorCount: getFailingSectionSpecificErrorCount(name, $scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE),
+          certificationErrorCount: getFailingSectionSpecificErrorCount(name, $scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015)
         };
+        var failingSectionOrderScore = getFailingSectionOrderScore(sectionData);
+        if(failingSectionOrderScore !== null) { //checking null vs truthy since -1/-2/-3 are our positive values
+        	sectionData.score = failingSectionOrderScore;
+        }
         allCategories.push(sectionData);
       };
       
-
       allCategories.sort(compareNumericalGradesInSectionData);
       
       if(allCategories.length < 12) {
         var emptySectionData = {
           name: "UNK",
           grade: "UNK",
-          sectionIssueCount: 0,
+          numberOfIssues: 0,
           score: 0,
-          failed: false
+          failingConformance: false,
+          certificationFeedback: false,
+          nullFlavorNI: false,
+          conformanceErrorCount: 'N/A',
+          certificationErrorCount: 'N/A'          
         };
         if(allCategories.length === 10) {
           allCategories.push(emptySectionData, emptySectionData);
@@ -309,6 +384,46 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       $scope.finalCategoryListByGrade = [categoryListByGradeFirstColumn, categoryListByGradeSecondColumn, categoryListByGradeThirdColumn];
 
     };
+    
+	var getFailingSectionSpecificErrorCount = function(categoryName, referenceInstanceTypeEnumCertOrIG) {
+		if($scope.jsonData.referenceResults.length > 0) {
+			if(referenceInstanceTypeEnumCertOrIG === $scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE) {
+				var igResults = getReferenceResultViaType($scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE).referenceErrors;
+				if(igResults) {					
+					return getFailingSectionSpecificErrorCountProcessor(categoryName, igResults);
+				}
+			} else if(referenceInstanceTypeEnumCertOrIG === $scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015) {
+				var certResults = getReferenceResultViaType($scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015).referenceErrors;
+				if(certResults) {
+					return getFailingSectionSpecificErrorCountProcessor(categoryName, certResults);
+				}
+			}		 
+		}
+		return null;
+	};
+  var getFailingSectionSpecificErrorCountProcessor = function(categoryName, resultsArray) {
+		var count = 0;
+		for(var i = 0; i < resultsArray.length; i++) {
+			var currentSectionInReferenceErrors = resultsArray[i].sectionName;
+			if(currentSectionInReferenceErrors !== null) {
+				if(currentSectionInReferenceErrors === categoryName) {
+					count++;
+				}
+			}
+		}
+		return count;
+  };    
+    
+  var getFailingSectionOrderScore = function(curSection) {
+  	var sectionFailType = $scope.getSectionFailType(curSection);
+  	if(sectionFailType !== null) {
+	  	var failingScore = sectionFailType.failingScore;
+	  	if(failingScore === -1 || failingScore === -2 || failingScore === -3) {
+	  		return failingScore;
+	  	}
+  	}
+  	return null;
+  };
   
   var compareNumericalGradesInSectionData = function(a, b) {
     if (a.score > b.score)
@@ -327,41 +442,107 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   	return false;
   };
   
-  var getCurrentHeatMapSectionData = function(row, columnNumber) {
+  $scope.getCurrentHeatMapSectionData = function(row, columnNumber) {
   	return ($scope.finalCategoryListByGrade[columnNumber - 1])[row];
   };
   
-  var heatMapCategoryController = function(row, columnNumber, positiveResult, negativeResult) {
+  var heatMapCategoryController = function(row, columnNumber, knownResult, unknownResult) {
   	if(!isCategoryListByGradeEmpty()) {
-    	return positiveResult;
+    	return knownResult;
   	}
-    return negativeResult ? negativeResult : "UNK.";  	
+    return unknownResult ? unknownResult : "UNK.";  	
   }
   
   $scope.getHeatMapCategoryName = function(row, columnNumber) {
 		return heatMapCategoryController(row, columnNumber, 
-				getCurrentHeatMapSectionData(row, columnNumber).name);
+				$scope.getCurrentHeatMapSectionData(row, columnNumber).name);
   };
   
   $scope.getHeatMapCategoryGrade = function(row, columnNumber) {
-  	var curSection = getCurrentHeatMapSectionData(row, columnNumber);
-  	var result = curSection.failed ? '' : curSection.grade + ' ';
+  	var curSection = $scope.getCurrentHeatMapSectionData(row, columnNumber);
+  	var sectionFailLabel = getSectionFailLabel(curSection);
+  	var result = sectionFailLabel ? sectionFailLabel : curSection.grade;
   	return heatMapCategoryController(row, columnNumber, result);
   };
 
   $scope.getHeatMapCategoryIssueCount = function(row, columnNumber) {
-		var curSection = getCurrentHeatMapSectionData(row, columnNumber);
-		var result = curSection.failed ? "Conformance Errors" : curSection.sectionIssueCount; 
+		var curSection = $scope.getCurrentHeatMapSectionData(row, columnNumber);
+		var sectionFailType = $scope.getSectionFailType(curSection);
+		var result = curSection.numberOfIssues //set non-failing default (but may or may not have scorecard issues)
+		if(sectionFailType) {
+			if(sectionFailType === SectionFailTypeEnum.EMPTY_SECTION) {
+				result = SectionFailTypeEnum.EMPTY_SECTION.grade;
+			} else if(sectionFailType === SectionFailTypeEnum.CONFORMANCE_ERRORS) {
+				result = curSection.conformanceErrorCount ? curSection.conformanceErrorCount : 'N/A';
+			} else if(sectionFailType === SectionFailTypeEnum.CERTIFICATION_FEEDBACK) {
+				result = curSection.certificationErrorCount ? curSection.certificationErrorCount : 'N/A';
+			}
+		}
 		return heatMapCategoryController(row, columnNumber, result);
   };
 
-  $scope.getGradeClass = function(row, columnNumber, classPrefix) {
-		var failedClasses = classPrefix + " heatMapFail";
-		var curSection = getCurrentHeatMapSectionData(row, columnNumber); 
-    var positiveResult = curSection.failed ? 
-    		failedClasses : $scope.calculateCategoryColor(classPrefix, curSection.grade);
-    var negativeResult = classPrefix + " unknownGradeColor"; 
-		return heatMapCategoryController(row, columnNumber, positiveResult, negativeResult);
+  $scope.getHeatMapClass = function(row, columnNumber, classPrefix) {
+		var curSection = $scope.getCurrentHeatMapSectionData(row, columnNumber);
+  	var sectionFailClasses = getSectionFailClasses(curSection, classPrefix);
+  	//$scope.debugLog("sectionFailClasses:");$scope.debugLog(sectionFailClasses);
+    var knownResult = sectionFailClasses ? 
+    		sectionFailClasses : $scope.calculateCategoryColor(classPrefix, curSection.grade);
+    var unknownResult = classPrefix + " unknownGradeColor"; 
+		return heatMapCategoryController(row, columnNumber, knownResult, unknownResult);
+  };
+  
+  var SectionFailTypeEnum = Object.freeze({
+  	CONFORMANCE_ERRORS: {
+  		label: "Conformance Errors",
+  		cssClass: " heatMapFailedIGConformance",
+  		failingScore: -3
+  	},
+  	CERTIFICATION_FEEDBACK: {
+  		label: "Certification Feedback",
+  		cssClass: " heatMapHasCertificationFeedback",
+  		failingScore: -2
+  	},
+  	EMPTY_SECTION: {
+  		label: "Empty Section",
+  		cssClass: " heatMapNullFlavorNI",
+  		failingScore: -1,
+  		grade: "Not Scored"
+  	}
+  });
+  
+  $scope.getSectionFailType = function(curSection) {
+  	if(curSection.failingConformance) {
+  		return SectionFailTypeEnum.CONFORMANCE_ERRORS;
+  	} else if(curSection.certificationFeedback) {
+  		return SectionFailTypeEnum.CERTIFICATION_FEEDBACK;
+  	} else if(curSection.nullFlavorNI) {
+  		return SectionFailTypeEnum.EMPTY_SECTION;
+  	}
+  	return null;
+  };  
+  
+  var getSectionFailClasses = function(curSection, classPrefix) {
+  	var sectionFailType = $scope.getSectionFailType(curSection);
+  	return sectionFailType ? classPrefix + sectionFailType.cssClass : null;
+  };  
+  var getSectionFailLabel = function(curSection) {
+  	var sectionFailType = $scope.getSectionFailType(curSection);
+  	return sectionFailType ? sectionFailType.label : null;
+  };
+  
+  isSectionNullFlavored = function(curSection) {
+  	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.EMPTY_SECTION;
+  };
+  isSectionFailingConformance = function(curSection) {
+  	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.CONFORMANCE_ERRORS;
+  };  
+  isSectionFailingCertification = function(curSection) {
+  	return $scope.getSectionFailType(curSection) === SectionFailTypeEnum.CERTIFICATION_FEEDBACK;
+  };
+  
+  $scope.isHeatMapSectionDisabled = function(curSection) {
+  	return isSectionNullFlavored(curSection) || 
+  		(!curSection.numberOfIssues && !curSection.conformanceErrorCount && !curSection.certificationErrorCount) 
   };
   
   
@@ -414,24 +595,26 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     	$scope.errorData.saveScorecardError = genericMessage + " " + $scope.userMessageConstant.GENERIC_LATER;
     	console.log(genericMessage + " " + statusMessage);
     });
-  };	
+  };
 	
   $scope.callDownloadTryMeFileService = function() {
   	$scope.debugLog("Entered callDownloadTryMeFileService()");
   	var localUrl = 'downloadtrymefileservice/';
+  	var postedMediaType = "text/plain";
   	//due to Safari limitations, text/plain is set so it can be rendered in-browser and then saved from there
-    var mediaType = $scope.isSafari ? "text/plain" : "text/xml";
-    var filename = $scope.TryMeConstants.FILENAME + ".xml";
+    var returnedMediaType = $scope.isSafari ? "text/plain" : "text/xml";
+    var filename = $scope.selectedTryMeDoc.filename + ".xml";
     $http({
-      method: "GET",
+      method: "POST",
       url: localUrl,
+      data: filename,
       headers: {
-      	"Content-Type": mediaType
+      	"Content-Type": postedMediaType
       },
       responseType:"arraybuffer"
-    }).then(function mySuccess(response) { 	
+    }).then(function mySuccess(response) {
     	$scope.errorData.saveTryMeFileError = "";    	
-    	triggerFileDownload(response.data, mediaType, filename, "saveTryMeXmlButton");
+    	triggerFileDownload(response.data, returnedMediaType, filename, "saveTryMeXmlButton");
     	console.log("Try Me XML saved");
     }, function myError(response) {    	
     	var genericMessage = "An error was encountered while downloading the Try Me XML.";

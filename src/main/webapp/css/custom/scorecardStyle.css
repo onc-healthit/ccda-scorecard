@@ -140,6 +140,7 @@ overriding for a larger heading */
 }
 
 .validationCategoryPanelHeading {
+	background-color: black !important;
     color: white !important;
 }
 
@@ -152,7 +153,7 @@ overriding for a larger heading */
 
 .resultsButton:hover {
     background-color: #F6F6F6;
-/*    border: 1px solid black;*/
+	border: 1px solid black;
 }
 
 .categoryGrade {    
@@ -286,18 +287,6 @@ we don't use data-target as we don't want the user redirected */
     /* padding: 15px; */    
 }
 
-.Acolor {
-    background-color: #87B822 !important;
-}
-.Bcolor {
-    background-color: #F0C42C !important;
-}
-.Ccolor {
-    background-color: #F1784D !important;
-}
-.Dcolor {
-    background-color: #F1784D !important;
-}
 .blackBackground {
 	background-color: #000000 !important;
 }
@@ -306,79 +295,172 @@ we don't use data-target as we don't want the user redirected */
 }
 
 .heatMapAPlus {
-/*    background-color: #87B822 !important;*/
+	font-weight: bold;
     background-color: #01B830 !important;
     color: white !important;
 }
-.heatMapAPlus:hover {
-    font-weight: bold;
+.heatMapAPlus:not([disabled]):hover {	
+	text-shadow: 1px 1px black;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 .heatMapAPlus:focus {
     color: white;
 }
-.heatMapAMinus {    
-    background-color: #018833 !important;
+.heatMapAMinus {
+    /*background-color: #018833 !important;*/
+    font-weight: bold;
+    background-color: #01B830 !important;    
     color: white !important;
 }
-.heatMapAMinus:hover {
-    font-weight: bold;
+.heatMapAMinus:not([disabled]):hover {    
+	text-shadow: 1px 1px black;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 .heatMapAMinus:focus {
     color: white;
 }
 .heatMapBPlus {
+	font-weight: bold;
     background-color: #F0EF6C !important;
 }
-.heatMapBPlus:hover {
-    font-weight: bold;
+.heatMapBPlus:not([disabled]):hover {
+	text-shadow: 1px 1px white;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;    
 }
 .heatMapBPlus:focus {
 }
 .heatMapBMinus {
-    background-color: #FFE00C !important;
-    background-color: #F0E002 !important;
-}
-.heatMapBMinus:hover {
+    /*background-color: #F0E002 !important;*/
     font-weight: bold;
+    background-color: #F0EF6C !important;
+}
+.heatMapBMinus:not([disabled]):hover {
+	text-shadow: 1px 1px white;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 .heatMapBMinus:focus {
 }
 .heatMapC {
-    background-color: #F1704A !important;
-/*    color: white !important;*/
-}
-.heatMapC:hover {
+    /*background-color: #F1704A !important;*/
     font-weight: bold;
+    background-color: #C0392B !important;    
+    color: white !important;	
+}
+.heatMapC:not([disabled]):hover {
+	text-shadow: 1px 1px black;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 .heatMapC:focus {
-    color: white;
+    color: white !important;
 }
 .heatMapD {
-/*    background-color: #F1784D !important;*/
-/*    background-color: #96281B !important;*/
+	font-weight: bold;
     background-color: #C0392B !important;    
     color: white !important;
 }
-.heatMapD:hover {
-    font-weight: bold;
+.heatMapD:not([disabled]):hover {
+	text-shadow: 1px 1px black;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
 }
 .heatMapD:focus {
     color: white !important;
 }
-.heatMapFail {
+.heatMapAPlus[disabled], .heatMapAMinus[disabled], .heatMapBPlus[disabled], 
+.heatMapBMinus[disabled], .heatMapC[disabled], .heatMapD[disabled] {	
+    opacity: 1
+}
+
+.heatMapFailedIGConformance {
+	font-weight: bold;
     background-color: #000000 !important;   
     color: white !important;
 }
-.heatMapFail:hover {
-    font-weight: bold;
-}
-.heatMapFail:focus {
+.heatMapFailedIGConformance[disabled] {
+    background-color: #000000 !important;   
     color: white !important;
+    opacity: 1
+}
+.heatMapFailedIGConformance:hover {
+	text-shadow: 1px 1px black;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
+}
+.heatMapFailedIGConformance:focus {
+    color: white !important;
+}
+.heatMapHasCertificationFeedback {	
+    /*background-color: #545454 !important; //very dark flat gray*/
+    font-weight: bold;
+    background-color: #000000 !important;	    
+    color: white !important;
+}
+.heatMapHasCertificationFeedback[disabled] {
+    /*background-color: #545454 !important; //very dark flat gray*/
+    background-color: #000000 !important;	    
+    color: white !important;
+    opacity: 1
+}
+.heatMapHasCertificationFeedback:hover {
+	text-shadow: 1px 1px black;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
+}
+.heatMapHasCertificationFeedback:focus {
+    color: white !important;
+}
+.heatMapNullFlavorNI {
+	font-weight: bold;
+    background-color: lightGray !important;	   
+    color: black !important;
+}
+.heatMapNullFlavorNI[disabled] {
+	font-weight: normal;
+	font-style: italic;
+    background-color: lightGray !important;	   
+    color: black !important;
+    opacity: 1
+}
+/*
+.heatMapNullFlavorNI:hover {
+	text-shadow: 1px 1px white;
+	box-shadow: rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px;
+}
+*/
+.heatMapNullFlavorNI:focus {
+    color: black !important;
+}
+
+.removeBoxShadowAndTextShadow {
+	text-shadow: none !important;
+	box-shadow: none !important;
 }
 
 .heatMapButton {
 	display: block;
 	width: 100%;
+}
+
+.smallPadFromTop {
+	padding-top: 5px;
+}
+
+.mediumPadFromTop {
+	padding-top: 10px;
+}
+
+.largePadFromTop {
+	padding-top: 15px;
+}
+
+.extraLargePadFromTop {
+	padding-top: 20px;
+}
+
+.subDescriptionTabs {
+	/*font-weight: bold;*/
+	font-size: 140%;
+}
+
+#tryMeSampleSelector {
+	margin-top: 12px;
 }
 
 /*

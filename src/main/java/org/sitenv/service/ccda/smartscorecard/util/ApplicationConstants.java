@@ -9,8 +9,59 @@ import java.util.TreeMap;
 
 public class ApplicationConstants {
 	
-	//set this to false for production
+	/**
+	 * True allows switching the various service URLs from the prod to the dev server and enables local logs
+	 * Note: Never commit true as to ensure this is always set to false for production
+	 */
 	public static final boolean IN_DEVELOPMENT_MODE = false;
+	/**
+	 * True allows setting default scorecard.xml values externally FOR DEVELOPMENT PURPOSES ONLY
+	 * Note: Never commit true as to ensure this is always set to false for production
+	 */
+	public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = false;
+	/**
+	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG == true
+	 * When overridden, the URL property is set by ApplicationConstants.REFERENCE_VALIDATOR_URL
+	 * True allows for 'C-CDA IG Conformance Errors' results
+	 */
+	public static final boolean IG_CONFORMANCE_CALL = false;
+	/**
+	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG == true
+	 * When overridden, the URL property is set by ApplicationConstants.REFERENCE_VALIDATOR_URL
+	 * True allows for '2015 Edition Certification Feedback' results
+	 */
+	public static final boolean CERTIFICATION_RESULTS_CALL = false;
+	
+	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
+	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:8000",
+			CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org",
+			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
+			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
+			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
+			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
+			REFERENCE_CCDA_SERVICE = "/referenceccdaservice/",
+			CCDA_SCORECARD_SERVICE = "/scorecard/ccdascorecardservice2",
+			SAVE_SCORECARD_SERVICE_BACKEND = "/scorecard/savescorecardservicebackend";
+	// ensure when WAR is headed to the dev server that DEFAULT_LOCAL_SERVER_URL
+	// is replaced with CCDA_DEV_SERVER_URL in the following Strings
+	public static final String CODE_DISPLAYNAME_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
+			: CCDA_PROD_SERVER_URL)
+			+ CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
+	public static final String CODE_VALUSET_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
+			: CCDA_PROD_SERVER_URL)
+			+ CODE_IN_VALUESET_SERVICE;
+	public static final String CODE_CODESYSTEM_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
+			: CCDA_PROD_SERVER_URL)
+			+ CODE_IN_CODESYSTEM_SERVICE;
+	public static final String REFERENCE_VALIDATOR_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
+			: CCDA_PROD_SERVER_URL)
+			+ REFERENCE_CCDA_SERVICE;
+	public static final String SAVESCORECARDSERVICEBACKEND_URL = (IN_DEVELOPMENT_MODE ? DEFAULT_LOCAL_SERVER_URL
+			: CCDA_PROD_SERVER_URL)
+			+ SAVE_SCORECARD_SERVICE_BACKEND;
+	public static final String CCDASCORECARDSERVICE_URL = (IN_DEVELOPMENT_MODE ? DEFAULT_LOCAL_SERVER_URL
+			: CCDA_PROD_SERVER_URL)
+			+ CCDA_SCORECARD_SERVICE;
 	 
 	public static String FILEPATH = "C:/Projects/Dragon/CCDAParser/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	
@@ -162,6 +213,9 @@ public class ApplicationConstants {
 	public static final String EMPTY_DOC_ERROR_MESSAGE = "Given C-CDA document is empty or invalid. Please upload a valid C-CDA Document.";
 	public static final String EXCEPTION_ERROR_MESSAGE = "Our system experienced some unexpected error, please try after some time or email your issue to TestingServices@sitenv.org";
 	
+	public static final String YEAR_FORMAT = "yyyy";
+	public static final String YEAR_PATTERN = "\\d{4}";
+	
 	public static final String MONTH_FORMAT = "yyyyMM";
 	public static final String MONTH_PATTERN = "\\d{6}";
 	
@@ -173,37 +227,6 @@ public class ApplicationConstants {
 	
 	public static final String SECOND_FORMAT = "yyyyMMddHHmmssZ";
 	public static final String SECOND_PATTERN = "\\d{14}-\\d{4}";
-	
-	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
-	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:8000",
-			CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org",
-			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
-			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
-			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
-			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
-			REFERENCE_CCDA_SERVICE = "/referenceccdaservice/",
-			CCDA_SCORECARD_SERVICE = "/scorecard/ccdascorecardservice2",
-			SAVE_SCORECARD_SERVICE_BACKEND = "/scorecard/savescorecardservicebackend";
-	// ensure when WAR is headed to the dev server that DEFAULT_LOCAL_SERVER_URL
-	// is replaced with CCDA_DEV_SERVER_URL in the following Strings
-	public static final String CODE_DISPLAYNAME_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL)
-			+ CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
-	public static final String CODE_VALUSET_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL)
-			+ CODE_IN_VALUESET_SERVICE;
-	public static final String CODE_CODESYSTEM_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL)
-			+ CODE_IN_CODESYSTEM_SERVICE;
-	public static final String REFERENCE_VALIDATOR_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL)
-			+ REFERENCE_CCDA_SERVICE;
-	public static final String SAVESCORECARDSERVICEBACKEND_URL = (IN_DEVELOPMENT_MODE ? DEFAULT_LOCAL_SERVER_URL
-			: CCDA_PROD_SERVER_URL)
-			+ SAVE_SCORECARD_SERVICE_BACKEND;
-	public static final String CCDASCORECARDSERVICE_URL = (IN_DEVELOPMENT_MODE ? DEFAULT_LOCAL_SERVER_URL
-			: CCDA_PROD_SERVER_URL)
-			+ CCDA_SCORECARD_SERVICE;
 	
 	public static final ArrayList<String> SMOKING_STATUS_CODES = new ArrayList<String>(
 		    Arrays.asList("449868002", "428041000124106", "8517006","266919005","77176002","266927001","428071000124103","428061000124105"));
@@ -490,7 +513,7 @@ public class ApplicationConstants {
 	
 	public static enum VALIDATION_OBJECTIVES
 	{
-		CCDA_IG_PLUS_VOCAB("CCDA IG Plus Vocab"),
+		CCDA_IG_PLUS_VOCAB("C-CDA_IG_Plus_Vocab"),
 		CERTIFICATION_B1_CCD_DS_RN_OBJECTIVE("170_315_b1_ToC_Amb"),
 		CERTIFICATION_B9_CP_OBJECTIVE("170_315_b9_CP_Amb");
 		
