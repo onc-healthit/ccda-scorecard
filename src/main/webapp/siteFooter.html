@@ -1,28 +1,440 @@
-<footer id="siteFooter">
+<footer>
   <div class="container" role="contentinfo">
-    <div>
-      <p>
-        This project was funded by a contract from the <a
-          href="http://www.healthit.gov" tabindex="100"> Office of
-          the National Coordinator for Health Information Technology
-          (ONC) </a>
-      </p>
-    </div>
+
     <div class="row">
-      <div class="col-md-8">
-        <p>
-          For any inquiries or questions, please send an email to <a
-            href="mailto:TestingServices@sitenv.org" tabindex="100">
-            TestingServices@sitenv.org </a>
-        </p>
+      <div class="col-sm-6 text-left">
+        <!-- version -->
+        <span>
+          <p>
+            <strong>Version:</strong> 3.1.0 | <strong>Released:</strong>
+            1/31/2017
+          </p>
+        </span>
       </div>
-      <div class="col-md-4">
-        <p style="float: right;">
-          <a href="http://www.hhs.gov/Privacy.html" tabindex="100">Privacy
-            Policy</a> | <a href="http://www.hhs.gov/Disclaimer.html"
-            tabindex="100">Disclaimers</a>
-        </p>
-      </div>
+      <!-- email -->
+      <span class="col-sm-6 text-right">
+        Inquiries or questions, email <a
+          href="mailto:TestingServices@sitenv.org" tabindex="100">TestingServices@sitenv.org</a>
+      </span>
     </div>
+
+    <div class="row">
+      <div class="col-sm-6 text-left">
+
+        <span>
+          <!-- site-news-announcements modal link -->
+          <button class="btn btn-link footer-link-btn" id="siteuiNewsButton" type="button"
+            tabindex="1" data-toggle="modal" data-target="#siteuiNewsModal">
+          News &amp; Announcements
+          </button>
+        </span>
+        |
+        <span>
+          <!-- site-release-notes modal link -->
+          <button class="btn btn-link footer-link-btn" id="siteuiReleaseNotesButton" type="button" 
+            tabindex="1" data-toggle="modal" data-target="#siteuiReleaseNotesModal">
+           Release Notes
+           </button>
+        </span>
+
+      </div>
+
+      <!-- privacy policy and disclaimers -->
+      <span class="col-sm-6 text-right">
+        <a href="http://www.hhs.gov/Privacy.html" tabindex="100">Privacy
+          Policy</a> | <a href="http://www.hhs.gov/Disclaimer.html"
+          tabindex="100">Disclaimers</a>
+      </span>
+
+    </div>
+
   </div>
 </footer>
+
+<!-- MODAL DATA -->
+
+<!--  NEWS MODAL -->
+<div id="siteuiNewsModal" 
+  class="modal fade news-modal-dialog" cssclass="release-notes-modal-dialog"
+  role="dialog" tabindex="-1" data-keyboard="true" data-backdrop="true"
+  aria-labelledby="siteuiNewsModalLabel" aria-hidden="true">
+<div class="modal-dialog release-notes-modal-dialog">
+  <div class="modal-content">
+    
+    <div class="modal-body">
+      <div class="col-sm-12">
+      
+        <p>Updates planned for February:</p>
+        <p>Release 3.1.0.1 (Targeted for 2/16/2017)</p>
+        <ul>
+        <li>Scorecard Release for HIMSS.</li>
+        <li>Consolidate ETT and SITE Direct RI instances.</li>
+        <li>Add CPT-4 vocabulary for validation.</li>
+        </ul>
+        <p>Release 3.1.1 (Targeted for 2/27/2017)</p>
+        <ul>
+        <li>FHIR Sandbox updates to transition from DAF-Core to US-Core</li>
+        <li>FHIR Sandbox updates for test data</li>
+        <li>FHIR Conformance Test Tool updates for US-Core.</li>
+        <li>C-CDA Validator consolidation</li>
+        </ul>      
+      
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" data-dismiss="modal">Close</button>
+    </div>
+    
+  </div>
+</div>
+</div>
+
+<!--  RELEASE NOTES MODAL -->
+<div id="siteuiReleaseNotesModal" 
+  class="modal fade" cssclass="release-notes-modal-dialog"
+  role="dialog" tabindex="-1" data-keyboard="true" data-backdrop="true"
+  aria-labelledby="siteuiReleaseNotesModalLabel" aria-hidden="true">
+<div class="modal-dialog release-notes-modal-dialog">
+  <div class="modal-content">
+    
+    <div class="modal-body">
+      <div class="col-sm-12">
+      
+        <h1>The Standards Testing &amp; Implementation Environment (SITE)</h1>
+        <h2>Release Notes</h2>
+        <h4>V 3.1.0  |   Released on: 1/31/2017</h4>
+        <h5>C-CDA Validator Updates:</h5>
+        <ul>
+        <li>The 2015 Edition C-CDA Validator has been updated to Release 1.0.11 with the following changes. </li>
+        <li>Substance Reactant value set for Allergies has been updated to contain the full list of values. (Previously it was a partial list)</li>
+        <li>Improved performance of the vocabulary validation.</li>
+        <li>Updated underlying MDHT JAR files to support R1.1, R2.1, DS4P and other related validation in a single WAR file.</li>
+        <li>Also the updated MDHT JAR files have performance and multi-threading improvements.</li>
+        </ul>
+        <h5>C-CDA Test Data Updates:</h5>
+        <p><a href="https://groups.google.com/forum/#!topic/edge-test-tool/EK91BXBhLSY">Test Data Update Details</a></p>
+        <h5>SITE UI Improvements:</h5>
+        <ul>
+        <li>Updated the Direct Transport Sandbox to use the new UI style and themes.</li>
+        <li>Removed Liferay Portlet infrastructure for Direct Sandbox and created new services for existing capabilities.</li>
+        <li>Added Breadcrumb navigation to the UI.</li>
+        <li>Changed NIST Tools page to Test Tools.</li>
+        </ul>
+        <h5>Scorecard Updates:</h5>
+        <h6>Improvements</h6>
+        <ul>
+        <li>Updated Effective Date Time Rule to handle partial dates/times</li>
+        <li>Updated Unique Id rule to not apply on the header participants such as Author</li>
+        <li>Updated Display Name rule to not apply when display names are not present</li>
+        <li>Updated Text Reference Checking Rule to account for sub elements in tables in the narrative text</li>
+        <li>Updated Scoring criteria to not apply rules to No Information or Null Sections which have no data or are completely absent</li>
+        <li>Updated Try Me to support multiple files (a high and low scoring sample and a sample with errors) and provided new and updated data</li>
+        <li>Updated top level results and summary UI layout</li>
+        <li>Added ability to identify 2015 Edition Certification Feedback and Empty Sections in the heatmap</li>
+        <li>For clarity, converted rubric sub-Description data ('Issues' and 'Best Practice') into tabs versus links</li>
+        <li>Embolden heat map text by default and hover attributes so that categories are both easier to read upfront and understand the status of overall</li>
+        <li>Added disabled option to the heatmap when categories have no issues to navigate to or are empty sections</li>
+        <li>Updated Conformance and Certification section to display a related issue count in brackets</li>
+        <li>Updated heatmap to jump to Certification or Conformance when a section has related issues versus jumping to a no-issue scorecard result</li>
+        <li>Categories (including Conformance and Certification) which have no issues are no longer shown in the detailed results which allows for a cleaner, more focused interface</li>
+        <li>Updated IG/Cert. links to navigate via their label versus error count alone</li>
+        <li>Added C-CDA Document Type (e.g. CCD) scored</li>
+        <li>Each rubrics 'Issues' tab is now selected/expanded by default</li>
+        <li>Replaced loading text with animations</li>
+        <li>Reworded and moved 'Standard' option text to the end of each rubrics description versus in its own tab</li>
+        <li>Updated to not load 'Detailed Results' button on a full pass scenario (100/100)</li>
+        <li>Added 'Edition' to 2015 Certification Feedback</li>
+        <li>Updated color schemes<ul>
+        <li>3 colors only (green, yellow, red) for all grade results</li>
+        <li>Category headers black versus blue to match heatmap</li>
+        <li>Cert and IG black in heatmap and detailed results</li>
+        </ul>
+        </li>
+        </ul>
+        <h6>Fixes</h6>
+        <ul>
+        <li>Fixed heatmap category click/IG and Cert. links not opening detailed results if closed</li>
+        <li>Fixed issue where a C-CDA IG Conformance Error could be identified as a 2015 Edition Certification Feedback issue in the heatmap</li>
+        <li>Fixed typos in a few locations</li>
+        </ul>
+        <h4>V 3.0     - 12/20/2016</h4>
+        <ul>
+        <li>Updated CCDA Validator with the following fixes</li>
+        <li>Relaxed the timing information validation for Problems, Medications, Allergies.</li>
+        <li>Updated new MDHT Release which includes the following ERRATA for C-CDA R2.1 (710, 806, 808, 872, 986, 1018, 1220)</li>
+        <li>Scorecard fixes and enhancements<ul>
+        <li>Added the ability to score multiple C-CDA files</li>
+        <li>toggle IG Conformance/Certification results</li>
+        <li>improved proecessing time</li>
+        </ul>
+        </li>
+        <li>New SITE UI released</li>
+        <li>Updated FHIR Sandbox with bug fixes idenified by ONC Testing.</li>
+        </ul>
+        <h4>V 2.4     - 11/30/2016</h4>
+        <ul>
+        <li>Updated Reference C-CDA Validator to fix content validation for Labs/Vitals/Procedures/Immunizations.</li>
+        <li>Upated FHIR Sandbox to fix error handling and displaying appropriate error messages and editing of clients.</li>
+        <li>Updated Scorecard to incorporate feedback from Internal ONC team on decoupling the various validations and its results.</li>
+        <li>The new SITE UI Makeover Release has been updated to have the ONC Tech Lab Themes and Layouts.</li>
+        </ul>
+        <h4>v.2.3.9   -10/31/2016</h4>
+        <ul>
+        <li>Updated C-CDA Validator to version 1.0.5</li>
+        <li>Updated FHIR Sandbox with bug fixes based on feedback and comments on Alpha Release.</li>
+        <li>Updated DS4P Test Data PDF and Test XML files.</li>
+        <li>Provided the new SITE UI Re-design concept.</li>
+        </ul>
+        <h4>v.2.3.8   -09/26/2016</h4>
+        <ul>
+        <li>Updated SITE Scorecard URL.</li>
+        <li>Deployed Alpha Release of SITE FHIR Sandbox.</li>
+        <li>Deployed Alpha Release of SITE DS4P Validator.</li>
+        <li>Deployed Updates to C-CDA Validator which includes test data, test xml files, vocabularies and HL7 errata.</li>
+        </ul>
+        <h4>v.2.3.7   -09/09/2016</h4>
+        <ul>
+        <li>Added 'Try Me' Feature.</li>
+        <li>Improved Error Handling and User Notification.</li>
+        <li>Updated UI.</li>
+        <li>Fix for Effective Time validation when present in seconds format. </li>
+        </ul>
+        <h4>v.2.3.6.2 -08/19/2016</h4>
+        <ul>
+        <li>Addition of Unique Instance Identifier rule in SCORECARD under Miscellaneous Section.</li>
+        <li>IG References for issues change dynamically based on type of document processed(R1.1, R2.1).</li>
+        </ul>
+        <h4>v.2.3.6.1 -08/09/2016</h4>
+        <ul>
+        <li>Fixed time validation routine to not reduce scores when additional precision is specified as part of the time element.</li>
+        </ul>
+        <h4>v.2.3.6   -08/05/2016</h4>
+        <ul>
+        <li>File contents are no longer encoded.</li>
+        <li>File contents are sent as an attachment in using optimized XOP message.</li>
+        <li>Full and minimial messages are sent correctly when selected from dropdown.</li>
+        </ul>
+        <h4>v.2.3.5 - 08/05/2016</h4>
+        <ul>
+        <li>Added ability to save the scorecard results to PDF.</li>
+        <li>Added context to IG References to Standards.</li>
+        <li>Added HL7 Example Task Force links to Best Practice links.</li>
+        <li>Scoring for documents is optimized in case of any section is null flavor.</li>
+        <li>Updated vital sign UCUM validation to validate against its value set.</li>
+        </ul>
+        <h4>v.2.3.4 - 08/04/2016</h4>
+        <ul>
+        <li>C-CDA Validator Update</li>
+        <li>Latest MDHT build.</li>
+        <li>LOINC displayname validation is now done against the LONG_COMMON_NAME rather than COMPONENT.</li>
+        <li>Vocabulary bug fixes.</li>
+        <li>C-CDA IG validation bug fixes.</li>
+        <li>Reference Content validation bug fixes.</li>
+        </ul>
+        <h4>v.2.3.3   - 07/15/2016</h4>
+        <ul>
+        <li>Added full support for C-CDA R1 to Scorecard - The Scorecard now fully supports scoring of documents that conform to either the  C-CDA R1.1 or the C-CDA R2.1 Implementation Guide.</li>
+        </ul>
+        <h4>v.2.3.2.1 - 07/08/2016</h4>
+        <ul>
+        <li>Applied Scorecard hotfix - Fixed null flavor with problem status code throwing service error</li>
+        </ul>
+        <h4>v.2.3.2 - 06/28/2016</h4>
+        <ul>
+        <li>Updated Reference C-CDA Validator - Updated Reference Validator to display content errors based on certification test data scenarios</li>
+        </ul>
+        <h4>2.3.1 - 06/28/2016</h4>
+        <ul>
+        <li>ONC C-CDA Scorecard (Beta) release</li>
+        <li>Added Calculation of Industry Average (based on average of all scores since scorecard was made available)</li>
+        <li>Updated method of counting issues discovered</li>
+        <li>Enhancements for scoring both C-CDA R2.1 and R1.1 documents </li>
+        <li>Enhancements to section heatmap </li>
+        </ul>
+        <h4>2.3.0.1 - 06/08/2016</h4>
+        <ul>
+        <li>Scorecard Hot fix for CDN/Broken link Issue</li>
+        </ul>
+        <h4>v.2.3.0 - 5/16/16</h4>
+        <ul>
+        <li>C-CDA Validator Service Release<ul>
+        <li>Fixed concurrency issue</li>
+        <li>Updated valuesets and validator configuration</li>
+        </ul>
+        </li>
+        <li>C-CDA Validator Portlet<ul>
+        <li>508 compliancy work</li>
+        </ul>
+        </li>
+        <li>Direct Transport Portlet<ul>
+        <li>Addressed issues where x.509 certificates were being improperly loaded</li>
+        </ul>
+        </li>
+        <li>C-CDA Scorecard initial release</li>
+        </ul>
+        <h4>v.2.2.7 - 4/8/16</h4>
+        <ul>
+        <li>C-CDA Validator Service Release<ul>
+        <li>Problem Observation Valuesets</li>
+        <li>Vocabulary validation severity can be configured to be SHALL, SHOULD, MAY severity</li>
+        <li>CDT Codesystem is loaded but not yet configured</li>
+        <li>New MDHT Build</li>
+        </ul>
+        </li>
+        </ul>
+        <h4>v.2.2.6 - 2/29/16</h4>
+        <ul>
+        <li>C-CDA Validator Service Release<ul>
+        <li>Improved validation performance, most validations should take under 1 minute.</li>
+        </ul>
+        </li>
+        <li>XDR Validator Service Release<ul>
+        <li>Responses are now in MTOM format</li>
+        <li>Fixed where some nodes were not found due to incorrect Qnames.</li>
+        </ul>
+        </li>
+        </ul>
+        <h4>v.2.2.5 - 1/31/16</h4>
+        <ul>
+        <li>New MDHT Release for IG conformance</li>
+        <li>Vocabulary Updates to include Non-VSAC value sets</li>
+        <li>Reference CCDA IG updates</li>
+        <li>Test Data updates for C-CDA certification criteria</li>
+        </ul>
+        <h4>v.2.2.4 - 12/23/2015</h4>
+        <ul>
+        <li>C-CDA Validator Release</li>
+        <li>MDHT Update</li>
+        <li>UI Update</li>
+        <li>Added Test Data Repository</li>
+        </ul>
+        <h4>v.2.2.3 - 12/09/2015</h4>
+        <ul>
+        <li>Upgraded C-CDA 2.1 Validator</li>
+        <li>Deployed new C-CDA valuesets and updated configuration(s)</li>
+        <li>Extended validator and Reference validator with separate R1 and R2 configurations</li>
+        <li>Updated validators and valueset/codes to enable configuration for path expression</li>
+        <li>Added DVT FAQs</li>
+        <li>Added 2015 DCDT</li>
+        <li>Updated Direct Sandbox Links</li>
+        </ul>
+        <h4>v2.2.2 - 10/30/2015</h4>
+        <ul>
+        <li>Upgraded SITE C-CDA Validator<ul>
+        <li>Added the Reference C-CDA Validator functionality for R2.0</li>
+        <li>Added vocabulary valueset validation for new code system files</li>
+        <li>Added vocabulary valueset validation for new value sets available from VSAC</li>
+        </ul>
+        </li>
+        </ul>
+        <h4>v2.2.1 - 09/27/2015</h4>
+        <ul>
+        <li>Upgraded SITE C-CDA Validator from R2.0 to R2.1</li>
+        <li>Retired SITE QRDA Validator</li>
+        </ul>
+        <h4>v2.2.0 - 08/17/2015</h4>
+        <ul>
+        <li>Added finalized 508 Compliance UX</li>
+        <li>Added Vocabulary Validation to the C-CDA Validator</li>
+        <li>New version of SITE Direct Transport Standard Testing Services (1.1)</li>
+        <li>New C-CDA R1.1 and R2.0 builds</li>
+        </ul>
+        <h4>v2.1.0 - 07/10/2015</h4>
+        <ul>
+        <li>Added the SITE Direct Transport Standard Testing Services</li>
+        </ul>
+        <h4>v2.0.4 - 05/01/2015</h4>
+        <ul>
+        <li>Updated Virtual Machines to fix the GHOST flaw</li>
+        <li>Increase VM disk size</li>
+        </ul>
+        <h4>v2.0.3 - 04/30/2015</h4>
+        <ul>
+        <li>Added the CYPRESS QRDA Validator to the Quality Reporting Standard Sandbox and Testing Resources Pages</li>
+        </ul>
+        <h4>v2.0.2 - 04/17/2015</h4>
+        <ul>
+        <li>Added the SITE Direct SMTP Edge Test Tool</li>
+        <li>Added optional parameters to the SITE Direct XDR Edge Test Tool</li>
+        <li>Fixed issues in formatting of a Provider Directory response</li>
+        <li>Completed additional required Section 508 Accessibility Issues</li>
+        <li>Added Bonnie to the CQM Sandbox</li>
+        <li>Added Public Health Reporting, Laboratory Standards, Electronic Prescribing, and SOAP Transport Sandboxes</li>
+        </ul>
+        <h4>v2.0.1 - 02/26/2015</h4>
+        <ul>
+        <li>Added the SITE Direct XDR Edge Test Tool</li>
+        </ul>
+        <h4>v2.0 - 12/31/2014</h4>
+        <ul>
+        <li>Refactored all of the SITE portlet code</li>
+        <li>Updated SITE C-CDA Validator to version 2.0</li>
+        <li>Updated SITE Direct Transport Test Tool to version 2.0</li>
+        <li>Updated SITE Provider Directory Test Tool to version 2.0</li>
+        <li>Updated SITE QRDA Validator to version 2.0</li>
+        </ul>
+        <h4>v1.3.9 - 12/26/2014</h4>
+        <ul>
+        <li>Updated SITE Provider Directory Test Tool to version 1.1</li>
+        </ul>
+        <h4>v1.3.8 - 11/11/2014</h4>
+        <ul>
+        <li>Incorporated the CQM Certification Sandbox</li>
+        <li>Updated look and feel of the SITE application</li>
+        </ul>
+        <h4>v1.3.7 - 10/01/2014</h4>
+        <ul>
+        <li>Incorporated the Direct Certificate Discovery Tool</li>
+        </ul>
+        <h4>v1.3.6 - 07/30/2014</h4>
+        <ul>
+        <li>Updated the look and feel of SITE to support Section 508 Compliance</li>
+        </ul>
+        <h4>v1.3.5 - 07/18/2014</h4>
+        <ul>
+        <li>Updated the C-CDA validation service (new MDHT build)</li>
+        </ul>
+        <h4>v1.3.4 - 07/10/2014</h4>
+        <ul>
+        <li>Incorporated SITE Statistics for existing portlets</li>
+        </ul>
+        <h4>v1.3.3 - 06/13/2014</h4>
+        <ul>
+        <li>Updated C-CDA Validator to version 1.5</li>
+        </ul>
+        <h4>v1.3.2 - 05/01/2014</h4>
+        <ul>
+        <li>Updated SITE to address the potential Heartbleed issue.</li>
+        </ul>
+        <h4>v1.3.1 - 04/08/2014</h4>
+        <ul>
+        <li>Addressed defects in both the Provider Directory Test Tool and the QRDA Validator</li>
+        </ul>
+        <h4>v1.3 - 03/06/2014</h4>
+        <ul>
+        <li>SITE Usability Updates</li>
+        </ul>
+        <h4>v1.2 - 01/28/2013</h4>
+        <ul>
+        <li>Addition of Federated HPD and QRDA sandboxes</li>
+        </ul>
+        <h4>v1.1 - 06/30/2013</h4>
+        <ul>
+        <li>Addition of the Direct Sandbox</li>
+        </ul>
+        <h4>v1.0 - 04/09/2013</h4>
+        <ul>
+        <li>Addition of the C-CDA Sanbox</li>
+        </ul>      
+      
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" data-dismiss="modal">Close</button>
+    </div>
+    
+  </div>
+</div>
+</div>
