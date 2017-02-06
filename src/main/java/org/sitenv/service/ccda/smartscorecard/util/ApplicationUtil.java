@@ -691,9 +691,8 @@ public class ApplicationUtil {
 			{
 				docType = "R1.1";
 			}
-				
 		}
-		else if(ccdaModels.getEncounter()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
+		else if(ccdaModels.getEncounter()!=null && !ccdaModels.getEncounter().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getEncounter().getTemplateId()))
 			{
@@ -702,9 +701,8 @@ public class ApplicationUtil {
 			{
 				docType = "R1.1";
 			}
-				
 		}
-		else if(ccdaModels.getAllergy()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
+		else if(ccdaModels.getMedication()!=null && !ccdaModels.getMedication().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getMedication().getTemplateIds()))
 			{
@@ -713,9 +711,8 @@ public class ApplicationUtil {
 			{
 				docType = "R1.1";
 			}
-				
 		}
-		else if(ccdaModels.getAllergy()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
+		else if(ccdaModels.getImmunization()!=null && !ccdaModels.getImmunization().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getImmunization().getTemplateIds()))
 			{
@@ -725,7 +722,7 @@ public class ApplicationUtil {
 				docType = "R1.1";
 			}
 		}
-		else if(ccdaModels.getVitalSigns()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
+		else if(ccdaModels.getVitalSigns()!=null && !ccdaModels.getVitalSigns().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getVitalSigns().getTemplateIds()))
 			{
@@ -735,7 +732,7 @@ public class ApplicationUtil {
 				docType = "R1.1";
 			}
 		}
-		else if(ccdaModels.getSmokingStatus()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
+		else if(ccdaModels.getSmokingStatus()!=null && !ccdaModels.getSmokingStatus().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getSmokingStatus().getSectionTemplateIds()))
 			{
