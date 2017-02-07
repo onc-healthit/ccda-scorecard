@@ -290,9 +290,13 @@ public class SaveReportController {
 
 		sb.append("<span id='heatMap'>" + "</span>");
 		for (Category curCategory : categories) {
-			sb.append("<h3>" + "<a href='#" + curCategory.getCategoryName()
-					+ "-category" + "'>" + curCategory.getCategoryName()
-					+ "</a>" + "</h3>");
+			sb.append("<h3>" 
+					+ (curCategory.getNumberOfIssues() > 0 
+							? "<a href='#" + curCategory.getCategoryName() + "-category" + "'>" : "")
+					+ curCategory.getCategoryName()
+					+ (curCategory.getNumberOfIssues() > 0
+							? "</a>" : "")
+					+ "</h3>");
 
 			sb.append("<ul>");
 			if (curCategory.getCategoryGrade() != null) {
@@ -345,28 +349,28 @@ public class SaveReportController {
 			for (ReferenceResult curRefInstance : referenceResults) {
 
 				ReferenceInstanceType refType = curRefInstance.getType();
-				String refTypeName = refType.getTypePrettyName();
-				sb.append("<h3 id=\"" + refTypeName + "-category\">"
-						+ refTypeName + "</h3>");
-
-				sb.append("<ul>"); // START curRefInstance ul
-				sb.append("<li>"
-						+ "Number of "
-						+ (refType == ReferenceInstanceType.CERTIFICATION_2015 ? "Results:"
-								: "Errors:") + " "
-						+ curRefInstance.getTotalErrorCount() + "</li>");
-
-				sb.append("<ol>"); // START reference errors ol
-
 				if (curRefInstance.getTotalErrorCount() > 0) {
+					String refTypeName = refType.getTypePrettyName();
+					sb.append("<h3 id=\"" + refTypeName + "-category\">"
+							+ refTypeName + "</h3>");
+	
+					sb.append("<ul>"); // START curRefInstance ul
+					sb.append("<li>"
+							+ "Number of "
+							+ (refType == ReferenceInstanceType.CERTIFICATION_2015 ? "Results:"
+									: "Errors:") + " "
+							+ curRefInstance.getTotalErrorCount() + "</li>");
+	
+					sb.append("<ol>"); // START reference errors ol
+	
 					for (ReferenceError curRefError : curRefInstance
 							.getReferenceErrors()) {
-
+	
 						sb.append("<li>"
 								+ (refType == ReferenceInstanceType.CERTIFICATION_2015 ? "Feedback:"
 										: "Error:") + " "
 								+ curRefError.getDescription() + "</li>");
-
+	
 						sb.append("<ul>"); // START ul within the curRefError
 						if (!ApplicationUtil.isEmpty(curRefError
 								.getSectionName())) {
@@ -387,21 +391,20 @@ public class SaveReportController {
 				sb.append("</ul>"); // END curRefInstance ul
 				appendBackToTopWithBreaks(sb);
 
-			}
+			} //END for (ReferenceResult curRefInstance : referenceResults)
 		}
 
 		for (Category curCategory : categories) {
+			if (curCategory.getNumberOfIssues() > 0) {
 			sb.append("<h3 id='" + curCategory.getCategoryName() + "-category"
 					+ "'>" + curCategory.getCategoryName() + "</h3>");
 
-			if (curCategory.getCategoryNumericalScore() != -1) {
 				sb.append("<ul>"); // START curCategory ul
 				sb.append("<li>" + "Section Grade: "
 						+ curCategory.getCategoryGrade() + "</li>" + "<li>"
 						+ "Number of Issues: "
 						+ curCategory.getNumberOfIssues() + "</li>");
 
-				if (curCategory.getNumberOfIssues() > 0) {
 					sb.append("<ol>"); // START rules ol
 					for (CCDAScoreCardRubrics curRubric : curCategory
 							.getCategoryRubrics()) {
@@ -434,12 +437,14 @@ public class SaveReportController {
 						}
 					}
 					sb.append("</ol>"); // END rules ol
-				}
-				sb.append("</ul>"); // END curCategory ul
-			}
-			appendBackToTopWithBreaks(sb);
-		}
 
+				sb.append("</ul>"); // END curCategory ul
+			
+			appendBackToTopWithBreaks(sb);
+			
+			} //END if (curCategory.getNumberOfIssues() > 0)
+		} //END for (Category curCategory : categories)
+		
 	}
 
 	private static void appendClosingHtml(StringBuffer sb) {
