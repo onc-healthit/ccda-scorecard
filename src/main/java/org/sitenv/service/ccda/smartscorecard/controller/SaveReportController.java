@@ -306,16 +306,25 @@ public class SaveReportController {
 						+ curCategory.getNumberOfIssues() + "</b>" + "</li>");
 			} else {
 				sb.append("<li>"
-						+ "This category was not scored as it "
-						+ "<b>");  
-				if(curCategory.isFailingConformance() && !curCategory.isCertificationFeedback()) {
-					sb.append("contains Conformance Errors");
-				} else if(curCategory.isCertificationFeedback()) {
-					sb.append("contains Certification Feedback");
-				} else if(curCategory.isNullFlavorNI()) {
-					sb.append("is an empty section");
+						+ "This category was not scored as it ");
+				if(curCategory.isNullFlavorNI()) {
+					sb.append("is an <b>empty section</b>");
 				}
-				sb.append("</b>" + "</li>");
+			  	boolean failingConformance = curCategory.isFailingConformance();
+			  	boolean failingCertification = curCategory.isCertificationFeedback();
+			  	if(failingConformance || failingCertification) {
+			  		if(failingConformance && failingCertification || failingConformance && !failingCertification) {
+				  		//we default to IG if true for both since IG is considered a more serious issue (same with the heatmap label, so we match that)
+				  		//there could be a duplicate for two reasons, right now, there's always at least one duplicate since we derive ig from cert in the backend
+				  		//in the future this might not be the case, but, there could be multiple section fails in the same section, so we have a default for those too				  			
+						sb.append("contains <a href='#" + ReferenceInstanceType.IG_CONFORMANCE.getTypePrettyName() 
+								+ "-category'" + ">" + "Conformance Errors" + "</a>");
+					} else if(failingCertification && !failingConformance) {
+						sb.append("contains <a href='#" + ReferenceInstanceType.CERTIFICATION_2015.getTypePrettyName() 
+								+ "-category'" + ">" + "Certification Feedback" + "</a>");
+					}
+			  	}
+				sb.append("</li>");
 				
 				
 			}
