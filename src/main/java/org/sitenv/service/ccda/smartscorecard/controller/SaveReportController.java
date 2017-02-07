@@ -295,15 +295,25 @@ public class SaveReportController {
 					+ "</a>" + "</h3>");
 
 			sb.append("<ul>");
-			if (curCategory.getCategoryNumericalScore() != -1) {
+			if (curCategory.getCategoryGrade() != null) {
 				sb.append("<li>" + "Section Grade: " + "<b>"
 						+ curCategory.getCategoryGrade() + "</b>" + "</li>"
 						+ "<li>" + "Number of Issues: " + "<b>"
 						+ curCategory.getNumberOfIssues() + "</b>" + "</li>");
 			} else {
 				sb.append("<li>"
-						+ "This category was not scored as it contains "
-						+ "<b>" + "Conformance Errors" + "</b>" + "</li>");
+						+ "This category was not scored as it "
+						+ "<b>");  
+				if(curCategory.isFailingConformance() && !curCategory.isCertificationFeedback()) {
+					sb.append("contains Conformance Errors");
+				} else if(curCategory.isCertificationFeedback()) {
+					sb.append("contains Certification Feedback");
+				} else if(curCategory.isNullFlavorNI()) {
+					sb.append("is an empty section");
+				}
+				sb.append("</b>" + "</li>");
+				
+				
 			}
 			sb.append("</ul></li>");
 		}
