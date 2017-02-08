@@ -97,8 +97,8 @@ public class ApplicationConstants {
 	
 	public static final String VITAL_LOINC_DESCRIPTION = "Each of the vital sign observation present in the document should use the recommended "
 			+ "LOINC codes to represent the vital sign.";
-	public static final String VITAL_UCUM_REQUIREMENT = "Each of the Vital Sign Observation should use the recommended "
-			+ "UCUM units to represent the vital sign measurement result.";
+	public static final String VITAL_UCUM_REQUIREMENT = "Each of the Vital Sign Observations should use the recommended "
+			+ "UCUM units to represent the vital sign measurement result";
 	public static final String VITAL_UCUM_DESCRIPTION = "The recommended UCUM units should be used to represent the Vital Sign result values as part of the observation.";
 	public static final String VITAL_AAPR_DATE_REQUIREMENT = "The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations.";
 	public static final String VITAL_AAPR_DATE_DESCRIPTION = "The EffectiveDate/Time elements of the Vital Signs Organizer cannot be out of sync with the "
@@ -118,7 +118,7 @@ public class ApplicationConstants {
 	public static final String IMMU_NOTIN_MED_DESC = "Immunizations should be recorded using the Section Code '2.16.840.1.113883.10.20.22.2.2.1' within the document.";
 	
 	
-	public static final String RESULTS_UCUM_REQ = "All Lab Results should use UCUM units to express the result values.";
+	public static final String RESULTS_UCUM_REQ = "Lab Result values should use preferred UCUM units";
 	public static final String RESULTS_UCUM_DESC = "Lab Results should use the <a href=\"/scorecard/resources/LOINC.csv\">top 2000 LOINC codes and their corresponding units</a> as a best practice.";
 	
 	public static final String LABRESULTS_APR_TIME_REQ = "The EffectiveDate/Time elements for the Result Organizer must encompass the underlying observations.";
