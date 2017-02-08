@@ -94,6 +94,15 @@ public class ApplicationUtil {
 		return strArr.length == 0;
 	}
 	
+	public static boolean checkLabResultType(String resultType)
+	{
+		if(resultType!= null)
+		{
+			return resultType.equalsIgnoreCase("PQ") || resultType.equalsIgnoreCase("IVL_PQ") ;
+		}else 
+			return false;
+	}
+	
 	public static boolean isValueEmpty(final CCDADataElement object)
 	{
 		boolean result = true;
@@ -357,12 +366,12 @@ public class ApplicationUtil {
 	
 	public static boolean validateMinuteFormat(String date)
 	{
-		return date!=null ? date.matches(ApplicationConstants.MINUTE_PATTERN):false;
+		return date!=null ? (date.matches(ApplicationConstants.MINUTE_PATTERN_PLUS_OFFSET) || date.matches(ApplicationConstants.MINUTE_PATTERN_MINUS_OFFSET)):false;
 	}
 	
 	public static boolean validateSecondFormat(String date)
 	{
-		return date!=null ? date.matches(ApplicationConstants.SECOND_PATTERN) : false;
+		return date!=null ? (date.matches(ApplicationConstants.SECOND_PATTERN_MINUS_OFFSET) || date.matches(ApplicationConstants.SECOND_PATTERN_PLUS_OFFSET)) : false;
 	}
 	
 	
