@@ -465,7 +465,7 @@ public class LabresultsScorecard {
 					{
 						for(CCDALabResultObs resultsObs : resultsOrg.getResultObs())
 						{
-							if(resultsObs.getResults() != null && resultsObs.getResults().getXsiType().equalsIgnoreCase("PQ"))
+							if(resultsObs.getResults() != null && ApplicationUtil.checkLabResultType(resultsObs.getResults().getXsiType()))
 							{
 								maxPoints++;
 								if(resultsObs.getResultCode()!= null)

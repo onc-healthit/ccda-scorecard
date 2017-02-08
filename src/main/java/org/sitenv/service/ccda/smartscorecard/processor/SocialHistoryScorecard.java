@@ -60,7 +60,8 @@ public class SocialHistoryScorecard {
 					maxPoints++;
 					if(smokingStatus.getObservationTime() != null)
 					{
-						if(ApplicationUtil.validateDayFormat(smokingStatus.getObservationTime().getValue()) ||
+						if(ApplicationUtil.validateYearFormat(smokingStatus.getObservationTime().getValue()) ||
+								ApplicationUtil.validateDayFormat(smokingStatus.getObservationTime().getValue()) ||
 								ApplicationUtil.validateMinuteFormat(smokingStatus.getObservationTime().getValue()) ||
 								ApplicationUtil.validateSecondFormat(smokingStatus.getObservationTime().getValue()))
 						{
@@ -93,7 +94,8 @@ public class SocialHistoryScorecard {
 						if(tobaccoUse.getTobaccoUseTime().getLow() != null)
 						{
 							maxPoints++;
-							if(ApplicationUtil.validateDayFormat(tobaccoUse.getTobaccoUseTime().getLow().getValue()) ||
+							if(ApplicationUtil.validateYearFormat(tobaccoUse.getTobaccoUseTime().getLow().getValue()) ||
+									ApplicationUtil.validateDayFormat(tobaccoUse.getTobaccoUseTime().getLow().getValue()) ||
 									ApplicationUtil.validateMinuteFormat(tobaccoUse.getTobaccoUseTime().getLow().getValue()) ||
 									ApplicationUtil.validateSecondFormat(tobaccoUse.getTobaccoUseTime().getLow().getValue()))
 							{
@@ -110,7 +112,8 @@ public class SocialHistoryScorecard {
 						if(tobaccoUse.getTobaccoUseTime().getHigh() != null)
 						{
 							maxPoints++;
-							if(ApplicationUtil.validateDayFormat(tobaccoUse.getTobaccoUseTime().getHigh().getValue()) ||
+							if(ApplicationUtil.validateYearFormat(tobaccoUse.getTobaccoUseTime().getHigh().getValue()) ||
+									ApplicationUtil.validateDayFormat(tobaccoUse.getTobaccoUseTime().getHigh().getValue()) ||
 									ApplicationUtil.validateMinuteFormat(tobaccoUse.getTobaccoUseTime().getHigh().getValue()) ||
 									ApplicationUtil.validateSecondFormat(tobaccoUse.getTobaccoUseTime().getHigh().getValue()))
 							{
