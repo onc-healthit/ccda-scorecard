@@ -13,7 +13,7 @@ public class ApplicationConstants {
 	 * True allows switching the various service URLs from the prod to the dev server and enables local logs
 	 * Note: Never commit true as to ensure this is always set to false for production
 	 */
-	public static final boolean IN_DEVELOPMENT_MODE = false;
+	public static final boolean IN_DEVELOPMENT_MODE = true;
 	/**
 	 * True allows setting default scorecard.xml values externally FOR DEVELOPMENT PURPOSES ONLY
 	 * Note: Never commit true as to ensure this is always set to false for production
@@ -119,7 +119,7 @@ public class ApplicationConstants {
 	
 	
 	public static final String RESULTS_UCUM_REQ = "All Lab Results should use UCUM units to express the result values.";
-	public static final String RESULTS_UCUM_DESC = "The recommended UCUM units should be used to represent the Lab Result values as part of the observation.";
+	public static final String RESULTS_UCUM_DESC = "Lab Results should use the <a href=\"/scorecard/resources/LOINC.csv\">top 2000 LOINC codes and their corresponding units</a> as a best practice.";
 	
 	public static final String LABRESULTS_APR_TIME_REQ = "The EffectiveDate/Time elements for the Result Organizer must encompass the underlying observations.";
 	public static final String LABRESULTS_APR_TIME_DESC = "The EffectiveDate/Time elements of the Results Organizer cannot be out of sync with the Result Observation. "
@@ -175,7 +175,7 @@ public class ApplicationConstants {
 																		+ "valid date and time value within human life span";
 	public static final String LABRESULTS_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Results section should contain valid display names";
 	public static final String LABRESULTS_LOIN_CODE_REQ = "Lab results should be expressed with LOINC codes";
-	public static final String LABRESULTS_UCUM_REQUIREMENT = "All LOINC codes under Results section should contain valid UCUM units";
+	public static final String LABRESULTS_UCUM_REQUIREMENT = "Lab Results should use the top 2000 LOINC codes and their corresponding units as a best practice";
 	public static final String LABRESULTS_ORG_DATE_ALIGN = "Results observation effective should align with Results organizer effective time";
 	
 	public static final String VITALS_TIME_PRECISION_REQUIREMENT = "All effective time elements under Vitals section should contain "
@@ -223,10 +223,13 @@ public class ApplicationConstants {
 	public static final String DAY_PATTERN = "\\d{8}";
 	
 	public static final String MINUTE_FORMAT = "yyyyMMddHHmmZ";
-	public static final String MINUTE_PATTERN = "\\d{12}-\\d{4}";
+	public static final String MINUTE_PATTERN_MINUS_OFFSET = "\\d{12}-\\d{4}";
+	public static final String MINUTE_PATTERN_PLUS_OFFSET = "\\d{12}\\+\\d{4}";
 	
 	public static final String SECOND_FORMAT = "yyyyMMddHHmmssZ";
-	public static final String SECOND_PATTERN = "\\d{14}-\\d{4}";
+	public static final String SECOND_PATTERN_MINUS_OFFSET = "\\d{14}-\\d{4}";
+	public static final String SECOND_PATTERN_PLUS_OFFSET = "\\d{14}\\+\\d{4}";
+
 	
 	public static final ArrayList<String> SMOKING_STATUS_CODES = new ArrayList<String>(
 		    Arrays.asList("449868002", "428041000124106", "8517006","266919005","77176002","266927001","428071000124103","428061000124105"));
