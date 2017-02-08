@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -56,7 +59,8 @@ public class SaveReportController {
 	 * Converts received JSON to a ResponseTO POJO (via method signature
 	 * automagically), converts the ResponseTO to a cleaned (parsable) HTML
 	 * report including relevant data, converts the HTML to a PDF report, and,
-	 * finally, streams the data for consumption
+	 * finally, streams the data for consumption. 
+	 * This is intended to be called from a frontend which has already collected the JSON results.
 	 * 
 	 * @param jsonReportData
 	 *            JSON which resembles ResponseTO
@@ -66,16 +70,15 @@ public class SaveReportController {
 	@RequestMapping(value = "/savescorecardservice", method = RequestMethod.POST)
 	public void savescorecardservice(@RequestBody ResponseTO jsonReportData,
 			HttpServletResponse response) {
-
 		convertHTMLToPDFAndStreamToOutput(
-				ensureLogicalParseTreeInHTML(convertReportToHTML(jsonReportData)),
+				ensureLogicalParseTreeInHTML(convertReportToHTML(jsonReportData, SaveReportType.MATCH_UI)),
 				response);
-
 	}
 
 	/**
 	 * A single service to handle a pure back-end implementation of the
-	 * scorecard which streams back a PDF report
+	 * scorecard which streams back a PDF report. 
+	 * This does not require the completed JSON up-front, it creates it from the file sent.
 	 * 
 	 * @param ccdaFile
 	 *            The C-CDA XML file intended to be scored
@@ -83,8 +86,29 @@ public class SaveReportController {
 	@RequestMapping(value = "/savescorecardservicebackend", method = RequestMethod.POST)
 	public void savescorecardservicebackend(
 			@RequestParam("ccdaFile") MultipartFile ccdaFile,
+			HttpServletResponse response) {		
+		handlePureBackendCall(ccdaFile, response, SaveReportType.MATCH_UI);
+	}
+	
+	/**
+	 * A single service to handle a pure back-end implementation of the
+	 * scorecard which streams back a PDF report. 
+	 * This does not require the completed JSON up-front, it creates it from the file sent.
+	 * This differs from the savescorecardservicebackend in that it has its own specific format of the results 
+	 * (less details, no filename, more overview type content, etc.) 
+	 * and is intended to be used when a Direct Message is received with a C-CDA document.
+	 * 
+	 * @param ccdaFile
+	 *            The C-CDA XML file intended to be scored
+	 */
+	@RequestMapping(value = "/savescorecardservicebackendsummary", method = RequestMethod.POST)
+	public void savescorecardservicebackendsummary(
+			@RequestParam("ccdaFile") MultipartFile ccdaFile,
 			HttpServletResponse response) {
-
+		handlePureBackendCall(ccdaFile, response, SaveReportType.SUMMARY);
+	}
+	
+	private static void handlePureBackendCall(MultipartFile ccdaFile, HttpServletResponse response, SaveReportType reportType) {
 		ResponseTO pojoResponse = callCcdascorecardservice(ccdaFile);
 		if (pojoResponse == null) {
 			pojoResponse = new ResponseTO();
@@ -103,10 +127,9 @@ public class SaveReportController {
 			// otherwise it uses the name given by ccdascorecardservice
 		}
 		convertHTMLToPDFAndStreamToOutput(
-				ensureLogicalParseTreeInHTML(convertReportToHTML(pojoResponse)),
+				ensureLogicalParseTreeInHTML(convertReportToHTML(pojoResponse, reportType)),
 				response);
-
-	}
+	};
 
 	protected static ResponseTO callCcdascorecardservice(MultipartFile ccdaFile) {
 		ResponseTO pojoResponse = null;
@@ -163,7 +186,7 @@ public class SaveReportController {
 	 *            the ResponseTO report intended to be converted to HTML
 	 * @return the converted HTML report as a String
 	 */
-	protected static String convertReportToHTML(ResponseTO report) {
+	protected static String convertReportToHTML(ResponseTO report, SaveReportType reportType) {
 		StringBuffer sb = new StringBuffer();
 		appendOpeningHtml(sb);
 
@@ -183,14 +206,25 @@ public class SaveReportController {
 					List<ReferenceResult> referenceResults = report
 							.getReferenceResults();
 
-					appendHeader(sb, report, results);
+					appendHeader(sb, report, results, reportType);
 					appendHorizontalRuleWithBreaks(sb);
-
+					
+					if(reportType == SaveReportType.SUMMARY) {						
+						appendPreTopLevelResultsContent(sb);
+					}
+					
 					appendTopLevelResults(sb, results, categories,
-							referenceResults);
+							referenceResults, reportType);
+					if(reportType == SaveReportType.MATCH_UI) {
+						appendHorizontalRuleWithBreaks(sb);
+						appendHeatmap(sb, results, categories,
+								referenceResults);
+					}
 					appendHorizontalRuleWithBreaks(sb);
-
-					appendDetailedResults(sb, categories, referenceResults);
+					
+					if(reportType == SaveReportType.MATCH_UI) appendDetailedResults(sb, categories, referenceResults);
+					
+					if(reportType == SaveReportType.SUMMARY) appendPictorialGuide(sb, categories, referenceResults);
 				}
 			} else {
 				// report.getResults() == null
@@ -217,7 +251,7 @@ public class SaveReportController {
 	}
 
 	private static void appendHeader(StringBuffer sb, ResponseTO report,
-			Results results) {
+			Results results, SaveReportType reportType) {
 		sb.append("<header id='topOfScorecard'>");
 		final String logoPath = "https://devportal.sitenv.org/site-portal-responsivebootstrap-theme/images/site/site-header.png";
 		sb.append("<center>");
@@ -227,13 +261,28 @@ public class SaveReportController {
 		appendHorizontalRuleWithBreaks(sb);
 
 		sb.append("<h1>" + "C-CDA " + results.getDocType() + " Scorecard For: ");
-		sb.append("<h2>" + report.getFilename() + "</h2>");
+		if(reportType == SaveReportType.SUMMARY) {
+			sb.append("<h3>" + "Sender's Address: " + "?" + "</h3>");
+			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			sb.append("<h3>" + "Date/Time: " + dateFormat.format(new Date()) + "</h3>");
+		} else {
+			sb.append("<h2>" + report.getFilename() + "</h2>");
+		}
 		sb.append("</center>");
 		sb.append("</header>");
 	}
+	
+	private static void appendPreTopLevelResultsContent(StringBuffer sb) {
+		// TODO: Get the required textual content from management for this paragraph and update the String
+		sb.append("<p>"
+				+ "Before the Summary we will have a paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
+				+ "sed do eiusmod tempor incididunt. Ut enim ad minim veniam, quis nostrud exercitation "
+				+ "ullamco laboris nisi ut aliquip ex ea commodo consequat."
+				+ "</p>");
+	}
 
 	private static void appendTopLevelResults(StringBuffer sb, Results results,
-			List<Category> categories, List<ReferenceResult> referenceResults) {
+			List<Category> categories, List<ReferenceResult> referenceResults, SaveReportType reportType) {
 
 		sb.append("<h3>Scorecard Grade: " + results.getFinalGrade() + "</h3>");
 		sb.append("<ul><li>");
@@ -264,7 +313,7 @@ public class SaveReportController {
 					messageSuffix = "results";
 				}
 				appendSummaryRow(sb, 0, refType.getTypePrettyName(),
-						messageSuffix, refType.getTypePrettyName(), false);
+						messageSuffix, refType.getTypePrettyName(), false, reportType);
 				sb.append("</ul></li>");
 			}
 		} else {
@@ -281,13 +330,16 @@ public class SaveReportController {
 					messageSubject = refTypeName;
 				}
 				appendSummaryRow(sb, refErrorCount, refTypeName, messageSuffix,
-						messageSubject, isSingular);
+						messageSubject, isSingular, reportType);
 				sb.append("</ul></li>");
 			}
 		}
-
-		appendHorizontalRuleWithBreaks(sb);
-
+		
+	}
+	
+	private static void appendHeatmap(StringBuffer sb, Results results,
+			List<Category> categories, List<ReferenceResult> referenceResults) {
+		
 		sb.append("<span id='heatMap'>" + "</span>");
 		for (Category curCategory : categories) {
 			sb.append("<h3>" 
@@ -330,16 +382,25 @@ public class SaveReportController {
 			}
 			sb.append("</ul></li>");
 		}
-
+		
 	}
 
 	private static void appendSummaryRow(StringBuffer sb, int result,
 			String header, String messageSuffix, String messageSubject,
 			boolean isSingular) {
+		appendSummaryRow(sb, result, header, messageSuffix, messageSubject, isSingular, null);
+	}
+	
+	private static void appendSummaryRow(StringBuffer sb, int result,
+			String header, String messageSuffix, String messageSubject,
+			boolean isSingular, SaveReportType reportType) {
+		if(reportType == null) {
+			reportType = SaveReportType.MATCH_UI;
+		}
 		sb.append("<h3>"
 				+ header
 				+ ": "
-				+ ("Scorecard Issues".equals(header) || result < 1 ? result
+				+ ("Scorecard Issues".equals(header) || result < 1 || reportType == SaveReportType.SUMMARY ? result
 						: ("<a href=\"#" + header + "-category\">" + result + "</a>"))
 				+ "</h3>");
 		sb.append("<ul><li>");
@@ -454,6 +515,15 @@ public class SaveReportController {
 			} //END if (curCategory.getNumberOfIssues() > 0)
 		} //END for (Category curCategory : categories)
 		
+	}
+	
+	private static void appendPictorialGuide(StringBuffer sb,
+			List<Category> categories, List<ReferenceResult> referenceResults) {
+		sb.append("<h2>" + "Guide" + "</h2>");
+		
+		//TODO: implementation for this method
+		sb.append("<p>" + "Provides a guide on how to use the report and what the next steps are..." + "</p>");
+		sb.append("<p>" + "The guide will be a pictorial guide which explains each score and how it is used and what a provider would do..." + "</p>");
 	}
 
 	private static void appendClosingHtml(StringBuffer sb) {
@@ -578,6 +648,10 @@ public class SaveReportController {
 			e.printStackTrace();
 		}
 		return pojo;
+	}
+	
+	private enum SaveReportType {
+		MATCH_UI, SUMMARY;
 	}
 
 }
