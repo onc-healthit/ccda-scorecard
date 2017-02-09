@@ -174,17 +174,11 @@ public class ScorecardProcessor {
 					{
 						certificationResults = new ValidationResultsDto();
 					}
-						
-					// Remove non-IG based results from referenceValidatorResults (IG_CONFORMANCE)				
-					for (Iterator<ReferenceError> errorIterator = referenceValidatorResults
-							.getCcdaValidationResults().iterator(); errorIterator.hasNext();) 
-					{	
-						ReferenceError currentError = errorIterator.next();
-						if (currentError.getType() != ValidationResultType.CCDA_MDHT_CONFORMANCE_ERROR) 
-						{
-							errorIterator.remove();
-						}
-					}
+					
+					// Remove non-IG based results from referenceValidatorResults (IG_CONFORMANCE)					
+					removeExcessResults(referenceValidatorResults, ReferenceInstanceType.IG_CONFORMANCE);
+					// Remove IG based results from certificationResults (CERTIFICATION_2015)
+					removeExcessResults(certificationResults, ReferenceInstanceType.CERTIFICATION_2015);												
 					
 					if(scorecardProperties.getIgConformanceCall()) 
 					{
@@ -456,6 +450,26 @@ public class ScorecardProcessor {
 		{
 			return null;
 		}
+	}
+	
+	private static void removeExcessResults(ValidationResultsDto results, ReferenceInstanceType referenceInstanceType) {
+		if(referenceInstanceType == null) return;
+		for (Iterator<ReferenceError> errorIterator = results
+				.getCcdaValidationResults().iterator(); errorIterator.hasNext();) 
+		{	
+			ReferenceError currentError = errorIterator.next();
+			if(referenceInstanceType == ReferenceInstanceType.IG_CONFORMANCE) {
+				if (currentError.getType() != ValidationResultType.CCDA_MDHT_CONFORMANCE_ERROR) 
+				{
+					errorIterator.remove();
+				}
+			} else if(referenceInstanceType == ReferenceInstanceType.CERTIFICATION_2015) {
+				if (currentError.getType() == ValidationResultType.CCDA_MDHT_CONFORMANCE_ERROR) 
+				{
+					errorIterator.remove();
+				}
+			}
+		}						
 	}	
 	
 	private static VALIDATION_OBJECTIVES determineValidationObjectiveType(
