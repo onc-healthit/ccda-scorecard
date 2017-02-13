@@ -21,8 +21,7 @@ public class EncounterScorecard {
 	
 	public Category getEncounterCategory(CCDAEncounter encounter, String birthDate,String docType)
 	{
-		
-		if(encounter!= null && encounter.isSectionNullFlavourWithNI())
+		if(encounter== null || encounter.isSectionNullFlavourWithNI())
 		{
 			return new Category(ApplicationConstants.CATEGORIES.ENCOUNTERS.getCategoryDesc(),true);
 		}
@@ -60,8 +59,8 @@ public class EncounterScorecard {
 					maxPoints++;
 					if(encounterActivity.getEffectiveTime() != null)
 					{
-						if(ApplicationUtil.validateMinuteFormat(encounterActivity.getEffectiveTime().getValue()) ||
-								ApplicationUtil.validateSecondFormat(encounterActivity.getEffectiveTime().getValue()))
+						if(ApplicationUtil.validateMinuteFormat(encounterActivity.getEffectiveTime()) ||
+								ApplicationUtil.validateSecondFormat(encounterActivity.getEffectiveTime()))
 						{
 							actualPoints++;
 						}
@@ -92,20 +91,10 @@ public class EncounterScorecard {
 									maxPoints++;
 									if(problemObs.getEffTime() != null)
 									{
-										if(problemObs.getEffTime().getLow() != null)
+										if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime()) ||
+													ApplicationUtil.validateSecondFormat(problemObs.getEffTime()))
 										{
-											if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getLow().getValue()) ||
-													ApplicationUtil.validateSecondFormat(problemObs.getEffTime().getLow().getValue()))
-											{
-												actualPoints++;
-											}
-											else
-											{
-												issue = new CCDAXmlSnippet();
-												issue.setLineNumber(problemObs.getEffTime().getLow().getLineNumber());
-												issue.setXmlString(problemObs.getEffTime().getLow().getXmlString());
-												issuesList.add(issue);
-											}
+											actualPoints++;
 										}
 										else
 										{
@@ -113,23 +102,6 @@ public class EncounterScorecard {
 											issue.setLineNumber(problemObs.getEffTime().getLineNumber());
 											issue.setXmlString(problemObs.getEffTime().getXmlString());
 											issuesList.add(issue);
-										}
-										
-										if(problemObs.getEffTime().getHigh() != null)
-										{
-											maxPoints++;
-											if(ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getHigh().getValue()) ||
-													ApplicationUtil.validateSecondFormat(problemObs.getEffTime().getHigh().getValue()))
-											{
-												actualPoints++;
-											}
-											else
-											{
-												issue = new CCDAXmlSnippet();
-												issue.setLineNumber(problemObs.getEffTime().getHigh().getLineNumber());
-												issue.setXmlString(problemObs.getEffTime().getHigh().getXmlString());
-												issuesList.add(issue);
-											}
 										}
 									}
 									else
@@ -200,7 +172,7 @@ public class EncounterScorecard {
 					maxPoints++;
 					if(encounterActivity.getEffectiveTime() != null)
 					{
-						if(ApplicationUtil.checkDateRange(birthDate, encounterActivity.getEffectiveTime().getValue()))
+						if(ApplicationUtil.checkDateRange(birthDate, encounterActivity.getEffectiveTime()))
 						{
 							actualPoints++;
 						}
@@ -231,19 +203,9 @@ public class EncounterScorecard {
 									maxPoints++;
 									if(problemObs.getEffTime() != null)
 									{
-										if(problemObs.getEffTime().getLow() != null)
+										if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime()))
 										{
-											if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getLow().getValue()))
-											{
-												actualPoints++;
-											}
-											else
-											{
-												issue = new CCDAXmlSnippet();
-												issue.setLineNumber(problemObs.getEffTime().getLow().getLineNumber());
-												issue.setXmlString(problemObs.getEffTime().getLow().getXmlString());
-												issuesList.add(issue);
-											}
+											actualPoints++;
 										}
 										else
 										{
@@ -251,22 +213,6 @@ public class EncounterScorecard {
 											issue.setLineNumber(problemObs.getEffTime().getLineNumber());
 											issue.setXmlString(problemObs.getEffTime().getXmlString());
 											issuesList.add(issue);
-										}
-										
-										if(problemObs.getEffTime().getHigh() != null)
-										{
-											maxPoints++;
-											if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getHigh().getValue()))
-											{
-												actualPoints++;
-											}
-											else
-											{
-												issue = new CCDAXmlSnippet();
-												issue.setLineNumber(problemObs.getEffTime().getHigh().getLineNumber());
-												issue.setXmlString(problemObs.getEffTime().getHigh().getXmlString());
-												issuesList.add(issue);
-											}
 										}
 									}
 									else
@@ -330,7 +276,8 @@ public class EncounterScorecard {
 		CCDAXmlSnippet issue= null;
 		if(encounters != null)
 		{
-			if(encounters.getSectionCode()!= null && !ApplicationUtil.isEmpty(encounters.getSectionCode().getDisplayName()))
+			if(encounters.getSectionCode()!= null && !ApplicationUtil.isEmpty(encounters.getSectionCode().getDisplayName())
+														&& ApplicationUtil.isCodeSystemAvailable(encounters.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(encounters.getSectionCode().getCode(), 
@@ -353,7 +300,8 @@ public class EncounterScorecard {
 				for (CCDAEncounterActivity encounterActivity : encounters.getEncActivities())
 				{
 					
-					if(encounterActivity.getEncounterTypeCode()!= null && !ApplicationUtil.isEmpty(encounterActivity.getEncounterTypeCode().getDisplayName()))
+					if(encounterActivity.getEncounterTypeCode()!= null && !ApplicationUtil.isEmpty(encounterActivity.getEncounterTypeCode().getDisplayName())
+															&& ApplicationUtil.isCodeSystemAvailable(encounterActivity.getEncounterTypeCode().getCodeSystem()))
 					{
 						maxPoints++;
 						if(ApplicationUtil.validateDisplayName(encounterActivity.getEncounterTypeCode().getCode(), 
@@ -374,7 +322,8 @@ public class EncounterScorecard {
 					{
 						for (CCDAProblemObs indication : encounterActivity.getIndications())
 						{
-							if(indication.getProblemType()!= null && !ApplicationUtil.isEmpty(indication.getProblemType().getDisplayName()))
+							if(indication.getProblemType()!= null && !ApplicationUtil.isEmpty(indication.getProblemType().getDisplayName())
+																  && ApplicationUtil.isCodeSystemAvailable(indication.getProblemType().getCodeSystem()))
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(indication.getProblemType().getCode(), 
@@ -391,7 +340,8 @@ public class EncounterScorecard {
 									issuesList.add(issue);
 								}
 							}
-							if(indication.getProblemCode()!= null && !ApplicationUtil.isEmpty(indication.getProblemCode().getDisplayName()))
+							if(indication.getProblemCode()!= null && !ApplicationUtil.isEmpty(indication.getProblemCode().getDisplayName())
+																	&& ApplicationUtil.isCodeSystemAvailable(indication.getProblemCode().getCodeSystem()))
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(indication.getProblemCode().getCode(), 
@@ -415,7 +365,8 @@ public class EncounterScorecard {
 					{
 						for (CCDAEncounterDiagnosis diagnosis : encounterActivity.getDiagnoses())
 						{
-							if(diagnosis.getEntryCode()!= null && !ApplicationUtil.isEmpty(diagnosis.getEntryCode().getDisplayName()))
+							if(diagnosis.getEntryCode()!= null && !ApplicationUtil.isEmpty(diagnosis.getEntryCode().getDisplayName())
+																&& ApplicationUtil.isCodeSystemAvailable(diagnosis.getEntryCode().getCodeSystem()))
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(diagnosis.getEntryCode().getCode(), 
@@ -436,7 +387,8 @@ public class EncounterScorecard {
 							{
 								for (CCDAProblemObs probObs : diagnosis.getProblemObs())
 								{
-									if(probObs.getProblemType()!= null && !ApplicationUtil.isEmpty(probObs.getProblemType().getDisplayName()))
+									if(probObs.getProblemType()!= null && !ApplicationUtil.isEmpty(probObs.getProblemType().getDisplayName())
+																		&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemType().getCodeSystem()))
 									{
 										maxPoints++;
 										if(ApplicationUtil.validateDisplayName(probObs.getProblemType().getCode(), 
@@ -453,7 +405,8 @@ public class EncounterScorecard {
 											issuesList.add(issue);
 										}
 									}
-									if(probObs.getProblemCode()!= null && !ApplicationUtil.isEmpty(probObs.getProblemCode().getDisplayName()))
+									if(probObs.getProblemCode()!= null && !ApplicationUtil.isEmpty(probObs.getProblemCode().getDisplayName())
+																		&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemCode().getCodeSystem()))
 									{
 										maxPoints++;
 										if(ApplicationUtil.validateDisplayName(probObs.getProblemCode().getCode(), 
@@ -475,7 +428,8 @@ public class EncounterScorecard {
 									{
 										for (CCDACode translationCode : probObs.getTranslationProblemType())
 										{
-											if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()))
+											if(!ApplicationUtil.isEmpty(translationCode.getDisplayName())
+														&& ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 											{
 												maxPoints++;
 												if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
@@ -573,8 +527,8 @@ public class EncounterScorecard {
 		else
 		{
 			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("All sections are empty");
-			issue.setXmlString("All sections are empty");
+			issue.setLineNumber("Encounter section is empty");
+			issue.setXmlString("Encounter section is empty");
 			issuesList.add(issue);
 		}
 		
