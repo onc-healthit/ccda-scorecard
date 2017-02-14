@@ -409,7 +409,7 @@ public class SaveReportController {
 			+ (!ApplicationUtil.isEmpty(report.getFilename()) ? report.getFilename() : "Unknown")
 			+ "</span>");
 			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-			sb.append("<span style='float: right'>" + "Admission Time: " + dateFormat.format(new Date()) + "</span>");
+			sb.append("<span style='float: right'>" + "Submission Time: " + dateFormat.format(new Date()) + "</span>");
 			sb.append("</h5>");
 			sb.append("<div style='clear: both'></div>");
 		} else {
@@ -423,12 +423,34 @@ public class SaveReportController {
 	}
 	
 	private static void appendPreTopLevelResultsContent(StringBuffer sb) {
-		// TODO: Get the required textual content from management for this paragraph and update the String
-		sb.append("<p>"
-				+ "Before the Summary we will have a paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
-				+ "sed do eiusmod tempor incididunt. Ut enim ad minim veniam, quis nostrud exercitation "
-				+ "ullamco laboris nisi ut aliquip ex ea commodo consequat."
-				+ "</p>");
+		sb.append("<p>")
+	     .append("  The C-CDA Scorecard enables providers, implementers, and health")
+	     .append("  IT professionals with a tool that compares how artifacts (transition")
+	     .append("  of care documents, care plans etc) created by your organization")
+	     .append("  stack up against the HL7 C-CDA implementation guide and HL7 best")
+	     .append("  practices. The C-CDA Scorecard promotes best practices in C-CDA")
+	     .append("  implementation by assessing key aspects of the structured data found")
+	     .append("  in individual documents. The Scorecard tool provides a rough")
+	     .append("  quantitative assessment and highlights areas of improvement which")
+	     .append("  can be made today to move the needle forward in interoperability of")
+	     .append("  C-CDA documents. The ")
+	     .append("  <a href=\"http://www.hl7.org/documentcenter/public/wg/structure/C-CDA%20Scorecard%20Rubrics%203.pptx\">"
+	     			+ "best practices and quantitative scoring criteria"
+	     			+ "</a>")
+	     .append("  have been developed by HL7 through the HL7-ONC Cooperative agreement")
+	     .append("  to improve the implementation of health care standards. We hope that")
+	     .append("  providers and health IT developers will use the tool to identify and")
+	     .append("  resolve issues around C-CDA document interoperability in their")
+	     .append("  health IT systems.")
+	     .append("<p>")
+	     .append("<p>")
+	     .append("  The report has two pages. The first page contains the summary")
+	     .append("  of the C-CDA Scorecard results highlighting the overall document")
+	     .append("  grade compared to the industry, a quantitative score out of a maximum")
+	     .append("  of 100, and areas for improvement organized by clinical domains. The")
+	     .append("  second page on the other hand contains a guide to help the providers")
+	     .append("  interpret the scorecard results and take appropriate action.")
+	     .append("</p>");
 	}
 	
 	private static void appendTopLevelResults(StringBuffer sb, Results results,
@@ -438,13 +460,18 @@ public class SaveReportController {
 		int conformanceErrorCount = isReferenceResultsEmpty ? 0 : referenceResults.get(CONFORMANCE_ERROR_INDEX).getTotalErrorCount();
 		int certificationFeedbackCount = isReferenceResultsEmpty ? 0 : referenceResults.get(CERTIFICATION_FEEDBACK_INDEX).getTotalErrorCount();
 		if(reportType == SaveReportType.SUMMARY) {
-			//single explanatory line which reflects the overall document results
+			//brief summary of overall document results (without scorecard issues count listed)
 			sb.append("<p>"
-					+ "The " + ccdaDocumentType + " received a grade of <b>" + results.getFinalGrade() + " " 
-					+ "(" + results.getFinalNumericalGrade() + "/100)</b>" 
-					+ " and includes <b>" + results.getNumberOfIssues() + "</b> Scorecard Issues, <b>"
-					+ conformanceErrorCount + "</b> C-CDA IG Conformance Error(s), "
-					+ "and <b>" + certificationFeedbackCount + "</b> 2015 Edition Certification Feedback result(s)."
+					+ "Your " + ccdaDocumentType + " document received a grade of <b>" + results.getFinalGrade() + "</b>"
+					+ " compared to an industry average of " + "<b>" + results.getIndustryAverageGrade() + "</b>" + ". "
+					+ "The document scored " + "<b>" + results.getFinalNumericalGrade() + "/100" + "</b>"
+					+ " and is "
+					+ (conformanceErrorCount > 0 ? "non-compliant" : "compliant")
+					+ " with the HL7 C-CDA IG"
+					+ " and is "
+					+ (certificationFeedbackCount > 0 ? "non-compliant" : "compliant")
+					+ " with 2015 Edition Certification requirements. "
+					+ "The detailed results organized by clinical domains are provided in the table below:"
 					+ "</p>");
 			//dynamic table
 			appendDynamicTopLevelResultsTable(sb, results, categories, referenceResults);			
