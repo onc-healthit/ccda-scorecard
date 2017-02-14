@@ -4,7 +4,7 @@
 	"ccdaDocumentType": "CCD",
 	"results": {
 		"finalGrade": "C",
-		"finalNumericalGrade": 74,
+		"finalNumericalGrade": 72,
 		"categoryList": [{
 			"categoryName": "Miscellaneous",
 			"categoryGrade": "A+",
@@ -26,8 +26,8 @@
 			}],
 			"numberOfIssues": 0,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Medications",
 			"categoryGrade": "D",
@@ -89,8 +89,8 @@
 			}],
 			"numberOfIssues": 4,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Social History",
 			"categoryGrade": "A+",
@@ -140,8 +140,8 @@
 			}],
 			"numberOfIssues": 0,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Immunizations",
 			"categoryGrade": "D",
@@ -196,8 +196,8 @@
 			}],
 			"numberOfIssues": 4,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Encounters",
 			"categoryGrade": "D",
@@ -206,7 +206,7 @@
 				"rule": "EffectiveDate/Time elements have the right time and timezone offsets",
 				"numberOfIssues": 1,
 				"issuesList": [{
-					"lineNumber": "625",
+					"lineNumber": "625 - 625",
 					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150722\"/>"
 				}],
 				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"],
@@ -242,8 +242,8 @@
 			}],
 			"numberOfIssues": 3,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Laboratory Tests and Results",
 			"categoryGrade": null,
@@ -251,12 +251,12 @@
 			"categoryRubrics": [],
 			"numberOfIssues": 0,
 			"certificationFeedback": false,
-			"nullFlavorNI": true,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": true
 		}, {
 			"categoryName": "Vital Signs",
-			"categoryGrade": "B+",
-			"categoryNumericalScore": 89,
+			"categoryGrade": "C",
+			"categoryNumericalScore": 75,
 			"categoryRubrics": [{
 				"rule": "EffectiveDate/Time elements have the right time and timezone offsets",
 				"numberOfIssues": 0,
@@ -306,11 +306,23 @@
 				"description": null
 			}, {
 				"rule": "The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations.",
-				"numberOfIssues": 0,
-				"issuesList": [],
-				"exampleTaskForceLinks": [],
-				"igReferences": [],
-				"description": null
+				"numberOfIssues": 4,
+				"issuesList": [{
+					"lineNumber": "752 - 752",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201507221405-0500\"/>"
+				}, {
+					"lineNumber": "765 - 765",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201507221405-0500\"/>"
+				}, {
+					"lineNumber": "778 - 778",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201507221410-0500\"/>"
+				}, {
+					"lineNumber": "791 - 791",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201507221410-0500\"/>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"],
+				"igReferences": ["Section 3.109: Vital Signs Organizer"],
+				"description": "The EffectiveDate/Time elements of the Vital Signs Organizer cannot be out of sync with the Vital Signs Observation. Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low and Observation's EffectiveTime/high should be <= Organizer's EffectiveTime/high"
 			}, {
 				"rule": "Each entry has to be linked to related narrative text",
 				"numberOfIssues": 0,
@@ -319,10 +331,10 @@
 				"igReferences": [],
 				"description": null
 			}],
-			"numberOfIssues": 4,
+			"numberOfIssues": 8,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Problems",
 			"categoryGrade": "A+",
@@ -389,8 +401,8 @@
 			}],
 			"numberOfIssues": 1,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Allergies",
 			"categoryGrade": "D",
@@ -442,8 +454,8 @@
 			}],
 			"numberOfIssues": 3,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Procedures",
 			"categoryGrade": "A+",
@@ -465,8 +477,8 @@
 			}],
 			"numberOfIssues": 0,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Patient Demographics",
 			"categoryGrade": "A+",
@@ -481,14 +493,14 @@
 			}],
 			"numberOfIssues": 0,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}],
-		"numberOfIssues": 19,
+		"numberOfIssues": 23,
 		"igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
-		"industryAverageScore": 63,
+		"industryAverageScore": 64,
 		"industryAverageGrade": "D",
-		"numberOfDocumentsScored": 631,
+		"numberOfDocumentsScored": 663,
 		"docType": "R2.1",
 		"passedCertification": null
 	},
