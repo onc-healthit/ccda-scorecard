@@ -4,7 +4,7 @@
 	"ccdaDocumentType": "CCD",
 	"results": {
 		"finalGrade": "A-",
-		"finalNumericalGrade": 91,
+		"finalNumericalGrade": 93,
 		"categoryList": [{
 			"categoryName": "Miscellaneous",
 			"categoryGrade": "A+",
@@ -26,8 +26,8 @@
 			}],
 			"numberOfIssues": 0,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Medications",
 			"categoryGrade": null,
@@ -35,8 +35,8 @@
 			"categoryRubrics": [],
 			"numberOfIssues": 0,
 			"certificationFeedback": true,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Social History",
 			"categoryGrade": "A+",
@@ -86,8 +86,8 @@
 			}],
 			"numberOfIssues": 0,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Immunizations",
 			"categoryGrade": null,
@@ -95,67 +95,21 @@
 			"categoryRubrics": [],
 			"numberOfIssues": 0,
 			"certificationFeedback": true,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Encounters",
-			"categoryGrade": "D",
-			"categoryNumericalScore": 58,
-			"categoryRubrics": [{
-				"rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-				"numberOfIssues": 2,
-				"issuesList": [{
-					"lineNumber": "1075",
-					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622\"/>"
-				}, {
-					"lineNumber": "1130",
-					"xmlString": "<low xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622\"/>"
-				}],
-				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"],
-				"igReferences": ["Section 3.23: Encounter Actvity"],
-				"description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
-			}, {
-				"rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
-				"numberOfIssues": 0,
-				"issuesList": [],
-				"exampleTaskForceLinks": [],
-				"igReferences": [],
-				"description": null
-			}, {
-				"rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-				"numberOfIssues": 4,
-				"issuesList": [{
-					"lineNumber": "1039",
-					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"46240-8\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"History of encounters\"/>"
-				}, {
-					"lineNumber": "1065",
-					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"99213\" codeSystem=\"2.16.840.1.113883.6.12\" codeSystemName=\"CPT-4\" displayName=\"Office outpatient visit\">\r\n\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t<reference value=\"#Encounter1\"/>\r\n\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t        <translation code=\"AMB\" codeSystem=\"2.16.840.1.113883.5.4\" codeSystemName=\"HL7 ActEncounterCode\" displayName=\"Ambulatory\"/>\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t</code>"
-				}, {
-					"lineNumber": "1112",
-					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29308-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"ENCOUNTER DIAGNOSIS\" xsi:type=\"CE\"/>"
-				}, {
-					"lineNumber": "1123",
-					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"404684003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Finding\">\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"75321-0\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Clinical finding\"/>\r\n\t\t\t\t\t\t\t\t\t\t </code>"
-				}],
-				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"],
-				"igReferences": ["Section 2.16: Encounters"],
-				"description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
-			}, {
-				"rule": "Each entry has to be linked to related narrative text",
-				"numberOfIssues": 0,
-				"issuesList": [],
-				"exampleTaskForceLinks": [],
-				"igReferences": [],
-				"description": null
-			}],
-			"numberOfIssues": 6,
+			"categoryGrade": null,
+			"categoryNumericalScore": 0,
+			"categoryRubrics": [],
+			"numberOfIssues": 0,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": true,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Laboratory Tests and Results",
-			"categoryGrade": "A-",
-			"categoryNumericalScore": 92,
+			"categoryGrade": "A+",
+			"categoryNumericalScore": 95,
 			"categoryRubrics": [{
 				"rule": "EffectiveDate/Time elements have the right time and timezone offsets",
 				"numberOfIssues": 0,
@@ -188,14 +142,11 @@
 				"description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
 			}, {
 				"rule": "Lab Result values should use preferred UCUM units",
-				"numberOfIssues": 1,
-				"issuesList": [{
-					"lineNumber": "1856 - 1879",
-					"xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\r\n\t\t\t\t\t\t\t\t\t<id root=\"f1aa44dd-6f39-4f5c-b267-123c3824b571\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"5797-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Ketones [Mass/Volume] in urine by test strip\"/>\r\n\t\t\t\t\t\t\t\t\t<text>\r\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#result7\"/>\r\n\t\t\t\t\t\t\t\t\t</text>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20150622\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<value code=\"260385009\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Negative\" xsi:type=\"CO\"/>\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\r\n\t\t\t\t\t\t\t\t\t<referenceRange>\r\n\t\t\t\t\t\t\t\t\t\t<observationRange>\r\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"260385009\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Negative\" xsi:type=\"CO\"/>\r\n\t\t\t\t\t\t\t\t\t\t</observationRange>\r\n\t\t\t\t\t\t\t\t\t</referenceRange>\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t</observation>"
-				}],
-				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_UCUM_Translation.xml"],
-				"igReferences": ["Section 3.92: Result Observation"],
-				"description": "Lab Results should use the <a href=\"/scorecard/resources/LOINC.csv\">top 2000 LOINC codes and their corresponding units</a> as a best practice."
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
 			}, {
 				"rule": "Lab results should be expressed with LOINC codes",
 				"numberOfIssues": 0,
@@ -218,14 +169,14 @@
 				"igReferences": [],
 				"description": null
 			}],
-			"numberOfIssues": 4,
+			"numberOfIssues": 3,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Vital Signs",
-			"categoryGrade": "A-",
-			"categoryNumericalScore": 91,
+			"categoryGrade": "C",
+			"categoryNumericalScore": 76,
 			"categoryRubrics": [{
 				"rule": "EffectiveDate/Time elements have the right time and timezone offsets",
 				"numberOfIssues": 0,
@@ -281,11 +232,35 @@
 				"description": null
 			}, {
 				"rule": "The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations.",
-				"numberOfIssues": 0,
-				"issuesList": [],
-				"exampleTaskForceLinks": [],
-				"igReferences": [],
-				"description": null
+				"numberOfIssues": 8,
+				"issuesList": [{
+					"lineNumber": "1373 - 1373",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201506221005-0500\"/>"
+				}, {
+					"lineNumber": "1386 - 1386",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201506221005-0500\"/>"
+				}, {
+					"lineNumber": "1399 - 1399",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201506221008-0500\"/>"
+				}, {
+					"lineNumber": "1412 - 1412",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201506221008-0500\"/>"
+				}, {
+					"lineNumber": "1425 - 1425",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201506221010-0500\"/>"
+				}, {
+					"lineNumber": "1438 - 1438",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201506221012-0500\"/>"
+				}, {
+					"lineNumber": "1451 - 1451",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201506221015-0500\"/>"
+				}, {
+					"lineNumber": "1464 - 1464",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201506221015-0500\"/>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"],
+				"igReferences": ["Section 3.109: Vital Signs Organizer"],
+				"description": "The EffectiveDate/Time elements of the Vital Signs Organizer cannot be out of sync with the Vital Signs Observation. Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low and Observation's EffectiveTime/high should be <= Organizer's EffectiveTime/high"
 			}, {
 				"rule": "Each entry has to be linked to related narrative text",
 				"numberOfIssues": 0,
@@ -294,10 +269,10 @@
 				"igReferences": [],
 				"description": null
 			}],
-			"numberOfIssues": 6,
+			"numberOfIssues": 14,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Problems",
 			"categoryGrade": "A+",
@@ -376,8 +351,8 @@
 			}],
 			"numberOfIssues": 5,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Allergies",
 			"categoryGrade": null,
@@ -385,8 +360,8 @@
 			"categoryRubrics": [],
 			"numberOfIssues": 0,
 			"certificationFeedback": true,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Procedures",
 			"categoryGrade": "A+",
@@ -408,8 +383,8 @@
 			}],
 			"numberOfIssues": 0,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}, {
 			"categoryName": "Patient Demographics",
 			"categoryGrade": "A+",
@@ -424,14 +399,14 @@
 			}],
 			"numberOfIssues": 0,
 			"certificationFeedback": false,
-			"nullFlavorNI": false,
-			"failingConformance": false
+			"failingConformance": false,
+			"nullFlavorNI": false
 		}],
-		"numberOfIssues": 21,
+		"numberOfIssues": 22,
 		"igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
-		"industryAverageScore": 63,
+		"industryAverageScore": 64,
 		"industryAverageGrade": "D",
-		"numberOfDocumentsScored": 630,
+		"numberOfDocumentsScored": 662,
 		"docType": "R2.1",
 		"passedCertification": null
 	},
@@ -450,7 +425,7 @@
 			"actualDisplayName": null,
 			"schemaError": false,
 			"dataTypeSchemaError": false,
-			"sectionName": null
+			"sectionName": "Encounters"
 		}]
 	}, {
 		"type": "2015 Edition Certification Feedback",
