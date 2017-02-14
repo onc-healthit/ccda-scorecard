@@ -1,0 +1,15 @@
+Code,Description,UCUM_UNIT
+2710-2,Oxygen saturation in Capillary blood by Oximetry,%
+3140-1,Body surface area Derived from formula,m2
+3141-9,Body weight Measured,kg
+39156-5,Body mass index (BMI) [Ratio],kg/m2
+8287-5,Head Occipital-frontal circumference by Tape measure,cm
+8302-2,Body height,cm
+8310-5,Body temperature,Cel
+8462-4,Diastolic blood pressure,mm[Hg]
+8480-6,Systolic blood pressure,mm[Hg]
+8867-4,Heart rate,/min
+9279-1,Respiratory rate,/min
+8306-3,Body height --lying,cm
+29463-7,Body weight,kg
+59408-5,Oxygen saturation in Arterial blood by Pulse oximetry,%

@@ -24,7 +24,7 @@ public class VitalsScorecard {
 	
 	public Category getVitalsCategory(CCDAVitalSigns vitals, String birthDate,String docType)
 	{
-		if(vitals!=null && vitals.isSectionNullFlavourWithNI())
+		if(vitals==null || vitals.isSectionNullFlavourWithNI())
 		{
 			return new Category(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc(),true);
 		}
@@ -63,47 +63,14 @@ public class VitalsScorecard {
 			{
 				for (CCDAVitalOrg vitalOrg : vitals.getVitalsOrg())
 				{
-					maxPoints = maxPoints + 2;
+					maxPoints++;
 					if(vitalOrg.getEffTime() != null)
 					{
-						if(vitalOrg.getEffTime().getLow() != null)
+						if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime()) ||
+								ApplicationUtil.validateMinuteFormat(vitalOrg.getEffTime()) ||
+								ApplicationUtil.validateSecondFormat(vitalOrg.getEffTime()))
 						{
-							if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getLow().getValue()) ||
-									ApplicationUtil.validateMinuteFormat(vitalOrg.getEffTime().getLow().getValue()) ||
-									ApplicationUtil.validateSecondFormat(vitalOrg.getEffTime().getLow().getValue()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(vitalOrg.getEffTime().getLow().getLineNumber());
-								issue.setXmlString(vitalOrg.getEffTime().getLow().getXmlString());
-								issuesList.add(issue);
-							}
-						}
-						else
-						{
-							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(vitalOrg.getEffTime().getLineNumber());
-							issue.setXmlString(vitalOrg.getEffTime().getXmlString());
-							issuesList.add(issue);
-						}
-						if(vitalOrg.getEffTime().getHigh() != null)
-						{
-							if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime().getHigh().getValue()) ||
-									ApplicationUtil.validateMinuteFormat(vitalOrg.getEffTime().getHigh().getValue()) ||
-									ApplicationUtil.validateSecondFormat(vitalOrg.getEffTime().getHigh().getValue()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(vitalOrg.getEffTime().getHigh().getLineNumber());
-								issue.setXmlString(vitalOrg.getEffTime().getHigh().getXmlString());
-								issuesList.add(issue);
-							}
+							actualPoints++;
 						}
 						else
 						{
@@ -128,8 +95,8 @@ public class VitalsScorecard {
 							maxPoints++;
 							if(vitalObs.getMeasurementTime() != null)
 							{
-								if(ApplicationUtil.validateMinuteFormat(vitalObs.getMeasurementTime().getValue()) ||
-										ApplicationUtil.validateSecondFormat(vitalObs.getMeasurementTime().getValue()))
+								if(ApplicationUtil.validateMinuteFormat(vitalObs.getMeasurementTime()) ||
+										ApplicationUtil.validateSecondFormat(vitalObs.getMeasurementTime()))
 								{
 									actualPoints++;
 								}
@@ -204,43 +171,12 @@ public class VitalsScorecard {
 			{
 				for (CCDAVitalOrg vitalOrg : vitals.getVitalsOrg())
 				{
-					maxPoints = maxPoints + 2;
+					maxPoints++;
 					if(vitalOrg.getEffTime() != null)
 					{
-						if(vitalOrg.getEffTime().getLow() != null)
+						if(ApplicationUtil.checkDateRange(birthDate, vitalOrg.getEffTime()))
 						{
-							if(ApplicationUtil.checkDateRange(birthDate, vitalOrg.getEffTime().getLow().getValue()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(vitalOrg.getEffTime().getLow().getLineNumber());
-								issue.setXmlString(vitalOrg.getEffTime().getLow().getXmlString());
-								issuesList.add(issue);
-							}
-						}
-						else
-						{
-							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(vitalOrg.getEffTime().getLineNumber());
-							issue.setXmlString(vitalOrg.getEffTime().getXmlString());
-							issuesList.add(issue);
-						}
-						if(vitalOrg.getEffTime().getHigh() != null)
-						{
-							if(ApplicationUtil.checkDateRange(birthDate, vitalOrg.getEffTime().getHigh().getValue()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(vitalOrg.getEffTime().getHigh().getLineNumber());
-								issue.setXmlString(vitalOrg.getEffTime().getHigh().getXmlString());
-								issuesList.add(issue);
-							}
+							actualPoints++;
 						}
 						else
 						{
@@ -265,7 +201,7 @@ public class VitalsScorecard {
 							maxPoints++;
 							if(vitalObs.getMeasurementTime() != null)
 							{
-								if(ApplicationUtil.checkDateRange(birthDate, vitalObs.getMeasurementTime().getValue()))
+								if(ApplicationUtil.checkDateRange(birthDate, vitalObs.getMeasurementTime()))
 								{
 									actualPoints++;
 								}
@@ -336,7 +272,8 @@ public class VitalsScorecard {
 		CCDAXmlSnippet issue= null;
 		if(vitals != null)
 		{
-			if(vitals.getSectionCode()!= null && !ApplicationUtil.isEmpty(vitals.getSectionCode().getDisplayName()))
+			if(vitals.getSectionCode()!= null && !ApplicationUtil.isEmpty(vitals.getSectionCode().getDisplayName())
+												&& ApplicationUtil.isCodeSystemAvailable(vitals.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(vitals.getSectionCode().getCode(), 
@@ -357,7 +294,8 @@ public class VitalsScorecard {
 			{
 				for (CCDAVitalOrg vitalsOrg : vitals.getVitalsOrg())
 				{
-					if(vitalsOrg.getOrgCode() != null && !ApplicationUtil.isEmpty(vitalsOrg.getOrgCode().getDisplayName()))
+					if(vitalsOrg.getOrgCode() != null && !ApplicationUtil.isEmpty(vitalsOrg.getOrgCode().getDisplayName())
+							&& ApplicationUtil.isCodeSystemAvailable(vitalsOrg.getOrgCode().getCodeSystem()))
 					{
 						maxPoints++;
 						if(ApplicationUtil.validateDisplayName(vitalsOrg.getOrgCode().getCode(), 
@@ -379,7 +317,8 @@ public class VitalsScorecard {
 					{
 						for(CCDAVitalObs vitalsObs : vitalsOrg.getVitalObs())
 						{
-							if(vitalsObs.getVsCode() != null && !ApplicationUtil.isEmpty(vitalsObs.getVsCode().getDisplayName()))
+							if(vitalsObs.getVsCode() != null && !ApplicationUtil.isEmpty(vitalsObs.getVsCode().getDisplayName())
+									&& ApplicationUtil.isCodeSystemAvailable(vitalsObs.getVsCode().getCodeSystem()))
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(vitalsObs.getVsCode().getCode(), 
@@ -629,8 +568,7 @@ public class VitalsScorecard {
 								maxPoints++;
 								if(vitalObs.getMeasurementTime() != null)
 								{
-									if(ApplicationUtil.checkDateRange(vitalOrg.getEffTime().getLow(), vitalObs.getMeasurementTime().getValue(), 
-																	vitalOrg.getEffTime().getHigh()))
+									if(ApplicationUtil.checkDateRange(vitalObs.getMeasurementTime(), vitalOrg.getEffTime()))
 									{
 										actualPoints++;
 									}
@@ -651,7 +589,8 @@ public class VitalsScorecard {
 							    }
 							}
 						}
-					}else
+					}
+					else
 					{
 						issue = new CCDAXmlSnippet();
 						issue.setLineNumber(vitalOrg.getLineNumber());
