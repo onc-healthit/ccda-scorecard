@@ -113,7 +113,6 @@ public class SaveReportController {
 	public void savescorecardservicebackendsummary(
 			@RequestParam("ccdaFile") MultipartFile ccdaFile, @RequestParam("sender") String sender,
 			HttpServletResponse response) {
-		System.out.println("sender: ");System.out.println(sender);
 		if(ApplicationUtil.isEmpty(sender)) {
 			sender = "Unknown Sender";
 		}
@@ -277,6 +276,16 @@ public class SaveReportController {
 	
 	private static void appendStyleSheet(StringBuffer sb) {
 		sb.append("<style>")
+		 .append(System.lineSeparator())
+		 .append(".site-header  {")
+	     .append("	background: url(\"https://sitenv.org/assets/images/site/bg-header-1920x170.png\")")
+	     .append("		repeat-x center top #1fdbfe;")
+	     .append("}")
+		 .append(System.lineSeparator())
+		 .append(".site-logo  {")
+	     .append("	text-decoration: none;")
+	     .append("}")
+	     .append(System.lineSeparator())
 	     .append("table {")
 	     .append("    font-family: arial, sans-serif;")
 	     .append("    border-collapse: separate;")
@@ -378,9 +387,14 @@ public class SaveReportController {
 	private static void appendHeader(StringBuffer sb, ResponseTO report,
 			Results results, SaveReportType reportType) {
 		sb.append("<header id='topOfScorecard'>");
-		final String logoPath = "https://devportal.sitenv.org/site-portal-responsivebootstrap-theme/images/site/site-header.png";
 		sb.append("<center>");
-		sb.append("<img src='" + logoPath + "' alt='SITE logo' width='100%'>");
+		
+		sb.append("<div class=\"site-header\">")
+	     .append("  <a class=\"site-logo\" href=\"https://www.healthit.gov/\"")
+	     .append("    rel=\"external\" title=\"HealthIT.gov\"> <img alt=\"HealthIT.gov\"")
+	     .append("    src=\"https://sitenv.org/assets/images/site/healthit.gov.logo.png\" width='40%'>")
+	     .append("  </a>")
+	     .append("</div>");		
 
 		sb.append("<br />");
 		appendHorizontalRuleWithBreaks(sb);
