@@ -876,7 +876,7 @@ public class SaveReportController {
 		     .append("      <td class=\"removeBorder\"></td>")
 		     .append("      <td class=\"removeBorder\"></td>")
 		     .append("      <td class=\"removeBorder\"></td>")
-		     .append("      <td id=\"issuePopOut\" rowspan=\"2\">A Scorecard Issue identifies data within the document which can be represented in a better way using HL7 best practices for C-CDA. This column should have numbers closer to zero.</td>")
+		     .append("      <td id=\"issuePopOut\" rowspan=\"2\">A Scorecard Issue identifies data within the document which can be represented in a better way using HL7 best practices for C-CDA. This column should have numbers as close to zero as possible.</td>")
 		     .append("      <td class=\"removeBorder\"></td>")
 		     .append("      <td class=\"removeBorder\"></td>")
 		     .append("      <td class=\"removeBorder\"></td>")
@@ -911,10 +911,10 @@ public class SaveReportController {
 		     .append("      <th id=\"errorHeader\">Conformance Errors</th>")
 		     .append("      <th id=\"feedbackHeader\">Certification Feedback</th>")
 		     .append("      <td id=\"feedbackPopOutLink\"></td>")
-		     .append("      <td id=\"feedbackPopOut\" rowspan=\"5\">A Certification Feedback result identifies areas where the generated documents are not compliant with the 2015 Edition certification requirements. This column should have zeros ideally.</td>")
+		     .append("      <td id=\"feedbackPopOut\" rowspan=\"5\">A Certification Feedback result identifies areas where the generated documents are not compliant with the requirements of 2015 Edition Certification. Ideally, this column should have all zeros.</td>")
 		     .append("    </tr>")
 		     .append("    <tr>")
-		     .append("      <td id=\"perfectRowPopOut\" rowspan=\"4\">The Problems row in this example has a grade of A+ and all zeros across the board. This is the most desirable outcome for a Clinical Domain result set.</td>")
+		     .append("      <td id=\"perfectRowPopOut\" rowspan=\"4\">The Problems row in this example has an A+ grade and all zeros across the board. This is the most desirable outcome for a Clinical Domain result set.</td>")
 		     .append("      <td id=\"perfectRowPopOutLink\"></td>")
 		     .append("      <td id=\"perfectRowLeftHeader\">Problems</td>")
 		     .append("      <td class=\"perfectRowMiddleHeader\">A+</td>")
@@ -989,29 +989,38 @@ public class SaveReportController {
 	}
 	
 	private static void appendPictorialGuideKey(StringBuffer sb) {
-		sb.append("<h3>Additional Details</h3>")
+		sb.append("<h3>Additional Guidance to Interpret the Scorecard Results and Achieve Higher Grades</h3>")
 	     .append("<p>")
-	     .append("  <span id=\"keyGradeHeader\">Scorecard Grade:</span>")
-	     .append("  The grades are derived from the scores as follows: "
+	     .append("  <span id=\"keyGradeHeader\">Scorecard Grade: </span>")
+	     .append("The Scorecard grade is a quantitative assessment of the data quality of the submitted document. "
+	     		+ "A higher grade indicates that HL7 best practices for C-CDA implementation are being followed by the organization "
+	     		+ "and has higher probability of being interoperable with other organizations. "
+	     		+ "The grades are derived from the scores as follows: "
 	     		+ "A+ ( > 94), A- ( 90 to 94), B+ (85 to 89), B- (80 to 84), C (70 to 79) and D (< 70).")
 	     .append("</p>")
 	     .append("<p>")
-	     .append("  <span id=\"keyIssueHeader\">Scorecard Issues:</span>")
-	     .append("  The issues are counted for each occurrence of unimplemented best practice. "
+	     .append("  <span id=\"keyIssueHeader\">Scorecard Issues: </span>")
+	     .append("A Scorecard Issue identifies data within the document which can be represented in a better way using HL7 best practices for C-CDA. "
+	     		+ "This column should have numbers as close to zero as possible. "
+	     		+ "The issues are counted for each occurrence of unimplemented best practice. "
 	     		+ "For example, if a Vital Sign measurement is not using the appropriate UCUM units then each such occurrence would be flagged "
 	     		+ "as an issue. A provider should work with their health IT vendor to better understand the source for why a best practice "
 	     		+ "may not be implemented and then determine if it can be implemented in the future. Note: Scorecard Issues will be listed as "
 	     		+ "'N/A' for a clinical domain, when there is no data for the domain or if there are conformance or certification feedback results.")
 	     .append("</p>")
 	     .append("<p>")
-	     .append("  <span id=\"keyErrorHeader\">Conformance Errors:</span>")
-	     .append("  TODO: IS THERE ANYTHING MORE TO SAY ABOUT CONFORMANCE ERRORS?")
+	     .append("  <span id=\"keyErrorHeader\">Conformance Errors: </span>")
+	     .append("A Conformance Error implies that the document is non-compliant with the HL7 C-CDA IG requirements. "
+	     		+ "This column should have zeros ideally. "
+	     		+ "Providers should work with their health IT vendor to rectify the errors.")
 	     .append("</p>")
 	     .append("<p>")
-	     .append("  <span id=\"keyFeedbackHeader\">Certification Feedback:</span>")
-	     .append("  Most of these results fall into incorrect use of vocabularies and terminologies. "
+	     .append("  <span id=\"keyFeedbackHeader\">Certification Feedback: </span>")
+	     .append("A Certification Feedback result identifies areas where the generated documents are not compliant with "
+	     		+ "the requirements of 2015 Edition Certification. Ideally, this column should have all zeros."
+	     		+ "Most of these results fall into incorrect use of vocabularies and terminologies. "
 	     		+ "Although not as severe as a Conformance Error, providers should work with their health IT vendor "
-	     		+ "to address the feedback provided to improve interoperable use of structured data between systems.")
+	     		+ "to address feedback provided to improve interoperable use of structured data between systems.")
 	     .append("</p>");		
 	}
 
