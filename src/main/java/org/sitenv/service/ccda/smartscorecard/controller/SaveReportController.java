@@ -444,12 +444,12 @@ public class SaveReportController {
 	     .append("  health IT systems.")
 	     .append("<p>")
 	     .append("<p>")
-	     .append("  The report has two pages. The first page contains the summary")
-	     .append("  of the C-CDA Scorecard results highlighting the overall document")
-	     .append("  grade compared to the industry, a quantitative score out of a maximum")
-	     .append("  of 100, and areas for improvement organized by clinical domains. The")
-	     .append("  second page on the other hand contains a guide to help the providers")
-	     .append("  interpret the scorecard results and take appropriate action.")
+	     .append("The report has three sections. The first section contains the summary of ")
+	     .append("the C-CDA Scorecard results highlighting the overall document grade ")
+	     .append("compared to the industry, a quantitative score out of a maximum of 100. ")
+	     .append("The second section identifies areas for improvement organized by ")
+	     .append("clinical domains in a table. The third section contains a guide to help ")
+	     .append("the providers interpret the Scorecard results and take appropriate action.")
 	     .append("</p>");
 	}
 	
@@ -461,6 +461,7 @@ public class SaveReportController {
 		int certificationFeedbackCount = isReferenceResultsEmpty ? 0 : referenceResults.get(CERTIFICATION_FEEDBACK_INDEX).getTotalErrorCount();
 		if(reportType == SaveReportType.SUMMARY) {
 			//brief summary of overall document results (without scorecard issues count listed)
+			sb.append("<h3>Summary</h3>");
 			sb.append("<p>"
 					+ "Your " + ccdaDocumentType + " document received a grade of <b>" + results.getFinalGrade() + "</b>"
 					+ " compared to an industry average of " + "<b>" + results.getIndustryAverageGrade() + "</b>" + ". "
@@ -474,7 +475,10 @@ public class SaveReportController {
 					+ "The detailed results organized by clinical domains are provided in the table below:"
 					+ "</p>");
 			//dynamic table
-			appendDynamicTopLevelResultsTable(sb, results, categories, referenceResults);			
+			appendHorizontalRuleWithBreaks(sb);
+			sb.append("<br />");			
+			sb.append("<h2>Scorecard Results by Clinical Domain</h2>");
+			appendDynamicTopLevelResultsTable(sb, results, categories, referenceResults);
 		} else {		
 			sb.append("<h3>Scorecard Grade: " + results.getFinalGrade() + "</h3>");
 			sb.append("<ul><li>");
@@ -576,7 +580,7 @@ public class SaveReportController {
 		     .append("  </tr>");				
 		for(Category category : categories) {
 //			if(category.getNumberOfIssues() > 0 || referenceResults.get(ReferenceInstanceType.IG/CERT).getTotalErrorCount() > 0) {
-			if(category.getNumberOfIssues() > 0 || category.isFailingConformance() || category.isCertificationFeedback()) {				
+//			if(category.getNumberOfIssues() > 0 || category.isFailingConformance() || category.isCertificationFeedback()) {				
 			sb.append("  <tr>")
 		     .append("    <td>" + (category.getCategoryName() != null ? category.getCategoryName() : "Unknown") + "</td>")
 		     .append("    <td>" + (category.getCategoryGrade() != null ? category.getCategoryGrade() : "N/A") + "</td>")
@@ -592,7 +596,7 @@ public class SaveReportController {
 		    		 : "N/A") 
 		     + "</td>")
 		     .append("  </tr>");
-			}
+//			}
 		}
 		sb.append("</table>");
 	}	
@@ -778,12 +782,9 @@ public class SaveReportController {
 	}
 	
 	private static void appendPictorialGuide(StringBuffer sb,
-			List<Category> categories, List<ReferenceResult> referenceResults) {
-		
-		//TODO: ensure this starts on a new page in a more proper manner - the first table is dynamic in size
-		sb.append("<br />");
-//		sb.append("<br />");
-		
+			List<Category> categories, List<ReferenceResult> referenceResults) {		
+		//minimum breaks based on 11 categories
+		sb.append("<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />");
 		sb.append("<h2>" + "Guide to Interpret the Scorecard Results Table" + "</h2>");		
 		
 		sb.append("<p>" + "The following sample table identifies how to use the C-CDA Scorecard results "
@@ -848,7 +849,7 @@ public class SaveReportController {
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("    <td>Problems</td>")
 		     .append("    <td>A+</td>")
-		     .append("    <td>5</td>")
+		     .append("    <td>0</td>")
 		     .append("    <td>0</td>")
 		     .append("    <td>0</td>")
 		     .append("    <td class=\"removeBorder\"></td>")
@@ -857,7 +858,7 @@ public class SaveReportController {
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("    <td>Lab Results</td>")
 		     .append("    <td>A-</td>")
-		     .append("    <td>4</td>")
+		     .append("    <td>2</td>")
 		     .append("    <td>0</td>")
 		     .append("    <td>0</td>")
 		     .append("    <td class=\"removeBorder\"></td>")
@@ -866,7 +867,7 @@ public class SaveReportController {
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("    <td>Vital Signs</td>")
 		     .append("    <td>A-</td>")
-		     .append("    <td>6</td>")
+		     .append("    <td>1</td>")
 		     .append("    <td>0</td>")
 		     .append("    <td>0</td>")
 		     .append("    <td class=\"removeBorder\"></td>")
@@ -876,7 +877,7 @@ public class SaveReportController {
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("    <td>Encounters</td>")
 		     .append("    <td>D</td>")
-		     .append("    <td>6</td>")
+		     .append("    <td>12</td>")
 		     .append("    <td>0</td>")
 		     .append("    <td>0</td>")
 		     .append("    <td class=\"removeBorder\"></td>")
@@ -886,10 +887,10 @@ public class SaveReportController {
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("    <td>Medications</td>")
-		     .append("    <td>D</td>")
 		     .append("    <td>N/A</td>")
+		     .append("    <td>N/A</td>")
+		     .append("    <td>2</td>")
 		     .append("    <td>0</td>")
-		     .append("    <td>1</td>")
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("  </tr>")
@@ -897,10 +898,10 @@ public class SaveReportController {
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("    <td>Allergies</td>")
-		     .append("    <td>D</td>")
+		     .append("    <td>N/A</td>")
 		     .append("    <td>N/A</td>")
 		     .append("    <td>0</td>")
-		     .append("    <td>1</td>")
+		     .append("    <td>4</td>")
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("  </tr>")
@@ -908,10 +909,10 @@ public class SaveReportController {
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("    <td>Immunizations</td>")
-		     .append("    <td>D</td>")
+		     .append("    <td>N/A</td>")
 		     .append("    <td>N/A</td>")
 		     .append("    <td>0</td>")
-		     .append("    <td>2</td>")
+		     .append("    <td>0</td>")
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("    <td class=\"removeBorder\"></td>")
 		     .append("  </tr>  ")
