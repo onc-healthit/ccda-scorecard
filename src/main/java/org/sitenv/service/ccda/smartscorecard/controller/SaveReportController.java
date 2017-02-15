@@ -584,7 +584,10 @@ public class SaveReportController {
 			sb.append("  <tr>")
 		     .append("    <td>" + (category.getCategoryName() != null ? category.getCategoryName() : "Unknown") + "</td>")
 		     .append("    <td>" + (category.getCategoryGrade() != null ? category.getCategoryGrade() : "N/A") + "</td>")
-		     .append("    <td>" + category.getNumberOfIssues() + "</td>")
+		     .append("    <td>" + (category.isFailingConformance() || category.isCertificationFeedback() || category.isNullFlavorNI() 
+		    		 ? "N/A" 
+		    		 : category.getNumberOfIssues()) 
+		    		 + "</td>")
 		     .append("    <td>" 
 		     + (!ApplicationUtil.isEmpty(category.getCategoryName()) 
 		    		 ? getFailingSectionSpecificErrorCount(category.getCategoryName(), ReferenceInstanceType.IG_CONFORMANCE, referenceResults) 
@@ -1108,7 +1111,7 @@ public class SaveReportController {
 		String[] filenames = {"highScoringSample", "lowScoringSample", "sampleWithErrors"};
 		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2;
 		try {
-			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.SUMMARY);
+			buildReportUsingJSONFromLocalFile(filenames[LOW_SCORING_SAMPLE], SaveReportType.SUMMARY);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
