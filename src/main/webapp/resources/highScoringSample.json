@@ -30,8 +30,8 @@
         ],
         "numberOfIssues": 0,
         "certificationFeedback": false,
-        "nullFlavorNI": false,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Medications",
@@ -89,8 +89,8 @@
         ],
         "numberOfIssues": 0,
         "certificationFeedback": false,
-        "nullFlavorNI": false,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Social History",
@@ -148,8 +148,8 @@
         ],
         "numberOfIssues": 0,
         "certificationFeedback": false,
-        "nullFlavorNI": false,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Immunizations",
@@ -199,8 +199,8 @@
         ],
         "numberOfIssues": 0,
         "certificationFeedback": false,
-        "nullFlavorNI": false,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Encounters",
@@ -228,8 +228,8 @@
             "numberOfIssues": 1,
             "issuesList": [
               {
-                "lineNumber": "1065",
-                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"99213\" codeSystem=\"2.16.840.1.113883.6.12\" codeSystemName=\"CPT-4\" displayName=\"Office outpatient visit\">\r\n\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t<reference value=\"#Encounter1\"/>\r\n\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t\t        <translation code=\"AMB\" codeSystem=\"2.16.840.1.113883.5.4\" codeSystemName=\"HL7 ActEncounterCode\" displayName=\"Ambulatory\"/>\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t</code>"
+                "lineNumber": "1067",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"99213\" codeSystem=\"2.16.840.1.113883.6.12\" codeSystemName=\"CPT-4\" displayName=\"Office outpatient visit\">\n\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t<reference value=\"#Encounter1\"/>\n\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t\t        <translation code=\"AMB\" codeSystem=\"2.16.840.1.113883.5.4\" codeSystemName=\"HL7 ActEncounterCode\" displayName=\"Ambulatory\"/>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</code>"
               }
             ],
             "exampleTaskForceLinks": [
@@ -251,8 +251,8 @@
         ],
         "numberOfIssues": 1,
         "certificationFeedback": false,
-        "nullFlavorNI": false,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Laboratory Tests and Results",
@@ -318,13 +318,13 @@
         ],
         "numberOfIssues": 0,
         "certificationFeedback": false,
-        "nullFlavorNI": false,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Vital Signs",
-        "categoryGrade": "A-",
-        "categoryNumericalScore": 93,
+        "categoryGrade": "A+",
+        "categoryNumericalScore": 100,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -352,24 +352,11 @@
           },
           {
             "rule": "The Vital Sign Observation entries should use LOINC codes to represent the type of vital sign being captured",
-            "numberOfIssues": 2,
-            "issuesList": [
-              {
-                "lineNumber": "1384",
-                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29463-7\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Body Weight\"/>"
-              },
-              {
-                "lineNumber": "1436",
-                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"59408-5\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"OXYGEN SATURATION IN ARTERIAL BLOOD BY PULSE OXIMETRY\"/>"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
-            ],
-            "igReferences": [
-              "Section 3.108: Vital Sign Observation"
-            ],
-            "description": "Each of the vital sign observation present in the document should use the recommended LOINC codes to represent the vital sign."
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
           },
           {
             "rule": "Each of the Vital Sign Observations should use the recommended UCUM units to represent the vital sign measurement result",
@@ -381,24 +368,11 @@
           },
           {
             "rule": "The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations.",
-            "numberOfIssues": 2,
-            "issuesList": [
-              {
-                "lineNumber": "1451 - 1451",
-                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201506221015-0500\"/>"
-              },
-              {
-                "lineNumber": "1464 - 1464",
-                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201506221015-0500\"/>"
-              }
-            ],
-            "exampleTaskForceLinks": [
-              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
-            ],
-            "igReferences": [
-              "Section 3.109: Vital Signs Organizer"
-            ],
-            "description": "The EffectiveDate/Time elements of the Vital Signs Organizer cannot be out of sync with the Vital Signs Observation. Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low and Observation's EffectiveTime/high should be <= Organizer's EffectiveTime/high"
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
           },
           {
             "rule": "Each entry has to be linked to related narrative text",
@@ -409,10 +383,10 @@
             "description": null
           }
         ],
-        "numberOfIssues": 4,
+        "numberOfIssues": 0,
         "certificationFeedback": false,
-        "nullFlavorNI": false,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Problems",
@@ -440,12 +414,12 @@
             "numberOfIssues": 2,
             "issuesList": [
               {
-                "lineNumber": "964",
-                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29308\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Diagnosis\">\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"29308-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Diagnosis\"/>\r\n\t\t\t\t\t\t\t\t\t</code>"
+                "lineNumber": "966",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29308\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Diagnosis\">\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<translation code=\"29308-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Diagnosis\"/>\n\t\t\t\t\t\t\t\t\t</code>"
               },
               {
-                "lineNumber": "1007",
-                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29308\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Diagnosis\">\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t<translation code=\"29308-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Diagnosis\"/>\r\n\t\t\t\t\t\t\t\t\t</code>"
+                "lineNumber": "1009",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29308\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Diagnosis\">\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<translation code=\"29308-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Diagnosis\"/>\n\t\t\t\t\t\t\t\t\t</code>"
               }
             ],
             "exampleTaskForceLinks": [
@@ -499,8 +473,8 @@
         ],
         "numberOfIssues": 2,
         "certificationFeedback": false,
-        "nullFlavorNI": false,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Allergies",
@@ -550,8 +524,8 @@
         ],
         "numberOfIssues": 0,
         "certificationFeedback": false,
-        "nullFlavorNI": false,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Procedures",
@@ -577,8 +551,8 @@
         ],
         "numberOfIssues": 0,
         "certificationFeedback": false,
-        "nullFlavorNI": false,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       },
       {
         "categoryName": "Patient Demographics",
@@ -596,15 +570,15 @@
         ],
         "numberOfIssues": 0,
         "certificationFeedback": false,
-        "nullFlavorNI": false,
-        "failingConformance": false
+        "failingConformance": false,
+        "nullFlavorNI": false
       }
     ],
-    "numberOfIssues": 7,
+    "numberOfIssues": 3,
     "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
-    "industryAverageScore": 74,
+    "industryAverageScore": 72,
     "industryAverageGrade": "C",
-    "numberOfDocumentsScored": 143,
+    "numberOfDocumentsScored": 1145,
     "docType": "R2.1",
     "passedCertification": null
   },
