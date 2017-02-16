@@ -9,6 +9,8 @@
 					 MANY modifications, additions, and reorganizations were made to accommodate the requirements.
 					 In addition, removed Advance Directives, Family History components, and others as not required by test data.					 
 					-Updated to match 170.315_b1_toc_amb_sample1.docx test data.
+ 2017-01-DB: -Modified to get a higher score
+              -Note: Original filename was 170.315_b1_toc_amb_ccd_r21_sample1_v8.xml    
   
  ********************************************************
  Disclaimer: This sample file contains representative data elements to represent a Continuity of Care Document (CCD). 
@@ -1360,7 +1362,7 @@
 							<statusCode code="completed"/>
 							<effectiveTime>
 								<low value="20150622"/>
-								<high value="201506221014-0500"/>
+								<high value="201506221015-0500"/>
 							</effectiveTime>
 							<component>
 								<observation classCode="OBS" moodCode="EVN">
