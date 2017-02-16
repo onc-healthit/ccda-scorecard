@@ -61,7 +61,9 @@ public class MedicationScorecard {
 					maxPoints++;
 					if(medActivity.getDuration() != null)
 					{
-						if(ApplicationUtil.validateMinuteFormat(medActivity.getDuration()) ||
+						if(ApplicationUtil.validateDayFormat(medActivity.getDuration()) ||
+								ApplicationUtil.validateMonthFormat(medActivity.getDuration()) ||
+								ApplicationUtil.validateMinuteFormat(medActivity.getDuration()) ||
 									ApplicationUtil.validateSecondFormat(medActivity.getDuration()))
 						{
 							actualPoints++;
