@@ -20,7 +20,7 @@ public class ProblemsScorecard {
 	
 	public Category getProblemsCategory(CCDAProblem problems, String birthDate,String docType)
 	{
-		if(problems!=null && problems.isSectionNullFlavourWithNI())
+		if(problems==null || problems.isSectionNullFlavourWithNI())
 		{
 			return new Category(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc(),true);
 		}
@@ -64,47 +64,19 @@ public class ProblemsScorecard {
 					maxPoints++;
 					if(problemConcern.getEffTime() != null)
 					{
-						if(problemConcern.getEffTime().getLow() != null)
+						if(ApplicationUtil.validateDayFormat(problemConcern.getEffTime()) ||
+								ApplicationUtil.validateMonthFormat(problemConcern.getEffTime()) ||
+								ApplicationUtil.validateMinuteFormat(problemConcern.getEffTime()) ||
+								ApplicationUtil.validateSecondFormat(problemConcern.getEffTime()))
 						{
-							if(ApplicationUtil.validateDayFormat(problemConcern.getEffTime().getLow().getValue()) ||
-									ApplicationUtil.validateMonthFormat(problemConcern.getEffTime().getLow().getValue()) ||
-									ApplicationUtil.validateMinuteFormat(problemConcern.getEffTime().getLow().getValue()) ||
-									ApplicationUtil.validateSecondFormat(problemConcern.getEffTime().getLow().getValue()))
-							{
-								actualPoints++;
-							}
-							else 
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(problemConcern.getEffTime().getLow().getLineNumber());
-								issue.setXmlString(problemConcern.getEffTime().getLow().getXmlString());
-								issuesList.add(issue);
-							}
+							actualPoints++;
 						}
-						else
+						else 
 						{
 							issue = new CCDAXmlSnippet();
 							issue.setLineNumber(problemConcern.getEffTime().getLineNumber());
 							issue.setXmlString(problemConcern.getEffTime().getXmlString());
 							issuesList.add(issue);
-						}
-						if(problemConcern.getEffTime().getHigh() != null)
-						{
-							maxPoints++;
-							if(ApplicationUtil.validateDayFormat(problemConcern.getEffTime().getHigh().getValue()) ||
-									ApplicationUtil.validateMonthFormat(problemConcern.getEffTime().getHigh().getValue()) ||
-									ApplicationUtil.validateMinuteFormat(problemConcern.getEffTime().getHigh().getValue()) ||
-									ApplicationUtil.validateSecondFormat(problemConcern.getEffTime().getHigh().getValue()))
-							{
-								actualPoints++;
-							}
-							else 
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(problemConcern.getEffTime().getHigh().getLineNumber());
-								issue.setXmlString(problemConcern.getEffTime().getHigh().getXmlString());
-								issuesList.add(issue);
-							}
 						}
 					}
 					else 
@@ -122,47 +94,19 @@ public class ProblemsScorecard {
 							maxPoints++;
 							if(problemObs.getEffTime() != null)
 							{
-								if(problemObs.getEffTime().getLow() != null)
+								if(ApplicationUtil.validateDayFormat(problemObs.getEffTime()) ||
+										ApplicationUtil.validateMonthFormat(problemObs.getEffTime()) ||
+										ApplicationUtil.validateMinuteFormat(problemObs.getEffTime()) ||
+										ApplicationUtil.validateSecondFormat(problemObs.getEffTime()))
 								{
-									if(ApplicationUtil.validateDayFormat(problemObs.getEffTime().getLow().getValue()) ||
-											ApplicationUtil.validateMonthFormat(problemObs.getEffTime().getLow().getValue()) ||
-											ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getLow().getValue()) ||
-											ApplicationUtil.validateSecondFormat(problemObs.getEffTime().getLow().getValue()))
-									{
-										actualPoints++;
-									}
-									else 
-									{
-										issue = new CCDAXmlSnippet();
-										issue.setLineNumber(problemObs.getEffTime().getLow().getLineNumber());
-										issue.setXmlString(problemObs.getEffTime().getLow().getXmlString());
-										issuesList.add(issue);
-									}
+									actualPoints++;
 								}
-								else
+								else 
 								{
 									issue = new CCDAXmlSnippet();
 									issue.setLineNumber(problemObs.getEffTime().getLineNumber());
 									issue.setXmlString(problemObs.getEffTime().getXmlString());
 									issuesList.add(issue);
-								}
-								if(problemObs.getEffTime().getHigh() != null)
-								{
-									maxPoints++;
-									if(ApplicationUtil.validateDayFormat(problemObs.getEffTime().getHigh().getValue()) ||
-											ApplicationUtil.validateMonthFormat(problemObs.getEffTime().getHigh().getValue()) ||
-											ApplicationUtil.validateMinuteFormat(problemObs.getEffTime().getHigh().getValue()) ||
-											ApplicationUtil.validateSecondFormat(problemObs.getEffTime().getHigh().getValue()))
-									{
-										actualPoints++;
-									}
-									else 
-									{
-										issue = new CCDAXmlSnippet();
-										issue.setLineNumber(problemObs.getEffTime().getHigh().getLineNumber());
-										issue.setXmlString(problemObs.getEffTime().getHigh().getXmlString());
-										issuesList.add(issue);
-									}
 								}
 							}
 							else
@@ -232,41 +176,16 @@ public class ProblemsScorecard {
 					maxPoints++;
 					if(problemConcern.getEffTime() != null)
 					{
-						if(problemConcern.getEffTime().getLow() != null)
+						if(ApplicationUtil.checkDateRange(birthDate, problemConcern.getEffTime()))
 						{
-							if(ApplicationUtil.checkDateRange(birthDate, problemConcern.getEffTime().getLow().getValue()))
-							{
-								actualPoints++;
-							}
-							else 
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(problemConcern.getEffTime().getLow().getLineNumber());
-								issue.setXmlString(problemConcern.getEffTime().getLow().getXmlString());
-								issuesList.add(issue);
-							}
+							actualPoints++;
 						}
-						else
+						else 
 						{
 							issue = new CCDAXmlSnippet();
 							issue.setLineNumber(problemConcern.getEffTime().getLineNumber());
 							issue.setXmlString(problemConcern.getEffTime().getXmlString());
 							issuesList.add(issue);
-						}
-						if(problemConcern.getEffTime().getHigh() != null)
-						{
-							maxPoints++;
-							if(ApplicationUtil.checkDateRange(birthDate, problemConcern.getEffTime().getHigh().getValue()))
-							{
-								actualPoints++;
-							}
-							else 
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(problemConcern.getEffTime().getHigh().getLineNumber());
-								issue.setXmlString(problemConcern.getEffTime().getHigh().getXmlString());
-								issuesList.add(issue);
-							}
 						}
 					}
 					else 
@@ -284,19 +203,9 @@ public class ProblemsScorecard {
 							maxPoints++;
 							if(problemObs.getEffTime() != null)
 							{
-								if(problemObs.getEffTime().getLow() != null)
+								if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime()))
 								{
-									if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getLow().getValue()))
-									{
-										actualPoints++;
-									}
-									else 
-									{
-										issue = new CCDAXmlSnippet();
-										issue.setLineNumber(problemObs.getEffTime().getLow().getLineNumber());
-										issue.setXmlString(problemObs.getEffTime().getLow().getXmlString());
-										issuesList.add(issue);
-									}
+									actualPoints++;
 								}
 								else 
 								{
@@ -304,21 +213,6 @@ public class ProblemsScorecard {
 									issue.setLineNumber(problemObs.getEffTime().getLineNumber());
 									issue.setXmlString(problemObs.getEffTime().getXmlString());
 									issuesList.add(issue);
-								}
-								if(problemObs.getEffTime().getHigh() != null)
-								{
-									maxPoints++;
-									if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime().getHigh().getValue()))
-									{
-										actualPoints++;
-									}
-									else 
-									{
-										issue = new CCDAXmlSnippet();
-										issue.setLineNumber(problemObs.getEffTime().getHigh().getLineNumber());
-										issue.setXmlString(problemObs.getEffTime().getHigh().getXmlString());
-										issuesList.add(issue);
-									}
 								}
 							}
 							else
@@ -380,7 +274,8 @@ public class ProblemsScorecard {
 		CCDAXmlSnippet issue= null;
 		if(problems != null)
 		{
-			if(problems.getSectionCode()!= null && !ApplicationUtil.isEmpty(problems.getSectionCode().getDisplayName()))
+			if(problems.getSectionCode()!= null && !ApplicationUtil.isEmpty(problems.getSectionCode().getDisplayName())
+												&& ApplicationUtil.isCodeSystemAvailable(problems.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(problems.getSectionCode().getCode(), 
@@ -406,7 +301,8 @@ public class ProblemsScorecard {
 					{
 						for (CCDAProblemObs probObs : probCon.getProblemObservations())
 						{
-							if(probObs.getProblemType()!= null && !ApplicationUtil.isEmpty(probObs.getProblemType().getDisplayName()))
+							if(probObs.getProblemType()!= null && !ApplicationUtil.isEmpty(probObs.getProblemType().getDisplayName())
+																&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemType().getCodeSystem()))
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(probObs.getProblemType().getCode(), 
@@ -423,7 +319,8 @@ public class ProblemsScorecard {
 									issuesList.add(issue);
 								}
 							}
-							if(probObs.getProblemCode()!= null && !ApplicationUtil.isEmpty(probObs.getProblemCode().getDisplayName()))
+							if(probObs.getProblemCode()!= null && !ApplicationUtil.isEmpty(probObs.getProblemCode().getDisplayName())
+									&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemCode().getCodeSystem()))
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(probObs.getProblemCode().getCode(), 
@@ -444,7 +341,8 @@ public class ProblemsScorecard {
 							{
 								for (CCDACode translationCode : probObs.getTranslationProblemType())
 								{
-									if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()))
+									if(!ApplicationUtil.isEmpty(translationCode.getDisplayName())
+											&& ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 									{
 										maxPoints++;
 										if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 

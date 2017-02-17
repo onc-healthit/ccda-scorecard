@@ -19,7 +19,8 @@ public class VocabularyLoadRunner implements InitializingBean, DisposableBean {
     private DataSource dataSource;
 
     public void loadDirectory(String directory, Connection connection) throws IOException {
-        File dir = new File(directory);
+    	ClassLoader classLoader = getClass().getClassLoader();
+    	File dir = new File(classLoader.getResource(directory).getFile());
         if (dir.isFile()) {
             throw new IOException("Directory to Load is a file and not a directory");
         } else {

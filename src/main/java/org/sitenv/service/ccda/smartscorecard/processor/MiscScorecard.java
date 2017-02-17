@@ -89,10 +89,8 @@ public class MiscScorecard {
 		
 		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("All sections are empty");
-			issue.setXmlString("All sections are empty");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints=1;
 		}
 		
 		uniqeIdScore.setActualPoints(actualPoints);
@@ -871,10 +869,8 @@ public class MiscScorecard {
 		
 		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("All sections are empty");
-			issue.setXmlString("All sections are empty");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		templateIdScore.setActualPoints(actualPoints);

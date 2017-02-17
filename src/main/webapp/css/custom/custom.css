@@ -20,51 +20,6 @@ body.modal-open {
   height: auto;
 }
 
-.navbar-default {
-  border-radius: 0;
-}
-
-.navbar {
-  margin: 0 auto;
-}
-
-header .navbar-inner {
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  color: white;
-}
-
-header .navbar {
-  margin: 0;
-  min-height: 0;
-}
-
-header .navbar .nav {
-  float: right;
-}
-
-header .navbar .nav li a {
-  color: #D1D3D4;
-}
-
-header .navbar .nav li a:hover {
-  text-decoration: underline;
-  color: #fff;
-  background-color: #00418d;
-}
-
-header .navbar .navbar-inner {
-  background-color: #00418d;
-  background-image: none;
-  color: #fff;
-}
-
-header .navbar-inverse .navbar-inner {
-  background-color: #00418d;
-  filter: none;
-}
-
 header .jumbotron {
   background-image: url("https://devportal.sitenv.org/site-portal-responsivebootstrap-theme/images/site/site-background-header.png");
   padding: 0;
@@ -76,73 +31,6 @@ header .jumbotron .container {
   background-repeat: no-repeat;
   z-index: 999;
   height: 160px;
-}
-
-header .navbar .navbar-fixed-top {
-  overflow: hidden;
-  width: 100%;
-}
-
-.nav-listing {
-  margin: 20px 0 !important;
-}
-
-.nav-listing .nav-tabs li {
-  margin-bottom: -2px;
-  color: black !important;
-}
-
-.nav-listing .nav-tabs li a {
-  padding: 1.2em 1.2em 0 1.2em;
-}
-
-.nav-listing .nav>li>a {
-  margin-top: 10px;
-  padding: 5px 10px;
-  text-shadow: none;
-  color: black;
-  font-size: 1.4em;
-}
-
-.navbar .nav>li>a.right {
-  padding: 0px;
-  margin-top: 3px;
-}
-
-.nav-listing .nav-tabs li {
-  margin-bottom: -2px;
-  color: black !important;
-}
-
-.btn-nav {
-  display: none;
-}
-
-div.nav li {
-  margin-left: 6px;
-  display: inline-block;
-}
-
-div.nav li ul.social {
-  height: 20px;
-  margin-top: 7px;
-}
-
-div.nav li img {
-  width: 20px;
-  height: 20px;
-  border-radius: 2px;
-  padding: 0;
-  margin: 0;
-  line-height: 20px;
-}
-
-#fb-root {
-  margin-top: 5px;
-}
-
-footer {
-  padding-top: 1em;
 }
 
 #splash {
@@ -165,152 +53,6 @@ a.carousel-control p {
   line-height: 1.2em;
 }
 
-footer {
-  margin-top: 40px;
-  background-color: #eee;
-}
-
-footer .span9 {
-  margin-left: 0;
-}
-
-.navbar .btn-navbar,
-.nav-listing .btn-navbar {
-  display: none;
-}
-
-
-/* menu reduced---------------------------------------------------------*/
-
-.navbar-static-top {
-  z-index: 0;
-  border-width: 0 0 1px;
-}
-
-@media ( max-device-width: 1024px) {
-  .nav-collapse .dropdown-menu:before, .nav-collapse .dropdown-menu:after {
-    display: none;
-  }
-  .nav-collapse .dropdown-menu .divider {
-    display: none;
-  }
-  .navbar .btn-navbar {
-    display: block;
-  }
-}
-
-@media ( max-width: 979px) {
-  .navbar-static-top .container {
-    width: auto;
-  }
-  .nav-collapse {
-    display: block;
-    width: 100%;
-  }
-  .navbar .btn-navbar,
-  .nav-listing .btn-navbar {
-    display: inline-block;
-    float: right;
-  }
-  .nav-collapse,
-  .nav-collapse.collapse {
-    height: 0;
-    overflow: hidden;
-  }
-  [class^="icon-"],
-  [class*=" icon-"] {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background-color: black;
-  }
-  .btn-navbar {
-    padding: 7px 10px;
-  }
-  .pull-right {
-    display: none !important;
-  }
-  #taglines.span3 {
-    width: auto !important;
-  }
-  .jumbotron .container {
-    width: 924px !important;
-    overflow: visible;
-  }
-  #splash .span8 {
-    width: auto;
-  }
-  header .jumbotron {
-    zoom: 75%;
-    width: auto;
-  }
-  .nav-collapse,
-  .nav-collapse.collapse {
-    height: 0;
-    overflow: hidden;
-  }
-  .navbar .btn-navbar {
-    display: block;
-  }
-  .nav-collapse .dropdown-menu:before,
-  .nav-collapse .dropdown-menu:after {
-    display: block;
-  }
-  .nav-collapse .dropdown-menu .divider {
-    display: inline-block;
-    overflow: hidden;
-  }
-}
-
-@media ( max-width: 767px) {
-  .navbar-container li {
-    margin-left: 10px;
-  }
-  body {
-    padding: 0;
-  }
-  body container {
-    width: auto;
-  }
-  #sections,
-  footer,
-  #contact,
-  .content,
-  #faq,
-  #index {
-    padding: 0 15px;
-  }
-  header .jumbotron {
-    zoom: 50%;
-  }
-  header .jumbotron .container {
-    margin-left: 33px;
-    width: auto;
-  }
-  nav.nav li ul.social {
-    display: none !important;
-  }
-}
-
-@media ( max-width: 480px) {
-  .nav li a {
-    padding: 5px;
-  }
-  header .jumbotron {
-    zoom: 40%;
-  }
-  header .jumbotron .container {
-    margin-left: 57px;
-  }
-  .nav-collapse {
-    -webkit-transform: translate3d(0, 0, 0);
-  }
-  input[type="checkbox"],
-  input[type="radio"] {
-    border: 1px solid #ccc;
-  }
-}
-
 input {
   width: 100%;
   padding: 10px;
@@ -322,10 +64,6 @@ input {
 
 #submit {
   float: right;
-}
-
-div.container {
-  padding-left: 0;
 }
 
 input {
@@ -366,10 +104,6 @@ input {
   padding-left: 20px;
 }
 
-.navbar-inner {
-  background-color: #f2f2f2;
-}
-
 .margin {
   margin-bottom: 20px;
 }
@@ -388,19 +122,6 @@ input {
 blockquote,
 dl {
   margin: 0;
-}
-
-ul,
-ol {
-  margin-left: 2em;
-}
-
-.nav-justified {
-  margin-left: 0px;
-}
-
-.nav-justified li {
-  margin-left: 0px;
 }
 
 .masthead h3 {
@@ -424,14 +145,6 @@ h2 {
   padding: 0px;
 }
 
-.footer {
-  border-top: 1px solid #eee;
-  margin-top: 40px;
-  padding-top: 40px;
-  padding-bottom: 40px;
-}
-
-
 /* Main marketing message and sign up button */
 
 .jumbotron {
@@ -446,24 +159,12 @@ h2 {
   padding: 14px 24px;
 }
 
-.navbar-default .navbar-nav a:hover {
-  text-decoration: underline;
-}
-
 .login {
   float: right;
 }
 
 
 /* Responsive: Portrait tablets and up */
-
-@media screen and(min-width: 768px) {
-  /* Remove the padding we set earlier */
-  .masthead, .marketing, .footer {
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
 
 @media screen and (min-width: 768px) {
   .container .jumbotron {
@@ -597,45 +298,6 @@ div.thumbnail.active {
   position: relative;
 }
 
-@media ( min-width: 768px) {
-  #title {
-    display: block;
-  }
-  .navbar-brand {
-    display: none;
-  }
-  .navbar-collapse {
-    padding-right: 0px;
-    padding-left: 0px;
-  }
-}
-
-@media ( max-width: 767px) {
-  #title {
-    display: none;
-  }
-  .navbar-brand {
-    display: block;
-  }
-  .nav .dropdown-menu {
-    display: block;
-    position: relative;
-    float: none;
-  }
-}
-
-.navbar-default {
-  border-color: #d5d5d5;
-}
-
-a.ext-icon {
-  background: url('https://devportal.sitenv.org/site-portal-responsivebootstrap-theme/images/extlink.png') right center no-repeat;
-  padding: 0 2px 0 1px;
-  width: 10px;
-  height: 10px;
-  display: inline-block;
-}
-
 .hiddenText {
   position: absolute;
   width: 1px;
@@ -659,14 +321,6 @@ a.ext-icon {
   z-index: 100;
   float: right;
   margin-top: -31px;
-}
-
-.embedded-navbar {
-  position: relative;
-  right: 5px;
-  z-index: 100;
-  float: right;
-  margin-top: -25px;
 }
 
 .thumbnail-ext {

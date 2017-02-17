@@ -21,7 +21,7 @@ public class MedicationScorecard {
 	public Category getMedicationCategory(CCDAMedication medications, String birthDate,String docType)
 	{
 		
-		if(medications!=null && medications.isSectionNullFlavourWithNI())
+		if(medications==null || medications.isSectionNullFlavourWithNI())
 		{
 			return new Category(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc(),true);
 		}
@@ -61,54 +61,12 @@ public class MedicationScorecard {
 					maxPoints++;
 					if(medActivity.getDuration() != null)
 					{
-						if(medActivity.getDuration().getSingleAdministration() != null)
+						if(ApplicationUtil.validateDayFormat(medActivity.getDuration()) ||
+								ApplicationUtil.validateMonthFormat(medActivity.getDuration()) ||
+								ApplicationUtil.validateMinuteFormat(medActivity.getDuration()) ||
+									ApplicationUtil.validateSecondFormat(medActivity.getDuration()))
 						{
-							if(ApplicationUtil.validateMinuteFormat(medActivity.getDuration().getSingleAdministration()) ||
-									ApplicationUtil.validateSecondFormat(medActivity.getDuration().getSingleAdministration()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(medActivity.getDuration().getLineNumber());
-								issue.setXmlString(medActivity.getDuration().getXmlString());
-								issuesList.add(issue);
-							}
-						}
-						else if(medActivity.getDuration().getLow() != null)
-						{
-							if(ApplicationUtil.validateDayFormat(medActivity.getDuration().getLow().getValue()) ||
-									ApplicationUtil.validateMonthFormat(medActivity.getDuration().getLow().getValue()) ||
-									ApplicationUtil.validateMinuteFormat(medActivity.getDuration().getLow().getValue()) ||
-									ApplicationUtil.validateSecondFormat(medActivity.getDuration().getLow().getValue()))
-							{
-								actualPoints++;
-							}else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(medActivity.getDuration().getLow().getLineNumber());
-								issue.setXmlString(medActivity.getDuration().getLow().getXmlString());
-								issuesList.add(issue);
-							}
-							if(medActivity.getDuration().getHigh() != null)
-							{
-								maxPoints++;
-								if(ApplicationUtil.validateDayFormat(medActivity.getDuration().getHigh().getValue()) ||
-										ApplicationUtil.validateMonthFormat(medActivity.getDuration().getHigh().getValue()) ||
-										ApplicationUtil.validateMinuteFormat(medActivity.getDuration().getHigh().getValue()) ||
-										ApplicationUtil.validateSecondFormat(medActivity.getDuration().getHigh().getValue()))
-								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(medActivity.getDuration().getHigh().getLineNumber());
-									issue.setXmlString(medActivity.getDuration().getHigh().getXmlString());
-									issuesList.add(issue);
-								}
-							}
+							actualPoints++;
 						}
 						else
 						{
@@ -182,48 +140,9 @@ public class MedicationScorecard {
 					maxPoints++;
 					if(medActivity.getDuration() != null)
 					{
-						if(medActivity.getDuration().getSingleAdministration() != null)
+						if(ApplicationUtil.checkDateRange(birthDate, medActivity.getDuration()))
 						{
-							if(ApplicationUtil.checkDateRange(birthDate, medActivity.getDuration().getSingleAdministration()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(medActivity.getDuration().getLineNumber());
-								issue.setXmlString(medActivity.getDuration().getXmlString());
-								issuesList.add(issue);
-							}
-						}
-						else if(medActivity.getDuration().getLow() != null)
-						{
-							if(ApplicationUtil.checkDateRange(birthDate, medActivity.getDuration().getLow().getValue()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(medActivity.getDuration().getLow().getLineNumber());
-								issue.setXmlString(medActivity.getDuration().getLow().getXmlString());
-								issuesList.add(issue);
-							}
-							if(medActivity.getDuration().getHigh() != null)
-							{
-								maxPoints++;
-								if(ApplicationUtil.checkDateRange(birthDate, medActivity.getDuration().getHigh().getValue()))
-								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(medActivity.getDuration().getHigh().getLineNumber());
-									issue.setXmlString(medActivity.getDuration().getHigh().getXmlString());
-									issuesList.add(issue);
-								}
-							}
+							actualPoints++;
 						}
 						else
 						{
@@ -290,7 +209,8 @@ public class MedicationScorecard {
 		CCDAXmlSnippet issue= null;
 		if(medications != null)
 		{
-			if(medications.getSectionCode()!= null && !ApplicationUtil.isEmpty(medications.getSectionCode().getDisplayName()))
+			if(medications.getSectionCode()!= null && !ApplicationUtil.isEmpty(medications.getSectionCode().getDisplayName())
+													&& ApplicationUtil.isCodeSystemAvailable(medications.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(medications.getSectionCode().getCode(), 
@@ -312,7 +232,8 @@ public class MedicationScorecard {
 			{
 				for (CCDAMedicationActivity medActivity : medications.getMedActivities())
 				{
-					if(medActivity.getApproachSiteCode()!= null && !ApplicationUtil.isEmpty(medActivity.getApproachSiteCode().getDisplayName()))
+					if(medActivity.getApproachSiteCode()!= null && !ApplicationUtil.isEmpty(medActivity.getApproachSiteCode().getDisplayName())
+																&& ApplicationUtil.isCodeSystemAvailable(medActivity.getApproachSiteCode().getCodeSystem()))
 					{
 						maxPoints++;
 						if(ApplicationUtil.validateDisplayName(medActivity.getApproachSiteCode().getCode(), 
@@ -335,7 +256,7 @@ public class MedicationScorecard {
 						{
 							for (CCDACode translationCode : medActivity.getConsumable().getTranslations())
 							{
-								if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()))
+								if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()) && ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
 														translationCode.getCodeSystem(),

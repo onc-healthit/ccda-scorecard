@@ -1,701 +1,678 @@
 {
-    "errorMessage": null,
-    "filename": "lowScoringSample.xml",
-    "ccdaDocumentType": "CCD",
-    "results": {
-        "finalGrade": "C",
-        "finalNumericalGrade": 70,
-        "categoryList": [
-            {
-                "categoryName": "Miscellaneous",
-                "categoryGrade": "A+",
-                "categoryNumericalScore": 100,
-                "categoryRubrics": [
-                    {
-                        "rule": "All Template Ids should be correct",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "Generally, the identifiers found within a CDA document should be unique and non-reoccurring within the same document.",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    }
-                ],
-                "numberOfIssues": 0,
-                "certificationFeedback": false,
-                "failingConformance": false,
-                "nullFlavorNI": false
-            },
-            {
-                "categoryName": "Medications",
-                "categoryGrade": "D",
-                "categoryNumericalScore": 33,
-                "categoryRubrics": [
-                    {
-                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "491 - 513",
-                                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\" negationInd=\"true\">\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.16\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.16\"/>\r\n\t\t\t\t\t\t\t<id root=\"cdbd33f0-6cde-12db-9fe1-0800200c9a66\"/>\r\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\r\n\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t<doseQuantity nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t<consumable>\r\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t<code codeSystem=\"2.16.840.1.113883.6.88\" nullFlavor=\"OTH\"> \r\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"410942007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"drug or medication\"/>\r\n\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t</consumable>\r\n\t\t\t\t\t\t</substanceAdministration>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.48 Medication Activity"
-                        ],
-                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
-                    },
-                    {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "491 - 513",
-                                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\" negationInd=\"true\">\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.16\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.16\"/>\r\n\t\t\t\t\t\t\t<id root=\"cdbd33f0-6cde-12db-9fe1-0800200c9a66\"/>\r\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\r\n\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t<doseQuantity nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t<consumable>\r\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t<code codeSystem=\"2.16.840.1.113883.6.88\" nullFlavor=\"OTH\"> \r\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"410942007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"drug or medication\"/>\r\n\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t</consumable>\r\n\t\t\t\t\t\t</substanceAdministration>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.48 Medication Activity"
-                        ],
-                        "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
-                    },
-                    {
-                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-                        "numberOfIssues": 2,
-                        "issuesList": [
-                            {
-                                "lineNumber": "486",
-                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"10160-0\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"HISTORY OF MEDICATION USE\"/>"
-                            },
-                            {
-                                "lineNumber": "508",
-                                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"410942007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"drug or medication\"/>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
-                        ],
-                        "igReferences": [
-                            "Section 2.39.1: Medications Section"
-                        ],
-                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
-                    },
-                    {
-                        "rule": "Medications coded with RxNorm SCD, SBD, GPCK, or BPCPK codes",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "500 - 511",
-                                "xmlString": "<manufacturedProduct xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\r\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t<code codeSystem=\"2.16.840.1.113883.6.88\" nullFlavor=\"OTH\"> \r\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"410942007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"drug or medication\"/>\r\n\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t</manufacturedProduct>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.48 Medication Activity"
-                        ],
-                        "description": "All code elements under Medication section should contain valid display names"
-                    },
-                    {
-                        "rule": "Immunizations should be represented in the appropriate section.",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    }
-                ],
-                "numberOfIssues": 5,
-                "certificationFeedback": false,
-                "failingConformance": false,
-                "nullFlavorNI": false
-            },
-            {
-                "categoryName": "Social History",
-                "categoryGrade": "A-",
-                "categoryNumericalScore": 92,
-                "categoryRubrics": [
-                    {
-                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "808",
-                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29762-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Social History\"/>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/SMOKING_Former_Smoker.xml"
-                        ],
-                        "igReferences": [
-                            "Section 2.66: Social History Section"
-                        ],
-                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
-                    },
-                    {
-                        "rule": "Smoking status code value should be valid",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "Smoking status observation Template Id should be valid",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    }
-                ],
-                "numberOfIssues": 1,
-                "certificationFeedback": false,
-                "failingConformance": false,
-                "nullFlavorNI": false
-            },
-            {
-                "categoryName": "Immunizations",
-                "categoryGrade": "D",
-                "categoryNumericalScore": 30,
-                "categoryRubrics": [
-                    {
-                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "663 - 691",
-                                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\" negationInd=\"true\">\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.52\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.52\"/>\r\n\t\t\t\t\t\t\t<id root=\"de10790f-1496-4729-8fe6-f1b87b6219f7\"/>\r\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\r\n\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t<routeCode nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t<consumable>\r\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.54\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.54\"/>\r\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"OTH\">\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t<originalText>Vaccination</originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"71181003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"vaccine\"/>\r\n\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t<lotNumberText nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t</consumable>\r\n\t\t\t\t\t\t</substanceAdministration>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.41: Immunization Activity"
-                        ],
-                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
-                    },
-                    {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "663 - 691",
-                                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\" negationInd=\"true\">\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.52\"/>\r\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.52\"/>\r\n\t\t\t\t\t\t\t<id root=\"de10790f-1496-4729-8fe6-f1b87b6219f7\"/>\r\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\r\n\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t<routeCode nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t<consumable>\r\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.54\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.54\"/>\r\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"OTH\">\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t<originalText>Vaccination</originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"71181003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"vaccine\"/>\r\n\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t<lotNumberText nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t</manufacturedProduct>\r\n\t\t\t\t\t\t\t</consumable>\r\n\t\t\t\t\t\t</substanceAdministration>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.41: Immunization Activity"
-                        ],
-                        "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
-                    },
-                    {
-                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "658",
-                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"11369-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"History of immunizations\"/>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
-                        ],
-                        "igReferences": [
-                            "Section 2.32.1: Immunizations Section"
-                        ],
-                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
-                    },
-                    {
-                        "rule": "Immunizations coded with CVX codes",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "672 - 689",
-                                "xmlString": "<manufacturedProduct xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.54\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.54\"/>\r\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"OTH\">\r\n\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t\t<originalText>Vaccination</originalText>\r\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"71181003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"vaccine\"/>\r\n\t\t\t\t\t\t\t\t\t\t</code>\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\t<lotNumberText nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\r\n\t\t\t\t\t\t\t\t</manufacturedProduct>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.41: Immunization Activity"
-                        ],
-                        "description": "Each Immunization code should be validated aganist CVX Vaccines Administered valueset"
-                    },
-                    {
-                        "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    }
-                ],
-                "numberOfIssues": 4,
-                "certificationFeedback": false,
-                "failingConformance": false,
-                "nullFlavorNI": false
-            },
-            {
-                "categoryName": "Encounters",
-                "categoryGrade": "D",
-                "categoryNumericalScore": 50,
-                "categoryRubrics": [
-                    {
-                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "625",
-                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150722\"/>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.23: Encounter Actvity"
-                        ],
-                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
-                    },
-                    {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-                        "numberOfIssues": 2,
-                        "issuesList": [
-                            {
-                                "lineNumber": "593",
-                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"46240-8\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"History of encounters\"/>"
-                            },
-                            {
-                                "lineNumber": "620",
-                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"78318003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Annual Health Maintenance, History and Physical\">\r\n\t\t\t\t\t\t\t\t<originalText>\r\n\t\t\t\t\t\t\t\t\t<reference value=\"#Encounter1\"/>\r\n\t\t\t\t\t\t\t\t</originalText>\r\n\t\t\t\t\t\t\t</code>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"
-                        ],
-                        "igReferences": [
-                            "Section 2.16: Encounters"
-                        ],
-                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
-                    },
-                    {
-                        "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    }
-                ],
-                "numberOfIssues": 3,
-                "certificationFeedback": false,
-                "failingConformance": false,
-                "nullFlavorNI": false
-            },
-            {
-                "categoryName": "Laboratory Tests and Results",
-                "categoryGrade": null,
-                "categoryNumericalScore": 0,
-                "categoryRubrics": [],
-                "numberOfIssues": 0,
-                "certificationFeedback": false,
-                "failingConformance": false,
-                "nullFlavorNI": true
-            },
-            {
-                "categoryName": "Vital Signs",
-                "categoryGrade": "B+",
-                "categoryNumericalScore": 87,
-                "categoryRubrics": [
-                    {
-                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-                        "numberOfIssues": 4,
-                        "issuesList": [
-                            {
-                                "lineNumber": "750",
-                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>"
-                            },
-                            {
-                                "lineNumber": "763",
-                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29463-7\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>"
-                            },
-                            {
-                                "lineNumber": "776",
-                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Diastolic\"/>"
-                            },
-                            {
-                                "lineNumber": "789",
-                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Intravascular Systolic\"/>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
-                        ],
-                        "igReferences": [
-                            "Section 2.70.1: Vital Signs Section"
-                        ],
-                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
-                    },
-                    {
-                        "rule": "The Vital Sign Observation entries should use LOINC codes to represent the type of vital sign being captured",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "763",
-                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29463-7\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.108: Vital Sign Observation"
-                        ],
-                        "description": "Each of the vital sign observation present in the document should use the recommended LOINC codes to represent the vital sign."
-                    },
-                    {
-                        "rule": "Each of the Vital Sign Observation should use the recommended UCUM units to represent the vital sign measurement result.",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations.",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    }
-                ],
-                "numberOfIssues": 5,
-                "certificationFeedback": false,
-                "failingConformance": false,
-                "nullFlavorNI": false
-            },
-            {
-                "categoryName": "Problems",
-                "categoryGrade": "A-",
-                "categoryNumericalScore": 93,
-                "categoryRubrics": [
-                    {
-                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "525",
-                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"11450-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"PROBLEM LIST\"/>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
-                        ],
-                        "igReferences": [
-                            "Section 2.53.1: Problem Section"
-                        ],
-                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
-                    },
-                    {
-                        "rule": "All problem codes are should express with core subset of SNOMED codes",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "Problem Concern effective times reflect the appropriate problem concern status.",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "The EffectiveDate/Time elements for the Problem Concern Act must encompass the underlying observations.",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "Problem Concern status and Problem Observation status are consistent with each other.",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "539",
-                                "xmlString": "<reference value=\"#Concern_1\"/>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
-                        ],
-                        "igReferences": [
-                            "Section 2.53.1: Problem Section"
-                        ],
-                        "description": "Each entry has to be linked to related narrative text"
-                    }
-                ],
-                "numberOfIssues": 2,
-                "certificationFeedback": false,
-                "failingConformance": false,
-                "nullFlavorNI": false
-            },
-            {
-                "categoryName": "Allergies",
-                "categoryGrade": "D",
-                "categoryNumericalScore": 60,
-                "categoryRubrics": [
-                    {
-                        "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "437 - 472",
-                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\" negationInd=\"true\">\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.7\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.7\"/>\r\n\t\t\t\t\t\t\t\t\t<id root=\"4adc1020-7b16-11db-9fe1-0800200c9a66\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<value code=\"419199007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Allergy to substance (disorder)\" xsi:type=\"CD\">\r\n\t\t\t\t\t\t\t\t\t</value>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\r\n\t\t\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</playingEntity>\r\n\t\t\t\t\t\t\t\t\t\t</participantRole>\r\n\t\t\t\t\t\t\t\t\t</participant>\r\n\t\t\t\t\t\t\t\t</observation>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.5: Allergy Concern Act"
-                        ],
-                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
-                    },
-                    {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "437 - 472",
-                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\" negationInd=\"true\">\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.7\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.7\"/>\r\n\t\t\t\t\t\t\t\t\t<id root=\"4adc1020-7b16-11db-9fe1-0800200c9a66\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<value code=\"419199007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Allergy to substance (disorder)\" xsi:type=\"CD\">\r\n\t\t\t\t\t\t\t\t\t</value>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\r\n\t\t\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</playingEntity>\r\n\t\t\t\t\t\t\t\t\t\t</participantRole>\r\n\t\t\t\t\t\t\t\t\t</participant>\r\n\t\t\t\t\t\t\t\t</observation>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.5: Allergy Concern Act"
-                        ],
-                        "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
-                    },
-                    {
-                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
-                    {
-                        "rule": "Allergies observation effective should align with Allergies concern act effective time",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "437 - 472",
-                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\" negationInd=\"true\">\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.7\"/>\r\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.7\"/>\r\n\t\t\t\t\t\t\t\t\t<id root=\"4adc1020-7b16-11db-9fe1-0800200c9a66\"/>\r\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\r\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\r\n\t\t\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<value code=\"419199007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Allergy to substance (disorder)\" xsi:type=\"CD\">\r\n\t\t\t\t\t\t\t\t\t</value>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\r\n\t\t\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\r\n\t\t\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"NA\"/>\r\n\t\t\t\t\t\t\t\t\t\t\t</playingEntity>\r\n\t\t\t\t\t\t\t\t\t\t</participantRole>\r\n\t\t\t\t\t\t\t\t\t</participant>\r\n\t\t\t\t\t\t\t\t</observation>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.5: Allergy Concern Act"
-                        ],
-                        "description": "Allergies observation effective should align with Allergies concern act effective time"
-                    },
-                    {
-                        "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    }
-                ],
-                "numberOfIssues": 3,
-                "certificationFeedback": false,
-                "failingConformance": false,
-                "nullFlavorNI": false
-            },
-            {
-                "categoryName": "Procedures",
-                "categoryGrade": "C",
-                "categoryNumericalScore": 75,
-                "categoryRubrics": [
-                    {
-                        "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "879",
-                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"47519-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"HISTORY OF PROCEDURES\"/>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/PROCEDURE_Observation_Example.xml"
-                        ],
-                        "igReferences": [
-                            "Section 2.61.1 :Procedures Section"
-                        ],
-                        "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
-                    },
-                    {
-                        "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    }
-                ],
-                "numberOfIssues": 1,
-                "certificationFeedback": false,
-                "failingConformance": false,
-                "nullFlavorNI": false
-            },
-            {
-                "categoryName": "Patient Demographics",
-                "categoryGrade": "A+",
-                "categoryNumericalScore": 100,
-                "categoryRubrics": [
-                    {
-                        "rule": "Patient DOB should be valid and properly precisioned",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    }
-                ],
-                "numberOfIssues": 0,
-                "certificationFeedback": false,
-                "failingConformance": false,
-                "nullFlavorNI": false
-            }
+  "errorMessage": null,
+  "filename": "lowScoringSample.xml",
+  "ccdaDocumentType": "CCD",
+  "results": {
+    "finalGrade": "C",
+    "finalNumericalGrade": 72,
+    "categoryList": [
+      {
+        "categoryName": "Miscellaneous",
+        "categoryGrade": "A+",
+        "categoryNumericalScore": 100,
+        "categoryRubrics": [
+          {
+            "rule": "All Template Ids should be correct",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Generally, the identifiers found within a CDA document should be unique and non-reoccurring within the same document.",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
         ],
-        "numberOfIssues": 24,
-        "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
-        "industryAverageScore": 61,
-        "industryAverageGrade": "D",
-        "numberOfDocumentsScored": 600,
-        "docType": "R2.1",
-        "passedCertification": null
-    },
-    "referenceResults": [],
-    "schemaErrorList": null,
-    "schemaErrors": false,
-    "success": true
+        "numberOfIssues": 0,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Medications",
+        "categoryGrade": "D",
+        "categoryNumericalScore": 42,
+        "categoryRubrics": [
+          {
+            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "491 - 513",
+                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\" negationInd=\"true\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<id root=\"cdbd33f0-6cde-12db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t<doseQuantity nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t<consumable>\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t<code codeSystem=\"2.16.840.1.113883.6.88\" nullFlavor=\"OTH\"> \n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"410942007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"drug or medication\"/>\n\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t</consumable>\n\t\t\t\t\t\t</substanceAdministration>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
+            ],
+            "igReferences": [
+              "Section 3.48 Medication Activity"
+            ],
+            "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+          },
+          {
+            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "491 - 513",
+                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\" negationInd=\"true\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<id root=\"cdbd33f0-6cde-12db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t<doseQuantity nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t<consumable>\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t<code codeSystem=\"2.16.840.1.113883.6.88\" nullFlavor=\"OTH\"> \n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"410942007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"drug or medication\"/>\n\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t</consumable>\n\t\t\t\t\t\t</substanceAdministration>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
+            ],
+            "igReferences": [
+              "Section 3.48 Medication Activity"
+            ],
+            "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
+          },
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "508",
+                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"410942007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"drug or medication\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
+            ],
+            "igReferences": [
+              "Section 2.39.1: Medications Section"
+            ],
+            "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+          },
+          {
+            "rule": "Medications coded with RxNorm SCD, SBD, GPCK, or BPCPK codes",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "500 - 511",
+                "xmlString": "<manufacturedProduct xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t<code codeSystem=\"2.16.840.1.113883.6.88\" nullFlavor=\"OTH\"> \n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"410942007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"drug or medication\"/>\n\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t</manufacturedProduct>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
+            ],
+            "igReferences": [
+              "Section 3.48 Medication Activity"
+            ],
+            "description": "All code elements under Medication section should contain valid display names"
+          },
+          {
+            "rule": "Immunizations should be represented in the appropriate section.",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 4,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Social History",
+        "categoryGrade": "A+",
+        "categoryNumericalScore": 100,
+        "categoryRubrics": [
+          {
+            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Smoking status code value should be valid",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Smoking status observation Template Id should be valid",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 0,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Immunizations",
+        "categoryGrade": "D",
+        "categoryNumericalScore": 30,
+        "categoryRubrics": [
+          {
+            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "663 - 691",
+                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\" negationInd=\"true\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.52\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.52\"/>\n\t\t\t\t\t\t\t<id root=\"de10790f-1496-4729-8fe6-f1b87b6219f7\"/>\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t<routeCode nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t<consumable>\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.54\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.54\"/>\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"OTH\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<originalText>Vaccination</originalText>\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"71181003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"vaccine\"/>\n\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<lotNumberText nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t</consumable>\n\t\t\t\t\t\t</substanceAdministration>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
+            ],
+            "igReferences": [
+              "Section 3.41: Immunization Activity"
+            ],
+            "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+          },
+          {
+            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "663 - 691",
+                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\" negationInd=\"true\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.52\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.52\"/>\n\t\t\t\t\t\t\t<id root=\"de10790f-1496-4729-8fe6-f1b87b6219f7\"/>\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t<routeCode nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t<consumable>\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.54\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.54\"/>\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"OTH\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<originalText>Vaccination</originalText>\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"71181003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"vaccine\"/>\n\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<lotNumberText nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t</consumable>\n\t\t\t\t\t\t</substanceAdministration>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
+            ],
+            "igReferences": [
+              "Section 3.41: Immunization Activity"
+            ],
+            "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
+          },
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "658",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"11369-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"History of immunizations\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
+            ],
+            "igReferences": [
+              "Section 2.32.1: Immunizations Section"
+            ],
+            "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+          },
+          {
+            "rule": "Immunizations coded with CVX codes",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "672 - 689",
+                "xmlString": "<manufacturedProduct xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.54\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.54\"/>\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"OTH\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<originalText>Vaccination</originalText>\n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"71181003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"vaccine\"/>\n\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<lotNumberText nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t</manufacturedProduct>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
+            ],
+            "igReferences": [
+              "Section 3.41: Immunization Activity"
+            ],
+            "description": "Each Immunization code should be validated aganist CVX Vaccines Administered valueset"
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 4,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Encounters",
+        "categoryGrade": "D",
+        "categoryNumericalScore": 50,
+        "categoryRubrics": [
+          {
+            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "625 - 625",
+                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150722\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"
+            ],
+            "igReferences": [
+              "Section 3.23: Encounter Actvity"
+            ],
+            "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+          },
+          {
+            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 2,
+            "issuesList": [
+              {
+                "lineNumber": "593",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"46240-8\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"History of encounters\"/>"
+              },
+              {
+                "lineNumber": "620",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"78318003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Annual Health Maintenance, History and Physical\">\n\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t<reference value=\"#Encounter1\"/>\n\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t</code>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"
+            ],
+            "igReferences": [
+              "Section 2.16: Encounters"
+            ],
+            "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 3,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Laboratory Tests and Results",
+        "categoryGrade": null,
+        "categoryNumericalScore": 0,
+        "categoryRubrics": [],
+        "numberOfIssues": 0,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": true
+      },
+      {
+        "categoryName": "Vital Signs",
+        "categoryGrade": "C",
+        "categoryNumericalScore": 79,
+        "categoryRubrics": [
+          {
+            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 3,
+            "issuesList": [
+              {
+                "lineNumber": "750",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>"
+              },
+              {
+                "lineNumber": "763",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29463-7\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>"
+              },
+              {
+                "lineNumber": "776",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Diastolic\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
+            ],
+            "igReferences": [
+              "Section 2.70.1: Vital Signs Section"
+            ],
+            "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+          },
+          {
+            "rule": "The Vital Sign Observation entries should use LOINC codes to represent the type of vital sign being captured",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Each of the Vital Sign Observations should use the recommended UCUM units to represent the vital sign measurement result",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations.",
+            "numberOfIssues": 4,
+            "issuesList": [
+              {
+                "lineNumber": "752 - 752",
+                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201507221405-0500\"/>"
+              },
+              {
+                "lineNumber": "765 - 765",
+                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201507221405-0500\"/>"
+              },
+              {
+                "lineNumber": "778 - 778",
+                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201507221410-0500\"/>"
+              },
+              {
+                "lineNumber": "791 - 791",
+                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"201507221410-0500\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
+            ],
+            "igReferences": [
+              "Section 3.109: Vital Signs Organizer"
+            ],
+            "description": "The EffectiveDate/Time elements of the Vital Signs Organizer cannot be out of sync with the Vital Signs Observation. Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low and Observation's EffectiveTime/high should be <= Organizer's EffectiveTime/high"
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 7,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Problems",
+        "categoryGrade": "A+",
+        "categoryNumericalScore": 96,
+        "categoryRubrics": [
+          {
+            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "All problem codes are should express with core subset of SNOMED codes",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Problem Concern effective times reflect the appropriate problem concern status.",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "The EffectiveDate/Time elements for the Problem Concern Act must encompass the underlying observations.",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Problem Concern status and Problem Observation status are consistent with each other.",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "539",
+                "xmlString": "<reference value=\"#Concern_1\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
+            ],
+            "igReferences": [
+              "Section 2.53.1: Problem Section"
+            ],
+            "description": "Each entry has to be linked to related narrative text"
+          }
+        ],
+        "numberOfIssues": 1,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Allergies",
+        "categoryGrade": "D",
+        "categoryNumericalScore": 60,
+        "categoryRubrics": [
+          {
+            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "437 - 472",
+                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\" negationInd=\"true\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"4adc1020-7b16-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<value code=\"419199007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Allergy to substance (disorder)\" xsi:type=\"CD\">\n\t\t\t\t\t\t\t\t\t</value>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\n\t\t\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\n\t\t\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t\t\t\t\t</playingEntity>\n\t\t\t\t\t\t\t\t\t\t</participantRole>\n\t\t\t\t\t\t\t\t\t</participant>\n\t\t\t\t\t\t\t\t</observation>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+            ],
+            "igReferences": [
+              "Section 3.5: Allergy Concern Act"
+            ],
+            "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+          },
+          {
+            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "437 - 472",
+                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\" negationInd=\"true\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"4adc1020-7b16-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<value code=\"419199007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Allergy to substance (disorder)\" xsi:type=\"CD\">\n\t\t\t\t\t\t\t\t\t</value>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\n\t\t\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\n\t\t\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t\t\t\t\t</playingEntity>\n\t\t\t\t\t\t\t\t\t\t</participantRole>\n\t\t\t\t\t\t\t\t\t</participant>\n\t\t\t\t\t\t\t\t</observation>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+            ],
+            "igReferences": [
+              "Section 3.5: Allergy Concern Act"
+            ],
+            "description": " EffectiveDate/Times for historical events should be greater than the patient's date of birth and less than the earliest of current time or patient's date of death. "
+          },
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Allergies observation effective should align with Allergies concern act effective time",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "437 - 472",
+                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\" negationInd=\"true\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"4adc1020-7b16-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<value code=\"419199007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Allergy to substance (disorder)\" xsi:type=\"CD\">\n\t\t\t\t\t\t\t\t\t</value>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\n\t\t\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\n\t\t\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t\t\t\t\t</playingEntity>\n\t\t\t\t\t\t\t\t\t\t</participantRole>\n\t\t\t\t\t\t\t\t\t</participant>\n\t\t\t\t\t\t\t\t</observation>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+            ],
+            "igReferences": [
+              "Section 3.5: Allergy Concern Act"
+            ],
+            "description": "Allergies observation effective should align with Allergies concern act effective time"
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 3,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Procedures",
+        "categoryGrade": "A+",
+        "categoryNumericalScore": 100,
+        "categoryRubrics": [
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 0,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Patient Demographics",
+        "categoryGrade": "A+",
+        "categoryNumericalScore": 100,
+        "categoryRubrics": [
+          {
+            "rule": "Patient DOB should be valid and properly precisioned",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 0,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      }
+    ],
+    "numberOfIssues": 22,
+    "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
+    "industryAverageScore": 72,
+    "industryAverageGrade": "C",
+    "numberOfDocumentsScored": 1132,
+    "docType": "R2.1",
+    "passedCertification": null
+  },
+  "referenceResults": [],
+  "schemaErrorList": null,
+  "schemaErrors": false,
+  "success": true
 }

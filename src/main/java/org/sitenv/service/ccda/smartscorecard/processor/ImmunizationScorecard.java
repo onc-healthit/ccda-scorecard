@@ -19,8 +19,7 @@ public class ImmunizationScorecard {
 	
 	public Category getImmunizationCategory(CCDAImmunization immunizations, String birthDate,String docType)
 	{
-		
-		if(immunizations!= null && immunizations.isSectionNullFlavourWithNI())
+		if(immunizations == null || immunizations.isSectionNullFlavourWithNI())
 		{
 			return new Category(ApplicationConstants.CATEGORIES.IMMUNIZATIONS.getCategoryDesc(),true);
 		}
@@ -59,9 +58,9 @@ public class ImmunizationScorecard {
 					maxPoints++;
 					if(immunizationActivity.getTime() != null)
 					{
-						if(ApplicationUtil.validateDayFormat(immunizationActivity.getTime().getValue()) ||
-								ApplicationUtil.validateMinuteFormat(immunizationActivity.getTime().getValue()) ||
-								ApplicationUtil.validateSecondFormat(immunizationActivity.getTime().getValue()))
+						if(ApplicationUtil.validateDayFormat(immunizationActivity.getTime()) ||
+								ApplicationUtil.validateMinuteFormat(immunizationActivity.getTime()) ||
+								ApplicationUtil.validateSecondFormat(immunizationActivity.getTime()))
 						{
 							actualPoints++;
 						}
@@ -137,7 +136,7 @@ public class ImmunizationScorecard {
 					maxPoints++;
 					if(immunizationActivity.getTime() != null)
 					{
-						if(ApplicationUtil.checkDateRange(birthDate, immunizationActivity.getTime().getValue()))
+						if(ApplicationUtil.checkDateRange(birthDate, immunizationActivity.getTime()))
 						{
 							actualPoints++;
 						}
@@ -208,7 +207,8 @@ public class ImmunizationScorecard {
 		CCDAXmlSnippet issue= null;
 		if(immunizatons != null)
 		{
-			if(immunizatons.getSectionCode()!= null && !ApplicationUtil.isEmpty(immunizatons.getSectionCode().getDisplayName()))
+			if(immunizatons.getSectionCode()!= null && !ApplicationUtil.isEmpty(immunizatons.getSectionCode().getDisplayName()) 
+													&& ApplicationUtil.isCodeSystemAvailable(immunizatons.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(immunizatons.getSectionCode().getCode(), 
@@ -229,7 +229,8 @@ public class ImmunizationScorecard {
 			{
 				for (CCDAImmunizationActivity immuActivity : immunizatons.getImmActivity())
 				{
-					if(immuActivity.getApproachSiteCode() != null && !ApplicationUtil.isEmpty(immuActivity.getApproachSiteCode().getDisplayName()))
+					if(immuActivity.getApproachSiteCode() != null && !ApplicationUtil.isEmpty(immuActivity.getApproachSiteCode().getDisplayName())
+																&& ApplicationUtil.isCodeSystemAvailable(immuActivity.getApproachSiteCode().getCodeSystem()))
 					{
 						maxPoints++;
 						if(ApplicationUtil.validateDisplayName(immuActivity.getApproachSiteCode().getCode(), 
@@ -252,7 +253,7 @@ public class ImmunizationScorecard {
 						{
 							for (CCDACode translationCode : immuActivity.getConsumable().getTranslations())
 							{
-								if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()))
+								if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()) && ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 								{
 									maxPoints++;
 									if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 

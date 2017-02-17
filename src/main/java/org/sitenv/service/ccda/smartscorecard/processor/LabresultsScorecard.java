@@ -25,7 +25,7 @@ public class LabresultsScorecard {
 	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, String birthDate,String docType)
 	{
 		
-		if(labResults!= null && labResults.isSectionNullFlavourWithNI())
+		if(labResults== null || labResults.isSectionNullFlavourWithNI())
 		{
 			return new Category(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc(),true);
 		}
@@ -74,47 +74,14 @@ public class LabresultsScorecard {
 			{
 				for (CCDALabResultOrg resultOrg : labResults.getResultOrg())
 				{
-					maxPoints = maxPoints + 2;
+					maxPoints++;
 					if(resultOrg.getEffTime() != null)
 					{
-						if(resultOrg.getEffTime().getLow() != null)
+						if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime()) ||
+									ApplicationUtil.validateMinuteFormat(resultOrg.getEffTime()) ||
+									ApplicationUtil.validateSecondFormat(resultOrg.getEffTime()))
 						{
-							if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getLow().getValue()) ||
-									ApplicationUtil.validateMinuteFormat(resultOrg.getEffTime().getLow().getValue()) ||
-									ApplicationUtil.validateSecondFormat(resultOrg.getEffTime().getLow().getValue()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(resultOrg.getEffTime().getLow().getLineNumber());
-								issue.setXmlString(resultOrg.getEffTime().getLow().getXmlString());
-								issuesList.add(issue);
-							}
-						}
-						else
-						{
-							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(resultOrg.getEffTime().getLineNumber());
-							issue.setXmlString(resultOrg.getEffTime().getXmlString());
-							issuesList.add(issue);
-						}
-						if(resultOrg.getEffTime().getHigh() != null)
-						{
-							if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime().getHigh().getValue()) ||
-									ApplicationUtil.validateMinuteFormat(resultOrg.getEffTime().getHigh().getValue()) ||
-									ApplicationUtil.validateSecondFormat(resultOrg.getEffTime().getHigh().getValue()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(resultOrg.getEffTime().getHigh().getLineNumber());
-								issue.setXmlString(resultOrg.getEffTime().getHigh().getXmlString());
-								issuesList.add(issue);
-							}
+							actualPoints++;
 						}
 						else
 						{
@@ -139,9 +106,9 @@ public class LabresultsScorecard {
 							maxPoints++;
 							if(resultObs.getMeasurementTime() != null)
 							{
-								if(ApplicationUtil.validateDayFormat(resultObs.getMeasurementTime().getValue()) ||
-										ApplicationUtil.validateMinuteFormat(resultObs.getMeasurementTime().getValue()) ||
-										ApplicationUtil.validateSecondFormat(resultObs.getMeasurementTime().getValue()))
+								if(ApplicationUtil.validateDayFormat(resultObs.getMeasurementTime()) ||
+										ApplicationUtil.validateMinuteFormat(resultObs.getMeasurementTime()) ||
+										ApplicationUtil.validateSecondFormat(resultObs.getMeasurementTime()))
 								{
 									actualPoints++;
 								}
@@ -218,46 +185,12 @@ public class LabresultsScorecard {
 			{
 				for (CCDALabResultOrg resultOrg : labResults.getResultOrg())
 				{
-					maxPoints = maxPoints + 2;
+					maxPoints++;
 					if(resultOrg.getEffTime() != null)
 					{
-						if(resultOrg.getEffTime().getLow() != null)
+						if(ApplicationUtil.checkDateRange(birthDate, resultOrg.getEffTime()))
 						{
-							if(resultOrg.getEffTime().getLow() != null)
-							{
-								if(ApplicationUtil.checkDateRange(birthDate, resultOrg.getEffTime().getLow().getValue()))
-								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(resultOrg.getEffTime().getLow().getLineNumber());
-									issue.setXmlString(resultOrg.getEffTime().getLow().getXmlString());
-									issuesList.add(issue);
-								}
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(resultOrg.getEffTime().getLineNumber());
-								issue.setXmlString(resultOrg.getEffTime().getXmlString());
-								issuesList.add(issue);
-							}
-						}
-						if(resultOrg.getEffTime().getHigh() != null)
-						{
-							if(ApplicationUtil.checkDateRange(birthDate, resultOrg.getEffTime().getHigh().getValue()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(resultOrg.getEffTime().getHigh().getLineNumber());
-								issue.setXmlString(resultOrg.getEffTime().getHigh().getXmlString());
-								issuesList.add(issue);
-							}
+							actualPoints++;
 						}
 						else
 						{
@@ -282,7 +215,7 @@ public class LabresultsScorecard {
 							maxPoints++;
 							if(resultObs.getMeasurementTime() != null)
 							{
-								if(ApplicationUtil.checkDateRange(birthDate, resultObs.getMeasurementTime().getValue()))
+								if(ApplicationUtil.checkDateRange(birthDate, resultObs.getMeasurementTime()))
 								{
 									actualPoints++;
 								}
@@ -354,7 +287,8 @@ public class LabresultsScorecard {
 		CCDAXmlSnippet issue= null;
 		if(labresults != null)
 		{
-			if(labresults.getSectionCode()!= null && !ApplicationUtil.isEmpty(labresults.getSectionCode().getDisplayName()))
+			if(labresults.getSectionCode()!= null && !ApplicationUtil.isEmpty(labresults.getSectionCode().getDisplayName())
+													&& ApplicationUtil.isCodeSystemAvailable(labresults.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(labresults.getSectionCode().getCode(), 
@@ -376,7 +310,8 @@ public class LabresultsScorecard {
 			{
 				for (CCDALabResultOrg resultOrg : labresults.getResultOrg())
 				{
-					if(resultOrg.getOrgCode()!= null && !ApplicationUtil.isEmpty(resultOrg.getOrgCode().getDisplayName()))
+					if(resultOrg.getOrgCode()!= null && !ApplicationUtil.isEmpty(resultOrg.getOrgCode().getDisplayName())
+													&& ApplicationUtil.isCodeSystemAvailable(resultOrg.getOrgCode().getCodeSystem()))
 					{
 						maxPoints++;
 						if(ApplicationUtil.validateDisplayName(resultOrg.getOrgCode().getCode(), 
@@ -398,7 +333,8 @@ public class LabresultsScorecard {
 					{
 						for (CCDALabResultObs resultobs : resultOrg.getResultObs())
 						{
-							if(resultobs.getResultCode()!= null && !ApplicationUtil.isEmpty(resultobs.getResultCode().getDisplayName()))
+							if(resultobs.getResultCode()!= null && !ApplicationUtil.isEmpty(resultobs.getResultCode().getDisplayName())
+																&& ApplicationUtil.isCodeSystemAvailable(resultobs.getResultCode().getCodeSystem()))
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(resultobs.getResultCode().getCode(), 
@@ -465,7 +401,7 @@ public class LabresultsScorecard {
 					{
 						for(CCDALabResultObs resultsObs : resultsOrg.getResultObs())
 						{
-							if(resultsObs.getResults() != null && resultsObs.getResults().getXsiType().equalsIgnoreCase("PQ"))
+							if(resultsObs.getResults() != null && ApplicationUtil.checkLabResultType(resultsObs.getResults().getXsiType()))
 							{
 								maxPoints++;
 								if(resultsObs.getResultCode()!= null)
@@ -647,8 +583,7 @@ public class LabresultsScorecard {
 								maxPoints++;
 								if(resultsObs.getMeasurementTime() != null)
 								{
-									if(ApplicationUtil.checkDateRange(resultOrg.getEffTime().getLow(), resultsObs.getMeasurementTime().getValue(), 
-															resultOrg.getEffTime().getHigh()))
+									if(ApplicationUtil.checkDateRange(resultsObs.getMeasurementTime(),resultOrg.getEffTime()))
 									{
 										actualPoints++;
 									}

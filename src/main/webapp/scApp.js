@@ -145,3 +145,22 @@ scApp.directive('linkDisclaimer', function() {
 		templateUrl: 'siteExternalLinkDisclaimer.html'
 	};
 });
+
+scApp.directive('markdownSrc', function ($http) {
+  var converter = new showdown.Converter();
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      $http.get(attrs.markdownSrc).then(function(data) {
+          element.html(converter.makeHtml(data.data));
+      });
+    }
+  };
+});
+
+//*************** FILTERS ********************
+scApp.filter("trust", ['$sce', function($sce) {
+  return function(htmlCode){
+    return $sce.trustAsHtml(htmlCode);
+  }
+}]);

@@ -94,6 +94,15 @@ public class ApplicationUtil {
 		return strArr.length == 0;
 	}
 	
+	public static boolean checkLabResultType(String resultType)
+	{
+		if(resultType!= null)
+		{
+			return resultType.equalsIgnoreCase("PQ") || resultType.equalsIgnoreCase("IVL_PQ") ;
+		}else 
+			return false;
+	}
+	
 	public static boolean isValueEmpty(final CCDADataElement object)
 	{
 		boolean result = true;
@@ -195,15 +204,15 @@ public class ApplicationUtil {
 	
 	public static boolean checkDateRange(String minDate, String actualDate)
 	{
-		Date date;
-		boolean isValid = true;
+		Timestamp ts;
+		boolean isValid = false;
 		String format;
 		try
 		{
 			format = getFormat(actualDate);
-			date = convertStringToDate(actualDate, format);
+			ts = getTsFromString(actualDate, format);
 			format = getFormat(minDate);
-			isValid =  date.after(convertStringToDate(minDate, format)) && date.before(new Date());
+			isValid =  ts.after(getTsFromString(minDate, format)) && ts.before(new Timestamp(new Date().getTime()));
 		}catch(ParseException pe)
 		{
 			isValid = false;
@@ -212,6 +221,51 @@ public class ApplicationUtil {
 			isValid = false;
 		}
 		
+		return isValid;
+	}
+	
+	public static boolean checkDateRange(String minDate, CCDADataElement actualDate)
+	{
+		Date ts;
+		boolean isValid = false;
+		String format;
+		try
+		{
+			if(actualDate!=null)
+			{
+				format = getFormat(actualDate.getValue());
+				ts = getTsFromString(actualDate.getValue(), format);
+				format = getFormat(minDate);
+				isValid =  ts.after(getTsFromString(minDate, format)) && ts.before(new Timestamp(new Date().getTime()));
+			}
+		}catch(ParseException pe)
+		{
+			isValid = false;
+		}catch(NullPointerException ne)
+		{
+			isValid = false;
+		}
+		
+		return isValid;
+	}
+	
+	public static boolean checkDateRange(String minDate, CCDAEffTime effectiveTime)
+	{
+		boolean isValid = false;
+		if(effectiveTime.getValuePresent())
+		{
+			isValid = checkDateRange(minDate, effectiveTime.getValue());
+		}
+		
+		if(effectiveTime.isSingleAdministrationValuePresent())
+		{
+			isValid = checkDateRange(minDate, effectiveTime.getSingleAdministration());
+		}
+		
+		if(effectiveTime.getLowPresent() || effectiveTime.getHighPresent())
+		{
+			isValid = checkDateRange(minDate, effectiveTime.getLow()) || checkDateRange(minDate, effectiveTime.getHigh());
+		}
 		return isValid;
 	}
 	
@@ -243,9 +297,9 @@ public class ApplicationUtil {
 	
 	public static boolean checkDateRange(CCDADataElement minDate,  String actualDate, CCDADataElement maxDate)
 	{
-		Date date;
-		Date minimumDate;
-		Date maximumDate;
+		Date ts;
+		Date minimumTs;
+		Date maximumTs;
 		boolean isValid = false;
 		
 		try
@@ -254,16 +308,17 @@ public class ApplicationUtil {
 			{
 				if(maxDate != null)
 				{
-					minimumDate = convertStringToDate(minDate.getValue(), getFormat(minDate.getValue()));
-					maximumDate = convertStringToDate(maxDate.getValue(), getFormat(maxDate.getValue()));
-					date = convertStringToDate(actualDate.substring(0, 8), ApplicationConstants.DAY_FORMAT);
-					isValid = date.equals(minimumDate)||date.after(minimumDate) &&
-							  date.equals(maximumDate)|| date.before(maximumDate);
+					minimumTs = getTsFromString(minDate.getValue(), getFormat(minDate.getValue()));
+					maximumTs = getTsFromString(maxDate.getValue(), getFormat(maxDate.getValue()));
+					ts = getTsFromString(actualDate, getFormat(actualDate));
+					isValid = ts.equals(minimumTs)||ts.after(minimumTs) &&
+							  ts.equals(maximumTs)|| ts.before(maximumTs);
 				}else if(maxDate==null)
 				{
-					minimumDate = convertStringToDate(minDate.getValue(), getFormat(minDate.getValue()));
-					date = convertStringToDate(actualDate, getFormat(actualDate));
-					isValid = date.equals(minimumDate)||date.after(minimumDate);				}
+					minimumTs = getTsFromString(minDate.getValue(), getFormat(minDate.getValue()));
+					ts = getTsFromString(actualDate, getFormat(actualDate));
+					isValid = ts.equals(minimumTs)||ts.after(minimumTs);				
+				}
 			}
 			
 		}catch(ParseException pe)
@@ -277,14 +332,39 @@ public class ApplicationUtil {
 		return isValid;
 	}
 	
+	public static boolean checkDateRange(CCDAEffTime valueEffetiveTime,CCDAEffTime rangeEffectiveTime)
+	{
+		boolean isValid = false;
+		if(valueEffetiveTime.getValuePresent() && rangeEffectiveTime.getLowPresent() && rangeEffectiveTime.getHighPresent())
+		{
+			isValid = checkDateRange(rangeEffectiveTime.getLow(), valueEffetiveTime.getValue(), rangeEffectiveTime.getHigh());
+		}
+		
+		if(valueEffetiveTime.getValuePresent() && rangeEffectiveTime.getValuePresent())
+		{
+			if(valueEffetiveTime.getValue()!=null && valueEffetiveTime.getValue().equals(rangeEffectiveTime.getValue()))
+			{
+				isValid = true;
+			}else
+			{
+				isValid = checkTimestampRange(valueEffetiveTime.getValue(), rangeEffectiveTime.getValue());
+			}
+		}
+		if(valueEffetiveTime.getLowPresent() && valueEffetiveTime.getHighPresent() && rangeEffectiveTime.getLowPresent() && rangeEffectiveTime.getHighPresent())
+		{
+			isValid = checkDateRange(rangeEffectiveTime.getLow(),rangeEffectiveTime.getHigh(),valueEffetiveTime.getLow(),valueEffetiveTime.getHigh());
+		}
+		return isValid;
+	}
+	
 	
 	public static boolean checkDateRange(CCDADataElement actMinDate, CCDADataElement actMaxDate, CCDADataElement obsMinDate, CCDADataElement obsMaxDate)
 	{
 		boolean isValid = false;
-		Date concernActMinDate;
-		Date concernActMaxDate;
-		Date observationMinDate;
-		Date observationMaxDate;
+		Date concernActMinTs;
+		Date concernActMaxTs;
+		Date observationMinTs;
+		Date observationMaxTs;
 		
 		try
 		{
@@ -294,36 +374,36 @@ public class ApplicationUtil {
 				{
 					if(obsMinDate != null && obsMaxDate==null)
 					{
-						observationMinDate = convertStringToDate(obsMinDate.getValue(),getFormat(obsMinDate.getValue()));
-						concernActMinDate = convertStringToDate(actMinDate.getValue(), getFormat(actMinDate.getValue()));
-						isValid = observationMinDate.equals(concernActMinDate)||observationMinDate.after(concernActMinDate);
+						observationMinTs = getTsFromString(obsMinDate.getValue(),getFormat(obsMinDate.getValue()));
+						concernActMinTs = getTsFromString(actMinDate.getValue(), getFormat(actMinDate.getValue()));
+						isValid = observationMinTs.equals(concernActMinTs)||observationMinTs.after(concernActMinTs);
 					}else if(obsMinDate != null && obsMaxDate!=null)
 					{
-						observationMinDate = convertStringToDate(obsMinDate.getValue(),getFormat(obsMinDate.getValue()));
-						observationMaxDate = convertStringToDate(obsMaxDate.getValue(),getFormat(obsMaxDate.getValue()));
-						concernActMinDate = convertStringToDate(actMinDate.getValue(),getFormat(actMinDate.getValue()));
-						isValid = (observationMinDate.equals(concernActMinDate) || observationMinDate.after(concernActMinDate))&&
-								  (observationMaxDate.equals(observationMinDate) || observationMaxDate.after(observationMinDate));
+						observationMinTs = getTsFromString(obsMinDate.getValue(),getFormat(obsMinDate.getValue()));
+						observationMaxTs = getTsFromString(obsMaxDate.getValue(),getFormat(obsMaxDate.getValue()));
+						concernActMinTs = getTsFromString(actMinDate.getValue(),getFormat(actMinDate.getValue()));
+						isValid = (observationMinTs.equals(concernActMinTs) || observationMinTs.after(concernActMinTs))&&
+								  (observationMaxTs.equals(observationMinTs) || observationMaxTs.after(observationMinTs));
 					}
 				}else if(actMaxDate!=null)
 				{
 					if(obsMinDate != null && obsMaxDate==null)
 					{
-						concernActMinDate = convertStringToDate(actMinDate.getValue(),getFormat(actMinDate.getValue()));
-						concernActMaxDate = convertStringToDate(actMaxDate.getValue(),getFormat(actMaxDate.getValue()));
-						observationMinDate = convertStringToDate(obsMinDate.getValue(),getFormat(obsMinDate.getValue()));
-						isValid = (observationMinDate.equals(concernActMinDate) || observationMinDate.after(concernActMinDate))&&
-									(observationMinDate.equals(concernActMaxDate) || observationMinDate.before(concernActMaxDate));
+						concernActMinTs = getTsFromString(actMinDate.getValue(),getFormat(actMinDate.getValue()));
+						concernActMaxTs = getTsFromString(actMaxDate.getValue(),getFormat(actMaxDate.getValue()));
+						observationMinTs = getTsFromString(obsMinDate.getValue(),getFormat(obsMinDate.getValue()));
+						isValid = (observationMinTs.equals(concernActMinTs) || observationMinTs.after(concernActMinTs))&&
+									(observationMinTs.equals(concernActMaxTs) || observationMinTs.before(concernActMaxTs));
 					}else if(obsMinDate != null && obsMaxDate!=null)
 					{
-						concernActMinDate = convertStringToDate(actMinDate.getValue(),getFormat(actMinDate.getValue()));
-						concernActMaxDate = convertStringToDate(actMaxDate.getValue(),getFormat(actMaxDate.getValue()));
-						observationMinDate = convertStringToDate(obsMinDate.getValue(),getFormat(obsMinDate.getValue()));
-						observationMaxDate = convertStringToDate(obsMaxDate.getValue(),getFormat(obsMaxDate.getValue()));
-						isValid = (observationMinDate.equals(concernActMinDate)|| observationMinDate.after(concernActMinDate))&&
-								  (observationMaxDate.equals(concernActMaxDate) || observationMaxDate.before(concernActMaxDate))&&
-								  (observationMaxDate.equals(observationMinDate) || observationMaxDate.after(observationMinDate))&& 
-								  (observationMaxDate.equals(concernActMaxDate) || observationMaxDate.before(concernActMaxDate));
+						concernActMinTs = getTsFromString(actMinDate.getValue(),getFormat(actMinDate.getValue()));
+						concernActMaxTs = getTsFromString(actMaxDate.getValue(),getFormat(actMaxDate.getValue()));
+						observationMinTs = getTsFromString(obsMinDate.getValue(),getFormat(obsMinDate.getValue()));
+						observationMaxTs = getTsFromString(obsMaxDate.getValue(),getFormat(obsMaxDate.getValue()));
+						isValid = (observationMinTs.equals(concernActMinTs)|| observationMinTs.after(concernActMinTs))&&
+								  (observationMaxTs.equals(concernActMaxTs) || observationMaxTs.before(concernActMaxTs))&&
+								  (observationMaxTs.equals(observationMinTs) || observationMaxTs.after(observationMinTs))&& 
+								  (observationMaxTs.equals(concernActMaxTs) || observationMaxTs.before(concernActMaxTs));
 					}
 				}
 			}
@@ -337,6 +417,33 @@ public class ApplicationUtil {
 		}
 		
 		return isValid;
+	}
+	
+	public static boolean checkTimestampRange(String minDate, String actualDate)
+	{
+		Timestamp ts;
+		boolean isValid = false;
+		String format;
+		try
+		{
+			format = getFormat(actualDate);
+			ts = getTsFromString(actualDate, format);
+			format = getFormat(minDate);
+			isValid =  ts.after(getTsFromString(minDate, format));
+		}catch(ParseException pe)
+		{
+			isValid = false;
+		}catch(NullPointerException ne)
+		{
+			isValid = false;
+		}
+		
+		return isValid;
+	}
+	
+	public static boolean compareTimestamps(Timestamp minTimestamp, Timestamp maxTimestamp)
+	{
+		return maxTimestamp.after(minTimestamp);
 	}
 	
 	
@@ -357,14 +464,157 @@ public class ApplicationUtil {
 	
 	public static boolean validateMinuteFormat(String date)
 	{
-		return date!=null ? date.matches(ApplicationConstants.MINUTE_PATTERN):false;
+		return date!=null ? (date.matches(ApplicationConstants.MINUTE_PATTERN_PLUS_OFFSET) || date.matches(ApplicationConstants.MINUTE_PATTERN_MINUS_OFFSET)):false;
 	}
 	
 	public static boolean validateSecondFormat(String date)
 	{
-		return date!=null ? date.matches(ApplicationConstants.SECOND_PATTERN) : false;
+		return date!=null ? (date.matches(ApplicationConstants.SECOND_PATTERN_MINUS_OFFSET) || date.matches(ApplicationConstants.SECOND_PATTERN_PLUS_OFFSET)) : false;
 	}
 	
+	public static boolean validateYearFormat(CCDADataElement date)
+	{
+		return date!=null ? (date.getValue()!=null ? date.getValue().matches(ApplicationConstants.YEAR_PATTERN):false):false;
+	}
+	
+	public static boolean validateMonthFormat(CCDADataElement date)
+	{
+		return date!=null ? (date.getValue()!=null ? date.getValue().matches(ApplicationConstants.MONTH_PATTERN):false):false;
+	}
+	
+	public static boolean validateDayFormat(CCDADataElement date)
+	{
+		return date!=null ? (date.getValue()!=null ? date.getValue().matches(ApplicationConstants.DAY_PATTERN):false):false;
+	}
+	
+	public static boolean validateMinuteFormat(CCDADataElement date)
+	{
+		return date!=null ? (date.getValue()!=null ? 
+				date.getValue().matches(ApplicationConstants.MINUTE_PATTERN_PLUS_OFFSET) 
+				|| date.getValue().matches(ApplicationConstants.MINUTE_PATTERN_MINUS_OFFSET):false):false;
+	}
+	
+	public static boolean validateSecondFormat(CCDADataElement date)
+	{
+		return date!=null ? (date.getValue()!=null ? 
+				date.getValue().matches(ApplicationConstants.SECOND_PATTERN_MINUS_OFFSET) 
+				|| date.getValue().matches(ApplicationConstants.SECOND_PATTERN_PLUS_OFFSET):false):false;
+	}
+	
+	public static boolean validateYearFormat(CCDAEffTime effectiveTime)
+	{
+		boolean isValid = false;
+		
+		if(effectiveTime.getValuePresent())
+		{
+			isValid = validateYearFormat(effectiveTime.getValue());
+		}
+		
+		if(effectiveTime.isSingleAdministrationValuePresent())
+		{
+			isValid = validateYearFormat(effectiveTime.getSingleAdministration());
+		}
+		
+		if(effectiveTime.getLowPresent() || effectiveTime.getHighPresent())
+		{
+			isValid = validateYearFormat(effectiveTime.getLow()) || validateYearFormat(effectiveTime.getHigh());
+		}
+		
+		return isValid;
+	}
+	
+	public static boolean validateMonthFormat(CCDAEffTime effectiveTime)
+	{
+		boolean isValid = false;
+		
+		if(effectiveTime.getValuePresent())
+		{
+			isValid = validateMonthFormat(effectiveTime.getValue());
+		}
+		
+		if(effectiveTime.isSingleAdministrationValuePresent())
+		{
+			isValid = validateMonthFormat(effectiveTime.getSingleAdministration());
+		}
+		
+		if(effectiveTime.getLowPresent() || effectiveTime.getHighPresent())
+		{
+			isValid = validateMonthFormat(effectiveTime.getLow()) || validateMonthFormat(effectiveTime.getHigh());
+		}
+		
+		return isValid;
+	}
+	
+	public static boolean validateDayFormat(CCDAEffTime effectiveTime)
+	{
+		boolean isValid = false;
+		
+		if(effectiveTime.getValuePresent())
+		{
+			isValid = validateDayFormat(effectiveTime.getValue());
+		}
+		
+		if(effectiveTime.isSingleAdministrationValuePresent())
+		{
+			isValid = validateDayFormat(effectiveTime.getSingleAdministration());
+		}
+		
+		if(effectiveTime.getLowPresent() || effectiveTime.getHighPresent())
+		{
+			isValid = validateDayFormat(effectiveTime.getLow()) || validateDayFormat(effectiveTime.getHigh());
+		}
+		
+		return isValid;
+	}
+	
+	public static boolean validateMinuteFormat(CCDAEffTime effectiveTime)
+	{
+		boolean isValid = false;
+		
+		if(effectiveTime.getValuePresent())
+		{
+			isValid = validateMinuteFormat(effectiveTime.getValue());
+		}
+		
+		if(effectiveTime.isSingleAdministrationValuePresent())
+		{
+			isValid = validateMinuteFormat(effectiveTime.getSingleAdministration());
+		}
+		
+		if(effectiveTime.getLowPresent() || effectiveTime.getHighPresent())
+		{
+			isValid = validateMinuteFormat(effectiveTime.getLow()) || validateMinuteFormat(effectiveTime.getHigh());
+		}
+		
+		return isValid;
+	}
+	
+	public static boolean validateSecondFormat(CCDAEffTime effectiveTime)
+	{
+		boolean isValid = false;
+		
+		if(effectiveTime.getValuePresent())
+		{
+			isValid = validateSecondFormat(effectiveTime.getValue());
+		}
+		
+		if(effectiveTime.isSingleAdministrationValuePresent())
+		{
+			isValid = validateSecondFormat(effectiveTime.getSingleAdministration());
+		}
+		
+		if(effectiveTime.getLowPresent() || effectiveTime.getHighPresent())
+		{
+			isValid = validateSecondFormat(effectiveTime.getLow()) || validateSecondFormat(effectiveTime.getHigh());
+		}
+		
+		return isValid;
+	}
+	
+	public static boolean isCodeSystemAvailable(String codeSystem)
+	{
+		return ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem)==null ? false : true;
+	}
 	
 	public static boolean validateDisplayName(String code, String codeSystem, String displayName )
 	{
@@ -691,9 +941,8 @@ public class ApplicationUtil {
 			{
 				docType = "R1.1";
 			}
-				
 		}
-		else if(ccdaModels.getEncounter()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
+		else if(ccdaModels.getEncounter()!=null && !ccdaModels.getEncounter().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getEncounter().getTemplateId()))
 			{
@@ -702,9 +951,8 @@ public class ApplicationUtil {
 			{
 				docType = "R1.1";
 			}
-				
 		}
-		else if(ccdaModels.getAllergy()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
+		else if(ccdaModels.getMedication()!=null && !ccdaModels.getMedication().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getMedication().getTemplateIds()))
 			{
@@ -713,9 +961,8 @@ public class ApplicationUtil {
 			{
 				docType = "R1.1";
 			}
-				
 		}
-		else if(ccdaModels.getAllergy()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
+		else if(ccdaModels.getImmunization()!=null && !ccdaModels.getImmunization().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getImmunization().getTemplateIds()))
 			{
@@ -725,7 +972,7 @@ public class ApplicationUtil {
 				docType = "R1.1";
 			}
 		}
-		else if(ccdaModels.getVitalSigns()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
+		else if(ccdaModels.getVitalSigns()!=null && !ccdaModels.getVitalSigns().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getVitalSigns().getTemplateIds()))
 			{
@@ -735,7 +982,7 @@ public class ApplicationUtil {
 				docType = "R1.1";
 			}
 		}
-		else if(ccdaModels.getSmokingStatus()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
+		else if(ccdaModels.getSmokingStatus()!=null && !ccdaModels.getSmokingStatus().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getSmokingStatus().getSectionTemplateIds()))
 			{

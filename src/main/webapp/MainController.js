@@ -13,7 +13,8 @@ scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$ti
 		disclaimer: {
 			classesForNavbar: "external-page embedded-navbar",
 			classesForButton: "external-page embedded"
-		}		
+		},
+		contentURL: "https://raw.githubusercontent.com/siteadmin/SITE-Content/master/"
 	};
 	
 		$scope.debugLog = function(debugMessage) {

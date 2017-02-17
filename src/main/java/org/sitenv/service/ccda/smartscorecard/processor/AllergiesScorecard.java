@@ -19,8 +19,7 @@ public class AllergiesScorecard {
 	
 	public Category getAllergiesCategory(CCDAAllergy allergies, String birthDate,String docType)
 	{
-		
-		if(allergies!= null && allergies.isSectionNullFlavourWithNI())
+		if(allergies== null || allergies.isSectionNullFlavourWithNI())
 		{
 			return new Category(ApplicationConstants.CATEGORIES.ALLERGIES.getCategoryDesc(),true);
 		}
@@ -59,45 +58,18 @@ public class AllergiesScorecard {
 					maxPoints++;
 					if(allergyConcern.getEffTime() != null)
 					{
-						if(allergyConcern.getEffTime().getLow() != null)
+						if(ApplicationUtil.validateDayFormat(allergyConcern.getEffTime())||
+									ApplicationUtil.validateMinuteFormat(allergyConcern.getEffTime()) ||
+									ApplicationUtil.validateSecondFormat(allergyConcern.getEffTime()))
 						{
-							if(ApplicationUtil.validateDayFormat(allergyConcern.getEffTime().getLow().getValue())||
-									ApplicationUtil.validateMinuteFormat(allergyConcern.getEffTime().getLow().getValue()) ||
-									ApplicationUtil.validateSecondFormat(allergyConcern.getEffTime().getLow().getValue()))
-							{
-								actualPoints++;
-							}
-							else 
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(allergyConcern.getEffTime().getLow().getLineNumber());
-								issue.setXmlString(allergyConcern.getEffTime().getLow().getXmlString());
-								issuesList.add(issue);
-							}
+							actualPoints++;
 						}
-						else
+						else 
 						{
 							issue = new CCDAXmlSnippet();
 							issue.setLineNumber(allergyConcern.getEffTime().getLineNumber());
 							issue.setXmlString(allergyConcern.getEffTime().getXmlString());
 							issuesList.add(issue);
-						}
-						if(allergyConcern.getEffTime().getHigh() != null)
-						{
-							maxPoints++;
-							if(ApplicationUtil.validateDayFormat(allergyConcern.getEffTime().getHigh().getValue()) ||
-									ApplicationUtil.validateMinuteFormat(allergyConcern.getEffTime().getHigh().getValue()) ||
-									ApplicationUtil.validateSecondFormat(allergyConcern.getEffTime().getHigh().getValue()))
-							{
-								actualPoints++;
-							}
-							else 
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(allergyConcern.getEffTime().getHigh().getLineNumber());
-								issue.setXmlString(allergyConcern.getEffTime().getHigh().getXmlString());
-								issuesList.add(issue);
-							}
 						}
 					}
 					else 
@@ -115,45 +87,18 @@ public class AllergiesScorecard {
 							maxPoints++;
 							if(allergyObservation.getEffTime() != null)
 							{
-								if(allergyObservation.getEffTime().getLow() != null)
+								if(ApplicationUtil.validateDayFormat(allergyObservation.getEffTime()) || 
+											ApplicationUtil.validateMinuteFormat(allergyObservation.getEffTime()) ||
+											ApplicationUtil.validateSecondFormat(allergyObservation.getEffTime()))
 								{
-									if(ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getLow().getValue()) || 
-											ApplicationUtil.validateMinuteFormat(allergyObservation.getEffTime().getLow().getValue()) ||
-											ApplicationUtil.validateSecondFormat(allergyObservation.getEffTime().getLow().getValue()))
-									{
-										actualPoints++;
-									}
-									else 
-									{
-										issue = new CCDAXmlSnippet();
-										issue.setLineNumber(allergyObservation.getEffTime().getLow().getLineNumber());
-										issue.setXmlString(allergyObservation.getEffTime().getLow().getXmlString());
-										issuesList.add(issue);
-									}
+									actualPoints++;
 								}
-								else
+								else 
 								{
 									issue = new CCDAXmlSnippet();
 									issue.setLineNumber(allergyObservation.getEffTime().getLineNumber());
 									issue.setXmlString(allergyObservation.getEffTime().getXmlString());
 									issuesList.add(issue);
-								}
-								if(allergyObservation.getEffTime().getHigh() != null)
-								{
-									maxPoints++;
-									if(ApplicationUtil.validateDayFormat(allergyObservation.getEffTime().getHigh().getValue()) || 
-											ApplicationUtil.validateMinuteFormat(allergyObservation.getEffTime().getHigh().getValue()) ||
-											ApplicationUtil.validateSecondFormat(allergyObservation.getEffTime().getHigh().getValue()))
-									{
-										actualPoints++;
-									}
-									else 
-									{
-										issue = new CCDAXmlSnippet();
-										issue.setLineNumber(allergyObservation.getEffTime().getHigh().getLineNumber());
-										issue.setXmlString(allergyObservation.getEffTime().getHigh().getXmlString());
-										issuesList.add(issue);
-									}
 								}
 							}
 							else
@@ -223,41 +168,16 @@ public class AllergiesScorecard {
 					maxPoints++;
 					if(allergyConcern.getEffTime() != null)
 					{
-						if(allergyConcern.getEffTime().getLow() != null)
+						if(ApplicationUtil.checkDateRange(birthDate, allergyConcern.getEffTime()))
 						{
-							if(ApplicationUtil.checkDateRange(birthDate, allergyConcern.getEffTime().getLow().getValue()))
-							{
-								actualPoints++;
-							}
-							else 
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(allergyConcern.getEffTime().getLow().getLineNumber());
-								issue.setXmlString(allergyConcern.getEffTime().getLow().getXmlString());
-								issuesList.add(issue);
-							}
+							actualPoints++;
 						}
-						else
+						else 
 						{
 							issue = new CCDAXmlSnippet();
 							issue.setLineNumber(allergyConcern.getEffTime().getLineNumber());
 							issue.setXmlString(allergyConcern.getEffTime().getXmlString());
 							issuesList.add(issue);
-						}
-						if(allergyConcern.getEffTime().getHigh() != null)
-						{
-							maxPoints++;
-							if(ApplicationUtil.checkDateRange(birthDate, allergyConcern.getEffTime().getHigh().getValue()))
-							{
-								actualPoints++;
-							}
-							else 
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(allergyConcern.getEffTime().getHigh().getLineNumber());
-								issue.setXmlString(allergyConcern.getEffTime().getHigh().getXmlString());
-								issuesList.add(issue);
-							}
 						}
 					}
 					else 
@@ -275,19 +195,9 @@ public class AllergiesScorecard {
 							maxPoints++;
 							if(allergyObservation.getEffTime() != null)
 							{
-								if(allergyObservation.getEffTime().getLow() != null)
+								if(ApplicationUtil.checkDateRange(birthDate, allergyObservation.getEffTime()))
 								{
-									if(ApplicationUtil.checkDateRange(birthDate, allergyObservation.getEffTime().getLow().getValue()))
-									{
-										actualPoints++;
-									}
-									else 
-									{
-										issue = new CCDAXmlSnippet();
-										issue.setLineNumber(allergyObservation.getEffTime().getLow().getLineNumber());
-										issue.setXmlString(allergyObservation.getEffTime().getLow().getXmlString());
-										issuesList.add(issue);
-									}
+									actualPoints++;
 								}
 								else 
 								{
@@ -295,21 +205,6 @@ public class AllergiesScorecard {
 									issue.setLineNumber(allergyObservation.getEffTime().getLineNumber());
 									issue.setXmlString(allergyObservation.getEffTime().getXmlString());
 									issuesList.add(issue);
-								}
-								if(allergyObservation.getEffTime().getHigh() != null)
-								{
-									maxPoints++;
-									if(ApplicationUtil.checkDateRange(birthDate, allergyObservation.getEffTime().getHigh().getValue()))
-									{
-										actualPoints++;
-									}
-									else 
-									{
-										issue = new CCDAXmlSnippet();
-										issue.setLineNumber(allergyObservation.getEffTime().getHigh().getLineNumber());
-										issue.setXmlString(allergyObservation.getEffTime().getHigh().getXmlString());
-										issuesList.add(issue);
-									}
 								}
 							}
 							else
@@ -372,7 +267,8 @@ public class AllergiesScorecard {
 		CCDAXmlSnippet issue= null;
 		if(allergies != null)
 		{
-			if(allergies.getSectionCode() != null && !ApplicationUtil.isEmpty(allergies.getSectionCode().getDisplayName()))
+			if(allergies.getSectionCode() != null && !ApplicationUtil.isEmpty(allergies.getSectionCode().getDisplayName()) 
+																			&& ApplicationUtil.isCodeSystemAvailable(allergies.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(allergies.getSectionCode().getCode(), allergies.getSectionCode().getCodeSystem(),
@@ -397,7 +293,8 @@ public class AllergiesScorecard {
 					{
 						for (CCDAAllergyObs allergyObs : allergyConcern.getAllergyObs())
 						{
-							if(allergyObs.getAllergyIntoleranceType() != null && !ApplicationUtil.isEmpty(allergyObs.getAllergyIntoleranceType().getDisplayName()))
+							if(allergyObs.getAllergyIntoleranceType() != null && !ApplicationUtil.isEmpty(allergyObs.getAllergyIntoleranceType().getDisplayName())
+																				&& ApplicationUtil.isCodeSystemAvailable(allergyObs.getAllergyIntoleranceType().getCodeSystem()))
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(allergyObs.getAllergyIntoleranceType().getCode(), 
@@ -415,7 +312,8 @@ public class AllergiesScorecard {
 								}
 							}
 							
-							if(allergyObs.getAllergySubstance() != null && !ApplicationUtil.isEmpty(allergyObs.getAllergySubstance().getDisplayName()))
+							if(allergyObs.getAllergySubstance() != null && !ApplicationUtil.isEmpty(allergyObs.getAllergySubstance().getDisplayName())
+																			&& ApplicationUtil.isCodeSystemAvailable(allergyObs.getAllergySubstance().getCodeSystem()))
 							{
 								maxPoints++;
 								if(ApplicationUtil.validateDisplayName(allergyObs.getAllergySubstance().getCode(), 

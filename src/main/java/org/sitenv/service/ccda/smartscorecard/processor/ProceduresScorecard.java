@@ -18,7 +18,7 @@ public class ProceduresScorecard {
 	
 	public Category getProceduresCategory(CCDAProcedure procedures, String birthDate,String docType)
 	{
-		if(procedures!=null && procedures.isSectionNullFlavourWithNI())
+		if(procedures==null || procedures.isSectionNullFlavourWithNI())
 		{
 			return new Category(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc(),true);
 		}
@@ -47,7 +47,8 @@ public class ProceduresScorecard {
 		CCDAXmlSnippet issue= null;
 		if(procedures != null)
 		{
-			if(procedures.getSectionCode()!= null && !ApplicationUtil.isEmpty(procedures.getSectionCode().getDisplayName()))
+			if(procedures.getSectionCode()!= null && !ApplicationUtil.isEmpty(procedures.getSectionCode().getDisplayName())
+												&& ApplicationUtil.isCodeSystemAvailable(procedures.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
 				if(ApplicationUtil.validateDisplayName(procedures.getSectionCode().getCode(), 
@@ -69,7 +70,8 @@ public class ProceduresScorecard {
 			{
 				for (CCDAProcActProc procAct : procedures.getProcActsProcs())
 				{
-					if(procAct.getProcCode() != null && !ApplicationUtil.isEmpty(procAct.getProcCode().getDisplayName()))
+					if(procAct.getProcCode() != null && !ApplicationUtil.isEmpty(procAct.getProcCode().getDisplayName())
+							&& ApplicationUtil.isCodeSystemAvailable(procAct.getProcCode().getCodeSystem()))
 					{
 						maxPoints++;
 						if(ApplicationUtil.validateDisplayName(procAct.getProcCode().getCode(), 

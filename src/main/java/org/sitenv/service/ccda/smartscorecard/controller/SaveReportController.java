@@ -1,11 +1,18 @@
 package org.sitenv.service.ccda.smartscorecard.controller;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -51,12 +58,15 @@ import com.lowagie.text.DocumentException;
 public class SaveReportController {
 
 	public static final String SAVE_REPORT_CHARSET_NAME = "UTF8";
+	private static final int CONFORMANCE_ERROR_INDEX = 0;
+	private static final int CERTIFICATION_FEEDBACK_INDEX = 1;
 
 	/**
 	 * Converts received JSON to a ResponseTO POJO (via method signature
 	 * automagically), converts the ResponseTO to a cleaned (parsable) HTML
 	 * report including relevant data, converts the HTML to a PDF report, and,
-	 * finally, streams the data for consumption
+	 * finally, streams the data for consumption. 
+	 * This is intended to be called from a frontend which has already collected the JSON results.
 	 * 
 	 * @param jsonReportData
 	 *            JSON which resembles ResponseTO
@@ -66,16 +76,15 @@ public class SaveReportController {
 	@RequestMapping(value = "/savescorecardservice", method = RequestMethod.POST)
 	public void savescorecardservice(@RequestBody ResponseTO jsonReportData,
 			HttpServletResponse response) {
-
 		convertHTMLToPDFAndStreamToOutput(
-				ensureLogicalParseTreeInHTML(convertReportToHTML(jsonReportData)),
+				ensureLogicalParseTreeInHTML(convertReportToHTML(jsonReportData, SaveReportType.MATCH_UI)),
 				response);
-
 	}
 
 	/**
 	 * A single service to handle a pure back-end implementation of the
-	 * scorecard which streams back a PDF report
+	 * scorecard which streams back a PDF report. 
+	 * This does not require the completed JSON up-front, it creates it from the file sent.
 	 * 
 	 * @param ccdaFile
 	 *            The C-CDA XML file intended to be scored
@@ -83,8 +92,39 @@ public class SaveReportController {
 	@RequestMapping(value = "/savescorecardservicebackend", method = RequestMethod.POST)
 	public void savescorecardservicebackend(
 			@RequestParam("ccdaFile") MultipartFile ccdaFile,
+			HttpServletResponse response) {		
+		handlePureBackendCall(ccdaFile, response, SaveReportType.MATCH_UI);
+	}
+	
+	/**
+	 * A single service to handle a pure back-end implementation of the
+	 * scorecard which streams back a PDF report. 
+	 * This does not require the completed JSON up-front, it creates it from the file sent.
+	 * This differs from the savescorecardservicebackend in that it has its own specific format of the results 
+	 * (dynamic and static table with 'call outs', no filename, more overview type content, etc.) 
+	 * and is intended to be used when a Direct Message is received with a C-CDA document.
+	 * 
+	 * @param ccdaFile
+	 *            The C-CDA XML file intended to be scored
+	 * @param sender
+	 * 			  The email address of the sender to be logged in the report
+	 */
+	@RequestMapping(value = "/savescorecardservicebackendsummary", method = RequestMethod.POST)
+	public void savescorecardservicebackendsummary(
+			@RequestParam("ccdaFile") MultipartFile ccdaFile, @RequestParam("sender") String sender,
 			HttpServletResponse response) {
-
+		if(ApplicationUtil.isEmpty(sender)) {
+			sender = "Unknown Sender";
+		}
+		handlePureBackendCall(ccdaFile, response, SaveReportType.SUMMARY, sender);
+	}
+	
+	private static void handlePureBackendCall(MultipartFile ccdaFile, HttpServletResponse response, SaveReportType reportType) {
+		handlePureBackendCall(ccdaFile, response, reportType, null);
+	}
+	
+	private static void handlePureBackendCall(MultipartFile ccdaFile, HttpServletResponse response, SaveReportType reportType, 
+			String sender) {
 		ResponseTO pojoResponse = callCcdascorecardservice(ccdaFile);
 		if (pojoResponse == null) {
 			pojoResponse = new ResponseTO();
@@ -100,13 +140,18 @@ public class SaveReportController {
 					&& ccdaFile.getName().contains(".")) {
 				pojoResponse.setFilename(ccdaFile.getName());
 			}
+			if(ApplicationUtil.isEmpty(pojoResponse.getFilename())) {
+				pojoResponse.setFilename("Unknown");
+			}
 			// otherwise it uses the name given by ccdascorecardservice
 		}
+		if(reportType == SaveReportType.SUMMARY) {
+			pojoResponse.setFilename(sender);
+		}
 		convertHTMLToPDFAndStreamToOutput(
-				ensureLogicalParseTreeInHTML(convertReportToHTML(pojoResponse)),
+				ensureLogicalParseTreeInHTML(convertReportToHTML(pojoResponse, reportType)),
 				response);
-
-	}
+	};
 
 	protected static ResponseTO callCcdascorecardservice(MultipartFile ccdaFile) {
 		ResponseTO pojoResponse = null;
@@ -163,7 +208,7 @@ public class SaveReportController {
 	 *            the ResponseTO report intended to be converted to HTML
 	 * @return the converted HTML report as a String
 	 */
-	protected static String convertReportToHTML(ResponseTO report) {
+	protected static String convertReportToHTML(ResponseTO report, SaveReportType reportType) {
 		StringBuffer sb = new StringBuffer();
 		appendOpeningHtml(sb);
 
@@ -183,14 +228,30 @@ public class SaveReportController {
 					List<ReferenceResult> referenceResults = report
 							.getReferenceResults();
 
-					appendHeader(sb, report, results);
+					appendHeader(sb, report, results, reportType);
 					appendHorizontalRuleWithBreaks(sb);
-
+					
+					if(reportType == SaveReportType.SUMMARY) {						
+						appendPreTopLevelResultsContent(sb);
+					}
+					
 					appendTopLevelResults(sb, results, categories,
-							referenceResults);
+							referenceResults, reportType, report.getCcdaDocumentType());
+					if(reportType == SaveReportType.MATCH_UI) {
+						appendHorizontalRuleWithBreaks(sb);
+						appendHeatmap(sb, results, categories,
+								referenceResults);
+					}
+					sb.append("<br />");
 					appendHorizontalRuleWithBreaks(sb);
-
-					appendDetailedResults(sb, categories, referenceResults);
+					
+					if(reportType == SaveReportType.MATCH_UI) {
+						appendDetailedResults(sb, categories, referenceResults);					
+					}
+					if(reportType == SaveReportType.SUMMARY) {
+						appendPictorialGuide(sb, categories, referenceResults);
+						appendPictorialGuideKey(sb);
+					} 					
 				}
 			} else {
 				// report.getResults() == null
@@ -212,111 +273,474 @@ public class SaveReportController {
 		sb.append("<html>");
 		sb.append("<head>");
 		sb.append("<title>SITE C-CDA Scorecard Report</title>");
+		appendStyleSheet(sb);
 		sb.append("</head>");
 		sb.append("<body style='font-family: \"Helvetica Neue\",Helvetica,Arial,sans-serif;'>");
 	}
+	
+	private static void appendStyleSheet(StringBuffer sb) {
+		sb.append("<style>")
+		     .append("  .site-header {")
+		     .append("    background: url(\"https://sitenv.org/assets/images/site/bg-header-1920x170.png\") repeat-x center top #1fdbfe;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  .site-logo {")
+		     .append("    text-decoration: none;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  table {")
+		     .append("    font-family: arial, sans-serif;")
+		     .append("    border-collapse: separate;")
+		     .append("    width: 100%;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  td,")
+		     .append("  th {")
+		     .append("    border: 1px solid #dddddd;")
+		     .append("    text-align: left;")
+		     .append("    padding: 8px;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #dynamicTable {")
+		     .append("    border-collapse: collapse;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #dynamicTable tr:nth-child(even) {")
+		     .append("    background-color: #dddddd;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #staticTable {")
+		     .append("    font-size: 11px;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  .removeBorder {")
+		     .append("    border: none;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #notScoredRowPopOutLink {")
+		     .append("    border-top: 6px double MAGENTA;")
+		     .append("    border-bottom: none;")
+		     .append("    border-left: none;")
+		     .append("    border-right: none;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #perfectRowPopOutLink {")
+		     .append("    border-top: 6px double MEDIUMPURPLE;")
+		     .append("    border-bottom: none;")
+		     .append("    border-left: none;")
+		     .append("    border-right: none;")
+		     .append("  }  ")
+		     .append(System.lineSeparator())
+		     .append("  #gradePopOutLink {")
+		     .append("    border-left: 6px solid MEDIUMSEAGREEN;")
+		     .append("    border-right: none;")
+		     .append("    border-bottom: none;")
+		     .append("    border-top: none;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #issuePopOutLink {")
+		     .append("    border-left: 6px double orange;")
+		     .append("    border-right: 6px double orange;")
+		     .append("    border-bottom: none;")
+		     .append("    border-top: none;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #errorPopOutLink {")
+		     .append("    border-right: 6px solid red;")
+		     .append("    border-left: none;")
+		     .append("    border-bottom: none;")
+		     .append("    border-top: none;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #feedbackPopOutLink {")
+		     .append("    border-top: 6px double DEEPSKYBLUE;")
+		     .append("    border-bottom: none;")
+		     .append("    border-left: none;")
+		     .append("    border-right: none;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #notScoredRowPopOut {")
+		     .append("    border: 6px double MAGENTA;")
+		     .append("    border-radius: 0px 25px 25px 25px;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #perfectRowPopOut {")
+		     .append("    border: 6px double MEDIUMPURPLE;")
+		     .append("    border-radius: 25px 0px 25px 25px;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #gradePopOut {")
+		     .append("    border: 6px solid MEDIUMSEAGREEN;")
+		     .append("    border-radius: 25px 25px 25px 25px;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #issuePopOut {")
+		     .append("    border: 6px double orange;")
+		     .append("    border-radius: 25px 25px 0px 0px;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #errorPopOut {")
+		     .append("    border: 6px solid red;")
+		     .append("    border-radius: 25px 25px 25px 25px;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #feedbackPopOut {")
+		     .append("    border: 6px double DEEPSKYBLUE;")
+		     .append("    border-radius: 0px 25px 25px 25px;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #perfectRowLeftHeader {")
+		     .append("    border-left: 6px double MEDIUMPURPLE;")
+		     .append("    border-top: 6px double MEDIUMPURPLE;")
+		     .append("    border-bottom: 6px double MEDIUMPURPLE;")
+		     .append("  }")
+		     .append("  #perfectRowRightHeader {")
+		     .append("    border-right: 6px double MEDIUMPURPLE;")
+		     .append("    border-top: 6px double MEDIUMPURPLE;")
+		     .append("    border-bottom: 6px double MEDIUMPURPLE;")
+		     .append("  }")
+		     .append("  .perfectRowMiddleHeader {")
+		     .append("    border-top: 6px double MEDIUMPURPLE;")
+		     .append("    border-bottom: 6px double MEDIUMPURPLE;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #notScoredRowLeftHeader {")
+		     .append("    border-left: 6px double MAGENTA;")
+		     .append("    border-top: 6px double MAGENTA;")
+		     .append("    border-bottom: 6px double MAGENTA;")
+		     .append("  }")
+		     .append("  #notScoredRowRightHeader {")
+		     .append("    border-right: 6px double MAGENTA;")
+		     .append("    border-top: 6px double MAGENTA;")
+		     .append("    border-bottom: 6px double MAGENTA;")
+		     .append("  }")
+		     .append("  .notScoredRowMiddleHeader {")
+		     .append("    border-top: 6px double MAGENTA;")
+		     .append("    border-bottom: 6px double MAGENTA;")
+		     .append("  } ")
+		     .append(System.lineSeparator())
+		     .append("  #gradeHeader {")
+		     .append("    border: 6px solid MEDIUMSEAGREEN;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #issueHeader {")
+		     .append("    border: 6px double orange;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #errorHeader {")
+		     .append("    border: 6px solid red;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #feedbackHeader {")
+		     .append("    border: 6px double DEEPSKYBLUE;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #keyGradeHeader {")
+		     .append("    color: MEDIUMSEAGREEN;")
+		     .append("    font-weight: bold;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #keyIssueHeader {")
+		     .append("    color: orange;")
+		     .append("    font-weight: bold;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #keyErrorHeader {")
+		     .append("    color: red;")
+		     .append("    font-weight: bold;")
+		     .append("  }")
+		     .append(System.lineSeparator())
+		     .append("  #keyFeedbackHeader {")
+		     .append("    color: DEEPSKYBLUE;")
+		     .append("    font-weight: bold;")
+		     .append("  }")
+		     .append("</style>");
+	}
 
 	private static void appendHeader(StringBuffer sb, ResponseTO report,
-			Results results) {
+			Results results, SaveReportType reportType) {
 		sb.append("<header id='topOfScorecard'>");
-		final String logoPath = "https://devportal.sitenv.org/site-portal-responsivebootstrap-theme/images/site/site-header.png";
 		sb.append("<center>");
-		sb.append("<img src='" + logoPath + "' alt='SITE logo' width='100%'>");
+		
+		sb.append("<div class=\"site-header\">")
+	     .append("  <a class=\"site-logo\" href=\"https://www.healthit.gov/\"")
+	     .append("    rel=\"external\" title=\"HealthIT.gov\"> <img alt=\"HealthIT.gov\"")
+	     .append("    src=\"https://sitenv.org/assets/images/site/healthit.gov.logo.png\" width='40%'>")
+	     .append("  </a>")
+	     .append("</div>");		
 
 		sb.append("<br />");
 		appendHorizontalRuleWithBreaks(sb);
 
-		sb.append("<h1>" + "C-CDA " + results.getDocType() + " Scorecard For: ");
-		sb.append("<h2>" + report.getFilename() + "</h2>");
+		sb.append("<h1>" + "C-CDA ");
+		if(reportType == SaveReportType.SUMMARY) {
+			sb.append("Scorecard For "
+					+ (report.getCcdaDocumentType() != null ? report
+							.getCcdaDocumentType() : "document") + "</h1>");
+			sb.append("<h5>");
+			sb.append("<span style='float: left'>" + "Submitted By: "
+			+ (!ApplicationUtil.isEmpty(report.getFilename()) ? report.getFilename() : "Unknown")
+			+ "</span>");
+			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			sb.append("<span style='float: right'>" + "Submission Time: " + dateFormat.format(new Date()) + "</span>");
+			sb.append("</h5>");
+			sb.append("<div style='clear: both'></div>");
+		} else {
+			sb.append(results.getDocType() + " "  
+					+ (report.getCcdaDocumentType() != null ? report .getCcdaDocumentType() : "document") 
+					+ " Scorecard For:" + "</h1>");		
+			sb.append("<h2>" + report.getFilename() + "</h2>");
+		}
 		sb.append("</center>");
 		sb.append("</header>");
 	}
-
+	
+	private static void appendPreTopLevelResultsContent(StringBuffer sb) {
+		sb.append("<p>")
+	     .append("  The C-CDA Scorecard enables providers, implementers, and health")
+	     .append("  IT professionals with a tool that compares how artifacts (transition")
+	     .append("  of care documents, care plans etc) created by your organization")
+	     .append("  stack up against the HL7 C-CDA implementation guide and HL7 best")
+	     .append("  practices. The C-CDA Scorecard promotes best practices in C-CDA")
+	     .append("  implementation by assessing key aspects of the structured data found")
+	     .append("  in individual documents. The Scorecard tool provides a rough")
+	     .append("  quantitative assessment and highlights areas of improvement which")
+	     .append("  can be made today to move the needle forward in interoperability of")
+	     .append("  C-CDA documents. The ")
+	     .append("  <a href=\"http://www.hl7.org/documentcenter/public/wg/structure/C-CDA%20Scorecard%20Rubrics%203.pptx\">"
+	     			+ "best practices and quantitative scoring criteria"
+	     			+ "</a>")
+	     .append("  have been developed by HL7 through the HL7-ONC Cooperative agreement")
+	     .append("  to improve the implementation of health care standards. We hope that")
+	     .append("  providers and health IT developers will use the tool to identify and")
+	     .append("  resolve issues around C-CDA document interoperability in their")
+	     .append("  health IT systems.")
+	     .append("<p>")
+	     .append("<p>")
+	     .append("The report has three sections. The first section contains the summary of ")
+	     .append("the C-CDA Scorecard results highlighting the overall document grade ")
+	     .append("compared to the industry, a quantitative score out of a maximum of 100. ")
+	     .append("The second section identifies areas for improvement organized by ")
+	     .append("clinical domains in a table. The third section contains a guide to help ")
+	     .append("the providers interpret the Scorecard results and take appropriate action.")
+	     .append("</p>");
+	}
+	
 	private static void appendTopLevelResults(StringBuffer sb, Results results,
-			List<Category> categories, List<ReferenceResult> referenceResults) {
-
-		sb.append("<h3>Scorecard Grade: " + results.getFinalGrade() + "</h3>");
-		sb.append("<ul><li>");
-		sb.append("<p>Your document scored a " + "<b>"
-				+ results.getFinalGrade() + "</b>"
-				+ " compared to an industry average of " + "<b>"
-				+ results.getIndustryAverageGrade() + "</b>" + ".</p>");
-		sb.append("</ul></li>");
-
-		sb.append("<h3>Scorecard Score: " + results.getFinalNumericalGrade()
-				+ "</h3>");
-		sb.append("<ul><li>");
-		sb.append("<p>Your document scored " + "<b>"
-				+ +results.getFinalNumericalGrade() + "</b>" + " out of "
-				+ "<b>" + " 100 " + "</b>" + " total possible points.</p>");
-		sb.append("</ul></li>");
-
-		boolean isSingular = results.getNumberOfIssues() == 1;
-		appendSummaryRow(sb, results.getNumberOfIssues(), "Scorecard Issues",
-				null, isSingular ? "Scorecard Issue" : "Scorecard Issues",
-				isSingular);
-		sb.append("</ul></li>");
-
-		String messageSuffix = null;
-		if (ApplicationUtil.isEmpty(referenceResults)) {
-			for (ReferenceInstanceType refType : ReferenceInstanceType.values()) {
-				if (refType == ReferenceInstanceType.CERTIFICATION_2015) {
-					messageSuffix = "results";
+			List<Category> categories, List<ReferenceResult> referenceResults, SaveReportType reportType, String ccdaDocumentType) {
+		
+		boolean isReferenceResultsEmpty = ApplicationUtil.isEmpty(referenceResults);
+		int conformanceErrorCount = isReferenceResultsEmpty ? 0 : referenceResults.get(CONFORMANCE_ERROR_INDEX).getTotalErrorCount();
+		int certificationFeedbackCount = isReferenceResultsEmpty ? 0 : referenceResults.get(CERTIFICATION_FEEDBACK_INDEX).getTotalErrorCount();
+		if(reportType == SaveReportType.SUMMARY) {
+			//brief summary of overall document results (without scorecard issues count listed)
+			sb.append("<h3>Summary</h3>");
+			sb.append("<p>"
+					+ "Your " + ccdaDocumentType + " document received a grade of <b>" + results.getFinalGrade() + "</b>"
+					+ " compared to an industry average of " + "<b>" + results.getIndustryAverageGrade() + "</b>" + ". "
+					+ "The document scored " + "<b>" + results.getFinalNumericalGrade() + "/100" + "</b>"
+					+ " and is "
+					+ (conformanceErrorCount > 0 ? "non-compliant" : "compliant")
+					+ " with the HL7 C-CDA IG"
+					+ " and is "
+					+ (certificationFeedbackCount > 0 ? "non-compliant" : "compliant")
+					+ " with 2015 Edition Certification requirements. "
+					+ "The detailed results organized by clinical domains are provided in the table below:"
+					+ "</p>");
+			//dynamic table
+			appendHorizontalRuleWithBreaks(sb);
+			sb.append("<br />");			
+			sb.append("<h2>Scorecard Results by Clinical Domain</h2>");
+			appendDynamicTopLevelResultsTable(sb, results, categories, referenceResults);
+		} else {		
+			sb.append("<h3>Scorecard Grade: " + results.getFinalGrade() + "</h3>");
+			sb.append("<ul><li>");
+			sb.append("<p>Your document scored a " + "<b>"
+					+ results.getFinalGrade() + "</b>"
+					+ " compared to an industry average of " + "<b>"
+					+ results.getIndustryAverageGrade() + "</b>" + ".</p>");
+			sb.append("</ul></li>");
+	
+			sb.append("<h3>Scorecard Score: " + results.getFinalNumericalGrade()
+					+ "</h3>");
+			sb.append("<ul><li>");
+			sb.append("<p>Your document scored " + "<b>"
+					+ +results.getFinalNumericalGrade() + "</b>" + " out of "
+					+ "<b>" + " 100 " + "</b>" + " total possible points.</p>");
+			sb.append("</ul></li>");
+	
+			boolean isSingular = results.getNumberOfIssues() == 1;
+			appendSummaryRow(sb, results.getNumberOfIssues(), "Scorecard Issues",
+					null, isSingular ? "Scorecard Issue" : "Scorecard Issues",
+					isSingular);
+			sb.append("</ul></li>");
+	
+			String messageSuffix = null;
+			if (isReferenceResultsEmpty) {
+				for (ReferenceInstanceType refType : ReferenceInstanceType.values()) {
+					if (refType == ReferenceInstanceType.CERTIFICATION_2015) {
+						messageSuffix = "results";
+					}
+					appendSummaryRow(sb, 0, refType.getTypePrettyName(),
+							messageSuffix, refType.getTypePrettyName(), false, reportType);
+					sb.append("</ul></li>");
 				}
-				appendSummaryRow(sb, 0, refType.getTypePrettyName(),
-						messageSuffix, refType.getTypePrettyName(), false);
-				sb.append("</ul></li>");
-			}
-		} else {
-			for (ReferenceResult refResult : referenceResults) {
-				int refErrorCount = refResult.getTotalErrorCount();
-				isSingular = refErrorCount == 1;
-				String refTypeName = refResult.getType().getTypePrettyName();
-				String messageSubject = "";
-				if (refResult.getType() == ReferenceInstanceType.IG_CONFORMANCE) {
-					messageSubject = isSingular ? refTypeName.substring(0,
-							refTypeName.length() - 1) : refTypeName;
-				} else if (refResult.getType() == ReferenceInstanceType.CERTIFICATION_2015) {
-					messageSuffix = isSingular ? "result" : "results";
-					messageSubject = refTypeName;
+			} else {
+				for (ReferenceResult refResult : referenceResults) {
+					int refErrorCount = refResult.getTotalErrorCount();
+					isSingular = refErrorCount == 1;
+					String refTypeName = refResult.getType().getTypePrettyName();
+					String messageSubject = "";
+					if (refResult.getType() == ReferenceInstanceType.IG_CONFORMANCE) {
+						messageSubject = isSingular ? refTypeName.substring(0,
+								refTypeName.length() - 1) : refTypeName;
+					} else if (refResult.getType() == ReferenceInstanceType.CERTIFICATION_2015) {
+						messageSuffix = isSingular ? "result" : "results";
+						messageSubject = refTypeName;
+					}
+					appendSummaryRow(sb, refErrorCount, refTypeName, messageSuffix,
+							messageSubject, isSingular, reportType);
+					sb.append("</ul></li>");
 				}
-				appendSummaryRow(sb, refErrorCount, refTypeName, messageSuffix,
-						messageSubject, isSingular);
-				sb.append("</ul></li>");
 			}
 		}
+		
+	}
+	
+	private static int getFailingSectionSpecificErrorCount(String categoryName,
+			ReferenceInstanceType refType, List<ReferenceResult> referenceResults) {
+		if (!ApplicationUtil.isEmpty(referenceResults)) {
+			if (refType == ReferenceInstanceType.IG_CONFORMANCE) {
+				List<ReferenceError> igErrors = 
+						referenceResults.get(CONFORMANCE_ERROR_INDEX).getReferenceErrors();
+				if (!ApplicationUtil.isEmpty(igErrors)) {
+					return getFailingSectionSpecificErrorCountProcessor(categoryName, igErrors);
+				}
+			} else if (refType == ReferenceInstanceType.CERTIFICATION_2015) {
+				List<ReferenceError> certErrors = 
+						referenceResults.get(CERTIFICATION_FEEDBACK_INDEX).getReferenceErrors();
+				if (!ApplicationUtil.isEmpty(certErrors)) {
+					return getFailingSectionSpecificErrorCountProcessor(categoryName, certErrors);
+				}
+			}
+		}
+		return 0;
+	}
 
-		appendHorizontalRuleWithBreaks(sb);
-
+	private static int getFailingSectionSpecificErrorCountProcessor(
+			String categoryName, List<ReferenceError> errors) {
+		int count = 0;
+		for (int i = 0; i < errors.size(); i++) {
+			String currentSectionInReferenceErrors = errors.get(i).getSectionName();
+			if (!ApplicationUtil.isEmpty(currentSectionInReferenceErrors)) {
+				if (currentSectionInReferenceErrors.equalsIgnoreCase(categoryName)) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+	
+	private static void appendDynamicTopLevelResultsTable(StringBuffer sb, Results results,
+			List<Category> categories, List<ReferenceResult> referenceResults) { 
+		sb.append("<table id='dynamicTable'>")
+		     .append("  <tr>")
+		     .append("    <th>Clinical Domain</th>")
+		     .append("    <th>Scorecard Grade</th>")
+		     .append("    <th>Scorecard Issues</th>")
+		     .append("    <th>Conformance Errors</th>")
+		     .append("    <th>Certification Feedback</th>")
+		     .append("  </tr>");				
+		for(Category category : categories) {
+//			if(category.getNumberOfIssues() > 0 || referenceResults.get(ReferenceInstanceType.IG/CERT).getTotalErrorCount() > 0) {
+//			if(category.getNumberOfIssues() > 0 || category.isFailingConformance() || category.isCertificationFeedback()) {				
+			sb.append("  <tr>")
+		     .append("    <td>" + (category.getCategoryName() != null ? category.getCategoryName() : "Unknown") + "</td>")
+		     .append("    <td>" + (category.getCategoryGrade() != null ? category.getCategoryGrade() : "N/A") + "</td>")
+		     .append("    <td>" + (category.isFailingConformance() || category.isCertificationFeedback() || category.isNullFlavorNI() 
+		    		 ? "N/A" 
+		    		 : category.getNumberOfIssues()) 
+		    		 + "</td>")
+		     .append("    <td>" 
+		     + (!ApplicationUtil.isEmpty(category.getCategoryName()) 
+		    		 ? getFailingSectionSpecificErrorCount(category.getCategoryName(), ReferenceInstanceType.IG_CONFORMANCE, referenceResults) 
+		    		 : "N/A")
+		     + "</td>")
+		     .append("    <td>" 
+		     + (!ApplicationUtil.isEmpty(category.getCategoryName()) 
+		    		 ? getFailingSectionSpecificErrorCount(category.getCategoryName(), ReferenceInstanceType.CERTIFICATION_2015, referenceResults) 
+		    		 : "N/A") 
+		     + "</td>")
+		     .append("  </tr>");
+//			}
+		}
+		sb.append("</table>");
+	}	
+	
+	private static void appendHeatmap(StringBuffer sb, Results results,
+			List<Category> categories, List<ReferenceResult> referenceResults) {
+		
 		sb.append("<span id='heatMap'>" + "</span>");
 		for (Category curCategory : categories) {
-			sb.append("<h3>" + "<a href='#" + curCategory.getCategoryName()
-					+ "-category" + "'>" + curCategory.getCategoryName()
-					+ "</a>" + "</h3>");
+			sb.append("<h3>" 
+					+ (curCategory.getNumberOfIssues() > 0 
+							? "<a href='#" + curCategory.getCategoryName() + "-category" + "'>" : "")
+					+ curCategory.getCategoryName()
+					+ (curCategory.getNumberOfIssues() > 0
+							? "</a>" : "")
+					+ "</h3>");
 
 			sb.append("<ul>");
-			if (curCategory.getCategoryNumericalScore() != -1) {
+			if (curCategory.getCategoryGrade() != null) {
 				sb.append("<li>" + "Section Grade: " + "<b>"
 						+ curCategory.getCategoryGrade() + "</b>" + "</li>"
 						+ "<li>" + "Number of Issues: " + "<b>"
 						+ curCategory.getNumberOfIssues() + "</b>" + "</li>");
 			} else {
 				sb.append("<li>"
-						+ "This category was not scored as it contains "
-						+ "<b>" + "Conformance Errors" + "</b>" + "</li>");
+						+ "This category was not scored as it ");
+				if(curCategory.isNullFlavorNI()) {
+					sb.append("is an <b>empty section</b>");
+				}
+			  	boolean failingConformance = curCategory.isFailingConformance();
+			  	boolean failingCertification = curCategory.isCertificationFeedback();
+			  	if(failingConformance || failingCertification) {
+			  		if(failingConformance && failingCertification || failingConformance && !failingCertification) {
+				  		//we default to IG if true for both since IG is considered a more serious issue (same with the heatmap label, so we match that)
+				  		//there could be a duplicate for two reasons, right now, there's always at least one duplicate since we derive ig from cert in the backend
+				  		//in the future this might not be the case, but, there could be multiple section fails in the same section, so we have a default for those too				  			
+						sb.append("contains <a href='#" + ReferenceInstanceType.IG_CONFORMANCE.getTypePrettyName() 
+								+ "-category'" + ">" + "Conformance Errors" + "</a>");
+					} else if(failingCertification && !failingConformance) {
+						sb.append("contains <a href='#" + ReferenceInstanceType.CERTIFICATION_2015.getTypePrettyName() 
+								+ "-category'" + ">" + "Certification Feedback" + "</a>");
+					}
+			  	}
+				sb.append("</li>");
+				
+				
 			}
 			sb.append("</ul></li>");
 		}
-
+		
 	}
 
 	private static void appendSummaryRow(StringBuffer sb, int result,
 			String header, String messageSuffix, String messageSubject,
 			boolean isSingular) {
+		appendSummaryRow(sb, result, header, messageSuffix, messageSubject, isSingular, null);
+	}
+	
+	private static void appendSummaryRow(StringBuffer sb, int result,
+			String header, String messageSuffix, String messageSubject,
+			boolean isSingular, SaveReportType reportType) {
+		if(reportType == null) {
+			reportType = SaveReportType.MATCH_UI;
+		}
 		sb.append("<h3>"
 				+ header
 				+ ": "
-				+ ("Scorecard Issues".equals(header) || result < 1 ? result
+				+ ("Scorecard Issues".equals(header) || result < 1 || reportType == SaveReportType.SUMMARY ? result
 						: ("<a href=\"#" + header + "-category\">" + result + "</a>"))
 				+ "</h3>");
 		sb.append("<ul><li>");
@@ -335,28 +759,28 @@ public class SaveReportController {
 			for (ReferenceResult curRefInstance : referenceResults) {
 
 				ReferenceInstanceType refType = curRefInstance.getType();
-				String refTypeName = refType.getTypePrettyName();
-				sb.append("<h3 id=\"" + refTypeName + "-category\">"
-						+ refTypeName + "</h3>");
-
-				sb.append("<ul>"); // START curRefInstance ul
-				sb.append("<li>"
-						+ "Number of "
-						+ (refType == ReferenceInstanceType.CERTIFICATION_2015 ? "Results:"
-								: "Errors:") + " "
-						+ curRefInstance.getTotalErrorCount() + "</li>");
-
-				sb.append("<ol>"); // START reference errors ol
-
 				if (curRefInstance.getTotalErrorCount() > 0) {
+					String refTypeName = refType.getTypePrettyName();
+					sb.append("<h3 id=\"" + refTypeName + "-category\">"
+							+ refTypeName + "</h3>");
+	
+					sb.append("<ul>"); // START curRefInstance ul
+					sb.append("<li>"
+							+ "Number of "
+							+ (refType == ReferenceInstanceType.CERTIFICATION_2015 ? "Results:"
+									: "Errors:") + " "
+							+ curRefInstance.getTotalErrorCount() + "</li>");
+	
+					sb.append("<ol>"); // START reference errors ol
+	
 					for (ReferenceError curRefError : curRefInstance
 							.getReferenceErrors()) {
-
+	
 						sb.append("<li>"
 								+ (refType == ReferenceInstanceType.CERTIFICATION_2015 ? "Feedback:"
 										: "Error:") + " "
 								+ curRefError.getDescription() + "</li>");
-
+	
 						sb.append("<ul>"); // START ul within the curRefError
 						if (!ApplicationUtil.isEmpty(curRefError
 								.getSectionName())) {
@@ -377,21 +801,20 @@ public class SaveReportController {
 				sb.append("</ul>"); // END curRefInstance ul
 				appendBackToTopWithBreaks(sb);
 
-			}
+			} //END for (ReferenceResult curRefInstance : referenceResults)
 		}
 
 		for (Category curCategory : categories) {
+			if (curCategory.getNumberOfIssues() > 0) {
 			sb.append("<h3 id='" + curCategory.getCategoryName() + "-category"
 					+ "'>" + curCategory.getCategoryName() + "</h3>");
 
-			if (curCategory.getCategoryNumericalScore() != -1) {
 				sb.append("<ul>"); // START curCategory ul
 				sb.append("<li>" + "Section Grade: "
 						+ curCategory.getCategoryGrade() + "</li>" + "<li>"
 						+ "Number of Issues: "
 						+ curCategory.getNumberOfIssues() + "</li>");
 
-				if (curCategory.getNumberOfIssues() > 0) {
 					sb.append("<ol>"); // START rules ol
 					for (CCDAScoreCardRubrics curRubric : curCategory
 							.getCategoryRubrics()) {
@@ -424,12 +847,181 @@ public class SaveReportController {
 						}
 					}
 					sb.append("</ol>"); // END rules ol
-				}
-				sb.append("</ul>"); // END curCategory ul
-			}
-			appendBackToTopWithBreaks(sb);
-		}
 
+				sb.append("</ul>"); // END curCategory ul
+			
+			appendBackToTopWithBreaks(sb);
+			
+			} //END if (curCategory.getNumberOfIssues() > 0)
+		} //END for (Category curCategory : categories)
+		
+	}
+	
+	private static void appendPictorialGuide(StringBuffer sb,
+			List<Category> categories, List<ReferenceResult> referenceResults) {		
+		//minimum breaks based on 11 categories
+		sb.append("<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />");
+		sb.append("<h2>" + "Guide to Interpret the Scorecard Results Table" + "</h2>");		
+		
+		sb.append("<p>" + "The following sample table identifies how to use the C-CDA Scorecard results "
+						+ "to improve the C-CDA documents generated by your organization. " 
+		+ "Note: The table below is an example containing fictitious results "
+		+ "and does not reflect C-CDA’s generated by your organization." + "</p>");
+		
+		//static table
+		sb.append("<table id=\"staticTable\">")
+		     .append("  <tbody>")
+		     .append("    <tr>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td id=\"issuePopOut\" rowspan=\"2\">A Scorecard Issue identifies data within the document which can be represented in a better way using HL7 best practices for C-CDA. This column should have numbers as close to zero as possible.</td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("    </tr>")
+		     .append("    <tr>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td id=\"gradePopOut\" colspan=\"2\">The Scorecard grade is a quantitative assessment of the data quality of the submitted document. A higher grade indicates that HL7 best practices for C-CDA implementation are being followed by the organization and has higher probability of being interoperable")
+		     .append("        with other organizations.</td>")
+		     .append("      <td id=\"errorPopOut\" colspan=\"2\">A Conformance Error implies that the document is non-compliant with the HL7 C-CDA IG requirements. This column should have zeros ideally. Providers should work with their health IT vendor to rectify the errors.</td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("    </tr>")
+		     .append("    <tr>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td id=\"gradePopOutLink\"></td>")
+		     .append("      <td id=\"issuePopOutLink\"></td>")
+		     .append("      <td id=\"errorPopOutLink\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("    </tr>")
+		     .append("    <tr>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <th>Clinical Domain</th>")
+		     .append("      <th id=\"gradeHeader\">Scorecard Grade</th>")
+		     .append("      <th id=\"issueHeader\">Scorecard Issues</th>")
+		     .append("      <th id=\"errorHeader\">Conformance Errors</th>")
+		     .append("      <th id=\"feedbackHeader\">Certification Feedback</th>")
+		     .append("      <td id=\"feedbackPopOutLink\"></td>")
+		     .append("      <td id=\"feedbackPopOut\" rowspan=\"5\">A Certification Feedback result identifies areas where the generated documents are not compliant with the requirements of 2015 Edition Certification. Ideally, this column should have all zeros.</td>")
+		     .append("    </tr>")
+		     .append("    <tr>")
+		     .append("      <td id=\"perfectRowPopOut\" rowspan=\"4\">The Problems row in this example has an A+ grade and all zeros across the board. This is the most desirable outcome for a Clinical Domain result set.</td>")
+		     .append("      <td id=\"perfectRowPopOutLink\"></td>")
+		     .append("      <td id=\"perfectRowLeftHeader\">Problems</td>")
+		     .append("      <td class=\"perfectRowMiddleHeader\">A+</td>")
+		     .append("      <td class=\"perfectRowMiddleHeader\">0</td>")
+		     .append("      <td class=\"perfectRowMiddleHeader\">0</td>")
+		     .append("      <td id=\"perfectRowRightHeader\">0</td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("    </tr>")
+		     .append("    <tr>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td>Lab Results</td>")
+		     .append("      <td>A-</td>")
+		     .append("      <td>2</td>")
+		     .append("      <td>0</td>")
+		     .append("      <td>0</td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("    </tr>")
+		     .append("    <tr>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td>Vital Signs</td>")
+		     .append("      <td>A-</td>")
+		     .append("      <td>1</td>")
+		     .append("      <td>0</td>")
+		     .append("      <td>0</td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("    </tr>")
+		     .append("    <tr>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td>Encounters</td>")
+		     .append("      <td>D</td>")
+		     .append("      <td>12</td>")
+		     .append("      <td>0</td>")
+		     .append("      <td>0</td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("    </tr>")
+		     .append("    <tr>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td id=\"notScoredRowLeftHeader\">Medications</td>")
+		     .append("      <td class=\"notScoredRowMiddleHeader\">N/A</td>")
+		     .append("      <td class=\"notScoredRowMiddleHeader\">N/A</td>")
+		     .append("      <td class=\"notScoredRowMiddleHeader\">2</td>")
+		     .append("      <td id=\"notScoredRowRightHeader\">0</td>")
+		     .append("      <td id=\"notScoredRowPopOutLink\"></td>")
+		     .append("      <td id=\"notScoredRowPopOut\" rowspan=\"3\">This domain was not scored because the document did not have data pertaining to the clinical domain or there were conformance errors or certification results.</td>")
+		     .append("    </tr>")
+		     .append("    <tr>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td>Allergies</td>")
+		     .append("      <td>N/A</td>")
+		     .append("      <td>N/A</td>")
+		     .append("      <td>0</td>")
+		     .append("      <td>4</td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("    </tr>")
+		     .append("    <tr>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td>Immunizations</td>")
+		     .append("      <td>N/A</td>")
+		     .append("      <td>N/A</td>")
+		     .append("      <td>0</td>")
+		     .append("      <td>0</td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("      <td class=\"removeBorder\"></td>")
+		     .append("    </tr>")
+		     .append("  </tbody>")
+		     .append("</table>");		
+	}
+	
+	private static void appendPictorialGuideKey(StringBuffer sb) {
+		sb.append("<h3>Additional Guidance to Interpret the Scorecard Results and Achieve Higher Grades</h3>")
+	     .append("<p>")
+	     .append("  <span id=\"keyGradeHeader\">Scorecard Grade: </span>")
+	     .append("The Scorecard grade is a quantitative assessment of the data quality of the submitted document. "
+	     		+ "A higher grade indicates that HL7 best practices for C-CDA implementation are being followed by the organization "
+	     		+ "and has higher probability of being interoperable with other organizations. "
+	     		+ "The grades are derived from the scores as follows: "
+	     		+ "A+ ( > 94), A- ( 90 to 94), B+ (85 to 89), B- (80 to 84), C (70 to 79) and D (< 70).")
+	     .append("</p>")
+	     .append("<p>")
+	     .append("  <span id=\"keyIssueHeader\">Scorecard Issues: </span>")
+	     .append("A Scorecard Issue identifies data within the document which can be represented in a better way using HL7 best practices for C-CDA. "
+	     		+ "This column should have numbers as close to zero as possible. "
+	     		+ "The issues are counted for each occurrence of unimplemented best practice. "
+	     		+ "For example, if a Vital Sign measurement is not using the appropriate UCUM units then each such occurrence would be flagged "
+	     		+ "as an issue. A provider should work with their health IT vendor to better understand the source for why a best practice "
+	     		+ "may not be implemented and then determine if it can be implemented in the future. Note: Scorecard Issues will be listed as "
+	     		+ "'N/A' for a clinical domain, when there is no data for the domain or if there are conformance or certification feedback results.")
+	     .append("</p>")
+	     .append("<p>")
+	     .append("  <span id=\"keyErrorHeader\">Conformance Errors: </span>")
+	     .append("A Conformance Error implies that the document is non-compliant with the HL7 C-CDA IG requirements. "
+	     		+ "This column should have zeros ideally. "
+	     		+ "Providers should work with their health IT vendor to rectify the errors.")
+	     .append("</p>")
+	     .append("<p>")
+	     .append("  <span id=\"keyFeedbackHeader\">Certification Feedback: </span>")
+	     .append("A Certification Feedback result identifies areas where the generated documents are not compliant with "
+	     		+ "the requirements of 2015 Edition Certification. Ideally, this column should have all zeros."
+	     		+ "Most of these results fall into incorrect use of vocabularies and terminologies. "
+	     		+ "Although not as severe as a Conformance Error, providers should work with their health IT vendor "
+	     		+ "to address feedback provided to improve interoperable use of structured data between systems.")
+	     .append("</p>");		
 	}
 
 	private static void appendClosingHtml(StringBuffer sb) {
@@ -491,10 +1083,12 @@ public class SaveReportController {
 		String cleanHtmlReport = doc.toString();
 		return cleanHtmlReport;
 	}
-
-	protected static void convertHTMLToPDFAndStreamToOutput(
-			String cleanHtmlReport, HttpServletResponse response) {
-
+	
+	private static void convertHTMLToPDF(String cleanHtmlReport) {
+		convertHTMLToPDF(cleanHtmlReport, null);
+	}
+	
+	private static void convertHTMLToPDF(String cleanHtmlReport, HttpServletResponse response) {
 		OutputStream out = null;
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory
@@ -510,12 +1104,19 @@ public class SaveReportController {
 			renderer.setDocument(refineddoc, null);
 			renderer.layout();
 
-			response.setContentType("application/pdf");
-			response.setHeader("Content-disposition", "attachment; filename="
-					+ "scorecardReport.pdf");
-			response.setHeader("max-age=3600", "must-revalidate");
-			response.addCookie(new Cookie("fileDownload=true", "path=/"));
-			out = response.getOutputStream();
+			if(response != null) {
+				//Stream to Output
+				response.setContentType("application/pdf");
+				response.setHeader("Content-disposition", "attachment; filename="
+						+ "scorecardReport.pdf");
+				response.setHeader("max-age=3600", "must-revalidate");
+				response.addCookie(new Cookie("fileDownload=true", "path=/"));
+				out = response.getOutputStream();				
+			} else {
+				//Save to local file system
+				out = new FileOutputStream(new File("testSaveReportImplementation.pdf"));
+			}
+			
 			renderer.createPDF(out);
 		} catch (ParserConfigurationException pcE) {
 			pcE.printStackTrace();
@@ -537,6 +1138,15 @@ public class SaveReportController {
 			ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
 		}
 	}
+	
+	protected static void convertHTMLToPDFAndStreamToOutput(
+			String cleanHtmlReport, HttpServletResponse response) {
+		convertHTMLToPDF(cleanHtmlReport, response);
+	}
+	
+	private static void convertHTMLToPDFAndSaveToLocalFileSystem(String cleanHtmlReport) {
+		convertHTMLToPDF(cleanHtmlReport);
+	}
 
 	/**
 	 * Converts JSON to ResponseTO Java Object using The Jackson API
@@ -555,5 +1165,58 @@ public class SaveReportController {
 		}
 		return pojo;
 	}
+	
+	private enum SaveReportType {
+		MATCH_UI, SUMMARY;
+	}
+	
+	private static void buildReportUsingJSONFromLocalFile(String filenameWithoutExtension, 
+			SaveReportType reportType) throws URISyntaxException {
+		URI jsonFileURI = new File(
+				"src/main/webapp/resources/"
+						+ filenameWithoutExtension + ".json").toURI();		
+		System.out.println("jsonFileURI");
+		System.out.println(jsonFileURI);
+		String jsonReportData = convertFileToString(jsonFileURI);
+		System.out.println("jsonReportData");
+		System.out.println(jsonReportData);
+		ResponseTO pojoResponse = convertJsonToPojo(jsonReportData);
+		System.out.println("response");
+		System.out.println(pojoResponse.getCcdaDocumentType());
+		
+		convertHTMLToPDFAndSaveToLocalFileSystem(
+				ensureLogicalParseTreeInHTML(convertReportToHTML(pojoResponse, reportType)));		
+	}
+	
+	private static String convertFileToString(URI fileURI) {
+		StringBuilder sb = new StringBuilder();
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(fileURI.getPath()));
+			String sCurrentLine = "";
+			while ((sCurrentLine = br.readLine()) != null) {
+				sb.append(sCurrentLine);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return sb.toString();
+	}	
+	
+	public static void main(String[] args) {
+		String[] filenames = {"highScoringSample", "lowScoringSample", "sampleWithErrors"};
+		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2;
+		try {
+			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.SUMMARY);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+	}	
 
 }

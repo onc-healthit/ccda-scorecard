@@ -1,28 +1,95 @@
-<footer id="siteFooter">
+<footer>
   <div class="container" role="contentinfo">
-    <div>
-      <p>
-        This project was funded by a contract from the <a
-          href="http://www.healthit.gov" tabindex="100"> Office of
-          the National Coordinator for Health Information Technology
-          (ONC) </a>
-      </p>
-    </div>
+
     <div class="row">
-      <div class="col-md-8">
-        <p>
-          For any inquiries or questions, please send an email to <a
-            href="mailto:TestingServices@sitenv.org" tabindex="100">
-            TestingServices@sitenv.org </a>
-        </p>
+      <div class="col-sm-6 text-left">
+        <!-- version -->
+        <span>
+          <div markdown-src="{{siteUiData.contentURL}}Version.md"></div>
+        </span>
       </div>
-      <div class="col-md-4">
-        <p style="float: right;">
-          <a href="http://www.hhs.gov/Privacy.html" tabindex="100">Privacy
-            Policy</a> | <a href="http://www.hhs.gov/Disclaimer.html"
-            tabindex="100">Disclaimers</a>
-        </p>
-      </div>
+      <!-- email -->
+      <span class="col-sm-6 text-right">
+        Inquiries or questions, email <a
+          href="mailto:TestingServices@sitenv.org" tabindex="100">TestingServices@sitenv.org</a>
+      </span>
     </div>
+
+    <div class="row">
+      <div class="col-sm-6 text-left">
+
+        <span>
+          <!-- site-news-announcements modal link -->
+          <button class="btn btn-link footer-link-btn" id="siteuiNewsButton" type="button"
+            tabindex="1" data-toggle="modal" data-target="#siteuiNewsModal">
+          News &amp; Announcements
+          </button>
+        </span>
+        |
+        <span>
+          <!-- site-release-notes modal link -->
+          <button class="btn btn-link footer-link-btn" id="siteuiReleaseNotesButton" type="button" 
+            tabindex="1" data-toggle="modal" data-target="#siteuiReleaseNotesModal">
+           Release Notes
+           </button>
+        </span>
+
+      </div>
+
+      <!-- privacy policy and disclaimers -->
+      <span class="col-sm-6 text-right">
+        <a href="http://www.hhs.gov/Privacy.html" tabindex="100">Privacy
+          Policy</a> | <a href="http://www.hhs.gov/Disclaimer.html"
+          tabindex="100">Disclaimers</a>
+      </span>
+
+    </div>
+
   </div>
 </footer>
+
+<!-- MODAL DATA -->
+
+<!--  NEWS MODAL -->
+<div id="siteuiNewsModal" 
+  class="modal fade news-modal-dialog" cssclass="release-notes-modal-dialog"
+  role="dialog" tabindex="-1" data-keyboard="true" data-backdrop="true"
+  aria-labelledby="siteuiNewsModalLabel" aria-hidden="true">
+<div class="modal-dialog release-notes-modal-dialog">
+  <div class="modal-content">
+    
+    <div class="modal-body">
+      <div class="col-sm-12">      
+        <div markdown-src="{{siteUiData.contentURL}}NewsAndAnnouncements.md"></div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" data-dismiss="modal">Close</button>
+    </div>
+    
+  </div>
+</div>
+</div>
+
+<!--  RELEASE NOTES MODAL -->
+<div id="siteuiReleaseNotesModal" 
+  class="modal fade" cssclass="release-notes-modal-dialog"
+  role="dialog" tabindex="-1" data-keyboard="true" data-backdrop="true"
+  aria-labelledby="siteuiReleaseNotesModalLabel" aria-hidden="true">
+<div class="modal-dialog release-notes-modal-dialog">
+  <div class="modal-content">
+    
+    <div class="modal-body">
+      <div class="col-sm-12">
+        <div markdown-src="{{siteUiData.contentURL}}ReleaseNotes.md"></div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" data-dismiss="modal">Close</button>
+    </div>
+    
+  </div>
+</div>
+</div>

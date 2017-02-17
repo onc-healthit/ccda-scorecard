@@ -174,17 +174,11 @@ public class ScorecardProcessor {
 					{
 						certificationResults = new ValidationResultsDto();
 					}
-						
-					// Remove non-IG based results from referenceValidatorResults (IG_CONFORMANCE)				
-					for (Iterator<ReferenceError> errorIterator = referenceValidatorResults
-							.getCcdaValidationResults().iterator(); errorIterator.hasNext();) 
-					{	
-						ReferenceError currentError = errorIterator.next();
-						if (currentError.getType() != ValidationResultType.CCDA_MDHT_CONFORMANCE_ERROR) 
-						{
-							errorIterator.remove();
-						}
-					}
+					
+					// Remove non-IG based results from referenceValidatorResults (IG_CONFORMANCE)					
+					removeExcessResults(referenceValidatorResults, ReferenceInstanceType.IG_CONFORMANCE);
+					// Remove IG based results from certificationResults (CERTIFICATION_2015)
+					removeExcessResults(certificationResults, ReferenceInstanceType.CERTIFICATION_2015);												
 					
 					if(scorecardProperties.getIgConformanceCall()) 
 					{
@@ -216,7 +210,6 @@ public class ScorecardProcessor {
 				ApplicationUtil.debugLog("certSectionList", certSectionList.toString());
 				for (Entry<String, String> entry : ApplicationConstants.SECTION_TEMPLATEID_MAP.entrySet()) 
 				{
-										
 					if(!errorSectionList.contains(entry.getValue()))
 					{
 						scorecardCategory = getSectionCategory(entry.getValue(),ccdaModels,birthDate,docType);
@@ -377,7 +370,6 @@ public class ScorecardProcessor {
 		XPath xPath = XPathFactory.newInstance().newXPath();
 		Element errorElement;
 		Element parentElement= null;
-		Element templateId;
 		String sectionName;
 		for(ReferenceError referenceError : ccdaValidationResults)
 		{
@@ -386,28 +378,57 @@ public class ScorecardProcessor {
 				if(!referenceError.getxPath().equals("/ClinicalDocument"))
 				{
 					errorElement = (Element) xPath.compile(referenceError.getxPath()).evaluate(doc, XPathConstants.NODE);
-					parentElement = (Element)errorElement.getParentNode();
-					while(!(parentElement.getTagName().equals("section") || parentElement.getTagName().equals("patientRole") || parentElement.getTagName().equals("ClinicalDocument")))
+					if(errorElement!= null)
 					{
-						parentElement = (Element)parentElement.getParentNode();
-					}
-					
-					if(parentElement.getTagName().equals("section"))
-					{
-						templateId = (Element) xPath.compile(ApplicationConstants.TEMPLATEID_XPATH).evaluate(parentElement, XPathConstants.NODE);
-						sectionName = ApplicationConstants.SECTION_TEMPLATEID_MAP.get(templateId.getAttribute("root"));
-						errorSectionList.add(sectionName);
-						referenceError.setSectionName(sectionName);
-					}else if(parentElement.getTagName().equals("patientRole"))
-					{
-						errorSectionList.add(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc());
-						referenceError.setSectionName(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc());
+						if(errorElement.getTagName().equalsIgnoreCase("section")|| errorElement.getTagName().equalsIgnoreCase("patientRole"))
+						{
+							sectionName = getSectionName(errorElement);
+							if(sectionName!= null)
+							{
+								errorSectionList.add(sectionName);
+								referenceError.setSectionName(sectionName);
+							}
+						}
+						else
+						{
+							parentElement = (Element)errorElement.getParentNode();
+							while(!(parentElement.getTagName().equalsIgnoreCase("section") || parentElement.getTagName().equalsIgnoreCase("patientRole") || 
+																							parentElement.getTagName().equalsIgnoreCase("ClinicalDocument")))
+							{
+								parentElement = (Element)parentElement.getParentNode();
+							}
+							if(parentElement.getTagName().equals("section")|| parentElement.getTagName().equalsIgnoreCase("patientRole"))
+							{
+								sectionName = getSectionName(parentElement);
+								if(sectionName!= null)
+								{
+									errorSectionList.add(sectionName);
+									referenceError.setSectionName(sectionName);
+								}
+							}
+						}
 					}
 				}
 			}
 		}
-		
 		return errorSectionList;
+	}
+	
+	public String getSectionName(Element errorElement)throws SAXException,IOException,XPathExpressionException
+	{
+		Element templateId;
+		String sectionName=null;
+		XPath xPath = XPathFactory.newInstance().newXPath();
+		if(errorElement.getTagName().equals("section"))
+		{
+			templateId = (Element) xPath.compile(ApplicationConstants.TEMPLATEID_XPATH).evaluate(errorElement, XPathConstants.NODE);
+			sectionName = ApplicationConstants.SECTION_TEMPLATEID_MAP.get(templateId.getAttribute("root"));
+		}
+		else if(errorElement.getTagName().equals("patientRole"))
+		{
+			sectionName = ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc();
+		}
+		return sectionName;
 	}
 	
 	public Category getSectionCategory(String sectionName,CCDARefModel ccdaModels, String birthDate, String docType )
@@ -456,6 +477,26 @@ public class ScorecardProcessor {
 		{
 			return null;
 		}
+	}
+	
+	private static void removeExcessResults(ValidationResultsDto results, ReferenceInstanceType referenceInstanceType) {
+		if(referenceInstanceType == null) return;
+		for (Iterator<ReferenceError> errorIterator = results
+				.getCcdaValidationResults().iterator(); errorIterator.hasNext();) 
+		{	
+			ReferenceError currentError = errorIterator.next();
+			if(referenceInstanceType == ReferenceInstanceType.IG_CONFORMANCE) {
+				if (currentError.getType() != ValidationResultType.CCDA_MDHT_CONFORMANCE_ERROR) 
+				{
+					errorIterator.remove();
+				}
+			} else if(referenceInstanceType == ReferenceInstanceType.CERTIFICATION_2015) {
+				if (currentError.getType() == ValidationResultType.CCDA_MDHT_CONFORMANCE_ERROR) 
+				{
+					errorIterator.remove();
+				}
+			}
+		}						
 	}	
 	
 	private static VALIDATION_OBJECTIVES determineValidationObjectiveType(
