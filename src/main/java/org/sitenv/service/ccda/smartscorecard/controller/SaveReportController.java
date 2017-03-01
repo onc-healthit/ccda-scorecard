@@ -31,8 +31,10 @@ import org.sitenv.service.ccda.smartscorecard.model.ReferenceResult;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ReferenceInstanceType;
 import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
+import org.sitenv.service.ccda.smartscorecard.processor.ScorecardProcessor;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -56,6 +58,9 @@ import com.lowagie.text.DocumentException;
 
 @RestController
 public class SaveReportController {
+	
+	@Autowired
+	private ScorecardProcessor scorecardProcessor;	
 
 	public static final String SAVE_REPORT_CHARSET_NAME = "UTF8";
 	private static final int CONFORMANCE_ERROR_INDEX = 0;
@@ -78,7 +83,7 @@ public class SaveReportController {
 			HttpServletResponse response) {
 		convertHTMLToPDFAndStreamToOutput(
 				ensureLogicalParseTreeInHTML(convertReportToHTML(jsonReportData, SaveReportType.MATCH_UI)),
-				response);
+				response);		
 	}
 
 	/**
@@ -92,8 +97,8 @@ public class SaveReportController {
 	@RequestMapping(value = "/savescorecardservicebackend", method = RequestMethod.POST)
 	public void savescorecardservicebackend(
 			@RequestParam("ccdaFile") MultipartFile ccdaFile,
-			HttpServletResponse response) {		
-		handlePureBackendCall(ccdaFile, response, SaveReportType.MATCH_UI);
+			HttpServletResponse response) {
+		handlePureBackendCall(ccdaFile, response, SaveReportType.MATCH_UI, scorecardProcessor);
 	}
 	
 	/**
@@ -116,16 +121,18 @@ public class SaveReportController {
 		if(ApplicationUtil.isEmpty(sender)) {
 			sender = "Unknown Sender";
 		}
-		handlePureBackendCall(ccdaFile, response, SaveReportType.SUMMARY, sender);
-	}
-	
-	private static void handlePureBackendCall(MultipartFile ccdaFile, HttpServletResponse response, SaveReportType reportType) {
-		handlePureBackendCall(ccdaFile, response, reportType, null);
+		handlePureBackendCall(ccdaFile, response, SaveReportType.SUMMARY, scorecardProcessor, sender);
 	}
 	
 	private static void handlePureBackendCall(MultipartFile ccdaFile, HttpServletResponse response, SaveReportType reportType, 
-			String sender) {
-		ResponseTO pojoResponse = callCcdascorecardservice(ccdaFile);
+			ScorecardProcessor scorecardProcessor) {
+		handlePureBackendCall(ccdaFile, response, reportType, scorecardProcessor, null);
+	}
+	
+	private static void handlePureBackendCall(MultipartFile ccdaFile, HttpServletResponse response, SaveReportType reportType, 
+			ScorecardProcessor scorecardProcessor, String sender) {
+//		ResponseTO pojoResponse = callCcdascorecardserviceExternally(ccdaFile);
+		ResponseTO pojoResponse = callCcdascorecardserviceInternally(ccdaFile, scorecardProcessor);
 		if (pojoResponse == null) {
 			pojoResponse = new ResponseTO();
 			pojoResponse.setResults(null);
@@ -152,8 +159,13 @@ public class SaveReportController {
 				ensureLogicalParseTreeInHTML(convertReportToHTML(pojoResponse, reportType)),
 				response);
 	};
+	
+	protected static ResponseTO callCcdascorecardserviceInternally(MultipartFile ccdaFile, 
+			ScorecardProcessor scorecardProcessor) {
+		return scorecardProcessor.processCCDAFile(ccdaFile);
+	}
 
-	protected static ResponseTO callCcdascorecardservice(MultipartFile ccdaFile) {
+	protected static ResponseTO callCcdascorecardserviceExternally(MultipartFile ccdaFile) {
 		ResponseTO pojoResponse = null;
 
 		LinkedMultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<>();
