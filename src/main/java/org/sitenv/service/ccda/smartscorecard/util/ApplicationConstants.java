@@ -35,8 +35,8 @@ public class ApplicationConstants {
 	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:8000",
 			CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org",
 			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
-			TTP_DEV_SERVER_URL = "http://ttpdstest.sitenv.org:8080",
-			TTP_PROD_SERVER_URL = "http://ttpds.sitenv.org:8080",
+			TTP_DEV_SERVER_URL = "https://ttpdstest.sitenv.org:8443",
+			TTP_PROD_SERVER_URL = "https://ttpds.sitenv.org:8443",
 			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
 			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
 			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
@@ -45,22 +45,22 @@ public class ApplicationConstants {
 			SAVE_SCORECARD_SERVICE_BACKEND = "/scorecard/savescorecardservicebackend";
 	// ensure when WAR is headed to the dev server that DEFAULT_LOCAL_SERVER_URL
 	// is replaced with CCDA_DEV_SERVER_URL in the following Strings
-	public static final String CODE_DISPLAYNAME_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
+	public static final String CODE_DISPLAYNAME_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? TTP_DEV_SERVER_URL
 			: TTP_PROD_SERVER_URL)
 			+ CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
-	public static final String CODE_VALUSET_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
+	public static final String CODE_VALUSET_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? TTP_DEV_SERVER_URL
 			: TTP_PROD_SERVER_URL)
 			+ CODE_IN_VALUESET_SERVICE;
-	public static final String CODE_CODESYSTEM_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
+	public static final String CODE_CODESYSTEM_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? TTP_DEV_SERVER_URL
 			: TTP_PROD_SERVER_URL)
 			+ CODE_IN_CODESYSTEM_SERVICE;
-	public static final String REFERENCE_VALIDATOR_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
+	public static final String REFERENCE_VALIDATOR_URL = (IN_DEVELOPMENT_MODE ? TTP_DEV_SERVER_URL
 			: TTP_PROD_SERVER_URL)
 			+ REFERENCE_CCDA_SERVICE;
-	public static final String SAVESCORECARDSERVICEBACKEND_URL = (IN_DEVELOPMENT_MODE ? DEFAULT_LOCAL_SERVER_URL
+	public static final String SAVESCORECARDSERVICEBACKEND_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
 			: CCDA_PROD_SERVER_URL)
 			+ SAVE_SCORECARD_SERVICE_BACKEND;
-	public static final String CCDASCORECARDSERVICE_URL = (IN_DEVELOPMENT_MODE ? DEFAULT_LOCAL_SERVER_URL
+	public static final String CCDASCORECARDSERVICE_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
 			: CCDA_PROD_SERVER_URL)
 			+ CCDA_SCORECARD_SERVICE;
 	 
