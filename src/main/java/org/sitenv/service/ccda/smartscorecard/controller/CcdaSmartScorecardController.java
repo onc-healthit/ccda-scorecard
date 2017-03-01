@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.ccdaparsing.service.CCDAParserAPI;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
@@ -170,7 +171,7 @@ public class CcdaSmartScorecardController {
 		    formConverter.setCharset(Charset.forName("UTF8"));
 		    restTemplate.getMessageConverters().add(formConverter);
 		    restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-		    response = restTemplate.postForObject(ApplicationConstants.REFERENCE_VALIDATOR_URL, requestEntity, String.class);
+		    response = restTemplate.postForObject(ApplicationConfiguration.REFERENCE_VALIDATOR_URL, requestEntity, String.class);
 		    tempFile.delete();
 		}catch(Exception exc)
 		{

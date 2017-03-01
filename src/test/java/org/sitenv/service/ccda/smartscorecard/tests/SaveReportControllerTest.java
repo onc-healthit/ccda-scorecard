@@ -11,8 +11,8 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.controller.SaveReportController;
-import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -125,7 +125,7 @@ public class SaveReportControllerTest {
 			restTemplate.setMessageConverters(messageConverters);
 
 			pdfBytes = restTemplate.postForObject(
-					ApplicationConstants.SAVESCORECARDSERVICEBACKEND_URL,
+					ApplicationConfiguration.SAVESCORECARDSERVICEBACKEND_URL,
 					requestEntity, byte[].class);
 		} catch (Exception e) {
 			e.printStackTrace();

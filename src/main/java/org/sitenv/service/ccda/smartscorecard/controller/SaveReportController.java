@@ -24,6 +24,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceError;
@@ -191,7 +192,7 @@ public class SaveReportController {
 					new MappingJackson2HttpMessageConverter());
 
 			pojoResponse = restTemplate.postForObject(
-					ApplicationConstants.CCDASCORECARDSERVICE_URL,
+					ApplicationConfiguration.CCDASCORECARDSERVICE_URL,
 					requestEntity, ResponseTO.class);
 		} catch (Exception e) {
 			e.printStackTrace();
