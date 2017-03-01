@@ -12,6 +12,8 @@ import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -664,7 +666,7 @@ public class SaveReportController {
 		     .append("    <th>Conformance Errors</th>")
 		     .append("    <th>Certification Feedback</th>")
 		     .append("  </tr>");				
-		for(Category category : categories) {
+		for(Category category : getSortedCategories(categories)) {
 //			if(category.getNumberOfIssues() > 0 || referenceResults.get(ReferenceInstanceType.IG/CERT).getTotalErrorCount() > 0) {
 //			if(category.getNumberOfIssues() > 0 || category.isFailingConformance() || category.isCertificationFeedback()) {				
 			sb.append("  <tr>")
@@ -688,7 +690,30 @@ public class SaveReportController {
 //			}
 		}
 		sb.append("</table>");
-	}	
+	}
+	
+	/**
+	 * Order from best to worst:<br/>
+	 * 1. Numerical score high to low 2. Empty/null 3. Certification Feedback 4. Conformance Error
+	 * @param categories - Category List to sort
+	 * @return sorted categories
+	 */
+	private static List<Category> getSortedCategories(List<Category> categories) {
+		List<Category> sortedCategories = new ArrayList<Category>(categories);
+		//prepare for sort of non-scored items
+		for(Category category : sortedCategories) {
+			if(category.isFailingConformance()) {
+				category.setCategoryNumericalScore(-3);
+			} else if(category.isCertificationFeedback()) {
+				category.setCategoryNumericalScore(-2);
+			} else if(category.isNullFlavorNI()) {
+				category.setCategoryNumericalScore(-1);
+			}
+		}
+		//sorts by numerical score via Comparable implementation in Category
+		Collections.sort(sortedCategories, Collections.reverseOrder());
+		return sortedCategories;
+	}
 	
 	private static void appendHeatmap(StringBuffer sb, Results results,
 			List<Category> categories, List<ReferenceResult> referenceResults) {
@@ -1226,7 +1251,7 @@ public class SaveReportController {
 		String[] filenames = {"highScoringSample", "lowScoringSample", "sampleWithErrors"};
 		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2;
 		try {
-			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.SUMMARY);
+			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.MATCH_UI);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
