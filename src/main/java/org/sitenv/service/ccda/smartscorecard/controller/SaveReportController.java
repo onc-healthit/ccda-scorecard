@@ -743,15 +743,24 @@ public class SaveReportController {
 			  	boolean failingConformance = curCategory.isFailingConformance();
 			  	boolean failingCertification = curCategory.isCertificationFeedback();
 			  	if(failingConformance || failingCertification) {
+		  			boolean isCategoryNameValid = !ApplicationUtil.isEmpty(curCategory.getCategoryName());
 			  		if(failingConformance && failingCertification || failingConformance && !failingCertification) {
 				  		//we default to IG if true for both since IG is considered a more serious issue (same with the heatmap label, so we match that)
 				  		//there could be a duplicate for two reasons, right now, there's always at least one duplicate since we derive ig from cert in the backend
-				  		//in the future this might not be the case, but, there could be multiple section fails in the same section, so we have a default for those too				  			
-						sb.append("contains <a href='#" + ReferenceInstanceType.IG_CONFORMANCE.getTypePrettyName() 
-								+ "-category'" + ">" + "Conformance Errors" + "</a>");
+				  		//in the future this might not be the case, but, there could be multiple section fails in the same section, so we have a default for those too
+			  			int igErrorCount = isCategoryNameValid 
+			  					? getFailingSectionSpecificErrorCount(curCategory.getCategoryName(), ReferenceInstanceType.IG_CONFORMANCE, referenceResults)
+			  					: -1;
+						sb.append("contains" + (isCategoryNameValid ? " <b>" + igErrorCount + "</b> " : "")
+								+ "<a href='#" + ReferenceInstanceType.IG_CONFORMANCE.getTypePrettyName() 
+								+ "-category'" + ">" + "Conformance Error" + (igErrorCount != 1 ? "s" : "") + "</a>");
 					} else if(failingCertification && !failingConformance) {
-						sb.append("contains <a href='#" + ReferenceInstanceType.CERTIFICATION_2015.getTypePrettyName() 
-								+ "-category'" + ">" + "Certification Feedback" + "</a>");
+						int certFeedbackCount = isCategoryNameValid
+								? getFailingSectionSpecificErrorCount(curCategory.getCategoryName(), ReferenceInstanceType.CERTIFICATION_2015, referenceResults)
+								: -1;
+						sb.append("contains" + (isCategoryNameValid ? " <b>" + certFeedbackCount + "</b> " : "")
+								+ "<a href='#" + ReferenceInstanceType.CERTIFICATION_2015.getTypePrettyName() 
+								+ "-category'" + ">" + "Certification Feedback" + "</a>" + " result" + (certFeedbackCount != 1 ? "s" : ""));
 					}
 			  	}
 				sb.append("</li>");
@@ -1251,7 +1260,7 @@ public class SaveReportController {
 		String[] filenames = {"highScoringSample", "lowScoringSample", "sampleWithErrors"};
 		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2;
 		try {
-			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.MATCH_UI);
+			buildReportUsingJSONFromLocalFile(filenames[HIGH_SCORING_SAMPLE], SaveReportType.MATCH_UI);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
