@@ -261,7 +261,9 @@ public class SaveReportController {
 					appendHorizontalRuleWithBreaks(sb);
 					
 					if(reportType == SaveReportType.MATCH_UI) {
-						appendDetailedResults(sb, categories, referenceResults);					
+						if(!ApplicationUtil.isEmpty(report.getReferenceResults()) || results.getNumberOfIssues() > 0) {
+							appendDetailedResults(sb, categories, referenceResults);
+						}
 					}
 					if(reportType == SaveReportType.SUMMARY) {
 						appendPictorialGuide(sb, categories, referenceResults);
@@ -1182,7 +1184,7 @@ public class SaveReportController {
 					e.printStackTrace();
 				}
 			}
-			ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
+//			ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
 		}
 	}
 	
@@ -1260,7 +1262,7 @@ public class SaveReportController {
 		String[] filenames = {"highScoringSample", "lowScoringSample", "sampleWithErrors"};
 		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2;
 		try {
-			buildReportUsingJSONFromLocalFile(filenames[HIGH_SCORING_SAMPLE], SaveReportType.MATCH_UI);
+			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.MATCH_UI);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
