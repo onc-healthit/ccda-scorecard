@@ -719,7 +719,7 @@ public class SaveReportController {
 			List<Category> categories, List<ReferenceResult> referenceResults) {
 		
 		sb.append("<span id='heatMap'>" + "</span>");
-		for (Category curCategory : categories) {
+		for (Category curCategory : getSortedCategories(categories)) {
 			sb.append("<h3>" 
 					+ (curCategory.getNumberOfIssues() > 0 
 							? "<a href='#" + curCategory.getCategoryName() + "-category" + "'>" : "")
@@ -842,7 +842,7 @@ public class SaveReportController {
 			} //END for (ReferenceResult curRefInstance : referenceResults)
 		}
 
-		for (Category curCategory : categories) {
+		for (Category curCategory : getSortedCategories(categories)) {
 			if (curCategory.getNumberOfIssues() > 0) {
 			sb.append("<h3 id='" + curCategory.getCategoryName() + "-category"
 					+ "'>" + curCategory.getCategoryName() + "</h3>");
