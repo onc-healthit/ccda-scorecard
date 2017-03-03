@@ -35,7 +35,8 @@ public class ApplicationConfiguration {
 			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
 			REFERENCE_CCDA_SERVICE = "/referenceccdaservice/",
 			CCDA_SCORECARD_SERVICE = "/scorecard/ccdascorecardservice2",
-			SAVE_SCORECARD_SERVICE_BACKEND = "/scorecard/savescorecardservicebackend";
+			SAVE_SCORECARD_SERVICE_BACKEND = "/scorecard/savescorecardservicebackend",
+			SAVE_SCORECARD_SERVICE_BACKEND_SUMMARY = "/scorecard/savescorecardservicebackendsummary";
 	// ensure when WAR is headed to the dev server that DEFAULT_LOCAL_SERVER_URL
 	// is replaced with CCDA_DEV_SERVER_URL in the following Strings
 	public static final String CODE_DISPLAYNAME_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? TTP_DEV_SERVER_URL
@@ -51,6 +52,9 @@ public class ApplicationConfiguration {
 			: TTP_PROD_SERVER_URL)
 			+ REFERENCE_CCDA_SERVICE;
 	public static final String SAVESCORECARDSERVICEBACKEND_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
+			: CCDA_PROD_SERVER_URL)
+			+ SAVE_SCORECARD_SERVICE_BACKEND;
+	public static final String SAVESCORECARDSERVICEBACKENDSUMMARY_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
 			: CCDA_PROD_SERVER_URL)
 			+ SAVE_SCORECARD_SERVICE_BACKEND;
 	public static final String CCDASCORECARDSERVICE_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL

@@ -168,7 +168,22 @@ public class SaveReportController {
 		return scorecardProcessor.processCCDAFile(ccdaFile);
 	}
 
-	protected static ResponseTO callCcdascorecardserviceExternally(MultipartFile ccdaFile) {
+	public static ResponseTO callCcdascorecardserviceExternally(MultipartFile ccdaFile) {
+		String endpoint = ApplicationConfiguration.CCDASCORECARDSERVICE_URL;
+		return callServiceExternally(endpoint, ccdaFile, null);
+	}	
+
+	public static ResponseTO callSavescorecardservicebackendExternally(MultipartFile ccdaFile) {
+		String endpoint = ApplicationConfiguration.SAVESCORECARDSERVICEBACKEND_URL;
+		return callServiceExternally(endpoint, ccdaFile, null);
+	}
+	
+	public static ResponseTO callSavescorecardservicebackendsummaryExternally(MultipartFile ccdaFile, String senderValue) {
+		String endpoint = ApplicationConfiguration.SAVESCORECARDSERVICEBACKENDSUMMARY_URL;
+		return callServiceExternally(endpoint, ccdaFile, senderValue);
+	}
+	
+	private static ResponseTO callServiceExternally(String endpoint, MultipartFile ccdaFile, String senderValue) {
 		ResponseTO pojoResponse = null;
 
 		LinkedMultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<>();
@@ -180,6 +195,10 @@ public class SaveReportController {
 			out = new FileOutputStream(tempFile);
 			IOUtils.copy(ccdaFile.getInputStream(), out);
 			requestMap.add(tempCcdaFileName, new FileSystemResource(tempFile));
+			if(senderValue != null) {
+				String senderKey = "sender";
+				requestMap.add(senderKey, senderValue);
+			}
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -193,9 +212,7 @@ public class SaveReportController {
 			restTemplate.getMessageConverters().add(
 					new MappingJackson2HttpMessageConverter());
 
-			pojoResponse = restTemplate.postForObject(
-					ApplicationConfiguration.CCDASCORECARDSERVICE_URL,
-					requestEntity, ResponseTO.class);
+			pojoResponse = restTemplate.postForObject(endpoint, requestEntity, ResponseTO.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -213,7 +230,7 @@ public class SaveReportController {
 		}
 
 		return pojoResponse;
-	}
+	}	
 
 	/**
 	 * Parses (POJO ResponseTO converted) JSON and builds the results into an
@@ -1215,7 +1232,7 @@ public class SaveReportController {
 		return pojo;
 	}
 	
-	private enum SaveReportType {
+	public enum SaveReportType {
 		MATCH_UI, SUMMARY;
 	}
 	
