@@ -614,7 +614,12 @@ public class ApplicationUtil {
 	
 	public static boolean isCodeSystemAvailable(String codeSystem)
 	{
-		return ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem)==null ? false : true;
+		boolean result = false;
+		if(codeSystem!= null)
+		{
+			result = ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem)==null ? false : true;
+		}
+		return result;
 	}
 	
 	public static boolean validateDisplayName(String code, String codeSystem, String displayName )
