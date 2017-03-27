@@ -4,14 +4,18 @@
 	<groupId>org.sitenv.services</groupId>
 	<artifactId>scorecard</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+    <!-- Update version for each new release and apply the old version to previousProjectVersion -->
+	<version>1.0</version>
 	<name>ccda-smart-scorecard Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
+        <!-- Update previousProjectVersion to what the version tag was previously for each new release. 
+        Then run a mvn clean, commit/merge the updated files, then run a build of the war and deploy -->
+        <previousProjectVersion>beta4</previousProjectVersion>
+        
 		<org.springframework.version>4.1.0.RELEASE</org.springframework.version>
 	</properties>
-
 
 	<dependencies>
 	
@@ -168,7 +172,34 @@
 
 	<build>
 		<finalName>scorecard</finalName>
-		<plugins>
+        <plugins>
+            <!-- Enforces cache refresh by updating the version of each file for each release.
+            Only a clean is necessary versus a full build to accomplish the task -->
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>pre-clean</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                    </execution>
+                </executions>                
+                <configuration>
+                    <includes>
+                        <include>${project.basedir}/src/main/webapp/index.html</include>
+                        <include>${project.basedir}/src/main/webapp/scApp.js</include>
+                    </includes>
+                    <replacements>
+                        <replacement>
+                            <token>version=R${previousProjectVersion}</token>
+                            <value>version=R${project.version}</value>
+                        </replacement>
+                    </replacements>
+                </configuration>
+            </plugin>     
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -183,7 +214,7 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-		</plugins>
+        </plugins>
 		<directory>${project.basedir}/target</directory>
 	</build>
 

@@ -1,10 +1,14 @@
 package org.sitenv.service.ccda.smartscorecard.cofiguration;
 
+import java.util.Properties;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
 import org.apache.commons.dbcp.BasicDataSource;
 import org.sitenv.service.ccda.smartscorecard.loader.VocabularyLoadRunner;
 import org.sitenv.service.ccda.smartscorecard.loader.VocabularyLoaderFactory;
 import org.sitenv.service.ccda.smartscorecard.model.ScorecardProperties;
-import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ServiceLocatorFactoryBean;
@@ -26,11 +30,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-
-import java.util.*;
 
 
 @Configuration
@@ -134,18 +133,18 @@ public class PersistanceConfiguration {
     public ScorecardProperties scorecardPropertiesLoader(final Environment environment){
     	ScorecardProperties scorecardProperties = new ScorecardProperties();
     	scorecardProperties.setIgConformanceCall(
-    			ApplicationConstants.OVERRIDE_SCORECARD_XML_CONFIG && ApplicationConstants.IG_CONFORMANCE_CALL ? 
-    			ApplicationConstants.IG_CONFORMANCE_CALL :
+    			ApplicationConfiguration.OVERRIDE_SCORECARD_XML_CONFIG && ApplicationConfiguration.IG_CONFORMANCE_CALL ? 
+    					ApplicationConfiguration.IG_CONFORMANCE_CALL :
     			Boolean.parseBoolean(environment.getProperty("scorecard.igConformanceCall")));
     	scorecardProperties.setCertificationResultsCall(
-    			ApplicationConstants.OVERRIDE_SCORECARD_XML_CONFIG && ApplicationConstants.CERTIFICATION_RESULTS_CALL ? 
-    	    	ApplicationConstants.CERTIFICATION_RESULTS_CALL :
+    			ApplicationConfiguration.OVERRIDE_SCORECARD_XML_CONFIG && ApplicationConfiguration.CERTIFICATION_RESULTS_CALL ? 
+    					ApplicationConfiguration.CERTIFICATION_RESULTS_CALL :
     			Boolean.parseBoolean(environment.getProperty("scorecard.certificatinResultsCall")));
     	scorecardProperties.setIgConformanceURL(
-    			ApplicationConstants.OVERRIDE_SCORECARD_XML_CONFIG ? ApplicationConstants.REFERENCE_VALIDATOR_URL :
+    			ApplicationConfiguration.OVERRIDE_SCORECARD_XML_CONFIG ? ApplicationConfiguration.REFERENCE_VALIDATOR_URL :
     			environment.getProperty("scorecard.igConformanceUrl"));
     	scorecardProperties.setCertificatinResultsURL(
-    			ApplicationConstants.OVERRIDE_SCORECARD_XML_CONFIG ? ApplicationConstants.REFERENCE_VALIDATOR_URL :    			
+    			ApplicationConfiguration.OVERRIDE_SCORECARD_XML_CONFIG ? ApplicationConfiguration.REFERENCE_VALIDATOR_URL :    			
     			environment.getProperty("scorecard.certificationResultsUrl"));
         return scorecardProperties;
     }

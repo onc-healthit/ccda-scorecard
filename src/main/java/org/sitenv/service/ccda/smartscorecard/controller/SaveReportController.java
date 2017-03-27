@@ -12,6 +12,8 @@ import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +26,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceError;
@@ -31,8 +34,10 @@ import org.sitenv.service.ccda.smartscorecard.model.ReferenceResult;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ReferenceInstanceType;
 import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
+import org.sitenv.service.ccda.smartscorecard.processor.ScorecardProcessor;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -56,6 +61,9 @@ import com.lowagie.text.DocumentException;
 
 @RestController
 public class SaveReportController {
+	
+	@Autowired
+	private ScorecardProcessor scorecardProcessor;	
 
 	public static final String SAVE_REPORT_CHARSET_NAME = "UTF8";
 	private static final int CONFORMANCE_ERROR_INDEX = 0;
@@ -78,7 +86,7 @@ public class SaveReportController {
 			HttpServletResponse response) {
 		convertHTMLToPDFAndStreamToOutput(
 				ensureLogicalParseTreeInHTML(convertReportToHTML(jsonReportData, SaveReportType.MATCH_UI)),
-				response);
+				response);		
 	}
 
 	/**
@@ -92,8 +100,8 @@ public class SaveReportController {
 	@RequestMapping(value = "/savescorecardservicebackend", method = RequestMethod.POST)
 	public void savescorecardservicebackend(
 			@RequestParam("ccdaFile") MultipartFile ccdaFile,
-			HttpServletResponse response) {		
-		handlePureBackendCall(ccdaFile, response, SaveReportType.MATCH_UI);
+			HttpServletResponse response) {
+		handlePureBackendCall(ccdaFile, response, SaveReportType.MATCH_UI, scorecardProcessor);
 	}
 	
 	/**
@@ -116,16 +124,18 @@ public class SaveReportController {
 		if(ApplicationUtil.isEmpty(sender)) {
 			sender = "Unknown Sender";
 		}
-		handlePureBackendCall(ccdaFile, response, SaveReportType.SUMMARY, sender);
-	}
-	
-	private static void handlePureBackendCall(MultipartFile ccdaFile, HttpServletResponse response, SaveReportType reportType) {
-		handlePureBackendCall(ccdaFile, response, reportType, null);
+		handlePureBackendCall(ccdaFile, response, SaveReportType.SUMMARY, scorecardProcessor, sender);
 	}
 	
 	private static void handlePureBackendCall(MultipartFile ccdaFile, HttpServletResponse response, SaveReportType reportType, 
-			String sender) {
-		ResponseTO pojoResponse = callCcdascorecardservice(ccdaFile);
+			ScorecardProcessor scorecardProcessor) {
+		handlePureBackendCall(ccdaFile, response, reportType, scorecardProcessor, null);
+	}
+	
+	private static void handlePureBackendCall(MultipartFile ccdaFile, HttpServletResponse response, SaveReportType reportType, 
+			ScorecardProcessor scorecardProcessor, String sender) {
+//		ResponseTO pojoResponse = callCcdascorecardserviceExternally(ccdaFile);
+		ResponseTO pojoResponse = callCcdascorecardserviceInternally(ccdaFile, scorecardProcessor);
 		if (pojoResponse == null) {
 			pojoResponse = new ResponseTO();
 			pojoResponse.setResults(null);
@@ -152,8 +162,28 @@ public class SaveReportController {
 				ensureLogicalParseTreeInHTML(convertReportToHTML(pojoResponse, reportType)),
 				response);
 	};
+	
+	protected static ResponseTO callCcdascorecardserviceInternally(MultipartFile ccdaFile, 
+			ScorecardProcessor scorecardProcessor) {
+		return scorecardProcessor.processCCDAFile(ccdaFile);
+	}
 
-	protected static ResponseTO callCcdascorecardservice(MultipartFile ccdaFile) {
+	public static ResponseTO callCcdascorecardserviceExternally(MultipartFile ccdaFile) {
+		String endpoint = ApplicationConfiguration.CCDASCORECARDSERVICE_URL;
+		return callServiceExternally(endpoint, ccdaFile, null);
+	}	
+
+	public static ResponseTO callSavescorecardservicebackendExternally(MultipartFile ccdaFile) {
+		String endpoint = ApplicationConfiguration.SAVESCORECARDSERVICEBACKEND_URL;
+		return callServiceExternally(endpoint, ccdaFile, null);
+	}
+	
+	public static ResponseTO callSavescorecardservicebackendsummaryExternally(MultipartFile ccdaFile, String senderValue) {
+		String endpoint = ApplicationConfiguration.SAVESCORECARDSERVICEBACKENDSUMMARY_URL;
+		return callServiceExternally(endpoint, ccdaFile, senderValue);
+	}
+	
+	private static ResponseTO callServiceExternally(String endpoint, MultipartFile ccdaFile, String senderValue) {
 		ResponseTO pojoResponse = null;
 
 		LinkedMultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<>();
@@ -165,6 +195,10 @@ public class SaveReportController {
 			out = new FileOutputStream(tempFile);
 			IOUtils.copy(ccdaFile.getInputStream(), out);
 			requestMap.add(tempCcdaFileName, new FileSystemResource(tempFile));
+			if(senderValue != null) {
+				String senderKey = "sender";
+				requestMap.add(senderKey, senderValue);
+			}
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -178,9 +212,7 @@ public class SaveReportController {
 			restTemplate.getMessageConverters().add(
 					new MappingJackson2HttpMessageConverter());
 
-			pojoResponse = restTemplate.postForObject(
-					ApplicationConstants.CCDASCORECARDSERVICE_URL,
-					requestEntity, ResponseTO.class);
+			pojoResponse = restTemplate.postForObject(endpoint, requestEntity, ResponseTO.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -198,7 +230,7 @@ public class SaveReportController {
 		}
 
 		return pojoResponse;
-	}
+	}	
 
 	/**
 	 * Parses (POJO ResponseTO converted) JSON and builds the results into an
@@ -246,7 +278,9 @@ public class SaveReportController {
 					appendHorizontalRuleWithBreaks(sb);
 					
 					if(reportType == SaveReportType.MATCH_UI) {
-						appendDetailedResults(sb, categories, referenceResults);					
+						if(!ApplicationUtil.isEmpty(report.getReferenceResults()) || results.getNumberOfIssues() > 0) {
+							appendDetailedResults(sb, categories, referenceResults);
+						}
 					}
 					if(reportType == SaveReportType.SUMMARY) {
 						appendPictorialGuide(sb, categories, referenceResults);
@@ -651,7 +685,7 @@ public class SaveReportController {
 		     .append("    <th>Conformance Errors</th>")
 		     .append("    <th>Certification Feedback</th>")
 		     .append("  </tr>");				
-		for(Category category : categories) {
+		for(Category category : getSortedCategories(categories)) {
 //			if(category.getNumberOfIssues() > 0 || referenceResults.get(ReferenceInstanceType.IG/CERT).getTotalErrorCount() > 0) {
 //			if(category.getNumberOfIssues() > 0 || category.isFailingConformance() || category.isCertificationFeedback()) {				
 			sb.append("  <tr>")
@@ -675,13 +709,36 @@ public class SaveReportController {
 //			}
 		}
 		sb.append("</table>");
-	}	
+	}
+	
+	/**
+	 * Order from best to worst:<br/>
+	 * 1. Numerical score high to low 2. Empty/null 3. Certification Feedback 4. Conformance Error
+	 * @param categories - Category List to sort
+	 * @return sorted categories
+	 */
+	private static List<Category> getSortedCategories(List<Category> categories) {
+		List<Category> sortedCategories = new ArrayList<Category>(categories);
+		//prepare for sort of non-scored items
+		for(Category category : sortedCategories) {
+			if(category.isFailingConformance()) {
+				category.setCategoryNumericalScore(-3);
+			} else if(category.isCertificationFeedback()) {
+				category.setCategoryNumericalScore(-2);
+			} else if(category.isNullFlavorNI()) {
+				category.setCategoryNumericalScore(-1);
+			}
+		}
+		//sorts by numerical score via Comparable implementation in Category
+		Collections.sort(sortedCategories, Collections.reverseOrder());
+		return sortedCategories;
+	}
 	
 	private static void appendHeatmap(StringBuffer sb, Results results,
 			List<Category> categories, List<ReferenceResult> referenceResults) {
 		
 		sb.append("<span id='heatMap'>" + "</span>");
-		for (Category curCategory : categories) {
+		for (Category curCategory : getSortedCategories(categories)) {
 			sb.append("<h3>" 
 					+ (curCategory.getNumberOfIssues() > 0 
 							? "<a href='#" + curCategory.getCategoryName() + "-category" + "'>" : "")
@@ -705,15 +762,24 @@ public class SaveReportController {
 			  	boolean failingConformance = curCategory.isFailingConformance();
 			  	boolean failingCertification = curCategory.isCertificationFeedback();
 			  	if(failingConformance || failingCertification) {
+		  			boolean isCategoryNameValid = !ApplicationUtil.isEmpty(curCategory.getCategoryName());
 			  		if(failingConformance && failingCertification || failingConformance && !failingCertification) {
 				  		//we default to IG if true for both since IG is considered a more serious issue (same with the heatmap label, so we match that)
 				  		//there could be a duplicate for two reasons, right now, there's always at least one duplicate since we derive ig from cert in the backend
-				  		//in the future this might not be the case, but, there could be multiple section fails in the same section, so we have a default for those too				  			
-						sb.append("contains <a href='#" + ReferenceInstanceType.IG_CONFORMANCE.getTypePrettyName() 
-								+ "-category'" + ">" + "Conformance Errors" + "</a>");
+				  		//in the future this might not be the case, but, there could be multiple section fails in the same section, so we have a default for those too
+			  			int igErrorCount = isCategoryNameValid 
+			  					? getFailingSectionSpecificErrorCount(curCategory.getCategoryName(), ReferenceInstanceType.IG_CONFORMANCE, referenceResults)
+			  					: -1;
+						sb.append("contains" + (isCategoryNameValid ? " <b>" + igErrorCount + "</b> " : "")
+								+ "<a href='#" + ReferenceInstanceType.IG_CONFORMANCE.getTypePrettyName() 
+								+ "-category'" + ">" + "Conformance Error" + (igErrorCount != 1 ? "s" : "") + "</a>");
 					} else if(failingCertification && !failingConformance) {
-						sb.append("contains <a href='#" + ReferenceInstanceType.CERTIFICATION_2015.getTypePrettyName() 
-								+ "-category'" + ">" + "Certification Feedback" + "</a>");
+						int certFeedbackCount = isCategoryNameValid
+								? getFailingSectionSpecificErrorCount(curCategory.getCategoryName(), ReferenceInstanceType.CERTIFICATION_2015, referenceResults)
+								: -1;
+						sb.append("contains" + (isCategoryNameValid ? " <b>" + certFeedbackCount + "</b> " : "")
+								+ "<a href='#" + ReferenceInstanceType.CERTIFICATION_2015.getTypePrettyName() 
+								+ "-category'" + ">" + "Certification Feedback" + "</a>" + " result" + (certFeedbackCount != 1 ? "s" : ""));
 					}
 			  	}
 				sb.append("</li>");
@@ -804,7 +870,7 @@ public class SaveReportController {
 			} //END for (ReferenceResult curRefInstance : referenceResults)
 		}
 
-		for (Category curCategory : categories) {
+		for (Category curCategory : getSortedCategories(categories)) {
 			if (curCategory.getNumberOfIssues() > 0) {
 			sb.append("<h3 id='" + curCategory.getCategoryName() + "-category"
 					+ "'>" + curCategory.getCategoryName() + "</h3>");
@@ -1135,7 +1201,7 @@ public class SaveReportController {
 					e.printStackTrace();
 				}
 			}
-			ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
+//			ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
 		}
 	}
 	
@@ -1166,7 +1232,7 @@ public class SaveReportController {
 		return pojo;
 	}
 	
-	private enum SaveReportType {
+	public enum SaveReportType {
 		MATCH_UI, SUMMARY;
 	}
 	
@@ -1213,7 +1279,7 @@ public class SaveReportController {
 		String[] filenames = {"highScoringSample", "lowScoringSample", "sampleWithErrors"};
 		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2;
 		try {
-			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.SUMMARY);
+			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.MATCH_UI);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}

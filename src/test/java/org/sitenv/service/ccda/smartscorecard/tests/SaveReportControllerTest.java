@@ -10,9 +10,12 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.controller.SaveReportController;
-import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
+import org.sitenv.service.ccda.smartscorecard.controller.SaveReportController.SaveReportType;
+import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -24,16 +27,41 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 public class SaveReportControllerTest {
 
 	private static final String CCDA_TEST_FILE = "/Scorecard-PassesCert.xml";
-
+	
 	@Test
-	public void testSavescorecardservicebackend() {
-
+	public void testMatchUIWithResultsStream() {
+		runBackendSaveService(SaveReportType.MATCH_UI);
+	}
+	
+	@Ignore
+	@Test
+	public void testMatchUIExternallyAndGetDTO() {
+		checkDTO(callSaveScorecardServiceExternally(SaveReportType.MATCH_UI));
+	}
+	
+	@Test
+	public void testSummaryWithResultsStream() {
+		runBackendSaveService(SaveReportType.SUMMARY);
+	}
+	
+	@Ignore
+	@Test
+	public void testSummaryExternallyAndGetDTO() {		
+		checkDTO(callSaveScorecardServiceExternally(SaveReportType.SUMMARY));
+	}	
+	
+	private void checkDTO(@RequestBody ResponseTO dto) {
+		Assert.assertTrue("The DTO response is null", dto != null);
+	}
+	
+	private void runBackendSaveService(SaveReportType reportType) {
 		File localFile = new File(getClass().getResource(CCDA_TEST_FILE)
 				.getPath());
 		ApplicationUtil.debugLog("localFile Path", localFile.getPath());
@@ -49,8 +77,16 @@ public class SaveReportControllerTest {
 					localFile.getName(), localFileStream);
 			ApplicationUtil.debugLog("ccdaFile.getName()",
 					(ccdaFile.getName() != null) ? ccdaFile.getName() : "null");
-
-			pdfBytes = getSavescorecardservicebackendPdfResultsStream(ccdaFile);
+			
+			switch (reportType) {
+			case MATCH_UI:
+				pdfBytes = getSavescorecardservicebackendPdfResultsStream(ccdaFile);
+				break;
+			case SUMMARY:
+				pdfBytes = getSavescorecardservicebackendsummaryPdfResultsStream(
+						ccdaFile, "email.address@someserver.com");
+				break;
+			}
 			ApplicationUtil.debugLog("pdfBytes",
 					pdfBytes != null ? pdfBytes.toString() : "null");
 			ApplicationUtil.debugLog("ccdaFile.getName() 2nd time",
@@ -85,12 +121,20 @@ public class SaveReportControllerTest {
 			ApplicationUtil
 					.debugLog("testSavescorecardservicebackend completed routine");
 		}
-
 	}
 
-	private static byte[] getSavescorecardservicebackendPdfResultsStream(
-			MultipartFile ccdaFile) {
-
+	private static byte[] getSavescorecardservicebackendPdfResultsStream(MultipartFile ccdaFile) {
+		String endpoint = ApplicationConfiguration.SAVESCORECARDSERVICEBACKEND_URL;
+		return getPdfResultsStream(endpoint, ccdaFile, null);
+	}
+	
+	private static byte[] getSavescorecardservicebackendsummaryPdfResultsStream(MultipartFile ccdaFile, 
+			String senderValue) {
+		String endpoint = ApplicationConfiguration.SAVESCORECARDSERVICEBACKENDSUMMARY_URL;
+		return getPdfResultsStream(endpoint, ccdaFile, senderValue);
+	}
+	
+	private static byte[] getPdfResultsStream(String endpoint, MultipartFile ccdaFile, String senderValue) {
 		LinkedMultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<>();
 		byte[] pdfBytes = null;
 		FileOutputStream tempFileOutputStream = null;
@@ -102,6 +146,10 @@ public class SaveReportControllerTest {
 			tempFileOutputStream = new FileOutputStream(tempFile);
 			IOUtils.copy(ccdaFile.getInputStream(), tempFileOutputStream);
 			requestMap.add(tempCcdaFileName, new FileSystemResource(tempFile));
+			if(senderValue != null) {
+				String senderKey = "sender";
+				requestMap.add(senderKey, senderValue);
+			}
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -125,7 +173,7 @@ public class SaveReportControllerTest {
 			restTemplate.setMessageConverters(messageConverters);
 
 			pdfBytes = restTemplate.postForObject(
-					ApplicationConstants.SAVESCORECARDSERVICEBACKEND_URL,
+					ApplicationConfiguration.SAVESCORECARDSERVICEBACKEND_URL,
 					requestEntity, byte[].class);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -144,7 +192,44 @@ public class SaveReportControllerTest {
 		}
 
 		return pdfBytes;
-
 	}
+	
+	private ResponseTO callSaveScorecardServiceExternally(SaveReportType reportType) {
+		File localFile = new File(getClass().getResource(CCDA_TEST_FILE)
+				.getPath());
+		ApplicationUtil.debugLog("localFile Path", localFile.getPath());
+		FileInputStream localFileStream = null;
 
+		try {
+			localFileStream = new FileInputStream(localFile);
+			ApplicationUtil.debugLog("localFileStream",
+					localFileStream.toString());
+
+			MockMultipartFile ccdaFile = new MockMultipartFile(
+					localFile.getName(), localFileStream);
+			ApplicationUtil.debugLog("ccdaFile.getName()",
+					(ccdaFile.getName() != null) ? ccdaFile.getName() : "null");
+			
+			switch (reportType) {
+			case MATCH_UI:
+				return SaveReportController.callSavescorecardservicebackendExternally(ccdaFile);
+			case SUMMARY:
+				return SaveReportController.callSavescorecardservicebackendsummaryExternally(ccdaFile, "email.address@someserver.com");
+			}			
+
+		} catch (Exception e) {
+			TestUtil.convertStackTraceToStringAndAssertFailWithIt(e);
+		} finally {
+			try {
+				if (localFileStream != null) {
+					localFileStream.close();
+				}
+			} catch (IOException e) {
+				TestUtil.convertStackTraceToStringAndAssertFailWithIt(e);
+			}
+			ApplicationUtil
+					.debugLog("callSaveScorecardServiceExternally completed routine");
+		}
+		return null;
+	}
 }

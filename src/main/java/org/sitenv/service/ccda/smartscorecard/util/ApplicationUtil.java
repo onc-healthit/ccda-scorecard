@@ -17,6 +17,7 @@ import org.sitenv.ccdaparsing.model.CCDAEffTime;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
 import org.sitenv.ccdaparsing.model.CCDARefModel;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
@@ -613,7 +614,12 @@ public class ApplicationUtil {
 	
 	public static boolean isCodeSystemAvailable(String codeSystem)
 	{
-		return ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem)==null ? false : true;
+		boolean result = false;
+		if(codeSystem!= null)
+		{
+			result = ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem)==null ? false : true;
+		}
+		return result;
 	}
 	
 	public static boolean validateDisplayName(String code, String codeSystem, String displayName )
@@ -621,7 +627,7 @@ public class ApplicationUtil {
 		boolean result = false;
 		if(!ApplicationUtil.isEmpty(code) && !ApplicationUtil.isEmpty(codeSystem) && !ApplicationUtil.isEmpty(displayName))
 		{
-			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_DISPLAYNAME_VALIDATION_URL)
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConfiguration.CODE_DISPLAYNAME_VALIDATION_URL)
 					.queryParam("code", code)
 					.queryParam("codeSystems", ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem)==null ? "\"\"" : ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem))
 					.queryParam("displayName", displayName.toUpperCase());
@@ -636,7 +642,7 @@ public class ApplicationUtil {
 		boolean result = false;
 		if(!ApplicationUtil.isEmpty(code) && !ApplicationUtil.isEmpty(valuesetId))
 		{
-			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_VALUSET_VALIDATION_URL)
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConfiguration.CODE_VALUSET_VALIDATION_URL)
 					.queryParam("code", code)
 					.queryParam("valuesetOids", valuesetId);
 		
@@ -653,7 +659,7 @@ public class ApplicationUtil {
 		boolean result = false;
 		if(!ApplicationUtil.isEmpty(code) && !ApplicationUtil.isEmpty(codeSystem))
 		{
-			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConstants.CODE_CODESYSTEM_VALIDATION_URL)
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ApplicationConfiguration.CODE_CODESYSTEM_VALIDATION_URL)
 			        .queryParam("code",code)
 			        .queryParam("codeSystems", ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem)==null ? "\"\"" : ApplicationConstants.CODE_SYSTEM_MAP.get(codeSystem));
 			
@@ -997,7 +1003,7 @@ public class ApplicationUtil {
 	}
 	
 	public static void debugLog(String debugMessage) {
-		if (!ApplicationConstants.IN_DEVELOPMENT_MODE)
+		if (!ApplicationConfiguration.IN_DEVELOPMENT_MODE)
 			return;
 		System.out.println(System.lineSeparator() + "Debug Log:");
 		System.out.println(debugMessage + System.lineSeparator());

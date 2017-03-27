@@ -3,7 +3,7 @@ package org.sitenv.service.ccda.smartscorecard.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category {	
+public class Category implements Comparable<Category> {	
 	
 	public Category(boolean isFailingConformance, String categoryName)
 	{
@@ -83,6 +83,16 @@ public class Category {
 	}
 	public void setNullFlavorNI(boolean isNullFlavorNI) {
 		this.isNullFlavorNI = isNullFlavorNI;
+	}
+
+	@Override
+	public int compareTo(Category other) {
+		if(this.categoryNumericalScore < other.categoryNumericalScore) {
+			return -1;
+		} else if(this.categoryNumericalScore > other.categoryNumericalScore) {
+			return 1;
+		}
+		return 0;
 	}
 	
 }
