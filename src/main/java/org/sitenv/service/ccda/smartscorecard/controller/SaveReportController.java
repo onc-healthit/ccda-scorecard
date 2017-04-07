@@ -290,8 +290,13 @@ public class SaveReportController {
 			} else {
 				// report.getResults() == null
 				if (!report.isSuccess()) {
-					appendErrorMessageFromReport(sb, report,
-							ApplicationConstants.ErrorMessages.IS_SUCCESS_FALSE);
+					if(reportType != SaveReportType.SUMMARY) {
+						appendErrorMessageFromReport(sb, report,
+								ApplicationConstants.ErrorMessages.IS_SUCCESS_FALSE);
+					} else {
+						//we want less specific dev data in the summary response
+						appendErrorMessageFromReport(sb, report, false);
+					}
 				} else {
 					appendErrorMessageFromReport(sb, report);
 				}
@@ -1113,10 +1118,16 @@ public class SaveReportController {
 	}
 
 	private static void appendErrorMessage(StringBuffer sb, String errorMessage) {
+		appendErrorMessage(sb, errorMessage, true);
+	}
+	
+	private static void appendErrorMessage(StringBuffer sb, String errorMessage, boolean appendContactMessage) {
 		sb.append("<h2 style='color:red; background-color: #ffe6e6'>");
 		sb.append(errorMessage);
 		sb.append("</h2>");
-		sb.append("<p>" + ApplicationConstants.ErrorMessages.CONTACT + "</p>");
+		if(appendContactMessage) {
+			sb.append("<p>" + ApplicationConstants.ErrorMessages.CONTACT + "</p>");
+		}
 	}
 
 	private static void appendGenericErrorMessage(StringBuffer sb) {
@@ -1128,14 +1139,24 @@ public class SaveReportController {
 
 	private static void appendErrorMessageFromReport(StringBuffer sb,
 			ResponseTO report) {
-		appendErrorMessageFromReport(sb, report, null);
+		appendErrorMessageFromReport(sb, report, null, true);
+	}
+	
+	private static void appendErrorMessageFromReport(StringBuffer sb,
+			ResponseTO report, boolean appendContactMessage) {
+		appendErrorMessageFromReport(sb, report, null, appendContactMessage);
+	}
+	
+	private static void appendErrorMessageFromReport(StringBuffer sb,
+			ResponseTO report, String extraMessage) {
+		appendErrorMessageFromReport(sb, report, extraMessage, true);
 	}
 
 	private static void appendErrorMessageFromReport(StringBuffer sb,
-			ResponseTO report, String extraMessage) {
+			ResponseTO report, String extraMessage, boolean appendContactMessage) {
 		if (report.getErrorMessage() != null
 				&& !report.getErrorMessage().isEmpty()) {
-			appendErrorMessage(sb, report.getErrorMessage());
+			appendErrorMessage(sb, report.getErrorMessage(), appendContactMessage);
 		} else {
 			appendGenericErrorMessage(sb);
 		}
@@ -1201,7 +1222,7 @@ public class SaveReportController {
 					e.printStackTrace();
 				}
 			}
-//			ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
+			ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
 		}
 	}
 	
@@ -1279,7 +1300,7 @@ public class SaveReportController {
 		String[] filenames = {"highScoringSample", "lowScoringSample", "sampleWithErrors"};
 		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2;
 		try {
-			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.MATCH_UI);
+			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.SUMMARY);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
