@@ -270,6 +270,11 @@ public class ApplicationUtil {
 		return isValid;
 	}
 	
+	public static boolean isEffectiveTimePresent(CCDAEffTime effectiveTime)
+	{
+		return effectiveTime.getValuePresent() || effectiveTime.isSingleAdministrationValuePresent() || effectiveTime.getLowPresent() || effectiveTime.getHighPresent();
+	}
+	
 	public static String getFormat(String date)
 	{
 		String format;

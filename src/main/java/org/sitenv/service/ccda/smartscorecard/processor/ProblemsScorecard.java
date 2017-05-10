@@ -173,9 +173,9 @@ public class ProblemsScorecard {
 			{
 				for (CCDAProblemConcern problemConcern : problem.getProblemConcerns())
 				{
-					maxPoints++;
-					if(problemConcern.getEffTime() != null)
+					if(problemConcern.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(problemConcern.getEffTime()))
 					{
+						maxPoints++;
 						if(ApplicationUtil.checkDateRange(birthDate, problemConcern.getEffTime()))
 						{
 							actualPoints++;
@@ -188,21 +188,14 @@ public class ProblemsScorecard {
 							issuesList.add(issue);
 						}
 					}
-					else 
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(problemConcern.getLineNumber());
-						issue.setXmlString(problemConcern.getXmlString());
-						issuesList.add(issue);
-					}
 					
 					if(!ApplicationUtil.isEmpty(problemConcern.getProblemObservations()))
 					{
 						for (CCDAProblemObs problemObs : problemConcern.getProblemObservations() )
 						{
-							maxPoints++;
-							if(problemObs.getEffTime() != null)
+							if(problemObs.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(problemObs.getEffTime()))
 							{
+								maxPoints++;
 								if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime()))
 								{
 									actualPoints++;
@@ -215,31 +208,16 @@ public class ProblemsScorecard {
 									issuesList.add(issue);
 								}
 							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(problemObs.getLineNumber());
-								issue.setXmlString(problemObs.getXmlString());
-								issuesList.add(issue);
-							}
 						}
 					}
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(problem.getLineNumber());
-				issue.setXmlString(problem.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problems section not present");
-			issue.setXmlString("Problems section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		validDateTimeScore.setActualPoints(actualPoints);
@@ -561,15 +539,15 @@ public class ProblemsScorecard {
 			{
 				for(CCDAProblemConcern problemAct : problems.getProblemConcerns())
 				{
-					if(problemAct.getEffTime()!= null)
+					if(problemAct.getEffTime()!= null && ApplicationUtil.isEffectiveTimePresent(problemAct.getEffTime()))
 					{
 						if(!ApplicationUtil.isEmpty(problemAct.getProblemObservations()))
 						{
 							for(CCDAProblemObs problemObs : problemAct.getProblemObservations())
 							{
-								maxPoints++;
-								if(problemObs.getEffTime()!=null)
+								if(problemObs.getEffTime()!=null && ApplicationUtil.isEffectiveTimePresent(problemObs.getEffTime()))
 								{
+									maxPoints++;
 									if(ApplicationUtil.checkDateRange(problemObs.getEffTime().getLow(),problemObs.getEffTime().getHigh(),
 														problemAct.getEffTime().getLow(),problemAct.getEffTime().getHigh()))
 									{
@@ -583,32 +561,17 @@ public class ProblemsScorecard {
 										issuesList.add(issue);
 									}
 								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(problemObs.getLineNumber());
-									issue.setXmlString(problemObs.getXmlString());
-									issuesList.add(issue);
-								}
 							}
 						}
 					}
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(problems.getLineNumber());
-				issue.setXmlString(problems.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Problems section not present");
-			issue.setXmlString("Problems section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		validateApprEffectiveTimeScore.setActualPoints(actualPoints);
