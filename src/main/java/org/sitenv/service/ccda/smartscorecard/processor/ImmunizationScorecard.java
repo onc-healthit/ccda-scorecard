@@ -133,9 +133,9 @@ public class ImmunizationScorecard {
 			{
 				for (CCDAImmunizationActivity immunizationActivity : immunizatons.getImmActivity())
 				{
-					maxPoints++;
-					if(immunizationActivity.getTime() != null)
+					if(immunizationActivity.getTime() != null && ApplicationUtil.isEffectiveTimePresent(immunizationActivity.getTime()))
 					{
+						maxPoints++;
 						if(ApplicationUtil.checkDateRange(birthDate, immunizationActivity.getTime()))
 						{
 							actualPoints++;
@@ -149,29 +149,14 @@ public class ImmunizationScorecard {
 						}
 							
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(immunizationActivity.getLineNumber());
-						issue.setXmlString(immunizationActivity.getXmlString());
-						issuesList.add(issue);
-					}
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(immunizatons.getLineNumber());
-				issue.setXmlString(immunizatons.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Immunization section not present");
-			issue.setXmlString("Immunization section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 
 		validateTimeScore.setActualPoints(actualPoints);

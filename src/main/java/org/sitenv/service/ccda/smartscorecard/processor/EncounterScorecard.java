@@ -169,9 +169,9 @@ public class EncounterScorecard {
 			{
 				for (CCDAEncounterActivity encounterActivity : encounter.getEncActivities())
 				{
-					maxPoints++;
-					if(encounterActivity.getEffectiveTime() != null)
+					if(encounterActivity.getEffectiveTime() != null && ApplicationUtil.isEffectiveTimePresent(encounterActivity.getEffectiveTime()))
 					{
+						maxPoints++;
 						if(ApplicationUtil.checkDateRange(birthDate, encounterActivity.getEffectiveTime()))
 						{
 							actualPoints++;
@@ -184,13 +184,6 @@ public class EncounterScorecard {
 							issuesList.add(issue);
 						}
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(encounterActivity.getLineNumber());
-						issue.setXmlString(encounterActivity.getXmlString());
-						issuesList.add(issue);
-					}
 						
 					if(!ApplicationUtil.isEmpty(encounterActivity.getDiagnoses()))
 					{
@@ -200,9 +193,9 @@ public class EncounterScorecard {
 							{
 								for (CCDAProblemObs problemObs : encounterDiagnosis.getProblemObs() )
 								{
-									maxPoints++;
-									if(problemObs.getEffTime() != null)
+									if(problemObs.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(problemObs.getEffTime()))
 									{
+										maxPoints++;
 										if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime()))
 										{
 											actualPoints++;
@@ -215,33 +208,18 @@ public class EncounterScorecard {
 											issuesList.add(issue);
 										}
 									}
-									else
-									{
-										issue = new CCDAXmlSnippet();
-										issue.setLineNumber(problemObs.getLineNumber());
-										issue.setXmlString(problemObs.getXmlString());
-										issuesList.add(issue);
-									}
 								}
 							}
 						}
 					}
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(encounter.getLineNumber());
-				issue.setXmlString(encounter.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Encounter section not present");
-			issue.setXmlString("Encounter Section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 
 		validateTimeScore.setActualPoints(actualPoints);

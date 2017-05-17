@@ -50,7 +50,7 @@ public class ApplicationConstants {
 	public static final String VITAL_AAPR_DATE_DESCRIPTION = "The EffectiveDate/Time elements of the Vital Signs Organizer cannot be out of sync with the "
 			+ "Vital Signs Observation. Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low "
 			+ "and Observation's EffectiveTime/high should be <= Organizer's EffectiveTime/high";
-	public static final String PROBLEM_APR_STATUS_REQ = "Problem Concern status and Problem Observation status are consistent with each other.";
+	public static final String PROBLEM_APR_STATUS_REQ = "Problem Concern status and Problem Observation status should be consistent with each other.";
 	public static final String PROBLEM_APR_STATUS_DESC = "A Problem Concern status of completed is compatible with a Problem Observation status of Resolved or Inactive."
 			+ " A Problem Concern status of Active is compatible with a Problem Observation status of Active.";
 	public static final String PROBLEM_APR_TIME_REQ = "Problem Concern effective times reflect the appropriate problem concern status.";
@@ -139,8 +139,8 @@ public class ApplicationConstants {
 																		+ "valid date and time value within human life span";
 	public static final String ALLERGIES_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under allergies section should contain valid display names";	
 	
-	public static final String ALLERGIES_CONCERN_DATE_ALIGN_REQ = "Allergies observation effective should align with Allergies concern act effective time";
-	public static final String ALLERGIES_CONCERN_DATE_ALIGN_DESC ="Allergies observation effective should align with Allergies concern act effective time";
+	public static final String ALLERGIES_CONCERN_DATE_ALIGN_REQ = "Allergies observation effective time should align with Allergies concern act effective time";
+	public static final String ALLERGIES_CONCERN_DATE_ALIGN_DESC ="Allergies observation effective time should align with Allergies concern act effective time";
 	
 	public static final String PROCEDURES_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Procedures section should contain valid display names";	
 	
