@@ -13,9 +13,9 @@
 		
     		<div class="row">
     			<div class="col-md-4 scHeading">
-    			   <h2>Scorecard Grade:</h2>
-				   <h2 class="scHeaderDescriptionText">Scorecard Score:</h2>
-				   <h2 class="scHeaderDescriptionText">Scorecard Issues:</h2>
+    			   <h2>Grade:</h2>
+				   <h2 class="scHeaderDescriptionText">Score:</h2>
+				   <h2 class="scHeaderDescriptionText">Issues:</h2>
 				   <h2 class="scHeaderDescriptionText">
                     <span ng-if="!igResults.totalErrorCount">{{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}:</span>
                     <a ng-if="igResults.totalErrorCount" href="javascript:void(0)"  
@@ -87,6 +87,7 @@
                       </span>
                    </h2>				   
     			</div>
+                <!--
     			<div class="col-md-6 scHeading" style="padding-top: 6px">
     			   <h3>
                      Your {{jsonData.ccdaDocumentType ? jsonData.ccdaDocumentType : "document"}} scored {{jsonData.results.finalGrade && jsonData.results.finalGrade === 'A' ? 'an' : 'a'}}
@@ -100,6 +101,7 @@
                      have been graded by the ONC Scorecard.
                    </h4>                   
     			</div>
+                -->
     		</div>
 			
         </div> <!-- END topLevelResultsTable -->		                		
