@@ -15,10 +15,10 @@
 
 .scHeading {
     color: black;
-    /*text-align: center;*/
+    text-align: center;
 /*    border-top: 2px solid darkBlue;*/
     background-color: white;
-    margin-top: 5px;
+    /*margin-top: 5px;*/
 }
 
 .scHeaderDescriptionText {
@@ -29,6 +29,11 @@
 	text-align: left;
     font-size: 100%;
     font-weight: bold;
+}
+
+.scResult {
+	font-size: 120%;
+	color: darkBlue;
 }
 
 #topLevelResultsTable {

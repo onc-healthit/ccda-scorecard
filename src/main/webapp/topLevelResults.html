@@ -14,8 +14,40 @@
     		<div class="row">
     			<div class="col-md-4 scHeading">
     			   <h2>Grade:</h2>
-				   <h2 class="scHeaderDescriptionText">Score:</h2>
-				   <h2 class="scHeaderDescriptionText">Issues:</h2>
+    			</div>
+                <div class="col-md-4 scHeading">
+                   <h2>Score:</h2>
+                </div>
+                <div class="col-md-4 scHeading">
+                   <h2>Issues:</h2>
+                </div>
+            </div>
+    		<div class="row">
+    			<div class="col-md-4 scHeading">
+    			   <h2>
+                    <img ng-if="!jsonData.results.finalGrade" 
+                      src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
+                    <span ng-if="jsonData.results.finalGrade" class="scResult">{{jsonData.results.finalGrade}}</span>             
+                  </h2>
+    			</div>
+                <div class="col-md-4 scHeading">
+                   <h2>
+                    <img ng-if="!jsonData.results.finalGrade" 
+                      src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
+                    <span ng-if="jsonData.results.finalGrade" class="scResult">{{jsonData.results.finalNumericalGrade + " / 100"}}</span>     
+                  </h2>
+                </div>
+                <div class="col-md-4 scHeading">
+                   <h2>
+                    <img ng-if="!jsonData.results.finalGrade" 
+                      src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
+                    <span ng-if="jsonData.results.finalGrade" class="scResult">{{jsonData.results.numberOfIssues}}</span>     
+                  </h2>
+                </div>
+            </div>            
+            
+            <div class="row">
+              <div class="col-md-6 scHeading">
 				   <h2 class="scHeaderDescriptionText">
                     <span ng-if="!igResults.totalErrorCount">{{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}:</span>
                     <a ng-if="igResults.totalErrorCount" href="javascript:void(0)"  
@@ -23,8 +55,10 @@
                     title="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}" 
                     aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}">
                       <span>{{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}:</span>
-                    </a>
+                    </a>                    
                    </h2>
+              </div>
+                <div class="col-md-6 scHeading">
     		       <h2 class="scHeaderDescriptionText">
                     <span ng-if="!certResults.totalErrorCount">{{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}:</span>
                     <a ng-if="certResults.totalErrorCount" href="javascript:void(0)"  
@@ -32,77 +66,48 @@
                     title="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}" 
                     aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}">
                       <span>{{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}:</span>
-                    </a>               
-                   </h2> 				   
-    			</div>
-    			<div class="col-md-2 scHeading">
-    			   <!--<h2>{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "Scoring..."}}</h2>-->
-                   <h2>
-                    <img ng-if="!jsonData.results.finalGrade" 
-                      src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
-                    <span ng-if="jsonData.results.finalGrade">{{jsonData.results.finalGrade}}</span>
-                   </h2>             
-				   <!--<h2 class="scHeaderDescriptionText">{{jsonData.results.finalGrade ? jsonData.results.finalNumericalGrade + " / 100" : "Scoring..."}}</h2>-->
-                   <h2 class="scHeaderDescriptionText">
-                    <img ng-if="!jsonData.results.finalGrade" 
-                      src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
-                    <span ng-if="jsonData.results.finalGrade">{{jsonData.results.finalNumericalGrade + " / 100"}}</span>
-                   </h2>        
-				   <!--<h2 class="scHeaderDescriptionText">{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : "Scoring..."}}</h2>-->
-                   <h2 class="scHeaderDescriptionText">
-                    <img ng-if="!jsonData.results.finalGrade" 
-                      src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
-                    <span ng-if="jsonData.results.finalGrade">{{jsonData.results.numberOfIssues}}</span>
+                    </a>                                  
                    </h2>
-    			   <h2 class="scHeaderDescriptionText">
-                      <a ng-if="igResults.totalErrorCount" href="javascript:void(0)"  
-                      ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.IG_CONFORMANCE)" 
-                      title="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}" 
-                      aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}">
-                      {{jsonData.results.finalGrade ? igResults.totalErrorCount : ''}}
-                      </a>
-                      <!--<span ng-show="!igResults.totalErrorCount">
-                        {{jsonData.results.finalGrade ? "0" : "Processing..."}}
-                      </span>-->
-                      <span ng-if="!igResults.totalErrorCount">
-                        <img ng-if="!jsonData.results.finalGrade" 
-                          src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
-                        <span ng-if="jsonData.results.finalGrade">0</span>                
-                      </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 scHeading">
+				   <h2 class="scHeaderDescriptionText">
+                     <span class="scHeaderDescriptionText">
+                        <a ng-if="igResults.totalErrorCount" href="javascript:void(0)"  
+                        ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.IG_CONFORMANCE)" 
+                        title="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}" 
+                        aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}"
+                        class="scResult">
+                        {{jsonData.results.finalGrade ? igResults.totalErrorCount : ''}}
+                        </a>
+                        <span ng-if="!igResults.totalErrorCount">
+                          <img ng-if="!jsonData.results.finalGrade" 
+                            src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
+                          <span ng-if="jsonData.results.finalGrade" class="scResult">0</span>                
+                        </span>
+                     </span>                    
                    </h2>
-    			   <h2 class="scHeaderDescriptionText">
-                      <a ng-if="certResults.totalErrorCount" href="javascript:void(0)"  
-                      ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.CERTIFICATION_2015)"              
-                      title="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}" 
-                      aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}">
-                      {{jsonData.results.finalGrade ? certResults.totalErrorCount : ''}}
-                      </a>
-                      <!--<span ng-show="!certResults.totalErrorCount">
-                        {{jsonData.results.finalGrade ? "0" : "Processing..."}}
-                      </span>-->                      
-                      <span ng-if="!certResults.totalErrorCount">
-                        <img ng-if="!jsonData.results.finalGrade" 
-                          src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
-                        <span ng-if="jsonData.results.finalGrade">0</span>             
-                      </span>
-                   </h2>				   
-    			</div>
-                <!--
-    			<div class="col-md-6 scHeading" style="padding-top: 6px">
-    			   <h3>
-                     Your {{jsonData.ccdaDocumentType ? jsonData.ccdaDocumentType : "document"}} scored {{jsonData.results.finalGrade && jsonData.results.finalGrade === 'A' ? 'an' : 'a'}}
-                     <b>{{jsonData.results.finalGrade ? jsonData.results.finalGrade : "?"}}</b> compared to an industry average of
-                     <b>{{jsonData.results.finalGrade ? jsonData.results.industryAverageGrade : "?"}}</b>.
-                   </h3>
-                   <h4>
-                     Industry average is the average of all grades for C-CDAs that have been scored by the ONC Scorecard. It is computed
-                     on an on-going basis, since June 2016, when the Scorecard tool was first made available to users. Since
-                     then, <b>{{jsonData.results.finalGrade ? jsonData.results.numberOfDocumentsScored : '?'}}</b> documents
-                     have been graded by the ONC Scorecard.
-                   </h4>                   
-    			</div>
-                -->
-    		</div>
+              </div>
+                <div class="col-md-6 scHeading">
+    		       <h2 class="scHeaderDescriptionText">
+                      <span class="scHeaderDescriptionText">
+                        <a ng-if="certResults.totalErrorCount" href="javascript:void(0)"  
+                        ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.CERTIFICATION_2015)"              
+                        title="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}" 
+                        aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}"
+                        class="scResult">
+                        {{jsonData.results.finalGrade ? certResults.totalErrorCount : ''}}
+                        </a>
+                        <span ng-if="!certResults.totalErrorCount">
+                          <img ng-if="!jsonData.results.finalGrade" 
+                            src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
+                          <span ng-if="jsonData.results.finalGrade" class="scResult">0</span>             
+                        </span>
+                      </span>                                  
+                   </h2>
+              </div>
+            </div>			
 			
         </div> <!-- END topLevelResultsTable -->		                		
 	
