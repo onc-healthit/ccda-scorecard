@@ -95,7 +95,8 @@ public class VitalsScorecard {
 							maxPoints++;
 							if(vitalObs.getMeasurementTime() != null)
 							{
-								if(ApplicationUtil.validateMinuteFormat(vitalObs.getMeasurementTime()) ||
+								if(ApplicationUtil.validateDayFormat(vitalObs.getMeasurementTime())||
+										ApplicationUtil.validateMinuteFormat(vitalObs.getMeasurementTime()) ||
 										ApplicationUtil.validateSecondFormat(vitalObs.getMeasurementTime()))
 								{
 									actualPoints++;
@@ -171,9 +172,9 @@ public class VitalsScorecard {
 			{
 				for (CCDAVitalOrg vitalOrg : vitals.getVitalsOrg())
 				{
-					maxPoints++;
-					if(vitalOrg.getEffTime() != null)
+					if(vitalOrg.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(vitalOrg.getEffTime()))
 					{
+						maxPoints++;
 						if(ApplicationUtil.checkDateRange(birthDate, vitalOrg.getEffTime()))
 						{
 							actualPoints++;
@@ -186,21 +187,14 @@ public class VitalsScorecard {
 							issuesList.add(issue);
 						}
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(vitalOrg.getLineNumber());
-						issue.setXmlString(vitalOrg.getXmlString());
-						issuesList.add(issue);
-					}
 					
 					if(!ApplicationUtil.isEmpty(vitalOrg.getVitalObs()))
 					{
 						for (CCDAVitalObs vitalObs : vitalOrg.getVitalObs() )
 						{
-							maxPoints++;
-							if(vitalObs.getMeasurementTime() != null)
+							if(vitalObs.getMeasurementTime() != null && ApplicationUtil.isEffectiveTimePresent(vitalObs.getMeasurementTime()))
 							{
+								maxPoints++;
 								if(ApplicationUtil.checkDateRange(birthDate, vitalObs.getMeasurementTime()))
 								{
 									actualPoints++;
@@ -213,31 +207,15 @@ public class VitalsScorecard {
 									issuesList.add(issue);
 								}
 							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(vitalObs.getLineNumber());
-								issue.setXmlString(vitalObs.getXmlString());
-								issuesList.add(issue);
-							}
 						}
 					}
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(vitals.getLineNumber());
-				issue.setXmlString(vitals.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Vitals section not present");
-			issue.setXmlString("Vitals section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		validateTimeScore.setActualPoints(actualPoints);
@@ -565,9 +543,9 @@ public class VitalsScorecard {
 						{
 							for(CCDAVitalObs vitalObs : vitalOrg.getVitalObs())
 							{
-								maxPoints++;
-								if(vitalObs.getMeasurementTime() != null)
+								if(vitalObs.getMeasurementTime() != null && ApplicationUtil.isEffectiveTimePresent(vitalObs.getMeasurementTime()))
 								{
+									maxPoints++;
 									if(ApplicationUtil.checkDateRange(vitalObs.getMeasurementTime(), vitalOrg.getEffTime()))
 									{
 										actualPoints++;
@@ -580,39 +558,17 @@ public class VitalsScorecard {
 										issuesList.add(issue);
 								    }
 								}
-								else 
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(vitalObs.getLineNumber());
-									issue.setXmlString(vitalObs.getXmlString());
-									issuesList.add(issue);
-							    }
 							}
 						}
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(vitalOrg.getLineNumber());
-						issue.setXmlString(vitalOrg.getXmlString());
-						issuesList.add(issue);
-					}
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(vitals.getLineNumber());
-				issue.setXmlString(vitals.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Vitals section not present");
-			issue.setXmlString("Vitals section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		validateApprEffectiveTimeScore.setActualPoints(actualPoints);
