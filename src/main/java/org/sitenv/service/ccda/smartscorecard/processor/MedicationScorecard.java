@@ -137,9 +137,9 @@ public class MedicationScorecard {
 			{
 				for (CCDAMedicationActivity medActivity : medications.getMedActivities())
 				{
-					maxPoints++;
-					if(medActivity.getDuration() != null)
+					if(medActivity.getDuration() != null && ApplicationUtil.isEffectiveTimePresent(medActivity.getDuration()))
 					{
+						maxPoints++;
 						if(ApplicationUtil.checkDateRange(birthDate, medActivity.getDuration()))
 						{
 							actualPoints++;
@@ -152,31 +152,15 @@ public class MedicationScorecard {
 							issuesList.add(issue);
 						}
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(medActivity.getLineNumber());
-						issue.setXmlString(medActivity.getXmlString());
-						issuesList.add(issue);
-					}
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(medications.getLineNumber());
-				issue.setXmlString(medications.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Medications section not present");
-			issue.setXmlString("Medications section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
-				
 		validateTimeScore.setActualPoints(actualPoints);
 		validateTimeScore.setMaxPoints(maxPoints);
 		validateTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
@@ -257,19 +241,21 @@ public class MedicationScorecard {
 							for (CCDACode translationCode : medActivity.getConsumable().getTranslations())
 							{
 								if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()) && ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
-								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
+								{
+									maxPoints++;
+									if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
 														translationCode.getCodeSystem(),
 														translationCode.getDisplayName()))
-								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(translationCode.getLineNumber());
-									issue.setXmlString(translationCode.getXmlString());
-									issuesList.add(issue);
+									{
+										actualPoints++;
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(translationCode.getLineNumber());
+										issue.setXmlString(translationCode.getXmlString());
+										issuesList.add(issue);
+									}
 								}
 							}
 						}
@@ -376,7 +362,7 @@ public class MedicationScorecard {
 		validateImmuCodeScore.setNumberOfIssues(issuesList.size());
 		if(issuesList.size() > 0)
 		{
-			validateImmuCodeScore.setDescription(ApplicationConstants.MEDICATION_CODE_DISPLAYNAME_REQUIREMENT);
+			validateImmuCodeScore.setDescription(ApplicationConstants.MEDICATION_CODE_DESC);
 			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
 			{
 				validateImmuCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_ACTIVITY.getIgReference());
