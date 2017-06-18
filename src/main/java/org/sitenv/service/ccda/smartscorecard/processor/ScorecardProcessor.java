@@ -95,7 +95,7 @@ public class ScorecardProcessor {
 	
 	private static final Logger logger = Logger.getLogger(ScorecardProcessor.class);
 	
-	public ResponseTO processCCDAFile(MultipartFile ccdaFile)
+	public ResponseTO processCCDAFile(MultipartFile ccdaFile,boolean isOneClickScorecard)
 	{
 		ValidationResultsDto referenceValidatorResults = null;
 		ValidationResultsDto certificationResults;
@@ -268,9 +268,9 @@ public class ScorecardProcessor {
 			ApplicationUtil.calculateFinalGradeAndIssues(categoryList, results);
 			results.setIgReferenceUrl(ApplicationConstants.IG_URL);
 			results.setDocType(docType);
-			scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename());
-			results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage());
-			results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored());
+			scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename(),isOneClickScorecard);
+			results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage(isOneClickScorecard));
+			results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored(isOneClickScorecard));
 			if(results.getIndustryAverageScore() != 0)
 			{
 				results.setIndustryAverageGrade(ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScore()));

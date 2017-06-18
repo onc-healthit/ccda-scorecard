@@ -3,6 +3,7 @@ package org.sitenv.service.ccda.smartscorecard.repositories.postgres;
 import org.sitenv.service.ccda.smartscorecard.entities.postgres.ScorecardStatistics;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,10 +13,10 @@ public interface StatisticsRepository extends JpaRepository<ScorecardStatistics,
 	
 	
 	@Transactional(readOnly = true)
-	@Query("select count(*) from ScorecardStatistics")
-	int findByCount();
+	@Query("SELECT count(*) FROM ScorecardStatistics s where s.oneClickScorecard = :isOneClickScorecard")
+	long findByCount(@Param("isOneClickScorecard")boolean isOneClickScorecard);
 	
 	@Transactional(readOnly = true)
-	@Query("SELECT AVG(docscore) FROM ScorecardStatistics")
-	int findScoreAverage();
+	@Query("SELECT AVG(docscore) FROM ScorecardStatistics s where s.oneClickScorecard = :isOneClickScorecard")
+	int findScoreAverage(@Param("isOneClickScorecard")boolean isOneClickScorecard);
 }

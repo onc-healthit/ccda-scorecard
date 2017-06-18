@@ -64,6 +64,43 @@ public class ScorecardStatistics {
 	
 	@Column(name = "createtimestamp", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	Timestamp createTimestamp;
+	
+	@Column(name = "oneclickscorecard", nullable = true)
+	private boolean oneClickScorecard;
+	
+	@Column(name = "patientissues")
+    private int patientIssues;
+	
+	@Column(name = "allergiessectionissues")
+    private int allergiesSectionIssues;
+	
+	@Column(name = "encounterssectionissues")
+    private int encountersSectionIssues;
+	
+	@Column(name = "immunizationssectionissues")
+    private int immunizationsSectionIssues;
+	
+	@Column(name = "medicationssectionissues")
+    private int medicationsSectionIssues;
+	
+	@Column(name = "problemssectionissues")
+    private int problemsSectionIssues;
+	
+	@Column(name = "proceduressectionissues")
+    private int proceduresSectionIssues;
+	
+	@Column(name = "socialhistorysectionissues")
+    private int socialhistorySectionIssues;
+	
+	@Column(name = "vitalssectionissues")
+    private int vitalsSectionIssues;
+	
+	@Column(name = "resultssectionissues")
+    private int resultsSectionIssues;
+	
+	@Column(name = "miscissues")
+    private int miscIssues;
+
 
 	public String getDoctype() {
 		return doctype;
@@ -192,5 +229,100 @@ public class ScorecardStatistics {
 	public void setCreateTimestamp(Timestamp createTimestamp) {
 		this.createTimestamp = createTimestamp;
 	}
-	
+
+	public boolean isOneClickScorecard() {
+		return oneClickScorecard;
+	}
+
+	public void setOneClickScorecard(boolean oneClickScorecard) {
+		this.oneClickScorecard = oneClickScorecard;
+	}
+
+	public int getPatientIssues() {
+		return patientIssues;
+	}
+
+	public void setPatientIssues(int patientIssues) {
+		this.patientIssues = patientIssues;
+	}
+
+	public int getAllergiesSectionIssues() {
+		return allergiesSectionIssues;
+	}
+
+	public void setAllergiesSectionIssues(int allergiesSectionIssues) {
+		this.allergiesSectionIssues = allergiesSectionIssues;
+	}
+
+	public int getEncountersSectionIssues() {
+		return encountersSectionIssues;
+	}
+
+	public void setEncountersSectionIssues(int encountersSectionIssues) {
+		this.encountersSectionIssues = encountersSectionIssues;
+	}
+
+	public int getImmunizationsSectionIssues() {
+		return immunizationsSectionIssues;
+	}
+
+	public void setImmunizationsSectionIssues(int immunizationsSectionIssues) {
+		this.immunizationsSectionIssues = immunizationsSectionIssues;
+	}
+
+	public int getMedicationsSectionIssues() {
+		return medicationsSectionIssues;
+	}
+
+	public void setMedicationsSectionIssues(int medicationsSectionIssues) {
+		this.medicationsSectionIssues = medicationsSectionIssues;
+	}
+
+	public int getProblemsSectionIssues() {
+		return problemsSectionIssues;
+	}
+
+	public void setProblemsSectionIssues(int problemsSectionIssues) {
+		this.problemsSectionIssues = problemsSectionIssues;
+	}
+
+	public int getProceduresSectionIssues() {
+		return proceduresSectionIssues;
+	}
+
+	public void setProceduresSectionIssues(int proceduresSectionIssues) {
+		this.proceduresSectionIssues = proceduresSectionIssues;
+	}
+
+	public int getSocialhistorySectionIssues() {
+		return socialhistorySectionIssues;
+	}
+
+	public void setSocialhistorySectionIssues(int socialhistorySectionIssues) {
+		this.socialhistorySectionIssues = socialhistorySectionIssues;
+	}
+
+	public int getVitalsSectionIssues() {
+		return vitalsSectionIssues;
+	}
+
+	public void setVitalsSectionIssues(int vitalsSectionIssues) {
+		this.vitalsSectionIssues = vitalsSectionIssues;
+	}
+
+	public int getResultsSectionIssues() {
+		return resultsSectionIssues;
+	}
+
+	public void setResultsSectionIssues(int resultsSectionIssues) {
+		this.resultsSectionIssues = resultsSectionIssues;
+	}
+
+	public int getMiscIssues() {
+		return miscIssues;
+	}
+
+	public void setMiscIssues(int miscIssues) {
+		this.miscIssues = miscIssues;
+	}
 }
