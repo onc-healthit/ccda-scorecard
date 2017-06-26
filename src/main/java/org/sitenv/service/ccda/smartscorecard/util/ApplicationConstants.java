@@ -15,6 +15,9 @@ public class ApplicationConstants {
 	
 	public static final String PATIENT_DOB_REQUIREMENT = "Patient DOB should be valid and properly precisioned";
 	
+	public static final String PATIENT_LEGAL_NAME_REQUIREMENT = "Patient's Alternative Name Rule";
+	public static final String PATIENT_LEGAL_NAME_DESCRIPTION = "Patient's alternative names such as birth name, previous name should exist in its own name element independent of the legal name";
+	
 	public static final String TIME_PRECISION_REQUIREMENT = "EffectiveDate/Time elements have the right time and timezone offsets";
 	public static final String TIME_PRECISION_DESCRIPTION = "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are "
 			+ "typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being "
@@ -152,6 +155,12 @@ public class ApplicationConstants {
 	public static final String SOCIALHISTORY_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Social History section should contain valid display names";	
 	public static final String SOCIALHISTORY_SMOKING_STATUS_REQUIREMENT = "Smoking status code value should be valid";
 	public static final String SOCIALHISTORY_SMOKING_STATUS_OBS_ID_REQUIREMENT = "Smoking status observation Template Id should be valid";
+	
+	public static final String SOCIALHISTORY_GENDER_OBS_REQUIREMENT = "Systems should capture birth sex independent of the "
+			+ "Administrative Gender and encode them as an observation in the Social History Section.";
+	
+	public static final String SOCIALHISTORY_GENDER_OBS_DESC = "Systems should capture birth sex independent of the "
+			+ "Administrative Gender and encode them as an observation in the Social History Section.";
 	
 	public static final String NARRATIVE_STRUCTURE_ID_REQ = "Each entry has to be linked to related narrative text";
 	public static final String NARRATIVE_STRUCTURE_ID_DESC = "Each entry has to be linked to related narrative text";

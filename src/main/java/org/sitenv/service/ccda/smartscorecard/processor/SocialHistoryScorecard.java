@@ -33,6 +33,7 @@ public class SocialHistoryScorecard {
 		socialHistoryScoreList.add(getValidDisplayNameScoreCard(socialHistory,docType));
 		socialHistoryScoreList.add(getValidSmokingStatusScore(socialHistory,docType));
 		socialHistoryScoreList.add(getValidSmokingStatuIdScore(socialHistory,docType));
+		socialHistoryScoreList.add(getValidGenderObsScore(socialHistory,docType));
 		socialHistoryScoreList.add(getNarrativeStructureIdScore(socialHistory,docType));
 		
 		socialHistoryCategory.setCategoryRubrics(socialHistoryScoreList);
@@ -475,6 +476,78 @@ public class SocialHistoryScorecard {
 			validSmokingStausIDScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
 		}
 		return validSmokingStausIDScore;
+	}
+	
+	public static CCDAScoreCardRubrics getValidGenderObsScore(CCDASocialHistory socialHistory,String docType)
+	{
+		CCDAScoreCardRubrics validGenderObsIDScore = new CCDAScoreCardRubrics();
+		validGenderObsIDScore.setRule(ApplicationConstants.SOCIALHISTORY_GENDER_OBS_REQUIREMENT);
+		
+		int actualPoints =0;
+		int maxPoints = 1;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(socialHistory != null)
+		{
+			if(socialHistory.getSocialHistoryGenderObs()!=null)
+			{
+				if(socialHistory.getSocialHistoryGenderObs().getGenderValue()!=null)
+				{
+					if(socialHistory.getSocialHistoryGenderObs().getGenderValue().getCode()!= null)
+					{
+						actualPoints++;
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(socialHistory.getSocialHistoryGenderObs().getGenderValue().getLineNumber());
+						issue.setXmlString(socialHistory.getSocialHistoryGenderObs().getGenderValue().getXmlString());
+						issuesList.add(issue);
+					}
+				}
+				else
+				{
+					issue = new CCDAXmlSnippet();
+					issue.setLineNumber(socialHistory.getSocialHistoryGenderObs().getLineNumber());
+					issue.setXmlString(socialHistory.getSocialHistoryGenderObs().getXmlString());
+					issuesList.add(issue);		
+				}
+			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(socialHistory.getLineNumber());
+				issue.setXmlString(socialHistory.getXmlString());
+				issuesList.add(issue);		
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Social History section not present");
+			issue.setXmlString("Social History section not present");
+			issuesList.add(issue);
+		}
+		
+		validGenderObsIDScore.setActualPoints(actualPoints);
+		validGenderObsIDScore.setMaxPoints(maxPoints);
+		validGenderObsIDScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		validGenderObsIDScore.setIssuesList(issuesList);
+		validGenderObsIDScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+	    {
+			validGenderObsIDScore.setDescription(ApplicationConstants.SOCIALHISTORY_GENDER_OBS_DESC);
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				validGenderObsIDScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.SOCIAL_HISTORY_OBSERVATION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				validGenderObsIDScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.SOCIAL_HISTORY_OBSERVATION.getIgReference());
+			}
+			validGenderObsIDScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.SOCIALHISTORY.getTaskforceLink());
+		}
+		return validGenderObsIDScore;
 	}
 	
 	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDASocialHistory socialHistory,String docType)

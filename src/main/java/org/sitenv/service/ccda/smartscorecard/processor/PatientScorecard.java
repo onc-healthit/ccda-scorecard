@@ -21,6 +21,7 @@ public class PatientScorecard {
 		patientCategory.setCategoryName(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc());
 		List<CCDAScoreCardRubrics> patientScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		patientScoreList.add(getDOBTimePrecisionScore(patient,docType));
+		patientScoreList.add(getLegalNameScore(patient,docType));
 		
 		patientCategory.setCategoryRubrics(patientScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(patientScoreList, patientCategory);
@@ -94,5 +95,58 @@ public class PatientScorecard {
 		}
 		return timePrecisionScore;
 	}
-
+	
+	public static CCDAScoreCardRubrics getLegalNameScore(CCDAPatient patient, String docType)
+	{
+		CCDAScoreCardRubrics legalNameScore = new CCDAScoreCardRubrics();
+		legalNameScore.setRule(ApplicationConstants.PATIENT_LEGAL_NAME_REQUIREMENT);
+		
+		int actualPoints = 0;
+		int maxPoints = 1;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(patient != null)
+		{
+			if(patient.getPatientLegalNameElement()!=null)
+			{
+				if(!(patient.getGivenNameElementList().size() > 2 || patient.isGivenNameContainsQualifier()))
+				{
+					actualPoints++;
+				}
+				else
+				{
+					issue = new CCDAXmlSnippet();
+					issue.setLineNumber(patient.getPatientLegalNameElement().getLineNumber());
+					issue.setXmlString(patient.getPatientLegalNameElement().getXmlString());
+					issuesList.add(issue);
+				}
+			}
+		}
+		
+		if(maxPoints ==0)
+		{
+			maxPoints =1;
+			actualPoints =1;
+		}
+		
+		legalNameScore.setActualPoints(actualPoints);
+		legalNameScore.setMaxPoints(maxPoints);
+		legalNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		legalNameScore.setIssuesList(issuesList);
+		legalNameScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			legalNameScore.setDescription(ApplicationConstants.PATIENT_LEGAL_NAME_DESCRIPTION);
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				legalNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RECORD_TARGET.getIgReference());
+			}
+			else if(docType.equalsIgnoreCase("R1.1"))
+			{
+				legalNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RECORD_TARGET.getIgReference());
+			}
+			legalNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PATIENT.getTaskforceLink());
+		}
+		return legalNameScore;
+	}
 }
