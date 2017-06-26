@@ -119,9 +119,9 @@ public class CcdaSmartScorecardController {
 				ApplicationUtil.calculateFinalGradeAndIssues(categoryList, results);
 				results.setIgReferenceUrl(ApplicationConstants.IG_URL);
 				results.setDocType(docType);
-				scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename());
-				results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage());
-				results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored());
+				scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename(),false);
+				results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage(false));
+				results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored(false));
 				if(results.getIndustryAverageScore() != 0)
 				{
 					results.setIndustryAverageGrade(ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScore()));
