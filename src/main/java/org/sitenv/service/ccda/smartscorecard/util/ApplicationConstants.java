@@ -232,6 +232,8 @@ public class ApplicationConstants {
 	
 	public static final String TEMPLATEID_XPATH = "./templateId";
 	
+	public static final String TEMPLATEID_FORMAT = "2.16.840.1.113883.10.20.22";
+	
 	public static final Map<String, String> CODE_SYSTEM_MAP = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
 	
 	static {

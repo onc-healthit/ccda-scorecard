@@ -1009,6 +1009,11 @@ public class ApplicationUtil {
 		return docType;
 	}
 	
+	public static boolean validTemplateIdFormat(String templateId)
+	{
+		return templateId.startsWith(ApplicationConstants.TEMPLATEID_FORMAT);
+	}
+	
 	public static void debugLog(String debugMessage) {
 		if (!ApplicationConfiguration.IN_DEVELOPMENT_MODE)
 			return;
