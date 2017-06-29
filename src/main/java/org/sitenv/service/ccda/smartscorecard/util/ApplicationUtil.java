@@ -155,8 +155,10 @@ public class ApplicationUtil {
 	public static boolean validateDate(String date)
 	{
 		boolean isValid = true;
+		String format;
 		try{
-			convertStringToDate(date, ApplicationConstants.DAY_FORMAT);
+			format = getFormat(date);
+			convertStringToDate(date, format);
 		}catch(ParseException pe){
 			isValid = false;
 		}
@@ -1005,6 +1007,11 @@ public class ApplicationUtil {
 		}
 		
 		return docType;
+	}
+	
+	public static boolean validTemplateIdFormat(String templateId)
+	{
+		return templateId.startsWith(ApplicationConstants.TEMPLATEID_FORMAT);
 	}
 	
 	public static void debugLog(String debugMessage) {

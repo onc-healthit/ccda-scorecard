@@ -165,7 +165,7 @@ public class SaveReportController {
 	
 	protected static ResponseTO callCcdascorecardserviceInternally(MultipartFile ccdaFile, 
 			ScorecardProcessor scorecardProcessor) {
-		return scorecardProcessor.processCCDAFile(ccdaFile);
+		return scorecardProcessor.processCCDAFile(ccdaFile,true);
 	}
 
 	public static ResponseTO callCcdascorecardserviceExternally(MultipartFile ccdaFile) {

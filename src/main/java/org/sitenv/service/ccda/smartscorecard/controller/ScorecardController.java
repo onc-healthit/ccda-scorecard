@@ -19,7 +19,7 @@ public class ScorecardController {
 	
 	@RequestMapping(value="/ccdascorecardservice2", method= RequestMethod.POST)
 	public @ResponseBody ResponseTO ccdascorecardservice(@RequestParam("ccdaFile") MultipartFile ccdaFile){
-		return scorecardProcessor.processCCDAFile(ccdaFile);
+		return scorecardProcessor.processCCDAFile(ccdaFile,false);
 	}
 
 }

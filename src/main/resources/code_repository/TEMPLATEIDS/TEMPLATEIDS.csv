@@ -214,3 +214,11 @@ US Realm Date and Time (DT.US.FIELDED),unspecified,2.16.840.1.113883.10.20.22.5.
 US Realm Date and Time (DTM.US.FIELDED),unspecified,2.16.840.1.113883.10.20.22.5.4
 US Realm Patient Name (PTN.US.FIELDED),unspecified,2.16.840.1.113883.10.20.22.5.1
 US Realm Person Name (PN.US.FIELDED),unspecified,2.16.840.1.113883.10.20.22.5.1.1
+Privacy Segmented Document Template,document,2.16.840.1.113883.3.3251.1.1
+Privacy Segmented Section Template,section,2.16.840.1.113883.3.3251.1.10
+Privacy and Security Markings Section Template,section,2.16.840.1.113883.3.3251.1.5
+Privacy Markings Entry Template,entry,2.16.840.1.113883.3.3251.1.9
+Protected Problem Template,unspecified,2.16.840.1.113883.3.3251.1.8
+Privacy Annotation Template,unspecified,2.16.840.1.113883.3.3251.1.4
+Mandatory Document Provenance Template,unspecified,2.16.840.1.113883.3.3251.1.2
+Mandatory Entry Provenance Template,unspecified,2.16.840.1.113883.3.3251.1.2
