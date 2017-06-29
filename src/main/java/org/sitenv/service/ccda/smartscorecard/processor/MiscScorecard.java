@@ -125,19 +125,22 @@ public class MiscScorecard {
 			{
 				if(!ApplicationUtil.isEmpty(ccdaModels.getAllergy().getSectionTemplateId()))
 				{
-					maxPoints = maxPoints + ccdaModels.getAllergy().getSectionTemplateId().size();
 					for (CCDAII templateId : ccdaModels.getAllergy().getSectionTemplateId())
 					{
-						if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 						{
-							actualPoints++;
-						}
-						else
-						{
-							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(templateId.getLineNumber());
-							issue.setXmlString(templateId.getXmlString());
-							issuesList.add(issue);
+							maxPoints = maxPoints++;
+							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(templateId.getLineNumber());
+								issue.setXmlString(templateId.getXmlString());
+								issuesList.add(issue);
+							}
 						}
 					}
 				}
@@ -147,20 +150,23 @@ public class MiscScorecard {
 					{
 						if(!ApplicationUtil.isEmpty(allergyConcern.getTemplateId()))
 						{
-							maxPoints = maxPoints + allergyConcern.getTemplateId().size();
 							for (CCDAII templateId : allergyConcern.getTemplateId())
 							{
-								if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(templateId.getLineNumber());
-									issue.setXmlString(templateId.getXmlString());
-									issuesList.add(issue);
-								}
+									maxPoints = maxPoints++;
+									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+									{
+										actualPoints++;
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(templateId.getLineNumber());
+										issue.setXmlString(templateId.getXmlString());
+										issuesList.add(issue);
+									}
+								}	
 							}
 						}
 						
@@ -170,19 +176,22 @@ public class MiscScorecard {
 							{
 								if(!ApplicationUtil.isEmpty(allergyObs.getTemplateId()))
 								{
-									maxPoints = maxPoints + allergyObs.getTemplateId().size();
 									for (CCDAII templateId : allergyObs.getTemplateId())
 									{
-										if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{
-											actualPoints++;
-										}
-										else
-										{
-											issue = new CCDAXmlSnippet();
-											issue.setLineNumber(templateId.getLineNumber());
-											issue.setXmlString(templateId.getXmlString());
-											issuesList.add(issue);
+											maxPoints = maxPoints++;
+											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+											{
+												actualPoints++;
+											}
+											else
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(templateId.getLineNumber());
+												issue.setXmlString(templateId.getXmlString());
+												issuesList.add(issue);
+											}
 										}
 									}
 								}
@@ -196,19 +205,22 @@ public class MiscScorecard {
 			{
 				if(!ApplicationUtil.isEmpty(ccdaModels.getEncounter().getTemplateId()))
 				{
-					maxPoints = maxPoints + ccdaModels.getEncounter().getTemplateId().size();
 					for (CCDAII templateId : ccdaModels.getEncounter().getTemplateId())
 					{
-						if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 						{
-							actualPoints++;
-						}
-						else
-						{
-							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(templateId.getLineNumber());
-							issue.setXmlString(templateId.getXmlString());
-							issuesList.add(issue);
+							maxPoints = maxPoints++;
+							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(templateId.getLineNumber());
+								issue.setXmlString(templateId.getXmlString());
+								issuesList.add(issue);
+							}
 						}
 					}
 				}
@@ -219,19 +231,22 @@ public class MiscScorecard {
 					{
 						if(!ApplicationUtil.isEmpty(encAct.getTemplateId()))
 						{
-							maxPoints = maxPoints + encAct.getTemplateId().size();
 							for (CCDAII templateId : encAct.getTemplateId())
 							{
-								if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(templateId.getLineNumber());
-									issue.setXmlString(templateId.getXmlString());
-									issuesList.add(issue);
+									maxPoints = maxPoints++;
+									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+									{
+										actualPoints++;
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(templateId.getLineNumber());
+										issue.setXmlString(templateId.getXmlString());
+										issuesList.add(issue);
+									}
 								}
 							}
 						}
@@ -242,19 +257,22 @@ public class MiscScorecard {
 							{
 								if(!ApplicationUtil.isEmpty(probObs.getTemplateId()))
 								{
-									maxPoints = maxPoints + probObs.getTemplateId().size();
 									for (CCDAII templateId : probObs.getTemplateId())
 									{
-										if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{
-											actualPoints++;
-										}
-										else
-										{
-											issue = new CCDAXmlSnippet();
-											issue.setLineNumber(templateId.getLineNumber());
-											issue.setXmlString(templateId.getXmlString());
-											issuesList.add(issue);
+											maxPoints = maxPoints++;
+											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+											{
+												actualPoints++;
+											}
+											else
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(templateId.getLineNumber());
+												issue.setXmlString(templateId.getXmlString());
+												issuesList.add(issue);
+											}
 										}
 									}
 								}
@@ -267,19 +285,22 @@ public class MiscScorecard {
 							{
 								if(!ApplicationUtil.isEmpty(encDiagnosis.getTemplateId()))
 								{
-									maxPoints = maxPoints + encDiagnosis.getTemplateId().size();
 									for (CCDAII templateId : encDiagnosis.getTemplateId())
 									{
-										if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{
-											actualPoints++;
-										}
-										else
-										{
-											issue = new CCDAXmlSnippet();
-											issue.setLineNumber(templateId.getLineNumber());
-											issue.setXmlString(templateId.getXmlString());
-											issuesList.add(issue);
+											maxPoints = maxPoints++;
+											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+											{
+												actualPoints++;
+											}
+											else
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(templateId.getLineNumber());
+												issue.setXmlString(templateId.getXmlString());
+												issuesList.add(issue);
+											}
 										}
 									}
 								}
@@ -292,19 +313,22 @@ public class MiscScorecard {
 							{
 								if(!ApplicationUtil.isEmpty(sdlLoc.getTemplateId()))
 								{
-									maxPoints = maxPoints + sdlLoc.getTemplateId().size();
 									for (CCDAII templateId : sdlLoc.getTemplateId())
 									{
-										if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{
-											actualPoints++;
-										}
-										else
-										{
-											issue = new CCDAXmlSnippet();
-											issue.setLineNumber(templateId.getLineNumber());
-											issue.setXmlString(templateId.getXmlString());
-											issuesList.add(issue);
+											maxPoints = maxPoints++;
+											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+											{
+												actualPoints++;
+											}
+											else
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(templateId.getLineNumber());
+												issue.setXmlString(templateId.getXmlString());
+												issuesList.add(issue);
+											}
 										}
 									}
 								}
@@ -319,19 +343,22 @@ public class MiscScorecard {
 			{
 				if(!ApplicationUtil.isEmpty(ccdaModels.getImmunization().getTemplateIds()))
 				{
-					maxPoints = maxPoints + ccdaModels.getImmunization().getTemplateIds().size();
 					for (CCDAII templateId : ccdaModels.getImmunization().getTemplateIds())
 					{
-						if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 						{
-							actualPoints++;
-						}
-						else
-						{
-							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(templateId.getLineNumber());
-							issue.setXmlString(templateId.getXmlString());
-							issuesList.add(issue);
+							maxPoints = maxPoints++;
+							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(templateId.getLineNumber());
+								issue.setXmlString(templateId.getXmlString());
+								issuesList.add(issue);
+							}
 						}
 					}
 				}
@@ -342,19 +369,22 @@ public class MiscScorecard {
 					{
 						if(!ApplicationUtil.isEmpty(immuActivity.getTemplateIds()))
 						{
-							maxPoints = maxPoints + immuActivity.getTemplateIds().size();
 							for (CCDAII templateId : immuActivity.getTemplateIds())
 							{
-								if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(templateId.getLineNumber());
-									issue.setXmlString(templateId.getXmlString());
-									issuesList.add(issue);
+									maxPoints = maxPoints++;
+									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+									{
+										actualPoints++;
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(templateId.getLineNumber());
+										issue.setXmlString(templateId.getXmlString());
+										issuesList.add(issue);
+									}
 								}
 							}
 						}
@@ -363,9 +393,65 @@ public class MiscScorecard {
 						{
 							if(!ApplicationUtil.isEmpty(immuActivity.getConsumable().getTemplateIds()))
 							{
-								maxPoints = maxPoints + immuActivity.getConsumable().getTemplateIds().size();
 								for (CCDAII templateId : immuActivity.getConsumable().getTemplateIds())
 								{
+									if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+									{
+										maxPoints = maxPoints++;
+										if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+										{
+											actualPoints++;
+										}
+										else
+										{
+											issue = new CCDAXmlSnippet();
+											issue.setLineNumber(templateId.getLineNumber());
+											issue.setXmlString(templateId.getXmlString());
+											issuesList.add(issue);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			if(ccdaModels.getLabResults()!=null)
+			{
+				if(!ApplicationUtil.isEmpty(ccdaModels.getLabResults().getResultSectionTempalteIds()))
+				{
+					for (CCDAII templateId : ccdaModels.getLabResults().getResultSectionTempalteIds())
+					{
+						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+						{
+							maxPoints = maxPoints++;
+							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(templateId.getLineNumber());
+								issue.setXmlString(templateId.getXmlString());
+								issuesList.add(issue);
+							}
+						}
+					}
+				}
+				
+				if(!ApplicationUtil.isEmpty(ccdaModels.getLabResults().getResultOrg()))
+				{
+					for(CCDALabResultOrg resultOrg :  ccdaModels.getLabResults().getResultOrg())
+					{
+						if(!ApplicationUtil.isEmpty(resultOrg.getTemplateIds()))
+						{
+							for (CCDAII templateId : resultOrg.getTemplateIds())
+							{
+								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+								{
+									maxPoints = maxPoints++;
 									if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
 									{
 										actualPoints++;
@@ -380,53 +466,6 @@ public class MiscScorecard {
 								}
 							}
 						}
-					}
-				}
-			}
-			
-			if(ccdaModels.getLabResults()!=null)
-			{
-				if(!ApplicationUtil.isEmpty(ccdaModels.getLabResults().getResultSectionTempalteIds()))
-				{
-					maxPoints = maxPoints + ccdaModels.getLabResults().getResultSectionTempalteIds().size();
-					for (CCDAII templateId : ccdaModels.getLabResults().getResultSectionTempalteIds())
-					{
-						if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-						{
-							actualPoints++;
-						}
-						else
-						{
-							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(templateId.getLineNumber());
-							issue.setXmlString(templateId.getXmlString());
-							issuesList.add(issue);
-						}
-					}
-				}
-				
-				if(!ApplicationUtil.isEmpty(ccdaModels.getLabResults().getResultOrg()))
-				{
-					for(CCDALabResultOrg resultOrg :  ccdaModels.getLabResults().getResultOrg())
-					{
-						if(!ApplicationUtil.isEmpty(resultOrg.getTemplateIds()))
-						{
-							maxPoints = maxPoints + resultOrg.getTemplateIds().size();
-							for (CCDAII templateId : resultOrg.getTemplateIds())
-							{
-								if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(templateId.getLineNumber());
-									issue.setXmlString(templateId.getXmlString());
-									issuesList.add(issue);
-								}
-							}
-						}
 						
 						if(!ApplicationUtil.isEmpty(resultOrg.getResultObs()))
 						{
@@ -434,19 +473,22 @@ public class MiscScorecard {
 							{
 								if(!ApplicationUtil.isEmpty(labResultObs.getTemplateIds()))
 								{
-									maxPoints = maxPoints + labResultObs.getTemplateIds().size();
 									for (CCDAII templateId : labResultObs.getTemplateIds())
 									{
-										if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{
-											actualPoints++;
-										}
-										else
-										{
-											issue = new CCDAXmlSnippet();
-											issue.setLineNumber(templateId.getLineNumber());
-											issue.setXmlString(templateId.getXmlString());
-											issuesList.add(issue);
+											maxPoints = maxPoints++;
+											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+											{
+												actualPoints++;
+											}
+											else
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(templateId.getLineNumber());
+												issue.setXmlString(templateId.getXmlString());
+												issuesList.add(issue);
+											}
 										}
 									}
 								}
@@ -464,19 +506,22 @@ public class MiscScorecard {
 					{
 						if(!ApplicationUtil.isEmpty(resultOrg.getTemplateIds()))
 						{
-							maxPoints = maxPoints + resultOrg.getTemplateIds().size();
 							for (CCDAII templateId : resultOrg.getTemplateIds())
 							{
-								if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(templateId.getLineNumber());
-									issue.setXmlString(templateId.getXmlString());
-									issuesList.add(issue);
+									maxPoints = maxPoints++;
+									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+									{
+										actualPoints++;
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(templateId.getLineNumber());
+										issue.setXmlString(templateId.getXmlString());
+										issuesList.add(issue);
+									}
 								}
 							}
 						}
@@ -487,10 +532,91 @@ public class MiscScorecard {
 							{
 								if(!ApplicationUtil.isEmpty(labResultObs.getTemplateIds()))
 								{
-									maxPoints = maxPoints + labResultObs.getTemplateIds().size();
 									for (CCDAII templateId : labResultObs.getTemplateIds())
 									{
-										if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+										{
+											maxPoints = maxPoints++;
+											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+											{
+												actualPoints++;
+											}
+											else
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(templateId.getLineNumber());
+												issue.setXmlString(templateId.getXmlString());
+												issuesList.add(issue);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			if(ccdaModels.getMedication()!=null)
+			{
+				if(!ApplicationUtil.isEmpty(ccdaModels.getMedication().getTemplateIds()))
+				{
+					for (CCDAII templateId : ccdaModels.getMedication().getTemplateIds())
+					{
+						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+						{
+							maxPoints = maxPoints++;
+							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(templateId.getLineNumber());
+								issue.setXmlString(templateId.getXmlString());
+								issuesList.add(issue);
+							}
+						}
+					}
+				}
+				
+				if(!ApplicationUtil.isEmpty(ccdaModels.getMedication().getMedActivities()))
+				{
+					for(CCDAMedicationActivity medAct : ccdaModels.getMedication().getMedActivities())
+					{
+						if(!ApplicationUtil.isEmpty(medAct.getTemplateIds()))
+						{
+							for (CCDAII templateId : medAct.getTemplateIds())
+							{
+								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+								{
+									maxPoints = maxPoints++;
+									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+									{
+										actualPoints++;
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(templateId.getLineNumber());
+										issue.setXmlString(templateId.getXmlString());
+										issuesList.add(issue);
+									}
+								}
+							}
+						}
+						
+						if(medAct.getConsumable()!=null)
+						{
+							if(!ApplicationUtil.isEmpty(medAct.getConsumable().getTemplateIds()))
+							{
+								for (CCDAII templateId : medAct.getConsumable().getTemplateIds())
+								{
+									if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+									{
+										maxPoints = maxPoints++;
+										if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 										{
 											actualPoints++;
 										}
@@ -509,58 +635,230 @@ public class MiscScorecard {
 				}
 			}
 			
-			if(ccdaModels.getMedication()!=null)
+			if(ccdaModels.getProblem()!=null)
 			{
-				if(!ApplicationUtil.isEmpty(ccdaModels.getMedication().getTemplateIds()))
+				if(!ApplicationUtil.isEmpty(ccdaModels.getProblem().getSectionTemplateId()))
 				{
-					maxPoints = maxPoints + ccdaModels.getMedication().getTemplateIds().size();
-					for (CCDAII templateId : ccdaModels.getMedication().getTemplateIds())
+					for (CCDAII templateId : ccdaModels.getProblem().getSectionTemplateId())
 					{
-						if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 						{
-							actualPoints++;
-						}
-						else
-						{
-							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(templateId.getLineNumber());
-							issue.setXmlString(templateId.getXmlString());
-							issuesList.add(issue);
+							maxPoints = maxPoints++;
+							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(templateId.getLineNumber());
+								issue.setXmlString(templateId.getXmlString());
+								issuesList.add(issue);
+							}
 						}
 					}
 				}
 				
-				if(!ApplicationUtil.isEmpty(ccdaModels.getMedication().getMedActivities()))
+				if(!ApplicationUtil.isEmpty(ccdaModels.getProblem().getProblemConcerns()))
 				{
-					for(CCDAMedicationActivity medAct : ccdaModels.getMedication().getMedActivities())
+					for(CCDAProblemConcern probConcern : ccdaModels.getProblem().getProblemConcerns())
 					{
-						if(!ApplicationUtil.isEmpty(medAct.getTemplateIds()))
+						if(!ApplicationUtil.isEmpty(probConcern.getTemplateId()))
 						{
-							maxPoints = maxPoints + medAct.getTemplateIds().size();
-							for (CCDAII templateId : medAct.getTemplateIds())
+							for (CCDAII templateId : probConcern.getTemplateId())
 							{
-								if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(templateId.getLineNumber());
-									issue.setXmlString(templateId.getXmlString());
-									issuesList.add(issue);
+									maxPoints = maxPoints++;
+									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+									{
+										actualPoints++;
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(templateId.getLineNumber());
+										issue.setXmlString(templateId.getXmlString());
+										issuesList.add(issue);
+									}
 								}
 							}
 						}
 						
-						if(medAct.getConsumable()!=null)
+						if(!ApplicationUtil.isEmpty(probConcern.getProblemObservations()))
 						{
-							if(!ApplicationUtil.isEmpty(medAct.getConsumable().getTemplateIds()))
+							for(CCDAProblemObs probObs : probConcern.getProblemObservations())
 							{
-								maxPoints = maxPoints + medAct.getConsumable().getTemplateIds().size();
-								for (CCDAII templateId : medAct.getConsumable().getTemplateIds())
+								if(!ApplicationUtil.isEmpty(probObs.getTemplateId()))
 								{
-									if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
+									for (CCDAII templateId : probObs.getTemplateId())
+									{
+										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+										{
+											maxPoints = maxPoints++;
+											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+											{
+												actualPoints++;
+											}
+											else
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(templateId.getLineNumber());
+												issue.setXmlString(templateId.getXmlString());
+												issuesList.add(issue);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			if(ccdaModels.getProcedure()!=null)
+			{
+				if(!ApplicationUtil.isEmpty(ccdaModels.getProcedure().getSectionTemplateId()))
+				{
+					for (CCDAII templateId : ccdaModels.getProcedure().getSectionTemplateId())
+					{
+						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+						{
+							maxPoints = maxPoints++;
+							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(templateId.getLineNumber());
+								issue.setXmlString(templateId.getXmlString());
+								issuesList.add(issue);
+							}
+						}
+					}
+				}
+				
+				if(!ApplicationUtil.isEmpty(ccdaModels.getProcedure().getProcActsProcs()))
+				{
+					for(CCDAProcActProc procAct : ccdaModels.getProcedure().getProcActsProcs())
+					{
+						if(!ApplicationUtil.isEmpty(procAct.getSectionTemplateId()))
+						{
+							for (CCDAII templateId : procAct.getSectionTemplateId())
+							{
+								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+								{
+									maxPoints = maxPoints++;
+									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+									{
+										actualPoints++;
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(templateId.getLineNumber());
+										issue.setXmlString(templateId.getXmlString());
+										issuesList.add(issue);
+									}
+								}
+							}
+						}
+						
+						if(!ApplicationUtil.isEmpty(procAct.getSdLocs()))
+						{
+							for(CCDAServiceDeliveryLoc sdLoc : procAct.getSdLocs())
+							{
+								if(!ApplicationUtil.isEmpty(sdLoc.getTemplateId()))
+								{
+									for (CCDAII templateId : sdLoc.getTemplateId())
+									{
+										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+										{
+											maxPoints = maxPoints++;	
+											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+											{
+												actualPoints++;
+											}
+											else
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(templateId.getLineNumber());
+												issue.setXmlString(templateId.getXmlString());
+												issuesList.add(issue);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			if(ccdaModels.getSmokingStatus()!=null)
+			{
+				if(!ApplicationUtil.isEmpty(ccdaModels.getSmokingStatus().getSectionTemplateIds()))
+				{
+					for (CCDAII templateId : ccdaModels.getSmokingStatus().getSectionTemplateIds())
+					{
+						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+						{
+							maxPoints = maxPoints++;
+							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(templateId.getLineNumber());
+								issue.setXmlString(templateId.getXmlString());
+								issuesList.add(issue);
+							}
+						}
+					}
+				}
+				
+				if(!ApplicationUtil.isEmpty(ccdaModels.getSmokingStatus().getSmokingStatus()))
+				{
+					for(CCDASmokingStatus smokingStatus : ccdaModels.getSmokingStatus().getSmokingStatus())
+					{
+						if(!ApplicationUtil.isEmpty(smokingStatus.getSmokingStatusTemplateIds()))
+						{
+							for (CCDAII templateId : smokingStatus.getSmokingStatusTemplateIds())
+							{
+								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+								{	
+									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+									{
+										actualPoints++;
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(templateId.getLineNumber());
+										issue.setXmlString(templateId.getXmlString());
+										issuesList.add(issue);
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				if(!ApplicationUtil.isEmpty(ccdaModels.getSmokingStatus().getTobaccoUse()))
+				{
+					for(CCDATobaccoUse tobaccoUse : ccdaModels.getSmokingStatus().getTobaccoUse())
+					{
+						if(!ApplicationUtil.isEmpty(tobaccoUse.getTobaccoUseTemplateIds()))
+						{
+							for (CCDAII templateId : tobaccoUse.getTobaccoUseTemplateIds())
+							{
+								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+								{	
+									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 									{
 										actualPoints++;
 									}
@@ -578,239 +876,25 @@ public class MiscScorecard {
 				}
 			}
 			
-			if(ccdaModels.getProblem()!=null)
-			{
-				if(!ApplicationUtil.isEmpty(ccdaModels.getProblem().getSectionTemplateId()))
-				{
-					maxPoints = maxPoints + ccdaModels.getProblem().getSectionTemplateId().size();
-					for (CCDAII templateId : ccdaModels.getProblem().getSectionTemplateId())
-					{
-						if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-						{
-							actualPoints++;
-						}
-						else
-						{
-							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(templateId.getLineNumber());
-							issue.setXmlString(templateId.getXmlString());
-							issuesList.add(issue);
-						}
-					}
-				}
-				
-				if(!ApplicationUtil.isEmpty(ccdaModels.getProblem().getProblemConcerns()))
-				{
-					for(CCDAProblemConcern probConcern : ccdaModels.getProblem().getProblemConcerns())
-					{
-						if(!ApplicationUtil.isEmpty(probConcern.getTemplateId()))
-						{
-							maxPoints = maxPoints + probConcern.getTemplateId().size();
-							for (CCDAII templateId : probConcern.getTemplateId())
-							{
-								if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(templateId.getLineNumber());
-									issue.setXmlString(templateId.getXmlString());
-									issuesList.add(issue);
-								}
-							}
-						}
-						
-						if(!ApplicationUtil.isEmpty(probConcern.getProblemObservations()))
-						{
-							for(CCDAProblemObs probObs : probConcern.getProblemObservations())
-							{
-								if(!ApplicationUtil.isEmpty(probObs.getTemplateId()))
-								{
-									maxPoints = maxPoints + probObs.getTemplateId().size();
-									for (CCDAII templateId : probObs.getTemplateId())
-									{
-										if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-										{
-											actualPoints++;
-										}
-										else
-										{
-											issue = new CCDAXmlSnippet();
-											issue.setLineNumber(templateId.getLineNumber());
-											issue.setXmlString(templateId.getXmlString());
-											issuesList.add(issue);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			
-			if(ccdaModels.getProcedure()!=null)
-			{
-				if(!ApplicationUtil.isEmpty(ccdaModels.getProcedure().getSectionTemplateId()))
-				{
-					maxPoints = maxPoints + ccdaModels.getProcedure().getSectionTemplateId().size();
-					for (CCDAII templateId : ccdaModels.getProcedure().getSectionTemplateId())
-					{
-						if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-						{
-							actualPoints++;
-						}
-						else
-						{
-							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(templateId.getLineNumber());
-							issue.setXmlString(templateId.getXmlString());
-							issuesList.add(issue);
-						}
-					}
-				}
-				
-				if(!ApplicationUtil.isEmpty(ccdaModels.getProcedure().getProcActsProcs()))
-				{
-					for(CCDAProcActProc procAct : ccdaModels.getProcedure().getProcActsProcs())
-					{
-						if(!ApplicationUtil.isEmpty(procAct.getSectionTemplateId()))
-						{
-							maxPoints = maxPoints + procAct.getSectionTemplateId().size();
-							for (CCDAII templateId : procAct.getSectionTemplateId())
-							{
-								if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(templateId.getLineNumber());
-									issue.setXmlString(templateId.getXmlString());
-									issuesList.add(issue);
-								}
-							}
-						}
-						
-						if(!ApplicationUtil.isEmpty(procAct.getSdLocs()))
-						{
-							for(CCDAServiceDeliveryLoc sdLoc : procAct.getSdLocs())
-							{
-								if(!ApplicationUtil.isEmpty(sdLoc.getTemplateId()))
-								{
-									maxPoints = maxPoints + sdLoc.getTemplateId().size();
-									for (CCDAII templateId : sdLoc.getTemplateId())
-									{
-										if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-										{
-											actualPoints++;
-										}
-										else
-										{
-											issue = new CCDAXmlSnippet();
-											issue.setLineNumber(templateId.getLineNumber());
-											issue.setXmlString(templateId.getXmlString());
-											issuesList.add(issue);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			
-			if(ccdaModels.getSmokingStatus()!=null)
-			{
-				if(!ApplicationUtil.isEmpty(ccdaModels.getSmokingStatus().getSectionTemplateIds()))
-				{
-					maxPoints = maxPoints + ccdaModels.getSmokingStatus().getSectionTemplateIds().size();
-					for (CCDAII templateId : ccdaModels.getSmokingStatus().getSectionTemplateIds())
-					{
-						if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-						{
-							actualPoints++;
-						}
-						else
-						{
-							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(templateId.getLineNumber());
-							issue.setXmlString(templateId.getXmlString());
-							issuesList.add(issue);
-						}
-					}
-				}
-				
-				if(!ApplicationUtil.isEmpty(ccdaModels.getSmokingStatus().getSmokingStatus()))
-				{
-					for(CCDASmokingStatus smokingStatus : ccdaModels.getSmokingStatus().getSmokingStatus())
-					{
-						if(!ApplicationUtil.isEmpty(smokingStatus.getSmokingStatusTemplateIds()))
-						{
-							maxPoints = maxPoints + smokingStatus.getSmokingStatusTemplateIds().size();
-							for (CCDAII templateId : smokingStatus.getSmokingStatusTemplateIds())
-							{
-								if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(templateId.getLineNumber());
-									issue.setXmlString(templateId.getXmlString());
-									issuesList.add(issue);
-								}
-							}
-						}
-					}
-				}
-				
-				if(!ApplicationUtil.isEmpty(ccdaModels.getSmokingStatus().getTobaccoUse()))
-				{
-					for(CCDATobaccoUse tobaccoUse : ccdaModels.getSmokingStatus().getTobaccoUse())
-					{
-						if(!ApplicationUtil.isEmpty(tobaccoUse.getTobaccoUseTemplateIds()))
-						{
-							maxPoints = maxPoints + tobaccoUse.getTobaccoUseTemplateIds().size();
-							for (CCDAII templateId : tobaccoUse.getTobaccoUseTemplateIds())
-							{
-								if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(templateId.getLineNumber());
-									issue.setXmlString(templateId.getXmlString());
-									issuesList.add(issue);
-								}
-							}
-						}
-					}
-				}
-			}
-			
 			if(ccdaModels.getVitalSigns()!= null)
 			{
 				if(!ApplicationUtil.isEmpty(ccdaModels.getVitalSigns().getTemplateIds()))
 				{
-					maxPoints = maxPoints + ccdaModels.getVitalSigns().getTemplateIds().size();
 					for (CCDAII templateId : ccdaModels.getVitalSigns().getTemplateIds())
 					{
-						if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-						{
-							actualPoints++;
-						}
-						else
-						{
-							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(templateId.getLineNumber());
-							issue.setXmlString(templateId.getXmlString());
-							issuesList.add(issue);
+						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+						{	
+							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(templateId.getLineNumber());
+								issue.setXmlString(templateId.getXmlString());
+								issuesList.add(issue);
+							}
 						}
 					}
 				}
@@ -821,19 +905,21 @@ public class MiscScorecard {
 					{
 						if(!ApplicationUtil.isEmpty(vitalOrg.getTemplateIds()))
 						{
-							maxPoints = maxPoints + vitalOrg.getTemplateIds().size();
 							for (CCDAII templateId : vitalOrg.getTemplateIds())
 							{
-								if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(templateId.getLineNumber());
-									issue.setXmlString(templateId.getXmlString());
-									issuesList.add(issue);
+								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+								{	
+									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+									{
+										actualPoints++;
+									}
+									else
+									{
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(templateId.getLineNumber());
+										issue.setXmlString(templateId.getXmlString());
+										issuesList.add(issue);
+									}
 								}
 							}
 						}
@@ -844,19 +930,21 @@ public class MiscScorecard {
 							{
 								if(!ApplicationUtil.isEmpty(vitalObs.getTemplateIds()))
 								{
-									maxPoints = maxPoints + vitalObs.getTemplateIds().size();
 									for (CCDAII templateId : vitalObs.getTemplateIds())
 									{
-										if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
-										{
-											actualPoints++;
-										}
-										else
-										{
-											issue = new CCDAXmlSnippet();
-											issue.setLineNumber(templateId.getLineNumber());
-											issue.setXmlString(templateId.getXmlString());
-											issuesList.add(issue);
+										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
+										{	
+											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
+											{
+												actualPoints++;
+											}
+											else
+											{
+												issue = new CCDAXmlSnippet();
+												issue.setLineNumber(templateId.getLineNumber());
+												issue.setXmlString(templateId.getXmlString());
+												issuesList.add(issue);
+											}
 										}
 									}
 								}
