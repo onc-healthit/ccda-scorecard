@@ -354,7 +354,7 @@ public class ApplicationConstants {
 		public static final String UNSTRUCTURED_DOCUMENT = "The supplied C-CDA XML document has been identified as an Unstructured Document "
 				+ "urn:hl7ii:2.16.840.1.113883.10.20.22.1.10. The C-CDA Scorecard tool does not score this document type. "
 				+ "Please try submitting another document type for review such as a Continuity of Care Document, Care Plan, etc.";
-		public static final String SCHEMA_ERRORS_GENERIC = "Schema errors must be addressed before a score can be provided.";
+		public static final String SCHEMA_ERRORS_GENERIC = "HL7 CDA Schema Errors must be addressed before a score can be provided.";
 	}
 
 	public static enum IG_REFERENCES
