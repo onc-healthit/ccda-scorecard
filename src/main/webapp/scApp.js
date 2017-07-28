@@ -5,63 +5,63 @@ var scApp = angular.module('scorecard', ['ngFileUpload']);
 scApp.directive('scorecard', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'scorecard.html?version=R1.2'
+		templateUrl : 'scorecard.html?version=R1.3'
 	};
 });
 
 scApp.directive('debug', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'debug.html?version=R1.2'
+		templateUrl : 'debug.html?version=R1.3'
 	};
 });
 
 scApp.directive('topLevelResults', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'topLevelResults.html?version=R1.2'
+		templateUrl : 'topLevelResults.html?version=R1.3'
 	};
 });
 
 scApp.directive('summary', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'summary.html?version=R1.2'
+		templateUrl : 'summary.html?version=R1.3'
 	};
 });
 
 scApp.directive('heatMap', function() {
     return {
         restrict : 'E',
-        templateUrl : 'heatMap.html?version=R1.2'
+        templateUrl : 'heatMap.html?version=R1.3'
     };
 });
 
 scApp.directive('detailedResults', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'detailedResults.html?version=R1.2'
+		templateUrl : 'detailedResults.html?version=R1.3'
 	};
 });
 
 scApp.directive('scorecardTwoResults', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'scorecardTwoResults.html?version=R1.2'
+		templateUrl : 'scorecardTwoResults.html?version=R1.3'
 	};
 });
 
 scApp.directive('saveScorecardButton', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'saveScorecardButton.html?version=R1.2'
+		templateUrl: 'saveScorecardButton.html?version=R1.3'
 	};
 });
 
 scApp.directive('saveTryMeXmlButton', function() {
 	return {
 		restict: 'E',
-		templateUrl: 'saveTryMeXmlButton.html?version=R1.2'
+		templateUrl: 'saveTryMeXmlButton.html?version=R1.3'
 	};
 });
 
@@ -69,70 +69,70 @@ scApp.directive('saveTryMeXmlButton', function() {
 scApp.directive('siteHeader', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteHeader.html?version=R1.2'
+		templateUrl : 'siteHeader.html?version=R1.3'
 	};
 });
 
 scApp.directive('siteNavbar', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteNavbar.html?version=R1.2'
+		templateUrl : 'siteNavbar.html?version=R1.3'
 	};
 });
 
 scApp.directive('siteTopLevelContent', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteTopLevelContent.html?version=R1.2'
+		templateUrl : 'siteTopLevelContent.html?version=R1.3'
 	};
 });
 
 scApp.directive('siteUploadForm', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteUploadForm.html?version=R1.2'
+		templateUrl : 'siteUploadForm.html?version=R1.3'
 	};
 });
 
 scApp.directive('siteResultsModal', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteResultsModal.html?version=R1.2'
+		templateUrl : 'siteResultsModal.html?version=R1.3'
 	};
 });
 
 scApp.directive('siteFooter', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteFooter.html?version=R1.2'
+		templateUrl : 'siteFooter.html?version=R1.3'
 	};
 });
 
 scApp.directive('siteScoringCriteriaModal', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteScoringCriteriaModal.html?version=R1.2'
+		templateUrl : 'siteScoringCriteriaModal.html?version=R1.3'
 	};
 });
 
 scApp.directive('siteApiInstructionsModal', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteApiInstructionsModal.html?version=R1.2'
+		templateUrl : 'siteApiInstructionsModal.html?version=R1.3'
 	};
 });
 
 scApp.directive('siteIntroductionModal', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'siteIntroductionModal.html?version=R1.2'
+		templateUrl: 'siteIntroductionModal.html?version=R1.3'
 	};
 });
 
 scApp.directive('siteDownloadLocalModal', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'siteDownloadLocalModal.html?version=R1.2'
+		templateUrl: 'siteDownloadLocalModal.html?version=R1.3'
 	};
 });
 
@@ -142,7 +142,7 @@ scApp.directive('linkDisclaimer', function() {
 		scope: {
 			spanClass: "="
 		},
-		templateUrl: 'siteExternalLinkDisclaimer.html?version=R1.2'
+		templateUrl: 'siteExternalLinkDisclaimer.html?version=R1.3'
 	};
 });
 
