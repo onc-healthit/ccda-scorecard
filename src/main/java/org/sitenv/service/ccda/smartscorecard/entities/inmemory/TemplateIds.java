@@ -22,6 +22,9 @@ public class TemplateIds {
 	
 	@Column(name = "TEMPLATEID")
 	private String templateId;
+	
+	@Column(name = "EXTENSION")
+	private String extension;
 
 	public Integer getId() {
 		return Id;
@@ -53,5 +56,13 @@ public class TemplateIds {
 
 	public void setTemplateId(String templateId) {
 		this.templateId = templateId;
+	}
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
 	}
 }

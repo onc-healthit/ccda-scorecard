@@ -44,9 +44,6 @@ public class PersistanceConfiguration {
     private static final String HSQL_JDBC_URL_TEMPLATE = "jdbc:hsqldb:file:scorecarddatabase/db;hsqldb.default_table_type=cached;hsqldb.write_delay_millis=10;readonly=false";
     @Value("classpath:schema.sql")
     private Resource HSQL_SCHEMA_SCRIPT;
-    
-    @Autowired
-    private Environment environment;
 
     @Bean(name="inmemoryEntityManagerFactory")
     @Primary

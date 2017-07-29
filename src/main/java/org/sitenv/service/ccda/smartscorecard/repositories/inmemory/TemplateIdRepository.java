@@ -15,4 +15,9 @@ public interface TemplateIdRepository extends JpaRepository<TemplateIds, Integer
 	@Transactional(readOnly = true)
 	@Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM TemplateIds c WHERE c.templateId = :templateId")
 	boolean findByTemplateId(@Param("templateId")String templateId);
+	
+	
+	@Transactional(readOnly = true)
+	@Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM TemplateIds c WHERE c.templateId = :templateId and c.extension = :extension")
+	boolean findByTemplateId(@Param("templateId")String templateId, @Param("extension")String extension);
 }

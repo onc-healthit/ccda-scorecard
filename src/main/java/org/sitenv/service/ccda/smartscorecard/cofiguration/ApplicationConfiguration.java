@@ -16,13 +16,13 @@ public class ApplicationConfiguration {
 	 * When overridden, the URL property is set by ApplicationConstants.REFERENCE_VALIDATOR_URL
 	 * True allows for 'C-CDA IG Conformance Errors' results
 	 */
-	public static final boolean IG_CONFORMANCE_CALL = true;
+	public static final boolean IG_CONFORMANCE_CALL = false;
 	/**
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG == true
 	 * When overridden, the URL property is set by ApplicationConstants.REFERENCE_VALIDATOR_URL
 	 * True allows for '2015 Edition Certification Feedback' results
 	 */
-	public static final boolean CERTIFICATION_RESULTS_CALL = true;
+	public static final boolean CERTIFICATION_RESULTS_CALL = false;
 	
 	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
 	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:8000",

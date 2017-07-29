@@ -25,7 +25,7 @@ public class TemplateIdLoader extends BaseVocabularyLoader implements Vocabulary
         BufferedReader br = null;
         FileReader fileReader = null;
         try {
-            String insertQueryPrefix = "insert into TEMPLATEIDS (ID, TEMPLATETITLE, TEMPLATETYPE, TEMPLATEID) values ";
+            String insertQueryPrefix = "insert into TEMPLATEIDS (ID, TEMPLATETITLE, TEMPLATETYPE, TEMPLATEID,EXTENSION) values ";
             StrBuilder insertQueryBuilder = new StrBuilder(insertQueryPrefix);
             int totalCount = 0, pendingCount = 0;
 
@@ -54,7 +54,11 @@ public class TemplateIdLoader extends BaseVocabularyLoader implements Vocabulary
                                 insertQueryBuilder.append(StringUtils.strip(line[1], "\"").toUpperCase());
                                 insertQueryBuilder.append("','");
                                 insertQueryBuilder.append(StringUtils.strip(line[2], "\"").replaceAll("'", "''"));
+                                insertQueryBuilder.append("','");
+                                insertQueryBuilder.append(StringUtils.strip(line[3], "\"").toUpperCase());
                                 insertQueryBuilder.append("')");
+                                
+                                
 
                                 if ((++totalCount % 100) == 0) {
                                     doInsert(insertQueryBuilder.toString(), connection);

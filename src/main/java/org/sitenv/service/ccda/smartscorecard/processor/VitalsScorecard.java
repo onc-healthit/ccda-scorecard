@@ -3,6 +3,7 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAVitalObs;
 import org.sitenv.ccdaparsing.model.CCDAVitalOrg;
@@ -10,6 +11,7 @@ import org.sitenv.ccdaparsing.model.CCDAVitalSigns;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
+import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.VitalsRepository;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
@@ -22,7 +24,7 @@ public class VitalsScorecard {
 	@Autowired
 	VitalsRepository vitalsRepository;
 	
-	public Category getVitalsCategory(CCDAVitalSigns vitals, String birthDate,String docType)
+	public Category getVitalsCategory(CCDAVitalSigns vitals, PatientDetails patientDetails,String docType)
 	{
 		if(vitals==null || vitals.isSectionNullFlavourWithNI())
 		{
@@ -33,7 +35,7 @@ public class VitalsScorecard {
 		
 		List<CCDAScoreCardRubrics> vitalsScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		vitalsScoreList.add(getTimePrecisionScore(vitals,docType));
-		vitalsScoreList.add(getValidDateTimeScore(vitals,birthDate,docType));
+		vitalsScoreList.add(getValidDateTimeScore(vitals,patientDetails,docType));
 		vitalsScoreList.add(getValidDisplayNameScoreCard(vitals,docType));
 		vitalsScoreList.add(getValidLoincCodesScore(vitals,docType));
 		vitalsScoreList.add(getValidUCUMScore(vitals,docType));
@@ -157,7 +159,7 @@ public class VitalsScorecard {
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAVitalSigns vitals, String birthDate,String docType)
+	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAVitalSigns vitals, PatientDetails patientDetails,String docType)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
 		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -175,7 +177,7 @@ public class VitalsScorecard {
 					if(vitalOrg.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(vitalOrg.getEffTime()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.checkDateRange(birthDate, vitalOrg.getEffTime()))
+						if(ApplicationUtil.checkDateRange(patientDetails, vitalOrg.getEffTime()))
 						{
 							actualPoints++;
 						}
@@ -195,7 +197,7 @@ public class VitalsScorecard {
 							if(vitalObs.getMeasurementTime() != null && ApplicationUtil.isEffectiveTimePresent(vitalObs.getMeasurementTime()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.checkDateRange(birthDate, vitalObs.getMeasurementTime()))
+								if(ApplicationUtil.checkDateRange(patientDetails, vitalObs.getMeasurementTime()))
 								{
 									actualPoints++;
 								}
@@ -662,6 +664,51 @@ public class VitalsScorecard {
 		}
 		
 		return narrativeTextIdScore;
+	}
+	
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDAAllergy allergies,String docType)
+	{
+		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
+		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(allergies != null)
+		{
+			if(!ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
+			{
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Allergies Section not present");
+			issue.setXmlString("Allergies Section not present");
+			issuesList.add(issue);
+		}
+		
+		templateIdScore.setActualPoints(actualPoints);
+		templateIdScore.setMaxPoints(maxPoints);
+		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		templateIdScore.setIssuesList(issuesList);
+		templateIdScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ALLERGY_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.ALLERGY_SECTION.getIgReference());
+			}
+			templateIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.ALLERGIES.getTaskforceLink());
+		}
+		
+		return templateIdScore;
 	}
 
 }

@@ -3,6 +3,7 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDASmokingStatus;
@@ -11,6 +12,7 @@ import org.sitenv.ccdaparsing.model.CCDATobaccoUse;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
+import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SocialHistoryScorecard {
 	
-	public Category getSocialHistoryCategory(CCDASocialHistory socialHistory, String birthDate,String docType)
+	public Category getSocialHistoryCategory(CCDASocialHistory socialHistory, PatientDetails patientDetails,String docType)
 	{
 		if(socialHistory==null || socialHistory.isSectionNullFlavourWithNI())
 		{
@@ -29,7 +31,7 @@ public class SocialHistoryScorecard {
 		
 		List<CCDAScoreCardRubrics> socialHistoryScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		socialHistoryScoreList.add(getTimePrecisionScore(socialHistory,docType));
-		socialHistoryScoreList.add(getValidDateTimeScore(socialHistory,birthDate,docType));
+		socialHistoryScoreList.add(getValidDateTimeScore(socialHistory,patientDetails,docType));
 		socialHistoryScoreList.add(getValidDisplayNameScoreCard(socialHistory,docType));
 		socialHistoryScoreList.add(getValidSmokingStatusScore(socialHistory,docType));
 		socialHistoryScoreList.add(getValidSmokingStatuIdScore(socialHistory,docType));
@@ -140,7 +142,7 @@ public class SocialHistoryScorecard {
 		return timePrecisionScore;
 	}
 	
-	public  CCDAScoreCardRubrics getValidDateTimeScore(CCDASocialHistory socialHistory, String birthDate,String docType)
+	public  CCDAScoreCardRubrics getValidDateTimeScore(CCDASocialHistory socialHistory, PatientDetails patientDetails,String docType)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
 		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -158,7 +160,7 @@ public class SocialHistoryScorecard {
 					if(smokingStatus.getObservationTime() != null && ApplicationUtil.isEffectiveTimePresent(smokingStatus.getObservationTime()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.checkDateRange(birthDate, smokingStatus.getObservationTime()))
+						if(ApplicationUtil.checkDateRange(patientDetails, smokingStatus.getObservationTime()))
 						{
 							actualPoints++;
 						}
@@ -180,7 +182,7 @@ public class SocialHistoryScorecard {
 					if(tobaccoUse.getTobaccoUseTime() != null && ApplicationUtil.isEffectiveTimePresent(tobaccoUse.getTobaccoUseTime()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.checkDateRange(birthDate, tobaccoUse.getTobaccoUseTime()))
+						if(ApplicationUtil.checkDateRange(patientDetails, tobaccoUse.getTobaccoUseTime()))
 						{
 							actualPoints++;
 						}
@@ -644,6 +646,51 @@ public class SocialHistoryScorecard {
 		}
 		
 		return narrativeTextIdScore;
+	}
+	
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDAAllergy allergies,String docType)
+	{
+		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
+		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(allergies != null)
+		{
+			if(!ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
+			{
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Allergies Section not present");
+			issue.setXmlString("Allergies Section not present");
+			issuesList.add(issue);
+		}
+		
+		templateIdScore.setActualPoints(actualPoints);
+		templateIdScore.setMaxPoints(maxPoints);
+		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		templateIdScore.setIssuesList(issuesList);
+		templateIdScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ALLERGY_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.ALLERGY_SECTION.getIgReference());
+			}
+			templateIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.ALLERGIES.getTaskforceLink());
+		}
+		
+		return templateIdScore;
 	}
 
 }

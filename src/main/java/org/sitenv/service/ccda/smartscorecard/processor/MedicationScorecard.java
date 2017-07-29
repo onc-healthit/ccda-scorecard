@@ -11,6 +11,7 @@ import org.sitenv.ccdaparsing.model.CCDAMedicationActivity;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
+import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MedicationScorecard {
 	
-	public Category getMedicationCategory(CCDAMedication medications, String birthDate,String docType)
+	public Category getMedicationCategory(CCDAMedication medications, PatientDetails patientDetails,String docType)
 	{
 		
 		if(medications==null || medications.isSectionNullFlavourWithNI())
@@ -30,11 +31,12 @@ public class MedicationScorecard {
 		
 		List<CCDAScoreCardRubrics> medicationScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		medicationScoreList.add(getTimePrecisionScore(medications,docType));
-		medicationScoreList.add(getValidDateTimeScore(medications, birthDate,docType));
+		medicationScoreList.add(getValidDateTimeScore(medications, patientDetails,docType));
 		medicationScoreList.add(getValidDisplayNameScoreCard(medications,docType));
 		medicationScoreList.add(getValidMedicationCodeScoreCard(medications,docType));
 		medicationScoreList.add(getValidMedActivityScore(medications,docType));
 		medicationScoreList.add(getNarrativeStructureIdScore(medications,docType));
+		medicationScoreList.add(getMedSubAdminScore(medications,docType));
 		
 		medicationCategory.setCategoryRubrics(medicationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(medicationScoreList, medicationCategory);
@@ -122,7 +124,7 @@ public class MedicationScorecard {
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAMedication medications, String birthDate,String docType)
+	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAMedication medications, PatientDetails patientDetails,String docType)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
 		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -140,7 +142,7 @@ public class MedicationScorecard {
 					if(medActivity.getDuration() != null && ApplicationUtil.isEffectiveTimePresent(medActivity.getDuration()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.checkDateRange(birthDate, medActivity.getDuration()))
+						if(ApplicationUtil.checkDateRange(patientDetails, medActivity.getDuration()))
 						{
 							actualPoints++;
 						}
@@ -525,5 +527,78 @@ public class MedicationScorecard {
 		}
 		
 		return narrativeTextIdScore;
+	}
+	
+	public CCDAScoreCardRubrics getMedSubAdminScore(CCDAMedication medications,String docType)
+	{
+		CCDAScoreCardRubrics medSubAdminScore = new CCDAScoreCardRubrics();
+		medSubAdminScore.setRule(ApplicationConstants.MED_SIG_TEXT_REQ);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(medications != null)
+		{
+			if(!ApplicationUtil.isEmpty(medications.getMedActivities()))
+			{
+				for (CCDAMedicationActivity medAct : medications.getMedActivities())
+				{
+					maxPoints++;
+					if(medAct.getMedSubAdmin()!=null)
+					{
+						if(medAct.getMedSubAdmin().getReferenceText()!= null)
+						{
+							if(medications.getReferenceLinks()!= null && medications.getReferenceLinks().contains(medAct.getMedSubAdmin().getReferenceText().getValue()))
+							{
+								actualPoints++;
+							}
+							else
+							{
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(medAct.getMedSubAdmin().getReferenceText().getLineNumber());
+								issue.setXmlString(medAct.getMedSubAdmin().getReferenceText().getXmlString());
+								issuesList.add(issue);
+							}
+						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(medAct.getMedSubAdmin().getLineNumber());
+							issue.setXmlString(medAct.getMedSubAdmin().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(medAct.getLineNumber());
+						issue.setXmlString(medAct.getXmlString());
+						issuesList.add(issue);
+					}
+				}
+			}
+		}
+		
+		medSubAdminScore.setActualPoints(actualPoints);
+		medSubAdminScore.setMaxPoints(maxPoints);
+		medSubAdminScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		medSubAdminScore.setIssuesList(issuesList);
+		medSubAdminScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			medSubAdminScore.setDescription(ApplicationConstants.MED_SIG_TEXT_DESC);
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				medSubAdminScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.MEDICATION_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				medSubAdminScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.MEDICATION_SECTION.getIgReference());
+			}
+			medSubAdminScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.MEDICATIONS.getTaskforceLink());
+		}
+		
+		return medSubAdminScore;
 	}
 }

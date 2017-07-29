@@ -11,6 +11,7 @@ import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.ccdaparsing.service.CCDAParserAPI;
 import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
+import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
 import org.sitenv.service.ccda.smartscorecard.processor.AllergiesScorecard;
@@ -88,7 +89,7 @@ public class CcdaSmartScorecardController {
 		
 		
 		ResponseTO response = new ResponseTO();
-		String birthDate = null;
+		PatientDetails patientDetails = null;
 		Results results = new Results();
 		String docType = null;
 		
@@ -98,21 +99,35 @@ public class CcdaSmartScorecardController {
 			if (!ccdaModels.isEmpty())
 			{
 				docType = ApplicationUtil.checkDocType(ccdaModels);
-				if(ccdaModels.getPatient() != null && ccdaModels.getPatient().getDob()!= null)
+				if(ccdaModels.getPatient() != null)
 				{
-					birthDate = ccdaModels.getPatient().getDob().getValue();
+					patientDetails = new PatientDetails();
+					if(ccdaModels.getPatient().getDob()!= null)
+					{
+						patientDetails.setPatientDob(ccdaModels.getPatient().getDob().getValue());
+						patientDetails.setDobValid(ApplicationUtil.validateBirthDate(ccdaModels.getPatient().getDob().getValue()));
+					}
+					
+					if(ccdaModels.getPatient().getDod()!= null && ccdaModels.getPatient().getDod().getLowPresent())
+					{
+						patientDetails.setDodPresent(ccdaModels.getPatient().getDod().getLowPresent());
+						patientDetails.setPatientDod(ccdaModels.getPatient().getDod().getLow().getValue());
+						patientDetails.setDodValid(patientDetails.isDobValid()? ApplicationUtil.isDodValid(patientDetails.getPatientDob(),
+																					ccdaModels.getPatient().getDod().getValue()):false);
+					}
+					
 				}
 				List<Category> categoryList = new ArrayList<Category>();
 				categoryList.add(patientScorecard.getPatientCategory(ccdaModels.getPatient(),docType));
-				categoryList.add(encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),birthDate,docType));
-				categoryList.add(allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),birthDate,docType));
-				categoryList.add(problemsScorecard.getProblemsCategory(ccdaModels.getProblem(),birthDate,docType));
-				categoryList.add(medicationScorecard.getMedicationCategory(ccdaModels.getMedication(),birthDate,docType));
-				categoryList.add(immunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization(),birthDate,docType));
-				categoryList.add(socialhistoryScorecard.getSocialHistoryCategory(ccdaModels.getSmokingStatus(),birthDate,docType));
-				categoryList.add(labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),birthDate,docType));
-				categoryList.add(vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),birthDate,docType));
-				categoryList.add(procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),birthDate,docType));
+				categoryList.add(encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),patientDetails,docType));
+				categoryList.add(allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),patientDetails,docType));
+				categoryList.add(problemsScorecard.getProblemsCategory(ccdaModels.getProblem(),patientDetails,docType));
+				categoryList.add(medicationScorecard.getMedicationCategory(ccdaModels.getMedication(),patientDetails,docType));
+				categoryList.add(immunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization(),patientDetails,docType));
+				categoryList.add(socialhistoryScorecard.getSocialHistoryCategory(ccdaModels.getSmokingStatus(),patientDetails,docType));
+				categoryList.add(labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),patientDetails,docType));
+				categoryList.add(vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),patientDetails,docType));
+				categoryList.add(procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),patientDetails,docType));
 				categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
 				
 				results.setCategoryList(categoryList);

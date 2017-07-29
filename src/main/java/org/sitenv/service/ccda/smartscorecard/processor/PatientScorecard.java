@@ -47,7 +47,7 @@ public class PatientScorecard {
 				if((ApplicationUtil.validateDayFormat(patient.getDob().getValue()) || 
 						ApplicationUtil.validateMinuteFormat(patient.getDob().getValue()) || 
 						ApplicationUtil.validateSecondFormat(patient.getDob().getValue()))
-						&& ApplicationUtil.validateDate(patient.getDob().getValue()))
+						&& ApplicationUtil.validateBirthDate(patient.getDob().getValue()))
 				{
 					actualPoints++;
 				}
