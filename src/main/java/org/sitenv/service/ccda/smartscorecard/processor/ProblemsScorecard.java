@@ -3,9 +3,9 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
+import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProblem;
 import org.sitenv.ccdaparsing.model.CCDAProblemConcern;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
@@ -15,10 +15,14 @@ import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProblemsScorecard {
+	
+	@Autowired
+	TemplateIdProcessor templateIdProcessor;
 	
 	public Category getProblemsCategory(CCDAProblem problems, PatientDetails patientDetails,String docType)
 	{
@@ -38,6 +42,7 @@ public class ProblemsScorecard {
 		problemsScoreList.add(getApprEffectivetimeScore(problems,docType));
 		problemsScoreList.add(getApprStatusCodeScore(problems,docType));
 		problemsScoreList.add(getNarrativeStructureIdScore(problems,docType));
+		problemsScoreList.add(getTemplateIdScore(problems, docType));
 		
 		ApplicationUtil.calculateSectionGradeAndIssues(problemsScoreList, problemsCategory);
 		
@@ -746,7 +751,8 @@ public class ProblemsScorecard {
 		return narrativeTextIdScore;
 	}
 	
-	public CCDAScoreCardRubrics getTemplateIdScore(CCDAAllergy allergies,String docType)
+	
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDAProblem problems,String docType)
 	{
 		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
 		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
@@ -754,19 +760,53 @@ public class ProblemsScorecard {
 		int maxPoints = 0;
 		int actualPoints = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
-		CCDAXmlSnippet issue= null;
-		if(allergies != null)
+		
+		if(problems!=null)
 		{
-			if(!ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
+			if(!ApplicationUtil.isEmpty(problems.getSectionTemplateId()))
 			{
+				for (CCDAII templateId : problems.getSectionTemplateId())
+				{
+					maxPoints = maxPoints++;
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+				}
+			}
+			
+			if(!ApplicationUtil.isEmpty(problems.getProblemConcerns()))
+			{
+				for(CCDAProblemConcern probConcern : problems.getProblemConcerns())
+				{
+					if(!ApplicationUtil.isEmpty(probConcern.getTemplateId()))
+					{
+						for (CCDAII templateId : probConcern.getTemplateId())
+						{
+							maxPoints = maxPoints++;
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+						}
+					}
+					
+					if(!ApplicationUtil.isEmpty(probConcern.getProblemObservations()))
+					{
+						for(CCDAProblemObs probObs : probConcern.getProblemObservations())
+						{
+							if(!ApplicationUtil.isEmpty(probObs.getTemplateId()))
+							{
+								for (CCDAII templateId : probObs.getTemplateId())
+								{
+									maxPoints = maxPoints++;
+									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+								}
+							}
+						}
+					}
+				}
 			}
 		}
-		else
+		
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Allergies Section not present");
-			issue.setXmlString("Allergies Section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		templateIdScore.setActualPoints(actualPoints);

@@ -15,17 +15,17 @@ import org.sitenv.service.ccda.smartscorecard.loader.BaseVocabularyLoader;
 import org.sitenv.service.ccda.smartscorecard.loader.VocabularyLoader;
 import org.springframework.stereotype.Component;
 
-@Component(value = "TEMPLATEIDS")
-public class TemplateIdLoader extends BaseVocabularyLoader implements VocabularyLoader {
+@Component(value = "TEMPLATEIDSR1.1")
+public class TemplateIdLoaderR11 extends BaseVocabularyLoader implements VocabularyLoader {
 	
-	private static Logger logger = Logger.getLogger(TemplateIdLoader.class);
+	private static Logger logger = Logger.getLogger(TemplateIdLoaderR21.class);
 
     @Override
     public void load(List<File> filesToLoad, Connection connection) {
         BufferedReader br = null;
         FileReader fileReader = null;
         try {
-            String insertQueryPrefix = "insert into TEMPLATEIDS (ID, TEMPLATETITLE, TEMPLATETYPE, TEMPLATEID,EXTENSION) values ";
+            String insertQueryPrefix = "insert into TEMPLATEIDSR11 (ID, TEMPLATETITLE, TEMPLATETYPE, TEMPLATEID) values ";
             StrBuilder insertQueryBuilder = new StrBuilder(insertQueryPrefix);
             int totalCount = 0, pendingCount = 0;
 
@@ -54,8 +54,6 @@ public class TemplateIdLoader extends BaseVocabularyLoader implements Vocabulary
                                 insertQueryBuilder.append(StringUtils.strip(line[1], "\"").toUpperCase());
                                 insertQueryBuilder.append("','");
                                 insertQueryBuilder.append(StringUtils.strip(line[2], "\"").replaceAll("'", "''"));
-                                insertQueryBuilder.append("','");
-                                insertQueryBuilder.append(StringUtils.strip(line[3], "\"").toUpperCase());
                                 insertQueryBuilder.append("')");
                                 
                                 

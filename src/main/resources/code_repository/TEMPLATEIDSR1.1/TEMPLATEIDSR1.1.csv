@@ -1,0 +1,173 @@
+Template Title,Template Type ,TemplateId
+US Realm Address (AD.US.FIELDED),header,2.16.840.1.113883.10.20.22.5.2
+US Realm Date and Time (DT.US.FIELDED),header,2.16.840.1.113883.10.20.22.5.3
+US Realm Date and Time (DTM.US.FIELDED),header,2.16.840.1.113883.10.20.22.5.4
+US Realm Patient Name (PTN.US.FIELDED),header,2.16.840.1.113883.10.20.22.5.1
+US Realm Person Name (PN.US.FIELDED),header,2.16.840.1.113883.10.20.22.5.1.1
+Consultation Note,document,2.16.840.1.113883.10.20.22.1.4
+Continuity of Care Document (CCD),document,2.16.840.1.113883.10.20.22.1.2
+Diagnostic Imaging Report,document,2.16.840.1.113883.10.20.22.1.5
+Discharge Summary,document,2.16.840.1.113883.10.20.22.1.8
+History and Physical,document,2.16.840.1.113883.10.20.22.1.3
+Operative Note,document,2.16.840.1.113883.10.20.22.1.7
+Procedure Note,document,2.16.840.1.113883.10.20.22.1.6
+Progress Note,document,2.16.840.1.113883.10.20.22.1.9
+Unstructured Document,document,2.16.840.1.113883.10.20.22.1.10
+US Realm Header,document,2.16.840.1.113883.10.20.22.1.1
+Advance Directives Section (entries optional),section,2.16.840.1.113883.10.20.22.2.21
+Advance Directives Section (entries required),section,2.16.840.1.113883.10.20.22.2.21.1
+Allergies Section (entries optional),section,2.16.840.1.113883.10.20.22.2.6
+Allergies Section (entries required),section,2.16.840.1.113883.10.20.22.2.6.1
+Anesthesia Section,section,2.16.840.1.113883.10.20.22.2.25
+Assessment and Plan Section,section,2.16.840.1.113883.10.20.22.2.9
+Assessment Section,section,2.16.840.1.113883.10.20.22.2.8
+Chief Complaint and Reason for Visit Section,section,2.16.840.1.113883.10.20.22.2.13
+Chief Complaint Section,section,1.3.6.1.4.1.19376.1.5.3.1.1.13.2.1
+Complications Section,section,2.16.840.1.113883.10.20.22.2.37
+DICOM Object Catalog Section - DCM 121181,section,2.16.840.1.113883.10.20.6.1.1
+Discharge Diet Section,section,1.3.6.1.4.1.19376.1.5.3.1.3.33
+Encounters Section (entries optional),section,2.16.840.1.113883.10.20.22.2.22
+Encounters Section (entries required),section,2.16.840.1.113883.10.20.22.2.22.1
+Family History Section,section,2.16.840.1.113883.10.20.22.2.15
+Fetus Subject Context,section,2.16.840.1.113883.10.20.6.2.3
+Findings Section (DIR),section,2.16.840.1.113883.10.20.6.1.2
+Functional Status Section,section,2.16.840.1.113883.10.20.22.2.14
+General Status Section,section,2.16.840.1.113883.10.20.2.5
+History of Past Illness Section,section,2.16.840.1.113883.10.20.22.2.20
+History of Present Illness Section,section,1.3.6.1.4.1.19376.1.5.3.1.3.4
+Hospital Admission Diagnosis Section,section,2.16.840.1.113883.10.20.22.2.43
+Hospital Admission Medications Section (entries optional),section,2.16.840.1.113883.10.20.22.2.44
+Hospital Consultations Section,section,2.16.840.1.113883.10.20.22.2.42
+Hospital Course Section,section,1.3.6.1.4.1.19376.1.5.3.1.3.5
+Hospital Discharge Diagnosis Section,section,2.16.840.1.113883.10.20.22.2.24
+Hospital Discharge Instructions Section,section,2.16.840.1.113883.10.20.22.2.41
+Hospital Discharge Medications Section (entries optional),section,2.16.840.1.113883.10.20.22.2.11
+Hospital Discharge Medications Section (entries required),section,2.16.840.1.113883.10.20.22.2.11.1
+Hospital Discharge Physical Section,section,1.3.6.1.4.1.19376.1.5.3.1.3.26
+Hospital Discharge Studies Summary Section,section,2.16.840.1.113883.10.20.22.2.16
+Immunizations Section (entries optional),section,2.16.840.1.113883.10.20.22.2.2
+Immunizations Section (entries required),section,2.16.840.1.113883.10.20.22.2.2.1
+Implants Section,section,2.16.840.1.113883.10.20.22.2.33
+Instructions Section,section,2.16.840.1.113883.10.20.22.2.45
+Interventions Section,section,2.16.840.1.113883.10.20.21.2.3
+Medical (General) History Section,section,2.16.840.1.113883.10.20.22.2.39
+Medical Equipment Section,section,2.16.840.1.113883.10.20.22.2.23
+Medications Administered Section,section,2.16.840.1.113883.10.20.22.2.38
+Medications Section (entries optional),section,2.16.840.1.113883.10.20.22.2.1
+Medications Section (entries required),section,2.16.840.1.113883.10.20.22.2.1.1
+Objective Section,section,2.16.840.1.113883.10.20.21.2.1
+Observer Context,section,2.16.840.1.113883.10.20.6.2.4
+Operative Note Fluids Section,section,2.16.840.1.113883.10.20.7.12
+Operative Note Surgical Procedure Section,section,2.16.840.1.113883.10.20.7.14
+Payers Section,section,2.16.840.1.113883.10.20.22.2.18
+Physical Exam Section,section,2.16.840.1.113883.10.20.2.10
+Plan of Care Section,section,2.16.840.1.113883.10.20.22.2.10
+Planned Procedure Section,section,2.16.840.1.113883.10.20.22.2.30
+Postoperative Diagnosis Section,section,2.16.840.1.113883.10.20.22.2.35
+Postprocedure Diagnosis Section,section,2.16.840.1.113883.10.20.22.2.36
+Preoperative Diagnosis Section,section,2.16.840.1.113883.10.20.22.2.34
+Problem Section (entries optional),section,2.16.840.1.113883.10.20.22.2.5
+Problem Section (entries required),section,2.16.840.1.113883.10.20.22.2.5.1
+Procedure Description Section,section,2.16.840.1.113883.10.20.22.2.27
+Procedure Disposition Section,section,2.16.840.1.113883.10.20.18.2.12
+Procedure Estimated Blood Loss Section,section,2.16.840.1.113883.10.20.18.2.9
+Procedure Findings Section,section,2.16.840.1.113883.10.20.22.2.28
+Procedure Implants Section,section,2.16.840.1.113883.10.20.22.2.40
+Procedure Indications Section,section,2.16.840.1.113883.10.20.22.2.29
+Procedure Specimens Taken Section,section,2.16.840.1.113883.10.20.22.2.31
+Procedures Section (entries optional),section,2.16.840.1.113883.10.20.22.2.7
+Procedures Section (entries required),section,2.16.840.1.113883.10.20.22.2.7.1
+Reason for Referral Section,section,1.3.6.1.4.1.19376.1.5.3.1.3.1
+Reason for Visit Section,section,2.16.840.1.113883.10.20.22.2.12
+Results Section (entries optional),section,2.16.840.1.113883.10.20.22.2.3
+Results Section (entries required),section,2.16.840.1.113883.10.20.22.2.3.1
+Review of Systems Section,section,1.3.6.1.4.1.19376.1.5.3.1.3.18
+Social History Section,section,2.16.840.1.113883.10.20.22.2.17
+Subjective Section,section,2.16.840.1.113883.10.20.21.2.2
+Surgery Description Section,section,2.16.840.1.113883.10.20.22.2.26
+Surgical Drains Section,section,2.16.840.1.113883.10.20.7.13
+Vital Signs Section (entries optional),section,2.16.840.1.113883.10.20.22.2.4
+Vital Signs Section (entries required),section,2.16.840.1.113883.10.20.22.2.4.1
+Admission Medication,entry,2.16.840.1.113883.10.20.22.4.36
+Advance Directive Observation,entry,2.16.840.1.113883.10.20.22.4.48
+Age Observation,entry,2.16.840.1.113883.10.20.22.4.31
+Allergy - Intolerance Observation,entry,2.16.840.1.113883.10.20.22.4.7
+Allergy Problem Act,entry,2.16.840.1.113883.10.20.22.4.30
+Allergy Status Observation,entry,2.16.840.1.113883.10.20.22.4.28
+Assessment Scale Observation,entry,2.16.840.1.113883.10.20.22.4.69
+Authorization Activity,entry,2.16.840.1.113883.10.20.1.19
+Boundary Observation,entry,2.16.840.1.113883.10.20.6.2.11
+Caregiver Characteristics,entry,2.16.840.1.113883.10.20.22.4.72
+Code Observations,entry,2.16.840.1.113883.10.20.6.2.13
+Cognitive Status Problem Observation,entry,2.16.840.1.113883.10.20.22.4.73
+Cognitive Status Result Observation,entry,2.16.840.1.113883.10.20.22.4.74
+Cognitive Status Result Organizer,entry,2.16.840.1.113883.10.20.22.4.75
+Comment Activity,entry,2.16.840.1.113883.10.20.22.4.64
+Coverage Activity,entry,2.16.840.1.113883.10.20.22.4.60
+Deceased Observation,entry,2.16.840.1.113883.10.20.22.4.79
+Discharge Medication,entry,2.16.840.1.113883.10.20.22.4.35
+Drug Vehicle,entry,2.16.840.1.113883.10.20.22.4.24
+Encounter Activities,entry,2.16.840.1.113883.10.20.22.4.49
+Encounter Diagnosis,entry,2.16.840.1.113883.10.20.22.4.80 
+Estimated Date of Delivery,entry,2.16.840.1.113883.10.20.15.3.1
+Family History Death Observation,entry,2.16.840.1.113883.10.20.22.4.47
+Family History Observation,entry,2.16.840.1.113883.10.20.22.4.46
+Family History Organizer,entry,2.16.840.1.113883.10.20.22.4.45
+Functional Status Problem Observation,entry,2.16.840.1.113883.10.20.22.4.68
+Functional Status Result Observation,entry,2.16.840.1.113883.10.20.22.4.67
+Functional Status Result Organizer,entry,2.16.840.1.113883.10.20.22.4.66
+ Observation,entry,2.16.840.1.113883.10.20.22.4.5
+Highest Pressure Ulcer Stage,entry,2.16.840.1.113883.10.20.22.4.77
+Hospital Admission Diagnosis,entry,2.16.840.1.113883.10.20.22.4.34
+Hospital Discharge Diagnosis,entry,2.16.840.1.113883.10.20.22.4.33
+Immunization Activity,entry,2.16.840.1.113883.10.20.22.4.52
+Immunization Medication Information,entry,2.16.840.1.113883.10.20.22.4.54
+Immunization Refusal Reason,entry,2.16.840.1.113883.10.20.22.4.53
+Indication,entry,2.16.840.1.113883.10.20.22.4.19
+Instructions,entry,2.16.840.1.113883.10.20.22.4.20
+Medication Activity,entry,2.16.840.1.113883.10.20.22.4.16
+Medication Dispense,entry,2.16.840.1.113883.10.20.22.4.18
+Medication Information,entry,2.16.840.1.113883.10.20.22.4.23
+Medication Supply Order,entry,2.16.840.1.113883.10.20.22.4.17
+Medication Use - None Known (deprecated),entry,2.16.840.1.113883.10.20.22.4.29
+Non-Medicinal Supply Activity,entry,2.16.840.1.113883.10.20.22.4.50
+Number of Pressure Ulcers Observation,entry,2.16.840.1.113883.10.20.22.4.76
+Plan of Care Activity Act,entry,2.16.840.1.113883.10.20.22.4.39
+Plan of Care Activity Encounter,entry,2.16.840.1.113883.10.20.22.4.40
+Plan of Care Activity Observation,entry,2.16.840.1.113883.10.20.22.4.44
+Plan of Care Activity Procedure,entry,2.16.840.1.113883.10.20.22.4.41
+Plan of Care Activity Substance Administration,entry,2.16.840.1.113883.10.20.22.4.42
+Plan of Care Activity Supply,entry,2.16.840.1.113883.10.20.22.4.43
+Policy Activity,entry,2.16.840.1.113883.10.20.22.4.61
+Postprocedure Diagnosis,entry,2.16.840.1.113883.10.20.22.4.51
+Precondition for Substance Administration,entry,2.16.840.1.113883.10.20.22.4.25
+Pregnancy Observation,entry,2.16.840.1.113883.10.20.15.3.8
+Preoperative Diagnosis,entry,2.16.840.1.113883.10.20.22.4.65
+Pressure Ulcer Observation,entry,2.16.840.1.113883.10.20.22.4.70
+Problem Concern Act (Condition),entry,2.16.840.1.113883.10.20.22.4.3
+Problem Observation,entry,2.16.840.1.113883.10.20.22.4.4
+Problem Status,entry,2.16.840.1.113883.10.20.22.4.6
+Procedure Activity Act,entry,2.16.840.1.113883.10.20.22.4.12
+Procedure Activity Observation,entry,2.16.840.1.113883.10.20.22.4.13
+Procedure Activity Procedure,entry,2.16.840.1.113883.10.20.22.4.14
+Procedure Context,entry,2.16.840.1.113883.10.20.6.2.5
+Product Instance,entry,2.16.840.1.113883.10.20.22.4.37
+Purpose of Reference Observation,entry,2.16.840.1.113883.10.20.6.2.9
+Quantity Measurement Observation,entry,2.16.840.1.113883.10.20.6.2.14
+Reaction Observation,entry,2.16.840.1.113883.10.20.22.4.9
+Referenced Frames Observation,entry,2.16.840.1.113883.10.20.6.2.10
+Result Observation,entry,2.16.840.1.113883.10.20.22.4.2
+Result Organizer,entry,2.16.840.1.113883.10.20.22.4.1
+Series Act,entry,2.16.840.1.113883.10.20.22.4.63
+Service Delivery Location,entry,2.16.840.1.113883.10.20.22.4.32
+Severity Observation,entry,2.16.840.1.113883.10.20.22.4.8
+Smoking Status Observation,entry,2.16.840.1.113883.10.22.4.78
+Social History Observation,entry,2.16.840.1.113883.10.20.22.4.38
+SOP Instance Observation,entry,2.16.840.1.113883.10.20.6.2.8
+Study Act,entry,2.16.840.1.113883.10.20.6.2.6
+Text Observation,entry,2.16.840.1.113883.10.20.6.2.12
+Tobacco Use,entry,2.16.840.1.113883.10.20.22.4.85
+Vital Sign Observation,entry,2.16.840.1.113883.10.20.22.4.27
+Vital Signs Organizer,entry,2.16.840.1.113883.10.20.22.4.26
+Physician of Record Participant,unspecified,2.16.840.1.113883.10.20.6.2.2
+Physician Reading Study Performer,unspecified,2.16.840.1.113883.10.20.6.2.1

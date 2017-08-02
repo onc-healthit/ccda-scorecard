@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource("classpath:config.properties")
+@PropertySource({"classpath:config.properties"})
 @ComponentScan("org.sitenv.service.ccda.smartscorecard")
 @EnableJpaRepositories(
 		 entityManagerFactoryRef = "inmemoryEntityManagerFactory", 
@@ -44,7 +44,7 @@ public class PersistanceConfiguration {
     private static final String HSQL_JDBC_URL_TEMPLATE = "jdbc:hsqldb:file:scorecarddatabase/db;hsqldb.default_table_type=cached;hsqldb.write_delay_millis=10;readonly=false";
     @Value("classpath:schema.sql")
     private Resource HSQL_SCHEMA_SCRIPT;
-
+    
     @Bean(name="inmemoryEntityManagerFactory")
     @Primary
     public EntityManagerFactory entityManagerFactory() {

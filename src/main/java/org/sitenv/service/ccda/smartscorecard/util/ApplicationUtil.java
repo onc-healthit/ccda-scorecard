@@ -132,9 +132,9 @@ public class ApplicationUtil {
 		return value;
 	}
 	
-	public static boolean isExtensionPresent(CCDAII templateId)
+	public static boolean isRootAndExtensionPresent(CCDAII templateId)
 	{
-		return templateId!=null && templateId.getExtValue()!=null;
+		return templateId!=null && templateId.getExtValue()!=null && templateId.getRootValue()!=null;
 	}
 	
 	public static boolean isRootValuePresent(CCDAII templateId)
@@ -1100,6 +1100,26 @@ public class ApplicationUtil {
 		else if(ccdaModels.getImmunization()!=null && !ccdaModels.getImmunization().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getImmunization().getTemplateIds()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+		}
+		else if(ccdaModels.getProblem()!=null && !ccdaModels.getProblem().isSectionNullFlavourWithNI())
+		{
+			if(isExtensionPresent(ccdaModels.getProblem().getSectionTemplateId()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+		}
+		else if(ccdaModels.getProcedure()!=null && !ccdaModels.getProcedure().isSectionNullFlavourWithNI())
+		{
+			if(isExtensionPresent(ccdaModels.getProcedure().getSectionTemplateId()))
 			{
 				docType = "R2.1";
 			}else

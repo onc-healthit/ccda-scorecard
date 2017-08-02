@@ -14,10 +14,14 @@ import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MedicationScorecard {
+	
+	@Autowired
+	TemplateIdProcessor templateIdProcessor;
 	
 	public Category getMedicationCategory(CCDAMedication medications, PatientDetails patientDetails,String docType)
 	{
@@ -37,6 +41,7 @@ public class MedicationScorecard {
 		medicationScoreList.add(getValidMedActivityScore(medications,docType));
 		medicationScoreList.add(getNarrativeStructureIdScore(medications,docType));
 		medicationScoreList.add(getMedSubAdminScore(medications,docType));
+		medicationScoreList.add(getTemplateIdScore(medications, docType));
 		
 		medicationCategory.setCategoryRubrics(medicationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(medicationScoreList, medicationCategory);
@@ -600,5 +605,84 @@ public class MedicationScorecard {
 		}
 		
 		return medSubAdminScore;
+	}
+	
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDAMedication medications,String docType)
+	{
+		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
+		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		
+		if(medications!=null)
+		{
+			if(!ApplicationUtil.isEmpty(medications.getTemplateIds()))
+			{
+				for (CCDAII templateId : medications.getTemplateIds())
+				{
+					maxPoints = maxPoints++;
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+				}
+			}
+			
+			if(!ApplicationUtil.isEmpty(medications.getMedActivities()))
+			{
+				for(CCDAMedicationActivity medAct : medications.getMedActivities())
+				{
+					if(!ApplicationUtil.isEmpty(medAct.getTemplateIds()))
+					{
+						for (CCDAII templateId : medAct.getTemplateIds())
+						{
+							maxPoints = maxPoints++;
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+						}
+					}
+					
+					if(medAct.getConsumable()!=null)
+					{
+						if(!ApplicationUtil.isEmpty(medAct.getConsumable().getTemplateIds()))
+						{
+							for (CCDAII templateId : medAct.getConsumable().getTemplateIds())
+							{
+								maxPoints = maxPoints++;
+								templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		
+		
+		
+		if(maxPoints==0)
+		{
+			maxPoints =1;
+			actualPoints =1;
+		}
+		
+		templateIdScore.setActualPoints(actualPoints);
+		templateIdScore.setMaxPoints(maxPoints);
+		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		templateIdScore.setIssuesList(issuesList);
+		templateIdScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ALLERGY_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.ALLERGY_SECTION.getIgReference());
+			}
+			templateIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.ALLERGIES.getTaskforceLink());
+		}
+		
+		return templateIdScore;
 	}
 }

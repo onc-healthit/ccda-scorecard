@@ -3,8 +3,8 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
+import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDALabResult;
 import org.sitenv.ccdaparsing.model.CCDALabResultObs;
 import org.sitenv.ccdaparsing.model.CCDALabResultOrg;
@@ -23,6 +23,9 @@ public class LabresultsScorecard {
 	
 	@Autowired
 	LoincRepository loincRepository;
+	
+	@Autowired
+	TemplateIdProcessor templateIdProcessor;
 	
 	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, PatientDetails patientDetails,String docType)
 	{
@@ -53,6 +56,7 @@ public class LabresultsScorecard {
 		labResultsScoreList.add(getValidLoincCodesScore(results,docType));
 		labResultsScoreList.add(getApprEffectivetimeScore(results,docType));
 		labResultsScoreList.add(getNarrativeStructureIdScore(results,docType));
+		labResultsScoreList.add(getTemplateIdScore(results,docType));
 		
 		labResultsCategory.setCategoryRubrics(labResultsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(labResultsScoreList, labResultsCategory);
@@ -679,7 +683,7 @@ public class LabresultsScorecard {
 		return narrativeTextIdScore;
 	}
 	
-	public CCDAScoreCardRubrics getTemplateIdScore(CCDAAllergy allergies,String docType)
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDALabResult results,String docType)
 	{
 		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
 		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
@@ -687,19 +691,53 @@ public class LabresultsScorecard {
 		int maxPoints = 0;
 		int actualPoints = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
-		CCDAXmlSnippet issue= null;
-		if(allergies != null)
+		
+		if(results!=null)
 		{
-			if(!ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
+			if(!ApplicationUtil.isEmpty(results.getResultSectionTempalteIds()))
 			{
+				for (CCDAII templateId : results.getResultSectionTempalteIds())
+				{
+					maxPoints = maxPoints++;
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+				}
+			}
+			
+			if(!ApplicationUtil.isEmpty(results.getResultOrg()))
+			{
+				for(CCDALabResultOrg resultOrg :  results.getResultOrg())
+				{
+					if(!ApplicationUtil.isEmpty(resultOrg.getTemplateIds()))
+					{
+						for (CCDAII templateId : resultOrg.getTemplateIds())
+						{
+							maxPoints = maxPoints++;
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+						}
+					}
+					
+					if(!ApplicationUtil.isEmpty(resultOrg.getResultObs()))
+					{
+						for(CCDALabResultObs labResultObs : resultOrg.getResultObs())
+						{
+							if(!ApplicationUtil.isEmpty(labResultObs.getTemplateIds()))
+							{
+								for (CCDAII templateId : labResultObs.getTemplateIds())
+								{
+									maxPoints = maxPoints++;
+									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+								}
+							}
+						}
+					}
+				}
 			}
 		}
-		else
+		
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Allergies Section not present");
-			issue.setXmlString("Allergies Section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		templateIdScore.setActualPoints(actualPoints);

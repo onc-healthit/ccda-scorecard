@@ -3,23 +3,28 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEncounter;
 import org.sitenv.ccdaparsing.model.CCDAEncounterActivity;
 import org.sitenv.ccdaparsing.model.CCDAEncounterDiagnosis;
+import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
+import org.sitenv.ccdaparsing.model.CCDAServiceDeliveryLoc;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EncounterScorecard {
+	
+	@Autowired
+	TemplateIdProcessor templateIdProcessor;
 	
 	public Category getEncounterCategory(CCDAEncounter encounter, PatientDetails patientDetails,String docType)
 	{
@@ -35,6 +40,7 @@ public class EncounterScorecard {
 		encounterScoreList.add(getValidDateTimeScore(encounter,patientDetails,docType));
 		encounterScoreList.add(getValidDisplayNameScoreCard(encounter,docType));
 		encounterScoreList.add(getNarrativeStructureIdScore(encounter,docType));
+		encounterScoreList.add(getTemplateIdScore(encounter,docType));
 		
 		encounterCategory.setCategoryRubrics(encounterScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(encounterScoreList, encounterCategory);
@@ -533,7 +539,8 @@ public class EncounterScorecard {
 		return narrativeTextIdScore;
 	}
 	
-	public CCDAScoreCardRubrics getTemplateIdScore(CCDAAllergy allergies,String docType)
+	
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDAEncounter encounters,String docType)
 	{
 		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
 		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
@@ -541,19 +548,83 @@ public class EncounterScorecard {
 		int maxPoints = 0;
 		int actualPoints = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
-		CCDAXmlSnippet issue= null;
-		if(allergies != null)
+		
+		if(encounters!=null)
 		{
-			if(!ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
+			if(!ApplicationUtil.isEmpty(encounters.getTemplateId()))
 			{
+				for (CCDAII templateId : encounters.getTemplateId())
+				{
+					maxPoints = maxPoints++;
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+				}
+			}
+			
+			if(!ApplicationUtil.isEmpty(encounters.getEncActivities()))
+			{
+				for(CCDAEncounterActivity encAct : encounters.getEncActivities())
+				{
+					if(!ApplicationUtil.isEmpty(encAct.getTemplateId()))
+					{
+						for (CCDAII templateId : encAct.getTemplateId())
+						{
+							maxPoints = maxPoints++;
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+						}
+					}
+					
+					if(!ApplicationUtil.isEmpty(encAct.getIndications()))
+					{
+						for(CCDAProblemObs probObs :  encAct.getIndications())
+						{
+							if(!ApplicationUtil.isEmpty(probObs.getTemplateId()))
+							{
+								for (CCDAII templateId : probObs.getTemplateId())
+								{
+									maxPoints = maxPoints++;
+									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+								}
+							}
+						}
+					}
+					
+					if(!ApplicationUtil.isEmpty(encAct.getDiagnoses()))
+					{
+						for(CCDAEncounterDiagnosis encDiagnosis :  encAct.getDiagnoses())
+						{
+							if(!ApplicationUtil.isEmpty(encDiagnosis.getTemplateId()))
+							{
+								for (CCDAII templateId : encDiagnosis.getTemplateId())
+								{
+									maxPoints = maxPoints++;
+									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+								}
+							}
+						}
+					}
+					
+					if(!ApplicationUtil.isEmpty(encAct.getSdLocs()))
+					{
+						for(CCDAServiceDeliveryLoc sdlLoc :  encAct.getSdLocs())
+						{
+							if(!ApplicationUtil.isEmpty(sdlLoc.getTemplateId()))
+							{
+								for (CCDAII templateId : sdlLoc.getTemplateId())
+								{
+									maxPoints = maxPoints++;
+									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+								}
+							}
+						}
+					}
+				}
 			}
 		}
-		else
+		
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Allergies Section not present");
-			issue.setXmlString("Allergies Section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		templateIdScore.setActualPoints(actualPoints);

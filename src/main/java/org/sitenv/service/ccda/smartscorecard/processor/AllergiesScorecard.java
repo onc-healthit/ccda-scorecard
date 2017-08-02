@@ -12,7 +12,6 @@ import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
-import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.TemplateIdRepository;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class AllergiesScorecard {
 	
 	@Autowired
-	TemplateIdRepository templateIdRepository;
+	TemplateIdProcessor templateIdProcessor;
 	
 	public Category getAllergiesCategory(CCDAAllergy allergies, PatientDetails patientDetails,String docType)
 	{
@@ -39,6 +38,7 @@ public class AllergiesScorecard {
 		allergyScoreList.add(getValidDisplayNameScoreCard(allergies,docType));
 		allergyScoreList.add(getApprEffectivetimeScore(allergies,docType));
 		allergyScoreList.add(getNarrativeStructureIdScore(allergies,docType));
+		allergyScoreList.add(getTemplateIdScore(allergies,docType));
 		
 		allergyCategory.setCategoryRubrics(allergyScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(allergyScoreList,allergyCategory);
@@ -496,28 +496,14 @@ public class AllergiesScorecard {
 		int maxPoints = 0;
 		int actualPoints = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
-		CCDAXmlSnippet issue= null;
 		if(allergies!=null)
 		{
 			if(!ApplicationUtil.isEmpty(allergies.getSectionTemplateId()))
 			{
 				for (CCDAII templateId : allergies.getSectionTemplateId())
 				{
-					if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
-					{
-						maxPoints = maxPoints++;
-						if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
-						{
-							actualPoints++;
-						}
-						else
-						{
-							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(templateId.getLineNumber());
-							issue.setXmlString(templateId.getXmlString());
-							issuesList.add(issue);
-						}
-					}
+					maxPoints = maxPoints++;
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
 				}
 			}
 			if(!ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
@@ -528,21 +514,8 @@ public class AllergiesScorecard {
 					{
 						for (CCDAII templateId : allergyConcern.getTemplateId())
 						{
-							if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
-							{
-								maxPoints = maxPoints++;
-								if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
-								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(templateId.getLineNumber());
-									issue.setXmlString(templateId.getXmlString());
-									issuesList.add(issue);
-								}
-							}	
+							maxPoints = maxPoints++;
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
 						}
 					}
 					
@@ -554,21 +527,9 @@ public class AllergiesScorecard {
 							{
 								for (CCDAII templateId : allergyObs.getTemplateId())
 								{
-									if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
-									{
-										maxPoints = maxPoints++;
-										if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
-										{
-											actualPoints++;
-										}
-										else
-										{
-											issue = new CCDAXmlSnippet();
-											issue.setLineNumber(templateId.getLineNumber());
-											issue.setXmlString(templateId.getXmlString());
-											issuesList.add(issue);
-										}
-									}
+									maxPoints = maxPoints++;
+									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+									
 								}
 							}
 						}
@@ -604,5 +565,4 @@ public class AllergiesScorecard {
 		
 		return templateIdScore;
 	}
-		
 }

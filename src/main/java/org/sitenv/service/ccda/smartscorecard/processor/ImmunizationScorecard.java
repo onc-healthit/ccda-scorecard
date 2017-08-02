@@ -3,9 +3,9 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
+import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDAImmunizationActivity;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
@@ -14,10 +14,14 @@ import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ImmunizationScorecard {
+	
+	@Autowired
+	TemplateIdProcessor templateIdProcessor;
 	
 	public Category getImmunizationCategory(CCDAImmunization immunizations, PatientDetails patientDetails,String docType)
 	{
@@ -34,6 +38,7 @@ public class ImmunizationScorecard {
 		immunizationScoreList.add(getValidDisplayNameScoreCard(immunizations,docType));
 		immunizationScoreList.add(getValidImmunizationCodeScoreCard(immunizations,docType));
 		immunizationScoreList.add(getNarrativeStructureIdScore(immunizations,docType));
+		immunizationScoreList.add(getTemplateIdScore(immunizations,docType));
 		
 		immunizationCategory.setCategoryRubrics(immunizationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(immunizationScoreList, immunizationCategory);
@@ -447,7 +452,8 @@ public class ImmunizationScorecard {
 		return narrativeTextIdScore;
 	}
 	
-	public CCDAScoreCardRubrics getTemplateIdScore(CCDAAllergy allergies,String docType)
+	
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDAImmunization immunizations,String docType)
 	{
 		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
 		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
@@ -455,19 +461,51 @@ public class ImmunizationScorecard {
 		int maxPoints = 0;
 		int actualPoints = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
-		CCDAXmlSnippet issue= null;
-		if(allergies != null)
+		
+		
+		if(immunizations!= null)
 		{
-			if(!ApplicationUtil.isEmpty(allergies.getAllergyConcern()))
+			if(!ApplicationUtil.isEmpty(immunizations.getTemplateIds()))
 			{
+				for (CCDAII templateId : immunizations.getTemplateIds())
+				{
+					maxPoints = maxPoints++;
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+				}
+			}
+			
+			if(!ApplicationUtil.isEmpty(immunizations.getImmActivity()))
+			{
+				for(CCDAImmunizationActivity immuActivity :  immunizations.getImmActivity())
+				{
+					if(!ApplicationUtil.isEmpty(immuActivity.getTemplateIds()))
+					{
+						for (CCDAII templateId : immuActivity.getTemplateIds())
+						{
+							maxPoints = maxPoints++;
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+						}
+					}
+					
+					if((immuActivity.getConsumable()!=null))
+					{
+						if(!ApplicationUtil.isEmpty(immuActivity.getConsumable().getTemplateIds()))
+						{
+							for (CCDAII templateId : immuActivity.getConsumable().getTemplateIds())
+							{
+								maxPoints = maxPoints++;
+								templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+							}
+						}
+					}
+				}
 			}
 		}
-		else
+		
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Allergies Section not present");
-			issue.setXmlString("Allergies Section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		templateIdScore.setActualPoints(actualPoints);

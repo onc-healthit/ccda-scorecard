@@ -108,10 +108,10 @@ public class CcdaSmartScorecardController {
 						patientDetails.setDobValid(ApplicationUtil.validateBirthDate(ccdaModels.getPatient().getDob().getValue()));
 					}
 					
-					if(ccdaModels.getPatient().getDod()!= null && ccdaModels.getPatient().getDod().getLowPresent())
+					if(ccdaModels.getPatient().getDod()!= null)
 					{
-						patientDetails.setDodPresent(ccdaModels.getPatient().getDod().getLowPresent());
-						patientDetails.setPatientDod(ccdaModels.getPatient().getDod().getLow().getValue());
+						patientDetails.setDodPresent(ccdaModels.getPatient().getDod().getValuePresent());
+						patientDetails.setPatientDod(ccdaModels.getPatient().getDod().getValue());
 						patientDetails.setDodValid(patientDetails.isDobValid()? ApplicationUtil.isDodValid(patientDetails.getPatientDob(),
 																					ccdaModels.getPatient().getDod().getValue()):false);
 					}
