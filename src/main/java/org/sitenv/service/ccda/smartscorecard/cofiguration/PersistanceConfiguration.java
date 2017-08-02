@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource("classpath:config.properties")
+@PropertySource({"classpath:config.properties"})
 @ComponentScan("org.sitenv.service.ccda.smartscorecard")
 @EnableJpaRepositories(
 		 entityManagerFactoryRef = "inmemoryEntityManagerFactory", 
@@ -45,9 +45,6 @@ public class PersistanceConfiguration {
     @Value("classpath:schema.sql")
     private Resource HSQL_SCHEMA_SCRIPT;
     
-    @Autowired
-    private Environment environment;
-
     @Bean(name="inmemoryEntityManagerFactory")
     @Primary
     public EntityManagerFactory entityManagerFactory() {

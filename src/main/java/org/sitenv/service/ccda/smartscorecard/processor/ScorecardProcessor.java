@@ -22,6 +22,7 @@ import org.sitenv.ccdaparsing.service.CCDAParserAPI;
 import org.sitenv.ccdaparsing.util.PositionalXMLReader;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
+import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceError;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceResult;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ReferenceInstanceType;
@@ -103,7 +104,7 @@ public class ScorecardProcessor {
 		ResponseTO scorecardResponse = new ResponseTO();
 		List<String> errorSectionList = new ArrayList<>();
 		List<String> certSectionList = new ArrayList<>();
-		String birthDate = null;
+		PatientDetails patientDetails = null;
 		List<Category> categoryList = new ArrayList<Category>();
 		String docType = null;
 		VALIDATION_OBJECTIVES validationObjective = null;
@@ -200,10 +201,25 @@ public class ScorecardProcessor {
 				}
 				
 				docType = ApplicationUtil.checkDocType(ccdaModels);
-				if(ccdaModels.getPatient() != null && ccdaModels.getPatient().getDob()!= null)
+				if(ccdaModels.getPatient() != null)
 				{
-					birthDate = ccdaModels.getPatient().getDob().getValue();
+					patientDetails = new PatientDetails();
+					if(ccdaModels.getPatient().getDob()!= null)
+					{
+						patientDetails.setPatientDob(ccdaModels.getPatient().getDob().getValue());
+						patientDetails.setDobValid(ApplicationUtil.validateBirthDate(ccdaModels.getPatient().getDob().getValue()));
+					}
+					
+					if(ccdaModels.getPatient().getDod()!= null)
+					{
+						patientDetails.setDodPresent(ccdaModels.getPatient().getDod().getValuePresent());
+						patientDetails.setPatientDod(ccdaModels.getPatient().getDod().getValue());
+						patientDetails.setDodValid(patientDetails.isDobValid()? ApplicationUtil.isDodValid(patientDetails.getPatientDob(),
+																					ccdaModels.getPatient().getDod().getValue()):false);
+					}
+					
 				}
+				
 			
 				categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
 				Category scorecardCategory = null;
@@ -212,7 +228,7 @@ public class ScorecardProcessor {
 				{
 					if(!errorSectionList.contains(entry.getValue()))
 					{
-						scorecardCategory = getSectionCategory(entry.getValue(),ccdaModels,birthDate,docType);
+						scorecardCategory = getSectionCategory(entry.getValue(),ccdaModels,patientDetails,docType);
 						if(scorecardCategory!= null)
 						{
 							categoryList.add(scorecardCategory);
@@ -431,43 +447,43 @@ public class ScorecardProcessor {
 		return sectionName;
 	}
 	
-	public Category getSectionCategory(String sectionName,CCDARefModel ccdaModels, String birthDate, String docType )
+	public Category getSectionCategory(String sectionName,CCDARefModel ccdaModels, PatientDetails patientDetails, String docType)
 	{
 		if(sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.ALLERGIES.getCategoryDesc()))
 		{
-			return allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),birthDate,docType);
+			return allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),patientDetails,docType);
 		}
 		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.ENCOUNTERS.getCategoryDesc()))
 		{
-			return encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),birthDate,docType);
+			return encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),patientDetails,docType);
 		}
 		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.IMMUNIZATIONS.getCategoryDesc()))
 		{
-			return immunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization(),birthDate,docType);
+			return immunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization(),patientDetails,docType);
 		}
 		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc()))
 		{
-			 return labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),birthDate,docType);
+			 return labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),patientDetails,docType);
 		}
 		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc()))
 		{
-			return medicationScorecard.getMedicationCategory(ccdaModels.getMedication(),birthDate,docType);
+			return medicationScorecard.getMedicationCategory(ccdaModels.getMedication(),patientDetails,docType);
 		}
 		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc()))
 		{
-			return problemsScorecard.getProblemsCategory(ccdaModels.getProblem(),birthDate,docType);
+			return problemsScorecard.getProblemsCategory(ccdaModels.getProblem(),patientDetails,docType);
 		}
 		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc()))
 		{
-			return procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),birthDate,docType);
+			return procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),patientDetails,docType);
 		}
 		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.SOCIALHISTORY.getCategoryDesc()))
 		{
-			return socialhistoryScorecard.getSocialHistoryCategory(ccdaModels.getSmokingStatus(),birthDate,docType);
+			return socialhistoryScorecard.getSocialHistoryCategory(ccdaModels.getSmokingStatus(),patientDetails,docType);
 		}
 		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc()))
 		{
-			return vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),birthDate,docType);
+			return vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),patientDetails,docType);
 		}
 		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc()))
 		{
