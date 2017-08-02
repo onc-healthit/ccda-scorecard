@@ -305,6 +305,8 @@ public class ApplicationUtil {
 	public static boolean checkDateRange(PatientDetails patientDetail, String actualDate)
 	{
 		Timestamp ts;
+		Timestamp beforeTs;
+		Timestamp afterTs;
 		boolean isValid = false;
 		try
 		{
@@ -312,8 +314,10 @@ public class ApplicationUtil {
 			if(isValid)
 			{
 				ts = getTsFromString(actualDate);
-				isValid = ts.after(getTsFromString(patientDetail.getPatientDob())) && 
-						ts.before(patientDetail.isDodPresent()?getTsFromString(patientDetail.getPatientDob()):new Timestamp(new Date().getTime()));
+				afterTs = getTsFromString(patientDetail.getPatientDob());
+				beforeTs = patientDetail.isDodPresent()?getTsFromString(patientDetail.getPatientDod()):new Timestamp(new Date().getTime());
+				isValid = ts.after(afterTs) && 
+						ts.before(beforeTs);
 			}
 		}catch(ParseException pe)
 		{
