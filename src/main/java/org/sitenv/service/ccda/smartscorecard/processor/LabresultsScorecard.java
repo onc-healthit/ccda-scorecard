@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sitenv.ccdaparsing.model.CCDADataElement;
+import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDALabResult;
 import org.sitenv.ccdaparsing.model.CCDALabResultObs;
 import org.sitenv.ccdaparsing.model.CCDALabResultOrg;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
+import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.LoincRepository;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
@@ -22,7 +24,10 @@ public class LabresultsScorecard {
 	@Autowired
 	LoincRepository loincRepository;
 	
-	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, String birthDate,String docType)
+	@Autowired
+	TemplateIdProcessor templateIdProcessor;
+	
+	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, PatientDetails patientDetails,String docType)
 	{
 		
 		if(labResults== null || labResults.isSectionNullFlavourWithNI())
@@ -45,12 +50,13 @@ public class LabresultsScorecard {
 		
 		List<CCDAScoreCardRubrics> labResultsScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		labResultsScoreList.add(getTimePrecisionScore(results,docType));
-		labResultsScoreList.add(getValidDateTimeScore(results,birthDate,docType));
+		labResultsScoreList.add(getValidDateTimeScore(results,patientDetails,docType));
 		labResultsScoreList.add(getValidDisplayNameScoreCard(results,docType));
 		labResultsScoreList.add(getValidUCUMScore(labResults,docType));
 		labResultsScoreList.add(getValidLoincCodesScore(results,docType));
 		labResultsScoreList.add(getApprEffectivetimeScore(results,docType));
 		labResultsScoreList.add(getNarrativeStructureIdScore(results,docType));
+		labResultsScoreList.add(getTemplateIdScore(results,docType));
 		
 		labResultsCategory.setCategoryRubrics(labResultsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(labResultsScoreList, labResultsCategory);
@@ -170,7 +176,7 @@ public class LabresultsScorecard {
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDateTimeScore(CCDALabResult labResults, String birthDate,String docType)
+	public CCDAScoreCardRubrics getValidDateTimeScore(CCDALabResult labResults, PatientDetails patientDetails,String docType)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
 		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -188,7 +194,7 @@ public class LabresultsScorecard {
 					if(resultOrg.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(resultOrg.getEffTime()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.checkDateRange(birthDate, resultOrg.getEffTime()))
+						if(ApplicationUtil.checkDateRange(patientDetails, resultOrg.getEffTime()))
 						{
 							actualPoints++;
 						}
@@ -208,7 +214,7 @@ public class LabresultsScorecard {
 							if(resultObs.getMeasurementTime() != null && ApplicationUtil.isEffectiveTimePresent(resultObs.getMeasurementTime()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.checkDateRange(birthDate, resultObs.getMeasurementTime()))
+								if(ApplicationUtil.checkDateRange(patientDetails, resultObs.getMeasurementTime()))
 								{
 									actualPoints++;
 								}
@@ -675,5 +681,84 @@ public class LabresultsScorecard {
 		}
 		
 		return narrativeTextIdScore;
+	}
+	
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDALabResult results,String docType)
+	{
+		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
+		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		
+		if(results!=null)
+		{
+			if(!ApplicationUtil.isEmpty(results.getResultSectionTempalteIds()))
+			{
+				for (CCDAII templateId : results.getResultSectionTempalteIds())
+				{
+					maxPoints = maxPoints++;
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+				}
+			}
+			
+			if(!ApplicationUtil.isEmpty(results.getResultOrg()))
+			{
+				for(CCDALabResultOrg resultOrg :  results.getResultOrg())
+				{
+					if(!ApplicationUtil.isEmpty(resultOrg.getTemplateIds()))
+					{
+						for (CCDAII templateId : resultOrg.getTemplateIds())
+						{
+							maxPoints = maxPoints++;
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+						}
+					}
+					
+					if(!ApplicationUtil.isEmpty(resultOrg.getResultObs()))
+					{
+						for(CCDALabResultObs labResultObs : resultOrg.getResultObs())
+						{
+							if(!ApplicationUtil.isEmpty(labResultObs.getTemplateIds()))
+							{
+								for (CCDAII templateId : labResultObs.getTemplateIds())
+								{
+									maxPoints = maxPoints++;
+									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if(maxPoints==0)
+		{
+			maxPoints =1;
+			actualPoints =1;
+		}
+		
+		templateIdScore.setActualPoints(actualPoints);
+		templateIdScore.setMaxPoints(maxPoints);
+		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		templateIdScore.setIssuesList(issuesList);
+		templateIdScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ALLERGY_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.ALLERGY_SECTION.getIgReference());
+			}
+			templateIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.ALLERGIES.getTaskforceLink());
+		}
+		
+		return templateIdScore;
 	}
 }

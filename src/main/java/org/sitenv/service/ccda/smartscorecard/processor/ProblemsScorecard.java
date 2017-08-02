@@ -5,20 +5,26 @@ import java.util.List;
 
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
+import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProblem;
 import org.sitenv.ccdaparsing.model.CCDAProblemConcern;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
+import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProblemsScorecard {
 	
-	public Category getProblemsCategory(CCDAProblem problems, String birthDate,String docType)
+	@Autowired
+	TemplateIdProcessor templateIdProcessor;
+	
+	public Category getProblemsCategory(CCDAProblem problems, PatientDetails patientDetails,String docType)
 	{
 		if(problems==null || problems.isSectionNullFlavourWithNI())
 		{
@@ -29,13 +35,14 @@ public class ProblemsScorecard {
 		
 		List<CCDAScoreCardRubrics> problemsScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		problemsScoreList.add(getTimePrecisionScore(problems,docType));
-		problemsScoreList.add(getValidDateTimeScore(problems,birthDate,docType));
+		problemsScoreList.add(getValidDateTimeScore(problems,patientDetails,docType));
 		problemsScoreList.add(getValidDisplayNameScoreCard(problems,docType));
 		problemsScoreList.add(getValidProblemCodeScoreCard(problems,docType));
 		problemsScoreList.add(getValidStatusCodeScoreCard(problems,docType));
 		problemsScoreList.add(getApprEffectivetimeScore(problems,docType));
 		problemsScoreList.add(getApprStatusCodeScore(problems,docType));
 		problemsScoreList.add(getNarrativeStructureIdScore(problems,docType));
+		problemsScoreList.add(getTemplateIdScore(problems, docType));
 		
 		ApplicationUtil.calculateSectionGradeAndIssues(problemsScoreList, problemsCategory);
 		
@@ -158,7 +165,7 @@ public class ProblemsScorecard {
 		return timePrecisionScore;
 	}
 	
-	public  CCDAScoreCardRubrics getValidDateTimeScore(CCDAProblem problem,String birthDate,String docType)
+	public  CCDAScoreCardRubrics getValidDateTimeScore(CCDAProblem problem,PatientDetails patientDetails,String docType)
 	{
 		CCDAScoreCardRubrics validDateTimeScore = new CCDAScoreCardRubrics();
 		validDateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -176,7 +183,7 @@ public class ProblemsScorecard {
 					if(problemConcern.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(problemConcern.getEffTime()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.checkDateRange(birthDate, problemConcern.getEffTime()))
+						if(ApplicationUtil.checkDateRange(patientDetails, problemConcern.getEffTime()))
 						{
 							actualPoints++;
 						}
@@ -196,7 +203,7 @@ public class ProblemsScorecard {
 							if(problemObs.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(problemObs.getEffTime()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.checkDateRange(birthDate, problemObs.getEffTime()))
+								if(ApplicationUtil.checkDateRange(patientDetails, problemObs.getEffTime()))
 								{
 									actualPoints++;
 								}
@@ -742,5 +749,85 @@ public class ProblemsScorecard {
 		}
 		
 		return narrativeTextIdScore;
+	}
+	
+	
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDAProblem problems,String docType)
+	{
+		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
+		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		
+		if(problems!=null)
+		{
+			if(!ApplicationUtil.isEmpty(problems.getSectionTemplateId()))
+			{
+				for (CCDAII templateId : problems.getSectionTemplateId())
+				{
+					maxPoints = maxPoints++;
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+				}
+			}
+			
+			if(!ApplicationUtil.isEmpty(problems.getProblemConcerns()))
+			{
+				for(CCDAProblemConcern probConcern : problems.getProblemConcerns())
+				{
+					if(!ApplicationUtil.isEmpty(probConcern.getTemplateId()))
+					{
+						for (CCDAII templateId : probConcern.getTemplateId())
+						{
+							maxPoints = maxPoints++;
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+						}
+					}
+					
+					if(!ApplicationUtil.isEmpty(probConcern.getProblemObservations()))
+					{
+						for(CCDAProblemObs probObs : probConcern.getProblemObservations())
+						{
+							if(!ApplicationUtil.isEmpty(probObs.getTemplateId()))
+							{
+								for (CCDAII templateId : probObs.getTemplateId())
+								{
+									maxPoints = maxPoints++;
+									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if(maxPoints==0)
+		{
+			maxPoints =1;
+			actualPoints =1;
+		}
+		
+		templateIdScore.setActualPoints(actualPoints);
+		templateIdScore.setMaxPoints(maxPoints);
+		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		templateIdScore.setIssuesList(issuesList);
+		templateIdScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ALLERGY_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.ALLERGY_SECTION.getIgReference());
+			}
+			templateIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.ALLERGIES.getTaskforceLink());
+		}
+		
+		return templateIdScore;
 	}
 }

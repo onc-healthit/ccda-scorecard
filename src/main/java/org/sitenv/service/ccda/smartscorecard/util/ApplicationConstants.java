@@ -67,6 +67,10 @@ public class ApplicationConstants {
 	public static final String IMMU_NOTIN_MED_DESC = "Immunizations should be recorded using the Section Code '2.16.840.1.113883.10.20.22.2.2.1' within the document.";
 	
 	
+	public static final String MED_SIG_TEXT_REQ = "Each medication needs to have its own Medication Signture Text EntryRelationship and the reference should exist in the same section where you found it";
+	public static final String MED_SIG_TEXT_DESC = "Each medication needs to have its own Medication Signture Text EntryRelationship and the reference should exist in the same section where you found it";
+	
+	
 	public static final String RESULTS_UCUM_REQ = "Lab Result values should use preferred UCUM units";
 	public static final String RESULTS_UCUM_DESC = "Lab Results should use the <a href=\"/scorecard/resources/LOINC.csv\">top 2000 LOINC codes and their corresponding units</a> as a best practice.";
 	
@@ -75,8 +79,8 @@ public class ApplicationConstants {
 			+ "Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low and Observation's EffectiveTime/high should be <= Organizer's "
 			+ "EffectiveTime/high";
 	
-	public static final String TEMPLATEID_DESC = "All Template Ids should be Valid";
-	public static final String TEMPLATEID_REQ = "All Template Ids should be correct";
+	public static final String TEMPLATEID_DESC = "All Template Ids should be Valid with correct extension value";
+	public static final String TEMPLATEID_REQ = "All Template Ids should be present with valid extension value";
 	
 	public static final String UNIQUEID_DESC = "Instance Identifiers should be unique";
 	public static final String UNIQUEID_REQ = "Generally, the identifiers found within a CDA document should be unique and non-reoccurring within the same document.";
@@ -354,7 +358,7 @@ public class ApplicationConstants {
 		public static final String UNSTRUCTURED_DOCUMENT = "The supplied C-CDA XML document has been identified as an Unstructured Document "
 				+ "urn:hl7ii:2.16.840.1.113883.10.20.22.1.10. The C-CDA Scorecard tool does not score this document type. "
 				+ "Please try submitting another document type for review such as a Continuity of Care Document, Care Plan, etc.";
-		public static final String SCHEMA_ERRORS_GENERIC = "Schema errors must be addressed before a score can be provided.";
+		public static final String SCHEMA_ERRORS_GENERIC = "HL7 CDA Schema Errors must be addressed before a score can be provided.";
 	}
 
 	public static enum IG_REFERENCES

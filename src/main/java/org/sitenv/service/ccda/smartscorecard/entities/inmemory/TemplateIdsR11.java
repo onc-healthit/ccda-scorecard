@@ -6,8 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TEMPLATEIDS")
-public class TemplateIds {
+@Table(name = "TEMPLATEIDSR11")
+public class TemplateIdsR11 {
 	
 	
 	@Id
@@ -22,7 +22,7 @@ public class TemplateIds {
 	
 	@Column(name = "TEMPLATEID")
 	private String templateId;
-
+	
 	public Integer getId() {
 		return Id;
 	}

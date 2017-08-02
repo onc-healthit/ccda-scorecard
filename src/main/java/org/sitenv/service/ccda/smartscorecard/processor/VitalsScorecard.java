@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sitenv.ccdaparsing.model.CCDADataElement;
+import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAVitalObs;
 import org.sitenv.ccdaparsing.model.CCDAVitalOrg;
 import org.sitenv.ccdaparsing.model.CCDAVitalSigns;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
+import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.VitalsRepository;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
@@ -22,7 +24,10 @@ public class VitalsScorecard {
 	@Autowired
 	VitalsRepository vitalsRepository;
 	
-	public Category getVitalsCategory(CCDAVitalSigns vitals, String birthDate,String docType)
+	@Autowired
+	TemplateIdProcessor templateIdProcessor;
+	
+	public Category getVitalsCategory(CCDAVitalSigns vitals, PatientDetails patientDetails,String docType)
 	{
 		if(vitals==null || vitals.isSectionNullFlavourWithNI())
 		{
@@ -33,12 +38,13 @@ public class VitalsScorecard {
 		
 		List<CCDAScoreCardRubrics> vitalsScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		vitalsScoreList.add(getTimePrecisionScore(vitals,docType));
-		vitalsScoreList.add(getValidDateTimeScore(vitals,birthDate,docType));
+		vitalsScoreList.add(getValidDateTimeScore(vitals,patientDetails,docType));
 		vitalsScoreList.add(getValidDisplayNameScoreCard(vitals,docType));
 		vitalsScoreList.add(getValidLoincCodesScore(vitals,docType));
 		vitalsScoreList.add(getValidUCUMScore(vitals,docType));
 		vitalsScoreList.add(getApprEffectivetimeScore(vitals,docType));
 		vitalsScoreList.add(getNarrativeStructureIdScore(vitals,docType));
+		vitalsScoreList.add(getTemplateIdScore(vitals, docType));
 		
 		vitalsCategory.setCategoryRubrics(vitalsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(vitalsScoreList, vitalsCategory);
@@ -157,7 +163,7 @@ public class VitalsScorecard {
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAVitalSigns vitals, String birthDate,String docType)
+	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAVitalSigns vitals, PatientDetails patientDetails,String docType)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
 		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -175,7 +181,7 @@ public class VitalsScorecard {
 					if(vitalOrg.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(vitalOrg.getEffTime()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.checkDateRange(birthDate, vitalOrg.getEffTime()))
+						if(ApplicationUtil.checkDateRange(patientDetails, vitalOrg.getEffTime()))
 						{
 							actualPoints++;
 						}
@@ -195,7 +201,7 @@ public class VitalsScorecard {
 							if(vitalObs.getMeasurementTime() != null && ApplicationUtil.isEffectiveTimePresent(vitalObs.getMeasurementTime()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.checkDateRange(birthDate, vitalObs.getMeasurementTime()))
+								if(ApplicationUtil.checkDateRange(patientDetails, vitalObs.getMeasurementTime()))
 								{
 									actualPoints++;
 								}
@@ -662,6 +668,85 @@ public class VitalsScorecard {
 		}
 		
 		return narrativeTextIdScore;
+	}
+	
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDAVitalSigns vitals, String docType)
+	{
+		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
+		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		
+		if(vitals!= null)
+		{
+			if(!ApplicationUtil.isEmpty(vitals.getTemplateIds()))
+			{
+				for (CCDAII templateId : vitals.getTemplateIds())
+				{
+					maxPoints = maxPoints++;
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+				}
+			}
+			
+			if(!ApplicationUtil.isEmpty(vitals.getVitalsOrg()))
+			{
+				for(CCDAVitalOrg vitalOrg :vitals.getVitalsOrg())
+				{
+					if(!ApplicationUtil.isEmpty(vitalOrg.getTemplateIds()))
+					{
+						for (CCDAII templateId : vitalOrg.getTemplateIds())
+						{
+							maxPoints = maxPoints++;
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+						}
+					}
+					
+					if(!ApplicationUtil.isEmpty(vitalOrg.getVitalObs()))
+					{
+						for(CCDAVitalObs vitalObs : vitalOrg.getVitalObs())
+						{
+							if(!ApplicationUtil.isEmpty(vitalObs.getTemplateIds()))
+							{
+								for (CCDAII templateId : vitalObs.getTemplateIds())
+								{
+									maxPoints = maxPoints++;
+									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if(maxPoints==0)
+		{
+			maxPoints =1;
+			actualPoints =1;
+		}
+		
+		templateIdScore.setActualPoints(actualPoints);
+		templateIdScore.setMaxPoints(maxPoints);
+		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		templateIdScore.setIssuesList(issuesList);
+		templateIdScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ALLERGY_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.ALLERGY_SECTION.getIgReference());
+			}
+			templateIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.ALLERGIES.getTaskforceLink());
+		}
+		
+		return templateIdScore;
 	}
 
 }

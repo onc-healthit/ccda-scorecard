@@ -20,6 +20,7 @@ import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
+import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants.CONCERNACT_STATUS;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -131,6 +132,16 @@ public class ApplicationUtil {
 		return value;
 	}
 	
+	public static boolean isRootAndExtensionPresent(CCDAII templateId)
+	{
+		return templateId!=null && templateId.getExtValue()!=null && templateId.getRootValue()!=null;
+	}
+	
+	public static boolean isRootValuePresent(CCDAII templateId)
+	{
+		return templateId!=null && templateId.getRootValue()!=null;
+	}
+	
 	public static Date convertStringToDate(final String string, String format)throws ParseException
 	{
 		Date date = null;
@@ -152,6 +163,13 @@ public class ApplicationUtil {
 			
 	}
 	
+	public static Timestamp getTsFromString(String date)throws ParseException {
+		
+		Date d  = convertStringToDate(date,getFormat(date));
+			return  new Timestamp(d.getTime());
+			
+	}
+	
 	public static boolean validateDate(String date)
 	{
 		boolean isValid = true;
@@ -159,6 +177,22 @@ public class ApplicationUtil {
 		try{
 			format = getFormat(date);
 			convertStringToDate(date, format);
+		}catch(ParseException pe){
+			isValid = false;
+		}
+		
+		return isValid;
+	}
+	
+	public static boolean validateBirthDate(String birthDate)
+	{
+		boolean isValid = true;
+		String format;
+		Timestamp ts;
+		try{
+			format = getFormat(birthDate);
+			ts = getTsFromString(birthDate, format);
+			isValid = ts.before(new Timestamp(new Date().getTime()));
 		}catch(ParseException pe){
 			isValid = false;
 		}
@@ -205,6 +239,142 @@ public class ApplicationUtil {
 	}
 	
 	
+	/*public static boolean checkDateRange(String minDate, CCDAEffTime effectiveTime)
+	{
+		boolean isValid = false;
+		if(effectiveTime.getValuePresent())
+		{
+			isValid = checkDateRange(minDate, effectiveTime.getValue());
+		}
+		
+		if(effectiveTime.isSingleAdministrationValuePresent())
+		{
+			isValid = checkDateRange(minDate, effectiveTime.getSingleAdministration());
+		}
+		
+		if(effectiveTime.getLowPresent() || effectiveTime.getHighPresent())
+		{
+			isValid = checkDateRange(minDate, effectiveTime.getLow()) || checkDateRange(minDate, effectiveTime.getHigh());
+		}
+		return isValid;
+	}*/
+	
+	//Date Range check using DOD or current TS as end time
+	/*public static boolean checkDateRange(String minDate, CCDAEffTime effectiveTime,CCDAEffTime endDate)
+	{
+		boolean isValid = false;
+		if(effectiveTime.getValuePresent())
+		{
+			isValid = checkDateRange(minDate, effectiveTime.getValue(),endDate);
+		}
+		
+		if(effectiveTime.isSingleAdministrationValuePresent())
+		{
+			isValid = checkDateRange(minDate, effectiveTime.getSingleAdministration(),endDate);
+		}
+		
+		if(effectiveTime.getLowPresent() || effectiveTime.getHighPresent())
+		{
+			isValid = checkDateRange(minDate, effectiveTime.getLow(),endDate) || checkDateRange(minDate, effectiveTime.getHigh(),endDate);
+		}
+		return isValid;
+	}*/
+	
+	//Date Range check using DOD or current TS as end time
+	public static boolean checkDateRange(PatientDetails patientDetails,CCDAEffTime effectiveTime) {
+		boolean isValid = false;
+		if (effectiveTime.getValuePresent()) {
+			isValid = checkDateRange(patientDetails, effectiveTime.getValue());
+		}
+
+		if (effectiveTime.isSingleAdministrationValuePresent()) {
+			isValid = checkDateRange(patientDetails, effectiveTime.getSingleAdministration());
+		}
+
+		if (effectiveTime.getLowPresent()) {
+			isValid = checkDateRange(patientDetails, effectiveTime.getLow().getValue());
+		}
+		if (effectiveTime.getHighPresent()) {
+			isValid = checkDateRange(patientDetails, effectiveTime.getHigh().getValue());
+		}
+		return isValid;
+	}
+	
+	
+	//Date Range check using DOD or current TS as end time
+	public static boolean checkDateRange(PatientDetails patientDetail, String actualDate)
+	{
+		Timestamp ts;
+		Timestamp beforeTs;
+		Timestamp afterTs;
+		boolean isValid = false;
+		try
+		{
+			isValid = patientDetail.isDodPresent()?(patientDetail.isDobValid() && patientDetail.isDodValid()):patientDetail.isDobValid();
+			if(isValid)
+			{
+				ts = getTsFromString(actualDate);
+				afterTs = getTsFromString(patientDetail.getPatientDob());
+				beforeTs = patientDetail.isDodPresent()?getTsFromString(patientDetail.getPatientDod()):new Timestamp(new Date().getTime());
+				isValid = ts.after(afterTs) && 
+						ts.before(beforeTs);
+			}
+		}catch(ParseException pe)
+		{
+			isValid = false;
+		}catch(NullPointerException ne)
+		{
+			isValid = false;
+		}
+		
+		return isValid;
+	}
+	
+	//Date Range check using DOD or current TS as end time
+	/*public static boolean checkDateRange(PatientDetails patientDetail, CCDADataElement actualDate)
+	{
+		Date ts;
+		boolean isValid = false;
+		String format;
+		try
+		{
+			if(actualDate!=null)
+			{
+				format = getFormat(actualDate.getValue());
+				ts = getTsFromString(actualDate.getValue(), format);
+				format = getFormat(minDate);
+				isValid =  ts.after(getTsFromString(minDate, format)) && ts.before(getDodTs(endDate));
+			}
+		}catch(ParseException pe)
+		{
+			isValid = false;
+		}catch(NullPointerException ne)
+		{
+			isValid = false;
+		}
+		
+		return isValid;
+	}*/
+	
+	public static boolean isDodValid(String birthDate, String dod) {
+		Timestamp ts = null;
+		String format;
+		boolean isValid = false;
+
+		try {
+			format = getFormat(dod);
+			ts = getTsFromString(dod, format);
+			isValid = ts.after(getTsFromString(birthDate, format)) && ts.before(new Timestamp(new Date().getTime()));
+		} catch (ParseException pe) {
+			isValid = false;
+		} catch (NullPointerException ne) {
+			isValid = false;
+		}
+		return isValid;
+	}
+	
+	
+	
 	public static boolean checkDateRange(String minDate, String actualDate)
 	{
 		Timestamp ts;
@@ -227,50 +397,6 @@ public class ApplicationUtil {
 		return isValid;
 	}
 	
-	public static boolean checkDateRange(String minDate, CCDADataElement actualDate)
-	{
-		Date ts;
-		boolean isValid = false;
-		String format;
-		try
-		{
-			if(actualDate!=null)
-			{
-				format = getFormat(actualDate.getValue());
-				ts = getTsFromString(actualDate.getValue(), format);
-				format = getFormat(minDate);
-				isValid =  ts.after(getTsFromString(minDate, format)) && ts.before(new Timestamp(new Date().getTime()));
-			}
-		}catch(ParseException pe)
-		{
-			isValid = false;
-		}catch(NullPointerException ne)
-		{
-			isValid = false;
-		}
-		
-		return isValid;
-	}
-	
-	public static boolean checkDateRange(String minDate, CCDAEffTime effectiveTime)
-	{
-		boolean isValid = false;
-		if(effectiveTime.getValuePresent())
-		{
-			isValid = checkDateRange(minDate, effectiveTime.getValue());
-		}
-		
-		if(effectiveTime.isSingleAdministrationValuePresent())
-		{
-			isValid = checkDateRange(minDate, effectiveTime.getSingleAdministration());
-		}
-		
-		if(effectiveTime.getLowPresent() || effectiveTime.getHighPresent())
-		{
-			isValid = checkDateRange(minDate, effectiveTime.getLow()) || checkDateRange(minDate, effectiveTime.getHigh());
-		}
-		return isValid;
-	}
 	
 	public static boolean isEffectiveTimePresent(CCDAEffTime effectiveTime)
 	{
@@ -978,6 +1104,26 @@ public class ApplicationUtil {
 		else if(ccdaModels.getImmunization()!=null && !ccdaModels.getImmunization().isSectionNullFlavourWithNI())
 		{
 			if(isExtensionPresent(ccdaModels.getImmunization().getTemplateIds()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+		}
+		else if(ccdaModels.getProblem()!=null && !ccdaModels.getProblem().isSectionNullFlavourWithNI())
+		{
+			if(isExtensionPresent(ccdaModels.getProblem().getSectionTemplateId()))
+			{
+				docType = "R2.1";
+			}else
+			{
+				docType = "R1.1";
+			}
+		}
+		else if(ccdaModels.getProcedure()!=null && !ccdaModels.getProcedure().isSectionNullFlavourWithNI())
+		{
+			if(isExtensionPresent(ccdaModels.getProcedure().getSectionTemplateId()))
 			{
 				docType = "R2.1";
 			}else

@@ -27,7 +27,7 @@ import org.sitenv.ccdaparsing.model.CCDAVitalOrg;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
-import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.TemplateIdRepository;
+import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.TemplateIdRepository21;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ import org.springframework.stereotype.Service;
 public class MiscScorecard {
 	
 	@Autowired
-	TemplateIdRepository templateIdRepository;
+	TemplateIdRepository21 templateIdRepository;
 	
 	public Category getMiscCategory(CCDARefModel ccdaModels)
 	{
@@ -46,7 +46,6 @@ public class MiscScorecard {
 		miscCategory.setCategoryName(ApplicationConstants.CATEGORIES.MISC.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> miscScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		miscScoreList.add(getTemplateIdScore(ccdaModels));
 		miscScoreList.add(getUniqueIdScore(ccdaModels));
 		miscCategory.setCategoryRubrics(miscScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(miscScoreList,miscCategory);

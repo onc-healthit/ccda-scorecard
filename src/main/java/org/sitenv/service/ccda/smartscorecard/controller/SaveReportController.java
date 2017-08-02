@@ -165,7 +165,7 @@ public class SaveReportController {
 	
 	protected static ResponseTO callCcdascorecardserviceInternally(MultipartFile ccdaFile, 
 			ScorecardProcessor scorecardProcessor) {
-		return scorecardProcessor.processCCDAFile(ccdaFile,true);
+		return scorecardProcessor.processCCDAFile(ccdaFile, true);
 	}
 
 	public static ResponseTO callCcdascorecardserviceExternally(MultipartFile ccdaFile) {
@@ -1115,8 +1115,10 @@ public class SaveReportController {
 	private static void appendErrorMessage(StringBuffer sb, String errorMessage) {
 		sb.append("<h2 style='color:red; background-color: #ffe6e6'>");
 		sb.append(errorMessage);
-		sb.append("</h2>");
-		sb.append("<p>" + ApplicationConstants.ErrorMessages.CONTACT + "</p>");
+		sb.append("</h2>"); 
+		if(!errorMessage.contains("HL7 CDA Schema Errors")) {
+			sb.append("<p>" + ApplicationConstants.ErrorMessages.CONTACT + "</p>");
+		}
 	}
 
 	private static void appendGenericErrorMessage(StringBuffer sb) {
@@ -1136,6 +1138,29 @@ public class SaveReportController {
 		if (report.getErrorMessage() != null
 				&& !report.getErrorMessage().isEmpty()) {
 			appendErrorMessage(sb, report.getErrorMessage());
+			if(report.getSchemaErrorList() != null && !report.getSchemaErrorList().isEmpty()) {
+				final String noData = "No data available";
+				sb.append("<ol style='color:red'>");
+				for(ReferenceError schemaError : report.getSchemaErrorList()) {
+					sb.append("<li>");
+					sb.append("<ul>");
+					sb.append("<li>Message: " + (schemaError.getDescription() != null ? schemaError.getDescription() : noData));
+					sb.append("</li>");
+					sb.append("<li>Path: " + (schemaError.getxPath() != null ? schemaError.getxPath() : noData));
+					sb.append("</li>");
+					sb.append("<li>Line Number (approximate): " + 
+							(schemaError.getDocumentLineNumber() != null ? schemaError.getDocumentLineNumber() : noData));
+					sb.append("</li>");
+					sb.append("<li>xPath: "
+							+ "<xmp style='font-family: Consolas, monaco, monospace;'>"
+							+ (schemaError.getxPath() != null ? schemaError.getxPath() : noData) + "</xmp>");
+					sb.append("<p></p>");
+					sb.append("</li>");
+					sb.append("</ul>");
+					sb.append("</li>");
+				}
+				sb.append("</ol>");
+			}
 		} else {
 			appendGenericErrorMessage(sb);
 		}
@@ -1276,10 +1301,12 @@ public class SaveReportController {
 	}	
 	
 	public static void main(String[] args) {
-		String[] filenames = {"highScoringSample", "lowScoringSample", "sampleWithErrors"};
-		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2;
+		String[] filenames = {"highScoringSample", "lowScoringSample", "sampleWithErrors", 
+				"sampleWithSchemaErrors"};
+		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2, 
+				SAMPLE_WITH_SCHEMA_ERRORS = 3;
 		try {
-			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.MATCH_UI);
+			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_SCHEMA_ERRORS], SaveReportType.SUMMARY);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}

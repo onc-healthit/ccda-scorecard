@@ -5,19 +5,25 @@ import java.util.List;
 
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
+import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDAImmunizationActivity;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
+import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ImmunizationScorecard {
 	
-	public Category getImmunizationCategory(CCDAImmunization immunizations, String birthDate,String docType)
+	@Autowired
+	TemplateIdProcessor templateIdProcessor;
+	
+	public Category getImmunizationCategory(CCDAImmunization immunizations, PatientDetails patientDetails,String docType)
 	{
 		if(immunizations == null || immunizations.isSectionNullFlavourWithNI())
 		{
@@ -28,10 +34,11 @@ public class ImmunizationScorecard {
 		
 		List<CCDAScoreCardRubrics> immunizationScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		immunizationScoreList.add(getTimePrecisionScore(immunizations,docType));
-		immunizationScoreList.add(getValidDateTimeScore(immunizations,birthDate,docType));
+		immunizationScoreList.add(getValidDateTimeScore(immunizations,patientDetails,docType));
 		immunizationScoreList.add(getValidDisplayNameScoreCard(immunizations,docType));
 		immunizationScoreList.add(getValidImmunizationCodeScoreCard(immunizations,docType));
 		immunizationScoreList.add(getNarrativeStructureIdScore(immunizations,docType));
+		immunizationScoreList.add(getTemplateIdScore(immunizations,docType));
 		
 		immunizationCategory.setCategoryRubrics(immunizationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(immunizationScoreList, immunizationCategory);
@@ -118,7 +125,7 @@ public class ImmunizationScorecard {
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAImmunization immunizatons, String birthDate,String docType)
+	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAImmunization immunizatons, PatientDetails patientDetails,String docType)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
 		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -136,7 +143,7 @@ public class ImmunizationScorecard {
 					if(immunizationActivity.getTime() != null && ApplicationUtil.isEffectiveTimePresent(immunizationActivity.getTime()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.checkDateRange(birthDate, immunizationActivity.getTime()))
+						if(ApplicationUtil.checkDateRange(patientDetails, immunizationActivity.getTime()))
 						{
 							actualPoints++;
 						}
@@ -443,5 +450,83 @@ public class ImmunizationScorecard {
 		}
 		
 		return narrativeTextIdScore;
+	}
+	
+	
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDAImmunization immunizations,String docType)
+	{
+		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
+		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		
+		
+		if(immunizations!= null)
+		{
+			if(!ApplicationUtil.isEmpty(immunizations.getTemplateIds()))
+			{
+				for (CCDAII templateId : immunizations.getTemplateIds())
+				{
+					maxPoints = maxPoints++;
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+				}
+			}
+			
+			if(!ApplicationUtil.isEmpty(immunizations.getImmActivity()))
+			{
+				for(CCDAImmunizationActivity immuActivity :  immunizations.getImmActivity())
+				{
+					if(!ApplicationUtil.isEmpty(immuActivity.getTemplateIds()))
+					{
+						for (CCDAII templateId : immuActivity.getTemplateIds())
+						{
+							maxPoints = maxPoints++;
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+						}
+					}
+					
+					if((immuActivity.getConsumable()!=null))
+					{
+						if(!ApplicationUtil.isEmpty(immuActivity.getConsumable().getTemplateIds()))
+						{
+							for (CCDAII templateId : immuActivity.getConsumable().getTemplateIds())
+							{
+								maxPoints = maxPoints++;
+								templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if(maxPoints==0)
+		{
+			maxPoints =1;
+			actualPoints =1;
+		}
+		
+		templateIdScore.setActualPoints(actualPoints);
+		templateIdScore.setMaxPoints(maxPoints);
+		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		templateIdScore.setIssuesList(issuesList);
+		templateIdScore.setNumberOfIssues(issuesList.size());
+		if(issuesList.size() > 0)
+		{
+			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);
+			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ALLERGY_SECTION.getIgReference());
+			}
+			else if (docType.equalsIgnoreCase("R1.1"))
+			{
+				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.ALLERGY_SECTION.getIgReference());
+			}
+			templateIdScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.ALLERGIES.getTaskforceLink());
+		}
+		
+		return templateIdScore;
 	}
 }
