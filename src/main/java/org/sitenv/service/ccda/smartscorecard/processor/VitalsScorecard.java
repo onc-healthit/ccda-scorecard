@@ -3,7 +3,6 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAVitalObs;
 import org.sitenv.ccdaparsing.model.CCDAVitalOrg;
@@ -613,38 +612,41 @@ public class VitalsScorecard {
 			{
 				for(CCDAVitalOrg vitalOrg : vitals.getVitalsOrg())
 				{
-					if(!ApplicationUtil.isEmpty(vitalOrg.getReferenceTexts()))
+					if(vitalOrg.getVitalObs()!=null)
 					{
-						for(CCDADataElement referenceText : vitalOrg.getReferenceTexts())
+						for(CCDAVitalObs vitalObs : vitalOrg.getVitalObs())
 						{
 							maxPoints++;
-							if(vitals.getReferenceLinks().contains(referenceText.getValue()))
+							if(vitalObs.getReferenceText()!= null)
 							{
-								actualPoints++;
+								if(vitals.getReferenceLinks()!= null && vitals.getReferenceLinks().contains(vitalObs.getReferenceText().getValue()))
+								{
+									actualPoints++;
+								}
+								else
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(vitalObs.getReferenceText().getLineNumber());
+									issue.setXmlString(vitalObs.getReferenceText().getXmlString());
+									issuesList.add(issue);
+								}
 							}
 							else
 							{
 								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(referenceText.getLineNumber());
-								issue.setXmlString(referenceText.getXmlString());
+								issue.setLineNumber(vitalObs.getLineNumber());
+								issue.setXmlString(vitalObs.getXmlString());
 								issuesList.add(issue);
 							}
 						}
 					}
 				}
 			}
-			if(maxPoints ==0)
-			{
-				maxPoints =1;
-				actualPoints =1;
-			}
 		}
-		else
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("All sections are empty");
-			issue.setXmlString("All sections are empty");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		

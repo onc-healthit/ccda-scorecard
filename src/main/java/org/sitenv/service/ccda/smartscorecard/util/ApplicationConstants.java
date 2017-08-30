@@ -60,6 +60,7 @@ public class ApplicationConstants {
 	public static final String PROBLEM_APR_TIME_DESC = "A Problem Concern of completed or suspended should have a Problem Concern effectiveTime/high value present."
                                + "Similarly a Problem Concern which is Active shall not have a Problem Concern effectiveTime/high value.";
 	
+	
 	public static final String PROBLEM_TIME_CNST_REQ = "The EffectiveDate/Time elements for the Problem Concern Act must encompass the underlying observations.";
 	public static final String PROBLEM_TIME_CNST_DESC = "The EffectiveDate/Time elements of the Problem Concern Act cannot be out of sync with the Problem Observation. "
 			+ "Each of the Observation's EffectiveTime/low >= Problem Concern's EffectiveTime/low and Observation's EffectiveTime/high should be <= Problem Concern's EffectiveTime/high";
@@ -148,6 +149,10 @@ public class ApplicationConstants {
 	
 	public static final String ALLERGIES_CONCERN_DATE_ALIGN_REQ = "Allergies observation effective time should align with Allergies concern act effective time";
 	public static final String ALLERGIES_CONCERN_DATE_ALIGN_DESC ="Allergies observation effective time should align with Allergies concern act effective time";
+	
+	public static final String ALLERGIES_APR_TIME_REQ = "Allergies Concern observation effective times reflect the appropriate allergy concern status.";
+	public static final String ALLERGIES_APR_TIME_DESC = "An Allergy Concern of completed or suspended should have an allergy observation effectiveTime/high value present."
+                               + "Similarly an allergy Concern which is Active shall not have an Allergy observation effectiveTime/high value.";
 	
 	public static final String PROCEDURES_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Procedures section should contain valid display names";	
 	

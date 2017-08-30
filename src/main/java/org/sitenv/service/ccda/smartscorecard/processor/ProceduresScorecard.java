@@ -3,7 +3,6 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProcActProc;
 import org.sitenv.ccdaparsing.model.CCDAProcedure;
@@ -142,38 +141,35 @@ public class ProceduresScorecard {
 			{
 				for(CCDAProcActProc procAct : procedures.getProcActsProcs())
 				{
-					if(!ApplicationUtil.isEmpty(procAct.getReferenceTexts()))
+					maxPoints++;
+					if(procAct.getReferenceText()!= null)
 					{
-						for(CCDADataElement referenceText : procAct.getReferenceTexts())
+						if(procedures.getReferenceLinks()!= null && procedures.getReferenceLinks().contains(procAct.getReferenceText().getValue()))
 						{
-							maxPoints++;
-							if(procedures.getReferenceLinks().contains(referenceText.getValue()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(referenceText.getLineNumber());
-								issue.setXmlString(referenceText.getXmlString());
-								issuesList.add(issue);
-							}
+							actualPoints++;
 						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(procAct.getReferenceText().getLineNumber());
+							issue.setXmlString(procAct.getReferenceText().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(procAct.getLineNumber());
+						issue.setXmlString(procAct.getXmlString());
+						issuesList.add(issue);
 					}
 				}
 			}
-			if(maxPoints ==0)
-			{
-				maxPoints =1;
-				actualPoints =1;
-			}
 		}
-		else
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("All sections are empty");
-			issue.setXmlString("All sections are empty");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);

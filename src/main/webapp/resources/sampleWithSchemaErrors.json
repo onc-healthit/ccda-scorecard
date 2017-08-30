@@ -1,12 +1,12 @@
 {
     "errorMessage": "HL7 CDA Schema Errors must be addressed before a score can be provided.",
-    "filename": "3SchemaErrors_NT_CP_Sample1_r21_v2.xml",
+    "filename": "sampleWithSchemaErrors.xml",
     "ccdaDocumentType": "Care Plan",
     "results": null,
     "referenceResults": [],
     "schemaErrorList": [
         {
-            "description": "The 'validateST' invariant is violated on 'org.eclipse.mdht.uml.hl7.datatypes.impl.ENXPImpl@5dfa7f97{http:///resource1622.xml#//@clinicalDocument/@recordTarget.0/@patientRole/@patient/@name.0/@given.0}'",
+            "description": "The 'validateST' invariant is violated on 'org.eclipse.mdht.uml.hl7.datatypes.impl.ENXPImpl@3ad30d59{http:///resource19.xml#//@clinicalDocument/@recordTarget.0/@patientRole/@patient/@name.0/@given.0}'",
             "type": "C-CDA MDHT Conformance Error",
             "xPath": "/ClinicalDocument/recordTarget/patientRole/patient/name/given",
             "validatorConfiguredXpath": null,
@@ -20,7 +20,7 @@
             "sectionName": null
         },
         {
-            "description": "The 'validateST' invariant is violated on 'org.eclipse.mdht.uml.hl7.datatypes.impl.ENXPImpl@baf555{http:///resource1622.xml#//@clinicalDocument/@recordTarget.0/@patientRole/@patient/@name.0/@family.0}'",
+            "description": "The 'validateST' invariant is violated on 'org.eclipse.mdht.uml.hl7.datatypes.impl.ENXPImpl@57e89d31{http:///resource19.xml#//@clinicalDocument/@recordTarget.0/@patientRole/@patient/@name.0/@family.0}'",
             "type": "C-CDA MDHT Conformance Error",
             "xPath": "/ClinicalDocument/recordTarget/patientRole/patient/name/family",
             "validatorConfiguredXpath": null,
@@ -34,7 +34,7 @@
             "sectionName": null
         },
         {
-            "description": "The 'validateST' invariant is violated on 'org.eclipse.mdht.uml.hl7.datatypes.impl.ENXPImpl@36d5f4a1{http:///resource1622.xml#//@clinicalDocument/@recordTarget.0/@patientRole/@patient/@name.0/@suffix.0}'",
+            "description": "The 'validateST' invariant is violated on 'org.eclipse.mdht.uml.hl7.datatypes.impl.ENXPImpl@27724a81{http:///resource19.xml#//@clinicalDocument/@recordTarget.0/@patientRole/@patient/@name.0/@suffix.0}'",
             "type": "C-CDA MDHT Conformance Error",
             "xPath": "/ClinicalDocument/recordTarget/patientRole/patient/name/suffix",
             "validatorConfiguredXpath": null,

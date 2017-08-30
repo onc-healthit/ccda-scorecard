@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sitenv.ccdaparsing.model.CCDACode;
-import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAMedication;
 import org.sitenv.ccdaparsing.model.CCDAMedicationActivity;
@@ -38,7 +37,7 @@ public class MedicationScorecard {
 		medicationScoreList.add(getValidDateTimeScore(medications, patientDetails,docType));
 		medicationScoreList.add(getValidDisplayNameScoreCard(medications,docType));
 		medicationScoreList.add(getValidMedicationCodeScoreCard(medications,docType));
-		medicationScoreList.add(getValidMedActivityScore(medications,docType));
+		//medicationScoreList.add(getValidMedActivityScore(medications,docType));
 		medicationScoreList.add(getNarrativeStructureIdScore(medications,docType));
 		medicationScoreList.add(getMedSubAdminScore(medications,docType));
 		medicationScoreList.add(getTemplateIdScore(medications, docType));
@@ -69,7 +68,6 @@ public class MedicationScorecard {
 					if(medActivity.getDuration() != null)
 					{
 						if(ApplicationUtil.validateDayFormat(medActivity.getDuration()) ||
-								ApplicationUtil.validateMonthFormat(medActivity.getDuration()) ||
 								ApplicationUtil.validateMinuteFormat(medActivity.getDuration()) ||
 									ApplicationUtil.validateSecondFormat(medActivity.getDuration()))
 						{
@@ -100,13 +98,7 @@ public class MedicationScorecard {
 				issuesList.add(issue);
 			}
 		}
-		else
-		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Medications section not present");
-			issue.setXmlString("Medications section not present");
-			issuesList.add(issue);
-		}
+		
 				
 		timePrecisionScore.setActualPoints(actualPoints);
 		timePrecisionScore.setMaxPoints(maxPoints);
@@ -477,40 +469,37 @@ public class MedicationScorecard {
 			{
 				for(CCDAMedicationActivity medAct : medications.getMedActivities())
 				{
-					if(!ApplicationUtil.isEmpty(medAct.getReferenceTexts()))
+					maxPoints++;
+					if(medAct.getReferenceText()!= null)
 					{
-						for(CCDADataElement referenceText : medAct.getReferenceTexts())
+						if(medications.getReferenceLinks()!= null && medications.getReferenceLinks().contains(medAct.getReferenceText().getValue()))
 						{
-							maxPoints++;
-							if(medications.getReferenceLinks().contains(referenceText.getValue()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(referenceText.getLineNumber());
-								issue.setXmlString(referenceText.getXmlString());
-								issuesList.add(issue);
-							}
+							actualPoints++;
 						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(medAct.getReferenceText().getLineNumber());
+							issue.setXmlString(medAct.getReferenceText().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(medAct.getLineNumber());
+						issue.setXmlString(medAct.getXmlString());
+						issuesList.add(issue);
 					}
 				}
 			}
-			if(maxPoints ==0)
-			{
-				maxPoints=1;
-				actualPoints =1;
-			}
-		}
-		else
-		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("All sections are empty");
-			issue.setXmlString("All sections are empty");
-			issuesList.add(issue);
 		}
 		
+		if(maxPoints ==0)
+		{
+			maxPoints=1;
+			actualPoints =1;
+		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);
 		narrativeTextIdScore.setMaxPoints(maxPoints);
@@ -585,6 +574,12 @@ public class MedicationScorecard {
 			}
 		}
 		
+		if(maxPoints==0)
+		{
+			maxPoints = 1;
+			actualPoints = 1;
+		}
+		
 		medSubAdminScore.setActualPoints(actualPoints);
 		medSubAdminScore.setMaxPoints(maxPoints);
 		medSubAdminScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
@@ -654,9 +649,6 @@ public class MedicationScorecard {
 				}
 			}
 		}
-		
-		
-		
 		
 		if(maxPoints==0)
 		{

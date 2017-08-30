@@ -3,7 +3,6 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDASmokingStatus;
 import org.sitenv.ccdaparsing.model.CCDASocialHistory;
@@ -573,23 +572,27 @@ public class SocialHistoryScorecard {
 			{
 				for(CCDASmokingStatus smokingStatus : socialHistory.getSmokingStatus())
 				{
-					if(!ApplicationUtil.isEmpty(smokingStatus.getReferenceTexts()))
+					maxPoints++;
+					if(smokingStatus.getReferenceText()!=null)
 					{
-						for(CCDADataElement referenceText : smokingStatus.getReferenceTexts())
+						if(socialHistory.getReferenceLinks()!= null && socialHistory.getReferenceLinks().contains(smokingStatus.getReferenceText().getValue()))
 						{
-							maxPoints++;
-							if(socialHistory.getReferenceLinks().contains(referenceText.getValue()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(referenceText.getLineNumber());
-								issue.setXmlString(referenceText.getXmlString());
-								issuesList.add(issue);
-							}
+							actualPoints++;
 						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(smokingStatus.getReferenceText().getLineNumber());
+							issue.setXmlString(smokingStatus.getReferenceText().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(smokingStatus.getLineNumber());
+						issue.setXmlString(smokingStatus.getXmlString());
+						issuesList.add(issue);
 					}
 				}
 			}
@@ -598,39 +601,64 @@ public class SocialHistoryScorecard {
 			{
 				for(CCDATobaccoUse tobaccoUse : socialHistory.getTobaccoUse())
 				{
-					if(!ApplicationUtil.isEmpty(tobaccoUse.getReferenceTexts()))
+					maxPoints++;
+					if(tobaccoUse.getReferenceText()!=null)
 					{
-						for(CCDADataElement referenceText : tobaccoUse.getReferenceTexts())
+						if(socialHistory.getReferenceLinks()!= null && socialHistory.getReferenceLinks().contains(tobaccoUse.getReferenceText().getValue()))
 						{
-							maxPoints++;
-							if(socialHistory.getReferenceLinks().contains(referenceText.getValue()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(referenceText.getLineNumber());
-								issue.setXmlString(referenceText.getXmlString());
-								issuesList.add(issue);
-							}
+							actualPoints++;
 						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(tobaccoUse.getReferenceText().getLineNumber());
+							issue.setXmlString(tobaccoUse.getReferenceText().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(tobaccoUse.getLineNumber());
+						issue.setXmlString(tobaccoUse.getXmlString());
+						issuesList.add(issue);
 					}
 				}
 			}
-			if(maxPoints ==0)
+			
+			if(socialHistory.getSocialHistoryGenderObs()!=null)
 			{
-				maxPoints=1;
-				actualPoints =1;
+				maxPoints++;
+				if(socialHistory.getSocialHistoryGenderObs().getReferenceText()!=null)
+				{
+					if(socialHistory.getReferenceLinks()!= null && socialHistory.getReferenceLinks().contains(socialHistory.getSocialHistoryGenderObs().getReferenceText().getValue()))
+					{
+						actualPoints++;
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(socialHistory.getSocialHistoryGenderObs().getReferenceText().getLineNumber());
+						issue.setXmlString(socialHistory.getSocialHistoryGenderObs().getReferenceText().getXmlString());
+						issuesList.add(issue);
+					}
+				}
+				else
+				{
+					issue = new CCDAXmlSnippet();
+					issue.setLineNumber(socialHistory.getSocialHistoryGenderObs().getLineNumber());
+					issue.setXmlString(socialHistory.getSocialHistoryGenderObs().getXmlString());
+					issuesList.add(issue);
+				}
 			}
 		}
-		else
+		
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("All sections are empty");
-			issue.setXmlString("All sections are empty");
-			issuesList.add(issue);
+			maxPoints=1;
+			actualPoints =1;
 		}
+		
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);
 		narrativeTextIdScore.setMaxPoints(maxPoints);
