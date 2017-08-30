@@ -56,17 +56,18 @@
       </addr>
       <telecom value="tel:+1(555)555-2003" use="HP" />
       <!-- HP is "primary home" from HL7 AddressUse 2.16.840.1.113883.5.1119 -->
+      
       <patient>
-        <!-- The first name element represents what the patient is known as -->
+       
         <name use="L">
           <given>Eve</given>
-          <!-- The "SP" is "Spouse" from HL7 Code System EntityNamePartQualifier 2.16.840.1.113883.5.43 -->
+          <given qualifier="SP">BirthName</given>
           <family qualifier="SP">Betterhalf</family>
         </name>
-        <!-- The second name element represents another name associated with the patient -->
+       
         <name use="SRCH">
           <given>Eve</given>
-          <!-- The "BR" is "Birth" from HL7 Code System EntityNamePartQualifier 2.16.840.1.113883.5.43 -->
+          
           <family qualifier="BR">Everywoman</family>
         </name>
         <administrativeGenderCode code="F" displayName="Female" codeSystem="2.16.840.1.113883.5.1"
@@ -2339,9 +2340,11 @@
               <id root="d68b7e32-7810-4f5b-9cc2-acd54b0fd85d" />
               <code code="73761001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"
                 displayName="Colon">
+                <!--
                 <originalText>
                   <reference value="#Proc1" />
                 </originalText>
+              -->
               </code>
               <statusCode code="completed" />
               <effectiveTime value="20120512" />
@@ -2407,6 +2410,7 @@
                 <originalText>
                   <reference value="#Proc1" />
                 </originalText>
+              
               </code>
               <statusCode code="aborted" />
               <effectiveTime value="20110203" />
@@ -2469,9 +2473,11 @@
               <id root="1.2.3.4.5.6.7.8" extension="1234567" />
               <code code="2740250" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"
                 displayName="Col">
+                <!--
                 <originalText>
                   <reference value="#Proc1" />
                 </originalText>
+              -->
               </code>
               <statusCode code="completed" />
               <effectiveTime value="20110203" />

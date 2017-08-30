@@ -3,7 +3,6 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDALabResult;
 import org.sitenv.ccdaparsing.model.CCDALabResultObs;
@@ -627,38 +626,41 @@ public class LabresultsScorecard {
 			{
 				for(CCDALabResultOrg resultOrg : results.getResultOrg())
 				{
-					if(!ApplicationUtil.isEmpty(resultOrg.getReferenceTexts()))
+					if(resultOrg.getResultObs()!=null)
 					{
-						for(CCDADataElement referenceText : resultOrg.getReferenceTexts())
+						for(CCDALabResultObs resultOrgObs : resultOrg.getResultObs())
 						{
 							maxPoints++;
-							if(results.getReferenceLinks().contains(referenceText.getValue()))
+							if(resultOrgObs.getReferenceText()!= null)
 							{
-								actualPoints++;
+								if(results.getReferenceLinks()!= null && results.getReferenceLinks().contains(resultOrgObs.getReferenceText().getValue()))
+								{
+									actualPoints++;
+								}
+								else
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(resultOrgObs.getReferenceText().getLineNumber());
+									issue.setXmlString(resultOrgObs.getReferenceText().getXmlString());
+									issuesList.add(issue);
+								}
 							}
 							else
 							{
 								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(referenceText.getLineNumber());
-								issue.setXmlString(referenceText.getXmlString());
+								issue.setLineNumber(resultOrgObs.getLineNumber());
+								issue.setXmlString(resultOrgObs.getXmlString());
 								issuesList.add(issue);
 							}
 						}
 					}
 				}
 			}
-			if(maxPoints ==0)
-			{
-				maxPoints =1;
-				actualPoints =1;
-			}
 		}
-		else
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("All sections are empty");
-			issue.setXmlString("All sections are empty");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);

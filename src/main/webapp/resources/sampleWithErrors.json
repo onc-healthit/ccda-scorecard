@@ -4,21 +4,13 @@
     "ccdaDocumentType": "CCD",
     "results": {
         "finalGrade": "C",
-        "finalNumericalGrade": 76,
+        "finalNumericalGrade": 70,
         "categoryList": [
             {
                 "categoryName": "Miscellaneous",
                 "categoryGrade": "A+",
                 "categoryNumericalScore": 100,
                 "categoryRubrics": [
-                    {
-                        "rule": "All Template Ids should be correct",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
-                    },
                     {
                         "rule": "Generally, the identifiers found within a CDA document should be unique and non-reoccurring within the same document.",
                         "numberOfIssues": 0,
@@ -45,8 +37,8 @@
             },
             {
                 "categoryName": "Social History",
-                "categoryGrade": "C",
-                "categoryNumericalScore": 78,
+                "categoryGrade": "D",
+                "categoryNumericalScore": 58,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -116,15 +108,62 @@
                         "description": null
                     },
                     {
+                        "rule": "Systems should capture birth sex independent of the Administrative Gender and encode them as an observation in the Social History Section.",
+                        "numberOfIssues": 1,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1517 - 1623",
+                                "xmlString": "<section xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n          \n          <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.2.17\"/>\n          <code code=\"29762-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Social History\"/>\n          <title>SOCIAL HISTORY</title>\n          <text>\n            <table border=\"1\" width=\"100%\">\n              <thead>\n                <tr>\n                  <th>Social History Observation</th>\n                  <th>Description</th>\n                  <th>Dates Observed</th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr>\n                  <td>Current Smoking Status</td>\n                  <td>Former smoker</td>\n                  <td>September 10, 2012</td>\n                </tr>\n                <tr>\n                  <td>Tobacco Use</td>\n                  <td>Moderate cigarette smoker, 10-19/day</td>\n                  <td>February, 2009 - February, 2011</td>\n                </tr>\n                <tr>\n                  <td>Alcoholic drinks per day</td>\n                  <td>12</td>\n                  <td>Since February, 2012</td>\n                </tr>\n              </tbody>\n            </table>\n          </text>\n          <entry typeCode=\"DRIV\">\n            <observation classCode=\"OBS\" moodCode=\"EVN\">\n              \n              <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.78\"/>\n              <id extension=\"123456789\" root=\"2.16.840.1.113883.19\"/>\n              <code code=\"72166-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Tobacco smoking status NHIS\"/>\n              <statusCode code=\"completed\"/>\n              \n              <effectiveTime value=\"20\"/>\n              \n              <value code=\"8517006\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Former smoker\" xsi:type=\"CD\"/>\n              <author typeCode=\"AUT\">\n                <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                <time value=\"201209101145-0800\"/>\n                <assignedAuthor>\n                  <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                  <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                </assignedAuthor>\n              </author>\n            </observation>\n          </entry>\n          <entry typeCode=\"DRIV\">\n            <observation classCode=\"OBS\" moodCode=\"EVN\">\n              \n              <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.85\"/>\n              <id root=\"45efb604-7049-4a2e-ad33-d38556c9636c\"/>\n              <code code=\"11367-0\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"History of tobacco use\"/>\n              <statusCode code=\"completed\"/>\n              <effectiveTime>\n                \n                <low value=\"20090214\"/>\n                \n                <high value=\"20110215\"/>\n              </effectiveTime>\n              <value code=\"160604004\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Moderate cigarette smoker, 10-19/day\" xsi:type=\"CD\"/>\n              <author typeCode=\"AUT\">\n                <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                <time value=\"201209101145-0800\"/>\n                <assignedAuthor>\n                  <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                  <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                </assignedAuthor>\n              </author>\n            </observation>\n          </entry>\n          <entry typeCode=\"DRIV\">\n            <observation classCode=\"OBS\" moodCode=\"EVN\">\n              \n              <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.38\"/>\n              <id root=\"37f76c51-6411-4e1d-8a37-957fd49d2cef\"/>\n              <code code=\"74013-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Alcoholic drinks per day\"/>\n              <statusCode code=\"completed\"/>\n              <effectiveTime>\n                <low value=\"20120215\"/>\n              </effectiveTime>\n              <value value=\"12\" xsi:type=\"PQ\"/>\n              <author typeCode=\"AUT\">\n                <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                <time value=\"201209101145-0800\"/>\n                <assignedAuthor>\n                  <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                  <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                </assignedAuthor>\n              </author>\n            </observation>\n          </entry>\n        </section>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/SMOKING_Former_Smoker.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.101: Social History Observation"
+                        ],
+                        "description": "Systems should capture birth sex independent of the Administrative Gender and encode them as an observation in the Social History Section."
+                    },
+                    {
                         "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
+                        "numberOfIssues": 2,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1551 - 1571",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n              \n              <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.78\"/>\n              <id extension=\"123456789\" root=\"2.16.840.1.113883.19\"/>\n              <code code=\"72166-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Tobacco smoking status NHIS\"/>\n              <statusCode code=\"completed\"/>\n              \n              <effectiveTime value=\"20\"/>\n              \n              <value code=\"8517006\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Former smoker\" xsi:type=\"CD\"/>\n              <author typeCode=\"AUT\">\n                <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                <time value=\"201209101145-0800\"/>\n                <assignedAuthor>\n                  <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                  <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                </assignedAuthor>\n              </author>\n            </observation>"
+                            },
+                            {
+                                "lineNumber": "1574 - 1598",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n              \n              <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.85\"/>\n              <id root=\"45efb604-7049-4a2e-ad33-d38556c9636c\"/>\n              <code code=\"11367-0\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"History of tobacco use\"/>\n              <statusCode code=\"completed\"/>\n              <effectiveTime>\n                \n                <low value=\"20090214\"/>\n                \n                <high value=\"20110215\"/>\n              </effectiveTime>\n              <value code=\"160604004\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Moderate cigarette smoker, 10-19/day\" xsi:type=\"CD\"/>\n              <author typeCode=\"AUT\">\n                <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                <time value=\"201209101145-0800\"/>\n                <assignedAuthor>\n                  <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                  <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                </assignedAuthor>\n              </author>\n            </observation>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/SMOKING_Former_Smoker.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.66: Social History Section"
+                        ],
+                        "description": "Each entry has to be linked to related narrative text"
+                    },
+                    {
+                        "rule": "All Template Ids should be Valid with correct extension value",
+                        "numberOfIssues": 1,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1519",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.2.17\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.4.1: Allergies and Intolerances Section"
+                        ],
+                        "description": "All Template Ids should be present with valid extension value"
                     }
                 ],
-                "numberOfIssues": 3,
+                "numberOfIssues": 7,
                 "certificationFeedback": false,
                 "failingConformance": false,
                 "nullFlavorNI": false
@@ -152,7 +191,7 @@
             {
                 "categoryName": "Laboratory Tests and Results",
                 "categoryGrade": "D",
-                "categoryNumericalScore": 58,
+                "categoryNumericalScore": 59,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -302,11 +341,27 @@
                     },
                     {
                         "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 1,
+                        "numberOfIssues": 5,
                         "issuesList": [
+                            {
+                                "lineNumber": "1922 - 1941",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\n                  <id root=\"107c2dc0-67a5-11db-bd13-0800200c9a66\"/>\n                  <code code=\"718-7\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Hemoglobin\"/>\n                  <statusCode code=\"completed\"/>\n                  <effectiveTime value=\"20\"/>\n                  <value unit=\"g/dL\" value=\"13.2\" xsi:type=\"PQ\"/>\n                  <interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"200803190830-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"333444444\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"246Q00000X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Technician, Pathology\"/>\n                    </assignedAuthor>\n                  </author>\n                  \n                </observation>"
+                            },
+                            {
+                                "lineNumber": "1944 - 1967",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\n                  <id root=\"a69b3d60-2ffd-4440-958b-72b3335ff35f\"/>\n                  <code code=\"6690\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Leukocytes\"/>\n                  <statusCode code=\"completed\"/>\n                  <effectiveTime value=\"200803190830-0800\"/>\n                  <value unit=\"10*9/L\" value=\"6.7\" xsi:type=\"PQ\">\n                    <translation>\n                      <originalText>6.7 billion per liter</originalText>\n                    </translation>\n                  </value>\n                  <interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"200803190830-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"333444444\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"246Q00000X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Technician, Pathology\"/>\n                    </assignedAuthor>\n                  </author>\n                 \n                </observation>"
+                            },
                             {
                                 "lineNumber": "1976",
                                 "xmlString": "<reference value=\"#result\"/>"
+                            },
+                            {
+                                "lineNumber": "2020 - 2040",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\n                  <id root=\"bccd6fc9-0c7f-455e-8616-923ed0d04d09\"/>\n                  <code code=\"789-8\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Erythrocytes\"/>\n                  <statusCode code=\"completed\"/>\n                  <effectiveTime value=\"200803190830-0800\"/>\n                  <value unit=\"10*12/L\" value=\"4.21\" xsi:type=\"PQ\"/>\n                  <interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"200803190830-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"333444444\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"246Q00000X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Technician, Pathology\"/>\n                    </assignedAuthor>\n                  </author>\n                 \n                </observation>"
+                            },
+                            {
+                                "lineNumber": "2057 - 2066",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>\n                  <id root=\"aed821af-3330-4138-97f0-e84dfe5f3c35\"/>\n                  <code code=\"3094-0\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Urea nitrogen, Serum\"/>\n                  <statusCode code=\"active\"/>\n                  <effectiveTime value=\"200803200930-0800\"/>\n                  <value nullFlavor=\"NI\" xsi:type=\"PQ\"/>\n                </observation>"
                             }
                         ],
                         "exampleTaskForceLinks": [
@@ -316,17 +371,66 @@
                             "Section 2.64.1: Results Section"
                         ],
                         "description": "Each entry has to be linked to related narrative text"
+                    },
+                    {
+                        "rule": "All Template Ids should be Valid with correct extension value",
+                        "numberOfIssues": 9,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1849",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.2.3.1\"/>"
+                            },
+                            {
+                                "lineNumber": "1912",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.1\"/>"
+                            },
+                            {
+                                "lineNumber": "1924",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>"
+                            },
+                            {
+                                "lineNumber": "1946",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>"
+                            },
+                            {
+                                "lineNumber": "1972",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>"
+                            },
+                            {
+                                "lineNumber": "1997",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>"
+                            },
+                            {
+                                "lineNumber": "2022",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>"
+                            },
+                            {
+                                "lineNumber": "2047",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.1\"/>"
+                            },
+                            {
+                                "lineNumber": "2059",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.2\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.4.1: Allergies and Intolerances Section"
+                        ],
+                        "description": "All Template Ids should be present with valid extension value"
                     }
                 ],
-                "numberOfIssues": 18,
+                "numberOfIssues": 31,
                 "certificationFeedback": false,
                 "failingConformance": false,
                 "nullFlavorNI": false
             },
             {
                 "categoryName": "Vital Signs",
-                "categoryGrade": "B-",
-                "categoryNumericalScore": 80,
+                "categoryGrade": "C",
+                "categoryNumericalScore": 70,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -464,22 +568,84 @@
                     },
                     {
                         "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
+                        "numberOfIssues": 8,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1324 - 1342",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n                  <id root=\"ed9589fd-fda0-41f7-a3d0-dc537554f5c2\"/>\n                  <code code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>\n                  <statusCode code=\"completed\"/>\n                  <effectiveTime value=\"20\"/>\n                  <value unit=\"cm\" value=\"177\" xsi:type=\"PQ\"/>\n                  <interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"201209101145-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>"
+                            },
+                            {
+                                "lineNumber": "1345 - 1364",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n                  <id root=\"f4e729e2-a97f-4a7e-8e23-c92f9b6b55cf\"/>\n                  <code code=\"3141\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>\n                  <statusCode code=\"completed\"/>\n                  <effectiveTime value=\"20120910\"/>\n                  <value unit=\"kg\" value=\"86\" xsi:type=\"PQ\"/>\n                  <interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"201209101145-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>"
+                            },
+                            {
+                                "lineNumber": "1367 - 1386",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n                  <id root=\"a0e39c70-9674-4b2a-9837-cdf74200d8d5\"/>\n                  <code code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Intravascular Systolic\"/>\n                  <statusCode code=\"completed\"/>\n                  <effectiveTime value=\"20120910\"/>\n                  <value unit=\"mm[Hg]\" value=\"132\" xsi:type=\"PQ\"/>\n                  <interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"201209101145-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>"
+                            },
+                            {
+                                "lineNumber": "1389 - 1408",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n                  <id root=\"1c2748b7-e440-41ba-bc01-dde97d84a036\"/>\n                  <code code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Diastolic\"/>\n                  <statusCode code=\"completed\"/>\n                  <effectiveTime value=\"20120910\"/>\n                  <value unit=\"mm[Hg]\" value=\"88\" xsi:type=\"PQ\"/>\n                  <interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"201109010915-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>"
+                            },
+                            {
+                                "lineNumber": "1424 - 1442",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n                  <id root=\"05c047cd-28c3-41cd-be6c-56f8cc0c3f2f\"/>\n                  <code code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>\n                  <statusCode code=\"completed\"/>\n                  <effectiveTime value=\"20110901\"/>\n                  <value unit=\"cm\" value=\"177\" xsi:type=\"PQ\"/>\n                  <interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"201109010915-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>"
+                            },
+                            {
+                                "lineNumber": "1445 - 1464",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n                  <id root=\"21b0f3d5-7d07-4f4f-ad7e-c33dc2ca3835\"/>\n                  <code code=\"3141-9\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>\n                  <statusCode code=\"completed\"/>\n                  <effectiveTime value=\"20110901\"/>\n                  <value unit=\"kg\" value=\"88\" xsi:type=\"PQ\"/>\n                  <interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"201109010915-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>"
+                            },
+                            {
+                                "lineNumber": "1467 - 1486",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n                  <id root=\"b046c35a-59c7-4215-ae09-9a8409a30b21\"/>\n                  <code code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Systolic\"/>\n                  <statusCode code=\"completed\"/>\n                  <effectiveTime value=\"20110901\"/>\n                  <value unit=\"mm[Hg]\" value=\"128\" xsi:type=\"PQ\"/>\n                  <interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"201109010915-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>"
+                            },
+                            {
+                                "lineNumber": "1489 - 1508",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n                  <id root=\"44f54e66-fb4b-4ee5-9ced-9574ef307a23\"/>\n                  <code code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Diastolic\"/>\n                  <statusCode code=\"completed\"/>\n                  <effectiveTime value=\"20110901\"/>\n                  <value unit=\"mm[Hg]\" value=\"80\" xsi:type=\"PQ\"/>\n                  <interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"201109010915-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.70.1: Vital Signs Section"
+                        ],
+                        "description": "Each entry has to be linked to related narrative text"
+                    },
+                    {
+                        "rule": "All Template Ids should be Valid with correct extension value",
+                        "numberOfIssues": 3,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1281",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.2.4.1\"/>"
+                            },
+                            {
+                                "lineNumber": "1315",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.26\"/>"
+                            },
+                            {
+                                "lineNumber": "1415",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.26\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.4.1: Allergies and Intolerances Section"
+                        ],
+                        "description": "All Template Ids should be present with valid extension value"
                     }
                 ],
-                "numberOfIssues": 14,
+                "numberOfIssues": 25,
                 "certificationFeedback": false,
                 "failingConformance": false,
                 "nullFlavorNI": false
             },
             {
                 "categoryName": "Problems",
-                "categoryGrade": "C",
-                "categoryNumericalScore": 77,
+                "categoryGrade": "B-",
+                "categoryNumericalScore": 80,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -545,8 +711,8 @@
                         "numberOfIssues": 1,
                         "issuesList": [
                             {
-                                "lineNumber": "818",
-                                "xmlString": "<statusCode xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"active\"/>"
+                                "lineNumber": "843 - 850",
+                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n                    \n                    \n                    <low value=\"20010703\"/>\n                    \n                    \n                    <high value=\"20010814\"/>\n                  </effectiveTime>"
                             }
                         ],
                         "exampleTaskForceLinks": [
@@ -558,57 +724,93 @@
                         "description": "A Problem Concern of completed or suspended should have a Problem Concern effectiveTime/high value present.Similarly a Problem Concern which is Active shall not have a Problem Concern effectiveTime/high value."
                     },
                     {
-                        "rule": "The EffectiveDate/Time elements for the Problem Concern Act must encompass the underlying observations.",
-                        "numberOfIssues": 3,
-                        "issuesList": [
-                            {
-                                "lineNumber": "843 - 850",
-                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n                    \n                    \n                    <low value=\"20010703\"/>\n                    \n                    \n                    <high value=\"20010814\"/>\n                  </effectiveTime>"
-                            },
-                            {
-                                "lineNumber": "923 - 927",
-                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n                    \n                    <low value=\"20070417\"/>\n                    \n                  </effectiveTime>"
-                            },
-                            {
-                                "lineNumber": "977 - 983",
-                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n                    \n                    \n                    <low value=\"19980310\"/>\n                    \n                    <high value=\"19980316\"/>\n                  </effectiveTime>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.78: Problem Concern Act"
-                        ],
-                        "description": "The EffectiveDate/Time elements of the Problem Concern Act cannot be out of sync with the Problem Observation. Each of the Observation's EffectiveTime/low >= Problem Concern's EffectiveTime/low and Observation's EffectiveTime/high should be <= Problem Concern's EffectiveTime/high"
-                    },
-                    {
-                        "rule": "Problem Concern status and Problem Observation status should be consistent with each other.",
-                        "numberOfIssues": 1,
+                        "rule": "Each entry has to be linked to related narrative text",
+                        "numberOfIssues": 7,
                         "issuesList": [
                             {
                                 "lineNumber": "811 - 863",
                                 "xmlString": "<act xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"ACT\" moodCode=\"EVN\">\n              \n              <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.3\"/>\n              <id root=\"ec8a6ff8-ed4b-4f7e-82c3-e98e58b45de7\"/>\n              <code code=\"CONC\" codeSystem=\"2.16.840.1.113883.5.6\" displayName=\"Concern\"/>\n              \n              \n              <statusCode code=\"active\"/>\n              <effectiveTime>\n                \n                \n                <low value=\"20\"/>\n\t\t\t\t<high value=\"201307061\"/> \n              </effectiveTime>\n              <author typeCode=\"AUT\">\n                <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                \n                <time value=\"201307061145-0800\"/>\n                <assignedAuthor>\n                  <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                  <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                </assignedAuthor>\n              </author>\n              <entryRelationship typeCode=\"SUBJ\">\n                <observation classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>\n                  <id root=\"ab1791b0-5c71-11db-b0de-0800200c9a66\"/>\n                  <code code=\"75323-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Cond\"/>\n                  \n                  <statusCode code=\"completed\"/>\n                  <effectiveTime>\n                    \n                    \n                    <low value=\"20010703\"/>\n                    \n                    \n                    <high value=\"20010814\"/>\n                  </effectiveTime>\n                  <value code=\"233604007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Pneumonia\" xsi:type=\"CD\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"200808141030-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>\n              </entryRelationship>\n            </act>"
+                            },
+                            {
+                                "lineNumber": "836 - 861",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>\n                  <id root=\"ab1791b0-5c71-11db-b0de-0800200c9a66\"/>\n                  <code code=\"75323-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Cond\"/>\n                  \n                  <statusCode code=\"completed\"/>\n                  <effectiveTime>\n                    \n                    \n                    <low value=\"20010703\"/>\n                    \n                    \n                    <high value=\"20010814\"/>\n                  </effectiveTime>\n                  <value code=\"233604007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Pneumonia\" xsi:type=\"CD\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"200808141030-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>"
+                            },
+                            {
+                                "lineNumber": "866 - 940",
+                                "xmlString": "<act xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"ACT\" moodCode=\"EVN\">\n              \n              <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.3\"/>\n              <id root=\"682f6be1-0793-42f4-904b-e199e6e8e457\"/>\n              <code code=\"CONC\" codeSystem=\"2.16.840.1.113883.5.6\" displayName=\"Concern\"/>\n              \n              <statusCode code=\"active\"/>\n              \n              <effectiveTime>\n                \n                <low value=\"200704141515-0800\"/>\n                \n              </effectiveTime>\n              <author typeCode=\"AUT\">\n                <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                <time value=\"200704141515-0800\"/>\n                \n                <assignedAuthor>\n                  <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                  <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                </assignedAuthor>\n              </author>\n              <entryRelationship typeCode=\"SUBJ\">\n                <observation classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>\n                  <id root=\"11d088a8-b957-401c-8ee0-3bd20a772fc0\"/>\n                  <code code=\"75323-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Condition\"/>\n                  \n                  <statusCode code=\"completed\"/>\n                  <effectiveTime>\n                    \n                    <low value=\"20070414\"/>\n                    \n                    \n                  </effectiveTime>\n                  <value code=\"29857009\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Chest pain\" xsi:type=\"CD\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"200704141515-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>\n              </entryRelationship>\n              <entryRelationship typeCode=\"SUBJ\">\n                <observation classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>\n                  <id root=\"4991db40-4c4f-41e8-9146-50c12d716424\"/>\n                  <code code=\"75323-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Condition\"/>\n                  \n                  <statusCode code=\"completed\"/>\n                  <effectiveTime>\n                    \n                    <low value=\"20070417\"/>\n                    \n                  </effectiveTime>\n                  <value code=\"194828000\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Angina\" xsi:type=\"CD\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"200704171515-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"222334444\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>\n              </entryRelationship>\n            </act>"
+                            },
+                            {
+                                "lineNumber": "890 - 913",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>\n                  <id root=\"11d088a8-b957-401c-8ee0-3bd20a772fc0\"/>\n                  <code code=\"75323-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Condition\"/>\n                  \n                  <statusCode code=\"completed\"/>\n                  <effectiveTime>\n                    \n                    <low value=\"20070414\"/>\n                    \n                    \n                  </effectiveTime>\n                  <value code=\"29857009\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Chest pain\" xsi:type=\"CD\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"200704141515-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>"
+                            },
+                            {
+                                "lineNumber": "916 - 938",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>\n                  <id root=\"4991db40-4c4f-41e8-9146-50c12d716424\"/>\n                  <code code=\"75323-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Condition\"/>\n                  \n                  <statusCode code=\"completed\"/>\n                  <effectiveTime>\n                    \n                    <low value=\"20070417\"/>\n                    \n                  </effectiveTime>\n                  <value code=\"194828000\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Angina\" xsi:type=\"CD\"/>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"200704171515-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"222334444\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>"
+                            },
+                            {
+                                "lineNumber": "943 - 1001",
+                                "xmlString": "<act xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"ACT\" moodCode=\"EVN\">\n              \n              <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.3\"/>\n              <id root=\"b5159d48-04aa-4927-b355-00d1dcb7158c\"/>\n              <code code=\"CONC\" codeSystem=\"2.16.840.1.113883.5.6\" displayName=\"Concern\"/>\n              \n              \n              <statusCode code=\"completed\"/>\n              <effectiveTime>\n                \n                \n                <low value=\"199803101030-0800\"/>\n                \n                \n                <high value=\"199805041145-0800\"/>\n              </effectiveTime>\n              <author typeCode=\"AUT\">\n                <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                \n                <time value=\"199803161030-0800\"/>\n                <assignedAuthor>\n                  <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                  <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                </assignedAuthor>\n              </author>\n              <entryRelationship typeCode=\"SUBJ\">\n                <observation classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>\n                  <id root=\"10506b4d-c30a-4220-8bec-97bff9568fd1\"/>\n                  <code code=\"75323-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Condition\"/>\n                  \n                  <statusCode code=\"completed\"/>\n                  <effectiveTime>\n                    \n                    \n                    <low value=\"19980310\"/>\n                    \n                    <high value=\"19980316\"/>\n                  </effectiveTime>\n                  <value code=\"233604007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Pneumonia\" xsi:type=\"CD\">\n                    <qualifier>\n                      <name code=\"363698007\" displayName=\"Finding site\"/>\n                      <value code=\"41224006\" displayName=\"Left lower lobe of lung\"/>\n                    </qualifier>\n                  </value>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"199803161030-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>\n              </entryRelationship>\n            </act>"
+                            },
+                            {
+                                "lineNumber": "970 - 999",
+                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  <templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>\n                  <id root=\"10506b4d-c30a-4220-8bec-97bff9568fd1\"/>\n                  <code code=\"75323-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Condition\"/>\n                  \n                  <statusCode code=\"completed\"/>\n                  <effectiveTime>\n                    \n                    \n                    <low value=\"19980310\"/>\n                    \n                    <high value=\"19980316\"/>\n                  </effectiveTime>\n                  <value code=\"233604007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Pneumonia\" xsi:type=\"CD\">\n                    <qualifier>\n                      <name code=\"363698007\" displayName=\"Finding site\"/>\n                      <value code=\"41224006\" displayName=\"Left lower lobe of lung\"/>\n                    </qualifier>\n                  </value>\n                  <author typeCode=\"AUT\">\n                    <templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n                    <time value=\"199803161030-0800\"/>\n                    <assignedAuthor>\n                      <id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n                      <code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n                    </assignedAuthor>\n                  </author>\n                </observation>"
                             }
                         ],
                         "exampleTaskForceLinks": [
                             "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
                         ],
                         "igReferences": [
-                            "Section 3.78: Problem Concern Act"
+                            "Section 2.53.1: Problem Section"
                         ],
-                        "description": "Problem Concern status and Problem Observation status should be consistent with each other."
+                        "description": "Each entry has to be linked to related narrative text"
                     },
                     {
-                        "rule": "Each entry has to be linked to related narrative text",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
+                        "rule": "All Template Ids should be Valid with correct extension value",
+                        "numberOfIssues": 8,
+                        "issuesList": [
+                            {
+                                "lineNumber": "785",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.2.5.1\"/>"
+                            },
+                            {
+                                "lineNumber": "813",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.3\"/>"
+                            },
+                            {
+                                "lineNumber": "838",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>"
+                            },
+                            {
+                                "lineNumber": "868",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.3\"/>"
+                            },
+                            {
+                                "lineNumber": "892",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>"
+                            },
+                            {
+                                "lineNumber": "918",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>"
+                            },
+                            {
+                                "lineNumber": "945",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.3\"/>"
+                            },
+                            {
+                                "lineNumber": "972",
+                                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.4\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+                        ],
+                        "igReferences": [
+                            "Section 2.4.1: Allergies and Intolerances Section"
+                        ],
+                        "description": "All Template Ids should be present with valid extension value"
                     }
                 ],
-                "numberOfIssues": 8,
+                "numberOfIssues": 19,
                 "certificationFeedback": false,
                 "failingConformance": false,
                 "nullFlavorNI": false
@@ -625,8 +827,8 @@
             },
             {
                 "categoryName": "Procedures",
-                "categoryGrade": "C",
-                "categoryNumericalScore": 75,
+                "categoryGrade": "B-",
+                "categoryNumericalScore": 83,
                 "categoryRubrics": [
                     {
                         "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
@@ -652,6 +854,14 @@
                         "exampleTaskForceLinks": [],
                         "igReferences": [],
                         "description": null
+                    },
+                    {
+                        "rule": "All Template Ids should be Valid with correct extension value",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
                     }
                 ],
                 "numberOfIssues": 1,
@@ -671,6 +881,14 @@
                         "exampleTaskForceLinks": [],
                         "igReferences": [],
                         "description": null
+                    },
+                    {
+                        "rule": "Patient's Alternative Name Rule",
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
                     }
                 ],
                 "numberOfIssues": 0,
@@ -679,11 +897,11 @@
                 "nullFlavorNI": false
             }
         ],
-        "numberOfIssues": 44,
+        "numberOfIssues": 83,
         "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
-        "industryAverageScore": 84,
-        "industryAverageGrade": "B-",
-        "numberOfDocumentsScored": 771,
+        "industryAverageScore": 86,
+        "industryAverageGrade": "B+",
+        "numberOfDocumentsScored": 60,
         "docType": "R2.1",
         "passedCertification": null
     },

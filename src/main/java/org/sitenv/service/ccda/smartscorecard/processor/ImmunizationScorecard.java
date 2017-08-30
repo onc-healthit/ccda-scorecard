@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sitenv.ccdaparsing.model.CCDACode;
-import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDAImmunizationActivity;
@@ -395,40 +394,37 @@ public class ImmunizationScorecard {
 			{
 				for(CCDAImmunizationActivity immuAct : immunizations.getImmActivity())
 				{
-					if(!ApplicationUtil.isEmpty(immuAct.getReferenceTexts()))
+					maxPoints++;
+					if(immuAct.getReferenceText()!= null)
 					{
-						for(CCDADataElement referenceText : immuAct.getReferenceTexts())
+						if(immunizations.getReferenceLinks()!= null && immunizations.getReferenceLinks().contains(immuAct.getReferenceText().getValue()))
 						{
-							maxPoints++;
-							if(immunizations.getReferenceLinks().contains(referenceText.getValue()))
-							{
-								actualPoints++;
-							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(referenceText.getLineNumber());
-								issue.setXmlString(referenceText.getXmlString());
-								issuesList.add(issue);
-							}
+							actualPoints++;
 						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(immuAct.getReferenceText().getLineNumber());
+							issue.setXmlString(immuAct.getReferenceText().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(immuAct.getLineNumber());
+						issue.setXmlString(immuAct.getXmlString());
+						issuesList.add(issue);
 					}
 				}
 			}
-			if(maxPoints ==0)
-			{
-				maxPoints =1;
-				actualPoints =1;
-			}
-		}
-		else
-		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("All sections are empty");
-			issue.setXmlString("All sections are empty");
-			issuesList.add(issue);
 		}
 		
+		if(maxPoints ==0)
+		{
+			maxPoints =1;
+			actualPoints =1;
+		}
 		
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);
