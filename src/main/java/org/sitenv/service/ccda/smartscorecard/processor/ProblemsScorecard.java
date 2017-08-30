@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sitenv.ccdaparsing.model.CCDACode;
-import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProblem;
 import org.sitenv.ccdaparsing.model.CCDAProblemConcern;
@@ -39,8 +38,8 @@ public class ProblemsScorecard {
 		problemsScoreList.add(getValidDisplayNameScoreCard(problems,docType));
 		problemsScoreList.add(getValidProblemCodeScoreCard(problems,docType));
 		problemsScoreList.add(getValidStatusCodeScoreCard(problems,docType));
-		problemsScoreList.add(getApprEffectivetimeScore(problems,docType));
-		problemsScoreList.add(getApprStatusCodeScore(problems,docType));
+		//problemsScoreList.add(getApprStatusCodeScore(problems,docType));
+		//problemsScoreList.add(getApprEffectivetimeScore(problems,docType));
 		problemsScoreList.add(getNarrativeStructureIdScore(problems,docType));
 		problemsScoreList.add(getTemplateIdScore(problems, docType));
 		
@@ -71,8 +70,9 @@ public class ProblemsScorecard {
 					maxPoints++;
 					if(problemConcern.getEffTime() != null)
 					{
-						if(ApplicationUtil.validateDayFormat(problemConcern.getEffTime()) ||
+						if(ApplicationUtil.validateYearFormat(problemConcern.getEffTime()) ||
 								ApplicationUtil.validateMonthFormat(problemConcern.getEffTime()) ||
+								ApplicationUtil.validateDayFormat(problemConcern.getEffTime()) ||
 								ApplicationUtil.validateMinuteFormat(problemConcern.getEffTime()) ||
 								ApplicationUtil.validateSecondFormat(problemConcern.getEffTime()))
 						{
@@ -101,8 +101,9 @@ public class ProblemsScorecard {
 							maxPoints++;
 							if(problemObs.getEffTime() != null)
 							{
-								if(ApplicationUtil.validateDayFormat(problemObs.getEffTime()) ||
+								if(ApplicationUtil.validateYearFormat(problemObs.getEffTime()) ||
 										ApplicationUtil.validateMonthFormat(problemObs.getEffTime()) ||
+										ApplicationUtil.validateDayFormat(problemObs.getEffTime()) ||
 										ApplicationUtil.validateMinuteFormat(problemObs.getEffTime()) ||
 										ApplicationUtil.validateSecondFormat(problemObs.getEffTime()))
 								{
@@ -481,15 +482,28 @@ public class ProblemsScorecard {
 					if(probCon.getStatusCode() != null )
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateProblemStatusCode(probCon.getEffTime(), probCon.getStatusCode().getCode()))
+						if(probCon.getProblemObservations() !=null)
 						{
-						   actualPoints++;
+							for(CCDAProblemObs probObs : probCon.getProblemObservations())
+							{
+								if(ApplicationUtil.validateStatusCode(probObs.getEffTime(), probCon.getStatusCode().getCode()))
+								{
+									actualPoints++;
+								}
+								else
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(probObs.getEffTime().getLineNumber());
+									issue.setXmlString(probObs.getEffTime().getXmlString());
+									issuesList.add(issue);
+								}
+							}
 						}
 						else
 						{
 							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(probCon.getStatusCode().getLineNumber());
-							issue.setXmlString(probCon.getStatusCode().getXmlString());
+							issue.setLineNumber(probCon.getEffTime().getLineNumber());
+							issue.setXmlString(probCon.getEffTime().getXmlString());
 							issuesList.add(issue);
 						}
 					}
@@ -695,38 +709,65 @@ public class ProblemsScorecard {
 			{
 				for(CCDAProblemConcern probConc : problems.getProblemConcerns())
 				{
-					if(!ApplicationUtil.isEmpty(probConc.getReferenceTexts()))
+					maxPoints++;
+					if(probConc.getReferenceText()!= null)
 					{
-						for(CCDADataElement referenceText : probConc.getReferenceTexts())
+						if(problems.getReferenceLinks()!= null && problems.getReferenceLinks().contains(probConc.getReferenceText().getValue()))
+						{
+							actualPoints++;
+						}
+						else
+						{
+							issue = new CCDAXmlSnippet();
+							issue.setLineNumber(probConc.getReferenceText().getLineNumber());
+							issue.setXmlString(probConc.getReferenceText().getXmlString());
+							issuesList.add(issue);
+						}
+					}
+					else
+					{
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(probConc.getLineNumber());
+						issue.setXmlString(probConc.getXmlString());
+						issuesList.add(issue);
+					}
+					if(probConc.getProblemObservations()!=null)
+					{
+						for(CCDAProblemObs probObs : probConc.getProblemObservations())
 						{
 							maxPoints++;
-							if(problems.getReferenceLinks().contains(referenceText.getValue()))
+							if(probObs.getReferenceText()!= null)
 							{
-								actualPoints++;
+								if(problems.getReferenceLinks()!= null && problems.getReferenceLinks().contains(probObs.getReferenceText().getValue()))
+								{
+									actualPoints++;
+								}
+								else
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(probObs.getReferenceText().getLineNumber());
+									issue.setXmlString(probObs.getReferenceText().getXmlString());
+									issuesList.add(issue);
+								}
 							}
 							else
 							{
 								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(referenceText.getLineNumber());
-								issue.setXmlString(referenceText.getXmlString());
+								issue.setLineNumber(probObs.getLineNumber());
+								issue.setXmlString(probObs.getXmlString());
 								issuesList.add(issue);
 							}
+							
 						}
 					}
+					
 				}
 			}
-			if(maxPoints ==0)
-			{
-				maxPoints =1;
-				actualPoints =1;
-			}
 		}
-		else
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("All sections are empty");
-			issue.setXmlString("All sections are empty");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		narrativeTextIdScore.setActualPoints(actualPoints);

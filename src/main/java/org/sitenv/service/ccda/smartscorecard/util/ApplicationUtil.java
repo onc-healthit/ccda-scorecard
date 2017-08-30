@@ -847,7 +847,6 @@ public class ApplicationUtil {
 	}*/
 	
 	public static boolean validateProblemStatusCode(String problemActStatuscode, List<CCDAProblemObs> probObservations)
-
 	{
 
 		boolean isValid = false;
@@ -889,7 +888,8 @@ public class ApplicationUtil {
 		return isValid;
 	}
 	
-	public static boolean validateProblemStatusCode(CCDAEffTime effectiveTime, String concernStatusCode)
+	
+	public static boolean validateStatusCode(CCDAEffTime effectiveTime, String concernStatusCode)
 	{
 		
 		boolean isValid = true;
@@ -899,11 +899,11 @@ public class ApplicationUtil {
 			if(concernStatusCode.equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.COMPLETED.getstatus()) || 
 					concernStatusCode.equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.SUSPENDED.getstatus()))
 			{
-				isValid = effectiveTime.getHighPresent();
+				isValid = effectiveTime.getHighPresent() && effectiveTime.getLowPresent();
 			}
 			else if(concernStatusCode.equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ACTIVE.getstatus()))
 			{
-				isValid = !effectiveTime.getHighPresent();
+				isValid = !effectiveTime.getHighPresent() && effectiveTime.getLowPresent();
 			}else
 				isValid = false;
 		}else 

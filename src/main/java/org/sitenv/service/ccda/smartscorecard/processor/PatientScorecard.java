@@ -102,7 +102,7 @@ public class PatientScorecard {
 		legalNameScore.setRule(ApplicationConstants.PATIENT_LEGAL_NAME_REQUIREMENT);
 		
 		int actualPoints = 0;
-		int maxPoints = 1;
+		int maxPoints = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(patient != null)
