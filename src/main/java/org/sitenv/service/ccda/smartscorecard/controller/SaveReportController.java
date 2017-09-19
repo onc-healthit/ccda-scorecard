@@ -1139,6 +1139,7 @@ public class SaveReportController {
 				&& !report.getErrorMessage().isEmpty()) {
 			appendErrorMessage(sb, report.getErrorMessage());
 			if(report.getSchemaErrorList() != null && !report.getSchemaErrorList().isEmpty()) {
+				sb.append("<h3>" + ApplicationConstants.ErrorMessages.SCHEMA_ERRORS_GENERIC_PART2 + "</h3>");
 				final String noData = "No data available";
 				sb.append("<ol style='color:red'>");
 				for(ReferenceError schemaError : report.getSchemaErrorList()) {
