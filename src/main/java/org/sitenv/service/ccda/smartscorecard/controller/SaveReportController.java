@@ -263,7 +263,7 @@ public class SaveReportController {
 					appendHeader(sb, report, results, reportType);
 					appendHorizontalRuleWithBreaks(sb);
 					
-					if(reportType == SaveReportType.SUMMARY) {						
+					if(reportType == SaveReportType.SUMMARY) {
 						appendPreTopLevelResultsContent(sb);
 					}
 					
@@ -283,8 +283,10 @@ public class SaveReportController {
 						}
 					}
 					if(reportType == SaveReportType.SUMMARY) {
+						/*
 						appendPictorialGuide(sb, categories, referenceResults);
 						appendPictorialGuideKey(sb);
+						*/
 					} 					
 				}
 			} else {
@@ -518,7 +520,8 @@ public class SaveReportController {
 			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			sb.append("<span style='float: right'>" + "Submission Time: " + dateFormat.format(new Date()) + "</span>");
 			sb.append("</h5>");
-			sb.append("<div style='clear: both'></div>");
+			sb.append("<div style='clear: both'></div>");			
+			appendBasicResults(sb, results);			
 		} else {
 			sb.append(results.getDocType() + " "  
 					+ (report.getCcdaDocumentType() != null ? report .getCcdaDocumentType() : "document") 
@@ -530,6 +533,7 @@ public class SaveReportController {
 	}
 	
 	private static void appendPreTopLevelResultsContent(StringBuffer sb) {
+		/*
 		sb.append("<p>")
 	     .append("  The C-CDA Scorecard enables providers, implementers, and health")
 	     .append("  IT professionals with a tool that compares how artifacts (transition")
@@ -549,8 +553,27 @@ public class SaveReportController {
 	     .append("  providers and health IT developers will use the tool to identify and")
 	     .append("  resolve issues around C-CDA document interoperability in their")
 	     .append("  health IT systems.")
-	     .append("<p>")
-	     .append("<p>")
+	     .append("</p>")
+	     */
+		
+		sb.append("<p>If you are not satisfied with your results:</p>");
+		sb.append("<ul>");
+			sb.append("<li>");
+				sb.append("Please ask your vendor to de-identify your C-CDA document and submit it to the SITE C-CDA Scorecard tool "
+						+ "located at " + "<a href=\"https://sitenv.org/scorecard/\">" + "https://sitenv.org/scorecard/" + "</a>");
+			sb.append("</li>");
+			sb.append("<li>");
+				sb.append("Using the results provided by the online tool, "
+						+ "your vendor can update or provide insight on how to update your document to meet the latest HL7 best-practices");
+			sb.append("</li>");
+			sb.append("<li>");
+				sb.append("Once updated, "
+						+ "resubmitting your document to the ONC One Click Scorecard will produce a report with a higher score "
+						+ "and/or less or no conformance errors or less or no certification feedback results");
+			sb.append("</li>");
+		sb.append("</ul>");
+		
+	     sb.append("<p>")
 	     .append("The report has three sections. The first section contains the summary of ")
 	     .append("the C-CDA Scorecard results highlighting the overall document grade ")
 	     .append("compared to the industry, a quantitative score out of a maximum of 100. ")
@@ -558,6 +581,15 @@ public class SaveReportController {
 	     .append("clinical domains in a table. The third section contains a guide to help ")
 	     .append("the providers interpret the Scorecard results and take appropriate action.")
 	     .append("</p>");
+	}
+	
+	private static void appendBasicResults(StringBuffer sb, Results results) {
+		sb.append("<center>");
+		sb.append("<h2>");
+		sb.append("<span style=\"margin-right: 40px\">Grade: " + results.getFinalGrade() + "</span>"); 
+		sb.append("<span style=\"margin-left: 40px\">Score: " + results.getFinalNumericalGrade() + "/100" + "</span>");
+		sb.append("</h2>");
+		sb.append("</center>");
 	}
 	
 	private static void appendTopLevelResults(StringBuffer sb, Results results,
@@ -1307,7 +1339,7 @@ public class SaveReportController {
 		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2, 
 				SAMPLE_WITH_SCHEMA_ERRORS = 3;
 		try {
-			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_SCHEMA_ERRORS], SaveReportType.SUMMARY);
+			buildReportUsingJSONFromLocalFile(filenames[HIGH_SCORING_SAMPLE], SaveReportType.SUMMARY);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
