@@ -1,0 +1,92 @@
+<configurations>
+	
+	<scorecardSection sectionName="Patient Demographics">
+		<sectionRule ruleName="Patient DOB should be valid and properly precisioned" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="Patient's Alternative Name Rule" ruleEnabled="true"></sectionRule>
+	</scorecardSection>
+
+	<scorecardSection sectionName="Encounters">
+		<sectionRule ruleName="EffectiveDate/Time elements have the right time and timezone offsets" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="EffectiveDate/Times for all historical activities should be within the lifespan on the patient" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>
+	</scorecardSection>
+
+	<scorecardSection sectionName="Medications">
+		<sectionRule ruleName="EffectiveDate/Time elements have the right time and timezone offsets" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="EffectiveDate/Times for all historical activities should be within the lifespan on the patient" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="Medications coded with RxNorm SCD, SBD, GPCK, or BPCPK codes" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>		
+		<sectionRule ruleName="Each medication needs to have its own Medication Signture Text EntryRelationship and the reference should exist in the same section where you found it" ruleEnabled="true"></sectionRule>		
+	</scorecardSection>		
+	
+	<scorecardSection sectionName="Immunizations">
+		<sectionRule ruleName="EffectiveDate/Time elements have the right time and timezone offsets" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="EffectiveDate/Times for all historical activities should be within the lifespan on the patient" ruleEnabled="true"> </sectionRule>
+		<sectionRule ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"> </sectionRule>
+		<sectionRule ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>				
+	</scorecardSection>
+	
+	<scorecardSection sectionName="Social History">
+		<sectionRule ruleName="EffectiveDate/Time elements have the right time and timezone offsets" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="EffectiveDate/Times for all historical activities should be within the lifespan on the patient" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="Smoking status code value should be valid" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="Smoking status observation Template Id should be valid" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="Systems should capture birth sex independent of the Administrative Gender and encode them as an observation in the Social History Section" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>				
+	</scorecardSection>
+	
+	<scorecardSection sectionName="Laboratory Tests and Results">
+		<sectionRule ruleName="EffectiveDate/Time elements have the right time and timezone offsets" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="EffectiveDate/Times for all historical activities should be within the lifespan on the patient" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="Lab Result values should use preferred UCUM units" ruleEnabled="true"></sectionRule>				
+		<sectionRule ruleName="Lab results should be expressed with LOINC codes" ruleEnabled="true"></sectionRule>	
+        <sectionRule ruleName="The EffectiveDate/Time elements for the Result Organizer must encompass the underlying observations" ruleEnabled="true"></sectionRule>		
+		<sectionRule ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>
+	</scorecardSection>
+	
+	<scorecardSection sectionName="Vital Signs">
+		<sectionRule ruleName="EffectiveDate/Time elements have the right time and timezone offsets" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="EffectiveDate/Times for all historical activities should be within the lifespan on the patient" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="The Vital Sign Observation entries should use LOINC codes to represent the type of vital sign being captured" ruleEnabled="true"></sectionRule>	
+		<sectionRule ruleName="Each of the Vital Sign Observations should use the recommended UCUM units to represent the vital sign measurement result" ruleEnabled="true"></sectionRule>	
+        <sectionRule ruleName="The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations" ruleEnabled="true"></sectionRule>		
+		<sectionRule ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>
+	</scorecardSection>
+	
+	<scorecardSection sectionName="Problems">
+		<sectionRule ruleName="EffectiveDate/Time elements have the right time and timezone offsets" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="EffectiveDate/Times for all historical activities should be within the lifespan on the patient" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="All problem codes are should express with core subset of SNOMED codes" ruleEnabled="true"></sectionRule>	
+		<sectionRule ruleName="Problem Concern effective times reflect the appropriate problem concern status" ruleEnabled="true"></sectionRule>	        
+		<sectionRule ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>
+	</scorecardSection>
+	
+	<scorecardSection sectionName="Allergies">
+		<sectionRule ruleName="EffectiveDate/Time elements have the right time and timezone offsets" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="EffectiveDate/Times for all historical activities should be within the lifespan on the patient" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="Allergies Concern observation effective times reflect the appropriate allergy concern status" ruleEnabled="true"></sectionRule>	        
+		<sectionRule ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>
+	</scorecardSection>
+	
+	<scorecardSection sectionName="Procedures">		
+		<sectionRule ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"></sectionRule>		      
+		<sectionRule ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>	
+		<sectionRule ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>
+	</scorecardSection>
+
+</configurations>

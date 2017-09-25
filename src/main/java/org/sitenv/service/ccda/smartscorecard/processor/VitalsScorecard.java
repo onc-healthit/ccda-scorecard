@@ -8,6 +8,7 @@ import org.sitenv.ccdaparsing.model.CCDAVitalObs;
 import org.sitenv.ccdaparsing.model.CCDAVitalOrg;
 import org.sitenv.ccdaparsing.model.CCDAVitalSigns;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
@@ -26,7 +27,7 @@ public class VitalsScorecard {
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
 	
-	public Category getVitalsCategory(CCDAVitalSigns vitals, PatientDetails patientDetails,String docType)
+	public Category getVitalsCategory(CCDAVitalSigns vitals, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
 		if(vitals==null || vitals.isSectionNullFlavourWithNI())
 		{
@@ -36,14 +37,31 @@ public class VitalsScorecard {
 		vitalsCategory.setCategoryName(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> vitalsScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		vitalsScoreList.add(getTimePrecisionScore(vitals,docType));
-		vitalsScoreList.add(getValidDateTimeScore(vitals,patientDetails,docType));
-		vitalsScoreList.add(getValidDisplayNameScoreCard(vitals,docType));
-		vitalsScoreList.add(getValidLoincCodesScore(vitals,docType));
-		vitalsScoreList.add(getValidUCUMScore(vitals,docType));
-		vitalsScoreList.add(getApprEffectivetimeScore(vitals,docType));
-		vitalsScoreList.add(getNarrativeStructureIdScore(vitals,docType));
-		vitalsScoreList.add(getTemplateIdScore(vitals, docType));
+		
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_PRECISION_REQUIREMENT)) {
+			vitalsScoreList.add(getTimePrecisionScore(vitals, docType));
+		}
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_VALID_REQUIREMENT)) {
+			vitalsScoreList.add(getValidDateTimeScore(vitals, patientDetails, docType));
+		}
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT)) {
+			vitalsScoreList.add(getValidDisplayNameScoreCard(vitals, docType));
+		}
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.VITAL_LOINC_REQUIREMENT)) {
+			vitalsScoreList.add(getValidLoincCodesScore(vitals, docType));
+		}
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.VITAL_UCUM_REQUIREMENT)) {
+			vitalsScoreList.add(getValidUCUMScore(vitals, docType));
+		}
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.VITAL_AAPR_DATE_REQUIREMENT)) {
+			vitalsScoreList.add(getApprEffectivetimeScore(vitals, docType));
+		}
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+			vitalsScoreList.add(getNarrativeStructureIdScore(vitals, docType));
+		}
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TEMPLATEID_DESC)) {
+			vitalsScoreList.add(getTemplateIdScore(vitals, docType));
+		}
 		
 		vitalsCategory.setCategoryRubrics(vitalsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(vitalsScoreList, vitalsCategory);

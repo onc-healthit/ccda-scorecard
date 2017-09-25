@@ -8,6 +8,7 @@ import org.sitenv.ccdaparsing.model.CCDASmokingStatus;
 import org.sitenv.ccdaparsing.model.CCDASocialHistory;
 import org.sitenv.ccdaparsing.model.CCDATobaccoUse;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
@@ -22,7 +23,7 @@ public class SocialHistoryScorecard {
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
 	
-	public Category getSocialHistoryCategory(CCDASocialHistory socialHistory, PatientDetails patientDetails,String docType)
+	public Category getSocialHistoryCategory(CCDASocialHistory socialHistory, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
 		if(socialHistory==null || socialHistory.isSectionNullFlavourWithNI())
 		{
@@ -32,14 +33,31 @@ public class SocialHistoryScorecard {
 		socialHistoryCategory.setCategoryName(ApplicationConstants.CATEGORIES.SOCIALHISTORY.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> socialHistoryScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		socialHistoryScoreList.add(getTimePrecisionScore(socialHistory,docType));
-		socialHistoryScoreList.add(getValidDateTimeScore(socialHistory,patientDetails,docType));
-		socialHistoryScoreList.add(getValidDisplayNameScoreCard(socialHistory,docType));
-		socialHistoryScoreList.add(getValidSmokingStatusScore(socialHistory,docType));
-		socialHistoryScoreList.add(getValidSmokingStatuIdScore(socialHistory,docType));
-		socialHistoryScoreList.add(getValidGenderObsScore(socialHistory,docType));
-		socialHistoryScoreList.add(getNarrativeStructureIdScore(socialHistory,docType));
-		socialHistoryScoreList.add(getTemplateIdScore(socialHistory, docType));
+		
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_PRECISION_REQUIREMENT)) {
+			socialHistoryScoreList.add(getTimePrecisionScore(socialHistory, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_VALID_REQUIREMENT)) {
+			socialHistoryScoreList.add(getValidDateTimeScore(socialHistory, patientDetails, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT)) {
+			socialHistoryScoreList.add(getValidDisplayNameScoreCard(socialHistory, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.SOCIALHISTORY_SMOKING_STATUS_REQUIREMENT)) {
+			socialHistoryScoreList.add(getValidSmokingStatusScore(socialHistory, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.SOCIALHISTORY_SMOKING_STATUS_OBS_ID_REQUIREMENT)) {
+			socialHistoryScoreList.add(getValidSmokingStatuIdScore(socialHistory, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.SOCIALHISTORY_GENDER_OBS_REQUIREMENT)) {
+			socialHistoryScoreList.add(getValidGenderObsScore(socialHistory, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+			socialHistoryScoreList.add(getNarrativeStructureIdScore(socialHistory, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TEMPLATEID_DESC)) {
+			socialHistoryScoreList.add(getTemplateIdScore(socialHistory, docType));
+		}
 		
 		socialHistoryCategory.setCategoryRubrics(socialHistoryScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(socialHistoryScoreList, socialHistoryCategory);

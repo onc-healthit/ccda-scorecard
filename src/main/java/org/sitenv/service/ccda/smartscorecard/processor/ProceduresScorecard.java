@@ -8,6 +8,7 @@ import org.sitenv.ccdaparsing.model.CCDAProcActProc;
 import org.sitenv.ccdaparsing.model.CCDAProcedure;
 import org.sitenv.ccdaparsing.model.CCDAServiceDeliveryLoc;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
@@ -22,7 +23,7 @@ public class ProceduresScorecard {
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
 	
-	public Category getProceduresCategory(CCDAProcedure procedures, PatientDetails patientDetails,String docType)
+	public Category getProceduresCategory(CCDAProcedure procedures, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
 		if(procedures==null || procedures.isSectionNullFlavourWithNI())
 		{
@@ -32,9 +33,16 @@ public class ProceduresScorecard {
 		procedureCategory.setCategoryName(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> procedureScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		procedureScoreList.add(getValidDisplayNameScoreCard(procedures,docType));
-		procedureScoreList.add(getNarrativeStructureIdScore(procedures,docType));
-		procedureScoreList.add(getTemplateIdScore(procedures, docType));
+		
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT)) {
+			procedureScoreList.add(getValidDisplayNameScoreCard(procedures, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+			procedureScoreList.add(getNarrativeStructureIdScore(procedures, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TEMPLATEID_DESC)) {
+			procedureScoreList.add(getTemplateIdScore(procedures, docType));
+		}
 		
 		procedureCategory.setCategoryRubrics(procedureScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(procedureScoreList, procedureCategory);

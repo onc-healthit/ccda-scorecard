@@ -18,6 +18,8 @@ import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
 import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.ScorecardSection;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
@@ -1153,6 +1155,28 @@ public class ApplicationUtil {
 		}
 		
 		return docType;
+	}
+	
+	public static boolean isRuleEnabled(List<SectionRule> sectionRules, String ruleName) {
+		boolean isRuleEnabled = false;
+		for (SectionRule sectionRule : sectionRules) {
+			if (sectionRule.getRuleName().equalsIgnoreCase(ruleName) && sectionRule.isRuleEnabled()) {
+				isRuleEnabled = true;
+				break;
+			}
+		}
+		return isRuleEnabled;
+	}
+	
+	public static List<SectionRule> getSectionRules(List<ScorecardSection> sectionList, String sectionName) {
+		List<SectionRule> sectionRules=null;
+		for (ScorecardSection section : sectionList) {
+			if (section.getSectionName().equalsIgnoreCase(sectionName)) {
+				sectionRules = section.getSectionRules();
+				break;
+			}
+		}
+		return sectionRules;
 	}
 	
 	public static boolean validTemplateIdFormat(String templateId)
