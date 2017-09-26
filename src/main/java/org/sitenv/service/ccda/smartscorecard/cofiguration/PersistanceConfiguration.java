@@ -1,5 +1,7 @@
 package org.sitenv.service.ccda.smartscorecard.cofiguration;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
@@ -9,6 +11,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.sitenv.service.ccda.smartscorecard.loader.VocabularyLoadRunner;
 import org.sitenv.service.ccda.smartscorecard.loader.VocabularyLoaderFactory;
 import org.sitenv.service.ccda.smartscorecard.model.ScorecardProperties;
+import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ServiceLocatorFactoryBean;
@@ -28,6 +31,7 @@ import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -157,5 +161,26 @@ public class PersistanceConfiguration {
         vocabularyLoadRunner.setDataSource(dataSource);
         vocabularyLoadRunner.setVocabularyLoaderFactory(vocabularyLoaderFactory);
         return vocabularyLoadRunner;
+    }
+    
+    @Autowired
+    @Bean(name="scorecardConfigurationLoader")
+    public ScorecardConfigurationLoader scorecardConfigurationLoader(final Environment environment){
+		ScorecardConfigurationLoader scorecardConfigurationLoader = new ScorecardConfigurationLoader();
+		if(!ApplicationUtil.isEmpty(environment.getProperty("scorecard.configFile"))){
+			scorecardConfigurationLoader.setScorecardConfigurationFilePath(environment.getProperty("scorecard.configFile"));
+			scorecardConfigurationLoader.setUnmarshaller(castorMarshaller());
+		}
+        return scorecardConfigurationLoader;
+    }
+    
+    @Bean
+    public Jaxb2Marshaller castorMarshaller() {
+        Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
+        jaxb2Marshaller.setPackagesToScan("org.sitenv.service.ccda.smartscorecard.cofiguration");
+        Map<String,Object> map = new HashMap<>();
+        map.put("jaxb.formatted.output", true);
+        jaxb2Marshaller.setMarshallerProperties(map);
+        return jaxb2Marshaller;
     }
 }

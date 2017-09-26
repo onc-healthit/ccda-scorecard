@@ -25,6 +25,7 @@ import org.sitenv.ccdaparsing.model.CCDATobaccoUse;
 import org.sitenv.ccdaparsing.model.CCDAVitalObs;
 import org.sitenv.ccdaparsing.model.CCDAVitalOrg;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.TemplateIdRepository21;
@@ -39,14 +40,16 @@ public class MiscScorecard {
 	@Autowired
 	TemplateIdRepository21 templateIdRepository;
 	
-	public Category getMiscCategory(CCDARefModel ccdaModels)
+	public Category getMiscCategory(CCDARefModel ccdaModels,List<SectionRule> sectionRules)
 	{
 		
 		Category miscCategory = new Category();
 		miscCategory.setCategoryName(ApplicationConstants.CATEGORIES.MISC.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> miscScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		miscScoreList.add(getUniqueIdScore(ccdaModels));
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.UNIQUEID_REQ)) {
+			miscScoreList.add(getUniqueIdScore(ccdaModels));
+		}
 		miscCategory.setCategoryRubrics(miscScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(miscScoreList,miscCategory);
 		

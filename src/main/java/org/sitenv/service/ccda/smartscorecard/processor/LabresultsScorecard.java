@@ -8,6 +8,7 @@ import org.sitenv.ccdaparsing.model.CCDALabResult;
 import org.sitenv.ccdaparsing.model.CCDALabResultObs;
 import org.sitenv.ccdaparsing.model.CCDALabResultOrg;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
@@ -26,7 +27,7 @@ public class LabresultsScorecard {
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
 	
-	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, PatientDetails patientDetails,String docType)
+	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
 		
 		if(labResults== null || labResults.isSectionNullFlavourWithNI())
@@ -48,14 +49,31 @@ public class LabresultsScorecard {
 		labResultsCategory.setCategoryName(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> labResultsScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		labResultsScoreList.add(getTimePrecisionScore(results,docType));
-		labResultsScoreList.add(getValidDateTimeScore(results,patientDetails,docType));
-		labResultsScoreList.add(getValidDisplayNameScoreCard(results,docType));
-		labResultsScoreList.add(getValidUCUMScore(labResults,docType));
-		labResultsScoreList.add(getValidLoincCodesScore(results,docType));
-		labResultsScoreList.add(getApprEffectivetimeScore(results,docType));
-		labResultsScoreList.add(getNarrativeStructureIdScore(results,docType));
-		labResultsScoreList.add(getTemplateIdScore(results,docType));
+		
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_PRECISION_REQUIREMENT)) {
+			labResultsScoreList.add(getTimePrecisionScore(results, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_VALID_REQUIREMENT)) {
+			labResultsScoreList.add(getValidDateTimeScore(results, patientDetails, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT)) {
+			labResultsScoreList.add(getValidDisplayNameScoreCard(results, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RESULTS_UCUM_REQ)) {
+			labResultsScoreList.add(getValidUCUMScore(labResults, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.LABRESULTS_LOIN_CODE_REQ)) {
+			labResultsScoreList.add(getValidLoincCodesScore(results, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.LABRESULTS_APR_TIME_REQ)) {
+			labResultsScoreList.add(getApprEffectivetimeScore(results, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+			labResultsScoreList.add(getNarrativeStructureIdScore(results, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TEMPLATEID_DESC)) {
+			labResultsScoreList.add(getTemplateIdScore(results, docType));
+		}
 		
 		labResultsCategory.setCategoryRubrics(labResultsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(labResultsScoreList, labResultsCategory);

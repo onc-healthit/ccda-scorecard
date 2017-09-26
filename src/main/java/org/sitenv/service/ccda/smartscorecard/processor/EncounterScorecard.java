@@ -11,6 +11,7 @@ import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
 import org.sitenv.ccdaparsing.model.CCDAServiceDeliveryLoc;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
@@ -25,7 +26,7 @@ public class EncounterScorecard {
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
 	
-	public Category getEncounterCategory(CCDAEncounter encounter, PatientDetails patientDetails,String docType)
+	public Category getEncounterCategory(CCDAEncounter encounter, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
 		if(encounter== null || encounter.isSectionNullFlavourWithNI())
 		{
@@ -35,11 +36,22 @@ public class EncounterScorecard {
 		encounterCategory.setCategoryName(ApplicationConstants.CATEGORIES.ENCOUNTERS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> encounterScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		encounterScoreList.add(getTimePrecisionScore(encounter,docType));
-		encounterScoreList.add(getValidDateTimeScore(encounter,patientDetails,docType));
-		encounterScoreList.add(getValidDisplayNameScoreCard(encounter,docType));
-		encounterScoreList.add(getNarrativeStructureIdScore(encounter,docType));
-		encounterScoreList.add(getTemplateIdScore(encounter,docType));
+		
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_PRECISION_REQUIREMENT)) {
+			encounterScoreList.add(getTimePrecisionScore(encounter, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_VALID_REQUIREMENT)) {
+			encounterScoreList.add(getValidDateTimeScore(encounter, patientDetails, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT)) {
+			encounterScoreList.add(getValidDisplayNameScoreCard(encounter, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+			encounterScoreList.add(getNarrativeStructureIdScore(encounter, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TEMPLATEID_DESC)) {
+			encounterScoreList.add(getTemplateIdScore(encounter, docType));
+		}
 		
 		encounterCategory.setCategoryRubrics(encounterScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(encounterScoreList, encounterCategory);

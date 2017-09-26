@@ -9,6 +9,7 @@ import org.sitenv.ccdaparsing.model.CCDAProblem;
 import org.sitenv.ccdaparsing.model.CCDAProblemConcern;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
@@ -23,7 +24,7 @@ public class ProblemsScorecard {
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
 	
-	public Category getProblemsCategory(CCDAProblem problems, PatientDetails patientDetails,String docType)
+	public Category getProblemsCategory(CCDAProblem problems, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
 		if(problems==null || problems.isSectionNullFlavourWithNI())
 		{
@@ -33,15 +34,30 @@ public class ProblemsScorecard {
 		problemsCategory.setCategoryName(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> problemsScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		problemsScoreList.add(getTimePrecisionScore(problems,docType));
-		problemsScoreList.add(getValidDateTimeScore(problems,patientDetails,docType));
-		problemsScoreList.add(getValidDisplayNameScoreCard(problems,docType));
-		problemsScoreList.add(getValidProblemCodeScoreCard(problems,docType));
-		problemsScoreList.add(getValidStatusCodeScoreCard(problems,docType));
-		//problemsScoreList.add(getApprStatusCodeScore(problems,docType));
-		//problemsScoreList.add(getApprEffectivetimeScore(problems,docType));
-		problemsScoreList.add(getNarrativeStructureIdScore(problems,docType));
-		problemsScoreList.add(getTemplateIdScore(problems, docType));
+		
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_PRECISION_REQUIREMENT)) {
+			problemsScoreList.add(getTimePrecisionScore(problems, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_VALID_REQUIREMENT)) {
+			problemsScoreList.add(getValidDateTimeScore(problems, patientDetails, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT)) {
+			problemsScoreList.add(getValidDisplayNameScoreCard(problems, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.PROBLEMS_CODE_LOINC_REQUIREMENT)) {
+			problemsScoreList.add(getValidProblemCodeScoreCard(problems, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.PROBLEM_APR_TIME_REQ)) {
+			problemsScoreList.add(getValidStatusCodeScoreCard(problems, docType));
+		}
+		// problemsScoreList.add(getApprStatusCodeScore(problems,docType));
+		// problemsScoreList.add(getApprEffectivetimeScore(problems,docType));
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+			problemsScoreList.add(getNarrativeStructureIdScore(problems, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TEMPLATEID_DESC)) {
+			problemsScoreList.add(getTemplateIdScore(problems, docType));
+		}
 		
 		ApplicationUtil.calculateSectionGradeAndIssues(problemsScoreList, problemsCategory);
 		

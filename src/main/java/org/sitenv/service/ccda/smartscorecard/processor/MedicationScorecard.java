@@ -8,6 +8,7 @@ import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAMedication;
 import org.sitenv.ccdaparsing.model.CCDAMedicationActivity;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
@@ -22,7 +23,7 @@ public class MedicationScorecard {
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
 	
-	public Category getMedicationCategory(CCDAMedication medications, PatientDetails patientDetails,String docType)
+	public Category getMedicationCategory(CCDAMedication medications, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
 		
 		if(medications==null || medications.isSectionNullFlavourWithNI())
@@ -33,14 +34,29 @@ public class MedicationScorecard {
 		medicationCategory.setCategoryName(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> medicationScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		medicationScoreList.add(getTimePrecisionScore(medications,docType));
-		medicationScoreList.add(getValidDateTimeScore(medications, patientDetails,docType));
-		medicationScoreList.add(getValidDisplayNameScoreCard(medications,docType));
-		medicationScoreList.add(getValidMedicationCodeScoreCard(medications,docType));
-		//medicationScoreList.add(getValidMedActivityScore(medications,docType));
-		medicationScoreList.add(getNarrativeStructureIdScore(medications,docType));
-		medicationScoreList.add(getMedSubAdminScore(medications,docType));
-		medicationScoreList.add(getTemplateIdScore(medications, docType));
+		
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_PRECISION_REQUIREMENT)) {
+			medicationScoreList.add(getTimePrecisionScore(medications, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_VALID_REQUIREMENT)) {
+			medicationScoreList.add(getValidDateTimeScore(medications, patientDetails, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT)) {
+			medicationScoreList.add(getValidDisplayNameScoreCard(medications, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.MEDICATION_CODE_REQ)) {
+			medicationScoreList.add(getValidMedicationCodeScoreCard(medications, docType));
+		}
+		// medicationScoreList.add(getValidMedActivityScore(medications,docType));
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+			medicationScoreList.add(getNarrativeStructureIdScore(medications, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.MED_SIG_TEXT_REQ)) {
+			medicationScoreList.add(getMedSubAdminScore(medications, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TEMPLATEID_DESC)) {
+			medicationScoreList.add(getTemplateIdScore(medications, docType));
+		}
 		
 		medicationCategory.setCategoryRubrics(medicationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(medicationScoreList, medicationCategory);
