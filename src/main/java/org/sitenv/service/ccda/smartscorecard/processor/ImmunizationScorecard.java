@@ -8,6 +8,7 @@ import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDAImmunizationActivity;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
@@ -22,7 +23,7 @@ public class ImmunizationScorecard {
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
 	
-	public Category getImmunizationCategory(CCDAImmunization immunizations, PatientDetails patientDetails,String docType)
+	public Category getImmunizationCategory(CCDAImmunization immunizations, PatientDetails patientDetails,String docType,List<SectionRule>sectionRules)
 	{
 		if(immunizations == null || immunizations.isSectionNullFlavourWithNI())
 		{
@@ -32,12 +33,25 @@ public class ImmunizationScorecard {
 		immunizationCategory.setCategoryName(ApplicationConstants.CATEGORIES.IMMUNIZATIONS.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> immunizationScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		immunizationScoreList.add(getTimePrecisionScore(immunizations,docType));
-		immunizationScoreList.add(getValidDateTimeScore(immunizations,patientDetails,docType));
-		immunizationScoreList.add(getValidDisplayNameScoreCard(immunizations,docType));
-		immunizationScoreList.add(getValidImmunizationCodeScoreCard(immunizations,docType));
-		immunizationScoreList.add(getNarrativeStructureIdScore(immunizations,docType));
-		immunizationScoreList.add(getTemplateIdScore(immunizations,docType));
+		
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_PRECISION_REQUIREMENT)) {
+			immunizationScoreList.add(getTimePrecisionScore(immunizations, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_VALID_REQUIREMENT)) {
+			immunizationScoreList.add(getValidDateTimeScore(immunizations, patientDetails, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT)) {
+			immunizationScoreList.add(getValidDisplayNameScoreCard(immunizations, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+			immunizationScoreList.add(getValidImmunizationCodeScoreCard(immunizations, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+			immunizationScoreList.add(getNarrativeStructureIdScore(immunizations, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TEMPLATEID_DESC)) {
+			immunizationScoreList.add(getTemplateIdScore(immunizations, docType));
+		}
 		
 		immunizationCategory.setCategoryRubrics(immunizationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(immunizationScoreList, immunizationCategory);

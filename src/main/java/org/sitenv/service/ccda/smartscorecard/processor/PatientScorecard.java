@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.sitenv.ccdaparsing.model.CCDAPatient;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
@@ -14,14 +15,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class PatientScorecard {
 	
-	public Category getPatientCategory(CCDAPatient patient,String docType)
+	public Category getPatientCategory(CCDAPatient patient,String docType,List<SectionRule> sectionRules)
 	{
 		
 		Category patientCategory = new Category();
 		patientCategory.setCategoryName(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc());
+		
 		List<CCDAScoreCardRubrics> patientScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		patientScoreList.add(getDOBTimePrecisionScore(patient,docType));
-		patientScoreList.add(getLegalNameScore(patient,docType));
+		
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.PATIENT_DOB_REQUIREMENT)) {
+			patientScoreList.add(getDOBTimePrecisionScore(patient, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.PATIENT_LEGAL_NAME_REQUIREMENT)) {
+			patientScoreList.add(getLegalNameScore(patient, docType));
+		}
 		
 		patientCategory.setCategoryRubrics(patientScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(patientScoreList, patientCategory);

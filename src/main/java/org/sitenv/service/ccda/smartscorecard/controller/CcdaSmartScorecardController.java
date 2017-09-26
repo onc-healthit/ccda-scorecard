@@ -118,7 +118,7 @@ public class CcdaSmartScorecardController {
 					
 				}
 				List<Category> categoryList = new ArrayList<Category>();
-				categoryList.add(patientScorecard.getPatientCategory(ccdaModels.getPatient(),docType));
+				/*categoryList.add(patientScorecard.getPatientCategory(ccdaModels.getPatient(),docType));
 				categoryList.add(encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),patientDetails,docType));
 				categoryList.add(allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),patientDetails,docType));
 				categoryList.add(problemsScorecard.getProblemsCategory(ccdaModels.getProblem(),patientDetails,docType));
@@ -128,7 +128,7 @@ public class CcdaSmartScorecardController {
 				categoryList.add(labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),patientDetails,docType));
 				categoryList.add(vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),patientDetails,docType));
 				categoryList.add(procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),patientDetails,docType));
-				categoryList.add(miscScorecard.getMiscCategory(ccdaModels));
+				categoryList.add(miscScorecard.getMiscCategory(ccdaModels));*/
 				
 				results.setCategoryList(categoryList);
 				ApplicationUtil.calculateFinalGradeAndIssues(categoryList, results);

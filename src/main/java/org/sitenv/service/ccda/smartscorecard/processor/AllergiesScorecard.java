@@ -9,6 +9,7 @@ import org.sitenv.ccdaparsing.model.CCDAAllergyObs;
 import org.sitenv.ccdaparsing.model.CCDAAllergyReaction;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
@@ -23,7 +24,7 @@ public class AllergiesScorecard {
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
 	
-	public Category getAllergiesCategory(CCDAAllergy allergies, PatientDetails patientDetails,String docType)
+	public Category getAllergiesCategory(CCDAAllergy allergies, PatientDetails patientDetails,String docType, List<SectionRule> sectionRules)
 	{
 		if(allergies== null || allergies.isSectionNullFlavourWithNI())
 		{
@@ -33,14 +34,27 @@ public class AllergiesScorecard {
 		allergyCategory.setCategoryName(ApplicationConstants.CATEGORIES.ALLERGIES.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> allergyScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		allergyScoreList.add(getTimePrecisionScore(allergies,docType));
-		allergyScoreList.add(getValidDateTimeScore(allergies, patientDetails,docType));
-		allergyScoreList.add(getValidDisplayNameScoreCard(allergies,docType));
-		//allergyScoreList.add(getApprEffectivetimeScore(allergies,docType));
-		allergyScoreList.add(getApprStatusCodeScore(allergies,docType));
-		allergyScoreList.add(getNarrativeStructureIdScore(allergies,docType));
-		allergyScoreList.add(getTemplateIdScore(allergies,docType));
 		
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_PRECISION_REQUIREMENT)) {
+			allergyScoreList.add(getTimePrecisionScore(allergies, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_VALID_REQUIREMENT)) {
+			allergyScoreList.add(getValidDateTimeScore(allergies, patientDetails, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT)) {
+			allergyScoreList.add(getValidDisplayNameScoreCard(allergies, docType));
+		}
+		// allergyScoreList.add(getApprEffectivetimeScore(allergies,docType));
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.ALLERGIES_APR_TIME_REQ)) {
+			allergyScoreList.add(getApprStatusCodeScore(allergies, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+			allergyScoreList.add(getNarrativeStructureIdScore(allergies, docType));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TEMPLATEID_DESC)) {
+			allergyScoreList.add(getTemplateIdScore(allergies, docType));
+		}
+
 		allergyCategory.setCategoryRubrics(allergyScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(allergyScoreList,allergyCategory);
 		
