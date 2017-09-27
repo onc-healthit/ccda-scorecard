@@ -14,5 +14,5 @@ Save a backup of this completed configuration file
 	<Parameter name="scorecard.certificatinResultsCall" value="true" override="true"/>
 	<Parameter name="scorecard.igConformanceUrl" value="https://devccda.sitenv.org/referenceccdaservice/" override="true"/>
 	<Parameter name="scorecard.certificationResultsUrl" value="https://devccda.sitenv.org/referenceccdaservice/" override="true"/>
-	<Parameter name="scorecard.configFile" value="/Users/wil664/Development/Projects/Dragon/Docs/scorecardConfig.xml" override="true"/>
+	<Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
