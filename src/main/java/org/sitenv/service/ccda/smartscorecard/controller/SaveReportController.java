@@ -68,6 +68,7 @@ public class SaveReportController {
 	public static final String SAVE_REPORT_CHARSET_NAME = "UTF8";
 	private static final int CONFORMANCE_ERROR_INDEX = 0;
 	private static final int CERTIFICATION_FEEDBACK_INDEX = 1;
+	private static final boolean LOG_HTML = true;
 
 	/**
 	 * Converts received JSON to a ResponseTO POJO (via method signature
@@ -315,182 +316,42 @@ public class SaveReportController {
 	}
 	
 	private static void appendStyleSheet(StringBuffer sb) {
-		sb.append("<style>")
-		     .append("  .site-header {")
-		     .append("    background: url(\"https://sitenv.org/assets/images/site/bg-header-1920x170.png\") repeat-x center top #1fdbfe;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  .site-logo {")
-		     .append("    text-decoration: none;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  table {")
-		     .append("    font-family: arial, sans-serif;")
-		     .append("    border-collapse: separate;")
-		     .append("    width: 100%;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  td,")
-		     .append("  th {")
-		     .append("    border: 1px solid #dddddd;")
-		     .append("    text-align: left;")
-		     .append("    padding: 8px;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #dynamicTable {")
-		     .append("    border-collapse: collapse;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #dynamicTable tr:nth-child(even) {")
-		     .append("    background-color: #dddddd;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #staticTable {")
-		     .append("    font-size: 11px;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  .removeBorder {")
-		     .append("    border: none;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #notScoredRowPopOutLink {")
-		     .append("    border-top: 6px double MAGENTA;")
-		     .append("    border-bottom: none;")
-		     .append("    border-left: none;")
-		     .append("    border-right: none;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #perfectRowPopOutLink {")
-		     .append("    border-top: 6px double MEDIUMPURPLE;")
-		     .append("    border-bottom: none;")
-		     .append("    border-left: none;")
-		     .append("    border-right: none;")
-		     .append("  }  ")
-		     .append(System.lineSeparator())
-		     .append("  #gradePopOutLink {")
-		     .append("    border-left: 6px solid MEDIUMSEAGREEN;")
-		     .append("    border-right: none;")
-		     .append("    border-bottom: none;")
-		     .append("    border-top: none;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #issuePopOutLink {")
-		     .append("    border-left: 6px double orange;")
-		     .append("    border-right: 6px double orange;")
-		     .append("    border-bottom: none;")
-		     .append("    border-top: none;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #errorPopOutLink {")
-		     .append("    border-right: 6px solid red;")
-		     .append("    border-left: none;")
-		     .append("    border-bottom: none;")
-		     .append("    border-top: none;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #feedbackPopOutLink {")
-		     .append("    border-top: 6px double DEEPSKYBLUE;")
-		     .append("    border-bottom: none;")
-		     .append("    border-left: none;")
-		     .append("    border-right: none;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #notScoredRowPopOut {")
-		     .append("    border: 6px double MAGENTA;")
-		     .append("    border-radius: 0px 25px 25px 25px;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #perfectRowPopOut {")
-		     .append("    border: 6px double MEDIUMPURPLE;")
-		     .append("    border-radius: 25px 0px 25px 25px;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #gradePopOut {")
-		     .append("    border: 6px solid MEDIUMSEAGREEN;")
-		     .append("    border-radius: 25px 25px 25px 25px;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #issuePopOut {")
-		     .append("    border: 6px double orange;")
-		     .append("    border-radius: 25px 25px 0px 0px;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #errorPopOut {")
-		     .append("    border: 6px solid red;")
-		     .append("    border-radius: 25px 25px 25px 25px;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #feedbackPopOut {")
-		     .append("    border: 6px double DEEPSKYBLUE;")
-		     .append("    border-radius: 0px 25px 25px 25px;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #perfectRowLeftHeader {")
-		     .append("    border-left: 6px double MEDIUMPURPLE;")
-		     .append("    border-top: 6px double MEDIUMPURPLE;")
-		     .append("    border-bottom: 6px double MEDIUMPURPLE;")
-		     .append("  }")
-		     .append("  #perfectRowRightHeader {")
-		     .append("    border-right: 6px double MEDIUMPURPLE;")
-		     .append("    border-top: 6px double MEDIUMPURPLE;")
-		     .append("    border-bottom: 6px double MEDIUMPURPLE;")
-		     .append("  }")
-		     .append("  .perfectRowMiddleHeader {")
-		     .append("    border-top: 6px double MEDIUMPURPLE;")
-		     .append("    border-bottom: 6px double MEDIUMPURPLE;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #notScoredRowLeftHeader {")
-		     .append("    border-left: 6px double MAGENTA;")
-		     .append("    border-top: 6px double MAGENTA;")
-		     .append("    border-bottom: 6px double MAGENTA;")
-		     .append("  }")
-		     .append("  #notScoredRowRightHeader {")
-		     .append("    border-right: 6px double MAGENTA;")
-		     .append("    border-top: 6px double MAGENTA;")
-		     .append("    border-bottom: 6px double MAGENTA;")
-		     .append("  }")
-		     .append("  .notScoredRowMiddleHeader {")
-		     .append("    border-top: 6px double MAGENTA;")
-		     .append("    border-bottom: 6px double MAGENTA;")
-		     .append("  } ")
-		     .append(System.lineSeparator())
-		     .append("  #gradeHeader {")
-		     .append("    border: 6px solid MEDIUMSEAGREEN;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #issueHeader {")
-		     .append("    border: 6px double orange;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #errorHeader {")
-		     .append("    border: 6px solid red;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #feedbackHeader {")
-		     .append("    border: 6px double DEEPSKYBLUE;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #keyGradeHeader {")
-		     .append("    color: MEDIUMSEAGREEN;")
-		     .append("    font-weight: bold;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #keyIssueHeader {")
-		     .append("    color: orange;")
-		     .append("    font-weight: bold;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #keyErrorHeader {")
-		     .append("    color: red;")
-		     .append("    font-weight: bold;")
-		     .append("  }")
-		     .append(System.lineSeparator())
-		     .append("  #keyFeedbackHeader {")
-		     .append("    color: DEEPSKYBLUE;")
-		     .append("    font-weight: bold;")
-		     .append("  }")
-		     .append("</style>");
+		 sb.append("<style>" + 
+		 "     .site-header {    background: url('https://sitenv.org/assets/images/site/bg-header-1920x170.png') repeat-x center top #1fdbfe;  }  "  + 
+		 "     .site-logo {    text-decoration: none;  }  "  + 
+		 "     table {    font-family: arial, sans-serif;    border-collapse: separate;    width: 100%;  }  "  + 
+		 "     td,  th {    border: 1px solid #dddddd;    text-align: left;    padding: 8px;  }  "  + 
+		 "     #dynamicTable tr:nth-child(even) {    background-color: #dddddd;  }  "  + 
+		 "     #staticTable {    font-size: 11px;  }  "  + 
+		 "     .popOuts {    font-size: 11px;  background-color: ghostwhite !important;  }  "  + 
+		 "     .removeBorder {    border: none;    background-color: white;  }  "  + 
+		 "     #notScoredRowPopOutLink {    border-top: 6px double MAGENTA;    border-bottom: none;    border-left: none;    border-right: none;  }  "  + 
+		 "     #perfectRowPopOutLink {    border-top: 6px double MEDIUMPURPLE;    border-bottom: none;    border-left: none;    border-right: none;  }    "  + 
+		 "     #gradePopOutLink {    border-left: 6px solid MEDIUMSEAGREEN;    border-right: none;    border-bottom: none;    border-top: none;  }  "  + 
+		 "     #issuePopOutLink {    border-left: 6px double orange;    border-right: none;    border-bottom: none;    border-top: none;  }  "  + 
+		 "     #errorPopOutLink {    border-right: none;    border-left: 6px solid red;    border-bottom: none;    border-top: none;  }  "  + 
+		 "     #feedbackPopOutLink {    border-right: none;    border-left: 6px double DEEPSKYBLUE;    border-bottom: none;    border-top: none;  }  "  + 
+		 "     #notScoredRowPopOut {    border: 6px double MAGENTA;    border-radius: 0px 25px 25px 25px;  }  "  + 
+		 "     #perfectRowPopOut {    border: 6px double MEDIUMPURPLE;    border-radius: 25px 0px 25px 25px;  }  "  + 
+		 "     #gradePopOut {    border: 6px solid MEDIUMSEAGREEN;    border-radius: 25px 25px 25px 25px;  }  "  + 
+		 "     #issuePopOut {    border: 6px double orange;    border-radius: 25px 25px 25px 0px;  }  "  + 
+		 "     #errorPopOut {    border: 6px solid red;    border-radius: 25px 25px 25px 0px;  }  "  + 
+		 "     #feedbackPopOut {    border: 6px double DEEPSKYBLUE;    border-radius: 25px 25px 25px 0px;  }  "  + 
+		 "     #perfectRowLeftHeader {    border-left: 6px double MEDIUMPURPLE;    border-top: 6px double MEDIUMPURPLE;    border-bottom: 6px double MEDIUMPURPLE;  }  " + 
+		 "     #perfectRowRightHeader {    border-right: 6px double MEDIUMPURPLE;    border-top: 6px double MEDIUMPURPLE;    border-bottom: 6px double MEDIUMPURPLE;  }  " + 
+		 "     .perfectRowMiddleHeader {    border-top: 6px double MEDIUMPURPLE;    border-bottom: 6px double MEDIUMPURPLE;  }  "  + 
+		 "     #notScoredRowLeftHeader {    border-left: 6px double MAGENTA;    border-top: 6px double MAGENTA;    border-bottom: 6px double MAGENTA;  }  " + 
+		 "	   #notScoredRowRightHeader {    border-right: 6px double MAGENTA;    border-top: 6px double MAGENTA;    border-bottom: 6px double MAGENTA;  }  " + 
+		 "     .notScoredRowMiddleHeader {    border-top: 6px double MAGENTA;    border-bottom: 6px double MAGENTA;  }   "  + 
+		 "     #gradeHeader {    border: 6px solid MEDIUMSEAGREEN;  }  "  + 
+		 "     #issueHeader {    border: 6px double orange;  }  "  + 
+		 "     #errorHeader {    border: 6px solid red;  }  "  + 
+		 "     #feedbackHeader {    border: 6px double DEEPSKYBLUE;  }  "  + 
+		 "     #keyGradeHeader {    color: MEDIUMSEAGREEN;    font-weight: bold;  }  "  + 
+		 "     #keyIssueHeader {    color: orange;    font-weight: bold;  }  "  + 
+		 "     #keyErrorHeader {    color: red;    font-weight: bold;  }  "  + 
+		 "     #keyFeedbackHeader {    color: DEEPSKYBLUE;    font-weight: bold;  }  "  + 
+		 "    </style>  ");
 	}
 
 	private static void appendHeader(StringBuffer sb, ResponseTO report,
@@ -574,12 +435,11 @@ public class SaveReportController {
 		sb.append("</ul>");
 		
 	     sb.append("<p>")
-	     .append("The report has three sections. The first section contains the summary of ")
-	     .append("the C-CDA Scorecard results highlighting the overall document grade ")
-	     .append("compared to the industry, a quantitative score out of a maximum of 100. ")
-	     .append("The second section identifies areas for improvement organized by ")
-	     .append("clinical domains in a table. The third section contains a guide to help ")
-	     .append("the providers interpret the Scorecard results and take appropriate action.")
+	     .append("This page contains a summary of the C-CDA Scorecard results highlighting the overall document grade "
+	     		+ "which is derived from a quantitative score out of a maximum of 100. ")
+	     .append("</p>");
+	     sb.append("<p>")
+	     .append("The second and final page identifies areas for improvement organized by clinical domains.")
 	     .append("</p>");
 	}
 	
@@ -615,7 +475,7 @@ public class SaveReportController {
 					+ "</p>");
 			//dynamic table
 			appendHorizontalRuleWithBreaks(sb);
-			sb.append("<br />");			
+			sb.append("<br /><br />");
 			sb.append("<h2>Scorecard Results by Clinical Domain</h2>");
 			appendDynamicTopLevelResultsTable(sb, results, categories, referenceResults);
 		} else {		
@@ -709,14 +569,41 @@ public class SaveReportController {
 	
 	private static void appendDynamicTopLevelResultsTable(StringBuffer sb, Results results,
 			List<Category> categories, List<ReferenceResult> referenceResults) { 
-		sb.append("<table id='dynamicTable'>")
-		     .append("  <tr>")
-		     .append("    <th>Clinical Domain</th>")
-		     .append("    <th>Scorecard Grade</th>")
-		     .append("    <th>Scorecard Issues</th>")
-		     .append("    <th>Conformance Errors</th>")
-		     .append("    <th>Certification Feedback</th>")
-		     .append("  </tr>");				
+		sb.append("<table id='dynamicTable'>");
+		sb.append("   <tbody>");
+		sb.append("    <tr class=\"popOuts\">");
+		sb.append("      <td id=\"gradePopOut\" colspan=\"2\">");
+		sb.append("        The Scorecard grade is a quantitative assessment of the data quality of the submitted document. "
+				+ "A higher grade indicates that HL7 best practices for C-CDA implementation are being followed by the organization and "
+				+ "has higher probability of being interoperable with other organizations.");
+		sb.append("      </td>");
+		sb.append("      <td id=\"issuePopOut\">");
+		sb.append("        A Scorecard Issue identifies data within the document which can be represented in a better way using "
+				+ "HL7 best practices for C-CDA. This column should have numbers as close to zero as possible.");
+		sb.append("      </td>");
+		sb.append("      <td id=\"errorPopOut\">");
+		sb.append("        A Conformance Error implies that the document is non-compliant with the HL7 C-CDA IG requirements. "
+				+ "This column should have zeros ideally. Providers should work with their health IT vendor to rectify the errors.");
+		sb.append("      </td>");
+		sb.append("      <td id=\"feedbackPopOut\">");
+		sb.append("        A Certification Feedback result identifies areas where the generated documents are not compliant with "
+				+ "the requirements of 2015 Edition Certification. Ideally, this column should have all zeros.");
+		sb.append("      </td>");
+		sb.append("    </tr>");
+		sb.append("    <tr>");
+		sb.append("      <td class=\"removeBorder\"></td>");
+		sb.append("      <td class=\"removeBorder\" id=\"gradePopOutLink\"></td>");
+		sb.append("      <td class=\"removeBorder\" id=\"issuePopOutLink\"></td>");
+		sb.append("      <td class=\"removeBorder\" id=\"errorPopOutLink\"></td>");
+		sb.append("      <td class=\"removeBorder\" id=\"feedbackPopOutLink\"></td>");
+		sb.append("    </tr>    ");
+		sb.append("    <tr style=\"background-color: ghostwhite\">");
+		sb.append("     <th>Clinical Domain</th> ");
+		sb.append("     <th id=\"gradeHeader\">Scorecard Grade</th> ");
+		sb.append("     <th id=\"issueHeader\">Scorecard Issues</th> ");
+		sb.append("     <th id=\"errorHeader\">Conformance Errors</th> ");
+		sb.append("     <th id=\"feedbackHeader\">Certification Feedback</th> ");
+		sb.append("    </tr> ");				
 		for(Category category : getSortedCategories(categories)) {
 //			if(category.getNumberOfIssues() > 0 || referenceResults.get(ReferenceInstanceType.IG/CERT).getTotalErrorCount() > 0) {
 //			if(category.getNumberOfIssues() > 0 || category.isFailingConformance() || category.isCertificationFeedback()) {				
@@ -740,6 +627,7 @@ public class SaveReportController {
 		     .append("  </tr>");
 //			}
 		}
+		sb.append("   <tbody>");
 		sb.append("</table>");
 	}
 	
@@ -1259,7 +1147,9 @@ public class SaveReportController {
 					e.printStackTrace();
 				}
 			}
-//			ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
+			if(LOG_HTML) {
+				ApplicationUtil.debugLog("cleanHtmlReport", cleanHtmlReport);
+			}
 		}
 	}
 	
