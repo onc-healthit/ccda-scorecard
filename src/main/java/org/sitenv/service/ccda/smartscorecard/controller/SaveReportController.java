@@ -420,8 +420,9 @@ public class SaveReportController {
 		sb.append("<p>If you are not satisfied with your results:</p>");
 		sb.append("<ul>");
 			sb.append("<li>");
-				sb.append("Please ask your vendor to de-identify your C-CDA document and submit it to the SITE C-CDA Scorecard tool "
-						+ "located at " + "<a href=\"https://sitenv.org/scorecard/\">" + "https://sitenv.org/scorecard/" + "</a>");
+				sb.append("Please ask your vendor to submit the document to the SITE C-CDA Scorecard website "
+						+ " at " + "<a href=\"https://healthit.gov/scorecard/\">" + "www.healthit.gov/scorecard" + "</a>"
+						+ " for more detailed information");
 			sb.append("</li>");
 			sb.append("<li>");
 				sb.append("Using the results provided by the online tool, "
