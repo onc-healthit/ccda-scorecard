@@ -14,6 +14,7 @@ public class Results {
 	private long numberOfDocumentsScored;
 	private String docType;
 	private Boolean passedCertification;
+	private long numberOfDocsScoredPerCcdaDocumentType;
 		
 	public String getFinalGrade() {
 		return finalGrade;
@@ -74,5 +75,11 @@ public class Results {
 	}
 	public void setPassedCertification(Boolean passedCertification) {
 		this.passedCertification = passedCertification;
+	}
+	public long getNumberOfDocsScoredPerCcdaDocumentType() {
+		return numberOfDocsScoredPerCcdaDocumentType;
+	}
+	public void setNumberOfDocsScoredPerCcdaDocumentType(long numberOfDocsScoredPerCcdaDocumentType) {
+		this.numberOfDocsScoredPerCcdaDocumentType = numberOfDocsScoredPerCcdaDocumentType;		
 	}
 }

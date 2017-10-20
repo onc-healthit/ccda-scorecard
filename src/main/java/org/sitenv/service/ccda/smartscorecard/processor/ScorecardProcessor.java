@@ -304,9 +304,16 @@ public class ScorecardProcessor {
 			ApplicationUtil.calculateFinalGradeAndIssues(categoryList, results);
 			results.setIgReferenceUrl(ApplicationConstants.IG_URL);
 			results.setDocType(docType);
-			scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename(),isOneClickScorecard);
+			String ccdaDocumentType = "Unknown";
+			if(!ApplicationUtil.isEmpty(scorecardResponse.getCcdaDocumentType()))
+			{
+				ccdaDocumentType = scorecardResponse.getCcdaDocumentType();
+			}
+			scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename(),isOneClickScorecard,ccdaDocumentType);					
 			results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage(isOneClickScorecard));
 			results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored(isOneClickScorecard));
+			results.setNumberOfDocsScoredPerCcdaDocumentType(
+					scoreCardStatisticProcessor.numberOfDocsScoredPerCcdaDocumentType(ccdaDocumentType,isOneClickScorecard));
 			if(results.getIndustryAverageScore() != 0)
 			{
 				results.setIndustryAverageGrade(ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScore()));

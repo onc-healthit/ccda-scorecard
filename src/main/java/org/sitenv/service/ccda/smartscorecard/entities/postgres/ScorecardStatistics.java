@@ -100,6 +100,9 @@ public class ScorecardStatistics {
 	
 	@Column(name = "miscissues")
     private int miscIssues;
+	
+	@Column(name = "ccdadocumenttype")
+	private String ccdaDocumentType;
 
 
 	public String getDoctype() {
@@ -325,4 +328,12 @@ public class ScorecardStatistics {
 	public void setMiscIssues(int miscIssues) {
 		this.miscIssues = miscIssues;
 	}
+	
+	public String getCcdaDocumentType() {
+		return ccdaDocumentType;
+	}
+	
+	public void setCcdaDocumentType(String ccdaDocumentType) {
+		this.ccdaDocumentType = ccdaDocumentType;
+	}	
 }
