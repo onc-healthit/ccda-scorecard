@@ -472,6 +472,7 @@ public class SaveReportController {
 					+ " and is "
 					+ (certificationFeedbackCount > 0 ? "non-compliant" : "compliant")
 					+ " with 2015 Edition Certification requirements. "
+					+ "The total number of " + ccdaDocumentType + "s scored is " + results.getNumberOfDocsScoredPerCcdaDocumentType()  + ". "
 					+ "The detailed results organized by clinical domains are provided in the table below:"
 					+ "</p>");
 			//dynamic table
