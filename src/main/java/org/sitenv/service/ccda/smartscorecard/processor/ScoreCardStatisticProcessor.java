@@ -1,6 +1,9 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
-import org.sitenv.ccdaparsing.model.UsrhSubType;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
+
 import org.sitenv.service.ccda.smartscorecard.entities.postgres.ScorecardStatistics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
@@ -107,6 +110,16 @@ public class ScoreCardStatisticProcessor {
 	public long numberOfDocsScoredPerCcdaDocumentType(String ccdaDocumentType,boolean isOneClickScorecard)
 	{
 		return statisticsRepository.findCountOfDocsScoredPerCcdaDocumentType(ccdaDocumentType, isOneClickScorecard);
+	}
+	
+	public List<ScorecardStatistics> getAllRecords()
+	{
+		return statisticsRepository.findAll();
+	}
+	
+	public List<ScorecardStatistics> getAllRecordsForDateRange(Timestamp fromDate, Timestamp toDate)
+	{
+		return statisticsRepository.findByDateRange(fromDate,toDate);
 	}
 
 }

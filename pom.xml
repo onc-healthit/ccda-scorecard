@@ -27,6 +27,13 @@
 	</repositories>
 
 		<dependencies>
+		
+			<!--dependency for excel generator  -->
+			<dependency>
+    			<groupId>org.apache.poi</groupId>
+    			<artifactId>poi</artifactId>
+    			<version>3.17</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.apache.commons</groupId>
@@ -175,7 +182,6 @@
 				<artifactId>spring-test</artifactId>
 				<version>2.5</version>
 			</dependency>
-
 		</dependencies>
 
 

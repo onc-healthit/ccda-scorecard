@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -16,6 +20,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.ccdaparsing.model.UsrhSubType;
 import org.sitenv.ccdaparsing.service.CCDAParserAPI;
@@ -100,7 +105,10 @@ public class ScorecardProcessor {
 	
 	@Autowired
 	@Qualifier("scorecardConfigurationLoader")
-	ScorecardConfigurationLoader ScorecardConfigurationLoader;
+	ScorecardConfigurationLoader scorecardConfigurationLoader;
+	
+	@Autowired
+	ScorecardExcelGenerator scorecardExcelGenerator;
 	
 	private static final Logger logger = Logger.getLogger(ScorecardProcessor.class);
 	
@@ -123,8 +131,8 @@ public class ScorecardProcessor {
 			scorecardResponse.setFilename(ccdaFile.getOriginalFilename());
 			boolean ccdaModelsIsEmpty = ccdaModels.isEmpty();
 			
-			if(ScorecardConfigurationLoader!=null && ScorecardConfigurationLoader.getConfigurations()!=null){
-				scorecardSections = ScorecardConfigurationLoader.getConfigurations().getScorecardSections();
+			if(scorecardConfigurationLoader!=null && scorecardConfigurationLoader.getConfigurations()!=null){
+				scorecardSections = scorecardConfigurationLoader.getConfigurations().getScorecardSections();
 			}
 			if(!ccdaModelsIsEmpty && ccdaModels.getUsrhSubType() != null) 
 			{
@@ -522,6 +530,28 @@ public class ScorecardProcessor {
 		}
 	}
 	
+	
+	public HSSFWorkbook generateScorecardData(String fromDate, String toDate) throws IOException, ParseException {
+		if(fromDate!=null && toDate!= null){
+			if(ApplicationUtil.validateDatesForExcelGeneration(fromDate, toDate)){
+				return scorecardExcelGenerator.exportToExcel(scoreCardStatisticProcessor.
+						getAllRecordsForDateRange(Timestamp.valueOf(fromDate + " 00:00:00"), Timestamp.valueOf(toDate + " 23:59:59")));
+			}else{
+				throw new IllegalArgumentException("Invalid Fromdate and Todate values");
+			}
+		}else if (fromDate!= null){
+			String currentDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+			if(ApplicationUtil.validateFromDateForExcelGeneration(fromDate)){
+				return scorecardExcelGenerator.exportToExcel(scoreCardStatisticProcessor.
+						getAllRecordsForDateRange(Timestamp.valueOf(fromDate + " 00:00:00"), Timestamp.valueOf(currentDate + " 23:59:59")));
+			}else{
+				throw new IllegalArgumentException("Invalid Fromdate value");
+			}
+		}else{
+			return scorecardExcelGenerator.exportToExcel(scoreCardStatisticProcessor.getAllRecords());
+		}
+	}
+	
 	private static void removeExcessResults(ValidationResultsDto results, ReferenceInstanceType referenceInstanceType) {
 		if(referenceInstanceType == null) return;
 		for (Iterator<ReferenceError> errorIterator = results
@@ -580,7 +610,6 @@ public class ScorecardProcessor {
 				+ "This is a programmer error since it should have been specified as an argument "
 				+ "and should not make it to production as is.");
 	}
-		
 }
 
 class NullReferenceInstanceTypeArgumentException extends RuntimeException {

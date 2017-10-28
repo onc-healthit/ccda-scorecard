@@ -134,6 +134,11 @@ public class ApplicationUtil {
 		return value;
 	}
 	
+	public static boolean isExtensionPresent(CCDAII templateId)
+	{
+		return templateId!= null && templateId.getExtValue()!= null;
+	}
+	
 	public static boolean isRootAndExtensionPresent(CCDAII templateId)
 	{
 		return templateId!=null && templateId.getExtValue()!=null && templateId.getRootValue()!=null;
@@ -170,6 +175,43 @@ public class ApplicationUtil {
 		Date d  = convertStringToDate(date,getFormat(date));
 			return  new Timestamp(d.getTime());
 			
+	}
+	
+	public static boolean validateDatesForExcelGeneration(String stringFromDate, String stringToDate){
+		String dateFormat = "yyyy-MM-dd";
+		try {
+			Date fromDate = convertStringToDate(stringFromDate,dateFormat);
+			Date toDate = convertStringToDate(stringToDate,dateFormat);
+			Date currentDate = new Date();
+			if((fromDate.equals(toDate) || fromDate.before(toDate)) && (toDate.equals(currentDate) || toDate.before(currentDate))){
+				return true;
+			}
+		} catch (ParseException e) {
+			return false;
+		}
+		return false;
+		
+	}
+	
+	public static boolean validateFromDateForExcelGeneration(String stringFromDate){
+		String dateFormat = "yyyy-MM-dd";
+		try {
+			Date fromDate = convertStringToDate(stringFromDate,dateFormat);
+			Date currentDate = new Date();
+			if(fromDate.equals(currentDate) || fromDate.before(currentDate)){
+				return true;
+			}
+		} catch (ParseException e) {
+			return false;
+		}
+		return false;
+		
+	}
+	
+	public static java.sql.Date convertStringToSqlDate(String stringDate) throws ParseException{
+		String dateFormat = "yyyy-MM-dd";
+		Date utilDate = convertStringToDate(stringDate,dateFormat);
+		return new java.sql.Date(utilDate.getTime());
 	}
 	
 	public static boolean validateDate(String date)
@@ -1073,79 +1115,9 @@ public class ApplicationUtil {
 	{
 		String docType = "";
 		
-		if(ccdaModels.getAllergy()!=null && !ccdaModels.getAllergy().isSectionNullFlavourWithNI())
+		if(ccdaModels!=null)
 		{
-			if(isExtensionPresent(ccdaModels.getAllergy().getSectionTemplateId()))
-			{
-				docType = "R2.1";
-			}else
-			{
-				docType = "R1.1";
-			}
-		}
-		else if(ccdaModels.getEncounter()!=null && !ccdaModels.getEncounter().isSectionNullFlavourWithNI())
-		{
-			if(isExtensionPresent(ccdaModels.getEncounter().getTemplateId()))
-			{
-				docType = "R2.1";
-			}else
-			{
-				docType = "R1.1";
-			}
-		}
-		else if(ccdaModels.getMedication()!=null && !ccdaModels.getMedication().isSectionNullFlavourWithNI())
-		{
-			if(isExtensionPresent(ccdaModels.getMedication().getTemplateIds()))
-			{
-				docType = "R2.1";
-			}else
-			{
-				docType = "R1.1";
-			}
-		}
-		else if(ccdaModels.getImmunization()!=null && !ccdaModels.getImmunization().isSectionNullFlavourWithNI())
-		{
-			if(isExtensionPresent(ccdaModels.getImmunization().getTemplateIds()))
-			{
-				docType = "R2.1";
-			}else
-			{
-				docType = "R1.1";
-			}
-		}
-		else if(ccdaModels.getProblem()!=null && !ccdaModels.getProblem().isSectionNullFlavourWithNI())
-		{
-			if(isExtensionPresent(ccdaModels.getProblem().getSectionTemplateId()))
-			{
-				docType = "R2.1";
-			}else
-			{
-				docType = "R1.1";
-			}
-		}
-		else if(ccdaModels.getProcedure()!=null && !ccdaModels.getProcedure().isSectionNullFlavourWithNI())
-		{
-			if(isExtensionPresent(ccdaModels.getProcedure().getSectionTemplateId()))
-			{
-				docType = "R2.1";
-			}else
-			{
-				docType = "R1.1";
-			}
-		}
-		else if(ccdaModels.getVitalSigns()!=null && !ccdaModels.getVitalSigns().isSectionNullFlavourWithNI())
-		{
-			if(isExtensionPresent(ccdaModels.getVitalSigns().getTemplateIds()))
-			{
-				docType = "R2.1";
-			}else
-			{
-				docType = "R1.1";
-			}
-		}
-		else if(ccdaModels.getSmokingStatus()!=null && !ccdaModels.getSmokingStatus().isSectionNullFlavourWithNI())
-		{
-			if(isExtensionPresent(ccdaModels.getSmokingStatus().getSectionTemplateIds()))
+			if(isExtensionPresent(ccdaModels.getDocTemplateId()))
 			{
 				docType = "R2.1";
 			}else
