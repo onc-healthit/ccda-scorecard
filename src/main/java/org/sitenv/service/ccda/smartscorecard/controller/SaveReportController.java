@@ -463,8 +463,10 @@ public class SaveReportController {
 			//brief summary of overall document results (without scorecard issues count listed)
 			sb.append("<h3>Summary</h3>");
 			sb.append("<p>"
-					+ "Your " + ccdaDocumentType + " document received a grade of <b>" + results.getFinalGrade() + "</b>"
+					//+ "Your " + ccdaDocumentType + " document received a grade of <b>" + results.getFinalGrade() + "</b>"
+					+ "Your C-CDA document received a grade of <b>" + results.getFinalGrade() + "</b>"
 					+ " compared to an industry average of " + "<b>" + results.getIndustryAverageGrade() + "</b>" + ". "
+					+ "The industry average was computed by scoring " + results.getNumberOfDocumentsScored() + " C-CDAs. "
 					+ "The document scored " + "<b>" + results.getFinalNumericalGrade() + "/100" + "</b>"
 					+ " and is "
 					+ (conformanceErrorCount > 0 ? "non-compliant" : "compliant")
@@ -472,7 +474,6 @@ public class SaveReportController {
 					+ " and is "
 					+ (certificationFeedbackCount > 0 ? "non-compliant" : "compliant")
 					+ " with 2015 Edition Certification requirements. "
-					+ "The total number of " + ccdaDocumentType + "s scored is " + results.getNumberOfDocsScoredPerCcdaDocumentType()  + ". "
 					+ "The detailed results organized by clinical domains are provided in the table below:"
 					+ "</p>");
 			//dynamic table
