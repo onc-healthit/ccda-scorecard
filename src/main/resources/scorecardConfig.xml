@@ -27,8 +27,9 @@
 		<sectionRule ruleId="I1" ruleName="EffectiveDate/Time elements have the right time and timezone offsets" ruleEnabled="true"></sectionRule>
 		<sectionRule ruleId="I2" ruleName="EffectiveDate/Times for all historical activities should be within the lifespan on the patient" ruleEnabled="true"> </sectionRule>
 		<sectionRule ruleId="I3" ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"> </sectionRule>
-		<sectionRule ruleId="I4" ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>
-		<sectionRule ruleId="I5" ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>				
+		<sectionRule ruleId="I4" ruleName="Immunizations coded with CVX codes" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleId="I5" ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleId="I6" ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>				
 	</scorecardSection>
 	
 	<scorecardSection sectionName="Social History">
@@ -87,6 +88,10 @@
 		<sectionRule ruleId="O1" ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"></sectionRule>		      
 		<sectionRule ruleId="O2" ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>	
 		<sectionRule ruleId="O3" ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>
+	</scorecardSection>
+	
+	<scorecardSection sectionName="Miscellaneous">		
+		<sectionRule ruleId="C1" ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"></sectionRule>		      
 	</scorecardSection>
 
 </configurations>

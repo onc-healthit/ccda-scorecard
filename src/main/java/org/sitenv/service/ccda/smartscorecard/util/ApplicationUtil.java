@@ -1140,6 +1140,17 @@ public class ApplicationUtil {
 		return isRuleEnabled;
 	}
 	
+	public static boolean isRuleEnabled(List<SectionRule> sectionRules, ApplicationConstants.RULE_IDS ruleId) {
+		boolean isRuleEnabled = false;
+		for (SectionRule sectionRule : sectionRules) {
+			if (sectionRule.getRuleId().equalsIgnoreCase(ruleId.toString()) && sectionRule.isRuleEnabled()) {
+				isRuleEnabled = true;
+				break;
+			}
+		}
+		return isRuleEnabled;
+	}
+	
 	public static List<SectionRule> getSectionRules(List<ScorecardSection> sectionList, String sectionName) {
 		List<SectionRule> sectionRules=null;
 		for (ScorecardSection section : sectionList) {

@@ -38,28 +38,28 @@ public class VitalsScorecard {
 		
 		List<CCDAScoreCardRubrics> vitalsScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_PRECISION_REQUIREMENT)) {
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V1)) {
 			vitalsScoreList.add(getTimePrecisionScore(vitals, docType));
 		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_VALID_REQUIREMENT)) {
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V2)) {
 			vitalsScoreList.add(getValidDateTimeScore(vitals, patientDetails, docType));
 		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT)) {
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V3)) {
 			vitalsScoreList.add(getValidDisplayNameScoreCard(vitals, docType));
 		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.VITAL_LOINC_REQUIREMENT)) {
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V4)) {
 			vitalsScoreList.add(getValidLoincCodesScore(vitals, docType));
 		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.VITAL_UCUM_REQUIREMENT)) {
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V5)) {
 			vitalsScoreList.add(getValidUCUMScore(vitals, docType));
 		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.VITAL_AAPR_DATE_REQUIREMENT)) {
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V6)) {
 			vitalsScoreList.add(getApprEffectivetimeScore(vitals, docType));
 		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V7)) {
 			vitalsScoreList.add(getNarrativeStructureIdScore(vitals, docType));
 		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TEMPLATEID_DESC)) {
+		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V8)) {
 			vitalsScoreList.add(getTemplateIdScore(vitals, docType));
 		}
 		

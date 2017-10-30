@@ -47,7 +47,7 @@ public class MiscScorecard {
 		miscCategory.setCategoryName(ApplicationConstants.CATEGORIES.MISC.getCategoryDesc());
 		
 		List<CCDAScoreCardRubrics> miscScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.UNIQUEID_REQ)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.C1)) {
 			miscScoreList.add(getUniqueIdScore(ccdaModels));
 		}
 		miscCategory.setCategoryRubrics(miscScoreList);

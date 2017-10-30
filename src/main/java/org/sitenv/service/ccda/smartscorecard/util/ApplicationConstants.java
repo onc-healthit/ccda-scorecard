@@ -503,4 +503,13 @@ public class ApplicationConstants {
 			return validationObjective;
 		}
 	}
+	
+	public static enum RULE_IDS
+	{
+		P1,P2,E1,E2,E3,E4,E5,M1,M2,M3,M4,M5,M6,M7,M8,I1,I2,I3,I4,I5,I6,S1,S2,S3,S4,S5,S6,S7,S8,
+		L1,L2,L3,L4,L5,L6,L7,L8,V1,V2,V3,V4,V5,V6,V7,V8,R1,R2,R3,R4,R5,R6,R7,A1,A2,A3,A4,A5,A6,O1,O2,O3,C1
+		
+	}
+	
+	
 }
