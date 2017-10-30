@@ -293,8 +293,7 @@ public class SaveReportController {
 			} else {
 				// report.getResults() == null
 				if (!report.isSuccess()) {
-					appendErrorMessageFromReport(sb, report,
-							ApplicationConstants.ErrorMessages.IS_SUCCESS_FALSE);
+					appendErrorMessageFromReport(sb, report, null);
 				} else {
 					appendErrorMessageFromReport(sb, report);
 				}
@@ -1060,9 +1059,12 @@ public class SaveReportController {
 			ResponseTO report, String extraMessage) {
 		if (report.getErrorMessage() != null
 				&& !report.getErrorMessage().isEmpty()) {
-			appendErrorMessage(sb, report.getErrorMessage());
-			if(report.getSchemaErrorList() != null && !report.getSchemaErrorList().isEmpty()) {
-				sb.append("<h3>" + ApplicationConstants.ErrorMessages.SCHEMA_ERRORS_GENERIC_PART2 + "</h3>");
+			boolean hasSchemaErrors = report.getSchemaErrorList() != null && !report.getSchemaErrorList().isEmpty();
+			if(!hasSchemaErrors) {
+				appendErrorMessage(sb, report.getErrorMessage());
+			} else {
+				sb.append("<h3>" + ApplicationConstants.ErrorMessages.ONE_CLICK_SCHEMA_MESSAGE_PART1 + "</h3>");
+				sb.append("<h3>" + ApplicationConstants.ErrorMessages.ONE_CLICK_SCHEMA_MESSAGE_PART2 + "</h3>");
 				final String noData = "No data available";
 				sb.append("<ol style='color:red'>");
 				for(ReferenceError schemaError : report.getSchemaErrorList()) {
@@ -1228,11 +1230,11 @@ public class SaveReportController {
 	
 	public static void main(String[] args) {
 		String[] filenames = {"highScoringSample", "lowScoringSample", "sampleWithErrors", 
-				"sampleWithSchemaErrors"};
+				"sampleWithSchemaErrors", "sampleWithoutAnyContent"};
 		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2, 
-				SAMPLE_WITH_SCHEMA_ERRORS = 3;
+				SAMPLE_WITH_SCHEMA_ERRORS = 3, SAMPLE_WITHOUT_ANY_CONTENT = 4;
 		try {
-			buildReportUsingJSONFromLocalFile(filenames[HIGH_SCORING_SAMPLE], SaveReportType.SUMMARY);
+			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.SUMMARY);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}

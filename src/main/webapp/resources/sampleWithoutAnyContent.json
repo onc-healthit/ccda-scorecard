@@ -1,0 +1,10 @@
+{
+    "errorMessage": "Given C-CDA document is empty or invalid. Please upload a valid C-CDA Document.",
+    "filename": "sampleWithoutAnyContent.xml",
+    "ccdaDocumentType": null,
+    "results": null,
+    "referenceResults": [],
+    "schemaErrorList": null,
+    "schemaErrors": false,
+    "success": false
+}
