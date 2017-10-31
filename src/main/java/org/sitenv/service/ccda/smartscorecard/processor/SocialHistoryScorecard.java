@@ -34,28 +34,28 @@ public class SocialHistoryScorecard {
 		
 		List<CCDAScoreCardRubrics> socialHistoryScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_PRECISION_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.S1)) {
 			socialHistoryScoreList.add(getTimePrecisionScore(socialHistory, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_VALID_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.S2)) {
 			socialHistoryScoreList.add(getValidDateTimeScore(socialHistory, patientDetails, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.S3)) {
 			socialHistoryScoreList.add(getValidDisplayNameScoreCard(socialHistory, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.SOCIALHISTORY_SMOKING_STATUS_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.S4)) {
 			socialHistoryScoreList.add(getValidSmokingStatusScore(socialHistory, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.SOCIALHISTORY_SMOKING_STATUS_OBS_ID_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.S5)) {
 			socialHistoryScoreList.add(getValidSmokingStatuIdScore(socialHistory, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.SOCIALHISTORY_GENDER_OBS_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.S6)) {
 			socialHistoryScoreList.add(getValidGenderObsScore(socialHistory, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.S7)) {
 			socialHistoryScoreList.add(getNarrativeStructureIdScore(socialHistory, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TEMPLATEID_DESC)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.S8)) {
 			socialHistoryScoreList.add(getTemplateIdScore(socialHistory, docType));
 		}
 		

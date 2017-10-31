@@ -35,27 +35,27 @@ public class ProblemsScorecard {
 		
 		List<CCDAScoreCardRubrics> problemsScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_PRECISION_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R1)) {
 			problemsScoreList.add(getTimePrecisionScore(problems, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_VALID_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R2)) {
 			problemsScoreList.add(getValidDateTimeScore(problems, patientDetails, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R3)) {
 			problemsScoreList.add(getValidDisplayNameScoreCard(problems, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.PROBLEMS_CODE_LOINC_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R4)) {
 			problemsScoreList.add(getValidProblemCodeScoreCard(problems, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.PROBLEM_APR_TIME_REQ)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R5)) {
 			problemsScoreList.add(getValidStatusCodeScoreCard(problems, docType));
 		}
 		// problemsScoreList.add(getApprStatusCodeScore(problems,docType));
 		// problemsScoreList.add(getApprEffectivetimeScore(problems,docType));
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R6)) {
 			problemsScoreList.add(getNarrativeStructureIdScore(problems, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TEMPLATEID_DESC)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R7)) {
 			problemsScoreList.add(getTemplateIdScore(problems, docType));
 		}
 		

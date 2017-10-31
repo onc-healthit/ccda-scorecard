@@ -35,23 +35,23 @@ public class AllergiesScorecard {
 		
 		List<CCDAScoreCardRubrics> allergyScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_PRECISION_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.A1)) {
 			allergyScoreList.add(getTimePrecisionScore(allergies, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TIME_VALID_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.A2)) {
 			allergyScoreList.add(getValidDateTimeScore(allergies, patientDetails, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.A3)) {
 			allergyScoreList.add(getValidDisplayNameScoreCard(allergies, docType));
 		}
 		// allergyScoreList.add(getApprEffectivetimeScore(allergies,docType));
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.ALLERGIES_APR_TIME_REQ)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.A4)) {
 			allergyScoreList.add(getApprStatusCodeScore(allergies, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.A5)) {
 			allergyScoreList.add(getNarrativeStructureIdScore(allergies, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.TEMPLATEID_DESC)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.A6)) {
 			allergyScoreList.add(getTemplateIdScore(allergies, docType));
 		}
 
