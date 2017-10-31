@@ -91,7 +91,7 @@
 	</scorecardSection>
 	
 	<scorecardSection sectionName="Miscellaneous">		
-		<sectionRule ruleId="C1" ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"></sectionRule>		      
+		<sectionRule ruleId="C1" ruleName="Generally, the identifiers found within a CDA document should be unique and non-reoccurring within the same document" ruleEnabled="true"></sectionRule>		      
 	</scorecardSection>
 
 </configurations>
