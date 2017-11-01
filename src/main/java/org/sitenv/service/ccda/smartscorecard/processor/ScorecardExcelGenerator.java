@@ -242,49 +242,71 @@ public class ScorecardExcelGenerator {
 				cell.setCellStyle(cellStyle);
 				cell.setCellValue(excelRow.getMiscScore());
 				
-				cell = row.createCell(17);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getPatientIssues());
+				if(excelRow.getPatientIssues()!= null){
+					cell = row.createCell(17);
+					cell.setCellStyle(cellStyle);
+					cell.setCellValue(excelRow.getPatientIssues());
+				}
 				
-				cell = row.createCell(18);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getAllergiesSectionIssues());
+				if(excelRow.getAllergiesSectionIssues()!= null){
+					cell = row.createCell(18);
+					cell.setCellStyle(cellStyle);
+					cell.setCellValue(excelRow.getAllergiesSectionIssues());
+				}
 				
-				cell = row.createCell(19);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getEncountersSectionIssues());
+				if(excelRow.getEncountersSectionIssues()!= null){
+					cell = row.createCell(19);
+					cell.setCellStyle(cellStyle);
+					cell.setCellValue(excelRow.getEncountersSectionIssues());
+				}
 				
-				cell = row.createCell(20);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getImmunizationsSectionIssues());
+				if(excelRow.getImmunizationsSectionIssues()!= null){
+					cell = row.createCell(20);
+					cell.setCellStyle(cellStyle);
+					cell.setCellValue(excelRow.getImmunizationsSectionIssues());
+				}
 				
-				cell = row.createCell(21);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getMedicationsSectionIssues());
+				if(excelRow.getMedicationsSectionIssues()!= null){
+					cell = row.createCell(21);
+					cell.setCellStyle(cellStyle);
+					cell.setCellValue(excelRow.getMedicationsSectionIssues());
+				}
 				
-				cell = row.createCell(22);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getProblemsSectionIssues());
+				if(excelRow.getProblemsSectionIssues()!= null){
+					cell = row.createCell(22);
+					cell.setCellStyle(cellStyle);
+					cell.setCellValue(excelRow.getProblemsSectionIssues());
+				}
 				
-				cell = row.createCell(23);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getProceduresSectionIssues());
+				if(excelRow.getProceduresSectionIssues()!= null){
+					cell = row.createCell(23);
+					cell.setCellStyle(cellStyle);
+					cell.setCellValue(excelRow.getProceduresSectionIssues());
+				}
 				
-				cell = row.createCell(24);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getSocialhistorySectionIssues());
+				if(excelRow.getSocialhistorySectionIssues()!= null){
+					cell = row.createCell(24);
+					cell.setCellStyle(cellStyle);
+					cell.setCellValue(excelRow.getSocialhistorySectionIssues());
+				}
 				
-				cell = row.createCell(25);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getVitalsSectionIssues());
+				if(excelRow.getVitalsSectionIssues()!= null){
+					cell = row.createCell(25);
+					cell.setCellStyle(cellStyle);
+					cell.setCellValue(excelRow.getVitalsSectionIssues());
+				}
 				
-				cell = row.createCell(26);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getResultsSectionIssues());
+				if(excelRow.getResultsSectionIssues()!= null){
+					cell = row.createCell(26);
+					cell.setCellStyle(cellStyle);
+					cell.setCellValue(excelRow.getResultsSectionIssues());
+				}
 				
-				cell = row.createCell(27);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getMiscIssues());
+				if(excelRow.getMiscIssues()!= null){
+					cell = row.createCell(27);
+					cell.setCellStyle(cellStyle);
+					cell.setCellValue(excelRow.getMiscIssues());
+				}
 				
 			}
 		}
