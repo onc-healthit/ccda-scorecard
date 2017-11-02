@@ -364,9 +364,12 @@ public class ApplicationConstants {
 				+ "urn:hl7ii:2.16.840.1.113883.10.20.22.1.10. The C-CDA Scorecard tool does not score this document type. "
 				+ "Please try submitting another document type for review such as a Continuity of Care Document, Care Plan, etc.";
 		public static final String SCHEMA_ERRORS_GENERIC = "HL7 CDA Schema Errors must be addressed before a score can be provided.";
-		public static final String SCHEMA_ERRORS_GENERIC_PART2 = "Please provide the results below to your vendor for a resolution. "
-				+ "Once the schema errors in your document are fixed, "
-				+ "it can be resubmitted to the ONC One Click Scorecard for a full report.";
+		public static final String ONE_CLICK_SCHEMA_MESSAGE_PART1 = "The document was not scored because it is not conformant "
+				+ "to the expected format specified by the HL7 C-CDA Implementation Guide. "
+				+ "You are advised to provide this report to your Health IT vendor for resolution. "
+				+ "Once the document is conformant to the expected format, you can resubmit the document for a score.";
+		public static final String ONE_CLICK_SCHEMA_MESSAGE_PART2 = "The following messages provide more specific information "
+				+ "about the non-conformant document:";
 	}
 
 	public static enum IG_REFERENCES
@@ -503,4 +506,13 @@ public class ApplicationConstants {
 			return validationObjective;
 		}
 	}
+	
+	public static enum RULE_IDS
+	{
+		P1,P2,E1,E2,E3,E4,E5,M1,M2,M3,M4,M5,M6,M7,M8,I1,I2,I3,I4,I5,I6,S1,S2,S3,S4,S5,S6,S7,S8,
+		L1,L2,L3,L4,L5,L6,L7,L8,V1,V2,V3,V4,V5,V6,V7,V8,R1,R2,R3,R4,R5,R6,R7,A1,A2,A3,A4,A5,A6,O1,O2,O3,C1
+		
+	}
+	
+	
 }

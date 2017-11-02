@@ -69,37 +69,40 @@ public class ScorecardStatistics {
 	private boolean oneClickScorecard;
 	
 	@Column(name = "patientissues")
-    private int patientIssues;
+    private Integer patientIssues;
 	
 	@Column(name = "allergiessectionissues")
-    private int allergiesSectionIssues;
+    private Integer allergiesSectionIssues;
 	
 	@Column(name = "encounterssectionissues")
-    private int encountersSectionIssues;
+    private Integer encountersSectionIssues;
 	
 	@Column(name = "immunizationssectionissues")
-    private int immunizationsSectionIssues;
+    private Integer immunizationsSectionIssues;
 	
 	@Column(name = "medicationssectionissues")
-    private int medicationsSectionIssues;
+    private Integer medicationsSectionIssues;
 	
 	@Column(name = "problemssectionissues")
-    private int problemsSectionIssues;
+    private Integer problemsSectionIssues;
 	
 	@Column(name = "proceduressectionissues")
-    private int proceduresSectionIssues;
+    private Integer proceduresSectionIssues;
 	
 	@Column(name = "socialhistorysectionissues")
-    private int socialhistorySectionIssues;
+    private Integer socialhistorySectionIssues;
 	
 	@Column(name = "vitalssectionissues")
-    private int vitalsSectionIssues;
+    private Integer vitalsSectionIssues;
 	
 	@Column(name = "resultssectionissues")
-    private int resultsSectionIssues;
+    private Integer resultsSectionIssues;
 	
 	@Column(name = "miscissues")
-    private int miscIssues;
+    private Integer miscIssues;
+	
+	@Column(name = "ccdadocumenttype")
+	private String ccdaDocumentType;
 
 
 	public String getDoctype() {
@@ -238,91 +241,99 @@ public class ScorecardStatistics {
 		this.oneClickScorecard = oneClickScorecard;
 	}
 
-	public int getPatientIssues() {
+	public Integer getPatientIssues() {
 		return patientIssues;
 	}
 
-	public void setPatientIssues(int patientIssues) {
+	public void setPatientIssues(Integer patientIssues) {
 		this.patientIssues = patientIssues;
 	}
 
-	public int getAllergiesSectionIssues() {
+	public Integer getAllergiesSectionIssues() {
 		return allergiesSectionIssues;
 	}
 
-	public void setAllergiesSectionIssues(int allergiesSectionIssues) {
+	public void setAllergiesSectionIssues(Integer allergiesSectionIssues) {
 		this.allergiesSectionIssues = allergiesSectionIssues;
 	}
 
-	public int getEncountersSectionIssues() {
+	public Integer getEncountersSectionIssues() {
 		return encountersSectionIssues;
 	}
 
-	public void setEncountersSectionIssues(int encountersSectionIssues) {
+	public void setEncountersSectionIssues(Integer encountersSectionIssues) {
 		this.encountersSectionIssues = encountersSectionIssues;
 	}
 
-	public int getImmunizationsSectionIssues() {
+	public Integer getImmunizationsSectionIssues() {
 		return immunizationsSectionIssues;
 	}
 
-	public void setImmunizationsSectionIssues(int immunizationsSectionIssues) {
+	public void setImmunizationsSectionIssues(Integer immunizationsSectionIssues) {
 		this.immunizationsSectionIssues = immunizationsSectionIssues;
 	}
 
-	public int getMedicationsSectionIssues() {
+	public Integer getMedicationsSectionIssues() {
 		return medicationsSectionIssues;
 	}
 
-	public void setMedicationsSectionIssues(int medicationsSectionIssues) {
+	public void setMedicationsSectionIssues(Integer medicationsSectionIssues) {
 		this.medicationsSectionIssues = medicationsSectionIssues;
 	}
 
-	public int getProblemsSectionIssues() {
+	public Integer getProblemsSectionIssues() {
 		return problemsSectionIssues;
 	}
 
-	public void setProblemsSectionIssues(int problemsSectionIssues) {
+	public void setProblemsSectionIssues(Integer problemsSectionIssues) {
 		this.problemsSectionIssues = problemsSectionIssues;
 	}
 
-	public int getProceduresSectionIssues() {
+	public Integer getProceduresSectionIssues() {
 		return proceduresSectionIssues;
 	}
 
-	public void setProceduresSectionIssues(int proceduresSectionIssues) {
+	public void setProceduresSectionIssues(Integer proceduresSectionIssues) {
 		this.proceduresSectionIssues = proceduresSectionIssues;
 	}
 
-	public int getSocialhistorySectionIssues() {
+	public Integer getSocialhistorySectionIssues() {
 		return socialhistorySectionIssues;
 	}
 
-	public void setSocialhistorySectionIssues(int socialhistorySectionIssues) {
+	public void setSocialhistorySectionIssues(Integer socialhistorySectionIssues) {
 		this.socialhistorySectionIssues = socialhistorySectionIssues;
 	}
 
-	public int getVitalsSectionIssues() {
+	public Integer getVitalsSectionIssues() {
 		return vitalsSectionIssues;
 	}
 
-	public void setVitalsSectionIssues(int vitalsSectionIssues) {
+	public void setVitalsSectionIssues(Integer vitalsSectionIssues) {
 		this.vitalsSectionIssues = vitalsSectionIssues;
 	}
 
-	public int getResultsSectionIssues() {
+	public Integer getResultsSectionIssues() {
 		return resultsSectionIssues;
 	}
 
-	public void setResultsSectionIssues(int resultsSectionIssues) {
+	public void setResultsSectionIssues(Integer resultsSectionIssues) {
 		this.resultsSectionIssues = resultsSectionIssues;
 	}
 
-	public int getMiscIssues() {
+	public Integer getMiscIssues() {
 		return miscIssues;
 	}
 
-	public void setMiscIssues(int miscIssues) {
+	public void setMiscIssues(Integer miscIssues) {
 		this.miscIssues = miscIssues;
 	}
+
+	public String getCcdaDocumentType() {
+		return ccdaDocumentType;
+	}
+	
+	public void setCcdaDocumentType(String ccdaDocumentType) {
+		this.ccdaDocumentType = ccdaDocumentType;
+	}	
 }

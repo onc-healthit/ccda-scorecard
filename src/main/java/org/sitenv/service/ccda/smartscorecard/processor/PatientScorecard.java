@@ -23,10 +23,10 @@ public class PatientScorecard {
 		
 		List<CCDAScoreCardRubrics> patientScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.PATIENT_DOB_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.P1)) {
 			patientScoreList.add(getDOBTimePrecisionScore(patient, docType));
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.PATIENT_LEGAL_NAME_REQUIREMENT)) {
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.P2)) {
 			patientScoreList.add(getLegalNameScore(patient, docType));
 		}
 		

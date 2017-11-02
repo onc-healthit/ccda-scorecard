@@ -12,8 +12,19 @@ public class SectionRule {
 	@XmlAttribute(name="ruleName")
     private String ruleName;
 	
+	@XmlAttribute(name="ruleId")
+    private String ruleId;
+	
 	@XmlAttribute(name="ruleEnabled")
     private boolean ruleEnabled;
+	
+	public String getRuleId() {
+		return ruleId;
+	}
+
+	public void setRuleId(String ruleId) {
+		this.ruleId = ruleId;
+	}
 
 	public String getRuleName() {
 		return ruleName;

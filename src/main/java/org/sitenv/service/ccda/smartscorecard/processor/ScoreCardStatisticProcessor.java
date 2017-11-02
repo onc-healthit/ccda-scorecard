@@ -1,5 +1,8 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 import org.sitenv.service.ccda.smartscorecard.entities.postgres.ScorecardStatistics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
@@ -15,13 +18,19 @@ public class ScoreCardStatisticProcessor {
 	@Autowired
 	StatisticsRepository statisticsRepository;
 	
-	public void saveDetails(Results results,String docname,boolean isOneClickScorecard)
+	public void saveDetails(Results results,String docname,boolean isOneClickScorecard) 
+	{
+		saveDetails(results,docname,isOneClickScorecard,"Unknown");
+	}
+	
+	public void saveDetails(Results results,String docname,boolean isOneClickScorecard,String ccdaDocumentType)
 	{
 		ScorecardStatistics scorecardStatistics = new ScorecardStatistics();
 		scorecardStatistics.setDoctype(results.getDocType());
 		scorecardStatistics.setDocscore(results.getFinalNumericalGrade());
 		scorecardStatistics.setDocname(docname);
 		scorecardStatistics.setOneClickScorecard(isOneClickScorecard);
+		scorecardStatistics.setCcdaDocumentType(ccdaDocumentType);
 		for (Category category : results.getCategoryList())
 		{
 			if(category.getCategoryName().equalsIgnoreCase(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc()))
@@ -95,6 +104,21 @@ public class ScoreCardStatisticProcessor {
 	public long numberOfDocsScored(boolean isOneClickScorecard)
 	{
 		return statisticsRepository.findByCount(isOneClickScorecard);
+	}
+	
+	public long numberOfDocsScoredPerCcdaDocumentType(String ccdaDocumentType,boolean isOneClickScorecard)
+	{
+		return statisticsRepository.findCountOfDocsScoredPerCcdaDocumentType(ccdaDocumentType, isOneClickScorecard);
+	}
+	
+	public List<ScorecardStatistics> getAllRecords()
+	{
+		return statisticsRepository.findAll();
+	}
+	
+	public List<ScorecardStatistics> getAllRecordsForDateRange(Timestamp fromDate, Timestamp toDate)
+	{
+		return statisticsRepository.findByDateRange(fromDate,toDate);
 	}
 
 }
