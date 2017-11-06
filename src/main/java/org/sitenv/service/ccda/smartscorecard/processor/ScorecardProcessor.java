@@ -112,7 +112,11 @@ public class ScorecardProcessor {
 	
 	private static final Logger logger = Logger.getLogger(ScorecardProcessor.class);
 	
-	public ResponseTO processCCDAFile(MultipartFile ccdaFile,boolean isOneClickScorecard)
+	public ResponseTO processCCDAFile(MultipartFile ccdaFile) {
+		return processCCDAFile(ccdaFile, false, "ccdascorecardservice2");
+	}
+	
+	public ResponseTO processCCDAFile(MultipartFile ccdaFile, boolean isOneClickScorecard, String directEmailAddress)
 	{
 		ValidationResultsDto referenceValidatorResults = null;
 		ValidationResultsDto certificationResults;
@@ -317,7 +321,8 @@ public class ScorecardProcessor {
 			{
 				ccdaDocumentType = scorecardResponse.getCcdaDocumentType();
 			}
-			scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename(),isOneClickScorecard,ccdaDocumentType);					
+			scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename(),isOneClickScorecard,
+					ccdaDocumentType,directEmailAddress);					
 			results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage(isOneClickScorecard));
 			results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored(isOneClickScorecard));
 			results.setNumberOfDocsScoredPerCcdaDocumentType(

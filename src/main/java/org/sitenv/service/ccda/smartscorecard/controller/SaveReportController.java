@@ -130,13 +130,12 @@ public class SaveReportController {
 	
 	private static void handlePureBackendCall(MultipartFile ccdaFile, HttpServletResponse response, SaveReportType reportType, 
 			ScorecardProcessor scorecardProcessor) {
-		handlePureBackendCall(ccdaFile, response, reportType, scorecardProcessor, null);
+		handlePureBackendCall(ccdaFile, response, reportType, scorecardProcessor, "savescorecardservicebackend");
 	}
 	
 	private static void handlePureBackendCall(MultipartFile ccdaFile, HttpServletResponse response, SaveReportType reportType, 
 			ScorecardProcessor scorecardProcessor, String sender) {
-//		ResponseTO pojoResponse = callCcdascorecardserviceExternally(ccdaFile);
-		ResponseTO pojoResponse = callCcdascorecardserviceInternally(ccdaFile, scorecardProcessor);
+		ResponseTO pojoResponse = callCcdascorecardserviceInternally(ccdaFile, scorecardProcessor, sender, reportType);
 		if (pojoResponse == null) {
 			pojoResponse = new ResponseTO();
 			pojoResponse.setResults(null);
@@ -165,8 +164,8 @@ public class SaveReportController {
 	};
 	
 	protected static ResponseTO callCcdascorecardserviceInternally(MultipartFile ccdaFile, 
-			ScorecardProcessor scorecardProcessor) {
-		return scorecardProcessor.processCCDAFile(ccdaFile, true);
+			ScorecardProcessor scorecardProcessor, String sender, SaveReportType reportType) {
+		return scorecardProcessor.processCCDAFile(ccdaFile, reportType == SaveReportType.SUMMARY, sender);
 	}
 
 	public static ResponseTO callCcdascorecardserviceExternally(MultipartFile ccdaFile) {
