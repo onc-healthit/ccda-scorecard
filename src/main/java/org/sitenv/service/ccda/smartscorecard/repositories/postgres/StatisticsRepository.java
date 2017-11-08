@@ -31,6 +31,12 @@ public interface StatisticsRepository extends JpaRepository<ScorecardStatistics,
 			@Param("isOneClickScorecard")boolean isOneClickScorecard);
 	
 	@Transactional(readOnly = true)
+	@Query("SELECT AVG(docscore) FROM ScorecardStatistics "
+			+ "WHERE ccdadocumenttype = :ccdaDocumentTypeBeingSearchedFor AND oneClickScorecard = :isOneClickScorecard")
+	int findAverageOfScoresForCcdaDocumentType(@Param("ccdaDocumentTypeBeingSearchedFor")String ccdaDocumentTypeBeingSearchedFor,
+			@Param("isOneClickScorecard")boolean isOneClickScorecard);
+	
+	@Transactional(readOnly = true)
 	@Query("select s from ScorecardStatistics s WHERE createTimestamp >= :fromDate AND createTimestamp <= :toDate order by createTimestamp desc")
 	List<ScorecardStatistics> findByDateRange(@Param("fromDate")Timestamp fromDate,
 			@Param("toDate")Timestamp toDate);

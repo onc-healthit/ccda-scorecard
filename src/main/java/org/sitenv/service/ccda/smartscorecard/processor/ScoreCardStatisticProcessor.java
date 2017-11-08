@@ -103,12 +103,17 @@ public class ScoreCardStatisticProcessor {
 			return 0;
 	}
 	
+	public int calculateIndustryAverageScoreForCcdaDocumentType(String ccdaDocumentType, boolean isOneClickScorecard) 
+	{
+		return statisticsRepository.findAverageOfScoresForCcdaDocumentType(ccdaDocumentType, isOneClickScorecard);
+	}
+	
 	public long numberOfDocsScored(boolean isOneClickScorecard)
 	{
 		return statisticsRepository.findByCount(isOneClickScorecard);
 	}
 	
-	public long numberOfDocsScoredPerCcdaDocumentType(String ccdaDocumentType,boolean isOneClickScorecard)
+	public long numberOfDocsScoredPerCcdaDocumentType(String ccdaDocumentType, boolean isOneClickScorecard)
 	{
 		return statisticsRepository.findCountOfDocsScoredPerCcdaDocumentType(ccdaDocumentType, isOneClickScorecard);
 	}

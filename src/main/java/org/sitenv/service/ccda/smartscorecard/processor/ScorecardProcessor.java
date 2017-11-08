@@ -326,7 +326,9 @@ public class ScorecardProcessor {
 			results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage(isOneClickScorecard));
 			results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored(isOneClickScorecard));
 			results.setNumberOfDocsScoredPerCcdaDocumentType(
-					scoreCardStatisticProcessor.numberOfDocsScoredPerCcdaDocumentType(ccdaDocumentType,isOneClickScorecard));
+					scoreCardStatisticProcessor.numberOfDocsScoredPerCcdaDocumentType(ccdaDocumentType, isOneClickScorecard));
+			results.setIndustryAverageScoreForCcdaDocumentType(scoreCardStatisticProcessor.calculateIndustryAverageScoreForCcdaDocumentType(
+					ccdaDocumentType, isOneClickScorecard));
 			if(results.getIndustryAverageScore() != 0)
 			{
 				results.setIndustryAverageGrade(ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScore()));
@@ -334,6 +336,8 @@ public class ScorecardProcessor {
 			{
 				results.setIndustryAverageGrade("N/A");
 			}
+			results.setIndustryAverageGradeForCcdaDocumentType(
+					ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScoreForCcdaDocumentType()));
 			scorecardResponse.setResults(results);
 			scorecardResponse.setSuccess(true);
 			

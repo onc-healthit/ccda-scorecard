@@ -461,10 +461,11 @@ public class SaveReportController {
 			//brief summary of overall document results (without scorecard issues count listed)
 			sb.append("<h3>Summary</h3>");
 			sb.append("<p>"
-					//+ "Your " + ccdaDocumentType + " document received a grade of <b>" + results.getFinalGrade() + "</b>"
-					+ "Your C-CDA document received a grade of <b>" + results.getFinalGrade() + "</b>"
-					+ " compared to an industry average of " + "<b>" + results.getIndustryAverageGrade() + "</b>" + ". "
-					+ "The industry average was computed by scoring " + results.getNumberOfDocumentsScored() + " C-CDAs. "
+					+ "Your " + ccdaDocumentType + " document received a grade of <b>" + results.getFinalGrade() + "</b>"
+					+ " compared to an industry average of " + "<b>" + results.getIndustryAverageGradeForCcdaDocumentType() + "</b>" + ". "
+					+ "The industry average, specific to the document type sent, was computed by scoring " 
+					+ results.getNumberOfDocsScoredPerCcdaDocumentType() + " " + ccdaDocumentType + 
+					(results.getNumberOfDocsScoredPerCcdaDocumentType() > 1 ? "s" : "" ) + ". " 
 					+ "The document scored " + "<b>" + results.getFinalNumericalGrade() + "/100" + "</b>"
 					+ " and is "
 					+ (conformanceErrorCount > 0 ? "non-compliant" : "compliant")
