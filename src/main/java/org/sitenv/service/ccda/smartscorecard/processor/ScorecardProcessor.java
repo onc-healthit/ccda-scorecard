@@ -155,14 +155,28 @@ public class ScorecardProcessor {
 					referenceValidatorResults = 
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), 
 								"No Scenario File", scorecardProperties.getIgConformanceURL());
-					schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults());
-				
+					
+					final String haltProcessingPrefix = "Halting collection and processing of more results due to: ";
+					
+					boolean isRefValServiceError = referenceValidatorResults.getResultsMetaData().isServiceError();
+					String refValServiceErrorMessage = referenceValidatorResults.getResultsMetaData().getServiceErrorMessage();
+					if(isRefValServiceError || !ApplicationUtil.isEmpty(refValServiceErrorMessage)) 
+					{
+						final String refErrorForUser = ApplicationConstants.ErrorMessages.REFERENCECCDAVALIDATOR_SERVICE_ERROR_PREFIX 
+								+ refValServiceErrorMessage; 
+						logger.error(haltProcessingPrefix + refErrorForUser);
+						scorecardResponse.setSuccess(false);
+						scorecardResponse.setErrorMessage(refErrorForUser);
+						return scorecardResponse;
+					}
+					
+					schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults());				
 					if(schemaErrorList.size() > 0)
 					{
 						scorecardResponse.setSchemaErrorList(schemaErrorList);
 						scorecardResponse.setSchemaErrors(true);
 						scorecardResponse.setErrorMessage(ApplicationConstants.ErrorMessages.SCHEMA_ERRORS_GENERIC);
-						logger.info("Halting collection and processing of more results due to schema errors found in first instance");
+						logger.info(haltProcessingPrefix + "Schema errors found in first instance");
 						return scorecardResponse;
 					}
 				
