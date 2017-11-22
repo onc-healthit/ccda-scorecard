@@ -23,7 +23,8 @@
 	  (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
 	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-	  ga('create', 'UA-40163006-1', 'sitenv.org');
+	  //ga('create', 'UA-40163006-1', 'auto'); // auto uses automatic cookie domain configuration
+	  ga('create', 'UA-40163006-1', 'none'); // none for localhost work
   </script>
 </head>
 
@@ -59,10 +60,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.6.4/showdown.min.js"></script>
   <!-- Angular -->
   <script
-    src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>    
+    src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <!-- ng-file-upload - shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
   <script src="lib/ng-file-upload-shim.min.js"></script>
   <script src="lib/ng-file-upload.min.js"></script>
+  <!-- https://github.com/angulartics https://github.com/angulartics/angulartics-google-analytics/ http://angulartics.github.io/ -->
+  <script src="lib/angulartics-1.4.0/dist/angulartics.min.js"></script>
+  <script src="lib/angulartics-google-analytics-0.3.0/dist/angulartics-ga.min.js"></script>
   <!-- Module, Routes, and Directives -->
   <script src="scApp.js?version=R1.6"></script>
   <!-- Controllers -->

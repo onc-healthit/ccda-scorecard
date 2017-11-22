@@ -1,4 +1,8 @@
-var scApp = angular.module('scorecard', ['ngFileUpload']);
+var scApp = angular.module('scorecard', [
+	'ngFileUpload', 
+	'angulartics', 
+	'angulartics.google.analytics'
+]);
 
 // *************** DIRECTIVES ********************
 // *Scorecard related*//
