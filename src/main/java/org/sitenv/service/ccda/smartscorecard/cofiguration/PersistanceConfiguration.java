@@ -3,6 +3,7 @@ package org.sitenv.service.ccda.smartscorecard.cofiguration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.Executor;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -12,6 +13,8 @@ import org.sitenv.service.ccda.smartscorecard.loader.VocabularyLoadRunner;
 import org.sitenv.service.ccda.smartscorecard.loader.VocabularyLoaderFactory;
 import org.sitenv.service.ccda.smartscorecard.model.ScorecardProperties;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ServiceLocatorFactoryBean;
@@ -32,6 +35,9 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -44,7 +50,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 		 entityManagerFactoryRef = "inmemoryEntityManagerFactory", 
 	     transactionManagerRef = "inmemoryTransactionManager",
 	     basePackages = {"org.sitenv.service.ccda.smartscorecard.repositories.inmemory"})
-public class PersistanceConfiguration {
+@EnableAsync
+public class PersistanceConfiguration extends AsyncConfigurerSupport {
     private static final String HSQL_JDBC_URL_TEMPLATE = "jdbc:hsqldb:file:scorecarddatabase/db;hsqldb.default_table_type=cached;hsqldb.write_delay_millis=10;readonly=false";
     @Value("classpath:schema.sql")
     private Resource HSQL_SCHEMA_SCRIPT;
@@ -183,4 +190,21 @@ public class PersistanceConfiguration {
         jaxb2Marshaller.setMarshallerProperties(map);
         return jaxb2Marshaller;
     }
+    
+    @Bean
+    @Override
+	public Executor getAsyncExecutor() {
+		ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+		taskExecutor.setCorePoolSize(ApplicationConfiguration.CORE_POOL_SIZE);
+		taskExecutor.setMaxPoolSize(ApplicationConfiguration.MAX_POOL_SIZE);
+		taskExecutor.setQueueCapacity(ApplicationConfiguration.QUEUE_CAPACITY);
+		//taskExecutor.setThreadNamePrefix("Enricher-");
+		taskExecutor.initialize();
+		return taskExecutor;
+	}
+    
+    @Override
+	public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+		return new SimpleAsyncUncaughtExceptionHandler();
+	}
 }

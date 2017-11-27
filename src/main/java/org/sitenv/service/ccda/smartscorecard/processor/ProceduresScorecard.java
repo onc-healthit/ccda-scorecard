@@ -2,7 +2,9 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProcActProc;
 import org.sitenv.ccdaparsing.model.CCDAProcedure;
@@ -15,19 +17,27 @@ import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProceduresScorecard {
 	
+	private static final Logger logger = Logger.getLogger(ProceduresScorecard.class);
+	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
-	
-	public Category getProceduresCategory(CCDAProcedure procedures, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
+	@Async()
+	public Future<Category> getProceduresCategory(CCDAProcedure procedures, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
+		long startTime = System.currentTimeMillis();
+		
+		logger.info("Procedures Start time:"+ startTime);
+		
 		if(procedures==null || procedures.isSectionNullFlavourWithNI())
 		{
-			return new Category(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc(),true);
+			return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc(),true));
 		}
 		Category procedureCategory = new Category();
 		procedureCategory.setCategoryName(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc());
@@ -46,7 +56,8 @@ public class ProceduresScorecard {
 		
 		procedureCategory.setCategoryRubrics(procedureScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(procedureScoreList, procedureCategory);
-		return procedureCategory;
+		logger.info("Procedures End time:"+ (System.currentTimeMillis() - startTime));
+		return new AsyncResult<Category>(procedureCategory);
 	}
 	
 	

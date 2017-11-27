@@ -2,7 +2,9 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDALabResult;
 import org.sitenv.ccdaparsing.model.CCDALabResultObs;
@@ -16,23 +18,29 @@ import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.LoincReposit
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LabresultsScorecard {
+	
+	private static final Logger logger = Logger.getLogger(LabresultsScorecard.class);
 	
 	@Autowired
 	LoincRepository loincRepository;
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
-	
-	public Category getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
+	@Async()
+	public Future<Category> getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
 		
+		long startTime = System.currentTimeMillis();
+		logger.info("Labresults Start time:"+ startTime);
 		if(labResults== null || labResults.isSectionNullFlavourWithNI())
 		{
-			return new Category(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc(),true);
+			return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc(),true));
 		}
 		CCDALabResult results =null;
 		if(labResults!= null)
@@ -77,8 +85,8 @@ public class LabresultsScorecard {
 		
 		labResultsCategory.setCategoryRubrics(labResultsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(labResultsScoreList, labResultsCategory);
-		
-		return labResultsCategory;
+		logger.info("Labresults End time:"+ (System.currentTimeMillis() - startTime));
+		return  new AsyncResult<Category>(labResultsCategory);
 		
 	}
 	
