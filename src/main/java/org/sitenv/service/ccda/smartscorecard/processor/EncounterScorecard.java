@@ -2,7 +2,9 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDAEncounter;
 import org.sitenv.ccdaparsing.model.CCDAEncounterActivity;
@@ -18,19 +20,25 @@ import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EncounterScorecard {
 	
+	private static final Logger logger = Logger.getLogger(EncounterScorecard.class);
+
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
-	
-	public Category getEncounterCategory(CCDAEncounter encounter, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
+	@Async()
+	public Future<Category> getEncounterCategory(CCDAEncounter encounter, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
+		long startTime = System.currentTimeMillis();
+		logger.info("Encounters Start time:"+ startTime);
 		if(encounter== null || encounter.isSectionNullFlavourWithNI())
 		{
-			return new Category(ApplicationConstants.CATEGORIES.ENCOUNTERS.getCategoryDesc(),true);
+			return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.ENCOUNTERS.getCategoryDesc(),true));
 		}
 		Category encounterCategory = new Category();
 		encounterCategory.setCategoryName(ApplicationConstants.CATEGORIES.ENCOUNTERS.getCategoryDesc());
@@ -55,8 +63,8 @@ public class EncounterScorecard {
 		
 		encounterCategory.setCategoryRubrics(encounterScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(encounterScoreList, encounterCategory);
-		
-		return encounterCategory;
+		logger.info("Encounters End time:"+ (System.currentTimeMillis() - startTime));
+		return new AsyncResult<Category>(encounterCategory);
 		
 	}
 	

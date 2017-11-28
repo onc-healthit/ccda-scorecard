@@ -2,7 +2,9 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDASmokingStatus;
 import org.sitenv.ccdaparsing.model.CCDASocialHistory;
@@ -15,19 +17,25 @@ import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SocialHistoryScorecard {
 	
+	private static final Logger logger = Logger.getLogger(SocialHistoryScorecard.class);
+	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
-	
-	public Category getSocialHistoryCategory(CCDASocialHistory socialHistory, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
+	@Async()
+	public Future<Category> getSocialHistoryCategory(CCDASocialHistory socialHistory, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
+		long startTime = System.currentTimeMillis();
+		logger.info("SocailHistory Start time:"+ startTime);
 		if(socialHistory==null || socialHistory.isSectionNullFlavourWithNI())
 		{
-			return new Category(ApplicationConstants.CATEGORIES.SOCIALHISTORY.getCategoryDesc(),true);
+			return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.SOCIALHISTORY.getCategoryDesc(),true));
 		}
 		Category socialHistoryCategory = new Category();
 		socialHistoryCategory.setCategoryName(ApplicationConstants.CATEGORIES.SOCIALHISTORY.getCategoryDesc());
@@ -61,8 +69,8 @@ public class SocialHistoryScorecard {
 		
 		socialHistoryCategory.setCategoryRubrics(socialHistoryScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(socialHistoryScoreList, socialHistoryCategory);
-		
-		return socialHistoryCategory;
+		logger.info("SocailHistory End time:"+ (System.currentTimeMillis() - startTime));
+		return new AsyncResult<Category>(socialHistoryCategory);
 		
 	}
 	

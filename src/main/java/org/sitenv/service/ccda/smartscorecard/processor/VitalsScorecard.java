@@ -2,7 +2,9 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAVitalObs;
 import org.sitenv.ccdaparsing.model.CCDAVitalOrg;
@@ -16,22 +18,28 @@ import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.VitalsReposi
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VitalsScorecard {
+	
+	private static final Logger logger = Logger.getLogger(VitalsScorecard.class);
 	
 	@Autowired
 	VitalsRepository vitalsRepository;
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
-	
-	public Category getVitalsCategory(CCDAVitalSigns vitals, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
+	@Async()
+	public Future<Category> getVitalsCategory(CCDAVitalSigns vitals, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
+		long startTime = System.currentTimeMillis();
+		logger.info("Vitals Start time:"+ startTime);
 		if(vitals==null || vitals.isSectionNullFlavourWithNI())
 		{
-			return new Category(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc(),true);
+			return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc(),true));
 		}
 		Category vitalsCategory = new Category();
 		vitalsCategory.setCategoryName(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc());
@@ -65,8 +73,8 @@ public class VitalsScorecard {
 		
 		vitalsCategory.setCategoryRubrics(vitalsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(vitalsScoreList, vitalsCategory);
-		
-		return vitalsCategory;
+		logger.info("Vitals End time:"+ (System.currentTimeMillis() - startTime));
+		return new AsyncResult<Category>(vitalsCategory);
 		
 	}
 	
