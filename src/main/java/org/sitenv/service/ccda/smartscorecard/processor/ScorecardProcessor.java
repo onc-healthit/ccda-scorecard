@@ -508,8 +508,10 @@ public class ScorecardProcessor {
 		if(errorElement.getTagName().equals("section"))
 		{
 			templateId = (Element) xPath.compile(ApplicationConstants.TEMPLATEID_XPATH).evaluate(errorElement, XPathConstants.NODE);
-			sectionTemplateId = templateId.getAttribute("root");
-			sectionName = ApplicationConstants.SECTION_TEMPLATEID_MAP.get(sectionTemplateId);
+			if(templateId!=null){
+				sectionTemplateId = templateId.getAttribute("root");
+				sectionName = ApplicationConstants.SECTION_TEMPLATEID_MAP.get(sectionTemplateId);
+			}
 		}
 		else if(errorElement.getTagName().equals("patientRole"))
 		{
