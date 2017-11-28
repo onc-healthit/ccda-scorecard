@@ -28,6 +28,10 @@ public class ProceduresScorecard {
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
+	
+	@Autowired
+	ReferenceValidatorService referenceValidatorService;
+	
 	@Async()
 	public Future<Category> getProceduresCategory(CCDAProcedure procedures, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
@@ -77,7 +81,7 @@ public class ProceduresScorecard {
 												&& ApplicationUtil.isCodeSystemAvailable(procedures.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
-				if(ApplicationUtil.validateDisplayName(procedures.getSectionCode().getCode(), 
+				if(referenceValidatorService.validateDisplayName(procedures.getSectionCode().getCode(), 
 									procedures.getSectionCode().getCodeSystem(),
 									procedures.getSectionCode().getDisplayName()))
 				{
@@ -100,7 +104,7 @@ public class ProceduresScorecard {
 							&& ApplicationUtil.isCodeSystemAvailable(procAct.getProcCode().getCodeSystem()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateDisplayName(procAct.getProcCode().getCode(), 
+						if(referenceValidatorService.validateDisplayName(procAct.getProcCode().getCode(), 
 												procAct.getProcCode().getCodeSystem(),
 												procAct.getProcCode().getDisplayName()))
 						{

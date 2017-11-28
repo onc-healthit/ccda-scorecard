@@ -29,6 +29,10 @@ public class ProblemsScorecard {
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
+	
+	@Autowired
+	ReferenceValidatorService referenceValidatorService;
+	
 	@Async()
 	public Future<Category> getProblemsCategory(CCDAProblem problems, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
@@ -288,7 +292,7 @@ public class ProblemsScorecard {
 												&& ApplicationUtil.isCodeSystemAvailable(problems.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
-				if(ApplicationUtil.validateDisplayName(problems.getSectionCode().getCode(), 
+				if(referenceValidatorService.validateDisplayName(problems.getSectionCode().getCode(), 
 														problems.getSectionCode().getCodeSystem(),
 														problems.getSectionCode().getDisplayName()))
 				{
@@ -315,7 +319,7 @@ public class ProblemsScorecard {
 																&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemType().getCodeSystem()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(probObs.getProblemType().getCode(), 
+								if(referenceValidatorService.validateDisplayName(probObs.getProblemType().getCode(), 
 																		probObs.getProblemType().getCodeSystem(),
 																		probObs.getProblemType().getDisplayName()))
 								{
@@ -333,7 +337,7 @@ public class ProblemsScorecard {
 									&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemCode().getCodeSystem()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(probObs.getProblemCode().getCode(), 
+								if(referenceValidatorService.validateDisplayName(probObs.getProblemCode().getCode(), 
 																		probObs.getProblemCode().getCodeSystem(),
 																		probObs.getProblemCode().getDisplayName()))
 								{
@@ -355,7 +359,7 @@ public class ProblemsScorecard {
 											&& ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 									{
 										maxPoints++;
-										if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
+										if(referenceValidatorService.validateDisplayName(translationCode.getCode(), 
 															translationCode.getCodeSystem(),
 															translationCode.getDisplayName()))
 										{
@@ -424,7 +428,7 @@ public class ProblemsScorecard {
 						   maxPoints++;
 						   if(probObs.getProblemCode()!= null)
 						   {
-							   if(ApplicationUtil.validateCodeForCodeSystem(probObs.getProblemCode().getCode(), 
+							   if(referenceValidatorService.validateCodeForCodeSystem(probObs.getProblemCode().getCode(), 
 									   					probObs.getProblemCode().getCodeSystem()))
 							   {
 								   actualPoints++;

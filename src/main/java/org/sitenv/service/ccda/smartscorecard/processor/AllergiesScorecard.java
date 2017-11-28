@@ -29,6 +29,10 @@ public class AllergiesScorecard {
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
+	
+	@Autowired
+	ReferenceValidatorService referenceValidatorService;
+	
 	@Async()
 	public Future<Category> getAllergiesCategory(CCDAAllergy allergies, PatientDetails patientDetails,String docType, List<SectionRule> sectionRules)
 	{
@@ -284,7 +288,7 @@ public class AllergiesScorecard {
 																			&& ApplicationUtil.isCodeSystemAvailable(allergies.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
-				if(ApplicationUtil.validateDisplayName(allergies.getSectionCode().getCode(), allergies.getSectionCode().getCodeSystem(),
+				if(referenceValidatorService.validateDisplayName(allergies.getSectionCode().getCode(), allergies.getSectionCode().getCodeSystem(),
 														allergies.getSectionCode().getDisplayName()))
 				{
 					actualPoints++;
@@ -310,7 +314,7 @@ public class AllergiesScorecard {
 																				&& ApplicationUtil.isCodeSystemAvailable(allergyObs.getAllergyIntoleranceType().getCodeSystem()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(allergyObs.getAllergyIntoleranceType().getCode(), 
+								if(referenceValidatorService.validateDisplayName(allergyObs.getAllergyIntoleranceType().getCode(), 
 																allergyObs.getAllergyIntoleranceType().getCodeSystem(),
 																allergyObs.getAllergyIntoleranceType().getDisplayName()))
 								{
@@ -329,7 +333,7 @@ public class AllergiesScorecard {
 																			&& ApplicationUtil.isCodeSystemAvailable(allergyObs.getAllergySubstance().getCodeSystem()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(allergyObs.getAllergySubstance().getCode(), 
+								if(referenceValidatorService.validateDisplayName(allergyObs.getAllergySubstance().getCode(), 
 																allergyObs.getAllergySubstance().getCodeSystem(),
 																allergyObs.getAllergySubstance().getDisplayName()))
 								{

@@ -32,6 +32,10 @@ public class LabresultsScorecard {
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
+	
+	@Autowired
+	ReferenceValidatorService referenceValidatorService;
+	
 	@Async()
 	public Future<Category> getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
@@ -299,7 +303,7 @@ public class LabresultsScorecard {
 													&& ApplicationUtil.isCodeSystemAvailable(labresults.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
-				if(ApplicationUtil.validateDisplayName(labresults.getSectionCode().getCode(), 
+				if(referenceValidatorService.validateDisplayName(labresults.getSectionCode().getCode(), 
 												labresults.getSectionCode().getCodeSystem(),
 												labresults.getSectionCode().getDisplayName()))
 				{
@@ -322,7 +326,7 @@ public class LabresultsScorecard {
 													&& ApplicationUtil.isCodeSystemAvailable(resultOrg.getOrgCode().getCodeSystem()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateDisplayName(resultOrg.getOrgCode().getCode(), 
+						if(referenceValidatorService.validateDisplayName(resultOrg.getOrgCode().getCode(), 
 								resultOrg.getOrgCode().getCodeSystem(),
 								resultOrg.getOrgCode().getDisplayName()))
 						{
@@ -345,7 +349,7 @@ public class LabresultsScorecard {
 																&& ApplicationUtil.isCodeSystemAvailable(resultobs.getResultCode().getCodeSystem()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(resultobs.getResultCode().getCode(), 
+								if(referenceValidatorService.validateDisplayName(resultobs.getResultCode().getCode(), 
 										resultobs.getResultCode().getCodeSystem(),
 										resultobs.getResultCode().getDisplayName()))
 								{

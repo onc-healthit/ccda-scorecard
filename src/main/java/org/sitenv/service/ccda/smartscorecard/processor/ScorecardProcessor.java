@@ -52,6 +52,8 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
@@ -123,6 +125,9 @@ public class ScorecardProcessor {
 	
 	public ResponseTO processCCDAFile(MultipartFile ccdaFile, boolean isOneClickScorecard, String directEmailAddress)
 	{
+		
+		long startTime = System.currentTimeMillis();
+		logger.info("Scorecard Start time:"+ startTime);
 		ValidationResultsDto referenceValidatorResults = null;
 		ValidationResultsDto certificationResults;
 		List<ReferenceError> schemaErrorList;
@@ -152,7 +157,7 @@ public class ScorecardProcessor {
 				boolean referenceValidatorCallReturnedErrors = false;
 				if(scorecardProperties.getIgConformanceCall())
 				{
-					long startTime = System.currentTimeMillis();
+					long refStartTime = System.currentTimeMillis();
 					logger.info("Reference validator Start time:"+ startTime);
 					validationObjective = 
 						determineValidationObjectiveType(ccdaModels, ReferenceInstanceType.IG_CONFORMANCE);
@@ -174,12 +179,13 @@ public class ScorecardProcessor {
 						logger.error(haltProcessingPrefix + refErrorForUser);
 						scorecardResponse.setSuccess(false);
 						scorecardResponse.setErrorMessage(refErrorForUser);
+						logger.info("Scorecard End time:"+ (System.currentTimeMillis() - startTime));
 						return scorecardResponse;
 					}
 					
 					schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults());
 					
-					logger.info("Reference validator End time:"+ (System.currentTimeMillis() - startTime));
+					logger.info("Reference validator End time:"+ (System.currentTimeMillis() - refStartTime));
 				
 					if(schemaErrorList.size() > 0)
 					{
@@ -187,6 +193,7 @@ public class ScorecardProcessor {
 						scorecardResponse.setSchemaErrors(true);
 						scorecardResponse.setErrorMessage(ApplicationConstants.ErrorMessages.SCHEMA_ERRORS_GENERIC);
 						logger.info(haltProcessingPrefix + "Schema errors found in first instance");
+						logger.info("Scorecard End time:"+ (System.currentTimeMillis() - startTime));
 						return scorecardResponse;
 					}
 				
@@ -273,10 +280,10 @@ public class ScorecardProcessor {
 				if(scorecardSections!=null){
 					sectionRules= ApplicationUtil.getSectionRules(scorecardSections, CATEGORIES.MISC.getCategoryDesc());
 				}
-				long startTime = System.currentTimeMillis();
+				long miscStartTime = System.currentTimeMillis();
 				logger.info("Misc Start time:"+ startTime);
 				categoryList.add(miscScorecard.getMiscCategory(ccdaModels,sectionRules));
-				logger.info("Misc End time:"+ (System.currentTimeMillis() - startTime));
+				logger.info("Misc End time:"+ (System.currentTimeMillis() - miscStartTime));
 				ApplicationUtil.debugLog("certSectionList", certSectionList.toString());
 				getSectionCategory(ccdaModels,patientDetails,docType,sectionRules,errorSectionList,categoryList,scorecardSections);
 				for (Entry<String, String> entry : ApplicationConstants.SECTION_TEMPLATEID_MAP.entrySet()) 
@@ -356,6 +363,7 @@ public class ScorecardProcessor {
 			scorecardResponse.setSuccess(false);
 			scorecardResponse.setErrorMessage(ApplicationConstants.ErrorMessages.GENERIC_WITH_CONTACT);
 		}
+		logger.info("Scorecard End time:"+ (System.currentTimeMillis() - startTime));
 		return scorecardResponse;
 	}
 	
@@ -376,7 +384,7 @@ public class ScorecardProcessor {
 	
 		HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<LinkedMultiValueMap<String, Object>>(
 																					requestMap, headers);
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
 		FormHttpMessageConverter formConverter = new FormHttpMessageConverter();
 		formConverter.setCharset(Charset.forName("UTF8"));
 		restTemplate.getMessageConverters().add(formConverter);
@@ -385,6 +393,14 @@ public class ScorecardProcessor {
 		tempFile.delete();
 		
 		return referenceValidatorResults;
+	}
+	
+	private ClientHttpRequestFactory getClientHttpRequestFactory() {
+	    int timeout = 300000;
+	    HttpComponentsClientHttpRequestFactory clientHttpRequestFactory =
+	      new HttpComponentsClientHttpRequestFactory();
+	    clientHttpRequestFactory.setConnectTimeout(timeout);
+	    return clientHttpRequestFactory;
 	}
 	
 	public List<ReferenceError> checkForSchemaErrors(List<ReferenceError> ccdaValidationResults)

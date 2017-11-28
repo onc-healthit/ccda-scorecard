@@ -28,6 +28,10 @@ public class MedicationScorecard {
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
+	
+	@Autowired
+	ReferenceValidatorService referenceValidatorService;
+	
 	@Async()
 	public Future<Category> getMedicationCategory(CCDAMedication medications, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
@@ -220,7 +224,7 @@ public class MedicationScorecard {
 													&& ApplicationUtil.isCodeSystemAvailable(medications.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
-				if(ApplicationUtil.validateDisplayName(medications.getSectionCode().getCode(), 
+				if(referenceValidatorService.validateDisplayName(medications.getSectionCode().getCode(), 
 							medications.getSectionCode().getCodeSystem(),
 						medications.getSectionCode().getDisplayName()))
 				{
@@ -243,7 +247,7 @@ public class MedicationScorecard {
 																&& ApplicationUtil.isCodeSystemAvailable(medActivity.getApproachSiteCode().getCodeSystem()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateDisplayName(medActivity.getApproachSiteCode().getCode(), 
+						if(referenceValidatorService.validateDisplayName(medActivity.getApproachSiteCode().getCode(), 
 																medActivity.getApproachSiteCode().getCodeSystem(),
 																medActivity.getApproachSiteCode().getDisplayName()))
 						{
@@ -266,7 +270,7 @@ public class MedicationScorecard {
 								if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()) && ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 								{
 									maxPoints++;
-									if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
+									if(referenceValidatorService.validateDisplayName(translationCode.getCode(), 
 														translationCode.getCodeSystem(),
 														translationCode.getDisplayName()))
 									{
@@ -333,7 +337,7 @@ public class MedicationScorecard {
 					{
 						if(medAct.getConsumable().getMedcode()!=null)
 						{
-							if(ApplicationUtil.validateCodeForValueset(medAct.getConsumable().getMedcode().getCode(), 
+							if(referenceValidatorService.validateCodeForValueset(medAct.getConsumable().getMedcode().getCode(), 
 																			ApplicationConstants.MEDICATION_CLINICAL_DRUG_VALUSET_OID))
 							{
 								actualPoints++;
