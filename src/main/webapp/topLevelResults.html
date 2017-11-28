@@ -53,7 +53,8 @@
                     <a ng-if="igResults.totalErrorCount" href="javascript:void(0)"  
                     ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.IG_CONFORMANCE)" 
                     title="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}" 
-                    aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}">
+                    aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}"
+                    analytics-on="click" analytics-event="IG Error Navigation" analytics-category="Top Level Results">
                       <span>{{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}:</span>
                     </a>                    
                    </h2>
@@ -64,7 +65,8 @@
                     <a ng-if="certResults.totalErrorCount" href="javascript:void(0)"  
                     ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.CERTIFICATION_2015)"              
                     title="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}" 
-                    aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}">
+                    aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}"
+                    analytics-on="click" analytics-event="Cert Navigation" analytics-category="Top Level Results">
                       <span>{{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}:</span>
                     </a>                                  
                    </h2>
@@ -78,7 +80,8 @@
                         ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.IG_CONFORMANCE)" 
                         title="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}" 
                         aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}"
-                        class="scResult">
+                        class="scResult"
+                        analytics-on="click" analytics-event="IG Error by number Navigation" analytics-category="Top Level Results">
                         {{jsonData.results.finalGrade ? igResults.totalErrorCount : ''}}
                         </a>
                         <span ng-if="!igResults.totalErrorCount">
@@ -96,7 +99,8 @@
                         ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.CERTIFICATION_2015)"              
                         title="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}" 
                         aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}"
-                        class="scResult">
+                        class="scResult"
+                        analytics-on="click" analytics-event="Cert by number Navigation" analytics-category="Top Level Results">
                         {{jsonData.results.finalGrade ? certResults.totalErrorCount : ''}}
                         </a>
                         <span ng-if="!certResults.totalErrorCount">
@@ -120,7 +124,8 @@
       ng-if="jsonData.results.finalNumericalGrade !== 100 || igResults.totalErrorCount || certResults.totalErrorCount">
         <div class="col-md-12">
             <div id="detailedResultsPanelDropdownAnchor" class="panelDropdownButton">
-                <h2 id="detailedResultsButton" ng-click="flipDetailedResultsVisibilityAndNavigate()" type="button" class="btn btn-block resultsButton">
+                <h2 id="detailedResultsButton" ng-click="flipDetailedResultsVisibilityAndNavigate()" type="button" class="btn btn-block resultsButton"
+                    analytics-on="click" analytics-event="Manual Detailed Results Navigation" analytics-category="Detailed Results">
                     <span ng-class="getDetailedResultsHideShowClasses()"></span>{{detailedResultsTextPrefix}}Detailed Results
                 </h2>
             </div>

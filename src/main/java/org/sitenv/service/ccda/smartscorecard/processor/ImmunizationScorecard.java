@@ -2,7 +2,9 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
@@ -15,19 +17,24 @@ import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ImmunizationScorecard {
 	
+	private static final Logger logger = Logger.getLogger(ImmunizationScorecard.class);
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
-	
-	public Category getImmunizationCategory(CCDAImmunization immunizations, PatientDetails patientDetails,String docType,List<SectionRule>sectionRules)
+	@Async()
+	public Future<Category> getImmunizationCategory(CCDAImmunization immunizations, PatientDetails patientDetails,String docType,List<SectionRule>sectionRules)
 	{
+		long startTime = System.currentTimeMillis();
+		logger.info("Immunizations Start time:"+ startTime);
 		if(immunizations == null || immunizations.isSectionNullFlavourWithNI())
 		{
-			return new Category(ApplicationConstants.CATEGORIES.IMMUNIZATIONS.getCategoryDesc(),true);
+			return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.IMMUNIZATIONS.getCategoryDesc(),true));
 		}
 		Category immunizationCategory = new Category();
 		immunizationCategory.setCategoryName(ApplicationConstants.CATEGORIES.IMMUNIZATIONS.getCategoryDesc());
@@ -55,8 +62,8 @@ public class ImmunizationScorecard {
 		
 		immunizationCategory.setCategoryRubrics(immunizationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(immunizationScoreList, immunizationCategory);
-		
-		return immunizationCategory;
+		logger.info("Immunizations End time:"+ (System.currentTimeMillis() - startTime));
+		return new AsyncResult<Category>(immunizationCategory);
 		
 	}
 	

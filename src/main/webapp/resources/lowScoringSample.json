@@ -48,7 +48,7 @@
                         "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -160,7 +160,7 @@
                         "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 1,
                         "issuesList": [
                             {
@@ -210,7 +210,7 @@
                         "description": null
                     },
                     {
-                        "rule": "Systems should capture birth sex independent of the Administrative Gender and encode them as an observation in the Social History Section.",
+                        "rule": "Systems should capture birth sex independent of the Administrative Gender and encode them as an observation in the Social History Section",
                         "numberOfIssues": 1,
                         "issuesList": [
                             {
@@ -297,7 +297,7 @@
                         "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 1,
                         "issuesList": [
                             {
@@ -437,7 +437,7 @@
                         "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 1,
                         "issuesList": [
                             {
@@ -545,7 +545,7 @@
                         "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 1,
                         "issuesList": [
                             {
@@ -641,7 +641,7 @@
                         "description": "Lab results should be expressed with LOINC codes"
                     },
                     {
-                        "rule": "The EffectiveDate/Time elements for the Result Organizer must encompass the underlying observations.",
+                        "rule": "The EffectiveDate/Time elements for the Result Organizer must encompass the underlying observations",
                         "numberOfIssues": 5,
                         "issuesList": [
                             {
@@ -784,7 +784,7 @@
                         "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 1,
                         "issuesList": [
                             {
@@ -881,10 +881,10 @@
                         "igReferences": [
                             "Section 3.108: Vital Sign Observation"
                         ],
-                        "description": "The recommended UCUM units should be used to represent the Vital Sign result values as part of the observation."
+                        "description": "The recommended UCUM units should be used to represent the Vital Sign result values as part of the observation"
                     },
                     {
-                        "rule": "The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations.",
+                        "rule": "The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations",
                         "numberOfIssues": 1,
                         "issuesList": [
                             {
@@ -999,7 +999,7 @@
                         "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 1,
                         "issuesList": [
                             {
@@ -1041,7 +1041,7 @@
                         "description": null
                     },
                     {
-                        "rule": "Problem Concern effective times reflect the appropriate problem concern status.",
+                        "rule": "Problem Concern effective times reflect the appropriate problem concern status",
                         "numberOfIssues": 1,
                         "issuesList": [
                             {
@@ -1176,7 +1176,7 @@
                         "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -1209,7 +1209,7 @@
                         "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
                     },
                     {
-                        "rule": "Allergies Concern observation effective times reflect the appropriate allergy concern status.",
+                        "rule": "Allergies Concern observation effective times reflect the appropriate allergy concern status",
                         "numberOfIssues": 2,
                         "issuesList": [
                             {
@@ -1377,11 +1377,14 @@
         ],
         "numberOfIssues": 126,
         "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
-        "industryAverageScore": 86,
-        "industryAverageGrade": "B+",
-        "numberOfDocumentsScored": 59,
+        "industryAverageScore": 75,
+        "industryAverageGrade": "C",
+        "numberOfDocumentsScored": 3084,
         "docType": "R2.1",
-        "passedCertification": null
+        "passedCertification": null,
+        "numberOfDocsScoredPerCcdaDocumentType": 56,
+        "industryAverageScoreForCcdaDocumentType": 72,
+        "industryAverageGradeForCcdaDocumentType": "C"
     },
     "referenceResults": [],
     "schemaErrorList": null,

@@ -2,7 +2,9 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDAAllergyConcern;
 import org.sitenv.ccdaparsing.model.CCDAAllergyObs;
@@ -16,19 +18,26 @@ import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AllergiesScorecard {
 	
+	private static final Logger logger = Logger.getLogger(AllergiesScorecard.class);
+	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
-	
-	public Category getAllergiesCategory(CCDAAllergy allergies, PatientDetails patientDetails,String docType, List<SectionRule> sectionRules)
+	@Async()
+	public Future<Category> getAllergiesCategory(CCDAAllergy allergies, PatientDetails patientDetails,String docType, List<SectionRule> sectionRules)
 	{
+		long startTime = System.currentTimeMillis();
+		logger.info("Allergies Start time:"+ startTime);
+		
 		if(allergies== null || allergies.isSectionNullFlavourWithNI())
 		{
-			return new Category(ApplicationConstants.CATEGORIES.ALLERGIES.getCategoryDesc(),true);
+			return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.ALLERGIES.getCategoryDesc(),true));
 		}
 		Category allergyCategory = new Category();
 		allergyCategory.setCategoryName(ApplicationConstants.CATEGORIES.ALLERGIES.getCategoryDesc());
@@ -57,8 +66,8 @@ public class AllergiesScorecard {
 
 		allergyCategory.setCategoryRubrics(allergyScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(allergyScoreList,allergyCategory);
-		
-		return allergyCategory;
+		logger.info("Allergies End time:"+ (System.currentTimeMillis() - startTime));
+		return new AsyncResult<Category>(allergyCategory);
 		
 	}
 	

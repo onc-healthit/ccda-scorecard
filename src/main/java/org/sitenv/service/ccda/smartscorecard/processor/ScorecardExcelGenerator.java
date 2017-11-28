@@ -1,8 +1,13 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -22,6 +27,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class ScorecardExcelGenerator {
 	
+	private static final Map<Integer, String> HEADER_INDEX_AND_VALUE;
+	private static final int NUMBER_OF_COLUMNS; 
+	
+	static {
+		HEADER_INDEX_AND_VALUE = new HashMap<Integer, String>();
+		final List<String> headers = new ArrayList<String>(Arrays.asList("C-CDA Version", "Filename", "C-CDA Document Type", "Sender", 
+				"Is One Click Scorecard", "Time Scored", "DocScore", "PatientScore", "AllergiesScore", "EncountersScore",  "ImmunizationsScore", 
+				"MedicationsScore", "ProblemsScore", "ProceduresScore", "SocialhistoryScore", "VitalsScore",  "ResultsScore", "MiscScore", 
+				"PatientIssues", "AllergiesIssues", "EncountersIssues", "ImmunizationsIssues", "MedicationsIssues", "ProblemsIssues", 
+				"ProceduresIssues", "SocialhistoryIssues", "VitalsIssues", "ResultsIssues", "MiscIssues"));
+		NUMBER_OF_COLUMNS = headers.size();
+		for(int i = 0; i < NUMBER_OF_COLUMNS; i++) {
+			HEADER_INDEX_AND_VALUE.put(i, headers.get(i));
+		}
+	}
+	
 	public HSSFWorkbook exportToExcel(List<ScorecardStatistics> excelRows) throws IOException {
 		HSSFWorkbook workBook = new HSSFWorkbook();
 		HSSFSheet sheet = workBook.createSheet("Scorecard_Data");
@@ -32,128 +53,35 @@ public class ScorecardExcelGenerator {
 	private static void writeToExcel(List<ScorecardStatistics> excelRows, HSSFWorkbook workBook, HSSFSheet sheet) {
 		createHeader(workBook, sheet);
 		createContents(excelRows, workBook, sheet);
-		adjustColumnWidth(sheet, 28);
+		adjustColumnWidth(sheet, NUMBER_OF_COLUMNS);
+	}
+	
+	private static void createCell(HSSFRow row, HSSFCell cell, int index, HSSFCellStyle style, Object value) {
+		cell = row.createCell(index);
+		cell.setCellStyle(style);
+		if(value instanceof Integer) {
+			cell.setCellValue((int) value);
+		} else if(value instanceof String) {
+			cell.setCellValue((String) value);
+		} else if(value instanceof Boolean) {
+			cell.setCellValue((boolean) value);
+		} else if(value instanceof Timestamp) {
+			cell.setCellValue((Timestamp) value);
+		} else if(value instanceof Long) {
+			cell.setCellValue((long) value);
+		}
 	}
 
 	private static void createHeader(HSSFWorkbook workBook, HSSFSheet sheet) {
 		HSSFRow row = sheet.createRow(0);
 		HSSFCellStyle columnHdrStyle = createCellStyleForColumnHeading(workBook);
-		
-		HSSFCell cell = row.createCell(0);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("DocType");
-		
-		cell = row.createCell(1);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("DocName");
-		
-		cell = row.createCell(2);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("ccdaDocType");
-		
-		cell = row.createCell(3);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("Is Once click scorecard");
-		
-		cell = row.createCell(4);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("Scored Time");
-		
-		cell = row.createCell(5);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("DocScore");
-		
-		cell = row.createCell(6);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("PatientScore");
-		
-		cell = row.createCell(7);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("AllergiesScore");
-		
-		cell = row.createCell(8);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("EncountersScore");
-		
-		cell = row.createCell(9);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("ImmunizationsScore");
-		
-		cell = row.createCell(10);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("MedicationsScore");
-		
-		cell = row.createCell(11);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("ProblemsScore");
-		
-		cell = row.createCell(12);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("ProceduresScore");
-		
-		cell = row.createCell(13);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("SocialhistoryScore");
-		
-		cell = row.createCell(14);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("VitalsScore");
-		
-		cell = row.createCell(15);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("ResultsScore");
-		
-		cell = row.createCell(16);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("MiscScore");
-		
-		cell = row.createCell(17);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("PatientIssues");
-		
-		cell = row.createCell(18);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("AllergiesIssues");
-		
-		cell = row.createCell(19);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("EncountersIssues");
-		
-		cell = row.createCell(20);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("ImmunizationsIssues");
-		
-		cell = row.createCell(21);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("MedicationsIssues");
-		
-		cell = row.createCell(22);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("ProblemsIssues");
-		
-		cell = row.createCell(23);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("ProceduresIssues");
-		
-		cell = row.createCell(24);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("SocialhistoryIssues");
-		
-		cell = row.createCell(25);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("VitalsIssues");
-		
-		cell = row.createCell(26);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("ResultsIssues");
-		
-		cell = row.createCell(27);
-		cell.setCellStyle(columnHdrStyle);
-		cell.setCellValue("MiscIssues");
-		
+		HSSFCell cell = null;
+		for(int colIndex = 0; colIndex < NUMBER_OF_COLUMNS; colIndex++) {
+			createCell(row, cell, colIndex, columnHdrStyle, HEADER_INDEX_AND_VALUE.get(colIndex));
+		}
 	}
 
-	private static void createContents(List<ScorecardStatistics> excelRows, HSSFWorkbook workBook, HSSFSheet sheet) {
+	private static void createContents(List<ScorecardStatistics> excelRows, HSSFWorkbook workBook, HSSFSheet sheet) {		
 		HSSFCellStyle cellStyle = createCellStyleForRows(workBook);
 		HSSFCellStyle timeCellStyle = createCelStyleForTime(workBook);
 		if (excelRows != null) {
@@ -161,156 +89,78 @@ public class ScorecardExcelGenerator {
 			Iterator<ScorecardStatistics> excelRowIterator = excelRows.iterator();
 
 			while (excelRowIterator.hasNext()) {
-				ScorecardStatistics excelRow = (ScorecardStatistics)excelRowIterator.next();
+				ScorecardStatistics excelRow = (ScorecardStatistics) excelRowIterator.next();
 				HSSFRow row = sheet.createRow(rowCount++);
-				HSSFCell cell;
+				HSSFCell cell = null;
 				
 				if (!ApplicationUtil.isEmpty(excelRow.getDoctype())) {
-					cell = row.createCell(0);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getDoctype());
+					createCell(row, cell, 0, cellStyle, excelRow.getDoctype());
 				}
-
 				if (!ApplicationUtil.isEmpty(excelRow.getDocname())) {
-					cell = row.createCell(1);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getDocname());
+					createCell(row, cell, 1, cellStyle, excelRow.getDocname());
 				}
-				
 				if (!ApplicationUtil.isEmpty(excelRow.getCcdaDocumentType())) {
-					cell = row.createCell(2);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getCcdaDocumentType());
+					createCell(row, cell, 2, cellStyle, excelRow.getCcdaDocumentType());
+				}				
+				if (!ApplicationUtil.isEmpty(excelRow.getDirectEmailAddress())) {
+					createCell(row, cell, 3, cellStyle, excelRow.getDirectEmailAddress());
 				}
 				
-				cell = row.createCell(3);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.isOneClickScorecard());
-				
-				if (excelRow.getCreateTimestamp()!=null) {
-					
-					cell = row.createCell(4);
-					cell.setCellStyle(timeCellStyle);
-					cell.setCellValue(excelRow.getCreateTimestamp());
+				createCell(row, cell, 4, cellStyle, excelRow.isOneClickScorecard());
+
+				if (excelRow.getCreateTimestamp() != null) {
+					createCell(row, cell, 5, timeCellStyle, excelRow.getCreateTimestamp());
 				} 
 				
-				cell = row.createCell(5);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getDocscore());
+				createCell(row, cell, 6, cellStyle, excelRow.getDocscore());
+				createCell(row, cell, 7, cellStyle, excelRow.getPatientScore());
+				createCell(row, cell, 8, cellStyle, excelRow.getAllergiesSectionScore());
+				createCell(row, cell, 9, cellStyle, excelRow.getEncountersSectionScore());
+				createCell(row, cell, 10, cellStyle, excelRow.getImmunizationsSectionScore());				
+				createCell(row, cell, 11, cellStyle, excelRow.getMedicationsSectionScore());
+				createCell(row, cell, 12, cellStyle, excelRow.getProblemsSectionScore());
+				createCell(row, cell, 13, cellStyle, excelRow.getProceduresSectionScore());
+				createCell(row, cell, 14, cellStyle, excelRow.getSocialhistorySectionScore());
+				createCell(row, cell, 15, cellStyle, excelRow.getVitalsSectionScore());
+				createCell(row, cell, 16, cellStyle, excelRow.getResultsSectionScore());
+				createCell(row, cell, 17, cellStyle, excelRow.getMiscScore());
 				
-				cell = row.createCell(6);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getPatientScore());
-				
-				cell = row.createCell(7);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getAllergiesSectionScore());
-				
-				cell = row.createCell(8);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getEncountersSectionScore());
-				
-				cell = row.createCell(9);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getImmunizationsSectionScore());
-				
-				cell = row.createCell(10);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getMedicationsSectionScore());
-				
-				cell = row.createCell(11);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getProblemsSectionScore());
-				
-				cell = row.createCell(12);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getProceduresSectionScore());
-				
-				cell = row.createCell(13);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getSocialhistorySectionScore());
-				
-				cell = row.createCell(14);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getVitalsSectionScore());
-				
-				cell = row.createCell(15);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getResultsSectionScore());
-				
-				cell = row.createCell(16);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(excelRow.getMiscScore());
-				
-				if(excelRow.getPatientIssues()!= null){
-					cell = row.createCell(17);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getPatientIssues());
+				if(excelRow.getPatientIssues() != null) {
+					createCell(row, cell, 18, cellStyle, excelRow.getPatientIssues());
+				}				
+				if(excelRow.getAllergiesSectionIssues() != null) {
+					createCell(row, cell, 19, cellStyle, excelRow.getAllergiesSectionIssues());
+				}				
+				if(excelRow.getEncountersSectionIssues() != null) {
+					createCell(row, cell, 20, cellStyle, excelRow.getEncountersSectionIssues());
+				}				
+				if(excelRow.getImmunizationsSectionIssues() != null) {
+					createCell(row, cell, 21, cellStyle, excelRow.getImmunizationsSectionIssues());
 				}
-				
-				if(excelRow.getAllergiesSectionIssues()!= null){
-					cell = row.createCell(18);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getAllergiesSectionIssues());
-				}
-				
-				if(excelRow.getEncountersSectionIssues()!= null){
-					cell = row.createCell(19);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getEncountersSectionIssues());
-				}
-				
-				if(excelRow.getImmunizationsSectionIssues()!= null){
-					cell = row.createCell(20);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getImmunizationsSectionIssues());
-				}
-				
-				if(excelRow.getMedicationsSectionIssues()!= null){
-					cell = row.createCell(21);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getMedicationsSectionIssues());
-				}
-				
-				if(excelRow.getProblemsSectionIssues()!= null){
-					cell = row.createCell(22);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getProblemsSectionIssues());
-				}
-				
-				if(excelRow.getProceduresSectionIssues()!= null){
-					cell = row.createCell(23);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getProceduresSectionIssues());
-				}
-				
-				if(excelRow.getSocialhistorySectionIssues()!= null){
-					cell = row.createCell(24);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getSocialhistorySectionIssues());
-				}
-				
-				if(excelRow.getVitalsSectionIssues()!= null){
-					cell = row.createCell(25);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getVitalsSectionIssues());
-				}
-				
-				if(excelRow.getResultsSectionIssues()!= null){
-					cell = row.createCell(26);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getResultsSectionIssues());
-				}
-				
-				if(excelRow.getMiscIssues()!= null){
-					cell = row.createCell(27);
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(excelRow.getMiscIssues());
+				if(excelRow.getMedicationsSectionIssues() != null) {
+					createCell(row, cell, 22, cellStyle, excelRow.getMedicationsSectionIssues());
+				}				
+				if(excelRow.getProblemsSectionIssues() != null) {
+					createCell(row, cell, 23, cellStyle, excelRow.getProblemsSectionIssues());
+				}				
+				if(excelRow.getProceduresSectionIssues() != null) {
+					createCell(row, cell, 24, cellStyle, excelRow.getProceduresSectionIssues());
+				}				
+				if(excelRow.getSocialhistorySectionIssues() != null) {
+					createCell(row, cell, 25, cellStyle, excelRow.getSocialhistorySectionIssues());
+				}				
+				if(excelRow.getVitalsSectionIssues() != null) {
+					createCell(row, cell, 26, cellStyle, excelRow.getVitalsSectionIssues());
+				}				
+				if(excelRow.getResultsSectionIssues() != null) {
+					createCell(row, cell, 27, cellStyle, excelRow.getResultsSectionIssues());
+				}				
+				if(excelRow.getMiscIssues() != null) {
+					createCell(row, cell, 28, cellStyle, excelRow.getMiscIssues());
 				}
 				
 			}
 		}
-
 	}
 
 	private static void adjustColumnWidth(Sheet sheet, int numberOfColumns) {

@@ -6,7 +6,8 @@
             <button ng-click="jumpToCategory(getCurrentHeatMapSectionData(row, 1))" 
             ng-class="getHeatMapClass(row, 1, 'btn btn-large btn-block heatMapButton')" class="btn btn-large btn-block heatMapButton" 
             ng-disabled="isFinalCategoryListByGradeInitialized() ? isHeatMapSectionDisabled(getCurrentHeatMapSectionData(row, 1)) : false" 
-            type="button" onclick="this.blur();">
+            type="button" onclick="this.blur();"
+            analytics-on="click" analytics-event="Highest Scoring Column Section Navigation" analytics-category="Heatmap">
                 {{truncateCategoryName(getHeatMapCategoryName(row, 1))}}:&nbsp;{{getHeatMapCategoryGrade(row, 1)}}
                 ({{getHeatMapCategoryIssueCount(row, 1)}})
             </button>
@@ -16,7 +17,8 @@
             <button ng-click="jumpToCategory(getCurrentHeatMapSectionData(row, 2))" 
             ng-class="getHeatMapClass(row, 2, 'btn btn-large btn-block heatMapButton')" class="btn btn-large btn-block heatMapButton" 
             ng-disabled="isFinalCategoryListByGradeInitialized() ? isHeatMapSectionDisabled(getCurrentHeatMapSectionData(row, 2)) : false" 
-            type="button" onclick="this.blur();">
+            type="button" onclick="this.blur();"
+            analytics-on="click" analytics-event="Midranged Scoring Column Section Navigation" analytics-category="Heatmap">
                 {{truncateCategoryName(getHeatMapCategoryName(row, 2))}}:&nbsp;{{getHeatMapCategoryGrade(row, 2)}}
                 ({{getHeatMapCategoryIssueCount(row, 2)}})
             </button>
@@ -27,7 +29,8 @@
             ng-show="getHeatMapCategoryName(row, 3) !== 'UNK'" ng-class="getHeatMapClass(row, 3, 'btn btn-large btn-block heatMapButton')" 
             class="btn btn-large btn-block heatMapButton" 
             ng-disabled="isFinalCategoryListByGradeInitialized() ? isHeatMapSectionDisabled(getCurrentHeatMapSectionData(row, 3)) : false" 
-            type="button" onclick="this.blur();">
+            type="button" onclick="this.blur();"
+            analytics-on="click" analytics-event="Lowest Scoring Column Section Navigation" analytics-category="Heatmap">
                 {{truncateCategoryName(getHeatMapCategoryName(row, 3))}}:&nbsp;{{getHeatMapCategoryGrade(row, 3)}}
                 ({{getHeatMapCategoryIssueCount(row, 3)}})
             </button>

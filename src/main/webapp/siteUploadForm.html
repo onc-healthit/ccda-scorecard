@@ -30,7 +30,8 @@
                               <div class="col-md-6 col-xs-6">                            
                                 <button ng-click="tryScorecard()" id="scTryMe"
                                   class="btn btn-success btn-block start" data-toggle="modal"
-                                  data-target="#resultModal" tabindex="1" type="button">
+                                  data-target="#resultModal" tabindex="1" type="button"
+                                  analytics-on="click" analytics-event="Try Me" analytics-category="Run the Scorecard">
                                   <!--<i class="glyphicon glyphicon-user"></i>-->
                                   <span>Try Me!</span>
                                 </button>
@@ -85,7 +86,8 @@
 									  id="scFormSubmit"
 									  class="btn btn-primary start"
 									  data-toggle="modal" data-target="#resultModal"
-									  tabindex="1" type="button">
+									  tabindex="1" type="button"
+                                      analytics-on="click" analytics-event="Score" analytics-category="Run the Scorecard">
 									  <i class="glyphicon glyphicon-ok"></i> <span>Score</span>
 									</button>
 									<!--progress bar-->
@@ -126,16 +128,20 @@
         <h2 style="font-size: 18px">Learn</h2>
          <div class="btn-group-vertical btn-block">                     
         <a class="btn btn-default" type="button" tabindex="1" data-toggle="modal" data-target="#siteIntroductionModal" id="introductionButton"
-          href="javascript:void(0)" onclick="this.blur();">Scorecard Introduction and Release Notes</a> 
+          href="javascript:void(0)" onclick="this.blur();" analytics-on="click" analytics-event="Intro and Release Notes" 
+          analytics-category="Landing Page Help">Scorecard Introduction and Release Notes</a> 
         <a class="btn btn-default" type="button" tabindex="1" data-toggle="modal" data-target="#scoringCriteriaModal" id="scoringCriteriaButton"
-          href="javascript:void(0)" onclick="this.blur();">How to Interpret the Scorecard Results</a>          
+          href="javascript:void(0)" onclick="this.blur();" analytics-on="click" analytics-event="Interpret Results" 
+          analytics-category="Landing Page Help">How to Interpret the Scorecard Results</a>          
                                      
         <h2 style="font-size: 18px">Implement</h2>
          <div class="btn-group-vertical btn-block">                         
           <a class="btn btn-default" type="button" tabindex="1" data-toggle="modal" data-target="#siteApiInstructionsModal" id="siteApiInstructionsButton"
-            href="javascript:void(0)" onclick="this.blur();">Scorecard API and External Tool Instructions</a>
+            href="javascript:void(0)" onclick="this.blur();" analytics-on="click" analytics-event="API and External Tools" 
+            analytics-category="Landing Page Help">Scorecard API and External Tool Instructions</a>
           <a class="btn btn-default" type="button" tabindex="1" target="_blank"
-            href="https://github.com/siteadmin/Scorecard-Local-Instantiation" onclick="this.blur();">Download the Scorecard for Local Instantiation</a>
+            href="https://github.com/siteadmin/Scorecard-Local-Instantiation" onclick="this.blur();" analytics-on="click" 
+            analytics-event="Local Instantiation" analytics-category="Landing Page Help">Download the Scorecard for Local Instantiation</a>
           <link-disclaimer span-class="siteUiData.disclaimer.classesForButton"></link-disclaimer>
          </div>
                 
@@ -145,7 +151,8 @@
           However, we strongly suggest that you do not include any Protected
           Health Information (PHI) or Personally Identifiable Information
           (PII) in your C-CDA file submissions to the Scorecard. Click <a
-            href="http://www.hhs.gov/hipaa/for-professionals/privacy/special-topics/de-identification/index.html" target="_blank">here</a>
+            href="http://www.hhs.gov/hipaa/for-professionals/privacy/special-topics/de-identification/index.html" target="_blank"
+            analytics-on="click" analytics-event="De-identify PHI link" analytics-category="Landing Page Help">here</a>
           for more information on how to de-identify PHI.
         </p>
                              

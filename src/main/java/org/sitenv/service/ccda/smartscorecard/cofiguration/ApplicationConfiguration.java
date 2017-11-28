@@ -61,4 +61,8 @@ public class ApplicationConfiguration {
 			: CCDA_PROD_SERVER_URL)
 			+ CCDA_SCORECARD_SERVICE;	
 	
+	public static final int CORE_POOL_SIZE = 200;
+	public static final int MAX_POOL_SIZE = 500;
+	public static final int QUEUE_CAPACITY = 10;
+	
 }

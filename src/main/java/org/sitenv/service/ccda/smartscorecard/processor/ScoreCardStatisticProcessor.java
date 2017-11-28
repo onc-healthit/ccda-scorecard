@@ -20,10 +20,11 @@ public class ScoreCardStatisticProcessor {
 	
 	public void saveDetails(Results results,String docname,boolean isOneClickScorecard) 
 	{
-		saveDetails(results,docname,isOneClickScorecard,"Unknown");
+		saveDetails(results,docname,isOneClickScorecard,"Unknown","ccdascorecardservice");
 	}
 	
-	public void saveDetails(Results results,String docname,boolean isOneClickScorecard,String ccdaDocumentType)
+	public void saveDetails(Results results,String docname,boolean isOneClickScorecard,String ccdaDocumentType,
+			String directEmailAddress)
 	{
 		ScorecardStatistics scorecardStatistics = new ScorecardStatistics();
 		scorecardStatistics.setDoctype(results.getDocType());
@@ -31,6 +32,7 @@ public class ScoreCardStatisticProcessor {
 		scorecardStatistics.setDocname(docname);
 		scorecardStatistics.setOneClickScorecard(isOneClickScorecard);
 		scorecardStatistics.setCcdaDocumentType(ccdaDocumentType);
+		scorecardStatistics.setDirectEmailAddress(directEmailAddress);
 		for (Category category : results.getCategoryList())
 		{
 			if(category.getCategoryName().equalsIgnoreCase(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc()))
@@ -101,12 +103,17 @@ public class ScoreCardStatisticProcessor {
 			return 0;
 	}
 	
+	public int calculateIndustryAverageScoreForCcdaDocumentType(String ccdaDocumentType, boolean isOneClickScorecard) 
+	{
+		return statisticsRepository.findAverageOfScoresForCcdaDocumentType(ccdaDocumentType, isOneClickScorecard);
+	}
+	
 	public long numberOfDocsScored(boolean isOneClickScorecard)
 	{
 		return statisticsRepository.findByCount(isOneClickScorecard);
 	}
 	
-	public long numberOfDocsScoredPerCcdaDocumentType(String ccdaDocumentType,boolean isOneClickScorecard)
+	public long numberOfDocsScoredPerCcdaDocumentType(String ccdaDocumentType, boolean isOneClickScorecard)
 	{
 		return statisticsRepository.findCountOfDocsScoredPerCcdaDocumentType(ccdaDocumentType, isOneClickScorecard);
 	}

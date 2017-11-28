@@ -103,6 +103,9 @@ public class ScorecardStatistics {
 	
 	@Column(name = "ccdadocumenttype")
 	private String ccdaDocumentType;
+	
+	@Column(name = "directemailaddress")
+	private String directEmailAddress;
 
 
 	public String getDoctype() {
@@ -335,5 +338,13 @@ public class ScorecardStatistics {
 	
 	public void setCcdaDocumentType(String ccdaDocumentType) {
 		this.ccdaDocumentType = ccdaDocumentType;
-	}	
+	}
+	
+	public String getDirectEmailAddress() {
+		return directEmailAddress;
+	}
+
+	public void setDirectEmailAddress(String directEmailAddress) {
+		this.directEmailAddress = directEmailAddress;
+	}
 }

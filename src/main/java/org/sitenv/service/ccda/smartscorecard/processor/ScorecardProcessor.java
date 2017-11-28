@@ -12,6 +12,8 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -110,9 +112,16 @@ public class ScorecardProcessor {
 	@Autowired
 	ScorecardExcelGenerator scorecardExcelGenerator;
 	
+	@Autowired
+	CCDAParserAPI cCDAParserAPI;
+	
 	private static final Logger logger = Logger.getLogger(ScorecardProcessor.class);
 	
-	public ResponseTO processCCDAFile(MultipartFile ccdaFile,boolean isOneClickScorecard)
+	public ResponseTO processCCDAFile(MultipartFile ccdaFile) {
+		return processCCDAFile(ccdaFile, false, "ccdascorecardservice2");
+	}
+	
+	public ResponseTO processCCDAFile(MultipartFile ccdaFile, boolean isOneClickScorecard, String directEmailAddress)
 	{
 		ValidationResultsDto referenceValidatorResults = null;
 		ValidationResultsDto certificationResults;
@@ -127,7 +136,7 @@ public class ScorecardProcessor {
 		Results results = new Results();
 		List<ScorecardSection> scorecardSections=null;
 		try{
-			CCDARefModel ccdaModels = CCDAParserAPI.parseCCDA2_1(ccdaFile.getInputStream());
+			CCDARefModel ccdaModels = cCDAParserAPI.parseCCDA2_1(ccdaFile.getInputStream());
 			scorecardResponse.setFilename(ccdaFile.getOriginalFilename());
 			boolean ccdaModelsIsEmpty = ccdaModels.isEmpty();
 			
@@ -143,6 +152,8 @@ public class ScorecardProcessor {
 				boolean referenceValidatorCallReturnedErrors = false;
 				if(scorecardProperties.getIgConformanceCall())
 				{
+					long startTime = System.currentTimeMillis();
+					logger.info("Reference validator Start time:"+ startTime);
 					validationObjective = 
 						determineValidationObjectiveType(ccdaModels, ReferenceInstanceType.IG_CONFORMANCE);
 					logger.info("Calling ReferenceInstanceType.IG_CONFORMANCE with:" + System.lineSeparator()
@@ -151,14 +162,31 @@ public class ScorecardProcessor {
 					referenceValidatorResults = 
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), 
 								"No Scenario File", scorecardProperties.getIgConformanceURL());
+					
+					final String haltProcessingPrefix = "Halting collection and processing of more results due to: ";
+					
+					boolean isRefValServiceError = referenceValidatorResults.getResultsMetaData().isServiceError();
+					String refValServiceErrorMessage = referenceValidatorResults.getResultsMetaData().getServiceErrorMessage();
+					if(isRefValServiceError || !ApplicationUtil.isEmpty(refValServiceErrorMessage)) 
+					{
+						final String refErrorForUser = ApplicationConstants.ErrorMessages.REFERENCECCDAVALIDATOR_SERVICE_ERROR_PREFIX 
+								+ refValServiceErrorMessage; 
+						logger.error(haltProcessingPrefix + refErrorForUser);
+						scorecardResponse.setSuccess(false);
+						scorecardResponse.setErrorMessage(refErrorForUser);
+						return scorecardResponse;
+					}
+					
 					schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults());
+					
+					logger.info("Reference validator End time:"+ (System.currentTimeMillis() - startTime));
 				
 					if(schemaErrorList.size() > 0)
 					{
 						scorecardResponse.setSchemaErrorList(schemaErrorList);
 						scorecardResponse.setSchemaErrors(true);
 						scorecardResponse.setErrorMessage(ApplicationConstants.ErrorMessages.SCHEMA_ERRORS_GENERIC);
-						logger.info("Halting collection and processing of more results due to schema errors found in first instance");
+						logger.info(haltProcessingPrefix + "Schema errors found in first instance");
 						return scorecardResponse;
 					}
 				
@@ -245,28 +273,14 @@ public class ScorecardProcessor {
 				if(scorecardSections!=null){
 					sectionRules= ApplicationUtil.getSectionRules(scorecardSections, CATEGORIES.MISC.getCategoryDesc());
 				}
-				
+				long startTime = System.currentTimeMillis();
+				logger.info("Misc Start time:"+ startTime);
 				categoryList.add(miscScorecard.getMiscCategory(ccdaModels,sectionRules));
-				Category scorecardCategory = null;
+				logger.info("Misc End time:"+ (System.currentTimeMillis() - startTime));
 				ApplicationUtil.debugLog("certSectionList", certSectionList.toString());
+				getSectionCategory(ccdaModels,patientDetails,docType,sectionRules,errorSectionList,categoryList,scorecardSections);
 				for (Entry<String, String> entry : ApplicationConstants.SECTION_TEMPLATEID_MAP.entrySet()) 
 				{
-					if(!errorSectionList.contains(entry.getValue()))
-					{
-						if(scorecardSections!=null){
-							sectionRules= ApplicationUtil.getSectionRules(scorecardSections, entry.getValue());
-						}
-						scorecardCategory = getSectionCategory(entry.getValue(),ccdaModels,patientDetails,docType,sectionRules);
-						if(scorecardCategory!= null)
-						{
-							categoryList.add(scorecardCategory);
-						}
-					}else
-					{
-						categoryList.add(new Category(true,entry.getValue()));
-					}
-					
-					
 					if(certSectionList.contains(entry.getValue()))
 					{						
 						int indexOfScorecardCategory = -1;
@@ -287,7 +301,6 @@ public class ScorecardProcessor {
 							curCat.setNumberOfIssues(0);
 						}
 					}
-					
 				}
 			}else
 			{
@@ -317,11 +330,14 @@ public class ScorecardProcessor {
 			{
 				ccdaDocumentType = scorecardResponse.getCcdaDocumentType();
 			}
-			scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename(),isOneClickScorecard,ccdaDocumentType);					
+			scoreCardStatisticProcessor.saveDetails(results,ccdaFile.getOriginalFilename(),isOneClickScorecard,
+					ccdaDocumentType,directEmailAddress);					
 			results.setIndustryAverageScore(scoreCardStatisticProcessor.calculateIndustryAverage(isOneClickScorecard));
 			results.setNumberOfDocumentsScored(scoreCardStatisticProcessor.numberOfDocsScored(isOneClickScorecard));
 			results.setNumberOfDocsScoredPerCcdaDocumentType(
-					scoreCardStatisticProcessor.numberOfDocsScoredPerCcdaDocumentType(ccdaDocumentType,isOneClickScorecard));
+					scoreCardStatisticProcessor.numberOfDocsScoredPerCcdaDocumentType(ccdaDocumentType, isOneClickScorecard));
+			results.setIndustryAverageScoreForCcdaDocumentType(scoreCardStatisticProcessor.calculateIndustryAverageScoreForCcdaDocumentType(
+					ccdaDocumentType, isOneClickScorecard));
 			if(results.getIndustryAverageScore() != 0)
 			{
 				results.setIndustryAverageGrade(ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScore()));
@@ -329,6 +345,8 @@ public class ScorecardProcessor {
 			{
 				results.setIndustryAverageGrade("N/A");
 			}
+			results.setIndustryAverageGradeForCcdaDocumentType(
+					ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScoreForCcdaDocumentType()));
 			scorecardResponse.setResults(results);
 			scorecardResponse.setSuccess(true);
 			
@@ -470,10 +488,12 @@ public class ScorecardProcessor {
 		Element templateId;
 		String sectionName=null;
 		XPath xPath = XPathFactory.newInstance().newXPath();
+		String sectionTemplateId = null;
 		if(errorElement.getTagName().equals("section"))
 		{
 			templateId = (Element) xPath.compile(ApplicationConstants.TEMPLATEID_XPATH).evaluate(errorElement, XPathConstants.NODE);
-			sectionName = ApplicationConstants.SECTION_TEMPLATEID_MAP.get(templateId.getAttribute("root"));
+			sectionTemplateId = templateId.getAttribute("root");
+			sectionName = ApplicationConstants.SECTION_TEMPLATEID_MAP.get(sectionTemplateId);
 		}
 		else if(errorElement.getTagName().equals("patientRole"))
 		{
@@ -482,52 +502,142 @@ public class ScorecardProcessor {
 		return sectionName;
 	}
 	
-	public Category getSectionCategory(String sectionName,CCDARefModel ccdaModels, PatientDetails patientDetails, String docType,List<SectionRule> sectionRules)
+	public List<Category> getSectionCategory(CCDARefModel ccdaModels, PatientDetails patientDetails, String docType,List<SectionRule> sectionRules,
+										List<String> errorSectionList,List<Category> categoryList,List<ScorecardSection> scorecardSections)
 	{
-		if(sectionName.equalsIgnoreCase(CATEGORIES.ALLERGIES.getCategoryDesc()))
+		long startTime = System.currentTimeMillis();
+		logger.info("All section Start time:"+ startTime);
+		long maxWaitTime = 300000;
+		long minWaitTime = 5000;
+		boolean isTimeOut = false;
+		Future<Category> allergiesCategory=null;
+		Future<Category> encountersCategory=null;
+		Future<Category> immunizationsCategory=null;
+		Future<Category> labresultsCategory=null;
+		Future<Category> medicationCategory=null;
+		Future<Category> problemsCategory=null;
+		Future<Category> proceduresCategory=null;
+		Future<Category> socialhistoryCategory=null;
+		Future<Category> vitalCategory=null;
+		String sectionName = null;
+		for (Entry<String, String> entry : ApplicationConstants.SECTION_TEMPLATEID_MAP.entrySet()) 
 		{
-			return allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),patientDetails,docType,sectionRules);
+			sectionName = entry.getValue();
+			if(!errorSectionList.contains(entry.getValue()))
+			{
+				if(scorecardSections!=null){
+					sectionRules= ApplicationUtil.getSectionRules(scorecardSections, entry.getValue());
+				}
+				
+				if(sectionName.equalsIgnoreCase(CATEGORIES.ALLERGIES.getCategoryDesc())){
+					allergiesCategory = allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),patientDetails,docType,sectionRules);
+				}
+				else if (sectionName.equalsIgnoreCase(CATEGORIES.ENCOUNTERS.getCategoryDesc())){
+					encountersCategory =  encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),patientDetails,docType,sectionRules);
+				}
+				else if (sectionName.equalsIgnoreCase(CATEGORIES.IMMUNIZATIONS.getCategoryDesc())){
+					immunizationsCategory = immunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization(),patientDetails,docType,sectionRules);
+				}
+				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc())){
+					labresultsCategory = labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),patientDetails,docType,sectionRules);
+				}
+				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc())){
+					medicationCategory=  medicationScorecard.getMedicationCategory(ccdaModels.getMedication(),patientDetails,docType,sectionRules);
+				}
+				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc())){
+					problemsCategory = problemsScorecard.getProblemsCategory(ccdaModels.getProblem(),patientDetails,docType,sectionRules);
+				}
+				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc())){
+					proceduresCategory = procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),patientDetails,docType,sectionRules);
+				}
+				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.SOCIALHISTORY.getCategoryDesc())){
+					socialhistoryCategory = socialhistoryScorecard.getSocialHistoryCategory(ccdaModels.getSmokingStatus(),patientDetails,docType,sectionRules);
+				}
+				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc())){
+					vitalCategory = vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),patientDetails,docType,sectionRules);
+				}
+				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc())){
+					categoryList.add(patientScorecard.getPatientCategory(ccdaModels.getPatient(),docType,sectionRules));
+				}
+				
+			}else{
+				categoryList.add(new Category(true,entry.getValue()));
+			}
 		}
-		else if (sectionName.equalsIgnoreCase(CATEGORIES.ENCOUNTERS.getCategoryDesc()))
-		{
-			return encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),patientDetails,docType,sectionRules);
+		
+		if(allergiesCategory!=null){
+			try{
+				categoryList.add(allergiesCategory.get(maxWaitTime, TimeUnit.MILLISECONDS));
+			}catch (Exception e) {
+				isTimeOut = true;
+			}
 		}
-		else if (sectionName.equalsIgnoreCase(CATEGORIES.IMMUNIZATIONS.getCategoryDesc()))
-		{
-			return immunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization(),patientDetails,docType,sectionRules);
+		
+		if(encountersCategory!=null){
+			try{
+				categoryList.add(encountersCategory.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+			}catch (Exception e) {
+				isTimeOut = true;
+			}
 		}
-		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc()))
-		{
-			 return labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),patientDetails,docType,sectionRules);
+		
+		if(immunizationsCategory!=null){
+			try{
+				categoryList.add(immunizationsCategory.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+			}catch (Exception e) {
+				isTimeOut = true;
+			}
 		}
-		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc()))
-		{
-			return medicationScorecard.getMedicationCategory(ccdaModels.getMedication(),patientDetails,docType,sectionRules);
+		
+		if(labresultsCategory!=null){
+			try{
+				categoryList.add(labresultsCategory.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+			}catch (Exception e) {
+				isTimeOut = true;
+			}
 		}
-		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc()))
-		{
-			return problemsScorecard.getProblemsCategory(ccdaModels.getProblem(),patientDetails,docType,sectionRules);
+		
+		if(medicationCategory!=null){
+			try{
+				categoryList.add(medicationCategory.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+			}catch (Exception e) {
+				isTimeOut = true;
+			}
 		}
-		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc()))
-		{
-			return procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),patientDetails,docType,sectionRules);
+		
+		if(problemsCategory!=null){
+			try{
+				categoryList.add(problemsCategory.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+			}catch (Exception e) {
+				isTimeOut = true;
+			}
 		}
-		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.SOCIALHISTORY.getCategoryDesc()))
-		{
-			return socialhistoryScorecard.getSocialHistoryCategory(ccdaModels.getSmokingStatus(),patientDetails,docType,sectionRules);
+		
+		if(proceduresCategory!=null){
+			try{
+				categoryList.add(proceduresCategory.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+			}catch (Exception e) {
+				isTimeOut = true;
+			}
 		}
-		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc()))
-		{
-			return vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),patientDetails,docType,sectionRules);
+		
+		if(socialhistoryCategory!=null){
+			try{
+				categoryList.add(socialhistoryCategory.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+			}catch (Exception e) {
+				isTimeOut = true;
+			}
 		}
-		else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc()))
-		{
-			return patientScorecard.getPatientCategory(ccdaModels.getPatient(),docType,sectionRules);
+		
+		if(vitalCategory!=null){
+			try{
+				categoryList.add(vitalCategory.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+			}catch (Exception e) {
+				isTimeOut = true;
+			}
 		}
-		else 
-		{
-			return null;
-		}
+		logger.info("All Section End time:"+ (System.currentTimeMillis() - startTime));
+		return categoryList;
 	}
 	
 	

@@ -4,7 +4,7 @@
     "ccdaDocumentType": "CCD",
     "results": {
         "finalGrade": "A+",
-        "finalNumericalGrade": 98,
+        "finalNumericalGrade": 97,
         "categoryList": [
             {
                 "categoryName": "Miscellaneous",
@@ -39,7 +39,7 @@
                         "description": null
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -123,7 +123,7 @@
                         "description": null
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -155,7 +155,7 @@
                         "description": null
                     },
                     {
-                        "rule": "Systems should capture birth sex independent of the Administrative Gender and encode them as an observation in the Social History Section.",
+                        "rule": "Systems should capture birth sex independent of the Administrative Gender and encode them as an observation in the Social History Section",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -198,7 +198,7 @@
                         "description": null
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -266,7 +266,7 @@
                         "description": null
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -326,7 +326,7 @@
                         "description": null
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -358,7 +358,7 @@
                         "description": null
                     },
                     {
-                        "rule": "The EffectiveDate/Time elements for the Result Organizer must encompass the underlying observations.",
+                        "rule": "The EffectiveDate/Time elements for the Result Organizer must encompass the underlying observations",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -390,7 +390,7 @@
             {
                 "categoryName": "Vital Signs",
                 "categoryGrade": "A+",
-                "categoryNumericalScore": 100,
+                "categoryNumericalScore": 97,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -401,7 +401,7 @@
                         "description": null
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -418,11 +418,24 @@
                     },
                     {
                         "rule": "The Vital Sign Observation entries should use LOINC codes to represent the type of vital sign being captured",
-                        "numberOfIssues": 0,
-                        "issuesList": [],
-                        "exampleTaskForceLinks": [],
-                        "igReferences": [],
-                        "description": null
+                        "numberOfIssues": 2,
+                        "issuesList": [
+                            {
+                                "lineNumber": "1420",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29463-7\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Body Weight\"/>"
+                            },
+                            {
+                                "lineNumber": "1484",
+                                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"59408-5\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"OXYGEN SATURATION IN ARTERIAL BLOOD BY PULSE OXIMETRY\"/>"
+                            }
+                        ],
+                        "exampleTaskForceLinks": [
+                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
+                        ],
+                        "igReferences": [
+                            "Section 3.108: Vital Sign Observation"
+                        ],
+                        "description": "Each of the vital sign observation present in the document should use the recommended LOINC codes to represent the vital sign."
                     },
                     {
                         "rule": "Each of the Vital Sign Observations should use the recommended UCUM units to represent the vital sign measurement result",
@@ -433,7 +446,7 @@
                         "description": null
                     },
                     {
-                        "rule": "The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations.",
+                        "rule": "The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -457,7 +470,7 @@
                         "description": null
                     }
                 ],
-                "numberOfIssues": 0,
+                "numberOfIssues": 2,
                 "certificationFeedback": false,
                 "failingConformance": false,
                 "nullFlavorNI": false
@@ -476,7 +489,7 @@
                         "description": null
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -513,7 +526,7 @@
                         "description": null
                     },
                     {
-                        "rule": "Problem Concern effective times reflect the appropriate problem concern status.",
+                        "rule": "Problem Concern effective times reflect the appropriate problem concern status",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -556,7 +569,7 @@
                         "description": null
                     },
                     {
-                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient.",
+                        "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -572,7 +585,7 @@
                         "description": null
                     },
                     {
-                        "rule": "Allergies Concern observation effective times reflect the appropriate allergy concern status.",
+                        "rule": "Allergies Concern observation effective times reflect the appropriate allergy concern status",
                         "numberOfIssues": 0,
                         "issuesList": [],
                         "exampleTaskForceLinks": [],
@@ -664,13 +677,16 @@
                 "nullFlavorNI": false
             }
         ],
-        "numberOfIssues": 7,
+        "numberOfIssues": 9,
         "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
-        "industryAverageScore": 86,
-        "industryAverageGrade": "B+",
-        "numberOfDocumentsScored": 58,
+        "industryAverageScore": 75,
+        "industryAverageGrade": "C",
+        "numberOfDocumentsScored": 3085,
         "docType": "R2.1",
-        "passedCertification": null
+        "passedCertification": null,
+        "numberOfDocsScoredPerCcdaDocumentType": 57,
+        "industryAverageScoreForCcdaDocumentType": 72,
+        "industryAverageGradeForCcdaDocumentType": "C"
     },
     "referenceResults": [],
     "schemaErrorList": null,

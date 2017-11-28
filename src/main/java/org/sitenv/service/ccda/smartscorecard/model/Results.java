@@ -15,6 +15,8 @@ public class Results {
 	private String docType;
 	private Boolean passedCertification;
 	private long numberOfDocsScoredPerCcdaDocumentType;
+	private int industryAverageScoreForCcdaDocumentType;
+	private String industryAverageGradeForCcdaDocumentType;
 		
 	public String getFinalGrade() {
 		return finalGrade;
@@ -82,4 +84,17 @@ public class Results {
 	public void setNumberOfDocsScoredPerCcdaDocumentType(long numberOfDocsScoredPerCcdaDocumentType) {
 		this.numberOfDocsScoredPerCcdaDocumentType = numberOfDocsScoredPerCcdaDocumentType;		
 	}
+	public int getIndustryAverageScoreForCcdaDocumentType() {
+		return industryAverageScoreForCcdaDocumentType;
+	}
+	public void setIndustryAverageScoreForCcdaDocumentType(int industryAverageScoreForCcdaDocumentType) {
+		this.industryAverageScoreForCcdaDocumentType = industryAverageScoreForCcdaDocumentType;
+	}
+	public String getIndustryAverageGradeForCcdaDocumentType() {
+		return industryAverageGradeForCcdaDocumentType;
+	}
+	public void setIndustryAverageGradeForCcdaDocumentType(String industryAverageGradeForCcdaDocumentType) {
+		this.industryAverageGradeForCcdaDocumentType = industryAverageGradeForCcdaDocumentType;
+	}
+	
 }

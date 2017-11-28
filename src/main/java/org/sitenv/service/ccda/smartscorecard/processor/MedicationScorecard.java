@@ -2,7 +2,9 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAMedication;
@@ -15,20 +17,26 @@ import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MedicationScorecard {
 	
+	private static final Logger logger = Logger.getLogger(MedicationScorecard.class);
+	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
-	
-	public Category getMedicationCategory(CCDAMedication medications, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
+	@Async()
+	public Future<Category> getMedicationCategory(CCDAMedication medications, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
+		long startTime = System.currentTimeMillis();
+		logger.info("Medications Start time:"+ startTime);
 		
 		if(medications==null || medications.isSectionNullFlavourWithNI())
 		{
-			return new Category(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc(),true);
+			return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc(),true));
 		}
 		Category medicationCategory = new Category();
 		medicationCategory.setCategoryName(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc());
@@ -60,8 +68,8 @@ public class MedicationScorecard {
 		
 		medicationCategory.setCategoryRubrics(medicationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(medicationScoreList, medicationCategory);
-		
-		return medicationCategory;
+		logger.info("Medications End time:"+ (System.currentTimeMillis() - startTime));
+		return new AsyncResult<Category>(medicationCategory);
 		
 	}
 	

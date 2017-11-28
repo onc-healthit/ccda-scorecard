@@ -8,6 +8,7 @@
 
 <button ng-click="saveScorecard()"
   ng-show="!uploadDisplay.isLoading && !errorData.getJsonDataError && !ngFileUploadError && !timeoutData.errorMessage"
-  type="button" class="btn btn-primary saveResultsBtn" id="saveScorecardButton">Save
-  Results
+  type="button" class="btn btn-primary saveResultsBtn" id="saveScorecardButton"
+  analytics-on="click" analytics-event="Save Results" analytics-category="Results Page Header and Footer Buttons">
+  Save Results
 </button>

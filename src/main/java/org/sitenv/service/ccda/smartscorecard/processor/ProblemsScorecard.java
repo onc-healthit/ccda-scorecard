@@ -2,7 +2,9 @@ package org.sitenv.service.ccda.smartscorecard.processor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProblem;
@@ -16,19 +18,25 @@ import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProblemsScorecard {
 	
+	private static final Logger logger = Logger.getLogger(ProblemsScorecard.class);
+	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
-	
-	public Category getProblemsCategory(CCDAProblem problems, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
+	@Async()
+	public Future<Category> getProblemsCategory(CCDAProblem problems, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
+		long startTime = System.currentTimeMillis();
+		logger.info("Problems Start time:"+ startTime);
 		if(problems==null || problems.isSectionNullFlavourWithNI())
 		{
-			return new Category(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc(),true);
+			return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc(),true));
 		}
 		Category problemsCategory = new Category();
 		problemsCategory.setCategoryName(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc());
@@ -62,8 +70,8 @@ public class ProblemsScorecard {
 		ApplicationUtil.calculateSectionGradeAndIssues(problemsScoreList, problemsCategory);
 		
 		problemsCategory.setCategoryRubrics(problemsScoreList);
-		
-		return problemsCategory;
+		logger.info("Problems End time:"+ (System.currentTimeMillis() - startTime));
+		return new AsyncResult<Category>(problemsCategory);
 		
 	}
 	

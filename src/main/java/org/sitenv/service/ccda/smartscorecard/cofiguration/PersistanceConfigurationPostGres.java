@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan("org.sitenv.service.ccda.smartscorecard")
+@ComponentScan({"org.sitenv.service.ccda.smartscorecard","org.sitenv.ccdaparsing"})
 @EnableJpaRepositories(
 		 entityManagerFactoryRef = "postgresEntityManagerFactory", 
 	     transactionManagerRef = "postgresTransactionManager",

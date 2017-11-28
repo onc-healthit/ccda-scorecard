@@ -370,6 +370,7 @@ public class ApplicationConstants {
 				+ "Once the document is conformant to the expected format, you can resubmit the document for a score.";
 		public static final String ONE_CLICK_SCHEMA_MESSAGE_PART2 = "The following messages provide more specific information "
 				+ "about the non-conformant document:";
+		public static final String REFERENCECCDAVALIDATOR_SERVICE_ERROR_PREFIX = "Reference C-CDA Validator: ";
 	}
 
 	public static enum IG_REFERENCES

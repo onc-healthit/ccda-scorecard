@@ -130,13 +130,12 @@ public class SaveReportController {
 	
 	private static void handlePureBackendCall(MultipartFile ccdaFile, HttpServletResponse response, SaveReportType reportType, 
 			ScorecardProcessor scorecardProcessor) {
-		handlePureBackendCall(ccdaFile, response, reportType, scorecardProcessor, null);
+		handlePureBackendCall(ccdaFile, response, reportType, scorecardProcessor, "savescorecardservicebackend");
 	}
 	
 	private static void handlePureBackendCall(MultipartFile ccdaFile, HttpServletResponse response, SaveReportType reportType, 
 			ScorecardProcessor scorecardProcessor, String sender) {
-//		ResponseTO pojoResponse = callCcdascorecardserviceExternally(ccdaFile);
-		ResponseTO pojoResponse = callCcdascorecardserviceInternally(ccdaFile, scorecardProcessor);
+		ResponseTO pojoResponse = callCcdascorecardserviceInternally(ccdaFile, scorecardProcessor, sender, reportType);
 		if (pojoResponse == null) {
 			pojoResponse = new ResponseTO();
 			pojoResponse.setResults(null);
@@ -165,8 +164,8 @@ public class SaveReportController {
 	};
 	
 	protected static ResponseTO callCcdascorecardserviceInternally(MultipartFile ccdaFile, 
-			ScorecardProcessor scorecardProcessor) {
-		return scorecardProcessor.processCCDAFile(ccdaFile, true);
+			ScorecardProcessor scorecardProcessor, String sender, SaveReportType reportType) {
+		return scorecardProcessor.processCCDAFile(ccdaFile, reportType == SaveReportType.SUMMARY, sender);
 	}
 
 	public static ResponseTO callCcdascorecardserviceExternally(MultipartFile ccdaFile) {
@@ -462,10 +461,11 @@ public class SaveReportController {
 			//brief summary of overall document results (without scorecard issues count listed)
 			sb.append("<h3>Summary</h3>");
 			sb.append("<p>"
-					//+ "Your " + ccdaDocumentType + " document received a grade of <b>" + results.getFinalGrade() + "</b>"
-					+ "Your C-CDA document received a grade of <b>" + results.getFinalGrade() + "</b>"
-					+ " compared to an industry average of " + "<b>" + results.getIndustryAverageGrade() + "</b>" + ". "
-					+ "The industry average was computed by scoring " + results.getNumberOfDocumentsScored() + " C-CDAs. "
+					+ "Your " + ccdaDocumentType + " document received a grade of <b>" + results.getFinalGrade() + "</b>"
+					+ " compared to an industry average of " + "<b>" + results.getIndustryAverageGradeForCcdaDocumentType() + "</b>" + ". "
+					+ "The industry average, specific to the document type sent, was computed by scoring " 
+					+ results.getNumberOfDocsScoredPerCcdaDocumentType() + " " + ccdaDocumentType + 
+					(results.getNumberOfDocsScoredPerCcdaDocumentType() > 1 ? "s" : "" ) + ". " 
 					+ "The document scored " + "<b>" + results.getFinalNumericalGrade() + "/100" + "</b>"
 					+ " and is "
 					+ (conformanceErrorCount > 0 ? "non-compliant" : "compliant")
