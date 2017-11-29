@@ -32,6 +32,10 @@ public class VitalsScorecard {
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
+	
+	@Autowired
+	ReferenceValidatorService referenceValidatorService;
+	
 	@Async()
 	public Future<Category> getVitalsCategory(CCDAVitalSigns vitals, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
@@ -285,7 +289,7 @@ public class VitalsScorecard {
 												&& ApplicationUtil.isCodeSystemAvailable(vitals.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
-				if(ApplicationUtil.validateDisplayName(vitals.getSectionCode().getCode(), 
+				if(referenceValidatorService.validateDisplayName(vitals.getSectionCode().getCode(), 
 														vitals.getSectionCode().getCodeSystem(),
 														vitals.getSectionCode().getDisplayName()))
 				{
@@ -307,7 +311,7 @@ public class VitalsScorecard {
 							&& ApplicationUtil.isCodeSystemAvailable(vitalsOrg.getOrgCode().getCodeSystem()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateDisplayName(vitalsOrg.getOrgCode().getCode(), 
+						if(referenceValidatorService.validateDisplayName(vitalsOrg.getOrgCode().getCode(), 
 																vitalsOrg.getOrgCode().getCodeSystem(),
 																		vitalsOrg.getOrgCode().getDisplayName()))
 						{
@@ -330,7 +334,7 @@ public class VitalsScorecard {
 									&& ApplicationUtil.isCodeSystemAvailable(vitalsObs.getVsCode().getCodeSystem()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(vitalsObs.getVsCode().getCode(), 
+								if(referenceValidatorService.validateDisplayName(vitalsObs.getVsCode().getCode(), 
 																	vitalsObs.getVsCode().getCodeSystem(),
 																	vitalsObs.getVsCode().getDisplayName()))
 								{
@@ -492,7 +496,7 @@ public class VitalsScorecard {
 						   maxPoints++;
 						   if(vitalObs.getVsCode() != null)
 						   {
-							   if(ApplicationUtil.validateCodeForValueset(vitalObs.getVsCode().getCode(), ApplicationConstants.HITSP_VITAL_VALUESET_OID))
+							   if(referenceValidatorService.validateCodeForValueset(vitalObs.getVsCode().getCode(), ApplicationConstants.HITSP_VITAL_VALUESET_OID))
 							   {
 								   actualPoints++;
 							   }

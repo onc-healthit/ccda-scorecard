@@ -31,6 +31,10 @@ public class EncounterScorecard {
 
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
+	
+	@Autowired
+	ReferenceValidatorService referenceValidatorService;
+	
 	@Async()
 	public Future<Category> getEncounterCategory(CCDAEncounter encounter, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
@@ -206,7 +210,7 @@ public class EncounterScorecard {
 														&& ApplicationUtil.isCodeSystemAvailable(encounters.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
-				if(ApplicationUtil.validateDisplayName(encounters.getSectionCode().getCode(), 
+				if(referenceValidatorService.validateDisplayName(encounters.getSectionCode().getCode(), 
 											encounters.getSectionCode().getCodeSystem(),
 											encounters.getSectionCode().getDisplayName()))
 				{
@@ -230,7 +234,7 @@ public class EncounterScorecard {
 															&& ApplicationUtil.isCodeSystemAvailable(encounterActivity.getEncounterTypeCode().getCodeSystem()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateDisplayName(encounterActivity.getEncounterTypeCode().getCode(), 
+						if(referenceValidatorService.validateDisplayName(encounterActivity.getEncounterTypeCode().getCode(), 
 																encounterActivity.getEncounterTypeCode().getCodeSystem(),
 																encounterActivity.getEncounterTypeCode().getDisplayName()))
 						{
@@ -252,7 +256,7 @@ public class EncounterScorecard {
 																  && ApplicationUtil.isCodeSystemAvailable(indication.getProblemType().getCodeSystem()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(indication.getProblemType().getCode(), 
+								if(referenceValidatorService.validateDisplayName(indication.getProblemType().getCode(), 
 																		indication.getProblemType().getCodeSystem(),
 																		indication.getProblemType().getDisplayName()))
 								{
@@ -270,7 +274,7 @@ public class EncounterScorecard {
 																	&& ApplicationUtil.isCodeSystemAvailable(indication.getProblemCode().getCodeSystem()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(indication.getProblemCode().getCode(), 
+								if(referenceValidatorService.validateDisplayName(indication.getProblemCode().getCode(), 
 																		indication.getProblemCode().getCodeSystem(),
 																		indication.getProblemCode().getDisplayName()))
 								{
@@ -295,7 +299,7 @@ public class EncounterScorecard {
 																&& ApplicationUtil.isCodeSystemAvailable(diagnosis.getEntryCode().getCodeSystem()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(diagnosis.getEntryCode().getCode(), 
+								if(referenceValidatorService.validateDisplayName(diagnosis.getEntryCode().getCode(), 
 																diagnosis.getEntryCode().getCodeSystem(),
 																diagnosis.getEntryCode().getDisplayName()))
 								{
@@ -317,7 +321,7 @@ public class EncounterScorecard {
 																		&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemType().getCodeSystem()))
 									{
 										maxPoints++;
-										if(ApplicationUtil.validateDisplayName(probObs.getProblemType().getCode(), 
+										if(referenceValidatorService.validateDisplayName(probObs.getProblemType().getCode(), 
 																				probObs.getProblemType().getCodeSystem(),
 																				probObs.getProblemType().getDisplayName()))
 										{
@@ -335,7 +339,7 @@ public class EncounterScorecard {
 																		&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemCode().getCodeSystem()))
 									{
 										maxPoints++;
-										if(ApplicationUtil.validateDisplayName(probObs.getProblemCode().getCode(), 
+										if(referenceValidatorService.validateDisplayName(probObs.getProblemCode().getCode(), 
 																			   probObs.getProblemCode().getCodeSystem(),
 																			   probObs.getProblemCode().getDisplayName()))
 										{
@@ -358,7 +362,7 @@ public class EncounterScorecard {
 														&& ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 											{
 												maxPoints++;
-												if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
+												if(referenceValidatorService.validateDisplayName(translationCode.getCode(), 
 																	translationCode.getCodeSystem(),
 																	translationCode.getDisplayName()))
 												{

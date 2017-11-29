@@ -28,6 +28,10 @@ public class SocialHistoryScorecard {
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
+	
+	@Autowired
+	ReferenceValidatorService referenceValidatorService;
+	
 	@Async()
 	public Future<Category> getSocialHistoryCategory(CCDASocialHistory socialHistory, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
 	{
@@ -271,7 +275,7 @@ public class SocialHistoryScorecard {
 													&& ApplicationUtil.isCodeSystemAvailable(socialHistory.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
-				if(ApplicationUtil.validateDisplayName(socialHistory.getSectionCode().getCode(), 
+				if(referenceValidatorService.validateDisplayName(socialHistory.getSectionCode().getCode(), 
 											socialHistory.getSectionCode().getCodeSystem(),
 											socialHistory.getSectionCode().getDisplayName()))
 				{
@@ -294,7 +298,7 @@ public class SocialHistoryScorecard {
 							&& ApplicationUtil.isCodeSystemAvailable(smokingStatus.getSmokingStatusCode().getCodeSystem()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateDisplayName(smokingStatus.getSmokingStatusCode().getCode(), 
+						if(referenceValidatorService.validateDisplayName(smokingStatus.getSmokingStatusCode().getCode(), 
 																smokingStatus.getSmokingStatusCode().getCodeSystem(),
 																	smokingStatus.getSmokingStatusCode().getDisplayName()))
 						{
@@ -319,7 +323,7 @@ public class SocialHistoryScorecard {
 							&& ApplicationUtil.isCodeSystemAvailable(tobaccoUse.getTobaccoUseCode().getCodeSystem()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateDisplayName(tobaccoUse.getTobaccoUseCode().getCode(), 
+						if(referenceValidatorService.validateDisplayName(tobaccoUse.getTobaccoUseCode().getCode(), 
 														tobaccoUse.getTobaccoUseCode().getCodeSystem(),
 														tobaccoUse.getTobaccoUseCode().getDisplayName()))
 						{

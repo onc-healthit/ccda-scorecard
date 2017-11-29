@@ -25,8 +25,13 @@ import org.springframework.stereotype.Service;
 public class ImmunizationScorecard {
 	
 	private static final Logger logger = Logger.getLogger(ImmunizationScorecard.class);
+	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
+	
+	@Autowired
+	ReferenceValidatorService referenceValidatorService;
+	
 	@Async()
 	public Future<Category> getImmunizationCategory(CCDAImmunization immunizations, PatientDetails patientDetails,String docType,List<SectionRule>sectionRules)
 	{
@@ -223,7 +228,7 @@ public class ImmunizationScorecard {
 													&& ApplicationUtil.isCodeSystemAvailable(immunizatons.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
-				if(ApplicationUtil.validateDisplayName(immunizatons.getSectionCode().getCode(), 
+				if(referenceValidatorService.validateDisplayName(immunizatons.getSectionCode().getCode(), 
 														immunizatons.getSectionCode().getCodeSystem(),
 														immunizatons.getSectionCode().getDisplayName()))
 				{
@@ -245,7 +250,7 @@ public class ImmunizationScorecard {
 																&& ApplicationUtil.isCodeSystemAvailable(immuActivity.getApproachSiteCode().getCodeSystem()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateDisplayName(immuActivity.getApproachSiteCode().getCode(), 
+						if(referenceValidatorService.validateDisplayName(immuActivity.getApproachSiteCode().getCode(), 
 															   immuActivity.getApproachSiteCode().getCodeSystem(),
 															   immuActivity.getApproachSiteCode().getDisplayName()))
 						{
@@ -268,7 +273,7 @@ public class ImmunizationScorecard {
 								if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()) && ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 								{
 									maxPoints++;
-									if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
+									if(referenceValidatorService.validateDisplayName(translationCode.getCode(), 
 													translationCode.getCodeSystem().toUpperCase(),
 														translationCode.getDisplayName()))
 									{
@@ -334,7 +339,7 @@ public class ImmunizationScorecard {
 					{
 						if(immuAct.getConsumable().getMedcode()!=null)
 						{
-							if(ApplicationUtil.validateCodeForValueset(immuAct.getConsumable().getMedcode().getCode(), 
+							if(referenceValidatorService.validateCodeForValueset(immuAct.getConsumable().getMedcode().getCode(), 
 																			ApplicationConstants.CVX_CODES_VALUSET_OID))
 							{
 								actualPoints++;
