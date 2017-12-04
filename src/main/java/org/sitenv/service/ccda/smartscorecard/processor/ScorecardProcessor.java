@@ -136,7 +136,7 @@ public class ScorecardProcessor {
 		List<String> certSectionList = new ArrayList<>();
 		PatientDetails patientDetails = null;
 		List<Category> categoryList = new ArrayList<Category>();
-		String docType = null;
+		String ccdaVersion = null;
 		VALIDATION_OBJECTIVES validationObjective = null;
 		Results results = new Results();
 		List<ScorecardSection> scorecardSections=null;
@@ -170,18 +170,26 @@ public class ScorecardProcessor {
 					
 					final String haltProcessingPrefix = "Halting collection and processing of more results due to: ";
 					
+					ccdaVersion = ApplicationUtil.isEmpty(referenceValidatorResults.getResultsMetaData().getCcdaVersion())
+							? "Unknown unsupported standard"
+							: referenceValidatorResults.getResultsMetaData().getCcdaVersion();
+					boolean isSupportedStandard = false;					
+					if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion())
+							|| ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion())) {
+						isSupportedStandard = true;
+					}					
+					if (haltScoringIfConditionIsMet(!isSupportedStandard, ApplicationConstants.ErrorMessages.CCDA_VERSION_ERROR, 
+							ccdaVersion, haltProcessingPrefix, scorecardResponse, startTime)) {
+						return scorecardResponse;
+					}						
+														
 					boolean isRefValServiceError = referenceValidatorResults.getResultsMetaData().isServiceError();
 					String refValServiceErrorMessage = referenceValidatorResults.getResultsMetaData().getServiceErrorMessage();
-					if(isRefValServiceError || !ApplicationUtil.isEmpty(refValServiceErrorMessage)) 
-					{
-						final String refErrorForUser = ApplicationConstants.ErrorMessages.REFERENCECCDAVALIDATOR_SERVICE_ERROR_PREFIX 
-								+ refValServiceErrorMessage; 
-						logger.error(haltProcessingPrefix + refErrorForUser);
-						scorecardResponse.setSuccess(false);
-						scorecardResponse.setErrorMessage(refErrorForUser);
-						logger.info("Scorecard End time:"+ (System.currentTimeMillis() - startTime));
+					if (haltScoringIfConditionIsMet(isRefValServiceError || !ApplicationUtil.isEmpty(refValServiceErrorMessage),
+							ApplicationConstants.ErrorMessages.REFERENCECCDAVALIDATOR_SERVICE_ERROR_PREFIX,
+							refValServiceErrorMessage, haltProcessingPrefix, scorecardResponse, startTime)) {
 						return scorecardResponse;
-					}
+					}				
 					
 					schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults());
 					
@@ -199,6 +207,9 @@ public class ScorecardProcessor {
 				
 					referenceValidatorCallReturnedErrors = 
 							checkForReferenceValidatorErrors(referenceValidatorResults.getResultsMetaData().getResultMetaData());
+				} else {
+					//No ref val call so revert to a simple local check
+					ccdaVersion = ApplicationUtil.checkCcdaVersion(ccdaModels);
 				}
 				
 				// Commenting 2nd call for now as the results are currently the same as the 1st
@@ -256,7 +267,6 @@ public class ScorecardProcessor {
 									ReferenceInstanceType.CERTIFICATION_2015)));
 				}
 				
-				docType = ApplicationUtil.checkDocType(ccdaModels);
 				if(ccdaModels.getPatient() != null)
 				{
 					patientDetails = new PatientDetails();
@@ -285,7 +295,7 @@ public class ScorecardProcessor {
 				categoryList.add(miscScorecard.getMiscCategory(ccdaModels,sectionRules));
 				logger.info("Misc End time:"+ (System.currentTimeMillis() - miscStartTime));
 				ApplicationUtil.debugLog("certSectionList", certSectionList.toString());
-				getSectionCategory(ccdaModels,patientDetails,docType,sectionRules,errorSectionList,categoryList,scorecardSections);
+				getSectionCategory(ccdaModels,patientDetails,ccdaVersion,sectionRules,errorSectionList,categoryList,scorecardSections);
 				for (Entry<String, String> entry : ApplicationConstants.SECTION_TEMPLATEID_MAP.entrySet()) 
 				{
 					if(certSectionList.contains(entry.getValue()))
@@ -331,7 +341,7 @@ public class ScorecardProcessor {
 			results.setCategoryList(categoryList);
 			ApplicationUtil.calculateFinalGradeAndIssues(categoryList, results);
 			results.setIgReferenceUrl(ApplicationConstants.IG_URL);
-			results.setDocType(docType);
+			results.setCcdaVersion(ccdaVersion);
 			String ccdaDocumentType = "Unknown";
 			if(!ApplicationUtil.isEmpty(scorecardResponse.getCcdaDocumentType()))
 			{
@@ -366,6 +376,19 @@ public class ScorecardProcessor {
 		logger.info("Scorecard End time:"+ (System.currentTimeMillis() - startTime));
 		return scorecardResponse;
 	}
+	
+	private static boolean haltScoringIfConditionIsMet(boolean conditionToHaltScoring, String firstMessage, 
+			String secondMessage, String haltProcessingPrefix, ResponseTO scorecardResponse, long startTime) {
+		if(conditionToHaltScoring) {
+			final String errorForUser = firstMessage + secondMessage; 
+			logger.error(haltProcessingPrefix + errorForUser);
+			scorecardResponse.setSuccess(false);
+			scorecardResponse.setErrorMessage(errorForUser);
+			logger.info("Scorecard End time:"+ (System.currentTimeMillis() - startTime));
+			return true;
+		}
+		return false;
+	}	
 	
 	public ValidationResultsDto callReferenceValidator(MultipartFile ccdaFile, String validationObjective, String referenceFileName,String referenceValidatorUrl)throws Exception
 	{
@@ -520,7 +543,7 @@ public class ScorecardProcessor {
 		return sectionName;
 	}
 	
-	public List<Category> getSectionCategory(CCDARefModel ccdaModels, PatientDetails patientDetails, String docType,List<SectionRule> sectionRules,
+	public List<Category> getSectionCategory(CCDARefModel ccdaModels, PatientDetails patientDetails, String ccdaVersion,List<SectionRule> sectionRules,
 										List<String> errorSectionList,List<Category> categoryList,List<ScorecardSection> scorecardSections)
 	{
 		long startTime = System.currentTimeMillis();
@@ -548,34 +571,34 @@ public class ScorecardProcessor {
 				}
 				
 				if(sectionName.equalsIgnoreCase(CATEGORIES.ALLERGIES.getCategoryDesc())){
-					allergiesCategory = allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),patientDetails,docType,sectionRules);
+					allergiesCategory = allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),patientDetails,ccdaVersion,sectionRules);
 				}
 				else if (sectionName.equalsIgnoreCase(CATEGORIES.ENCOUNTERS.getCategoryDesc())){
-					encountersCategory =  encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),patientDetails,docType,sectionRules);
+					encountersCategory = encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),patientDetails,ccdaVersion,sectionRules);
 				}
 				else if (sectionName.equalsIgnoreCase(CATEGORIES.IMMUNIZATIONS.getCategoryDesc())){
-					immunizationsCategory = immunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization(),patientDetails,docType,sectionRules);
+					immunizationsCategory = immunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization(),patientDetails,ccdaVersion,sectionRules);
 				}
 				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc())){
-					labresultsCategory = labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),patientDetails,docType,sectionRules);
+					labresultsCategory = labresultsScorecard.getLabResultsCategory(ccdaModels.getLabResults(),ccdaModels.getLabTests(),patientDetails,ccdaVersion,sectionRules);
 				}
 				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc())){
-					medicationCategory=  medicationScorecard.getMedicationCategory(ccdaModels.getMedication(),patientDetails,docType,sectionRules);
+					medicationCategory = medicationScorecard.getMedicationCategory(ccdaModels.getMedication(),patientDetails,ccdaVersion,sectionRules);
 				}
 				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.PROBLEMS.getCategoryDesc())){
-					problemsCategory = problemsScorecard.getProblemsCategory(ccdaModels.getProblem(),patientDetails,docType,sectionRules);
+					problemsCategory = problemsScorecard.getProblemsCategory(ccdaModels.getProblem(),patientDetails,ccdaVersion,sectionRules);
 				}
 				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.PROCEDURES.getCategoryDesc())){
-					proceduresCategory = procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),patientDetails,docType,sectionRules);
+					proceduresCategory = procedureScorecard.getProceduresCategory(ccdaModels.getProcedure(),patientDetails,ccdaVersion,sectionRules);
 				}
 				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.SOCIALHISTORY.getCategoryDesc())){
-					socialhistoryCategory = socialhistoryScorecard.getSocialHistoryCategory(ccdaModels.getSmokingStatus(),patientDetails,docType,sectionRules);
+					socialhistoryCategory = socialhistoryScorecard.getSocialHistoryCategory(ccdaModels.getSmokingStatus(),patientDetails,ccdaVersion,sectionRules);
 				}
 				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc())){
-					vitalCategory = vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),patientDetails,docType,sectionRules);
+					vitalCategory = vitalScorecard.getVitalsCategory(ccdaModels.getVitalSigns(),patientDetails,ccdaVersion,sectionRules);
 				}
 				else if (sectionName.equalsIgnoreCase(ApplicationConstants.CATEGORIES.PATIENT.getCategoryDesc())){
-					categoryList.add(patientScorecard.getPatientCategory(ccdaModels.getPatient(),docType,sectionRules));
+					categoryList.add(patientScorecard.getPatientCategory(ccdaModels.getPatient(),ccdaVersion,sectionRules));
 				}
 				
 			}else{

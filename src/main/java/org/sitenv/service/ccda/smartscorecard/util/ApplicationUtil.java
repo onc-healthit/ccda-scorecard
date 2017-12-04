@@ -1107,22 +1107,22 @@ public class ApplicationUtil {
 			return 0;
 	}
 	
-	public static String checkDocType(CCDARefModel ccdaModels)
+	public static String checkCcdaVersion(CCDARefModel ccdaModels)
 	{
-		String docType = "";
+		String ccdaVersion = "";
 		
 		if(ccdaModels!=null)
 		{
 			if(isExtensionPresent(ccdaModels.getDocTemplateId()))
 			{
-				docType = "R2.1";
+				ccdaVersion = ApplicationConstants.CCDAVersion.R21.getVersion();
 			}else
 			{
-				docType = "R1.1";
+				ccdaVersion = ApplicationConstants.CCDAVersion.R11.getVersion();
 			}
 		}
 		
-		return docType;
+		return ccdaVersion;
 	}
 	
 	public static boolean isRuleEnabled(List<SectionRule> sectionRules, String ruleName) {

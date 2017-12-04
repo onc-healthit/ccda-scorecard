@@ -89,7 +89,7 @@ public class VocabularyLoadRunner implements InitializingBean, DisposableBean {
             logger.error("Failed to load configured vocabulary directory.", e);
         }finally {
             try {
-                if(connection != null || !(connection.isClosed())) {
+                if(connection != null && !(connection.isClosed())) {
                     connection.close();
                 }
             } catch (SQLException e) {

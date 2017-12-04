@@ -12,7 +12,7 @@ public class Results {
 	private int industryAverageScore;
 	private String industryAverageGrade;
 	private long numberOfDocumentsScored;
-	private String docType;
+	private String ccdaVersion;
 	private Boolean passedCertification;
 	private long numberOfDocsScoredPerCcdaDocumentType;
 	private int industryAverageScoreForCcdaDocumentType;
@@ -66,11 +66,11 @@ public class Results {
 	public void setNumberOfDocumentsScored(long numberOfDocumentsScored) {
 		this.numberOfDocumentsScored = numberOfDocumentsScored;
 	}
-	public String getDocType() {
-		return docType;
+	public String getCcdaVersion() {
+		return ccdaVersion;
 	}
-	public void setDocType(String docType) {
-		this.docType = docType;
+	public void setCcdaVersion(String ccdaVersion) {
+		this.ccdaVersion = ccdaVersion;
 	}
 	public Boolean getPassedCertification() {
 		return passedCertification;

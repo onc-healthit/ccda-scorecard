@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ValidationResultsMetaData {
 	private String ccdaDocumentType;
+	private String ccdaVersion;
 	private boolean serviceError;
 	private String serviceErrorMessage;
 	private String ccdaFileName;
@@ -20,6 +21,7 @@ public class ValidationResultsMetaData {
 
 	public ValidationResultsMetaData(ValidationResultsMetaData resultsToCopy) {
 		this.ccdaDocumentType = resultsToCopy.getCcdaDocumentType();
+		this.ccdaVersion = resultsToCopy.getCcdaVersion();
 		this.serviceError = resultsToCopy.isServiceError();
 		this.serviceErrorMessage = resultsToCopy.getServiceErrorMessage();
 		this.ccdaFileName = resultsToCopy.getCcdaFileName();
@@ -35,6 +37,14 @@ public class ValidationResultsMetaData {
 	public void setCcdaDocumentType(String ccdaDocumentType) {
 		this.ccdaDocumentType = ccdaDocumentType;
 	}
+	
+	public void setCcdaVersion(String ccdaVersion) {
+		this.ccdaVersion = ccdaVersion;
+	}
+	
+	public String getCcdaVersion() {
+		return ccdaVersion;
+	}	
 
 	public boolean isServiceError() {
 		return serviceError;

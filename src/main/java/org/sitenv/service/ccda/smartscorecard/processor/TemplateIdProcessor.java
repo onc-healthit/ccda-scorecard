@@ -6,6 +6,7 @@ import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.TemplateIdRepository11;
 import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.TemplateIdRepository21;
+import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,9 @@ public class TemplateIdProcessor {
 	@Autowired
 	TemplateIdRepository11 R11templateIdRepository;
 	
-	public void scoreTemplateId(CCDAII templateId, int actualPoints, List<CCDAXmlSnippet> issuesList,String docType) {
+	public void scoreTemplateId(CCDAII templateId, int actualPoints, List<CCDAXmlSnippet> issuesList,String ccdaVersion) {
 		CCDAXmlSnippet issue = null;
-		if(docType.equalsIgnoreCase("R2.1"))
+		if(ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 		{
 			if (ApplicationUtil.isRootAndExtensionPresent(templateId)) {
 				if (R21templateIdRepository.findByTemplateIdAndExtension(templateId.getRootValue(),templateId.getExtValue())) {
@@ -47,7 +48,7 @@ public class TemplateIdProcessor {
 				issue.setXmlString(templateId.getXmlString());
 				issuesList.add(issue);
 			}
-		}else if (docType.equalsIgnoreCase("R1.1"))
+		}else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 		{
 			if (ApplicationUtil.isRootValuePresent(templateId)) {
 				if (R11templateIdRepository.findByTemplateId(templateId.getRootValue())) {

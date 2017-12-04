@@ -382,7 +382,7 @@ public class SaveReportController {
 			sb.append("<div style='clear: both'></div>");			
 			appendBasicResults(sb, results);			
 		} else {
-			sb.append(results.getDocType() + " "  
+			sb.append(results.getCcdaVersion() + " "  
 					+ (report.getCcdaDocumentType() != null ? report .getCcdaDocumentType() : "document") 
 					+ " Scorecard For:" + "</h1>");		
 			sb.append("<h2>" + report.getFilename() + "</h2>");
