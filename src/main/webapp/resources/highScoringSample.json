@@ -682,7 +682,7 @@
         "industryAverageScore": 75,
         "industryAverageGrade": "C",
         "numberOfDocumentsScored": 3085,
-        "docType": "R2.1",
+        "ccdaVersion": "R2.1",
         "passedCertification": null,
         "numberOfDocsScoredPerCcdaDocumentType": 57,
         "industryAverageScoreForCcdaDocumentType": 72,
