@@ -9,63 +9,63 @@ var scApp = angular.module('scorecard', [
 scApp.directive('scorecard', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'scorecard.html?version=R1.7'
+		templateUrl : 'scorecard.html?version=R1.8'
 	};
 });
 
 scApp.directive('debug', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'debug.html?version=R1.7'
+		templateUrl : 'debug.html?version=R1.8'
 	};
 });
 
 scApp.directive('topLevelResults', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'topLevelResults.html?version=R1.7'
+		templateUrl : 'topLevelResults.html?version=R1.8'
 	};
 });
 
 scApp.directive('summary', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'summary.html?version=R1.7'
+		templateUrl : 'summary.html?version=R1.8'
 	};
 });
 
 scApp.directive('heatMap', function() {
     return {
         restrict : 'E',
-        templateUrl : 'heatMap.html?version=R1.7'
+        templateUrl : 'heatMap.html?version=R1.8'
     };
 });
 
 scApp.directive('detailedResults', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'detailedResults.html?version=R1.7'
+		templateUrl : 'detailedResults.html?version=R1.8'
 	};
 });
 
 scApp.directive('scorecardTwoResults', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'scorecardTwoResults.html?version=R1.7'
+		templateUrl : 'scorecardTwoResults.html?version=R1.8'
 	};
 });
 
 scApp.directive('saveScorecardButton', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'saveScorecardButton.html?version=R1.7'
+		templateUrl: 'saveScorecardButton.html?version=R1.8'
 	};
 });
 
 scApp.directive('saveTryMeXmlButton', function() {
 	return {
 		restict: 'E',
-		templateUrl: 'saveTryMeXmlButton.html?version=R1.7'
+		templateUrl: 'saveTryMeXmlButton.html?version=R1.8'
 	};
 });
 
@@ -73,70 +73,70 @@ scApp.directive('saveTryMeXmlButton', function() {
 scApp.directive('siteHeader', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteHeader.html?version=R1.7'
+		templateUrl : 'siteHeader.html?version=R1.8'
 	};
 });
 
 scApp.directive('siteNavbar', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteNavbar.html?version=R1.7'
+		templateUrl : 'siteNavbar.html?version=R1.8'
 	};
 });
 
 scApp.directive('siteTopLevelContent', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteTopLevelContent.html?version=R1.7'
+		templateUrl : 'siteTopLevelContent.html?version=R1.8'
 	};
 });
 
 scApp.directive('siteUploadForm', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteUploadForm.html?version=R1.7'
+		templateUrl : 'siteUploadForm.html?version=R1.8'
 	};
 });
 
 scApp.directive('siteResultsModal', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteResultsModal.html?version=R1.7'
+		templateUrl : 'siteResultsModal.html?version=R1.8'
 	};
 });
 
 scApp.directive('siteFooter', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteFooter.html?version=R1.7'
+		templateUrl : 'siteFooter.html?version=R1.8'
 	};
 });
 
 scApp.directive('siteScoringCriteriaModal', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteScoringCriteriaModal.html?version=R1.7'
+		templateUrl : 'siteScoringCriteriaModal.html?version=R1.8'
 	};
 });
 
 scApp.directive('siteApiInstructionsModal', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteApiInstructionsModal.html?version=R1.7'
+		templateUrl : 'siteApiInstructionsModal.html?version=R1.8'
 	};
 });
 
 scApp.directive('siteIntroductionModal', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'siteIntroductionModal.html?version=R1.7'
+		templateUrl: 'siteIntroductionModal.html?version=R1.8'
 	};
 });
 
 scApp.directive('siteDownloadLocalModal', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'siteDownloadLocalModal.html?version=R1.7'
+		templateUrl: 'siteDownloadLocalModal.html?version=R1.8'
 	};
 });
 
@@ -146,7 +146,7 @@ scApp.directive('linkDisclaimer', function() {
 		scope: {
 			spanClass: "="
 		},
-		templateUrl: 'siteExternalLinkDisclaimer.html?version=R1.7'
+		templateUrl: 'siteExternalLinkDisclaimer.html?version=R1.8'
 	};
 });
 
