@@ -371,6 +371,7 @@ public class ApplicationConstants {
 		public static final String ONE_CLICK_SCHEMA_MESSAGE_PART2 = "The following messages provide more specific information "
 				+ "about the non-conformant document:";
 		public static final String REFERENCECCDAVALIDATOR_SERVICE_ERROR_PREFIX = "Reference C-CDA Validator: ";
+		public static final String CCDA_VERSION_ERROR = "The document sent is not supported by the C-CDA Scorecard. It has been identified as: ";
 	}
 
 	public static enum IG_REFERENCES
@@ -515,5 +516,18 @@ public class ApplicationConstants {
 		
 	}
 	
+	public static enum CCDAVersion {
+		R11("R1.1"), R20("R2.0"), R21("R2.1"), NOT_CCDA("Not a C-CDA document");
+
+		private final String version;
+
+		private CCDAVersion(final String version) {
+			this.version = version;
+		}
+
+		public String getVersion() {
+			return version;
+		}
+	}
 	
 }

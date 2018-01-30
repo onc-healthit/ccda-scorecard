@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PatientScorecard {
 	
-	public Category getPatientCategory(CCDAPatient patient,String docType,List<SectionRule> sectionRules)
+	public Category getPatientCategory(CCDAPatient patient,String ccdaVersion,List<SectionRule> sectionRules)
 	{
 		
 		Category patientCategory = new Category();
@@ -24,10 +24,10 @@ public class PatientScorecard {
 		List<CCDAScoreCardRubrics> patientScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.P1)) {
-			patientScoreList.add(getDOBTimePrecisionScore(patient, docType));
+			patientScoreList.add(getDOBTimePrecisionScore(patient, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.P2)) {
-			patientScoreList.add(getLegalNameScore(patient, docType));
+			patientScoreList.add(getLegalNameScore(patient, ccdaVersion));
 		}
 		
 		patientCategory.setCategoryRubrics(patientScoreList);
@@ -38,7 +38,7 @@ public class PatientScorecard {
 	}
 	
 	
-	public static CCDAScoreCardRubrics getDOBTimePrecisionScore(CCDAPatient patient, String docType)
+	public static CCDAScoreCardRubrics getDOBTimePrecisionScore(CCDAPatient patient, String ccdaVersion)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
 		timePrecisionScore.setRule(ApplicationConstants.PATIENT_DOB_REQUIREMENT);
@@ -90,11 +90,11 @@ public class PatientScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription("Time precision Rubric failed for Patient DOB");
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RECORD_TARGET.getIgReference());
 			}
-			else if(docType.equalsIgnoreCase("R1.1"))
+			else if(ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RECORD_TARGET.getIgReference());
 			}
@@ -103,7 +103,7 @@ public class PatientScorecard {
 		return timePrecisionScore;
 	}
 	
-	public static CCDAScoreCardRubrics getLegalNameScore(CCDAPatient patient, String docType)
+	public static CCDAScoreCardRubrics getLegalNameScore(CCDAPatient patient, String ccdaVersion)
 	{
 		CCDAScoreCardRubrics legalNameScore = new CCDAScoreCardRubrics();
 		legalNameScore.setRule(ApplicationConstants.PATIENT_LEGAL_NAME_REQUIREMENT);
@@ -144,11 +144,11 @@ public class PatientScorecard {
 		if(issuesList.size() > 0)
 		{
 			legalNameScore.setDescription(ApplicationConstants.PATIENT_LEGAL_NAME_DESCRIPTION);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				legalNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RECORD_TARGET.getIgReference());
 			}
-			else if(docType.equalsIgnoreCase("R1.1"))
+			else if(ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				legalNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RECORD_TARGET.getIgReference());
 			}

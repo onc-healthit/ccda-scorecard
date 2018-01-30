@@ -25,10 +25,6 @@ import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants.CONCERNACT_STATUS;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 
 
@@ -799,7 +795,7 @@ public class ApplicationUtil {
 		return result;
 	}
 	
-	public static boolean validateDisplayName(String code, String codeSystem, String displayName )
+	/*public static boolean validateDisplayName(String code, String codeSystem, String displayName )
 	{
 		boolean result = false;
 		if(!ApplicationUtil.isEmpty(code) && !ApplicationUtil.isEmpty(codeSystem) && !ApplicationUtil.isEmpty(displayName))
@@ -853,7 +849,7 @@ public class ApplicationUtil {
 	      new HttpComponentsClientHttpRequestFactory();
 	    clientHttpRequestFactory.setConnectTimeout(timeout);
 	    return clientHttpRequestFactory;
-	}
+	}*/
 	
 	/*public static boolean validateProblemStatusCode(String problemActStatuscode, List<CCDAProblemObs> probObservations)
 	{
@@ -1111,22 +1107,22 @@ public class ApplicationUtil {
 			return 0;
 	}
 	
-	public static String checkDocType(CCDARefModel ccdaModels)
+	public static String checkCcdaVersion(CCDARefModel ccdaModels)
 	{
-		String docType = "";
+		String ccdaVersion = "";
 		
 		if(ccdaModels!=null)
 		{
 			if(isExtensionPresent(ccdaModels.getDocTemplateId()))
 			{
-				docType = "R2.1";
+				ccdaVersion = ApplicationConstants.CCDAVersion.R21.getVersion();
 			}else
 			{
-				docType = "R1.1";
+				ccdaVersion = ApplicationConstants.CCDAVersion.R11.getVersion();
 			}
 		}
 		
-		return docType;
+		return ccdaVersion;
 	}
 	
 	public static boolean isRuleEnabled(List<SectionRule> sectionRules, String ruleName) {

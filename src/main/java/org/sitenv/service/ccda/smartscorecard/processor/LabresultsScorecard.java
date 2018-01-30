@@ -32,8 +32,12 @@ public class LabresultsScorecard {
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
+	
+	@Autowired
+	ReferenceValidatorService referenceValidatorService;
+	
 	@Async()
-	public Future<Category> getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
+	public Future<Category> getLabResultsCategory(CCDALabResult labResults, CCDALabResult labTests, PatientDetails patientDetails,String ccdaVersion,List<SectionRule> sectionRules)
 	{
 		
 		long startTime = System.currentTimeMillis();
@@ -59,28 +63,28 @@ public class LabresultsScorecard {
 		List<CCDAScoreCardRubrics> labResultsScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L1)) {
-			labResultsScoreList.add(getTimePrecisionScore(results, docType));
+			labResultsScoreList.add(getTimePrecisionScore(results, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L2)) {
-			labResultsScoreList.add(getValidDateTimeScore(results, patientDetails, docType));
+			labResultsScoreList.add(getValidDateTimeScore(results, patientDetails, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L3)) {
-			labResultsScoreList.add(getValidDisplayNameScoreCard(results, docType));
+			labResultsScoreList.add(getValidDisplayNameScoreCard(results, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L4)) {
-			labResultsScoreList.add(getValidUCUMScore(labResults, docType));
+			labResultsScoreList.add(getValidUCUMScore(labResults, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L5)) {
-			labResultsScoreList.add(getValidLoincCodesScore(results, docType));
+			labResultsScoreList.add(getValidLoincCodesScore(results, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L6)) {
-			labResultsScoreList.add(getApprEffectivetimeScore(results, docType));
+			labResultsScoreList.add(getApprEffectivetimeScore(results, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L7)) {
-			labResultsScoreList.add(getNarrativeStructureIdScore(results, docType));
+			labResultsScoreList.add(getNarrativeStructureIdScore(results, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L8)) {
-			labResultsScoreList.add(getTemplateIdScore(results, docType));
+			labResultsScoreList.add(getTemplateIdScore(results, ccdaVersion));
 		}
 		
 		labResultsCategory.setCategoryRubrics(labResultsScoreList);
@@ -90,7 +94,7 @@ public class LabresultsScorecard {
 		
 	}
 	
-	public CCDAScoreCardRubrics getTimePrecisionScore(CCDALabResult labResults,String docType)
+	public CCDAScoreCardRubrics getTimePrecisionScore(CCDALabResult labResults,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
 		timePrecisionScore.setRule(ApplicationConstants.TIME_PRECISION_REQUIREMENT);
@@ -187,11 +191,11 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_ORGANIZER.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_ORGANIZER.getIgReference());
 			}
@@ -201,7 +205,7 @@ public class LabresultsScorecard {
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDateTimeScore(CCDALabResult labResults, PatientDetails patientDetails,String docType)
+	public CCDAScoreCardRubrics getValidDateTimeScore(CCDALabResult labResults, PatientDetails patientDetails,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
 		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -271,11 +275,11 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_ORGANIZER.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_ORGANIZER.getIgReference());
 			}
@@ -284,7 +288,7 @@ public class LabresultsScorecard {
 		return validateTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDALabResult labresults,String docType)
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDALabResult labresults,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
@@ -299,7 +303,7 @@ public class LabresultsScorecard {
 													&& ApplicationUtil.isCodeSystemAvailable(labresults.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
-				if(ApplicationUtil.validateDisplayName(labresults.getSectionCode().getCode(), 
+				if(referenceValidatorService.validateDisplayName(labresults.getSectionCode().getCode(), 
 												labresults.getSectionCode().getCodeSystem(),
 												labresults.getSectionCode().getDisplayName()))
 				{
@@ -322,7 +326,7 @@ public class LabresultsScorecard {
 													&& ApplicationUtil.isCodeSystemAvailable(resultOrg.getOrgCode().getCodeSystem()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateDisplayName(resultOrg.getOrgCode().getCode(), 
+						if(referenceValidatorService.validateDisplayName(resultOrg.getOrgCode().getCode(), 
 								resultOrg.getOrgCode().getCodeSystem(),
 								resultOrg.getOrgCode().getDisplayName()))
 						{
@@ -345,7 +349,7 @@ public class LabresultsScorecard {
 																&& ApplicationUtil.isCodeSystemAvailable(resultobs.getResultCode().getCodeSystem()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(resultobs.getResultCode().getCode(), 
+								if(referenceValidatorService.validateDisplayName(resultobs.getResultCode().getCode(), 
 										resultobs.getResultCode().getCodeSystem(),
 										resultobs.getResultCode().getDisplayName()))
 								{
@@ -377,11 +381,11 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_SECTION.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_SECTION.getIgReference());
 			}
@@ -390,7 +394,7 @@ public class LabresultsScorecard {
 		return validateDisplayNameScore;
 	}
 	
-	public  CCDAScoreCardRubrics getValidUCUMScore(CCDALabResult labresults,String docType)
+	public  CCDAScoreCardRubrics getValidUCUMScore(CCDALabResult labresults,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validateUCUMScore = new CCDAScoreCardRubrics();
 		validateUCUMScore.setRule(ApplicationConstants.RESULTS_UCUM_REQ);
@@ -471,11 +475,11 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateUCUMScore.setDescription(ApplicationConstants.RESULTS_UCUM_DESC);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validateUCUMScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_OBSERVATION.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validateUCUMScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_OBSERVATION.getIgReference());
 			}
@@ -484,7 +488,7 @@ public class LabresultsScorecard {
 		return validateUCUMScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidLoincCodesScore(CCDALabResult labresults,String docType)
+	public CCDAScoreCardRubrics getValidLoincCodesScore(CCDALabResult labresults,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validatLoincCodeScore = new CCDAScoreCardRubrics();
 		validatLoincCodeScore.setRule(ApplicationConstants.LABRESULTS_LOIN_CODE_REQ);
@@ -553,11 +557,11 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validatLoincCodeScore.setDescription(ApplicationConstants.LABRESULTS_LOIN_CODE_REQ);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validatLoincCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_OBSERVATION.getIgReference());
 			}
-			else if(docType.equalsIgnoreCase("R1.1"))
+			else if(ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validatLoincCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_OBSERVATION.getIgReference());
 			}
@@ -567,7 +571,7 @@ public class LabresultsScorecard {
 		
 	}
 	
-	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDALabResult results,String docType)
+	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDALabResult results,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validateApprEffectiveTimeScore = new CCDAScoreCardRubrics();
 		validateApprEffectiveTimeScore.setRule(ApplicationConstants.LABRESULTS_APR_TIME_REQ);
@@ -624,11 +628,11 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.LABRESULTS_APR_TIME_DESC);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_ORGANIZER.getIgReference());
 			}
-			else if(docType.equalsIgnoreCase("R1.1"))
+			else if(ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_ORGANIZER.getIgReference());
 			}
@@ -637,7 +641,7 @@ public class LabresultsScorecard {
 		return validateApprEffectiveTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDALabResult results,String docType)
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDALabResult results,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
 		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
@@ -697,11 +701,11 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RESULT_SECTION.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RESULT_SECTION.getIgReference());
 			}
@@ -711,7 +715,7 @@ public class LabresultsScorecard {
 		return narrativeTextIdScore;
 	}
 	
-	public CCDAScoreCardRubrics getTemplateIdScore(CCDALabResult results,String docType)
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDALabResult results,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
 		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
@@ -727,7 +731,7 @@ public class LabresultsScorecard {
 				for (CCDAII templateId : results.getResultSectionTempalteIds())
 				{
 					maxPoints = maxPoints++;
-					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 				}
 			}
 			
@@ -740,7 +744,7 @@ public class LabresultsScorecard {
 						for (CCDAII templateId : resultOrg.getTemplateIds())
 						{
 							maxPoints = maxPoints++;
-							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 						}
 					}
 					
@@ -753,7 +757,7 @@ public class LabresultsScorecard {
 								for (CCDAII templateId : labResultObs.getTemplateIds())
 								{
 									maxPoints = maxPoints++;
-									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 								}
 							}
 						}
@@ -776,11 +780,11 @@ public class LabresultsScorecard {
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ALLERGY_SECTION.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.ALLERGY_SECTION.getIgReference());
 			}

@@ -29,8 +29,12 @@ public class ProblemsScorecard {
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
+	
+	@Autowired
+	ReferenceValidatorService referenceValidatorService;
+	
 	@Async()
-	public Future<Category> getProblemsCategory(CCDAProblem problems, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
+	public Future<Category> getProblemsCategory(CCDAProblem problems, PatientDetails patientDetails,String ccdaVersion,List<SectionRule> sectionRules)
 	{
 		long startTime = System.currentTimeMillis();
 		logger.info("Problems Start time:"+ startTime);
@@ -44,27 +48,27 @@ public class ProblemsScorecard {
 		List<CCDAScoreCardRubrics> problemsScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R1)) {
-			problemsScoreList.add(getTimePrecisionScore(problems, docType));
+			problemsScoreList.add(getTimePrecisionScore(problems, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R2)) {
-			problemsScoreList.add(getValidDateTimeScore(problems, patientDetails, docType));
+			problemsScoreList.add(getValidDateTimeScore(problems, patientDetails, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R3)) {
-			problemsScoreList.add(getValidDisplayNameScoreCard(problems, docType));
+			problemsScoreList.add(getValidDisplayNameScoreCard(problems, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R4)) {
-			problemsScoreList.add(getValidProblemCodeScoreCard(problems, docType));
+			problemsScoreList.add(getValidProblemCodeScoreCard(problems, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R5)) {
-			problemsScoreList.add(getValidStatusCodeScoreCard(problems, docType));
+			problemsScoreList.add(getValidStatusCodeScoreCard(problems, ccdaVersion));
 		}
-		// problemsScoreList.add(getApprStatusCodeScore(problems,docType));
-		// problemsScoreList.add(getApprEffectivetimeScore(problems,docType));
+		// problemsScoreList.add(getApprStatusCodeScore(problems,ccdaVersion));
+		// problemsScoreList.add(getApprEffectivetimeScore(problems,ccdaVersion));
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R6)) {
-			problemsScoreList.add(getNarrativeStructureIdScore(problems, docType));
+			problemsScoreList.add(getNarrativeStructureIdScore(problems, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R7)) {
-			problemsScoreList.add(getTemplateIdScore(problems, docType));
+			problemsScoreList.add(getTemplateIdScore(problems, ccdaVersion));
 		}
 		
 		ApplicationUtil.calculateSectionGradeAndIssues(problemsScoreList, problemsCategory);
@@ -76,7 +80,7 @@ public class ProblemsScorecard {
 	}
 	
 	
-	public  CCDAScoreCardRubrics getTimePrecisionScore(CCDAProblem problem,String docType)
+	public  CCDAScoreCardRubrics getTimePrecisionScore(CCDAProblem problem,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
 		timePrecisionScore.setRule(ApplicationConstants.TIME_PRECISION_REQUIREMENT);
@@ -177,11 +181,11 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_CONCERN_ACT.getIgReference());
 			}
@@ -190,7 +194,7 @@ public class ProblemsScorecard {
 		return timePrecisionScore;
 	}
 	
-	public  CCDAScoreCardRubrics getValidDateTimeScore(CCDAProblem problem,PatientDetails patientDetails,String docType)
+	public  CCDAScoreCardRubrics getValidDateTimeScore(CCDAProblem problem,PatientDetails patientDetails,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validDateTimeScore = new CCDAScoreCardRubrics();
 		validDateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -260,11 +264,11 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validDateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validDateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
 			}
-			else if(docType.equalsIgnoreCase("R1.1"))
+			else if(ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validDateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_CONCERN_ACT.getIgReference());
 			}
@@ -273,7 +277,7 @@ public class ProblemsScorecard {
 		return validDateTimeScore;
 	}
 	
-	public  CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAProblem problems,String docType)
+	public  CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAProblem problems,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
@@ -288,7 +292,7 @@ public class ProblemsScorecard {
 												&& ApplicationUtil.isCodeSystemAvailable(problems.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
-				if(ApplicationUtil.validateDisplayName(problems.getSectionCode().getCode(), 
+				if(referenceValidatorService.validateDisplayName(problems.getSectionCode().getCode(), 
 														problems.getSectionCode().getCodeSystem(),
 														problems.getSectionCode().getDisplayName()))
 				{
@@ -315,7 +319,7 @@ public class ProblemsScorecard {
 																&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemType().getCodeSystem()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(probObs.getProblemType().getCode(), 
+								if(referenceValidatorService.validateDisplayName(probObs.getProblemType().getCode(), 
 																		probObs.getProblemType().getCodeSystem(),
 																		probObs.getProblemType().getDisplayName()))
 								{
@@ -333,7 +337,7 @@ public class ProblemsScorecard {
 									&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemCode().getCodeSystem()))
 							{
 								maxPoints++;
-								if(ApplicationUtil.validateDisplayName(probObs.getProblemCode().getCode(), 
+								if(referenceValidatorService.validateDisplayName(probObs.getProblemCode().getCode(), 
 																		probObs.getProblemCode().getCodeSystem(),
 																		probObs.getProblemCode().getDisplayName()))
 								{
@@ -355,7 +359,7 @@ public class ProblemsScorecard {
 											&& ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 									{
 										maxPoints++;
-										if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
+										if(referenceValidatorService.validateDisplayName(translationCode.getCode(), 
 															translationCode.getCodeSystem(),
 															translationCode.getDisplayName()))
 										{
@@ -390,10 +394,10 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_SECTION.getIgReference());
-			}else if (docType.equalsIgnoreCase("R1.1"))
+			}else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_SECTION.getIgReference());
 			}
@@ -402,7 +406,7 @@ public class ProblemsScorecard {
 		return validateDisplayNameScore;
 	}
 	
-	public  CCDAScoreCardRubrics getValidProblemCodeScoreCard(CCDAProblem problems,String docType)
+	public  CCDAScoreCardRubrics getValidProblemCodeScoreCard(CCDAProblem problems,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validateProblemCodeScore = new CCDAScoreCardRubrics();
 		validateProblemCodeScore.setRule(ApplicationConstants.PROBLEMS_CODE_LOINC_REQUIREMENT);
@@ -424,7 +428,7 @@ public class ProblemsScorecard {
 						   maxPoints++;
 						   if(probObs.getProblemCode()!= null)
 						   {
-							   if(ApplicationUtil.validateCodeForCodeSystem(probObs.getProblemCode().getCode(), 
+							   if(referenceValidatorService.validateCodeForCodeSystem(probObs.getProblemCode().getCode(), 
 									   					probObs.getProblemCode().getCodeSystem()))
 							   {
 								   actualPoints++;
@@ -473,11 +477,11 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateProblemCodeScore.setDescription("code validation Rubric failed for Problems");
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validateProblemCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_OBSERVATION.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validateProblemCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_OBSERVATION.getIgReference());
 			}
@@ -488,7 +492,7 @@ public class ProblemsScorecard {
 	}
 	
 	
-	public  CCDAScoreCardRubrics getValidStatusCodeScoreCard(CCDAProblem problems,String docType)
+	public  CCDAScoreCardRubrics getValidStatusCodeScoreCard(CCDAProblem problems,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validateStatusCodeScore = new CCDAScoreCardRubrics();
 		validateStatusCodeScore.setRule(ApplicationConstants.PROBLEM_APR_TIME_REQ);
@@ -557,10 +561,10 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateStatusCodeScore.setDescription(ApplicationConstants.PROBLEM_APR_TIME_DESC);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validateStatusCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
-			}else if(docType.equalsIgnoreCase("R1.1"))
+			}else if(ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validateStatusCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_CONCERN_ACT.getIgReference());
 			}
@@ -569,7 +573,7 @@ public class ProblemsScorecard {
 		return validateStatusCodeScore;
 	}
 	
-	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDAProblem problems,String docType)
+	public CCDAScoreCardRubrics getApprEffectivetimeScore(CCDAProblem problems,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validateApprEffectiveTimeScore = new CCDAScoreCardRubrics();
 		validateApprEffectiveTimeScore.setRule(ApplicationConstants.PROBLEM_TIME_CNST_REQ);
@@ -627,10 +631,10 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.PROBLEM_TIME_CNST_DESC);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
-			}else if (docType.equalsIgnoreCase("R1.1"))
+			}else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_CONCERN_ACT.getIgReference());
 			}
@@ -639,7 +643,7 @@ public class ProblemsScorecard {
 		return validateApprEffectiveTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getApprStatusCodeScore(CCDAProblem problems,String docType)
+	public CCDAScoreCardRubrics getApprStatusCodeScore(CCDAProblem problems,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validateApprEffectiveTimeScore = new CCDAScoreCardRubrics();
 		validateApprEffectiveTimeScore.setRule(ApplicationConstants.PROBLEM_APR_STATUS_REQ);
@@ -706,10 +710,10 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.PROBLEM_APR_STATUS_REQ);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_CONCERN_ACT.getIgReference());
-			}else if (docType.equalsIgnoreCase("R1.1"))
+			}else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validateApprEffectiveTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_CONCERN_ACT.getIgReference());
 			}
@@ -718,7 +722,7 @@ public class ProblemsScorecard {
 		return validateApprEffectiveTimeScore;
 	}
 	
-	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAProblem problems,String docType)
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAProblem problems,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
 		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
@@ -802,11 +806,11 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_SECTION.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_SECTION.getIgReference());
 			}
@@ -817,7 +821,7 @@ public class ProblemsScorecard {
 	}
 	
 	
-	public CCDAScoreCardRubrics getTemplateIdScore(CCDAProblem problems,String docType)
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDAProblem problems,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
 		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
@@ -833,7 +837,7 @@ public class ProblemsScorecard {
 				for (CCDAII templateId : problems.getSectionTemplateId())
 				{
 					maxPoints = maxPoints++;
-					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 				}
 			}
 			
@@ -846,7 +850,7 @@ public class ProblemsScorecard {
 						for (CCDAII templateId : probConcern.getTemplateId())
 						{
 							maxPoints = maxPoints++;
-							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 						}
 					}
 					
@@ -859,7 +863,7 @@ public class ProblemsScorecard {
 								for (CCDAII templateId : probObs.getTemplateId())
 								{
 									maxPoints = maxPoints++;
-									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 								}
 							}
 						}
@@ -882,11 +886,11 @@ public class ProblemsScorecard {
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ALLERGY_SECTION.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.ALLERGY_SECTION.getIgReference());
 			}

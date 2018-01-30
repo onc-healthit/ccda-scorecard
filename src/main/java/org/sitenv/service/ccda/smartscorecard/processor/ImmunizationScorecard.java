@@ -25,10 +25,15 @@ import org.springframework.stereotype.Service;
 public class ImmunizationScorecard {
 	
 	private static final Logger logger = Logger.getLogger(ImmunizationScorecard.class);
+	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
+	
+	@Autowired
+	ReferenceValidatorService referenceValidatorService;
+	
 	@Async()
-	public Future<Category> getImmunizationCategory(CCDAImmunization immunizations, PatientDetails patientDetails,String docType,List<SectionRule>sectionRules)
+	public Future<Category> getImmunizationCategory(CCDAImmunization immunizations, PatientDetails patientDetails,String ccdaVersion,List<SectionRule>sectionRules)
 	{
 		long startTime = System.currentTimeMillis();
 		logger.info("Immunizations Start time:"+ startTime);
@@ -42,22 +47,22 @@ public class ImmunizationScorecard {
 		List<CCDAScoreCardRubrics> immunizationScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.I1)) {
-			immunizationScoreList.add(getTimePrecisionScore(immunizations, docType));
+			immunizationScoreList.add(getTimePrecisionScore(immunizations, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.I2)) {
-			immunizationScoreList.add(getValidDateTimeScore(immunizations, patientDetails, docType));
+			immunizationScoreList.add(getValidDateTimeScore(immunizations, patientDetails, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.I3)) {
-			immunizationScoreList.add(getValidDisplayNameScoreCard(immunizations, docType));
+			immunizationScoreList.add(getValidDisplayNameScoreCard(immunizations, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.I4)) {
-			immunizationScoreList.add(getValidImmunizationCodeScoreCard(immunizations, docType));
+			immunizationScoreList.add(getValidImmunizationCodeScoreCard(immunizations, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.I5)) {
-			immunizationScoreList.add(getNarrativeStructureIdScore(immunizations, docType));
+			immunizationScoreList.add(getNarrativeStructureIdScore(immunizations, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.I6)) {
-			immunizationScoreList.add(getTemplateIdScore(immunizations, docType));
+			immunizationScoreList.add(getTemplateIdScore(immunizations, ccdaVersion));
 		}
 		
 		immunizationCategory.setCategoryRubrics(immunizationScoreList);
@@ -67,7 +72,7 @@ public class ImmunizationScorecard {
 		
 	}
 	
-	public CCDAScoreCardRubrics getTimePrecisionScore(CCDAImmunization immunizatons,String docType)
+	public CCDAScoreCardRubrics getTimePrecisionScore(CCDAImmunization immunizatons,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics timePrecisionScore = new CCDAScoreCardRubrics();
 		timePrecisionScore.setRule(ApplicationConstants.TIME_PRECISION_REQUIREMENT);
@@ -132,10 +137,10 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_ACTIVITY.getIgReference());
-			}else if (docType.equalsIgnoreCase("R1.1"))
+			}else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				timePrecisionScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.IMMUNIZATION_ACTIVITY.getIgReference());
 			}
@@ -145,7 +150,7 @@ public class ImmunizationScorecard {
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAImmunization immunizatons, PatientDetails patientDetails,String docType)
+	public CCDAScoreCardRubrics getValidDateTimeScore(CCDAImmunization immunizatons, PatientDetails patientDetails,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validateTimeScore = new CCDAScoreCardRubrics();
 		validateTimeScore.setRule(ApplicationConstants.TIME_VALID_REQUIREMENT);
@@ -194,11 +199,11 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_ACTIVITY.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validateTimeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.IMMUNIZATION_ACTIVITY.getIgReference());
 			}
@@ -208,7 +213,7 @@ public class ImmunizationScorecard {
 	}
 	
 	
-	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAImmunization immunizatons,String docType)
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAImmunization immunizatons,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
@@ -223,7 +228,7 @@ public class ImmunizationScorecard {
 													&& ApplicationUtil.isCodeSystemAvailable(immunizatons.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
-				if(ApplicationUtil.validateDisplayName(immunizatons.getSectionCode().getCode(), 
+				if(referenceValidatorService.validateDisplayName(immunizatons.getSectionCode().getCode(), 
 														immunizatons.getSectionCode().getCodeSystem(),
 														immunizatons.getSectionCode().getDisplayName()))
 				{
@@ -245,7 +250,7 @@ public class ImmunizationScorecard {
 																&& ApplicationUtil.isCodeSystemAvailable(immuActivity.getApproachSiteCode().getCodeSystem()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateDisplayName(immuActivity.getApproachSiteCode().getCode(), 
+						if(referenceValidatorService.validateDisplayName(immuActivity.getApproachSiteCode().getCode(), 
 															   immuActivity.getApproachSiteCode().getCodeSystem(),
 															   immuActivity.getApproachSiteCode().getDisplayName()))
 						{
@@ -268,7 +273,7 @@ public class ImmunizationScorecard {
 								if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()) && ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 								{
 									maxPoints++;
-									if(ApplicationUtil.validateDisplayName(translationCode.getCode(), 
+									if(referenceValidatorService.validateDisplayName(translationCode.getCode(), 
 													translationCode.getCodeSystem().toUpperCase(),
 														translationCode.getDisplayName()))
 									{
@@ -302,10 +307,10 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_SECTION.getIgReference());
-			}else if (docType.equalsIgnoreCase("R1.1"))
+			}else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.IMMUNIZATION_SECTION.getIgReference());
 			}
@@ -314,7 +319,7 @@ public class ImmunizationScorecard {
 		return validateDisplayNameScore;
 	}
 	
-	public CCDAScoreCardRubrics getValidImmunizationCodeScoreCard(CCDAImmunization immunizations,String docType)
+	public CCDAScoreCardRubrics getValidImmunizationCodeScoreCard(CCDAImmunization immunizations,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validateImmuCodeScore = new CCDAScoreCardRubrics();
 		validateImmuCodeScore.setRule(ApplicationConstants.IMMU_CODE_REQ);
@@ -334,7 +339,7 @@ public class ImmunizationScorecard {
 					{
 						if(immuAct.getConsumable().getMedcode()!=null)
 						{
-							if(ApplicationUtil.validateCodeForValueset(immuAct.getConsumable().getMedcode().getCode(), 
+							if(referenceValidatorService.validateCodeForValueset(immuAct.getConsumable().getMedcode().getCode(), 
 																			ApplicationConstants.CVX_CODES_VALUSET_OID))
 							{
 								actualPoints++;
@@ -387,11 +392,11 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateImmuCodeScore.setDescription(ApplicationConstants.IMMU_CODE_DESC);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validateImmuCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_ACTIVITY.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validateImmuCodeScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.IMMUNIZATION_ACTIVITY.getIgReference());
 			}
@@ -400,7 +405,7 @@ public class ImmunizationScorecard {
 		return validateImmuCodeScore;
 	}
 	
-	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAImmunization immunizations,String docType)
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAImmunization immunizations,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
 		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
@@ -456,10 +461,10 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.IMMUNIZATION_SECTION.getIgReference());
-			}else if (docType.equalsIgnoreCase("R1.1"))
+			}else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.IMMUNIZATION_SECTION.getIgReference());
 			}
@@ -470,7 +475,7 @@ public class ImmunizationScorecard {
 	}
 	
 	
-	public CCDAScoreCardRubrics getTemplateIdScore(CCDAImmunization immunizations,String docType)
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDAImmunization immunizations,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
 		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
@@ -487,7 +492,7 @@ public class ImmunizationScorecard {
 				for (CCDAII templateId : immunizations.getTemplateIds())
 				{
 					maxPoints = maxPoints++;
-					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 				}
 			}
 			
@@ -500,7 +505,7 @@ public class ImmunizationScorecard {
 						for (CCDAII templateId : immuActivity.getTemplateIds())
 						{
 							maxPoints = maxPoints++;
-							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 						}
 					}
 					
@@ -511,7 +516,7 @@ public class ImmunizationScorecard {
 							for (CCDAII templateId : immuActivity.getConsumable().getTemplateIds())
 							{
 								maxPoints = maxPoints++;
-								templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+								templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 							}
 						}
 					}
@@ -533,11 +538,11 @@ public class ImmunizationScorecard {
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ALLERGY_SECTION.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.ALLERGY_SECTION.getIgReference());
 			}

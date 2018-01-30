@@ -28,8 +28,12 @@ public class ProceduresScorecard {
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;
+	
+	@Autowired
+	ReferenceValidatorService referenceValidatorService;
+	
 	@Async()
-	public Future<Category> getProceduresCategory(CCDAProcedure procedures, PatientDetails patientDetails,String docType,List<SectionRule> sectionRules)
+	public Future<Category> getProceduresCategory(CCDAProcedure procedures, PatientDetails patientDetails,String ccdaVersion,List<SectionRule> sectionRules)
 	{
 		long startTime = System.currentTimeMillis();
 		
@@ -45,13 +49,13 @@ public class ProceduresScorecard {
 		List<CCDAScoreCardRubrics> procedureScoreList = new ArrayList<CCDAScoreCardRubrics>();
 		
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.O1)) {
-			procedureScoreList.add(getValidDisplayNameScoreCard(procedures, docType));
+			procedureScoreList.add(getValidDisplayNameScoreCard(procedures, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.O2)) {
-			procedureScoreList.add(getNarrativeStructureIdScore(procedures, docType));
+			procedureScoreList.add(getNarrativeStructureIdScore(procedures, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.O3)) {
-			procedureScoreList.add(getTemplateIdScore(procedures, docType));
+			procedureScoreList.add(getTemplateIdScore(procedures, ccdaVersion));
 		}
 		
 		procedureCategory.setCategoryRubrics(procedureScoreList);
@@ -62,7 +66,7 @@ public class ProceduresScorecard {
 	
 	
 	
-	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAProcedure procedures,String docType)
+	public CCDAScoreCardRubrics getValidDisplayNameScoreCard(CCDAProcedure procedures,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics validateDisplayNameScore = new CCDAScoreCardRubrics();
 		validateDisplayNameScore.setRule(ApplicationConstants.CODE_DISPLAYNAME_REQUIREMENT);
@@ -77,7 +81,7 @@ public class ProceduresScorecard {
 												&& ApplicationUtil.isCodeSystemAvailable(procedures.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
-				if(ApplicationUtil.validateDisplayName(procedures.getSectionCode().getCode(), 
+				if(referenceValidatorService.validateDisplayName(procedures.getSectionCode().getCode(), 
 									procedures.getSectionCode().getCodeSystem(),
 									procedures.getSectionCode().getDisplayName()))
 				{
@@ -100,7 +104,7 @@ public class ProceduresScorecard {
 							&& ApplicationUtil.isCodeSystemAvailable(procAct.getProcCode().getCodeSystem()))
 					{
 						maxPoints++;
-						if(ApplicationUtil.validateDisplayName(procAct.getProcCode().getCode(), 
+						if(referenceValidatorService.validateDisplayName(procAct.getProcCode().getCode(), 
 												procAct.getProcCode().getCodeSystem(),
 												procAct.getProcCode().getDisplayName()))
 						{
@@ -131,11 +135,11 @@ public class ProceduresScorecard {
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROCEDURE_SECTION.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				validateDisplayNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROCEDURE_SECTION.getIgReference());
 			}
@@ -145,7 +149,7 @@ public class ProceduresScorecard {
 	}
 	
 	
-	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAProcedure procedures,String docType)
+	public CCDAScoreCardRubrics getNarrativeStructureIdScore(CCDAProcedure procedures,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics narrativeTextIdScore = new CCDAScoreCardRubrics();
 		narrativeTextIdScore.setRule(ApplicationConstants.NARRATIVE_STRUCTURE_ID_REQ);
@@ -199,11 +203,11 @@ public class ProceduresScorecard {
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROCEDURE_SECTION.getIgReference());
 			}
-			else if(docType.equalsIgnoreCase("R1.1"))
+			else if(ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				narrativeTextIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROCEDURE_SECTION.getIgReference());
 			}
@@ -214,7 +218,7 @@ public class ProceduresScorecard {
 	}
 	
 	
-	public CCDAScoreCardRubrics getTemplateIdScore(CCDAProcedure procedures,String docType)
+	public CCDAScoreCardRubrics getTemplateIdScore(CCDAProcedure procedures,String ccdaVersion)
 	{
 		CCDAScoreCardRubrics templateIdScore = new CCDAScoreCardRubrics();
 		templateIdScore.setRule(ApplicationConstants.TEMPLATEID_DESC);
@@ -230,7 +234,7 @@ public class ProceduresScorecard {
 				for (CCDAII templateId : procedures.getSectionTemplateId())
 				{
 					maxPoints = maxPoints++;
-					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 				}
 			}
 			
@@ -243,7 +247,7 @@ public class ProceduresScorecard {
 						for (CCDAII templateId : procAct.getSectionTemplateId())
 						{
 							maxPoints = maxPoints++;
-							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 						}
 					}
 					
@@ -256,7 +260,7 @@ public class ProceduresScorecard {
 								for (CCDAII templateId : sdLoc.getTemplateId())
 								{
 									maxPoints = maxPoints++;
-									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,docType);
+									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 								}
 							}
 						}
@@ -279,11 +283,11 @@ public class ProceduresScorecard {
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);
-			if(docType.equalsIgnoreCase("") || docType.equalsIgnoreCase("R2.1"))
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 			{
 				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ALLERGY_SECTION.getIgReference());
 			}
-			else if (docType.equalsIgnoreCase("R1.1"))
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
 			{
 				templateIdScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.ALLERGY_SECTION.getIgReference());
 			}

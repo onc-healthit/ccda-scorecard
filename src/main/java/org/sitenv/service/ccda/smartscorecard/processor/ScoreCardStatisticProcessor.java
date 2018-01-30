@@ -27,7 +27,7 @@ public class ScoreCardStatisticProcessor {
 			String directEmailAddress)
 	{
 		ScorecardStatistics scorecardStatistics = new ScorecardStatistics();
-		scorecardStatistics.setDoctype(results.getDocType());
+		scorecardStatistics.setDoctype(results.getCcdaVersion());
 		scorecardStatistics.setDocscore(results.getFinalNumericalGrade());
 		scorecardStatistics.setDocname(docname);
 		scorecardStatistics.setOneClickScorecard(isOneClickScorecard);
