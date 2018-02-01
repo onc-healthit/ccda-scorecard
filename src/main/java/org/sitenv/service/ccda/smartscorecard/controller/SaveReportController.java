@@ -316,7 +316,6 @@ public class SaveReportController {
 		appendStyleSheet(sb);
 		sb.append("	</head>");
 		sb.append("<body style='font-family: \"Helvetica Neue\",Helvetica,Arial,sans-serif;'>");
-		sb.append("<body style='font-family: Helvetica, Arial, sans-serif '>");
 	}
 	
 	private static void appendStyleSheet(StringBuffer sb) {
