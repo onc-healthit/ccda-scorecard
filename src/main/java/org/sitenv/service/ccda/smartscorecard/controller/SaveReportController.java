@@ -316,6 +316,7 @@ public class SaveReportController {
 		appendStyleSheet(sb);
 		sb.append("	</head>");
 		sb.append("<body style='font-family: \"Helvetica Neue\",Helvetica,Arial,sans-serif;'>");
+		sb.append("<body style='font-family: Helvetica, Arial, sans-serif '>");
 	}
 	
 	private static void appendStyleSheet(StringBuffer sb) {
@@ -730,12 +731,15 @@ public class SaveReportController {
 		if(reportType == null) {
 			reportType = SaveReportType.MATCH_UI;
 		}
-		sb.append("<h3>"
-				+ header
-				+ ": "
-				+ ("Scorecard Issues".equals(header) || result < 1 || reportType == SaveReportType.SUMMARY ? result
-						: ("<a href=\"#" + header + "-category\">" + result + "</a>"))
-				+ "</h3>");
+		
+		sb.append("<h3>");
+		if("Scorecard Issues".equals(header) || result < 1 || reportType == SaveReportType.SUMMARY) {
+			sb.append(header + ": " + result);
+		} else {
+			sb.append("<a href=\"#" + header + "-category\">" + header + ": " + result + "</a>");
+		}
+		sb.append("</h3>");
+		
 		sb.append("<ul><li>");
 		sb.append("<p>There " + (isSingular ? "is" : "are") + " " + "<b>"
 				+ result + "</b>" + " " + messageSubject
@@ -1239,7 +1243,7 @@ public class SaveReportController {
 		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2, 
 				SAMPLE_WITH_SCHEMA_ERRORS = 3, SAMPLE_WITHOUT_ANY_CONTENT = 4;
 		try {
-			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.SUMMARY);
+			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.MATCH_UI);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
