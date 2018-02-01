@@ -305,11 +305,16 @@ public class SaveReportController {
 
 	private static void appendOpeningHtml(StringBuffer sb) {
 		sb.append("<!DOCTYPE html>");
-		sb.append("<html>");
-		sb.append("<head>");
-		sb.append("<title>SITE C-CDA Scorecard Report</title>");
+		sb.append("<html lang='en' xml:lang='en'>");
+		sb.append("	<head>");
+		sb.append("		<title>SITE C-CDA Scorecard Report</title>");
+		sb.append("		<meta name='author' content='ONC SITE'>");
+		sb.append("		<meta name='subject' content='ONC Scorecard'>");
+		sb.append("		<meta name='keywords' content='Scorecard, C-CDA, ONC, R1.1, R2.1, CDA, Report, SITE, "
+				+ 		"Validation, Validator, Standards, HL7, Structured Documents, Healthcare, HIT, HIE, Interoperability'>");
+		sb.append("		<meta name='language' content='en'>");
 		appendStyleSheet(sb);
-		sb.append("</head>");
+		sb.append("	</head>");
 		sb.append("<body style='font-family: \"Helvetica Neue\",Helvetica,Arial,sans-serif;'>");
 	}
 	
@@ -1114,11 +1119,11 @@ public class SaveReportController {
 			factory.setValidating(false);
 
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document refineddoc = builder.parse(new ByteArrayInputStream(
+			Document refinedDoc = builder.parse(new ByteArrayInputStream(
 					cleanHtmlReport.getBytes("UTF-8")));
 
 			ITextRenderer renderer = new ITextRenderer();
-			renderer.setDocument(refineddoc, null);
+			renderer.setDocument(refinedDoc, null);
 			renderer.layout();
 
 			if(response != null) {
