@@ -378,9 +378,17 @@ public class SaveReportController {
 					+ (report.getCcdaDocumentType() != null ? report
 							.getCcdaDocumentType() : "document") + "</h1>");
 			sb.append("<h5>");
-			sb.append("<span style='float: left'>" + "Submitted By: "
-			+ (!ApplicationUtil.isEmpty(report.getFilename()) ? report.getFilename() : "Unknown")
-			+ "</span>");
+			sb.append("<span style='float: left'>" + "Submitted By: ");
+			if(!ApplicationUtil.isEmpty(report.getFilename())) {
+				if(report.getFilename().contains("@")) {
+					sb.append("<a href='mailto:" + report.getFilename() + "'>" + report.getFilename() +  "</a>");
+				} else {
+					sb.append(report.getFilename());
+				}
+			} else {
+				sb.append("Unknown");
+			}
+			sb.append("</span>");
 			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			sb.append("<span style='float: right'>" + "Submission Time: " + dateFormat.format(new Date()) + "</span>");
 			sb.append("</h5>");
@@ -1253,7 +1261,7 @@ public class SaveReportController {
 		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2, 
 				SAMPLE_WITH_SCHEMA_ERRORS = 3, SAMPLE_WITHOUT_ANY_CONTENT = 4, SAMPLE_WITH_CONF_ERROR_AND_NO_CERT = 5;
 		try {
-			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.MATCH_UI);
+			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.SUMMARY);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
