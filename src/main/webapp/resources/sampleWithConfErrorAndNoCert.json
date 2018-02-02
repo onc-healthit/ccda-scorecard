@@ -1,0 +1,639 @@
+{
+	"errorMessage": null,
+	"filename": "CCDA_Ambulatory.xml",
+	"ccdaDocumentType": "CCD",
+	"results": {
+		"finalGrade": "C",
+		"finalNumericalGrade": 79,
+		"categoryList": [{
+			"categoryName": "Miscellaneous",
+			"categoryGrade": "A+",
+			"categoryNumericalScore": 100,
+			"categoryRubrics": [{
+				"rule": "Generally, the identifiers found within a CDA document should be unique and non-reoccurring within the same document.",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}],
+			"numberOfIssues": 0,
+			"certificationFeedback": false,
+			"failingConformance": false,
+			"nullFlavorNI": false
+		}, {
+			"categoryName": "Medications",
+			"categoryGrade": null,
+			"categoryNumericalScore": 0,
+			"categoryRubrics": [],
+			"numberOfIssues": 0,
+			"certificationFeedback": false,
+			"failingConformance": true,
+			"nullFlavorNI": false
+		}, {
+			"categoryName": "Patient Demographics",
+			"categoryGrade": "A+",
+			"categoryNumericalScore": 100,
+			"categoryRubrics": [{
+				"rule": "Patient DOB should be valid and properly precisioned",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "Patient's Alternative Name Rule",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}],
+			"numberOfIssues": 0,
+			"certificationFeedback": false,
+			"failingConformance": false,
+			"nullFlavorNI": false
+		}, {
+			"categoryName": "Allergies",
+			"categoryGrade": "C",
+			"categoryNumericalScore": 72,
+			"categoryRubrics": [{
+				"rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+				"numberOfIssues": 3,
+				"issuesList": [{
+					"lineNumber": "510",
+					"xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"419511003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Propensity to adverse reaction to drug\" xsi:type=\"CD\">\n\t\t\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#reaction1\"/>\n\t\t\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t\t\t</value>"
+				}, {
+					"lineNumber": "607",
+					"xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"419511003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Propensity to adverse reaction to drug\" xsi:type=\"CD\">\n\t\t\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#reaction2\"/>\n\t\t\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t\t\t</value>"
+				}, {
+					"lineNumber": "704",
+					"xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"419511003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Propensity to adverse reaction to drug\" xsi:type=\"CD\">\n\t\t\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#reaction3\"/>\n\t\t\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t\t\t</value>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"],
+				"igReferences": ["Section 4.2 Allergies"],
+				"description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+			}, {
+				"rule": "Allergies Concern observation effective times reflect the appropriate allergy concern status",
+				"numberOfIssues": 2,
+				"issuesList": [{
+					"lineNumber": "503 - 506",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t\t\t\t<high value=\"20120806\"/>\n\t\t\t\t\t\t\t\t\t</effectiveTime>"
+				}, {
+					"lineNumber": "697 - 700",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n\t\t\t\t\t\t\t\t\t\t<low value=\"20080501\"/>\n\t\t\t\t\t\t\t\t\t\t<high value=\"20120806\"/>\n\t\t\t\t\t\t\t\t\t</effectiveTime>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"],
+				"igReferences": ["Section 4.2 Allergies"],
+				"description": "An Allergy Concern of completed or suspended should have an allergy observation effectiveTime/high value present.Similarly an allergy Concern which is Active shall not have an Allergy observation effectiveTime/high value."
+			}, {
+				"rule": "Each entry has to be linked to related narrative text",
+				"numberOfIssues": 3,
+				"issuesList": [{
+					"lineNumber": "484 - 580",
+					"xmlString": "<act xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"ACT\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.30\"/>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<id extension=\"1000\" root=\"36e3e930-7b14-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t<code code=\"48765-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Allergies, adverse reactions, alerts\"/>\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t<low value=\"20070501\"/>\n\t\t\t\t\t\t\t\t<high value=\"20120806\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<id extension=\"1001\" root=\"4adc1020-7b14-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t\t\t\t<high value=\"20120806\"/>\n\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t<value code=\"419511003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Propensity to adverse reaction to drug\" xsi:type=\"CD\">\n\t\t\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#reaction1\"/>\n\t\t\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t\t\t</value>\n\t\t\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\n\t\t\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"7982\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Penicillin G benzathine\">\n\t\t\t\t\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#product1\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\t\t</playingEntity>\n\t\t\t\t\t\t\t\t\t\t</participantRole>\n\t\t\t\t\t\t\t\t\t</participant>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.28\"/>\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"33999-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Status\"/>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"73425007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Inactive\" xsi:type=\"CE\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"MFST\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.9\"/>\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"1002\" root=\"4adc1020-7b14-11db-9fe1-0800200c9a64\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#reaction1\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\t\t<low value=\"20070501\"/>\n\t\t\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"247472004\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Hives\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.8\"/>\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"SEV\" codeSystem=\"2.16.840.1.113883.5.4\" codeSystemName=\"ActCode\" displayName=\"Severity Observation\" xsi:type=\"CE\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#severity1\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"371924009\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Moderate to severe\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t</act>"
+				}, {
+					"lineNumber": "583 - 676",
+					"xmlString": "<act xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"ACT\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.30\"/>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<id extension=\"1003\" root=\"36e3e930-7b14-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t<code code=\"48765-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Allergies, adverse reactions, alerts\"/>\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t<low value=\"20060501\"/>\t\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<id extension=\"1004\" root=\"4adc1020-7b14-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t<low value=\"20060501\"/>\n\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t<value code=\"419511003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Propensity to adverse reaction to drug\" xsi:type=\"CD\">\n\t\t\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#reaction2\"/>\n\t\t\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t\t\t</value>\n\t\t\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\n\t\t\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"2670\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Codeine\">\n\t\t\t\t\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#product2\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\t\t</playingEntity>\n\t\t\t\t\t\t\t\t\t\t</participantRole>\n\t\t\t\t\t\t\t\t\t</participant>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.28\"/>\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"33999-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Status\"/>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"55561003\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Active\" xsi:type=\"CE\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"MFST\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.9\"/>\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"1005\" root=\"4adc1020-7b14-11db-9fe1-0800200c9a64\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#reaction2\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\t\t<low value=\"20060501\"/>\n\t\t\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"267036007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Shortness of Breath\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.8\"/>\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"SEV\" codeSystem=\"2.16.840.1.113883.5.4\" codeSystemName=\"ActCode\" displayName=\"Severity Observation\" xsi:type=\"CE\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>medication\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#severity2\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"6736007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Moderate\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t</act>"
+				}, {
+					"lineNumber": "679 - 773",
+					"xmlString": "<act xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"ACT\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.30\"/>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<id extension=\"1006\" root=\"36e3e930-7b14-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t<code code=\"48765-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Allergies, adverse reactions, alerts\"/>\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t<low value=\"20080501\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<id extension=\"1007\" root=\"4adc1020-7b14-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t<low value=\"20080501\"/>\n\t\t\t\t\t\t\t\t\t\t<high value=\"20120806\"/>\n\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t<value code=\"419511003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Propensity to adverse reaction to drug\" xsi:type=\"CD\">\n\t\t\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#reaction3\"/>\n\t\t\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t\t\t</value>\n\t\t\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\n\t\t\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"1191\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Aspirin\">\n\t\t\t\t\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#product3\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\t\t</playingEntity>\n\t\t\t\t\t\t\t\t\t\t</participantRole>\n\t\t\t\t\t\t\t\t\t</participant>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.28\"/>\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"33999-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Status\"/>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"55561003\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Active\" xsi:type=\"CE\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"MFST\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.9\"/>\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"1008\" root=\"4adc1020-7b14-11db-9fe1-0800200c9a64\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#reaction3\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\t\t<low value=\"20080501\"/>\n\t\t\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"247472004\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Hives\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.8\"/>\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"SEV\" codeSystem=\"2.16.840.1.113883.5.4\" codeSystemName=\"ActCode\" displayName=\"Severity Observation\" xsi:type=\"CE\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#severity3\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"371923003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Mild to moderate\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t</act>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"],
+				"igReferences": ["Section 4.2 Allergies"],
+				"description": "Each entry has to be linked to related narrative text"
+			}, {
+				"rule": "All Template Ids should be Valid with correct extension value",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}],
+			"numberOfIssues": 8,
+			"certificationFeedback": false,
+			"failingConformance": false,
+			"nullFlavorNI": false
+		}, {
+			"categoryName": "Encounters",
+			"categoryGrade": "D",
+			"categoryNumericalScore": 59,
+			"categoryRubrics": [{
+				"rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+				"numberOfIssues": 1,
+				"issuesList": [{
+					"lineNumber": "821 - 821",
+					"xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20120806\"/>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"],
+				"igReferences": ["Section 5.21 Encounter Activities"],
+				"description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+			}, {
+				"rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+				"numberOfIssues": 4,
+				"issuesList": [{
+					"lineNumber": "787",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"46240-8\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"History of encounters\"/>"
+				}, {
+					"lineNumber": "817",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"99212\" codeSystem=\"2.16.840.1.113883.6.12\" codeSystemName=\"CPT\" codeSystemVersion=\"4\" displayName=\"Outpatient Visit\">\n\t\t\t\t\t\t\t\t<originalText>Outpatient Visit<reference value=\"#Encounter1\"/>\n\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t</code>"
+				}, {
+					"lineNumber": "856",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"404684003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Finding\"/>"
+				}, {
+					"lineNumber": "872",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29308-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"ENCOUNTER DIAGNOSIS\" xsi:type=\"CE\"/>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"],
+				"igReferences": ["Section 4.11 Encounters"],
+				"description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+			}, {
+				"rule": "Each entry has to be linked to related narrative text",
+				"numberOfIssues": 1,
+				"issuesList": [{
+					"lineNumber": "850 - 863",
+					"xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.19\"/>\n\t\t\t\t\t\t\t\t\t<id extension=\"45665\" root=\"db734647-fc99-424c-a864-7e3cda82e703\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"404684003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Finding\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t<low value=\"20120806\"/>\n\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t<value code=\"233604007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Pneumonia\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t</observation>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"],
+				"igReferences": ["Section 4.11 Encounters"],
+				"description": "Each entry has to be linked to related narrative text"
+			}, {
+				"rule": "All Template Ids should be Valid with correct extension value",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}],
+			"numberOfIssues": 6,
+			"certificationFeedback": false,
+			"failingConformance": false,
+			"nullFlavorNI": false
+		}, {
+			"categoryName": "Immunizations",
+			"categoryGrade": "B-",
+			"categoryNumericalScore": 83,
+			"categoryRubrics": [{
+				"rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+				"numberOfIssues": 1,
+				"issuesList": [{
+					"lineNumber": "913",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"11369-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"History of immunizations\"/>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"],
+				"igReferences": ["Section 4.27 Immunizations Section"],
+				"description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+			}, {
+				"rule": "Immunizations coded with CVX codes",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "Each entry has to be linked to related narrative text",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "All Template Ids should be Valid with correct extension value",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}],
+			"numberOfIssues": 1,
+			"certificationFeedback": false,
+			"failingConformance": false,
+			"nullFlavorNI": false
+		}, {
+			"categoryName": "Laboratory Tests and Results",
+			"categoryGrade": "C",
+			"categoryNumericalScore": 70,
+			"categoryRubrics": [{
+				"rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+				"numberOfIssues": 1,
+				"issuesList": [{
+					"lineNumber": "1787 - 1870",
+					"xmlString": "<organizer xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"BATTERY\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.1\"/>\n\t\t\t\t\t\t\t<id extension=\"1040\" root=\"7d5a02b0-67a4-11db-bd13-0800200c9a66\"/>\n\t\t\t\t\t\t\t<code code=\"43789009\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"CBC WO DIFFERENTIAL\" xsi:type=\"CE\"/>\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t<component>\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\n\t\t\t\t\t\t\t\t\t<id extension=\"1041\" root=\"107c2dc0-67a5-11db-bd13-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"30313-1\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"HGB\" xsi:type=\"CE\"> </code>\n\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#result1\"/>\n\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20120810\"/>\n\t\t\t\t\t\t\t\t\t<value unit=\"g/dl\" value=\"10.2\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n\t\t\t\t\t\t\t\t\t<methodCode/>\n\t\t\t\t\t\t\t\t\t<targetSiteCode/>\n\t\t\t\t\t\t\t\t\t<referenceRange>\n\t\t\t\t\t\t\t\t\t\t<observationRange>\n\t\t\t\t\t\t\t\t\t\t\t<text>12-16 g/dl</text>\n\t\t\t\t\t\t\t\t\t\t</observationRange>\n\t\t\t\t\t\t\t\t\t</referenceRange>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</component>\n\t\t\t\t\t\t\t<component>\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\n\t\t\t\t\t\t\t\t\t<id extension=\"1042\" root=\"107c2dc0-67a5-11db-bd13-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"33765-9\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"WBC\" xsi:type=\"CE\"> </code>\n\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#result2\"/>\n\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20120810\"/>\n\t\t\t\t\t\t\t\t\t<value unit=\"10+3/ul\" value=\"12.3\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"H\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n\t\t\t\t\t\t\t\t\t<methodCode/>\n\t\t\t\t\t\t\t\t\t<targetSiteCode/>\n\t\t\t\t\t\t\t\t\t<referenceRange>\n\t\t\t\t\t\t\t\t\t\t<observationRange>\n\t\t\t\t\t\t\t\t\t\t\t<value xsi:type=\"IVL_PQ\">\n\t\t\t\t\t\t\t\t\t\t\t\t<low unit=\"10+3/ul\" value=\"4.3\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t<high unit=\"10+3/ul\" value=\"10.8\"/>\n\t\t\t\t\t\t\t\t\t\t\t</value>\n\t\t\t\t\t\t\t\t\t\t</observationRange>\n\t\t\t\t\t\t\t\t\t</referenceRange>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</component>\n\t\t\t\t\t\t\t<component>\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.2\"/>\n\t\t\t\t\t\t\t\t\t<id extension=\"1043\" root=\"107c2dc0-67a5-11db-bd13-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"26515-7\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Platelets [#/volume] in Blood\" xsi:type=\"CE\"> </code>\n\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#result3\"/>\n\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20120810\"/>\n\t\t\t\t\t\t\t\t\t<value unit=\"10+3/ul\" value=\"123\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"L\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n\t\t\t\t\t\t\t\t\t<methodCode/>\n\t\t\t\t\t\t\t\t\t<targetSiteCode/>\n\t\t\t\t\t\t\t\t\t<referenceRange>\n\t\t\t\t\t\t\t\t\t\t<observationRange>\n\t\t\t\t\t\t\t\t\t\t\t<value xsi:type=\"IVL_PQ\">\n\t\t\t\t\t\t\t\t\t\t\t\t<low unit=\"10+3/ul\" value=\"150\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t<high unit=\"10+3/ul\" value=\"350\"/>\n\t\t\t\t\t\t\t\t\t\t\t</value>\n\t\t\t\t\t\t\t\t\t\t</observationRange>\n\t\t\t\t\t\t\t\t\t</referenceRange>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</component>\n\t\t\t\t\t\t</organizer>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_Less_Than_Physical_Quantity.xml"],
+				"igReferences": ["Section 5.71 Result Organizer"],
+				"description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+			}, {
+				"rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+				"numberOfIssues": 4,
+				"issuesList": [{
+					"lineNumber": "1752",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"30954-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"RESULTS\"/>"
+				}, {
+					"lineNumber": "1792",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"43789009\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"CBC WO DIFFERENTIAL\" xsi:type=\"CE\"/>"
+				}, {
+					"lineNumber": "1800",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"30313-1\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"HGB\" xsi:type=\"CE\"> </code>"
+				}, {
+					"lineNumber": "1823",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"33765-9\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"WBC\" xsi:type=\"CE\"> </code>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_Less_Than_Physical_Quantity.xml"],
+				"igReferences": ["Section 4.55 Results Section"],
+				"description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+			}, {
+				"rule": "Lab Result values should use preferred UCUM units",
+				"numberOfIssues": 3,
+				"issuesList": [{
+					"lineNumber": "1806",
+					"xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" unit=\"g/dl\" value=\"10.2\" xsi:type=\"PQ\"/>"
+				}, {
+					"lineNumber": "1829",
+					"xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" unit=\"10+3/ul\" value=\"12.3\" xsi:type=\"PQ\"/>"
+				}, {
+					"lineNumber": "1856",
+					"xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" unit=\"10+3/ul\" value=\"123\" xsi:type=\"PQ\"/>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_UCUM_Translation.xml"],
+				"igReferences": ["Section 5.70 Result Observation"],
+				"description": "Lab Results should use the <a href=\"/scorecard/resources/LOINC.csv\">top 2000 LOINC codes and their corresponding units</a> as a best practice."
+			}, {
+				"rule": "Lab results should be expressed with LOINC codes",
+				"numberOfIssues": 1,
+				"issuesList": [{
+					"lineNumber": "1823",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"33765-9\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"WBC\" xsi:type=\"CE\"> </code>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/RESULT_Value_UCUM_Translation.xml"],
+				"igReferences": ["Section 5.70 Result Observation"],
+				"description": "Lab results should be expressed with LOINC codes"
+			}, {
+				"rule": "The EffectiveDate/Time elements for the Result Organizer must encompass the underlying observations",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "Each entry has to be linked to related narrative text",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "All Template Ids should be Valid with correct extension value",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}],
+			"numberOfIssues": 9,
+			"certificationFeedback": false,
+			"failingConformance": false,
+			"nullFlavorNI": false
+		}, {
+			"categoryName": "Problems",
+			"categoryGrade": "A-",
+			"categoryNumericalScore": 93,
+			"categoryRubrics": [{
+				"rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "All problem codes are should express with core subset of SNOMED codes",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "Problem Concern effective times reflect the appropriate problem concern status",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "Each entry has to be linked to related narrative text",
+				"numberOfIssues": 2,
+				"issuesList": [{
+					"lineNumber": "1394 - 1465",
+					"xmlString": "<act xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"ACT\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.3\"/>\n\t\t\t\t\t\t\t<id extension=\"1021\" root=\"ec8a6ff8-ed4b-4f7e-82c3-e98e58b45de7\"/>\n\t\t\t\t\t\t\t<code code=\"CONC\" codeSystem=\"2.16.840.1.113883.5.6\" displayName=\"Concern\"/>\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t<low value=\"20120806\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.4\"/>\n\t\t\t\t\t\t\t\t\t<id extension=\"1022\" root=\"ab1791b0-5c71-11db-b0de-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"409586006\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Complaint\"/>\n\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#problem1\"/>\n\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t<low value=\"20120806\"/>\n\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t<value code=\"233604007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Pneumonia\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.31\"/>\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"445518008\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Age At Onset\"/>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value unit=\"a\" value=\"65\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"REFR\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.5\"/>\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"11323-3\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Health status\" xsi:type=\"CE\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#problems\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"271593001\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Moribund\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"REFR\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"33999-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Status\" xsi:type=\"CE\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#problem1\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"55561003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Active\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t</act>"
+				}, {
+					"lineNumber": "1468 - 1540",
+					"xmlString": "<act xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"ACT\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.3\"/>\n\t\t\t\t\t\t\t<id extension=\"1022\" root=\"ec8a6ff8-ed4b-4f7e-82c3-e98e58b45de7\"/>\n\t\t\t\t\t\t\t<code code=\"CONC\" codeSystem=\"2.16.840.1.113883.5.6\" displayName=\"Concern\"/>\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t<low value=\"20070103\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.4\"/>\n\t\t\t\t\t\t\t\t\t<id extension=\"1023\" root=\"ab1791b0-5c71-11db-b0de-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"409586006\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Complaint\"/>\n\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#problem2\"/>\n\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t<low value=\"20120806\"/>\n\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t<value code=\"195967001\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Asthma\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.31\"/>\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"445518008\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Age At Onset\"/>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value unit=\"a\" value=\"60\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"REFR\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.5\"/>\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"11323-3\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Health status\" xsi:type=\"CE\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#problem2\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"271593001\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Severly Ill\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"REFR\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"33999-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Status\" xsi:type=\"CE\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#problem2\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"55561003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Active\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t</act>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"],
+				"igReferences": ["Section 4.44 Problem Section"],
+				"description": "Each entry has to be linked to related narrative text"
+			}, {
+				"rule": "All Template Ids should be Valid with correct extension value",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}],
+			"numberOfIssues": 2,
+			"certificationFeedback": false,
+			"failingConformance": false,
+			"nullFlavorNI": false
+		}, {
+			"categoryName": "Procedures",
+			"categoryGrade": "B-",
+			"categoryNumericalScore": 83,
+			"categoryRubrics": [{
+				"rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+				"numberOfIssues": 1,
+				"issuesList": [{
+					"lineNumber": "1580",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"168731009\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Chest X-Ray\">\n\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t<reference value=\"#Proc2\"/>\n\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t</code>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/PROCEDURE_Observation_Example.xml"],
+				"igReferences": ["Section 4.52 Procedures Section"],
+				"description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+			}, {
+				"rule": "Each entry has to be linked to related narrative text",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "All Template Ids should be Valid with correct extension value",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}],
+			"numberOfIssues": 1,
+			"certificationFeedback": false,
+			"failingConformance": false,
+			"nullFlavorNI": false
+		}, {
+			"categoryName": "Social History",
+			"categoryGrade": "C",
+			"categoryNumericalScore": 75,
+			"categoryRubrics": [{
+				"rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "Smoking status code value should be valid",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "Smoking status observation Template Id should be valid",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "Systems should capture birth sex independent of the Administrative Gender and encode them as an observation in the Social History Section",
+				"numberOfIssues": 1,
+				"issuesList": [{
+					"lineNumber": "1881 - 1925",
+					"xmlString": "<section xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.2.17\"/>\n\t\t\t\t\t\n\t\t\t\t\t<code code=\"29762-2\" codeSystem=\"2.16.840.1.113883.6.1\" displayName=\"Social History\"/>\n\t\t\t\t\t<title>SOCIAL HISTORY</title>\n\t\t\t\t\t<text>\n\t\t\t\t\t\t<table border=\"1\" width=\"100%\">\n\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<th>Social History Element</th>\n\t\t\t\t\t\t\t\t\t<th>Description</th>\n\t\t\t\t\t\t\t\t\t<th>Effective Dates</th>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t<tbody>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t\t\t<content ID=\"soc1\"/> smoking</td>\n\t\t\t\t\t\t\t\t\t<td>Former Smoker - Smoked 1 pack per day from 2005 to 2011</td>\n\t\t\t\t\t\t\t\t\t<td>May 1st, 2005 to Feb 27th, 2011</td>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</tbody>\n\t\t\t\t\t\t</table>\n\t\t\t\t\t</text>\n\t\t\t\t\t<entry typeCode=\"DRIV\">\n\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.78\"/>\n\t\t\t\t\t\t\t<id extension=\"123456789\" root=\"2.16.840.1.113883.19\"/>\n\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t<low value=\"20050501\"/>\n\t\t\t\t\t\t\t\t<high value=\"20110227\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<value code=\"8517006\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Former smoker\" xsi:type=\"CD\">\n\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t<reference value=\"#soc1\"/>\n\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t</value>\n\t\t\t\t\t\t</observation>\n\t\t\t\t\t</entry>\n\t\t\t\t</section>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/SMOKING_Former_Smoker.xml"],
+				"igReferences": ["Section 5.76 Social History Observation"],
+				"description": "Systems should capture birth sex independent of the Administrative Gender and encode them as an observation in the Social History Section."
+			}, {
+				"rule": "Each entry has to be linked to related narrative text",
+				"numberOfIssues": 1,
+				"issuesList": [{
+					"lineNumber": "1907 - 1923",
+					"xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.78\"/>\n\t\t\t\t\t\t\t<id extension=\"123456789\" root=\"2.16.840.1.113883.19\"/>\n\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t<low value=\"20050501\"/>\n\t\t\t\t\t\t\t\t<high value=\"20110227\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<value code=\"8517006\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Former smoker\" xsi:type=\"CD\">\n\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t<reference value=\"#soc1\"/>\n\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t</value>\n\t\t\t\t\t\t</observation>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/SMOKING_Former_Smoker.xml"],
+				"igReferences": ["Section 4.57 Social History Section"],
+				"description": "Each entry has to be linked to related narrative text"
+			}, {
+				"rule": "All Template Ids should be Valid with correct extension value",
+				"numberOfIssues": 1,
+				"issuesList": [{
+					"lineNumber": "1909",
+					"xmlString": "<templateId root=\"2.16.840.1.113883.10.20.22.4.78\"/>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"],
+				"igReferences": ["Section 4.2 Allergies"],
+				"description": "All Template Ids should be present with valid extension value"
+			}],
+			"numberOfIssues": 3,
+			"certificationFeedback": false,
+			"failingConformance": false,
+			"nullFlavorNI": false
+		}, {
+			"categoryName": "Vital Signs",
+			"categoryGrade": "B-",
+			"categoryNumericalScore": 84,
+			"categoryRubrics": [{
+				"rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+				"numberOfIssues": 4,
+				"issuesList": [{
+					"lineNumber": "1993",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>"
+				}, {
+					"lineNumber": "2011",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"3141-9\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>"
+				}, {
+					"lineNumber": "2080",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>"
+				}, {
+					"lineNumber": "2098",
+					"xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"3141-9\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"],
+				"igReferences": ["Section 4.60 Vital Sign Section"],
+				"description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+			}, {
+				"rule": "The Vital Sign Observation entries should use LOINC codes to represent the type of vital sign being captured",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "Each of the Vital Sign Observations should use the recommended UCUM units to represent the vital sign measurement result",
+				"numberOfIssues": 5,
+				"issuesList": [{
+					"lineNumber": "1999",
+					"xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" unit=\"in\" value=\"69\" xsi:type=\"PQ\"/>"
+				}, {
+					"lineNumber": "2017",
+					"xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" unit=\"lbs\" value=\"189\" xsi:type=\"PQ\"/>"
+				}, {
+					"lineNumber": "2024 - 2060",
+					"xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<id extension=\"2003\" root=\"c6f88321-67ad-11db-bd13-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t<code code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Intravascular Systolic\"/>\n\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t<reference value=\"#vit5\"/>\n\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t<effectiveTime value=\"20111101\"/>\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"COMP\">\n\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t\t<id extension=\"12003\" root=\"c6f88321-67ad-11db-bd13-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t\t<code code=\"271649006\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Systolic BP\"/>\n\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20111101\"/>\n\t\t\t\t\t\t\t\t\t\t<value unit=\"mm[Hg]\" value=\"132\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t<entryRelationship typeCode=\"COMP\">\n\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t\t<id extension=\"22003\" root=\"c6f88321-67ad-11db-bd13-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t\t<code code=\"271650006\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Diastolic BP\"/>\n\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20111101\"/>\n\t\t\t\t\t\t\t\t\t\t<value unit=\"mm[Hg]\" value=\"86\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</observation>"
+				}, {
+					"lineNumber": "2086",
+					"xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" unit=\"in\" value=\"69\" xsi:type=\"PQ\"/>"
+				}, {
+					"lineNumber": "2104",
+					"xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" unit=\"lbs\" value=\"194\" xsi:type=\"PQ\"/>"
+				}],
+				"exampleTaskForceLinks": ["https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"],
+				"igReferences": ["Section 5.81 Vital Sign Observation"],
+				"description": "The recommended UCUM units should be used to represent the Vital Sign result values as part of the observation"
+			}, {
+				"rule": "The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "Each entry has to be linked to related narrative text",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}, {
+				"rule": "All Template Ids should be Valid with correct extension value",
+				"numberOfIssues": 0,
+				"issuesList": [],
+				"exampleTaskForceLinks": [],
+				"igReferences": [],
+				"description": null
+			}],
+			"numberOfIssues": 9,
+			"certificationFeedback": false,
+			"failingConformance": false,
+			"nullFlavorNI": false
+		}],
+		"numberOfIssues": 39,
+		"igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
+		"industryAverageScore": 80,
+		"industryAverageGrade": "B-",
+		"numberOfDocumentsScored": 16883,
+		"ccdaVersion": "R1.1",
+		"passedCertification": null,
+		"numberOfDocsScoredPerCcdaDocumentType": 5931,
+		"industryAverageScoreForCcdaDocumentType": 79,
+		"industryAverageGradeForCcdaDocumentType": "C"
+	},
+	"referenceResults": [{
+		"type": "C-CDA IG Conformance Errors",
+		"totalErrorCount": 1,
+		"referenceErrors": [{
+			"description": "Consol Medication Activity MAY contain zero or more [0..*] precondition, where its type is Precondition (CONF:7546) precondition SHALL contain exactly one [1..1] criterion, where its type is Precondition For Substance Administration (CONF:16092)",
+			"type": "C-CDA MDHT Conformance Error",
+			"xPath": "/ClinicalDocument/component/structuredBody/component[4]/section/entry/substanceAdministration/precondition",
+			"validatorConfiguredXpath": null,
+			"documentLineNumber": "1289",
+			"actualCode": null,
+			"actualCodeSystem": null,
+			"actualCodeSystemName": null,
+			"actualDisplayName": null,
+			"schemaError": false,
+			"dataTypeSchemaError": false,
+			"sectionName": "Medications"
+		}]
+	}, {
+		"type": "2015 Edition Certification Feedback",
+		"totalErrorCount": 0,
+		"referenceErrors": []
+	}],
+	"schemaErrorList": null,
+	"schemaErrors": false,
+	"success": true
+}

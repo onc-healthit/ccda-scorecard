@@ -755,7 +755,8 @@ public class SaveReportController {
 			for (ReferenceResult curRefInstance : referenceResults) {
 
 				ReferenceInstanceType refType = curRefInstance.getType();
-				if (curRefInstance.getTotalErrorCount() > 0) {
+				boolean curRefInstanceHasErrors = curRefInstance.getTotalErrorCount() > 0; 
+				if (curRefInstanceHasErrors) {
 					String refTypeName = refType.getTypePrettyName();
 					sb.append("<h3 id=\"" + refTypeName + "-category\">"
 							+ refTypeName + "</h3>");
@@ -795,7 +796,9 @@ public class SaveReportController {
 				}
 				sb.append("</ol>"); // END reference errors ol
 				sb.append("</ul>"); // END curRefInstance ul
-				appendBackToTopWithBreaks(sb);
+				if (curRefInstanceHasErrors) {
+					appendBackToTopWithBreaks(sb);
+				}
 
 			} //END for (ReferenceResult curRefInstance : referenceResults)
 		}
@@ -1246,9 +1249,9 @@ public class SaveReportController {
 	
 	public static void main(String[] args) {
 		String[] filenames = {"highScoringSample", "lowScoringSample", "sampleWithErrors", 
-				"sampleWithSchemaErrors", "sampleWithoutAnyContent"};
+				"sampleWithSchemaErrors", "sampleWithoutAnyContent", "sampleWithConfErrorAndNoCert"};
 		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2, 
-				SAMPLE_WITH_SCHEMA_ERRORS = 3, SAMPLE_WITHOUT_ANY_CONTENT = 4;
+				SAMPLE_WITH_SCHEMA_ERRORS = 3, SAMPLE_WITHOUT_ANY_CONTENT = 4, SAMPLE_WITH_CONF_ERROR_AND_NO_CERT = 5;
 		try {
 			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.MATCH_UI);
 		} catch (URISyntaxException e) {
