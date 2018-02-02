@@ -804,7 +804,7 @@ public class SaveReportController {
 			if (curCategory.getNumberOfIssues() > 0) {
 			sb.append("<h3 id='" + curCategory.getCategoryName() + "-category"
 					+ "'>" + curCategory.getCategoryName() + "</h3>");
-
+				
 				sb.append("<ul>"); // START curCategory ul
 				sb.append("<li>" + "Section Grade: "
 						+ curCategory.getCategoryGrade() + "</li>" + "<li>"
@@ -818,6 +818,14 @@ public class SaveReportController {
 							sb.append("<li>" + "Rule: " + curRubric.getRule()
 									+ "</li>");
 							if (curRubric.getDescription() != null) {
+								final String oldTop2000LOINCCodes = "href=\"/scorecard/resources/LOINC.csv\"";
+								final String newTop2000LOINCCodes = "href=\"https://sitenv.org/scorecard/resources/LOINC.csv\"";						
+								if(curCategory.getCategoryName().equals("Laboratory Tests and Results")) {
+									if(curRubric.getDescription().contains(oldTop2000LOINCCodes)) {		
+										curRubric.setDescription(
+												curRubric.getDescription().replaceAll(oldTop2000LOINCCodes, newTop2000LOINCCodes));										
+									}
+								}
 								sb.append("<ul>" + "<li>" + "Description"
 										+ "</li>" + "<ul>" + "<li>"
 										+ curRubric.getDescription() + "</li>"
