@@ -587,43 +587,43 @@ public class SaveReportController {
 		sb.append("<table id='dynamicTable'>");
 		sb.append("   <tbody>");
 		sb.append("    <tr class=\"popOuts\">");
-		sb.append("      <td id=\"gradePopOut\" colspan=\"2\">");
+		sb.append("      <td scope='col' id=\"gradePopOut\" colspan=\"2\">");
 		sb.append("        The Scorecard grade is a quantitative assessment of the data quality of the submitted document. "
 				+ "A higher grade indicates that HL7 best practices for C-CDA implementation are being followed by the organization and "
 				+ "has higher probability of being interoperable with other organizations.");
 		sb.append("      </td>");
-		sb.append("      <td id=\"issuePopOut\">");
+		sb.append("      <td scope='col' id=\"issuePopOut\">");
 		sb.append("        A Scorecard Issue identifies data within the document which can be represented in a better way using "
 				+ "HL7 best practices for C-CDA. This column should have numbers as close to zero as possible.");
 		sb.append("      </td>");
-		sb.append("      <td id=\"errorPopOut\">");
+		sb.append("      <td scope='col' id=\"errorPopOut\">");
 		sb.append("        A Conformance Error implies that the document is non-compliant with the HL7 C-CDA IG requirements. "
 				+ "This column should have zeros ideally. Providers should work with their health IT vendor to rectify the errors.");
 		sb.append("      </td>");
-		sb.append("      <td id=\"feedbackPopOut\">");
+		sb.append("      <td scope='col' id=\"feedbackPopOut\">");
 		sb.append("        A Certification Feedback result identifies areas where the generated documents are not compliant with "
 				+ "the requirements of 2015 Edition Certification. Ideally, this column should have all zeros.");
 		sb.append("      </td>");
 		sb.append("    </tr>");
 		sb.append("    <tr>");
-		sb.append("      <td class=\"removeBorder\"></td>");
-		sb.append("      <td class=\"removeBorder\" id=\"gradePopOutLink\"></td>");
-		sb.append("      <td class=\"removeBorder\" id=\"issuePopOutLink\"></td>");
-		sb.append("      <td class=\"removeBorder\" id=\"errorPopOutLink\"></td>");
-		sb.append("      <td class=\"removeBorder\" id=\"feedbackPopOutLink\"></td>");
+		sb.append("      <td scope='row' class=\"removeBorder\"></td>");
+		sb.append("      <td scope='row' class=\"removeBorder\" id=\"gradePopOutLink\"></td>");
+		sb.append("      <td scope='row' class=\"removeBorder\" id=\"issuePopOutLink\"></td>");
+		sb.append("      <td scope='row' class=\"removeBorder\" id=\"errorPopOutLink\"></td>");
+		sb.append("      <td scope='row' class=\"removeBorder\" id=\"feedbackPopOutLink\"></td>");
 		sb.append("    </tr>    ");
 		sb.append("    <tr style=\"background-color: ghostwhite\">");
-		sb.append("     <th>Clinical Domain</th> ");
-		sb.append("     <th id=\"gradeHeader\">Scorecard Grade</th> ");
-		sb.append("     <th id=\"issueHeader\">Scorecard Issues</th> ");
-		sb.append("     <th id=\"errorHeader\">Conformance Errors</th> ");
-		sb.append("     <th id=\"feedbackHeader\">Certification Feedback</th> ");
+		sb.append("     <th scope='col'>Clinical Domain</th> ");
+		sb.append("     <th scope='col' id=\"gradeHeader\">Scorecard Grade</th> ");
+		sb.append("     <th scope='col' id=\"issueHeader\">Scorecard Issues</th> ");
+		sb.append("     <th scope='col' id=\"errorHeader\">Conformance Errors</th> ");
+		sb.append("     <th scope='col' id=\"feedbackHeader\">Certification Feedback</th> ");
 		sb.append("    </tr> ");				
 		for(Category category : getSortedCategories(categories)) {
 //			if(category.getNumberOfIssues() > 0 || referenceResults.get(ReferenceInstanceType.IG/CERT).getTotalErrorCount() > 0) {
 //			if(category.getNumberOfIssues() > 0 || category.isFailingConformance() || category.isCertificationFeedback()) {				
 			sb.append("  <tr>")
-		     .append("    <td>" + (category.getCategoryName() != null ? category.getCategoryName() : "Unknown") + "</td>")
+		     .append("    <td scope='row'>" + (category.getCategoryName() != null ? category.getCategoryName() : "Unknown") + "</td>")
 		     .append("    <td>" + (category.getCategoryGrade() != null ? category.getCategoryGrade() : "N/A") + "</td>")
 		     .append("    <td>" + (category.isFailingConformance() || category.isCertificationFeedback() || category.isNullFlavorNI() 
 		    		 ? "N/A" 
