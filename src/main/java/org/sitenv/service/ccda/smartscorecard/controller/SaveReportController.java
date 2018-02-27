@@ -305,11 +305,16 @@ public class SaveReportController {
 
 	private static void appendOpeningHtml(StringBuffer sb) {
 		sb.append("<!DOCTYPE html>");
-		sb.append("<html>");
-		sb.append("<head>");
-		sb.append("<title>SITE C-CDA Scorecard Report</title>");
+		sb.append("<html lang='en' xml:lang='en'>");
+		sb.append("	<head>");
+		sb.append("		<title>SITE C-CDA Scorecard Report</title>");
+		sb.append("		<meta name='author' content='ONC SITE'>");
+		sb.append("		<meta name='subject' content='ONC Scorecard'>");
+		sb.append("		<meta name='keywords' content='Scorecard, C-CDA, ONC, R1.1, R2.1, CDA, Report, SITE, "
+				+ 		"Validation, Validator, Standards, HL7, Structured Documents, Healthcare, HIT, HIE, Interoperability'>");
+		sb.append("		<meta name='language' content='en'>");
 		appendStyleSheet(sb);
-		sb.append("</head>");
+		sb.append("	</head>");
 		sb.append("<body style='font-family: \"Helvetica Neue\",Helvetica,Arial,sans-serif;'>");
 	}
 	
@@ -373,9 +378,17 @@ public class SaveReportController {
 					+ (report.getCcdaDocumentType() != null ? report
 							.getCcdaDocumentType() : "document") + "</h1>");
 			sb.append("<h5>");
-			sb.append("<span style='float: left'>" + "Submitted By: "
-			+ (!ApplicationUtil.isEmpty(report.getFilename()) ? report.getFilename() : "Unknown")
-			+ "</span>");
+			sb.append("<span style='float: left'>" + "Submitted By: ");
+			if(!ApplicationUtil.isEmpty(report.getFilename())) {
+				if(report.getFilename().contains("@")) {
+					sb.append("<a href='mailto:" + report.getFilename() + "'>" + report.getFilename() +  "</a>");
+				} else {
+					sb.append(report.getFilename());
+				}
+			} else {
+				sb.append("Unknown");
+			}
+			sb.append("</span>");
 			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			sb.append("<span style='float: right'>" + "Submission Time: " + dateFormat.format(new Date()) + "</span>");
 			sb.append("</h5>");
@@ -574,43 +587,43 @@ public class SaveReportController {
 		sb.append("<table id='dynamicTable'>");
 		sb.append("   <tbody>");
 		sb.append("    <tr class=\"popOuts\">");
-		sb.append("      <td id=\"gradePopOut\" colspan=\"2\">");
+		sb.append("      <td scope='col' id=\"gradePopOut\" colspan=\"2\">");
 		sb.append("        The Scorecard grade is a quantitative assessment of the data quality of the submitted document. "
 				+ "A higher grade indicates that HL7 best practices for C-CDA implementation are being followed by the organization and "
 				+ "has higher probability of being interoperable with other organizations.");
 		sb.append("      </td>");
-		sb.append("      <td id=\"issuePopOut\">");
+		sb.append("      <td scope='col' id=\"issuePopOut\">");
 		sb.append("        A Scorecard Issue identifies data within the document which can be represented in a better way using "
 				+ "HL7 best practices for C-CDA. This column should have numbers as close to zero as possible.");
 		sb.append("      </td>");
-		sb.append("      <td id=\"errorPopOut\">");
+		sb.append("      <td scope='col' id=\"errorPopOut\">");
 		sb.append("        A Conformance Error implies that the document is non-compliant with the HL7 C-CDA IG requirements. "
 				+ "This column should have zeros ideally. Providers should work with their health IT vendor to rectify the errors.");
 		sb.append("      </td>");
-		sb.append("      <td id=\"feedbackPopOut\">");
+		sb.append("      <td scope='col' id=\"feedbackPopOut\">");
 		sb.append("        A Certification Feedback result identifies areas where the generated documents are not compliant with "
 				+ "the requirements of 2015 Edition Certification. Ideally, this column should have all zeros.");
 		sb.append("      </td>");
 		sb.append("    </tr>");
 		sb.append("    <tr>");
-		sb.append("      <td class=\"removeBorder\"></td>");
-		sb.append("      <td class=\"removeBorder\" id=\"gradePopOutLink\"></td>");
-		sb.append("      <td class=\"removeBorder\" id=\"issuePopOutLink\"></td>");
-		sb.append("      <td class=\"removeBorder\" id=\"errorPopOutLink\"></td>");
-		sb.append("      <td class=\"removeBorder\" id=\"feedbackPopOutLink\"></td>");
+		sb.append("      <td scope='row' class=\"removeBorder\"></td>");
+		sb.append("      <td scope='row' class=\"removeBorder\" id=\"gradePopOutLink\"></td>");
+		sb.append("      <td scope='row' class=\"removeBorder\" id=\"issuePopOutLink\"></td>");
+		sb.append("      <td scope='row' class=\"removeBorder\" id=\"errorPopOutLink\"></td>");
+		sb.append("      <td scope='row' class=\"removeBorder\" id=\"feedbackPopOutLink\"></td>");
 		sb.append("    </tr>    ");
 		sb.append("    <tr style=\"background-color: ghostwhite\">");
-		sb.append("     <th>Clinical Domain</th> ");
-		sb.append("     <th id=\"gradeHeader\">Scorecard Grade</th> ");
-		sb.append("     <th id=\"issueHeader\">Scorecard Issues</th> ");
-		sb.append("     <th id=\"errorHeader\">Conformance Errors</th> ");
-		sb.append("     <th id=\"feedbackHeader\">Certification Feedback</th> ");
+		sb.append("     <th scope='col'>Clinical Domain</th> ");
+		sb.append("     <th scope='col' id=\"gradeHeader\">Scorecard Grade</th> ");
+		sb.append("     <th scope='col' id=\"issueHeader\">Scorecard Issues</th> ");
+		sb.append("     <th scope='col' id=\"errorHeader\">Conformance Errors</th> ");
+		sb.append("     <th scope='col' id=\"feedbackHeader\">Certification Feedback</th> ");
 		sb.append("    </tr> ");				
 		for(Category category : getSortedCategories(categories)) {
 //			if(category.getNumberOfIssues() > 0 || referenceResults.get(ReferenceInstanceType.IG/CERT).getTotalErrorCount() > 0) {
 //			if(category.getNumberOfIssues() > 0 || category.isFailingConformance() || category.isCertificationFeedback()) {				
 			sb.append("  <tr>")
-		     .append("    <td>" + (category.getCategoryName() != null ? category.getCategoryName() : "Unknown") + "</td>")
+		     .append("    <td scope='row'>" + (category.getCategoryName() != null ? category.getCategoryName() : "Unknown") + "</td>")
 		     .append("    <td>" + (category.getCategoryGrade() != null ? category.getCategoryGrade() : "N/A") + "</td>")
 		     .append("    <td>" + (category.isFailingConformance() || category.isCertificationFeedback() || category.isNullFlavorNI() 
 		    		 ? "N/A" 
@@ -725,12 +738,15 @@ public class SaveReportController {
 		if(reportType == null) {
 			reportType = SaveReportType.MATCH_UI;
 		}
-		sb.append("<h3>"
-				+ header
-				+ ": "
-				+ ("Scorecard Issues".equals(header) || result < 1 || reportType == SaveReportType.SUMMARY ? result
-						: ("<a href=\"#" + header + "-category\">" + result + "</a>"))
-				+ "</h3>");
+		
+		sb.append("<h3>");
+		if("Scorecard Issues".equals(header) || result < 1 || reportType == SaveReportType.SUMMARY) {
+			sb.append(header + ": " + result);
+		} else {
+			sb.append("<a href=\"#" + header + "-category\">" + header + ": " + result + "</a>");
+		}
+		sb.append("</h3>");
+		
 		sb.append("<ul><li>");
 		sb.append("<p>There " + (isSingular ? "is" : "are") + " " + "<b>"
 				+ result + "</b>" + " " + messageSubject
@@ -747,7 +763,8 @@ public class SaveReportController {
 			for (ReferenceResult curRefInstance : referenceResults) {
 
 				ReferenceInstanceType refType = curRefInstance.getType();
-				if (curRefInstance.getTotalErrorCount() > 0) {
+				boolean curRefInstanceHasErrors = curRefInstance.getTotalErrorCount() > 0; 
+				if (curRefInstanceHasErrors) {
 					String refTypeName = refType.getTypePrettyName();
 					sb.append("<h3 id=\"" + refTypeName + "-category\">"
 							+ refTypeName + "</h3>");
@@ -787,7 +804,9 @@ public class SaveReportController {
 				}
 				sb.append("</ol>"); // END reference errors ol
 				sb.append("</ul>"); // END curRefInstance ul
-				appendBackToTopWithBreaks(sb);
+				if (curRefInstanceHasErrors) {
+					appendBackToTopWithBreaks(sb);
+				}
 
 			} //END for (ReferenceResult curRefInstance : referenceResults)
 		}
@@ -796,7 +815,7 @@ public class SaveReportController {
 			if (curCategory.getNumberOfIssues() > 0) {
 			sb.append("<h3 id='" + curCategory.getCategoryName() + "-category"
 					+ "'>" + curCategory.getCategoryName() + "</h3>");
-
+				
 				sb.append("<ul>"); // START curCategory ul
 				sb.append("<li>" + "Section Grade: "
 						+ curCategory.getCategoryGrade() + "</li>" + "<li>"
@@ -810,6 +829,14 @@ public class SaveReportController {
 							sb.append("<li>" + "Rule: " + curRubric.getRule()
 									+ "</li>");
 							if (curRubric.getDescription() != null) {
+								final String oldTop2000LOINCCodes = "href=\"/scorecard/resources/LOINC.csv\"";
+								final String newTop2000LOINCCodes = "href=\"https://sitenv.org/scorecard/resources/LOINC.csv\"";						
+								if(curCategory.getCategoryName().equals("Laboratory Tests and Results")) {
+									if(curRubric.getDescription().contains(oldTop2000LOINCCodes)) {		
+										curRubric.setDescription(
+												curRubric.getDescription().replaceAll(oldTop2000LOINCCodes, newTop2000LOINCCodes));										
+									}
+								}
 								sb.append("<ul>" + "<li>" + "Description"
 										+ "</li>" + "<ul>" + "<li>"
 										+ curRubric.getDescription() + "</li>"
@@ -1114,11 +1141,11 @@ public class SaveReportController {
 			factory.setValidating(false);
 
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document refineddoc = builder.parse(new ByteArrayInputStream(
+			Document refinedDoc = builder.parse(new ByteArrayInputStream(
 					cleanHtmlReport.getBytes("UTF-8")));
 
 			ITextRenderer renderer = new ITextRenderer();
-			renderer.setDocument(refineddoc, null);
+			renderer.setDocument(refinedDoc, null);
 			renderer.layout();
 
 			if(response != null) {
@@ -1230,9 +1257,9 @@ public class SaveReportController {
 	
 	public static void main(String[] args) {
 		String[] filenames = {"highScoringSample", "lowScoringSample", "sampleWithErrors", 
-				"sampleWithSchemaErrors", "sampleWithoutAnyContent"};
+				"sampleWithSchemaErrors", "sampleWithoutAnyContent", "sampleWithConfErrorAndNoCert"};
 		final int HIGH_SCORING_SAMPLE = 0, LOW_SCORING_SAMPLE = 1, SAMPLE_WITH_ERRORS = 2, 
-				SAMPLE_WITH_SCHEMA_ERRORS = 3, SAMPLE_WITHOUT_ANY_CONTENT = 4;
+				SAMPLE_WITH_SCHEMA_ERRORS = 3, SAMPLE_WITHOUT_ANY_CONTENT = 4, SAMPLE_WITH_CONF_ERROR_AND_NO_CERT = 5;
 		try {
 			buildReportUsingJSONFromLocalFile(filenames[SAMPLE_WITH_ERRORS], SaveReportType.SUMMARY);
 		} catch (URISyntaxException e) {
