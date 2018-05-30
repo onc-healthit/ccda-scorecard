@@ -233,6 +233,15 @@ public class ApplicationUtil {
 			format = getFormat(birthDate);
 			ts = getTsFromString(birthDate, format);
 			isValid = ts.before(new Timestamp(new Date().getTime()));
+			if(format.equalsIgnoreCase(ApplicationConstants.MINUTE_FORMAT) || format.equalsIgnoreCase(ApplicationConstants.SECOND_FORMAT)) {
+				Calendar calendar = GregorianCalendar.getInstance(); 
+				calendar.setTimeInMillis(ts.getTime()); 
+				int hour = calendar.get(Calendar.HOUR_OF_DAY);
+				int min = calendar.get(Calendar.MINUTE);
+				if(hour == 0 && min == 0) {
+					isValid = false;
+				}
+			}
 		}catch(ParseException pe){
 			isValid = false;
 		}
