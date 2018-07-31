@@ -134,7 +134,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	  		//apply a generic message
         $scope.errorData.getJsonDataErrorForUser = 
         	"The scorecard application is unable to score the C-CDA document. " + 
-        	"Please try a file other than " + $scope.ccdaFileName + " or contact TestingServices@sitenv.org for help."	  		
+        	"Please try a file other than " + $scope.ccdaFileName + " or contact SITTeam@hhs.gov for help."	  		
 	  	}
 	  	//log dev data
       $scope.errorData.getJsonDataError = 

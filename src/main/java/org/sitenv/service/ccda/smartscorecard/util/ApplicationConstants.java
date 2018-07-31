@@ -175,7 +175,7 @@ public class ApplicationConstants {
 	public static final String NARRATIVE_STRUCTURE_ID_DESC = "Each entry has to be linked to related narrative text";
 	
 	public static final String EMPTY_DOC_ERROR_MESSAGE = "Given C-CDA document is empty or invalid. Please upload a valid C-CDA Document.";
-	public static final String EXCEPTION_ERROR_MESSAGE = "Our system experienced some unexpected error, please try after some time or email your issue to TestingServices@sitenv.org";
+	public static final String EXCEPTION_ERROR_MESSAGE = "Our system experienced some unexpected error, please try after some time or email your issue to SITTeam@hhs.gov";
 	
 	public static final String YEAR_FORMAT = "yyyy";
 	public static final String YEAR_PATTERN = "\\d{4}";
@@ -350,7 +350,7 @@ public class ApplicationConstants {
 	}
 	
 	public static class ErrorMessages {
-		public static final String CONTACT = "Please report this issue to TestingServices@sitenv.org.";
+		public static final String CONTACT = "Please report this issue to SITTeam@hhs.gov.";
 		public static final String GENERIC = "An Unknown error has occurred. ";
 		public static final String GENERIC_WITH_CONTACT = "An Unknown error has occurred. "
 				+ CONTACT;
