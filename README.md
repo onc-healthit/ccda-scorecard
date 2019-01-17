@@ -1,4 +1,4 @@
-# CCDA-Score-CARD
+# C-CDA-Scorecard
 This application contains the C-CDA Scorecard service. The Service is implemented following the standards and promotes best practices in C-CDA implementation by assessing key aspects of the structured data found in individual documents. It is a tool designed to allow implementers to gain insight and information regarding industry best practice and usage overall. It also provides a rough quantitative assessment and highlights areas of improvement which can be made today to move the needle forward. The best practices and quantitative scoring criteria have been developed by HL7 through the HL7-ONC Cooperative agreement to improve the implementation of health care standards.
 
 The Scorecard API is a POST RESTful service which takes a C-CDA document as input and returns JSON results. 
