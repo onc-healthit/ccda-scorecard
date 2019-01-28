@@ -5,7 +5,7 @@
 	<artifactId>scorecard</artifactId>
 	<packaging>war</packaging>
 	<!-- Update version for each new release and apply the old version to previousProjectVersion -->
-	<version>1.11</version>
+	<version>1.12</version>
 	<name>ccda-smart-scorecard Maven Webapp </name>
 	<url>http://maven.apache.org</url>
 
@@ -13,7 +13,7 @@
 		<!-- Update previousProjectVersion to what the version tag was previously 
 			for each new release. Then run a mvn clean, commit/merge the updated files, 
 			then run a build of the war and deploy -->
-		<previousProjectVersion>1.10</previousProjectVersion>
+		<previousProjectVersion>1.11</previousProjectVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<org.springframework.version>4.1.0.RELEASE</org.springframework.version>
 	</properties>
