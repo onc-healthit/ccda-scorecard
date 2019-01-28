@@ -9,63 +9,63 @@ var scApp = angular.module('scorecard', [
 scApp.directive('scorecard', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'scorecard.html?version=R1.11'
+		templateUrl : 'scorecard.html?version=R1.12'
 	};
 });
 
 scApp.directive('debug', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'debug.html?version=R1.11'
+		templateUrl : 'debug.html?version=R1.12'
 	};
 });
 
 scApp.directive('topLevelResults', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'topLevelResults.html?version=R1.11'
+		templateUrl : 'topLevelResults.html?version=R1.12'
 	};
 });
 
 scApp.directive('summary', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'summary.html?version=R1.11'
+		templateUrl : 'summary.html?version=R1.12'
 	};
 });
 
 scApp.directive('heatMap', function() {
     return {
         restrict : 'E',
-        templateUrl : 'heatMap.html?version=R1.11'
+        templateUrl : 'heatMap.html?version=R1.12'
     };
 });
 
 scApp.directive('detailedResults', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'detailedResults.html?version=R1.11'
+		templateUrl : 'detailedResults.html?version=R1.12'
 	};
 });
 
 scApp.directive('scorecardTwoResults', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'scorecardTwoResults.html?version=R1.11'
+		templateUrl : 'scorecardTwoResults.html?version=R1.12'
 	};
 });
 
 scApp.directive('saveScorecardButton', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'saveScorecardButton.html?version=R1.11'
+		templateUrl: 'saveScorecardButton.html?version=R1.12'
 	};
 });
 
 scApp.directive('saveTryMeXmlButton', function() {
 	return {
 		restict: 'E',
-		templateUrl: 'saveTryMeXmlButton.html?version=R1.11'
+		templateUrl: 'saveTryMeXmlButton.html?version=R1.12'
 	};
 });
 
@@ -73,70 +73,70 @@ scApp.directive('saveTryMeXmlButton', function() {
 scApp.directive('siteHeader', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteHeader.html?version=R1.11'
+		templateUrl : 'siteHeader.html?version=R1.12'
 	};
 });
 
 scApp.directive('siteNavbar', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteNavbar.html?version=R1.11'
+		templateUrl : 'siteNavbar.html?version=R1.12'
 	};
 });
 
 scApp.directive('siteTopLevelContent', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteTopLevelContent.html?version=R1.11'
+		templateUrl : 'siteTopLevelContent.html?version=R1.12'
 	};
 });
 
 scApp.directive('siteUploadForm', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteUploadForm.html?version=R1.11'
+		templateUrl : 'siteUploadForm.html?version=R1.12'
 	};
 });
 
 scApp.directive('siteResultsModal', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteResultsModal.html?version=R1.11'
+		templateUrl : 'siteResultsModal.html?version=R1.12'
 	};
 });
 
 scApp.directive('siteFooter', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteFooter.html?version=R1.11'
+		templateUrl : 'siteFooter.html?version=R1.12'
 	};
 });
 
 scApp.directive('siteScoringCriteriaModal', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteScoringCriteriaModal.html?version=R1.11'
+		templateUrl : 'siteScoringCriteriaModal.html?version=R1.12'
 	};
 });
 
 scApp.directive('siteApiInstructionsModal', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteApiInstructionsModal.html?version=R1.11'
+		templateUrl : 'siteApiInstructionsModal.html?version=R1.12'
 	};
 });
 
 scApp.directive('siteIntroductionModal', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'siteIntroductionModal.html?version=R1.11'
+		templateUrl: 'siteIntroductionModal.html?version=R1.12'
 	};
 });
 
 scApp.directive('siteDownloadLocalModal', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'siteDownloadLocalModal.html?version=R1.11'
+		templateUrl: 'siteDownloadLocalModal.html?version=R1.12'
 	};
 });
 
@@ -146,7 +146,7 @@ scApp.directive('linkDisclaimer', function() {
 		scope: {
 			spanClass: "="
 		},
-		templateUrl: 'siteExternalLinkDisclaimer.html?version=R1.11'
+		templateUrl: 'siteExternalLinkDisclaimer.html?version=R1.12'
 	};
 });
 
