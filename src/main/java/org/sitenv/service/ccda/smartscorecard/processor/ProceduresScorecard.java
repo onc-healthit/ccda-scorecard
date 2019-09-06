@@ -60,6 +60,7 @@ public class ProceduresScorecard {
 		
 		procedureCategory.setCategoryRubrics(procedureScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(procedureScoreList, procedureCategory);
+		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(procedureScoreList, procedureCategory);
 		logger.info("Procedures End time:"+ (System.currentTimeMillis() - startTime));
 		return new AsyncResult<Category>(procedureCategory);
 	}
@@ -73,6 +74,7 @@ public class ProceduresScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(procedures != null)
@@ -81,6 +83,7 @@ public class ProceduresScorecard {
 												&& ApplicationUtil.isCodeSystemAvailable(procedures.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
+				numberOfChecks++;
 				if(referenceValidatorService.validateDisplayName(procedures.getSectionCode().getCode(), 
 									procedures.getSectionCode().getCodeSystem(),
 									procedures.getSectionCode().getDisplayName()))
@@ -104,6 +107,7 @@ public class ProceduresScorecard {
 							&& ApplicationUtil.isCodeSystemAvailable(procAct.getProcCode().getCodeSystem()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(referenceValidatorService.validateDisplayName(procAct.getProcCode().getCode(), 
 												procAct.getProcCode().getCodeSystem(),
 												procAct.getProcCode().getDisplayName()))
@@ -132,6 +136,7 @@ public class ProceduresScorecard {
 		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateDisplayNameScore.setIssuesList(issuesList);
 		validateDisplayNameScore.setNumberOfIssues(issuesList.size());
+		validateDisplayNameScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
@@ -156,6 +161,7 @@ public class ProceduresScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(procedures != null)
@@ -165,6 +171,7 @@ public class ProceduresScorecard {
 				for(CCDAProcActProc procAct : procedures.getProcActsProcs())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(procAct.getReferenceText()!= null)
 					{
 						if(procedures.getReferenceLinks()!= null && procedures.getReferenceLinks().contains(procAct.getReferenceText().getValue()))
@@ -200,6 +207,7 @@ public class ProceduresScorecard {
 		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		narrativeTextIdScore.setIssuesList(issuesList);
 		narrativeTextIdScore.setNumberOfIssues(issuesList.size());
+		narrativeTextIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
@@ -225,6 +233,7 @@ public class ProceduresScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		
 		if(procedures!=null)
@@ -234,6 +243,7 @@ public class ProceduresScorecard {
 				for (CCDAII templateId : procedures.getSectionTemplateId())
 				{
 					maxPoints = maxPoints++;
+					numberOfChecks++;
 					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 				}
 			}
@@ -247,6 +257,7 @@ public class ProceduresScorecard {
 						for (CCDAII templateId : procAct.getSectionTemplateId())
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 						}
 					}
@@ -260,6 +271,7 @@ public class ProceduresScorecard {
 								for (CCDAII templateId : sdLoc.getTemplateId())
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 								}
 							}
@@ -280,6 +292,7 @@ public class ProceduresScorecard {
 		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		templateIdScore.setIssuesList(issuesList);
 		templateIdScore.setNumberOfIssues(issuesList.size());
+		templateIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);

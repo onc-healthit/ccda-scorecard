@@ -561,6 +561,7 @@ public class ScorecardProcessor {
 		Future<Category> socialhistoryCategory=null;
 		Future<Category> vitalCategory=null;
 		String sectionName = null;
+		
 		for (Entry<String, String> entry : ApplicationConstants.SECTION_TEMPLATEID_MAP.entrySet()) 
 		{
 			sectionName = entry.getValue();
@@ -678,6 +679,7 @@ public class ScorecardProcessor {
 			}
 		}
 		logger.info("All Section End time:"+ (System.currentTimeMillis() - startTime));
+		
 		return categoryList;
 	}
 	

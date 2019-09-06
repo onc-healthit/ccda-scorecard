@@ -32,6 +32,7 @@ public class PatientScorecard {
 		
 		patientCategory.setCategoryRubrics(patientScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(patientScoreList, patientCategory);
+		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(patientScoreList, patientCategory);
 		
 		return patientCategory;
 		
@@ -45,6 +46,7 @@ public class PatientScorecard {
 		
 		int actualPoints = 0;
 		int maxPoints = 1;
+		int numberOfChecks = 1;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(patient != null)
@@ -87,6 +89,7 @@ public class PatientScorecard {
 		timePrecisionScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		timePrecisionScore.setIssuesList(issuesList);
 		timePrecisionScore.setNumberOfIssues(issuesList.size());
+		timePrecisionScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription("Time precision Rubric failed for Patient DOB");
@@ -110,12 +113,15 @@ public class PatientScorecard {
 		
 		int actualPoints = 0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(patient != null)
 		{
 			if(patient.getPatientLegalNameElement()!=null)
 			{
+				maxPoints++;
+				numberOfChecks++;
 				if(!(patient.getGivenNameElementList().size() > 2 || patient.isGivenNameContainsQualifier()))
 				{
 					actualPoints++;
@@ -141,6 +147,7 @@ public class PatientScorecard {
 		legalNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		legalNameScore.setIssuesList(issuesList);
 		legalNameScore.setNumberOfIssues(issuesList.size());
+		legalNameScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			legalNameScore.setDescription(ApplicationConstants.PATIENT_LEGAL_NAME_DESCRIPTION);
