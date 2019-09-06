@@ -168,6 +168,11 @@ public class ScorecardProcessor {
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), 
 								"No Scenario File", scorecardProperties.getIgConformanceURL());
 					
+					if (referenceValidatorResults != null && referenceValidatorResults.getResultsMetaData() != null) {
+						results.setTotalCertificationErrorChecks(referenceValidatorResults.getResultsMetaData()
+								.getVocabularyValidationConfigurationsErrorCount());
+					}
+					
 					final String haltProcessingPrefix = "Halting collection and processing of more results due to: ";
 					
 					ccdaVersion = ApplicationUtil.isEmpty(referenceValidatorResults.getResultsMetaData().getCcdaVersion())
@@ -191,7 +196,7 @@ public class ScorecardProcessor {
 						return scorecardResponse;
 					}				
 					
-					schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults());
+					schemaErrorList = checkForSchemaErrors(referenceValidatorResults.getCcdaValidationResults());								
 					
 					logger.info("Reference validator End time:"+ (System.currentTimeMillis() - refStartTime));
 				

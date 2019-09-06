@@ -91,15 +91,15 @@
                           Total Issues:
                           <img ng-if="!jsonData.results.finalGrade" 
                             src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
-                          <span ng-if="jsonData.results.finalGrade" class="scResult">{{jsonData.results.numberOfIssues}}&nbsp;of
-                            {{jsonData.results.totalElementsChecked}}&nbsp;checks</span>     
+                          <span ng-if="jsonData.results.finalGrade" class="scResult">{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : ''}}&nbsp;of
+                            {{jsonData.results.finalGrade ? jsonData.results.totalElementsChecked : ''}}&nbsp;checks</span>
                          </h4>
                          <h4>
                           Unique Issues:
                           <img ng-if="!jsonData.results.finalGrade" 
                             src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
-                          <span ng-if="jsonData.results.finalGrade" class="scResult">{{jsonData.results.numberOfFailedRules}}&nbsp;of
-                            {{jsonData.results.numberOfRules}}&nbsp;rules</span>
+                          <span ng-if="jsonData.results.finalGrade" class="scResult">{{jsonData.results.finalGrade ? jsonData.results.numberOfFailedRules : ''}}&nbsp;of
+                            {{jsonData.results.finalGrade ? jsonData.results.numberOfRules : ''}}&nbsp;rules</span>
                          </h4>
                       </div>
                   </div>
@@ -113,7 +113,8 @@
                               aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}"
                               class="scResult"
                               analytics-on="click" analytics-event="IG Error by number Navigation" analytics-category="Top Level Results">
-                              {{jsonData.results.finalGrade ? igResults.totalErrorCount : ''}} out of 100 checks
+                              {{jsonData.results.finalGrade ? igResults.totalErrorCount : ''}} out of
+                                {{jsonData.results.finalGrade ? jsonData.results.totalCertificationErrorChecks : ''}} checks
                               </a>
                               <span ng-if="!igResults.totalErrorCount">
                                 <img ng-if="!jsonData.results.finalGrade" 

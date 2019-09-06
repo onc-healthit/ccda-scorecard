@@ -583,7 +583,8 @@
         "industryAverageGradeForCcdaDocumentType": "A+",
         "numberOfRules": 48,
         "totalElementsChecked": 389,
-        "numberOfFailedRules": 3
+        "numberOfFailedRules": 3,
+        "totalCertificationErrorChecks": 70
     },
     "referenceResults": [
         {

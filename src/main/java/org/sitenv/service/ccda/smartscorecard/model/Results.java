@@ -19,8 +19,9 @@ public class Results {
 	private String industryAverageGradeForCcdaDocumentType;
 	private Integer numberOfRules;
 	private Integer totalElementsChecked;
-	private Integer numberOfFailedRules;
-		
+	private Integer numberOfFailedRules;	
+	private int totalCertificationErrorChecks; // vocabularyValidationConfigurationsErrorCount in code validator		
+	
 	public String getFinalGrade() {
 		return finalGrade;
 	}
@@ -116,5 +117,11 @@ public class Results {
 	}
 	public void setNumberOfFailedRules(Integer numberOfFailedRules) {
 		this.numberOfFailedRules = numberOfFailedRules;
-	}
+	}	
+	public int getTotalCertificationErrorChecks() {
+		return totalCertificationErrorChecks;
+	}	
+	public void setTotalCertificationErrorChecks(int totalCertificationErrorChecks) {
+		this.totalCertificationErrorChecks = totalCertificationErrorChecks;
+	}	
 }

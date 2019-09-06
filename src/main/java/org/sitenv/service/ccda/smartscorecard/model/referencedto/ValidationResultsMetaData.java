@@ -16,6 +16,9 @@ public class ValidationResultsMetaData {
 	private String ccdaFileName;
 	private String ccdaFileContents;
 	private List<ResultMetaData> resultMetaData;
+	private int vocabularyValidationConfigurationsCount;
+	private int vocabularyValidationConfigurationsErrorCount;
+	private String severityLevel;	
 
 	public ValidationResultsMetaData() {}
 
@@ -85,4 +88,29 @@ public class ValidationResultsMetaData {
 	public void setCcdaFileContents(String ccdaFileContents) {
 		this.ccdaFileContents = ccdaFileContents;
 	}
+	
+	public int getVocabularyValidationConfigurationsCount() {
+		return vocabularyValidationConfigurationsCount;
+	}
+	
+	public void setVocabularyValidationConfigurationsCount(int vocabularyValidationConfigurationsCount) {
+		this.vocabularyValidationConfigurationsCount = vocabularyValidationConfigurationsCount;
+	}
+	
+	public int getVocabularyValidationConfigurationsErrorCount() {
+		return vocabularyValidationConfigurationsErrorCount;
+	}
+	
+	public void setVocabularyValidationConfigurationsErrorCount(int vocabularyValidationConfigurationsErrorCount) {
+		this.vocabularyValidationConfigurationsErrorCount = vocabularyValidationConfigurationsErrorCount;
+	}
+	
+	public String getSeverityLevel() {
+		return severityLevel;
+	}
+	
+	public void setSeverityLevel(String severityLevel) {
+		this.severityLevel = severityLevel;
+	}	
+	
 }
