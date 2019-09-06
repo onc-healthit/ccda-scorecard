@@ -67,6 +67,7 @@ public class EncounterScorecard {
 		
 		encounterCategory.setCategoryRubrics(encounterScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(encounterScoreList, encounterCategory);
+		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(encounterScoreList, encounterCategory);
 		logger.info("Encounters End time:"+ (System.currentTimeMillis() - startTime));
 		return new AsyncResult<Category>(encounterCategory);
 		
@@ -79,6 +80,7 @@ public class EncounterScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(encounter != null)
@@ -90,6 +92,7 @@ public class EncounterScorecard {
 					if(encounterActivity.getEffectiveTime() != null)
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.validateMinuteFormat(encounterActivity.getEffectiveTime()) ||
 								ApplicationUtil.validateSecondFormat(encounterActivity.getEffectiveTime()))
 						{
@@ -118,6 +121,7 @@ public class EncounterScorecard {
 		timePrecisionScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		timePrecisionScore.setIssuesList(issuesList);
 		timePrecisionScore.setNumberOfIssues(issuesList.size());
+		timePrecisionScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
@@ -141,6 +145,7 @@ public class EncounterScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(encounter != null)
@@ -152,6 +157,7 @@ public class EncounterScorecard {
 					if(encounterActivity.getEffectiveTime() != null && ApplicationUtil.isEffectiveTimePresent(encounterActivity.getEffectiveTime()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.checkDateRange(patientDetails, encounterActivity.getEffectiveTime()))
 						{
 							actualPoints++;
@@ -179,6 +185,7 @@ public class EncounterScorecard {
 		validateTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateTimeScore.setIssuesList(issuesList);
 		validateTimeScore.setNumberOfIssues(issuesList.size());
+		validateTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
@@ -202,6 +209,7 @@ public class EncounterScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(encounters != null)
@@ -210,6 +218,7 @@ public class EncounterScorecard {
 														&& ApplicationUtil.isCodeSystemAvailable(encounters.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
+				numberOfChecks++;
 				if(referenceValidatorService.validateDisplayName(encounters.getSectionCode().getCode(), 
 											encounters.getSectionCode().getCodeSystem(),
 											encounters.getSectionCode().getDisplayName()))
@@ -234,6 +243,7 @@ public class EncounterScorecard {
 															&& ApplicationUtil.isCodeSystemAvailable(encounterActivity.getEncounterTypeCode().getCodeSystem()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(referenceValidatorService.validateDisplayName(encounterActivity.getEncounterTypeCode().getCode(), 
 																encounterActivity.getEncounterTypeCode().getCodeSystem(),
 																encounterActivity.getEncounterTypeCode().getDisplayName()))
@@ -256,6 +266,7 @@ public class EncounterScorecard {
 																  && ApplicationUtil.isCodeSystemAvailable(indication.getProblemType().getCodeSystem()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(referenceValidatorService.validateDisplayName(indication.getProblemType().getCode(), 
 																		indication.getProblemType().getCodeSystem(),
 																		indication.getProblemType().getDisplayName()))
@@ -274,6 +285,7 @@ public class EncounterScorecard {
 																	&& ApplicationUtil.isCodeSystemAvailable(indication.getProblemCode().getCodeSystem()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(referenceValidatorService.validateDisplayName(indication.getProblemCode().getCode(), 
 																		indication.getProblemCode().getCodeSystem(),
 																		indication.getProblemCode().getDisplayName()))
@@ -299,6 +311,7 @@ public class EncounterScorecard {
 																&& ApplicationUtil.isCodeSystemAvailable(diagnosis.getEntryCode().getCodeSystem()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(referenceValidatorService.validateDisplayName(diagnosis.getEntryCode().getCode(), 
 																diagnosis.getEntryCode().getCodeSystem(),
 																diagnosis.getEntryCode().getDisplayName()))
@@ -321,6 +334,7 @@ public class EncounterScorecard {
 																		&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemType().getCodeSystem()))
 									{
 										maxPoints++;
+										numberOfChecks++;
 										if(referenceValidatorService.validateDisplayName(probObs.getProblemType().getCode(), 
 																				probObs.getProblemType().getCodeSystem(),
 																				probObs.getProblemType().getDisplayName()))
@@ -339,6 +353,7 @@ public class EncounterScorecard {
 																		&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemCode().getCodeSystem()))
 									{
 										maxPoints++;
+										numberOfChecks++;
 										if(referenceValidatorService.validateDisplayName(probObs.getProblemCode().getCode(), 
 																			   probObs.getProblemCode().getCodeSystem(),
 																			   probObs.getProblemCode().getDisplayName()))
@@ -362,6 +377,7 @@ public class EncounterScorecard {
 														&& ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 											{
 												maxPoints++;
+												numberOfChecks++;
 												if(referenceValidatorService.validateDisplayName(translationCode.getCode(), 
 																	translationCode.getCodeSystem(),
 																	translationCode.getDisplayName()))
@@ -396,6 +412,7 @@ public class EncounterScorecard {
 		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateDisplayNameScore.setIssuesList(issuesList);
 		validateDisplayNameScore.setNumberOfIssues(issuesList.size());
+		validateDisplayNameScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
@@ -420,6 +437,7 @@ public class EncounterScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(encounters != null)
@@ -429,6 +447,7 @@ public class EncounterScorecard {
 				for(CCDAEncounterActivity encAct : encounters.getEncActivities())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(encAct.getReferenceText()!= null)
 					{
 						if(encounters.getReferenceLinks()!= null && encounters.getReferenceLinks().contains(encAct.getReferenceText().getValue()))
@@ -455,6 +474,7 @@ public class EncounterScorecard {
 						for(CCDAProblemObs indications : encAct.getIndications())
 						{
 							maxPoints++;
+							numberOfChecks++;
 							if(indications.getReferenceText()!=null)
 							{
 								if(encounters.getReferenceLinks()!= null && encounters.getReferenceLinks().contains(indications.getReferenceText().getValue()))
@@ -492,6 +512,7 @@ public class EncounterScorecard {
 		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		narrativeTextIdScore.setIssuesList(issuesList);
 		narrativeTextIdScore.setNumberOfIssues(issuesList.size());
+		narrativeTextIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
@@ -516,6 +537,7 @@ public class EncounterScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		
 		if(encounters!=null)
@@ -525,6 +547,7 @@ public class EncounterScorecard {
 				for (CCDAII templateId : encounters.getTemplateId())
 				{
 					maxPoints = maxPoints++;
+					numberOfChecks++;
 					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 				}
 			}
@@ -538,6 +561,7 @@ public class EncounterScorecard {
 						for (CCDAII templateId : encAct.getTemplateId())
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 						}
 					}
@@ -551,6 +575,7 @@ public class EncounterScorecard {
 								for (CCDAII templateId : probObs.getTemplateId())
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 								}
 							}
@@ -566,6 +591,7 @@ public class EncounterScorecard {
 								for (CCDAII templateId : encDiagnosis.getTemplateId())
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 								}
 							}
@@ -581,6 +607,7 @@ public class EncounterScorecard {
 								for (CCDAII templateId : sdlLoc.getTemplateId())
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 								}
 							}
@@ -601,6 +628,7 @@ public class EncounterScorecard {
 		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		templateIdScore.setIssuesList(issuesList);
 		templateIdScore.setNumberOfIssues(issuesList.size());
+		templateIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);

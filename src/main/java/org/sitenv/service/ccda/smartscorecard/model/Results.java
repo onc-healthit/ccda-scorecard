@@ -17,6 +17,9 @@ public class Results {
 	private long numberOfDocsScoredPerCcdaDocumentType;
 	private int industryAverageScoreForCcdaDocumentType;
 	private String industryAverageGradeForCcdaDocumentType;
+	private Integer numberOfRules;
+	private Integer totalElementsChecked;
+	private Integer numberOfFailedRules;
 		
 	public String getFinalGrade() {
 		return finalGrade;
@@ -96,5 +99,22 @@ public class Results {
 	public void setIndustryAverageGradeForCcdaDocumentType(String industryAverageGradeForCcdaDocumentType) {
 		this.industryAverageGradeForCcdaDocumentType = industryAverageGradeForCcdaDocumentType;
 	}
-	
+	public Integer getNumberOfRules() {
+		return numberOfRules;
+	}
+	public void setNumberOfRules(Integer numberOfRules) {
+		this.numberOfRules = numberOfRules;
+	}
+	public Integer getTotalElementsChecked() {
+		return totalElementsChecked;
+	}
+	public void setTotalElementsChecked(Integer totalElementsChecked) {
+		this.totalElementsChecked = totalElementsChecked;
+	}
+	public Integer getNumberOfFailedRules() {
+		return numberOfFailedRules;
+	}
+	public void setNumberOfFailedRules(Integer numberOfFailedRules) {
+		this.numberOfFailedRules = numberOfFailedRules;
+	}
 }

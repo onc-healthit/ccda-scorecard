@@ -1033,12 +1033,33 @@ public class ApplicationUtil {
 		category.setNumberOfIssues(categoryIssues);
 	}
 	
+	public static void calculateNumberOfChecksAndFailedRubrics(List<CCDAScoreCardRubrics> rubricsList, Category category)
+	{
+		int numberOfChecks=0;
+		int numberOfFailedRubrics = 0;
+		
+		for(CCDAScoreCardRubrics rubrics : rubricsList)
+		{
+			numberOfChecks = numberOfChecks + rubrics.getNumberOfChecks();
+			if(rubrics.getNumberOfIssues() > 0) {
+				numberOfFailedRubrics++;
+			}
+		}
+		
+		category.setNumberOfChecks(numberOfChecks);
+		category.setNumberOfFailedRubrics(numberOfFailedRubrics);
+	}
+	
+
 	public static void calculateFinalGradeAndIssues(List<Category> categoryList, Results results)
 	{
 		float finalMaxPoints = 0;
 		float finalActualPoints = 0;
 		String finalGrade = "";
 		int numberOfIssues= 0;
+		int numberOfChecks=0;
+		int numberOfRules = 0;
+		int numberOfFailedRubrics = 0;
 		
 		for (Category category : categoryList)
 		{
@@ -1050,6 +1071,9 @@ public class ApplicationUtil {
 					finalActualPoints = finalActualPoints + rubrics.getRubricScore();
 				}
 				numberOfIssues = numberOfIssues + category.getNumberOfIssues();
+				numberOfRules = numberOfRules + category.getCategoryRubrics().size();
+				numberOfChecks = numberOfChecks + category.getNumberOfChecks();
+				numberOfFailedRubrics = numberOfFailedRubrics + category.getNumberOfFailedRubrics();
 			}
 		}
 		
@@ -1077,6 +1101,9 @@ public class ApplicationUtil {
 		results.setFinalGrade(finalGrade);
 		results.setFinalNumericalGrade(percentage);
 		results.setNumberOfIssues(numberOfIssues);
+		results.setNumberOfRules(numberOfRules);
+		results.setNumberOfFailedRules(numberOfFailedRubrics);
+		results.setTotalElementsChecked(numberOfChecks);
 	}
 	
 	public static String calculateIndustryAverageGrade(int industryAverageScore)

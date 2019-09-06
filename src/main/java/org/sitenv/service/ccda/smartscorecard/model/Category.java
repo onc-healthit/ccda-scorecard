@@ -30,6 +30,8 @@ public class Category implements Comparable<Category> {
 	private int categoryNumericalScore;
 	private List<CCDAScoreCardRubrics> categoryRubrics;
 	private int numberOfIssues;	
+	private int numberOfChecks;
+	private int numberOfFailedRubrics;
 	
 	// referenceccdavalidator properties
 	private boolean isFailingConformance;
@@ -83,6 +85,22 @@ public class Category implements Comparable<Category> {
 	}
 	public void setNullFlavorNI(boolean isNullFlavorNI) {
 		this.isNullFlavorNI = isNullFlavorNI;
+	}
+	
+	public int getNumberOfFailedRubrics() {
+		return numberOfFailedRubrics;
+	}
+
+	public void setNumberOfFailedRubrics(int numberOfFailedRubrics) {
+		this.numberOfFailedRubrics = numberOfFailedRubrics;
+	}
+	
+	public int getNumberOfChecks() {
+		return numberOfChecks;
+	}
+
+	public void setNumberOfChecks(int numberOfChecks) {
+		this.numberOfChecks = numberOfChecks;
 	}
 
 	@Override

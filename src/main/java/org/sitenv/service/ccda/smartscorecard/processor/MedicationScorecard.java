@@ -72,6 +72,7 @@ public class MedicationScorecard {
 		
 		medicationCategory.setCategoryRubrics(medicationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(medicationScoreList, medicationCategory);
+		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(medicationScoreList, medicationCategory);
 		logger.info("Medications End time:"+ (System.currentTimeMillis() - startTime));
 		return new AsyncResult<Category>(medicationCategory);
 		
@@ -84,6 +85,7 @@ public class MedicationScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(medications != null)
@@ -93,6 +95,7 @@ public class MedicationScorecard {
 				for (CCDAMedicationActivity medActivity : medications.getMedActivities())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(medActivity.getDuration() != null)
 					{
 						if(ApplicationUtil.validateDayFormat(medActivity.getDuration()) ||
@@ -133,6 +136,7 @@ public class MedicationScorecard {
 		timePrecisionScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		timePrecisionScore.setIssuesList(issuesList);
 		timePrecisionScore.setNumberOfIssues(issuesList.size());
+		timePrecisionScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
@@ -156,6 +160,7 @@ public class MedicationScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(medications != null)
@@ -167,6 +172,7 @@ public class MedicationScorecard {
 					if(medActivity.getDuration() != null && ApplicationUtil.isEffectiveTimePresent(medActivity.getDuration()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.checkDateRange(patientDetails, medActivity.getDuration()))
 						{
 							actualPoints++;
@@ -193,6 +199,7 @@ public class MedicationScorecard {
 		validateTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateTimeScore.setIssuesList(issuesList);
 		validateTimeScore.setNumberOfIssues(issuesList.size());
+		validateTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
@@ -216,6 +223,7 @@ public class MedicationScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(medications != null)
@@ -224,6 +232,7 @@ public class MedicationScorecard {
 													&& ApplicationUtil.isCodeSystemAvailable(medications.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
+				numberOfChecks++;
 				if(referenceValidatorService.validateDisplayName(medications.getSectionCode().getCode(), 
 							medications.getSectionCode().getCodeSystem(),
 						medications.getSectionCode().getDisplayName()))
@@ -247,6 +256,7 @@ public class MedicationScorecard {
 																&& ApplicationUtil.isCodeSystemAvailable(medActivity.getApproachSiteCode().getCodeSystem()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(referenceValidatorService.validateDisplayName(medActivity.getApproachSiteCode().getCode(), 
 																medActivity.getApproachSiteCode().getCodeSystem(),
 																medActivity.getApproachSiteCode().getDisplayName()))
@@ -270,6 +280,7 @@ public class MedicationScorecard {
 								if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()) && ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 								{
 									maxPoints++;
+									numberOfChecks++;
 									if(referenceValidatorService.validateDisplayName(translationCode.getCode(), 
 														translationCode.getCodeSystem(),
 														translationCode.getDisplayName()))
@@ -302,6 +313,7 @@ public class MedicationScorecard {
 		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateDisplayNameScore.setIssuesList(issuesList);
 		validateDisplayNameScore.setNumberOfIssues(issuesList.size());
+		validateDisplayNameScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
@@ -324,6 +336,7 @@ public class MedicationScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(medications != null)
@@ -333,6 +346,7 @@ public class MedicationScorecard {
 				for (CCDAMedicationActivity medAct : medications.getMedActivities())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(medAct.getConsumable()!=null)
 					{
 						if(medAct.getConsumable().getMedcode()!=null)
@@ -387,6 +401,7 @@ public class MedicationScorecard {
 		validateImmuCodeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateImmuCodeScore.setIssuesList(issuesList);
 		validateImmuCodeScore.setNumberOfIssues(issuesList.size());
+		validateImmuCodeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateImmuCodeScore.setDescription(ApplicationConstants.MEDICATION_CODE_DESC);
@@ -409,6 +424,7 @@ public class MedicationScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(medications != null)
@@ -420,6 +436,7 @@ public class MedicationScorecard {
 					if(!ApplicationUtil.isEmpty(medAct.getTemplateIds()))
 					{
 						maxPoints = maxPoints + medAct.getTemplateIds().size();
+						numberOfChecks = numberOfChecks + medAct.getTemplateIds().size();
 						for (CCDAII templateId : medAct.getTemplateIds())
 						{
 							if(templateId.getRootValue() != null && templateId.getRootValue().equals(ApplicationConstants.MEDICATION_ACTIVITY_ID))
@@ -466,6 +483,7 @@ public class MedicationScorecard {
 		validateMedActivityScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateMedActivityScore.setIssuesList(issuesList);
 		validateMedActivityScore.setNumberOfIssues(issuesList.size());
+		validateMedActivityScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateMedActivityScore.setDescription(ApplicationConstants.IMMU_NOTIN_MED_DESC);
@@ -489,6 +507,7 @@ public class MedicationScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(medications != null)
@@ -498,6 +517,7 @@ public class MedicationScorecard {
 				for(CCDAMedicationActivity medAct : medications.getMedActivities())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(medAct.getReferenceText()!= null)
 					{
 						if(medications.getReferenceLinks()!= null && medications.getReferenceLinks().contains(medAct.getReferenceText().getValue()))
@@ -534,6 +554,7 @@ public class MedicationScorecard {
 		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		narrativeTextIdScore.setIssuesList(issuesList);
 		narrativeTextIdScore.setNumberOfIssues(issuesList.size());
+		narrativeTextIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
@@ -558,6 +579,7 @@ public class MedicationScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(medications != null)
@@ -567,6 +589,7 @@ public class MedicationScorecard {
 				for (CCDAMedicationActivity medAct : medications.getMedActivities())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(medAct.getMedSubAdmin()!=null)
 					{
 						if(medAct.getMedSubAdmin().getReferenceText()!= null)
@@ -613,6 +636,7 @@ public class MedicationScorecard {
 		medSubAdminScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		medSubAdminScore.setIssuesList(issuesList);
 		medSubAdminScore.setNumberOfIssues(issuesList.size());
+		medSubAdminScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			medSubAdminScore.setDescription(ApplicationConstants.MED_SIG_TEXT_DESC);
@@ -637,6 +661,7 @@ public class MedicationScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		
 		if(medications!=null)
@@ -646,6 +671,7 @@ public class MedicationScorecard {
 				for (CCDAII templateId : medications.getTemplateIds())
 				{
 					maxPoints = maxPoints++;
+					numberOfChecks++;
 					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 				}
 			}
@@ -659,6 +685,7 @@ public class MedicationScorecard {
 						for (CCDAII templateId : medAct.getTemplateIds())
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 						}
 					}
@@ -670,6 +697,7 @@ public class MedicationScorecard {
 							for (CCDAII templateId : medAct.getConsumable().getTemplateIds())
 							{
 								maxPoints = maxPoints++;
+								numberOfChecks++;
 								templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 							}
 						}
@@ -689,6 +717,7 @@ public class MedicationScorecard {
 		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		templateIdScore.setIssuesList(issuesList);
 		templateIdScore.setNumberOfIssues(issuesList.size());
+		templateIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);
