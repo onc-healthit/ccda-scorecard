@@ -26,7 +26,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   
   $scope.finalCategoryListByGrade = [];
   
-  $scope.igResults = []; $scope.certResults = []; $scope.referenceResults = [];  
+  $scope.igResults = []; $scope.certResults = []; $scope.referenceResults = [];
   
   $scope.ReferenceInstanceTypeEnum = Object.freeze({  	
 		IG_CONFORMANCE: "C-CDA IG Conformance Errors",
@@ -79,6 +79,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   };
   
   var storeDataAndPopulateResults = function() {
+  	$scope.tempMdhtCount = getRandomInteger(500, 1500);
 	  //store scorecard sub-data in a more usable/direct manner
 	  $scope.categories = $scope.jsonData.results.categoryList;
 	  $scope.finalGrade = $scope.jsonData.results.finalGrade;
@@ -686,6 +687,10 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
       default:
         return ResultCategoryEnum.UNKNOWN;
     }
+  };
+  
+  var getRandomInteger = function(min, max) {
+  	return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
 }]);

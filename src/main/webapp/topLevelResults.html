@@ -50,7 +50,8 @@
                             aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}"
                             class="scResult"
                             analytics-on="click" analytics-event="Cert by number Navigation" analytics-category="Top Level Results">
-                            {{jsonData.results.finalGrade ? certResults.totalErrorCount : ''}} out of 3,500 checks
+                            {{jsonData.results.finalGrade ? certResults.totalErrorCount : ''}} out of
+                            	{{jsonData.results.finalGrade ? (tempMdhtCount | number) : ''}} checks
                             </a>
                             <span ng-if="!certResults.totalErrorCount">
                               <img ng-if="!jsonData.results.finalGrade" 
