@@ -63,13 +63,11 @@
                       </div>
                       <div class="col-md-6 scHeading">
                        <h2>
-                          <!-- letter-based grade -->
                           <img ng-if="!jsonData.results.finalGrade" 
                             src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
+                          <!-- letter-based grade -->                            
                           <span ng-if="jsonData.results.finalGrade" class="scResult">{{jsonData.results.finalGrade}}</span>
                           <!-- numerical grade -->
-                          <img ng-if="!jsonData.results.finalGrade" 
-                            src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
                           <span ng-if="jsonData.results.finalGrade" class="scResult">&nbsp;{{jsonData.results.finalNumericalGrade + " / 100"}}</span>                                   
                        </h2>
                       </div>
@@ -132,7 +130,9 @@
                     <h2><b>Compare</b></h2> <!-- may ditch heading for more space -->
                 </div>
                 <div class="row scHeading">
-                  <img ng-if="jsonData.results.finalGrade" src="images/scorecard-chart-a.png" 
+                  <img ng-if="!jsonData.results.finalGrade" 
+                    src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">                  
+                  <img ng-if="jsonData.results.finalGrade" src="images/scorecard-chart-a.png"
                     alt="scorecard chart">
                 </div>      
               </div>
