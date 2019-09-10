@@ -26,9 +26,9 @@ public class ApplicationConfiguration {
 	
 	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
 	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:8000",
-			CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org",
+			CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org", // TODO: update this url to the HHS server we will be using
 			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
-			TTP_DEV_SERVER_URL = "https://ttpdstest.sitenv.org:8443",
+			TTP_DEV_SERVER_URL = "52.44.175.145/referenceccdaservice", // HHS dev James
 			TTP_PROD_SERVER_URL = "https://ttpds.sitenv.org:8443",
 			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
 			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
