@@ -8,6 +8,15 @@
                 <h2>{{ccdaUploadData.fileName}}</h2>
             </div>
         </div>
+        
+        <div ng-if="jsonData.results.ccdaVersion === 'R1.1'" class="row">
+        	<div class="col-md-12">
+        		<div class="alert alert-info scHeaderAlert" role="alert">
+        			Disclaimer: The C-CDA R1.1 document scored is based on a legacy version of C-CDA. 
+        			Please consider upgrading to the latest C-CDA R2.1 standard.
+        		</div>
+        	</div>
+        </div>
 
         <div id="topLevelResultsTable">
 
