@@ -530,4 +530,8 @@ public class ApplicationConstants {
 		}
 	}
 	
+	public enum SeverityLevel {
+		INFO, WARNING, ERROR
+	}
+
 }
