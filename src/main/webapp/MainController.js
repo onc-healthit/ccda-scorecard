@@ -14,7 +14,7 @@ scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$ti
 			classesForNavbar: "external-page embedded-navbar",
 			classesForButton: "external-page embedded"
 		},
-		contentURL: "https://raw.githubusercontent.com/siteadmin/SITE-Content/master/"
+		contentURL: "https://raw.githubusercontent.com/onc-healthit/SITE-Content/master/"
 	};
 	
 		$scope.debugLog = function(debugMessage) {
