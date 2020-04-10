@@ -18,13 +18,15 @@ public class ValidationResultsMetaData {
 	private List<ResultMetaData> resultMetaData;
 	private int vocabularyValidationConfigurationsCount;
 	private int vocabularyValidationConfigurationsErrorCount;
-	private String severityLevel;	
+	private String severityLevel;
+	private int totalConformanceErrorChecks;
 
 	public ValidationResultsMetaData() {}
 
 	public ValidationResultsMetaData(ValidationResultsMetaData resultsToCopy) {
 		this.ccdaDocumentType = resultsToCopy.getCcdaDocumentType();
 		this.ccdaVersion = resultsToCopy.getCcdaVersion();
+		this.totalConformanceErrorChecks = resultsToCopy.getTotalConformanceErrorChecks();
 		this.serviceError = resultsToCopy.isServiceError();
 		this.serviceErrorMessage = resultsToCopy.getServiceErrorMessage();
 		this.ccdaFileName = resultsToCopy.getCcdaFileName();
@@ -113,4 +115,11 @@ public class ValidationResultsMetaData {
 		this.severityLevel = severityLevel;
 	}	
 	
+	public int getTotalConformanceErrorChecks() {
+		return totalConformanceErrorChecks;
+	}
+	
+	public void setTotalConformanceErrorChecks(int totalConformanceErrorChecks) {
+		this.totalConformanceErrorChecks = totalConformanceErrorChecks;
+	}
 }

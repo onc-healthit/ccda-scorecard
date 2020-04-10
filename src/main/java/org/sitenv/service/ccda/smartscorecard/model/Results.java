@@ -20,7 +20,9 @@ public class Results {
 	private Integer numberOfRules;
 	private Integer totalElementsChecked;
 	private Integer numberOfFailedRules;	
-	private int totalCertificationErrorChecks; // vocabularyValidationConfigurationsErrorCount in code validator		
+	private int totalCertificationErrorChecks; // vocabularyValidationConfigurationsErrorCount in code validator
+	private int totalConformanceErrorChecks;
+	private TotalGradesGiven totalGradesGiven;
 	
 	public String getFinalGrade() {
 		return finalGrade;
@@ -123,5 +125,17 @@ public class Results {
 	}	
 	public void setTotalCertificationErrorChecks(int totalCertificationErrorChecks) {
 		this.totalCertificationErrorChecks = totalCertificationErrorChecks;
+	}
+	public int getTotalConformanceErrorChecks() {
+		return totalConformanceErrorChecks;
 	}	
+	public void setTotalConformanceErrorChecks(int totalConformanceErrorChecks) {
+		this.totalConformanceErrorChecks = totalConformanceErrorChecks;
+	}
+	public TotalGradesGiven getTotalGradesGiven() {
+		return totalGradesGiven;
+	}
+	public void setTotalGradesGiven(TotalGradesGiven totalGradesGiven) {
+		this.totalGradesGiven = totalGradesGiven;
+	}
 }
