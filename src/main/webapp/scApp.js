@@ -1,7 +1,8 @@
 var scApp = angular.module('scorecard', [
 	'ngFileUpload', 
 	'angulartics', 
-	'angulartics.google.analytics'
+	'angulartics.google.analytics',
+	'nvd3'
 ]);
 
 // *************** DIRECTIVES ********************
@@ -55,6 +56,13 @@ scApp.directive('scorecardTwoResults', function() {
 	};
 });
 
+scApp.directive('compare', function() {
+    return {
+    	restrict: 'E',
+    	templateUrl: 'compare.html'
+    };
+});
+
 scApp.directive('saveScorecardButton', function() {
 	return {
 		restrict: 'E',
@@ -66,6 +74,18 @@ scApp.directive('saveTryMeXmlButton', function() {
 	return {
 		restict: 'E',
 		templateUrl: 'saveTryMeXmlButton.html?version=R1.12'
+	};
+});
+
+scApp.directive('markdownSrc', function($http) {
+	var converter = new showdown.Converter();
+	return {
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+			$http.get(attrs.markdownSrc).then(function(data) {
+				element.html(converter.makeHtml(data.data));
+			});
+		}
 	};
 });
 
@@ -148,18 +168,6 @@ scApp.directive('linkDisclaimer', function() {
 		},
 		templateUrl: 'siteExternalLinkDisclaimer.html?version=R1.12'
 	};
-});
-
-scApp.directive('markdownSrc', function ($http) {
-  var converter = new showdown.Converter();
-  return {
-    restrict: 'A',
-    link: function (scope, element, attrs) {
-      $http.get(attrs.markdownSrc).then(function(data) {
-          element.html(converter.makeHtml(data.data));
-      });
-    }
-  };
 });
 
 //*************** FILTERS ********************

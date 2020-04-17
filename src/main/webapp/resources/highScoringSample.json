@@ -584,7 +584,16 @@
         "numberOfRules": 48,
         "totalElementsChecked": 389,
         "numberOfFailedRules": 3,
-        "totalCertificationErrorChecks": 70
+        "totalCertificationErrorChecks": 70,
+        "totalConformanceErrorChecks": 1000,
+		"totalGradesGiven": {
+			"aPlusGrades": 30,
+			"aMinusGrades": 70,
+			"bPlusGrades": 120,
+			"bMinusGrades": 200,
+			"cGrades": 400,
+			"dGrades": 300
+		}  
     },
     "referenceResults": [
         {

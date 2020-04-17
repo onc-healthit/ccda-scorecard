@@ -105,6 +105,9 @@ public class ScorecardProcessor {
 	ScoreCardStatisticProcessor scoreCardStatisticProcessor;
 	
 	@Autowired
+	TotalGradesGivenProcessor totalGradesGivenProcessor;
+	
+	@Autowired
 	@Qualifier("scorecardProperties")
 	ScorecardProperties scorecardProperties;
 	
@@ -378,6 +381,7 @@ public class ScorecardProcessor {
 			}
 			results.setIndustryAverageGradeForCcdaDocumentType(
 					ApplicationUtil.calculateIndustryAverageGrade(results.getIndustryAverageScoreForCcdaDocumentType()));
+			results.setTotalGradesGiven(totalGradesGivenProcessor.calculateTotalGradesGiven());
 			scorecardResponse.setResults(results);
 			scorecardResponse.setSuccess(true);
 			

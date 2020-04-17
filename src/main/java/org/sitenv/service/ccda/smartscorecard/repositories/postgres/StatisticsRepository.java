@@ -14,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface StatisticsRepository extends JpaRepository<ScorecardStatistics, Integer> {
 	
-	
-		
 	@Transactional(readOnly = true)
 	@Query("SELECT count(*) FROM ScorecardStatistics s where s.oneClickScorecard = :isOneClickScorecard")
 	long findByCount(@Param("isOneClickScorecard")boolean isOneClickScorecard);
@@ -40,5 +38,9 @@ public interface StatisticsRepository extends JpaRepository<ScorecardStatistics,
 	@Query("select s from ScorecardStatistics s WHERE createTimestamp >= :fromDate AND createTimestamp <= :toDate order by createTimestamp desc")
 	List<ScorecardStatistics> findByDateRange(@Param("fromDate")Timestamp fromDate,
 			@Param("toDate")Timestamp toDate);
+	
+	@Transactional(readOnly = true)
+	@Query("SELECT docscore FROM ScorecardStatistics")
+	List<Integer> getAllDocScores();
 	
 }

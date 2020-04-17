@@ -245,6 +245,8 @@ public class ApplicationConstants {
 	
 	public static final Map<String, String> CODE_SYSTEM_MAP = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
 	
+	public static final String UNKNOWN_GRADE = "UNKNOWN GRADE";
+	
 	static {
 		CODE_SYSTEM_MAP.put(SNOMEDCT_CODE_SYSTEM, SNOMEDCT_CODE_SYSTEM_NAME);
 		CODE_SYSTEM_MAP.put(LOINC_CODE_SYSTEM, LOINC_CODE_SYSTEM_NAME);

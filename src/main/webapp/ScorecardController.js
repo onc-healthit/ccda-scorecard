@@ -40,15 +40,20 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   $scope.detailedResultsData = {
   		showDetailedResults: $scope.mainDebug.inDebugMode ? true : false 
   };
+    
+  //nvd3 - this is populated after the JSON is returned
+  $scope.chartData = {};
+  $scope.chartOptions = {};
   
   //if the SiteUploadControllers $scope.jsonScorecardData changes, 
   //then the service was called (or try me collected local data) and returned new results,
   //so we process them so it is reflected in the view
   $scope.$watch('jsonScorecardData', function() {
   	$scope.debugLog("$scope.jsonScorecardData was changed");$scope.debugLog($scope.jsonScorecardData);
-	  if(!jQuery.isEmptyObject($scope.jsonScorecardData)) {  
+	  if(!jQuery.isEmptyObject($scope.jsonScorecardData)) {
 		  $scope.ccdaFileName = $scope.ccdaUploadData.fileName;
 		  getAndProcessUploadControllerData();
+		  populateChartsData(); //nvd3
 		  $scope.uploadDisplay.isLoading = false;
 		  $scope.resizeWindow(300);
 	  }
@@ -79,7 +84,6 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   };
   
   var storeDataAndPopulateResults = function() {
-  	$scope.tempMdhtCount = getRandomInteger(500, 1500);
 	  //store scorecard sub-data in a more usable/direct manner
 	  $scope.categories = $scope.jsonData.results.categoryList;
 	  $scope.finalGrade = $scope.jsonData.results.finalGrade;
@@ -221,7 +225,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     };
     
     var jumpToCategoryViaName = function(key) {
-  		$scope.detailedResultsData.showDetailedResults = true;
+  	  $scope.detailedResultsData.showDetailedResults = true;
       elementId = detruncateCategoryName(key);
       elementId = document.getElementById(elementId).parentNode.id;
       $scope.jumpToElementViaId(elementId, true, 25);
@@ -551,7 +555,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   
 	var downloadViaAnchorWithPureJS = function(filename) {
     //triggers the download via a download tagged anchor element with the binary URL reference
-		//Firefox requires a basic JS anchor vs an angular derived one to work so applying this form to all non-IE browsers
+	//Firefox requires a basic JS anchor vs an angular derived one to work so applying this form to all non-IE browsers
     var anchor = document.createElement('a');
     anchor.style = "display: none";  
     anchor.href = $scope.trustedFileUrl;
@@ -689,8 +693,78 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
     }
   };
   
-  var getRandomInteger = function(min, max) {
-  	return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
+  //*************NVD3 CHART RELATED****************
+  
+  var populateChartsData = function() {	  
+	  $scope.chartOptions = {
+	            chart: {
+	                type: 'discreteBarChart',
+	                height: 240,
+	                margin : {
+	                    top: 20,
+	                    right: 20,
+	                    bottom: 50,
+	                    left: 55
+	                },
+	                x: function(d){return d.label;},
+	                y: function(d){return d.value + (1e-10);},
+	                showValues: true,
+	                valueFormat: function(d) {
+	                    return d3.format('.0f')(d);
+	                },
+	                duration: 500,
+	                xAxis: {
+	                    axisLabel: 'Grade Received'
+	                },
+	                yAxis: {
+	                    axisLabel: 'Total Count',
+	                    axisLabelDistance: -5,
+	                    tickFormat: function(d){return d3.format(',f')(d)}
+	                }
+	            }
+	        };	  
+
+	  let totalGradesGiven;
+	  if ($scope.jsonData && $scope.jsonData.results && $scope.jsonData.results.totalGradesGiven) {
+		  totalGradesGiven = $scope.jsonData.results.totalGradesGiven;
+	  }	  
+	  // A -> D left to right
+      $scope.chartData = [{
+          key: "Cumulative Return",
+          values: [
+              {
+                  "label": "A+",
+                  "value": (totalGradesGiven.aPlusGrades ? totalGradesGiven.aPlusGrades : 0),
+//                  "color": "#01B830"
+              },
+              {
+                  "label": "A-",
+                  "value": (totalGradesGiven.aMinusGrades ? totalGradesGiven.aMinusGrades : 0),
+//                  "color": "#01B830"
+              },
+              {
+                  "label": "B+",
+                  "value": (totalGradesGiven.bPlusGrades ? totalGradesGiven.bPlusGrades : 0),
+//                  "color": "#F0EF6C"
+              },
+              {
+                  "label": "B-",
+                  "value": (totalGradesGiven.bMinusGrades ? totalGradesGiven.bMinusGrades : 0),
+//                  "color": "#F0EF6C"
+              },
+              {
+                  "label": "C",
+                  "value": (totalGradesGiven.cGrades ? totalGradesGiven.cGrades : 0),
+//                  "color": "#C0392B"
+              },
+              {
+                  "label": "D",
+                  "value": (totalGradesGiven.dGrades ? totalGradesGiven.dGrades : 0),                  
+//                  "color": "#C0392B"
+              }
+            ]
+        }];
+      
+	  };
 
 }]);

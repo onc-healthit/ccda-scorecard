@@ -64,7 +64,7 @@
                               class="scResult"
                               analytics-on="click" analytics-event="IG Error by number Navigation" analytics-category="Top Level Results">
                               {{jsonData.results.finalGrade ? igResults.totalErrorCount : ''}} out of
-                                {{jsonData.results.finalGrade ? (tempMdhtCount | number) : ''}} checks
+                                {{jsonData.results.finalGrade ? jsonData.results.totalConformanceErrorChecks : ''}} checks
                               </a>
                               <span ng-if="!igResults.totalErrorCount">
                                 <img ng-if="!jsonData.results.finalGrade"
@@ -132,17 +132,9 @@
                       </div>
                   </div>
               </div>
-              <div class="col-md-4 scHeading">
-                <div class="row">
-                    <h2><b>Compare</b></h2> <!-- may ditch heading for more space -->
-                </div>
-                <div class="row scHeading">
-                  <img ng-if="!jsonData.results.finalGrade"
-                    src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
-                  <img ng-if="jsonData.results.finalGrade" src="images/scorecard-chart-a.png"
-                    alt="scorecard chart">
-                </div>
-              </div>
+              
+			  <compare></compare>
+			  
           </div>
 
         </div> <!-- END topLevelResultsTable -->
