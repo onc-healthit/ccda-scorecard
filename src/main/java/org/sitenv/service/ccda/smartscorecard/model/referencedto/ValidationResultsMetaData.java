@@ -19,7 +19,7 @@ public class ValidationResultsMetaData {
 	private int vocabularyValidationConfigurationsCount;
 	private int vocabularyValidationConfigurationsErrorCount;
 	private String severityLevel;
-	private int totalConformanceErrorChecks;
+	private long totalConformanceErrorChecks;
 
 	public ValidationResultsMetaData() {}
 
@@ -115,11 +115,11 @@ public class ValidationResultsMetaData {
 		this.severityLevel = severityLevel;
 	}	
 	
-	public int getTotalConformanceErrorChecks() {
+	public long getTotalConformanceErrorChecks() {
 		return totalConformanceErrorChecks;
 	}
 	
-	public void setTotalConformanceErrorChecks(int totalConformanceErrorChecks) {
+	public void setTotalConformanceErrorChecks(long totalConformanceErrorChecks) {
 		this.totalConformanceErrorChecks = totalConformanceErrorChecks;
 	}
 }

@@ -25,7 +25,7 @@ public class ScorecardController {
 	@Autowired
 	ScorecardProcessor scorecardProcessor;
 	
-	@RequestMapping(value="/ccdascorecardservice2", method= RequestMethod.POST)
+	@RequestMapping(value = "/ccdascorecardservice2", method = RequestMethod.POST)
 	public @ResponseBody ResponseTO ccdascorecardservice(@RequestParam("ccdaFile") MultipartFile ccdaFile){
 		return scorecardProcessor.processCCDAFile(ccdaFile);
 	}

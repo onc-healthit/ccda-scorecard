@@ -167,14 +167,17 @@ public class ScorecardProcessor {
 						determineValidationObjectiveType(ccdaModels, ReferenceInstanceType.IG_CONFORMANCE);
 					logger.info("Calling ReferenceInstanceType.IG_CONFORMANCE with:" + System.lineSeparator()
 						+ "validationObjective: " + validationObjective.getValidationObjective()
-						+ " determined by ccdaModels.getUsrhSubType(): " + ccdaModels.getUsrhSubType());
+						+ " determined by ccdaModels.getUsrhSubType(): " + ccdaModels.getUsrhSubType()
+						+ " at " + scorecardProperties.getIgConformanceURL());
 					referenceValidatorResults = 
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), 
 								"No Scenario File", scorecardProperties.getIgConformanceURL(), SeverityLevel.ERROR);
 					
 					if (referenceValidatorResults != null && referenceValidatorResults.getResultsMetaData() != null) {
 						results.setTotalCertificationErrorChecks(referenceValidatorResults.getResultsMetaData()
-								.getVocabularyValidationConfigurationsErrorCount());
+								.getVocabularyValidationConfigurationsErrorCount());						
+						results.setTotalConformanceErrorChecks(referenceValidatorResults.getResultsMetaData()
+								.getTotalConformanceErrorChecks());
 					}
 					
 					final String haltProcessingPrefix = "Halting collection and processing of more results due to: ";

@@ -21,7 +21,7 @@ public class Results {
 	private Integer totalElementsChecked;
 	private Integer numberOfFailedRules;	
 	private int totalCertificationErrorChecks; // vocabularyValidationConfigurationsErrorCount in code validator
-	private int totalConformanceErrorChecks;
+	private long totalConformanceErrorChecks;
 	private TotalGradesGiven totalGradesGiven;
 	
 	public String getFinalGrade() {
@@ -126,10 +126,10 @@ public class Results {
 	public void setTotalCertificationErrorChecks(int totalCertificationErrorChecks) {
 		this.totalCertificationErrorChecks = totalCertificationErrorChecks;
 	}
-	public int getTotalConformanceErrorChecks() {
+	public long getTotalConformanceErrorChecks() {
 		return totalConformanceErrorChecks;
 	}	
-	public void setTotalConformanceErrorChecks(int totalConformanceErrorChecks) {
+	public void setTotalConformanceErrorChecks(long totalConformanceErrorChecks) {
 		this.totalConformanceErrorChecks = totalConformanceErrorChecks;
 	}
 	public TotalGradesGiven getTotalGradesGiven() {
