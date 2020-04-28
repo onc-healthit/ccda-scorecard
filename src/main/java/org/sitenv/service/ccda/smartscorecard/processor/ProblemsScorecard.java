@@ -72,6 +72,7 @@ public class ProblemsScorecard {
 		}
 		
 		ApplicationUtil.calculateSectionGradeAndIssues(problemsScoreList, problemsCategory);
+		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(problemsScoreList, problemsCategory);
 		
 		problemsCategory.setCategoryRubrics(problemsScoreList);
 		logger.info("Problems End time:"+ (System.currentTimeMillis() - startTime));
@@ -87,6 +88,7 @@ public class ProblemsScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(problem != null)
@@ -96,6 +98,7 @@ public class ProblemsScorecard {
 				for (CCDAProblemConcern problemConcern : problem.getProblemConcerns())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(problemConcern.getEffTime() != null)
 					{
 						if(ApplicationUtil.validateYearFormat(problemConcern.getEffTime()) ||
@@ -127,6 +130,7 @@ public class ProblemsScorecard {
 						for (CCDAProblemObs problemObs : problemConcern.getProblemObservations() )
 						{
 							maxPoints++;
+							numberOfChecks++;
 							if(problemObs.getEffTime() != null)
 							{
 								if(ApplicationUtil.validateYearFormat(problemObs.getEffTime()) ||
@@ -178,6 +182,7 @@ public class ProblemsScorecard {
 		timePrecisionScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		timePrecisionScore.setIssuesList(issuesList);
 		timePrecisionScore.setNumberOfIssues(issuesList.size());
+		timePrecisionScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
@@ -201,6 +206,7 @@ public class ProblemsScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(problem != null)
@@ -212,6 +218,7 @@ public class ProblemsScorecard {
 					if(problemConcern.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(problemConcern.getEffTime()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.checkDateRange(patientDetails, problemConcern.getEffTime()))
 						{
 							actualPoints++;
@@ -232,6 +239,7 @@ public class ProblemsScorecard {
 							if(problemObs.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(problemObs.getEffTime()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(ApplicationUtil.checkDateRange(patientDetails, problemObs.getEffTime()))
 								{
 									actualPoints++;
@@ -261,6 +269,7 @@ public class ProblemsScorecard {
 		validDateTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validDateTimeScore.setIssuesList(issuesList);
 		validDateTimeScore.setNumberOfIssues(issuesList.size());
+		validDateTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validDateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
@@ -284,6 +293,7 @@ public class ProblemsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(problems != null)
@@ -292,6 +302,7 @@ public class ProblemsScorecard {
 												&& ApplicationUtil.isCodeSystemAvailable(problems.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
+				numberOfChecks++;
 				if(referenceValidatorService.validateDisplayName(problems.getSectionCode().getCode(), 
 														problems.getSectionCode().getCodeSystem(),
 														problems.getSectionCode().getDisplayName()))
@@ -319,6 +330,7 @@ public class ProblemsScorecard {
 																&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemType().getCodeSystem()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(referenceValidatorService.validateDisplayName(probObs.getProblemType().getCode(), 
 																		probObs.getProblemType().getCodeSystem(),
 																		probObs.getProblemType().getDisplayName()))
@@ -337,6 +349,7 @@ public class ProblemsScorecard {
 									&& ApplicationUtil.isCodeSystemAvailable(probObs.getProblemCode().getCodeSystem()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(referenceValidatorService.validateDisplayName(probObs.getProblemCode().getCode(), 
 																		probObs.getProblemCode().getCodeSystem(),
 																		probObs.getProblemCode().getDisplayName()))
@@ -359,6 +372,7 @@ public class ProblemsScorecard {
 											&& ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 									{
 										maxPoints++;
+										numberOfChecks++;
 										if(referenceValidatorService.validateDisplayName(translationCode.getCode(), 
 															translationCode.getCodeSystem(),
 															translationCode.getDisplayName()))
@@ -391,6 +405,7 @@ public class ProblemsScorecard {
 		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateDisplayNameScore.setIssuesList(issuesList);
 		validateDisplayNameScore.setNumberOfIssues(issuesList.size());
+		validateDisplayNameScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
@@ -413,6 +428,7 @@ public class ProblemsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(problems != null)
@@ -426,6 +442,7 @@ public class ProblemsScorecard {
 					   for(CCDAProblemObs probObs : probCon.getProblemObservations())
 					   {
 						   maxPoints++;
+						   numberOfChecks++;
 						   if(probObs.getProblemCode()!= null)
 						   {
 							   if(referenceValidatorService.validateCodeForCodeSystem(probObs.getProblemCode().getCode(), 
@@ -474,6 +491,7 @@ public class ProblemsScorecard {
 		validateProblemCodeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateProblemCodeScore.setIssuesList(issuesList);
 		validateProblemCodeScore.setNumberOfIssues(issuesList.size());
+		validateProblemCodeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateProblemCodeScore.setDescription("code validation Rubric failed for Problems");
@@ -499,6 +517,7 @@ public class ProblemsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(problems != null)
@@ -510,6 +529,7 @@ public class ProblemsScorecard {
 					if(probCon.getStatusCode() != null )
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(probCon.getProblemObservations() !=null)
 						{
 							for(CCDAProblemObs probObs : probCon.getProblemObservations())
@@ -558,6 +578,7 @@ public class ProblemsScorecard {
 		validateStatusCodeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateStatusCodeScore.setIssuesList(issuesList);
 		validateStatusCodeScore.setNumberOfIssues(issuesList.size());
+		validateStatusCodeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateStatusCodeScore.setDescription(ApplicationConstants.PROBLEM_APR_TIME_DESC);
@@ -580,6 +601,7 @@ public class ProblemsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(problems != null)
@@ -597,6 +619,7 @@ public class ProblemsScorecard {
 								if(problemObs.getEffTime()!=null && ApplicationUtil.isEffectiveTimePresent(problemObs.getEffTime()))
 								{
 									maxPoints++;
+									numberOfChecks++;
 									if(ApplicationUtil.checkDateRange(problemObs.getEffTime().getLow(),problemObs.getEffTime().getHigh(),
 														problemAct.getEffTime().getLow(),problemAct.getEffTime().getHigh()))
 									{
@@ -628,6 +651,7 @@ public class ProblemsScorecard {
 		validateApprEffectiveTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateApprEffectiveTimeScore.setIssuesList(issuesList);
 		validateApprEffectiveTimeScore.setNumberOfIssues(issuesList.size());
+		validateApprEffectiveTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.PROBLEM_TIME_CNST_DESC);
@@ -650,6 +674,7 @@ public class ProblemsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(problems != null)
@@ -661,6 +686,7 @@ public class ProblemsScorecard {
 					if(!ApplicationUtil.isEmpty(problemAct.getProblemObservations()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(problemAct.getStatusCode()!=null)
 						{
 							if(ApplicationUtil.validateProblemStatusCode(problemAct.getStatusCode().getCode(), problemAct.getProblemObservations()))
@@ -707,6 +733,7 @@ public class ProblemsScorecard {
 		validateApprEffectiveTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateApprEffectiveTimeScore.setIssuesList(issuesList);
 		validateApprEffectiveTimeScore.setNumberOfIssues(issuesList.size());
+		validateApprEffectiveTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.PROBLEM_APR_STATUS_REQ);
@@ -729,6 +756,7 @@ public class ProblemsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(problems != null)
@@ -738,6 +766,7 @@ public class ProblemsScorecard {
 				for(CCDAProblemConcern probConc : problems.getProblemConcerns())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(probConc.getReferenceText()!= null)
 					{
 						if(problems.getReferenceLinks()!= null && problems.getReferenceLinks().contains(probConc.getReferenceText().getValue()))
@@ -764,6 +793,7 @@ public class ProblemsScorecard {
 						for(CCDAProblemObs probObs : probConc.getProblemObservations())
 						{
 							maxPoints++;
+							numberOfChecks++;
 							if(probObs.getReferenceText()!= null)
 							{
 								if(problems.getReferenceLinks()!= null && problems.getReferenceLinks().contains(probObs.getReferenceText().getValue()))
@@ -803,6 +833,7 @@ public class ProblemsScorecard {
 		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		narrativeTextIdScore.setIssuesList(issuesList);
 		narrativeTextIdScore.setNumberOfIssues(issuesList.size());
+		narrativeTextIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
@@ -828,6 +859,7 @@ public class ProblemsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		
 		if(problems!=null)
@@ -837,6 +869,7 @@ public class ProblemsScorecard {
 				for (CCDAII templateId : problems.getSectionTemplateId())
 				{
 					maxPoints = maxPoints++;
+					numberOfChecks++;
 					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 				}
 			}
@@ -850,6 +883,7 @@ public class ProblemsScorecard {
 						for (CCDAII templateId : probConcern.getTemplateId())
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 						}
 					}
@@ -863,6 +897,7 @@ public class ProblemsScorecard {
 								for (CCDAII templateId : probObs.getTemplateId())
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 								}
 							}
@@ -883,6 +918,7 @@ public class ProblemsScorecard {
 		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		templateIdScore.setIssuesList(issuesList);
 		templateIdScore.setNumberOfIssues(issuesList.size());
+		templateIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);

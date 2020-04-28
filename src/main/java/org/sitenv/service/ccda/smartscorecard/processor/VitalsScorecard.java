@@ -77,6 +77,7 @@ public class VitalsScorecard {
 		
 		vitalsCategory.setCategoryRubrics(vitalsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(vitalsScoreList, vitalsCategory);
+		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(vitalsScoreList, vitalsCategory);
 		logger.info("Vitals End time:"+ (System.currentTimeMillis() - startTime));
 		return new AsyncResult<Category>(vitalsCategory);
 		
@@ -90,6 +91,7 @@ public class VitalsScorecard {
 		
 		int actualPoints = 0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(vitals != null)
@@ -99,6 +101,7 @@ public class VitalsScorecard {
 				for (CCDAVitalOrg vitalOrg : vitals.getVitalsOrg())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(vitalOrg.getEffTime() != null)
 					{
 						if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime()) ||
@@ -128,6 +131,7 @@ public class VitalsScorecard {
 						for (CCDAVitalObs vitalObs : vitalOrg.getVitalObs() )
 						{
 							maxPoints++;
+							numberOfChecks++;
 							if(vitalObs.getMeasurementTime() != null)
 							{
 								if(ApplicationUtil.validateDayFormat(vitalObs.getMeasurementTime())||
@@ -176,6 +180,7 @@ public class VitalsScorecard {
 		timePrecisionScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		timePrecisionScore.setIssuesList(issuesList);
 		timePrecisionScore.setNumberOfIssues(issuesList.size());
+		timePrecisionScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
@@ -200,6 +205,7 @@ public class VitalsScorecard {
 		CCDAXmlSnippet issue= null;
 		int actualPoints = 0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		
 		if(vitals != null)
 		{
@@ -210,6 +216,7 @@ public class VitalsScorecard {
 					if(vitalOrg.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(vitalOrg.getEffTime()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.checkDateRange(patientDetails, vitalOrg.getEffTime()))
 						{
 							actualPoints++;
@@ -230,6 +237,7 @@ public class VitalsScorecard {
 							if(vitalObs.getMeasurementTime() != null && ApplicationUtil.isEffectiveTimePresent(vitalObs.getMeasurementTime()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(ApplicationUtil.checkDateRange(patientDetails, vitalObs.getMeasurementTime()))
 								{
 									actualPoints++;
@@ -258,6 +266,7 @@ public class VitalsScorecard {
 		validateTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateTimeScore.setIssuesList(issuesList);
 		validateTimeScore.setNumberOfIssues(issuesList.size());
+		validateTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
@@ -281,6 +290,7 @@ public class VitalsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(vitals != null)
@@ -289,6 +299,7 @@ public class VitalsScorecard {
 												&& ApplicationUtil.isCodeSystemAvailable(vitals.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
+				numberOfChecks++;
 				if(referenceValidatorService.validateDisplayName(vitals.getSectionCode().getCode(), 
 														vitals.getSectionCode().getCodeSystem(),
 														vitals.getSectionCode().getDisplayName()))
@@ -311,6 +322,7 @@ public class VitalsScorecard {
 							&& ApplicationUtil.isCodeSystemAvailable(vitalsOrg.getOrgCode().getCodeSystem()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(referenceValidatorService.validateDisplayName(vitalsOrg.getOrgCode().getCode(), 
 																vitalsOrg.getOrgCode().getCodeSystem(),
 																		vitalsOrg.getOrgCode().getDisplayName()))
@@ -334,6 +346,7 @@ public class VitalsScorecard {
 									&& ApplicationUtil.isCodeSystemAvailable(vitalsObs.getVsCode().getCodeSystem()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(referenceValidatorService.validateDisplayName(vitalsObs.getVsCode().getCode(), 
 																	vitalsObs.getVsCode().getCodeSystem(),
 																	vitalsObs.getVsCode().getDisplayName()))
@@ -365,6 +378,7 @@ public class VitalsScorecard {
 		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateDisplayNameScore.setIssuesList(issuesList);
 		validateDisplayNameScore.setNumberOfIssues(issuesList.size());
+		validateDisplayNameScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
@@ -388,6 +402,7 @@ public class VitalsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(vitals != null)
@@ -401,6 +416,7 @@ public class VitalsScorecard {
 						for(CCDAVitalObs vitalObs : vitalOrg.getVitalObs())
 						{
 							maxPoints++;
+							numberOfChecks++;
 							if(vitalObs.getVsResult() != null && vitalObs.getVsResult().getXsiType().equalsIgnoreCase("PQ"))
 							{
 								if(vitalObs.getVsCode()!= null)
@@ -428,6 +444,7 @@ public class VitalsScorecard {
 							else if(vitalObs.getVsResult() == null)
 							{
 								maxPoints++;
+								numberOfChecks++;
 								issue = new CCDAXmlSnippet();
 								issue.setLineNumber(vitalObs.getLineNumber());
 								issue.setXmlString(vitalObs.getXmlString());
@@ -458,6 +475,7 @@ public class VitalsScorecard {
 		validateUCUMScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateUCUMScore.setIssuesList(issuesList);
 		validateUCUMScore.setNumberOfIssues(issuesList.size());
+		validateUCUMScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateUCUMScore.setDescription(ApplicationConstants.VITAL_UCUM_DESCRIPTION);
@@ -481,6 +499,7 @@ public class VitalsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(vitals != null)
@@ -494,6 +513,7 @@ public class VitalsScorecard {
 					   for(CCDAVitalObs vitalObs : vitalOrg.getVitalObs())
 					   {
 						   maxPoints++;
+						   numberOfChecks++;
 						   if(vitalObs.getVsCode() != null)
 						   {
 							   if(referenceValidatorService.validateCodeForValueset(vitalObs.getVsCode().getCode(), ApplicationConstants.HITSP_VITAL_VALUESET_OID))
@@ -540,6 +560,7 @@ public class VitalsScorecard {
 		validatLoincCodeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validatLoincCodeScore.setIssuesList(issuesList);
 		validatLoincCodeScore.setNumberOfIssues(issuesList.size());
+		validatLoincCodeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validatLoincCodeScore.setDescription(ApplicationConstants.VITAL_LOINC_DESCRIPTION);
@@ -564,6 +585,7 @@ public class VitalsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(vitals != null)
@@ -581,6 +603,7 @@ public class VitalsScorecard {
 								if(vitalObs.getMeasurementTime() != null && ApplicationUtil.isEffectiveTimePresent(vitalObs.getMeasurementTime()))
 								{
 									maxPoints++;
+									numberOfChecks++;
 									if(ApplicationUtil.checkDateRange(vitalObs.getMeasurementTime(), vitalOrg.getEffTime()))
 									{
 										actualPoints++;
@@ -611,6 +634,7 @@ public class VitalsScorecard {
 		validateApprEffectiveTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateApprEffectiveTimeScore.setIssuesList(issuesList);
 		validateApprEffectiveTimeScore.setNumberOfIssues(issuesList.size());
+		validateApprEffectiveTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.VITAL_AAPR_DATE_DESCRIPTION);
@@ -634,6 +658,7 @@ public class VitalsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(vitals != null)
@@ -647,6 +672,7 @@ public class VitalsScorecard {
 						for(CCDAVitalObs vitalObs : vitalOrg.getVitalObs())
 						{
 							maxPoints++;
+							numberOfChecks++;
 							if(vitalObs.getReferenceText()!= null)
 							{
 								if(vitals.getReferenceLinks()!= null && vitals.getReferenceLinks().contains(vitalObs.getReferenceText().getValue()))
@@ -685,6 +711,7 @@ public class VitalsScorecard {
 		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		narrativeTextIdScore.setIssuesList(issuesList);
 		narrativeTextIdScore.setNumberOfIssues(issuesList.size());
+		narrativeTextIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
@@ -709,6 +736,7 @@ public class VitalsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		
 		if(vitals!= null)
@@ -718,6 +746,7 @@ public class VitalsScorecard {
 				for (CCDAII templateId : vitals.getTemplateIds())
 				{
 					maxPoints = maxPoints++;
+					numberOfChecks++;
 					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 				}
 			}
@@ -731,6 +760,7 @@ public class VitalsScorecard {
 						for (CCDAII templateId : vitalOrg.getTemplateIds())
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 						}
 					}
@@ -744,6 +774,7 @@ public class VitalsScorecard {
 								for (CCDAII templateId : vitalObs.getTemplateIds())
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 								}
 							}
@@ -764,6 +795,7 @@ public class VitalsScorecard {
 		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		templateIdScore.setIssuesList(issuesList);
 		templateIdScore.setNumberOfIssues(issuesList.size());
+		templateIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);

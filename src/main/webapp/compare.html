@@ -1,0 +1,19 @@
+<!-- Grade Comparison Chart -->
+<div class="col-md-4 scHeading">
+	<div class="row">
+		<!-- consider removing heading for more space -->
+		<h2>
+			<b>Compare</b>
+		</h2>		
+	</div>
+	<div class="row scHeading">
+		<img ng-if="!jsonData.results.finalGrade"
+			src="images/validationSpinner.gif" alt="scorecard loading indicator"
+			style="width: 30px; margin-top: -5px">
+		<div ng-if="jsonData.results.finalGrade">
+			<div id="compare" ng-show="true">
+				<nvd3 options="chartOptions" data="chartData"></nvd3>
+			</div>
+		</div>
+	</div>
+</div>

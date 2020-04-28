@@ -26,9 +26,9 @@ public class ApplicationConfiguration {
 	
 	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
 	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:8000",
-			CCDA_DEV_SERVER_URL = "https://devccda.sitenv.org",
+			CCDA_DEV_SERVER_URL = "34.236.48.201", // AHRQ TEST CCDA
 			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
-			TTP_DEV_SERVER_URL = "https://ttpdstest.sitenv.org:8443",
+			TTP_DEV_SERVER_URL = "http://35.153.125.47", // AHRQ TEST James
 			TTP_PROD_SERVER_URL = "https://ttpds.sitenv.org:8443",
 			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
 			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",

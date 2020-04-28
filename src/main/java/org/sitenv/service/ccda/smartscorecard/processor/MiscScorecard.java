@@ -52,6 +52,7 @@ public class MiscScorecard {
 		}
 		miscCategory.setCategoryRubrics(miscScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(miscScoreList,miscCategory);
+		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(miscScoreList, miscCategory);
 		
 		return miscCategory;
 	}
@@ -63,6 +64,7 @@ public class MiscScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		
@@ -78,6 +80,7 @@ public class MiscScorecard {
 				}
 			}
 			maxPoints = ccdaModels.getIdList().size();
+			numberOfChecks = ccdaModels.getIdList().size(); 
 			actualPoints = set.size();
 		}
 		
@@ -100,6 +103,7 @@ public class MiscScorecard {
 		uniqeIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		uniqeIdScore.setIssuesList(issuesList);
 		uniqeIdScore.setNumberOfIssues(issuesList.size());
+		uniqeIdScore.setNumberOfChecks(numberOfChecks);
 		
 		if(issuesList.size() > 0)
 		{
@@ -118,6 +122,7 @@ public class MiscScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		
@@ -132,6 +137,7 @@ public class MiscScorecard {
 						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 							{
 								actualPoints++;
@@ -157,6 +163,7 @@ public class MiscScorecard {
 								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 									{
 										actualPoints++;
@@ -183,6 +190,7 @@ public class MiscScorecard {
 										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{
 											maxPoints = maxPoints++;
+											numberOfChecks++;
 											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 											{
 												actualPoints++;
@@ -212,6 +220,7 @@ public class MiscScorecard {
 						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 							{
 								actualPoints++;
@@ -238,6 +247,7 @@ public class MiscScorecard {
 								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 									{
 										actualPoints++;
@@ -264,6 +274,7 @@ public class MiscScorecard {
 										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{
 											maxPoints = maxPoints++;
+											numberOfChecks++;
 											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 											{
 												actualPoints++;
@@ -292,6 +303,7 @@ public class MiscScorecard {
 										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{
 											maxPoints = maxPoints++;
+											numberOfChecks++;
 											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 											{
 												actualPoints++;
@@ -320,6 +332,7 @@ public class MiscScorecard {
 										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{
 											maxPoints = maxPoints++;
+											numberOfChecks++;
 											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 											{
 												actualPoints++;
@@ -350,6 +363,7 @@ public class MiscScorecard {
 						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 							{
 								actualPoints++;
@@ -376,6 +390,7 @@ public class MiscScorecard {
 								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 									{
 										actualPoints++;
@@ -400,6 +415,7 @@ public class MiscScorecard {
 									if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 									{
 										maxPoints = maxPoints++;
+										numberOfChecks++;
 										if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 										{
 											actualPoints++;
@@ -428,6 +444,7 @@ public class MiscScorecard {
 						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 							{
 								actualPoints++;
@@ -454,6 +471,7 @@ public class MiscScorecard {
 								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									if(templateId.getRootValue() != null && templateIdRepository.findByTemplateId(templateId.getRootValue()))
 									{
 										actualPoints++;
@@ -480,6 +498,7 @@ public class MiscScorecard {
 										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{
 											maxPoints = maxPoints++;
+											numberOfChecks++;
 											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 											{
 												actualPoints++;
@@ -513,6 +532,7 @@ public class MiscScorecard {
 								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 									{
 										actualPoints++;
@@ -539,6 +559,7 @@ public class MiscScorecard {
 										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{
 											maxPoints = maxPoints++;
+											numberOfChecks++;
 											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 											{
 												actualPoints++;
@@ -568,6 +589,7 @@ public class MiscScorecard {
 						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 							{
 								actualPoints++;
@@ -594,6 +616,7 @@ public class MiscScorecard {
 								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 									{
 										actualPoints++;
@@ -618,6 +641,7 @@ public class MiscScorecard {
 									if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 									{
 										maxPoints = maxPoints++;
+										numberOfChecks++;
 										if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 										{
 											actualPoints++;
@@ -646,6 +670,7 @@ public class MiscScorecard {
 						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 							{
 								actualPoints++;
@@ -672,6 +697,7 @@ public class MiscScorecard {
 								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 									{
 										actualPoints++;
@@ -698,6 +724,7 @@ public class MiscScorecard {
 										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{
 											maxPoints = maxPoints++;
+											numberOfChecks++;
 											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 											{
 												actualPoints++;
@@ -727,6 +754,7 @@ public class MiscScorecard {
 						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 							{
 								actualPoints++;
@@ -753,6 +781,7 @@ public class MiscScorecard {
 								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 									{
 										actualPoints++;
@@ -779,6 +808,7 @@ public class MiscScorecard {
 										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{
 											maxPoints = maxPoints++;	
+											numberOfChecks++;
 											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 											{
 												actualPoints++;
@@ -808,6 +838,7 @@ public class MiscScorecard {
 						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 							{
 								actualPoints++;
@@ -831,6 +862,8 @@ public class MiscScorecard {
 						{
 							for (CCDAII templateId : smokingStatus.getSmokingStatusTemplateIds())
 							{
+								maxPoints = maxPoints++;
+								numberOfChecks++;
 								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{	
 									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
@@ -858,6 +891,8 @@ public class MiscScorecard {
 						{
 							for (CCDAII templateId : tobaccoUse.getTobaccoUseTemplateIds())
 							{
+								maxPoints = maxPoints++;
+								numberOfChecks++;
 								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{	
 									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
@@ -886,6 +921,8 @@ public class MiscScorecard {
 					{
 						if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 						{	
+							maxPoints = maxPoints++;
+							numberOfChecks++;
 							if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 							{
 								actualPoints++;
@@ -909,6 +946,8 @@ public class MiscScorecard {
 						{
 							for (CCDAII templateId : vitalOrg.getTemplateIds())
 							{
+								maxPoints = maxPoints++;
+								numberOfChecks++;
 								if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 								{	
 									if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
@@ -936,6 +975,8 @@ public class MiscScorecard {
 									{
 										if(templateId.getRootValue() != null && ApplicationUtil.validTemplateIdFormat(templateId.getRootValue()))
 										{	
+											maxPoints = maxPoints++;
+											numberOfChecks++;
 											if(templateIdRepository.findByTemplateId(templateId.getRootValue()))
 											{
 												actualPoints++;
@@ -968,6 +1009,7 @@ public class MiscScorecard {
 		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		templateIdScore.setIssuesList(issuesList);
 		templateIdScore.setNumberOfIssues(issuesList.size());
+		templateIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_DESC);
