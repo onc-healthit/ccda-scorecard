@@ -937,7 +937,6 @@ public class ApplicationUtil {
 		return isValid;
 	}
 	
-	
 	public static boolean validateStatusCode(CCDAEffTime effectiveTime, String concernStatusCode)
 	{
 		
@@ -989,10 +988,10 @@ public class ApplicationUtil {
 	
 	public static void calculateSectionGradeAndIssues(List<CCDAScoreCardRubrics> rubricsList, Category category)
 	{
-		float actualPoints =0;
+		float actualPoints = 0;
 		float maxPoints = 0;
-		int percentage ;
-		int categoryIssues=0;
+		int percentage;
+		int categoryIssues = 0;
 		String categoryGrade;
 		
 		for(CCDAScoreCardRubrics rubrics : rubricsList)
@@ -1006,39 +1005,39 @@ public class ApplicationUtil {
 		}
 		
 		percentage = Math.round((actualPoints * 100)/maxPoints);
-		if(percentage < 70)
-		{
-			categoryGrade = "D";
-		}else if (percentage >=70 && percentage <80)
-		{
-			categoryGrade = "C";
-		}else if(percentage >=80 && percentage <85)
-		{
-			categoryGrade=  "B-";
-		}else if(percentage >=85 && percentage <90)
-		{
-			categoryGrade = "B+";
-		}else if(percentage >=90 && percentage <95)
-		{
-			categoryGrade =  "A-";
-		}else if(percentage >=95 && percentage <=100)
-		{
-			categoryGrade = "A+";
-		}else
-		{
-			categoryGrade =  "UNKNOWN GRADE";
-		}
+		categoryGrade = calculateGradeFromScore(percentage);		
 		category.setCategoryGrade(categoryGrade);
 		category.setCategoryNumericalScore(percentage);
 		category.setNumberOfIssues(categoryIssues);
 	}
 	
+	public static void calculateNumberOfChecksAndFailedRubrics(List<CCDAScoreCardRubrics> rubricsList, Category category)
+	{
+		int numberOfChecks=0;
+		int numberOfFailedRubrics = 0;
+		
+		for(CCDAScoreCardRubrics rubrics : rubricsList)
+		{
+			numberOfChecks = numberOfChecks + rubrics.getNumberOfChecks();
+			if(rubrics.getNumberOfIssues() > 0) {
+				numberOfFailedRubrics++;
+			}
+		}
+		
+		category.setNumberOfChecks(numberOfChecks);
+		category.setNumberOfFailedRubrics(numberOfFailedRubrics);
+	}
+	
+
 	public static void calculateFinalGradeAndIssues(List<Category> categoryList, Results results)
 	{
 		float finalMaxPoints = 0;
 		float finalActualPoints = 0;
 		String finalGrade = "";
 		int numberOfIssues= 0;
+		int numberOfChecks=0;
+		int numberOfRules = 0;
+		int numberOfFailedRubrics = 0;
 		
 		for (Category category : categoryList)
 		{
@@ -1050,61 +1049,49 @@ public class ApplicationUtil {
 					finalActualPoints = finalActualPoints + rubrics.getRubricScore();
 				}
 				numberOfIssues = numberOfIssues + category.getNumberOfIssues();
+				numberOfRules = numberOfRules + category.getCategoryRubrics().size();
+				numberOfChecks = numberOfChecks + category.getNumberOfChecks();
+				numberOfFailedRubrics = numberOfFailedRubrics + category.getNumberOfFailedRubrics();
 			}
 		}
 		
 		int percentage = Math.round((finalActualPoints * 100)/finalMaxPoints);
-		if(percentage < 70)
-		{
-			finalGrade =  "D";
-		}else if (percentage >=70 && percentage <80)
-		{
-			finalGrade = "C";
-		}else if(percentage >=80 && percentage <85)
-		{
-			finalGrade = "B-";
-		}else if(percentage >=85 && percentage <90)
-		{
-			finalGrade = "B+";
-		}else if(percentage >=90 && percentage <95)
-		{
-			finalGrade = "A-";
-		}else if(percentage >=95 && percentage <=100)
-		{
-			finalGrade = "A+";
-		}
-		
+		finalGrade = calculateGradeFromScore(percentage, true);
 		results.setFinalGrade(finalGrade);
 		results.setFinalNumericalGrade(percentage);
 		results.setNumberOfIssues(numberOfIssues);
+		results.setNumberOfRules(numberOfRules);
+		results.setNumberOfFailedRules(numberOfFailedRubrics);
+		results.setTotalElementsChecked(numberOfChecks);
 	}
 	
-	public static String calculateIndustryAverageGrade(int industryAverageScore)
-	{
-		
-		if(industryAverageScore < 70)
-		{
+	public static String calculateIndustryAverageGrade(int industryAverageScore) {
+		return calculateGradeFromScore(industryAverageScore);
+	}
+	
+	public static String calculateGradeFromScore(int score) {
+		return calculateGradeFromScore(score, false);
+	}
+	
+	public static String calculateGradeFromScore(int score, boolean emptyStringReturnedIfUnknown) {
+		if (score < 70) {
 			return "D";
-		}else if (industryAverageScore >=70 && industryAverageScore <80)
-		{
+		} else if (score >= 70 && score < 80) {
 			return "C";
-		}else if(industryAverageScore >=80 && industryAverageScore <85)
-		{
-			return  "B-";
-		}else if(industryAverageScore >=85 && industryAverageScore <90)
-		{
+		} else if (score >= 80 && score < 85) {
+			return "B-";
+		} else if (score >= 85 && score < 90) {
 			return "B+";
-		}else if(industryAverageScore >=90 && industryAverageScore <95)
-		{
-			return  "A-";
-		}else if(industryAverageScore >=95 && industryAverageScore <=100)
-		{
+		} else if (score >= 90 && score < 95) {
+			return "A-";
+		} else if (score >= 95 && score <= 100) {
 			return "A+";
-		}else
-		{
-			return  "UNKNOWN GRADE";
+		} else {
+			if (emptyStringReturnedIfUnknown) {
+				return "";
+			}
+			return ApplicationConstants.UNKNOWN_GRADE;
 		}
-		
 	}
 	
 	public static float calculateRubricScore(int maxPoints, int actualPoints)

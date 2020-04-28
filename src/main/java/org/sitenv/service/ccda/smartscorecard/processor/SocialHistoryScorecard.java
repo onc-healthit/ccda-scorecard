@@ -73,6 +73,7 @@ public class SocialHistoryScorecard {
 		
 		socialHistoryCategory.setCategoryRubrics(socialHistoryScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(socialHistoryScoreList, socialHistoryCategory);
+		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(socialHistoryScoreList, socialHistoryCategory);
 		logger.info("SocailHistory End time:"+ (System.currentTimeMillis() - startTime));
 		return new AsyncResult<Category>(socialHistoryCategory);
 		
@@ -85,6 +86,7 @@ public class SocialHistoryScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(socialHistory != null)
@@ -94,6 +96,7 @@ public class SocialHistoryScorecard {
 				for ( CCDASmokingStatus smokingStatus : socialHistory.getSmokingStatus())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(smokingStatus.getObservationTime() != null)
 					{
 						if(ApplicationUtil.validateYearFormat(smokingStatus.getObservationTime()) ||
@@ -129,6 +132,7 @@ public class SocialHistoryScorecard {
 					if(tobaccoUse.getTobaccoUseTime() != null)
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.validateYearFormat(tobaccoUse.getTobaccoUseTime()) ||
 								ApplicationUtil.validateDayFormat(tobaccoUse.getTobaccoUseTime()) ||
 								ApplicationUtil.validateMonthFormat(tobaccoUse.getTobaccoUseTime()) ||
@@ -162,6 +166,7 @@ public class SocialHistoryScorecard {
 		timePrecisionScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		timePrecisionScore.setIssuesList(issuesList);
 		timePrecisionScore.setNumberOfIssues(issuesList.size());
+		timePrecisionScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 	    {
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
@@ -184,6 +189,7 @@ public class SocialHistoryScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(socialHistory != null)
@@ -195,6 +201,7 @@ public class SocialHistoryScorecard {
 					if(smokingStatus.getObservationTime() != null && ApplicationUtil.isEffectiveTimePresent(smokingStatus.getObservationTime()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.checkDateRange(patientDetails, smokingStatus.getObservationTime()))
 						{
 							actualPoints++;
@@ -217,6 +224,7 @@ public class SocialHistoryScorecard {
 					if(tobaccoUse.getTobaccoUseTime() != null && ApplicationUtil.isEffectiveTimePresent(tobaccoUse.getTobaccoUseTime()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.checkDateRange(patientDetails, tobaccoUse.getTobaccoUseTime()))
 						{
 							actualPoints++;
@@ -244,6 +252,7 @@ public class SocialHistoryScorecard {
 		validateTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateTimeScore.setIssuesList(issuesList);
 		validateTimeScore.setNumberOfIssues(issuesList.size());
+		validateTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 	    {
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
@@ -267,6 +276,7 @@ public class SocialHistoryScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(socialHistory != null)
@@ -275,6 +285,7 @@ public class SocialHistoryScorecard {
 													&& ApplicationUtil.isCodeSystemAvailable(socialHistory.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
+				numberOfChecks++;
 				if(referenceValidatorService.validateDisplayName(socialHistory.getSectionCode().getCode(), 
 											socialHistory.getSectionCode().getCodeSystem(),
 											socialHistory.getSectionCode().getDisplayName()))
@@ -298,6 +309,7 @@ public class SocialHistoryScorecard {
 							&& ApplicationUtil.isCodeSystemAvailable(smokingStatus.getSmokingStatusCode().getCodeSystem()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(referenceValidatorService.validateDisplayName(smokingStatus.getSmokingStatusCode().getCode(), 
 																smokingStatus.getSmokingStatusCode().getCodeSystem(),
 																	smokingStatus.getSmokingStatusCode().getDisplayName()))
@@ -323,6 +335,7 @@ public class SocialHistoryScorecard {
 							&& ApplicationUtil.isCodeSystemAvailable(tobaccoUse.getTobaccoUseCode().getCodeSystem()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(referenceValidatorService.validateDisplayName(tobaccoUse.getTobaccoUseCode().getCode(), 
 														tobaccoUse.getTobaccoUseCode().getCodeSystem(),
 														tobaccoUse.getTobaccoUseCode().getDisplayName()))
@@ -352,6 +365,7 @@ public class SocialHistoryScorecard {
 		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateDisplayNameScore.setIssuesList(issuesList);
 		validateDisplayNameScore.setNumberOfIssues(issuesList.size());
+		validateDisplayNameScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 	    {
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
@@ -374,6 +388,7 @@ public class SocialHistoryScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(socialHistory != null)
@@ -383,6 +398,7 @@ public class SocialHistoryScorecard {
 				for (CCDASmokingStatus smokingStatus : socialHistory.getSmokingStatus())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(smokingStatus.getSmokingStatusCode()!= null)
 					{
 						if(ApplicationConstants.SMOKING_STATUS_CODES.contains(smokingStatus.getSmokingStatusCode().getCode()))
@@ -420,6 +436,7 @@ public class SocialHistoryScorecard {
 		validSmokingStausScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validSmokingStausScore.setIssuesList(issuesList);
 		validSmokingStausScore.setNumberOfIssues(issuesList.size());
+		validSmokingStausScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 	    {
 			validSmokingStausScore.setDescription("smoking status code  validation Rubric failed for Social History");
@@ -442,6 +459,7 @@ public class SocialHistoryScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(socialHistory != null)
@@ -453,6 +471,7 @@ public class SocialHistoryScorecard {
 					if(!ApplicationUtil.isEmpty(smokingStatus.getSmokingStatusTemplateIds()))
 					{
 						maxPoints = maxPoints + smokingStatus.getSmokingStatusTemplateIds().size();
+						numberOfChecks = numberOfChecks + smokingStatus.getSmokingStatusTemplateIds().size();
 						for (CCDAII templateId : smokingStatus.getSmokingStatusTemplateIds())
 						{
 							if(templateId.getRootValue() != null && templateId.getRootValue().equals(ApplicationConstants.SMOKING_STATUS_OBSERVATION_ID))
@@ -471,6 +490,7 @@ public class SocialHistoryScorecard {
 					else
 					{
 						maxPoints++;
+						numberOfChecks++;
 						issue = new CCDAXmlSnippet();
 						issue.setLineNumber(smokingStatus.getLineNumber());
 						issue.setXmlString(smokingStatus.getXmlString());
@@ -499,6 +519,7 @@ public class SocialHistoryScorecard {
 		validSmokingStausIDScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validSmokingStausIDScore.setIssuesList(issuesList);
 		validSmokingStausIDScore.setNumberOfIssues(issuesList.size());
+		validSmokingStausIDScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 	    {
 			validSmokingStausIDScore.setDescription("smoking status observation validation Rubric failed for Social History");
@@ -522,6 +543,7 @@ public class SocialHistoryScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 1;
+		int numberOfChecks = 1;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(socialHistory != null)
@@ -571,6 +593,7 @@ public class SocialHistoryScorecard {
 		validGenderObsIDScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validGenderObsIDScore.setIssuesList(issuesList);
 		validGenderObsIDScore.setNumberOfIssues(issuesList.size());
+		validGenderObsIDScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 	    {
 			validGenderObsIDScore.setDescription(ApplicationConstants.SOCIALHISTORY_GENDER_OBS_DESC);
@@ -594,6 +617,7 @@ public class SocialHistoryScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(socialHistory != null)
@@ -603,6 +627,7 @@ public class SocialHistoryScorecard {
 				for(CCDASmokingStatus smokingStatus : socialHistory.getSmokingStatus())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(smokingStatus.getReferenceText()!=null)
 					{
 						if(socialHistory.getReferenceLinks()!= null && socialHistory.getReferenceLinks().contains(smokingStatus.getReferenceText().getValue()))
@@ -632,6 +657,7 @@ public class SocialHistoryScorecard {
 				for(CCDATobaccoUse tobaccoUse : socialHistory.getTobaccoUse())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(tobaccoUse.getReferenceText()!=null)
 					{
 						if(socialHistory.getReferenceLinks()!= null && socialHistory.getReferenceLinks().contains(tobaccoUse.getReferenceText().getValue()))
@@ -659,6 +685,7 @@ public class SocialHistoryScorecard {
 			if(socialHistory.getSocialHistoryGenderObs()!=null)
 			{
 				maxPoints++;
+				numberOfChecks++;
 				if(socialHistory.getSocialHistoryGenderObs().getReferenceText()!=null)
 				{
 					if(socialHistory.getReferenceLinks()!= null && socialHistory.getReferenceLinks().contains(socialHistory.getSocialHistoryGenderObs().getReferenceText().getValue()))
@@ -695,6 +722,7 @@ public class SocialHistoryScorecard {
 		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		narrativeTextIdScore.setIssuesList(issuesList);
 		narrativeTextIdScore.setNumberOfIssues(issuesList.size());
+		narrativeTextIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
@@ -719,6 +747,7 @@ public class SocialHistoryScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		
 		if(socialHistory!=null)
@@ -728,6 +757,7 @@ public class SocialHistoryScorecard {
 				for (CCDAII templateId : socialHistory.getSectionTemplateIds())
 				{
 					maxPoints = maxPoints++;
+					numberOfChecks++;
 					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 				}
 			}
@@ -741,6 +771,7 @@ public class SocialHistoryScorecard {
 						for (CCDAII templateId : smokingStatus.getSmokingStatusTemplateIds())
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 						}
 					}
@@ -756,6 +787,7 @@ public class SocialHistoryScorecard {
 						for (CCDAII templateId : tobaccoUse.getTobaccoUseTemplateIds())
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 						}
 					}
@@ -774,6 +806,7 @@ public class SocialHistoryScorecard {
 		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		templateIdScore.setIssuesList(issuesList);
 		templateIdScore.setNumberOfIssues(issuesList.size());
+		templateIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);

@@ -21,6 +21,8 @@ public class CCDAScoreCardRubrics {
 	private int maxPoints;
 	@JsonIgnore
 	private float rubricScore;
+	@JsonIgnore
+	private int numberOfChecks;
 	
 	public String getRule() {
 		return rule;
@@ -84,5 +86,10 @@ public class CCDAScoreCardRubrics {
 	public void setRubricScore(float rubricScore) {
 		this.rubricScore = rubricScore;
 	}
-	
+	public int getNumberOfChecks() {
+		return numberOfChecks;
+	}
+	public void setNumberOfChecks(int numberOfChecks) {
+		this.numberOfChecks = numberOfChecks;
+	}
 }

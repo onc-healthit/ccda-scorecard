@@ -89,6 +89,7 @@ public class LabresultsScorecard {
 		
 		labResultsCategory.setCategoryRubrics(labResultsScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(labResultsScoreList, labResultsCategory);
+		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(labResultsScoreList, labResultsCategory);
 		logger.info("Labresults End time:"+ (System.currentTimeMillis() - startTime));
 		return  new AsyncResult<Category>(labResultsCategory);
 		
@@ -101,6 +102,7 @@ public class LabresultsScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(labResults != null)
@@ -110,6 +112,7 @@ public class LabresultsScorecard {
 				for (CCDALabResultOrg resultOrg : labResults.getResultOrg())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(resultOrg.getEffTime() != null)
 					{
 						if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime()) ||
@@ -139,6 +142,7 @@ public class LabresultsScorecard {
 						for (CCDALabResultObs resultObs : resultOrg.getResultObs() )
 						{
 							maxPoints++;
+							numberOfChecks++;
 							if(resultObs.getMeasurementTime() != null)
 							{
 								if(ApplicationUtil.validateDayFormat(resultObs.getMeasurementTime()) ||
@@ -188,6 +192,7 @@ public class LabresultsScorecard {
 		timePrecisionScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		timePrecisionScore.setIssuesList(issuesList);
 		timePrecisionScore.setNumberOfIssues(issuesList.size());
+		timePrecisionScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
@@ -212,6 +217,7 @@ public class LabresultsScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(labResults != null)
@@ -223,6 +229,7 @@ public class LabresultsScorecard {
 					if(resultOrg.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(resultOrg.getEffTime()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.checkDateRange(patientDetails, resultOrg.getEffTime()))
 						{
 							actualPoints++;
@@ -243,6 +250,7 @@ public class LabresultsScorecard {
 							if(resultObs.getMeasurementTime() != null && ApplicationUtil.isEffectiveTimePresent(resultObs.getMeasurementTime()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(ApplicationUtil.checkDateRange(patientDetails, resultObs.getMeasurementTime()))
 								{
 									actualPoints++;
@@ -272,6 +280,7 @@ public class LabresultsScorecard {
 		validateTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateTimeScore.setIssuesList(issuesList);
 		validateTimeScore.setNumberOfIssues(issuesList.size());
+		validateTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
@@ -295,6 +304,7 @@ public class LabresultsScorecard {
 
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(labresults != null)
@@ -303,6 +313,7 @@ public class LabresultsScorecard {
 													&& ApplicationUtil.isCodeSystemAvailable(labresults.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
+				numberOfChecks++;
 				if(referenceValidatorService.validateDisplayName(labresults.getSectionCode().getCode(), 
 												labresults.getSectionCode().getCodeSystem(),
 												labresults.getSectionCode().getDisplayName()))
@@ -326,6 +337,7 @@ public class LabresultsScorecard {
 													&& ApplicationUtil.isCodeSystemAvailable(resultOrg.getOrgCode().getCodeSystem()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(referenceValidatorService.validateDisplayName(resultOrg.getOrgCode().getCode(), 
 								resultOrg.getOrgCode().getCodeSystem(),
 								resultOrg.getOrgCode().getDisplayName()))
@@ -349,6 +361,7 @@ public class LabresultsScorecard {
 																&& ApplicationUtil.isCodeSystemAvailable(resultobs.getResultCode().getCodeSystem()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(referenceValidatorService.validateDisplayName(resultobs.getResultCode().getCode(), 
 										resultobs.getResultCode().getCodeSystem(),
 										resultobs.getResultCode().getDisplayName()))
@@ -378,6 +391,7 @@ public class LabresultsScorecard {
 		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateDisplayNameScore.setIssuesList(issuesList);
 		validateDisplayNameScore.setNumberOfIssues(issuesList.size());
+		validateDisplayNameScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
@@ -401,6 +415,7 @@ public class LabresultsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(labresults != null)
@@ -416,6 +431,7 @@ public class LabresultsScorecard {
 							if(resultsObs.getResults() != null && ApplicationUtil.checkLabResultType(resultsObs.getResults().getXsiType()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(resultsObs.getResultCode()!= null)
 								{
 									if(loincRepository.foundUCUMUnitsForLoincCode(resultsObs.getResultCode().getCode(),
@@ -442,6 +458,7 @@ public class LabresultsScorecard {
 							else if(resultsObs.getResults() == null)
 							{
 								maxPoints++;
+								numberOfChecks++;
 								issue = new CCDAXmlSnippet();
 								issue.setLineNumber(resultsObs.getLineNumber());
 								issue.setXmlString(resultsObs.getXmlString());
@@ -472,6 +489,7 @@ public class LabresultsScorecard {
 		validateUCUMScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateUCUMScore.setIssuesList(issuesList);
 		validateUCUMScore.setNumberOfIssues(issuesList.size());
+		validateUCUMScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateUCUMScore.setDescription(ApplicationConstants.RESULTS_UCUM_DESC);
@@ -495,6 +513,7 @@ public class LabresultsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(labresults != null)
@@ -508,6 +527,7 @@ public class LabresultsScorecard {
 					   for(CCDALabResultObs resultObs : resultOrg.getResultObs())
 					   {
 						   maxPoints++;
+						   numberOfChecks++;
 						   if(resultObs.getResultCode()!= null)
 						   {
 							   if(loincRepository.findByCode(resultObs.getResultCode().getCode()))
@@ -554,6 +574,7 @@ public class LabresultsScorecard {
 		validatLoincCodeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validatLoincCodeScore.setIssuesList(issuesList);
 		validatLoincCodeScore.setNumberOfIssues(issuesList.size());
+		validatLoincCodeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validatLoincCodeScore.setDescription(ApplicationConstants.LABRESULTS_LOIN_CODE_REQ);
@@ -578,6 +599,7 @@ public class LabresultsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(results != null)
@@ -595,6 +617,7 @@ public class LabresultsScorecard {
 								if(resultsObs.getMeasurementTime() != null && ApplicationUtil.isEffectiveTimePresent(resultsObs.getMeasurementTime()))
 								{
 									maxPoints++;
+									numberOfChecks++;
 									if(ApplicationUtil.checkDateRange(resultsObs.getMeasurementTime(),resultOrg.getEffTime()))
 									{
 										actualPoints++;
@@ -625,6 +648,7 @@ public class LabresultsScorecard {
 		validateApprEffectiveTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateApprEffectiveTimeScore.setIssuesList(issuesList);
 		validateApprEffectiveTimeScore.setNumberOfIssues(issuesList.size());
+		validateApprEffectiveTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.LABRESULTS_APR_TIME_DESC);
@@ -648,6 +672,7 @@ public class LabresultsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(results != null)
@@ -661,6 +686,7 @@ public class LabresultsScorecard {
 						for(CCDALabResultObs resultOrgObs : resultOrg.getResultObs())
 						{
 							maxPoints++;
+							numberOfChecks++;
 							if(resultOrgObs.getReferenceText()!= null)
 							{
 								if(results.getReferenceLinks()!= null && results.getReferenceLinks().contains(resultOrgObs.getReferenceText().getValue()))
@@ -698,6 +724,7 @@ public class LabresultsScorecard {
 		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		narrativeTextIdScore.setIssuesList(issuesList);
 		narrativeTextIdScore.setNumberOfIssues(issuesList.size());
+		narrativeTextIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
@@ -722,6 +749,7 @@ public class LabresultsScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		
 		if(results!=null)
@@ -731,6 +759,7 @@ public class LabresultsScorecard {
 				for (CCDAII templateId : results.getResultSectionTempalteIds())
 				{
 					maxPoints = maxPoints++;
+					numberOfChecks++;
 					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 				}
 			}
@@ -744,6 +773,7 @@ public class LabresultsScorecard {
 						for (CCDAII templateId : resultOrg.getTemplateIds())
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 						}
 					}
@@ -757,6 +787,7 @@ public class LabresultsScorecard {
 								for (CCDAII templateId : labResultObs.getTemplateIds())
 								{
 									maxPoints = maxPoints++;
+									numberOfChecks++;
 									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 								}
 							}
@@ -777,6 +808,7 @@ public class LabresultsScorecard {
 		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		templateIdScore.setIssuesList(issuesList);
 		templateIdScore.setNumberOfIssues(issuesList.size());
+		templateIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);

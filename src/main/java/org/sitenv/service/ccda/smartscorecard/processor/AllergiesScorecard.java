@@ -70,6 +70,7 @@ public class AllergiesScorecard {
 
 		allergyCategory.setCategoryRubrics(allergyScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(allergyScoreList,allergyCategory);
+		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(allergyScoreList, allergyCategory);
 		logger.info("Allergies End time:"+ (System.currentTimeMillis() - startTime));
 		return new AsyncResult<Category>(allergyCategory);
 		
@@ -82,6 +83,7 @@ public class AllergiesScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(allergies != null)
@@ -91,6 +93,7 @@ public class AllergiesScorecard {
 				for (CCDAAllergyConcern allergyConcern : allergies.getAllergyConcern())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(allergyConcern.getEffTime() != null)
 					{
 						if(ApplicationUtil.validateYearFormat(allergyConcern.getEffTime())||
@@ -122,6 +125,7 @@ public class AllergiesScorecard {
 						for (CCDAAllergyObs allergyObservation : allergyConcern.getAllergyObs() )
 						{
 							maxPoints++;
+							numberOfChecks++;
 							if(allergyObservation.getEffTime() != null)
 							{
 								if(ApplicationUtil.validateYearFormat(allergyObservation.getEffTime()) ||
@@ -173,6 +177,7 @@ public class AllergiesScorecard {
 	   timePrecisionScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 	   timePrecisionScore.setIssuesList(issuesList);
 	   timePrecisionScore.setNumberOfIssues(issuesList.size());
+	   timePrecisionScore.setNumberOfChecks(numberOfChecks);
 	   if(issuesList.size() > 0)
 	   {
 		   timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
@@ -196,6 +201,7 @@ public class AllergiesScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(allergies != null)
@@ -207,6 +213,7 @@ public class AllergiesScorecard {
 					if(allergyConcern.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(allergyConcern.getEffTime()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.checkDateRange(patientDetails, allergyConcern.getEffTime()))
 						{
 							actualPoints++;
@@ -227,6 +234,7 @@ public class AllergiesScorecard {
 							if(allergyObservation.getEffTime() != null && ApplicationUtil.isEffectiveTimePresent(allergyObservation.getEffTime()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(ApplicationUtil.checkDateRange(patientDetails, allergyObservation.getEffTime()))
 								{
 									actualPoints++;
@@ -256,6 +264,7 @@ public class AllergiesScorecard {
 		validateTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateTimeScore.setIssuesList(issuesList);
 		validateTimeScore.setNumberOfIssues(issuesList.size());
+		validateTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
@@ -280,6 +289,7 @@ public class AllergiesScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(allergies != null)
@@ -288,6 +298,7 @@ public class AllergiesScorecard {
 																			&& ApplicationUtil.isCodeSystemAvailable(allergies.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
+				numberOfChecks++;
 				if(referenceValidatorService.validateDisplayName(allergies.getSectionCode().getCode(), allergies.getSectionCode().getCodeSystem(),
 														allergies.getSectionCode().getDisplayName()))
 				{
@@ -314,6 +325,7 @@ public class AllergiesScorecard {
 																				&& ApplicationUtil.isCodeSystemAvailable(allergyObs.getAllergyIntoleranceType().getCodeSystem()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(referenceValidatorService.validateDisplayName(allergyObs.getAllergyIntoleranceType().getCode(), 
 																allergyObs.getAllergyIntoleranceType().getCodeSystem(),
 																allergyObs.getAllergyIntoleranceType().getDisplayName()))
@@ -333,6 +345,7 @@ public class AllergiesScorecard {
 																			&& ApplicationUtil.isCodeSystemAvailable(allergyObs.getAllergySubstance().getCodeSystem()))
 							{
 								maxPoints++;
+								numberOfChecks++;
 								if(referenceValidatorService.validateDisplayName(allergyObs.getAllergySubstance().getCode(), 
 																allergyObs.getAllergySubstance().getCodeSystem(),
 																allergyObs.getAllergySubstance().getDisplayName()))
@@ -362,6 +375,7 @@ public class AllergiesScorecard {
 		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateDisplayNameScore.setIssuesList(issuesList);
 		validateDisplayNameScore.setNumberOfIssues(issuesList.size());
+		validateDisplayNameScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
@@ -385,6 +399,7 @@ public class AllergiesScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(allergies != null)
@@ -402,6 +417,7 @@ public class AllergiesScorecard {
 								if(allergyObs.getEffTime()!=null && ApplicationUtil.isEffectiveTimePresent(allergyObs.getEffTime()))
 								{
 									maxPoints++;
+									numberOfChecks++;
 									if(ApplicationUtil.checkDateRange(allergyAct.getEffTime().getLow(),allergyAct.getEffTime().getHigh(),
 																		allergyObs.getEffTime().getLow(),allergyObs.getEffTime().getHigh()))
 									{
@@ -433,6 +449,7 @@ public class AllergiesScorecard {
 		validateApprEffectiveTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateApprEffectiveTimeScore.setIssuesList(issuesList);
 		validateApprEffectiveTimeScore.setNumberOfIssues(issuesList.size());
+		validateApprEffectiveTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.ALLERGIES_CONCERN_DATE_ALIGN_DESC);
@@ -456,6 +473,7 @@ public class AllergiesScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(allergies != null)
@@ -465,6 +483,7 @@ public class AllergiesScorecard {
 				for(CCDAAllergyConcern allergyAct : allergies.getAllergyConcern())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(allergyAct.getReferenceText()!= null)
 					{
 						if(allergies.getReferenceLinks()!= null && allergies.getReferenceLinks().contains(allergyAct.getReferenceText().getValue()))
@@ -496,6 +515,7 @@ public class AllergiesScorecard {
 								for(CCDAAllergyReaction allReaction : allObs.getReactions())
 								{
 									maxPoints++;
+									numberOfChecks++;
 									if(allReaction.getReferenceText()!= null)
 									{
 										if(allergies.getReferenceLinks()!= null && allergies.getReferenceLinks().contains(allReaction.getReferenceText().getValue()))
@@ -534,6 +554,7 @@ public class AllergiesScorecard {
 		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		narrativeTextIdScore.setIssuesList(issuesList);
 		narrativeTextIdScore.setNumberOfIssues(issuesList.size());
+		narrativeTextIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
@@ -558,6 +579,7 @@ public class AllergiesScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(allergies != null)
@@ -569,6 +591,7 @@ public class AllergiesScorecard {
 					if(allergyConcern.getStatusCode() != null )
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(allergyConcern.getAllergyObs()!=null)
 						{
 							for(CCDAAllergyObs allergyObs : allergyConcern.getAllergyObs())
@@ -618,6 +641,7 @@ public class AllergiesScorecard {
 		validateApprEffectiveTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateApprEffectiveTimeScore.setIssuesList(issuesList);
 		validateApprEffectiveTimeScore.setNumberOfIssues(issuesList.size());
+		validateApprEffectiveTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateApprEffectiveTimeScore.setDescription(ApplicationConstants.ALLERGIES_APR_TIME_DESC);
@@ -640,6 +664,7 @@ public class AllergiesScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		if(allergies!=null)
 		{
@@ -648,6 +673,7 @@ public class AllergiesScorecard {
 				for (CCDAII templateId : allergies.getSectionTemplateId())
 				{
 					maxPoints = maxPoints++;
+					numberOfChecks++;
 					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 				}
 			}
@@ -694,6 +720,7 @@ public class AllergiesScorecard {
 		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		templateIdScore.setIssuesList(issuesList);
 		templateIdScore.setNumberOfIssues(issuesList.size());
+		templateIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);

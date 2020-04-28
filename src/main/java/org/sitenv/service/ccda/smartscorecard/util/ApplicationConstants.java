@@ -68,8 +68,8 @@ public class ApplicationConstants {
 	public static final String IMMU_NOTIN_MED_DESC = "Immunizations should be recorded using the Section Code '2.16.840.1.113883.10.20.22.2.2.1' within the document.";
 	
 	
-	public static final String MED_SIG_TEXT_REQ = "Each medication needs to have its own Medication Signture Text EntryRelationship and the reference should exist in the same section where you found it";
-	public static final String MED_SIG_TEXT_DESC = "Each medication needs to have its own Medication Signture Text EntryRelationship and the reference should exist in the same section where you found it";
+	public static final String MED_SIG_TEXT_REQ = "Each medication needs to have its own Medication Signature Text EntryRelationship and the reference should exist in the same section where you found it";
+	public static final String MED_SIG_TEXT_DESC = "Each medication needs to have its own Medication Signature Text EntryRelationship and the reference should exist in the same section where you found it";
 	
 	
 	public static final String RESULTS_UCUM_REQ = "Lab Result values should use preferred UCUM units";
@@ -244,6 +244,8 @@ public class ApplicationConstants {
 	public static final String TEMPLATEID_FORMAT = "2.16.840.1.113883.10.20.22";
 	
 	public static final Map<String, String> CODE_SYSTEM_MAP = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+	
+	public static final String UNKNOWN_GRADE = "UNKNOWN GRADE";
 	
 	static {
 		CODE_SYSTEM_MAP.put(SNOMEDCT_CODE_SYSTEM, SNOMEDCT_CODE_SYSTEM_NAME);
@@ -530,4 +532,8 @@ public class ApplicationConstants {
 		}
 	}
 	
+	public enum SeverityLevel {
+		INFO, WARNING, ERROR
+	}
+
 }

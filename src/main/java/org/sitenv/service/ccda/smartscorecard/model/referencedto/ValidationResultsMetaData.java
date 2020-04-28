@@ -16,12 +16,17 @@ public class ValidationResultsMetaData {
 	private String ccdaFileName;
 	private String ccdaFileContents;
 	private List<ResultMetaData> resultMetaData;
+	private int vocabularyValidationConfigurationsCount;
+	private int vocabularyValidationConfigurationsErrorCount;
+	private String severityLevel;
+	private long totalConformanceErrorChecks;
 
 	public ValidationResultsMetaData() {}
 
 	public ValidationResultsMetaData(ValidationResultsMetaData resultsToCopy) {
 		this.ccdaDocumentType = resultsToCopy.getCcdaDocumentType();
 		this.ccdaVersion = resultsToCopy.getCcdaVersion();
+		this.totalConformanceErrorChecks = resultsToCopy.getTotalConformanceErrorChecks();
 		this.serviceError = resultsToCopy.isServiceError();
 		this.serviceErrorMessage = resultsToCopy.getServiceErrorMessage();
 		this.ccdaFileName = resultsToCopy.getCcdaFileName();
@@ -84,5 +89,37 @@ public class ValidationResultsMetaData {
 
 	public void setCcdaFileContents(String ccdaFileContents) {
 		this.ccdaFileContents = ccdaFileContents;
+	}
+	
+	public int getVocabularyValidationConfigurationsCount() {
+		return vocabularyValidationConfigurationsCount;
+	}
+	
+	public void setVocabularyValidationConfigurationsCount(int vocabularyValidationConfigurationsCount) {
+		this.vocabularyValidationConfigurationsCount = vocabularyValidationConfigurationsCount;
+	}
+	
+	public int getVocabularyValidationConfigurationsErrorCount() {
+		return vocabularyValidationConfigurationsErrorCount;
+	}
+	
+	public void setVocabularyValidationConfigurationsErrorCount(int vocabularyValidationConfigurationsErrorCount) {
+		this.vocabularyValidationConfigurationsErrorCount = vocabularyValidationConfigurationsErrorCount;
+	}
+	
+	public String getSeverityLevel() {
+		return severityLevel;
+	}
+	
+	public void setSeverityLevel(String severityLevel) {
+		this.severityLevel = severityLevel;
+	}	
+	
+	public long getTotalConformanceErrorChecks() {
+		return totalConformanceErrorChecks;
+	}
+	
+	public void setTotalConformanceErrorChecks(long totalConformanceErrorChecks) {
+		this.totalConformanceErrorChecks = totalConformanceErrorChecks;
 	}
 }

@@ -17,7 +17,13 @@ public class Results {
 	private long numberOfDocsScoredPerCcdaDocumentType;
 	private int industryAverageScoreForCcdaDocumentType;
 	private String industryAverageGradeForCcdaDocumentType;
-		
+	private Integer numberOfRules;
+	private Integer totalElementsChecked;
+	private Integer numberOfFailedRules;	
+	private int totalCertificationErrorChecks; // vocabularyValidationConfigurationsErrorCount in code validator
+	private long totalConformanceErrorChecks;
+	private TotalGradesGiven totalGradesGiven;
+	
 	public String getFinalGrade() {
 		return finalGrade;
 	}
@@ -96,5 +102,40 @@ public class Results {
 	public void setIndustryAverageGradeForCcdaDocumentType(String industryAverageGradeForCcdaDocumentType) {
 		this.industryAverageGradeForCcdaDocumentType = industryAverageGradeForCcdaDocumentType;
 	}
-	
+	public Integer getNumberOfRules() {
+		return numberOfRules;
+	}
+	public void setNumberOfRules(Integer numberOfRules) {
+		this.numberOfRules = numberOfRules;
+	}
+	public Integer getTotalElementsChecked() {
+		return totalElementsChecked;
+	}
+	public void setTotalElementsChecked(Integer totalElementsChecked) {
+		this.totalElementsChecked = totalElementsChecked;
+	}
+	public Integer getNumberOfFailedRules() {
+		return numberOfFailedRules;
+	}
+	public void setNumberOfFailedRules(Integer numberOfFailedRules) {
+		this.numberOfFailedRules = numberOfFailedRules;
+	}	
+	public int getTotalCertificationErrorChecks() {
+		return totalCertificationErrorChecks;
+	}	
+	public void setTotalCertificationErrorChecks(int totalCertificationErrorChecks) {
+		this.totalCertificationErrorChecks = totalCertificationErrorChecks;
+	}
+	public long getTotalConformanceErrorChecks() {
+		return totalConformanceErrorChecks;
+	}	
+	public void setTotalConformanceErrorChecks(long totalConformanceErrorChecks) {
+		this.totalConformanceErrorChecks = totalConformanceErrorChecks;
+	}
+	public TotalGradesGiven getTotalGradesGiven() {
+		return totalGradesGiven;
+	}
+	public void setTotalGradesGiven(TotalGradesGiven totalGradesGiven) {
+		this.totalGradesGiven = totalGradesGiven;
+	}
 }

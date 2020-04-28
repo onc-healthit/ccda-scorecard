@@ -67,6 +67,7 @@ public class ImmunizationScorecard {
 		
 		immunizationCategory.setCategoryRubrics(immunizationScoreList);
 		ApplicationUtil.calculateSectionGradeAndIssues(immunizationScoreList, immunizationCategory);
+		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(immunizationScoreList, immunizationCategory);
 		logger.info("Immunizations End time:"+ (System.currentTimeMillis() - startTime));
 		return new AsyncResult<Category>(immunizationCategory);
 		
@@ -79,6 +80,7 @@ public class ImmunizationScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(immunizatons != null)
@@ -88,6 +90,7 @@ public class ImmunizationScorecard {
 				for (CCDAImmunizationActivity immunizationActivity : immunizatons.getImmActivity())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(immunizationActivity.getTime() != null)
 					{
 						if(ApplicationUtil.validateDayFormat(immunizationActivity.getTime()) ||
@@ -134,6 +137,7 @@ public class ImmunizationScorecard {
 		timePrecisionScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		timePrecisionScore.setIssuesList(issuesList);
 		timePrecisionScore.setNumberOfIssues(issuesList.size());
+		timePrecisionScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			timePrecisionScore.setDescription(ApplicationConstants.TIME_PRECISION_DESCRIPTION);
@@ -157,6 +161,7 @@ public class ImmunizationScorecard {
 		
 		int actualPoints =0;
 		int maxPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(immunizatons != null)
@@ -168,6 +173,7 @@ public class ImmunizationScorecard {
 					if(immunizationActivity.getTime() != null && ApplicationUtil.isEffectiveTimePresent(immunizationActivity.getTime()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.checkDateRange(patientDetails, immunizationActivity.getTime()))
 						{
 							actualPoints++;
@@ -196,6 +202,7 @@ public class ImmunizationScorecard {
 		validateTimeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateTimeScore.setIssuesList(issuesList);
 		validateTimeScore.setNumberOfIssues(issuesList.size());
+		validateTimeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateTimeScore.setDescription(ApplicationConstants.TIME_VALID_DESCRIPTION);
@@ -220,6 +227,7 @@ public class ImmunizationScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(immunizatons != null)
@@ -228,6 +236,7 @@ public class ImmunizationScorecard {
 													&& ApplicationUtil.isCodeSystemAvailable(immunizatons.getSectionCode().getCodeSystem()))
 			{
 				maxPoints++;
+				numberOfChecks++;
 				if(referenceValidatorService.validateDisplayName(immunizatons.getSectionCode().getCode(), 
 														immunizatons.getSectionCode().getCodeSystem(),
 														immunizatons.getSectionCode().getDisplayName()))
@@ -250,6 +259,7 @@ public class ImmunizationScorecard {
 																&& ApplicationUtil.isCodeSystemAvailable(immuActivity.getApproachSiteCode().getCodeSystem()))
 					{
 						maxPoints++;
+						numberOfChecks++;
 						if(referenceValidatorService.validateDisplayName(immuActivity.getApproachSiteCode().getCode(), 
 															   immuActivity.getApproachSiteCode().getCodeSystem(),
 															   immuActivity.getApproachSiteCode().getDisplayName()))
@@ -273,6 +283,7 @@ public class ImmunizationScorecard {
 								if(!ApplicationUtil.isEmpty(translationCode.getDisplayName()) && ApplicationUtil.isCodeSystemAvailable(translationCode.getCodeSystem()))
 								{
 									maxPoints++;
+									numberOfChecks++;
 									if(referenceValidatorService.validateDisplayName(translationCode.getCode(), 
 													translationCode.getCodeSystem().toUpperCase(),
 														translationCode.getDisplayName()))
@@ -304,6 +315,7 @@ public class ImmunizationScorecard {
 		validateDisplayNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateDisplayNameScore.setIssuesList(issuesList);
 		validateDisplayNameScore.setNumberOfIssues(issuesList.size());
+		validateDisplayNameScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateDisplayNameScore.setDescription(ApplicationConstants.CODE_DISPLAYNAME_DESCRIPTION);
@@ -326,6 +338,7 @@ public class ImmunizationScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(immunizations != null)
@@ -335,6 +348,7 @@ public class ImmunizationScorecard {
 				for (CCDAImmunizationActivity immuAct : immunizations.getImmActivity())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(immuAct.getConsumable()!=null)
 					{
 						if(immuAct.getConsumable().getMedcode()!=null)
@@ -389,6 +403,7 @@ public class ImmunizationScorecard {
 		validateImmuCodeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		validateImmuCodeScore.setIssuesList(issuesList);
 		validateImmuCodeScore.setNumberOfIssues(issuesList.size());
+		validateImmuCodeScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			validateImmuCodeScore.setDescription(ApplicationConstants.IMMU_CODE_DESC);
@@ -412,6 +427,7 @@ public class ImmunizationScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		CCDAXmlSnippet issue= null;
 		if(immunizations != null)
@@ -421,6 +437,7 @@ public class ImmunizationScorecard {
 				for(CCDAImmunizationActivity immuAct : immunizations.getImmActivity())
 				{
 					maxPoints++;
+					numberOfChecks++;
 					if(immuAct.getReferenceText()!= null)
 					{
 						if(immunizations.getReferenceLinks()!= null && immunizations.getReferenceLinks().contains(immuAct.getReferenceText().getValue()))
@@ -458,6 +475,7 @@ public class ImmunizationScorecard {
 		narrativeTextIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		narrativeTextIdScore.setIssuesList(issuesList);
 		narrativeTextIdScore.setNumberOfIssues(issuesList.size());
+		narrativeTextIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			narrativeTextIdScore.setDescription(ApplicationConstants.NARRATIVE_STRUCTURE_ID_DESC);
@@ -482,6 +500,7 @@ public class ImmunizationScorecard {
 		
 		int maxPoints = 0;
 		int actualPoints = 0;
+		int numberOfChecks = 0;
 		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
 		
 		
@@ -492,6 +511,7 @@ public class ImmunizationScorecard {
 				for (CCDAII templateId : immunizations.getTemplateIds())
 				{
 					maxPoints = maxPoints++;
+					numberOfChecks++;
 					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 				}
 			}
@@ -505,6 +525,7 @@ public class ImmunizationScorecard {
 						for (CCDAII templateId : immuActivity.getTemplateIds())
 						{
 							maxPoints = maxPoints++;
+							numberOfChecks++;
 							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 						}
 					}
@@ -516,6 +537,7 @@ public class ImmunizationScorecard {
 							for (CCDAII templateId : immuActivity.getConsumable().getTemplateIds())
 							{
 								maxPoints = maxPoints++;
+								numberOfChecks++;
 								templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
 							}
 						}
@@ -535,6 +557,7 @@ public class ImmunizationScorecard {
 		templateIdScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
 		templateIdScore.setIssuesList(issuesList);
 		templateIdScore.setNumberOfIssues(issuesList.size());
+		templateIdScore.setNumberOfChecks(numberOfChecks);
 		if(issuesList.size() > 0)
 		{
 			templateIdScore.setDescription(ApplicationConstants.TEMPLATEID_REQ);
