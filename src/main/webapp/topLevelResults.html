@@ -49,7 +49,7 @@
                          <img ng-if="!jsonData.results.finalGrade"
                            src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
                          <span ng-if="jsonData.results.finalGrade" class="scResult">{{jsonData.results.finalGrade ? jsonData.results.numberOfIssues : ''}}&nbsp;of
-                           {{jsonData.results.finalGrade ? jsonData.results.totalElementsChecked : ''}}&nbsp;checks</span>
+                           {{ (jsonData.results.finalGrade ? jsonData.results.totalElementsChecked : '') | number }}&nbsp;checks</span>
                         </h4>
                      </div>
                   </div>
@@ -64,7 +64,7 @@
                               class="scResult"
                               analytics-on="click" analytics-event="IG Error by number Navigation" analytics-category="Top Level Results">
                               {{jsonData.results.finalGrade ? igResults.totalErrorCount : ''}} out of
-                                {{jsonData.results.finalGrade ? jsonData.results.totalConformanceErrorChecks : ''}} checks
+                                {{ (jsonData.results.finalGrade ? jsonData.results.totalConformanceErrorChecks : '') | number}} checks
                               </a>
                               <span ng-if="!igResults.totalErrorCount">
                                 <img ng-if="!jsonData.results.finalGrade"
@@ -80,7 +80,7 @@
                          <img ng-if="!jsonData.results.finalGrade"
                            src="images/validationSpinner.gif" alt="scorecard loading indicator" style="width: 30px; margin-top: -5px">
                          <span ng-if="jsonData.results.finalGrade" class="scResult">{{jsonData.results.finalGrade ? jsonData.results.numberOfFailedRules : ''}}&nbsp;of
-                           {{jsonData.results.finalGrade ? jsonData.results.numberOfRules : ''}}&nbsp;rules</span>
+                           {{ (jsonData.results.finalGrade ? jsonData.results.numberOfRules : '') | number }}&nbsp;rules</span>
                         </h4>                     
                      </div>
                   </div>
@@ -120,7 +120,7 @@
                             class="scResult"
                             analytics-on="click" analytics-event="Cert by number Navigation" analytics-category="Top Level Results">
                             {{jsonData.results.finalGrade ? certResults.totalErrorCount : ''}} out of
-                              {{jsonData.results.finalGrade ? jsonData.results.totalCertificationErrorChecks : ''}} checks
+                              {{ (jsonData.results.finalGrade ? jsonData.results.totalCertificationErrorChecks : '') | number }} checks
                             </a>
                             <span ng-if="!certResults.totalErrorCount">
                               <img ng-if="!jsonData.results.finalGrade"
