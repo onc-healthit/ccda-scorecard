@@ -100,6 +100,9 @@ public class ApplicationConstants {
 																		+ "valid date and time value within human life span";
 	public static final String ENCOUNTER_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under encounter section should contain valid display names";	
 	
+	public static final String ENCOMPASSING_ENCOUNTER_ENCOUNTER_REQUIREMENT = "A document with an encompassingEncounter AND encounter activities should reiterate the the "
+																				+ "encompassing encounter in an encounter activity and the information must align";
+	
 	public static final String MEDICATION_TIME_PRECISION_REQUIREMENT = "All effective time elements under Medication section should contain "
 																			+ "proper precision and format with correct offset";
 	public static final String MEDICATION_TIMEDATE_VALID_REQUIREMENT = "All effective time elements under Medication section should contain "
@@ -513,7 +516,7 @@ public class ApplicationConstants {
 	
 	public static enum RULE_IDS
 	{
-		P1,P2,E1,E2,E3,E4,E5,M1,M2,M3,M4,M5,M6,M7,M8,I1,I2,I3,I4,I5,I6,S1,S2,S3,S4,S5,S6,S7,S8,
+		P1,P2,E1,E2,E3,E4,E5,E6,M1,M2,M3,M4,M5,M6,M7,M8,I1,I2,I3,I4,I5,I6,S1,S2,S3,S4,S5,S6,S7,S8,
 		L1,L2,L3,L4,L5,L6,L7,L8,V1,V2,V3,V4,V5,V6,V7,V8,R1,R2,R3,R4,R5,R6,R7,A1,A2,A3,A4,A5,A6,O1,O2,O3,C1
 		
 	}

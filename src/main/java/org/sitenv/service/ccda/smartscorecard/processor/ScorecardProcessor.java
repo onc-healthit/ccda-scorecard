@@ -591,7 +591,7 @@ public class ScorecardProcessor {
 					allergiesCategory = allergiesScorecard.getAllergiesCategory(ccdaModels.getAllergy(),patientDetails,ccdaVersion,sectionRules);
 				}
 				else if (sectionName.equalsIgnoreCase(CATEGORIES.ENCOUNTERS.getCategoryDesc())){
-					encountersCategory = encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),patientDetails,ccdaVersion,sectionRules);
+					encountersCategory = encountersScorecard.getEncounterCategory(ccdaModels.getEncounter(),patientDetails,ccdaVersion,sectionRules,ccdaModels.getEncompassingEncounter());
 				}
 				else if (sectionName.equalsIgnoreCase(CATEGORIES.IMMUNIZATIONS.getCategoryDesc())){
 					immunizationsCategory = immunizationScorecard.getImmunizationCategory(ccdaModels.getImmunization(),patientDetails,ccdaVersion,sectionRules);
