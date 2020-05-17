@@ -157,6 +157,11 @@ public class ApplicationConstants {
 	public static final String ALLERGIES_APR_TIME_DESC = "An Allergy Concern of completed or suspended should have an allergy observation effectiveTime/high value present."
                                + "Similarly an allergy Concern which is Active shall not have an Allergy observation effectiveTime/high value.";
 	
+	public static final String ALLERGIES_OBSERVATION_REQ = "Allergy Observation entry must have a reaction. Require a nullFlavor if not known.";
+	public static final String ALLERGIES_AUTHOR_REQ = "Author entry must include at least a timestamp with information of the last modified date and be present within the "
+			+ "Allergies entry, which could be at the concern or observation level.";
+	public static final String ALLERGIES_CODE_REQ = "Allergies should be structured in UNII, NDF-RT, SNOMED or RxNorm";
+	
 	public static final String PROCEDURES_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Procedures section should contain valid display names";	
 	
 	
@@ -517,7 +522,7 @@ public class ApplicationConstants {
 	public static enum RULE_IDS
 	{
 		P1,P2,E1,E2,E3,E4,E5,E6,M1,M2,M3,M4,M5,M6,M7,M8,I1,I2,I3,I4,I5,I6,S1,S2,S3,S4,S5,S6,S7,S8,
-		L1,L2,L3,L4,L5,L6,L7,L8,V1,V2,V3,V4,V5,V6,V7,V8,R1,R2,R3,R4,R5,R6,R7,A1,A2,A3,A4,A5,A6,O1,O2,O3,C1
+		L1,L2,L3,L4,L5,L6,L7,L8,V1,V2,V3,V4,V5,V6,V7,V8,R1,R2,R3,R4,R5,R6,R7,A1,A2,A3,A4,A5,A6,A7,A8,A9,O1,O2,O3,C1
 		
 	}
 	
