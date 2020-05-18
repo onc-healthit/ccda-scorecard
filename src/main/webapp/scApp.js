@@ -176,3 +176,10 @@ scApp.filter("trust", ['$sce', function($sce) {
     return $sce.trustAsHtml(htmlCode);
   }
 }]);
+
+//*************** ENVIRONMENT ********************
+var env = {};
+if (window) {
+	Object.assign(env, window.__env);
+}
+scApp.constant('__env', env);
