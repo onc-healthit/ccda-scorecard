@@ -695,7 +695,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   
   //*************NVD3 CHART RELATED****************
   
-  var populateChartsData = function() {	  
+  var populateChartsData = function() {
 	  $scope.chartOptions = {
 	            chart: {
 	                type: 'discreteBarChart',
@@ -706,12 +706,10 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	                    bottom: 50,
 	                    left: 55
 	                },
-	                x: function(d){return d.label;},
-	                y: function(d){return d.value + (1e-10);},
+	                x: (d) => d.label,
+	                y: (d) => d.value + (1e-10),
 	                showValues: true,
-	                valueFormat: function(d) {
-	                    return d3.format('.0f')(d);
-	                },
+	                valueFormat: (d) => d3.format(',f')(d),
 	                duration: 500,
 	                xAxis: {
 	                    axisLabel: 'Grade Received'
@@ -719,7 +717,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	                yAxis: {
 	                    axisLabel: 'Total Count',
 	                    axisLabelDistance: -5,
-	                    tickFormat: function(d){return d3.format(',f')(d)}
+	                    tickFormat: (d) => d3.format(',f')(d)
 	                }
 	            }
 	        };	  

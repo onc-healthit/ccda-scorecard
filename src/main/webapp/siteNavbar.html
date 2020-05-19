@@ -14,11 +14,11 @@
       <nav class="collapse navbar-collapse" id="navigation">
         <ul class="nav navbar-nav">
           <li><a tabindex="1" title="SITE Home"
-            href="https://sitenv.org/home" class="active">Home</a></li>
-          <li><a href="https://ttpedge.sitenv.org/ttp/#/home"
+            href="{{env.siteMockHomeUrl}}" class="active">Home</a></li>
+          <li><a href="{{env.siteMockEttUrl}}"
             tabindex="1" target="_blank" title="ETT">ETT</a></li>
           <li><a tabindex="1" title="TestTools"
-            href="https://sitenv.org/test-tools">TestTools</a></li>
+            href="{{env.siteMockTestToolsUrl}}">TestTools</a></li>
           <li><a href="https://www.healthit.gov/techlab/"
             tabindex="1" target="_blank" title="TechLab">TechLab</a></li>
         </ul>
@@ -27,9 +27,9 @@
       <div prefix="SITE">
       <ul class="breadcrumb">
         <li class="breadcrumb-item"><a
-          href="https://sitenv.org/home" role="button">SITE</a></li>
+          href="{{env.siteMockHomeUrl}}" role="button">SITE</a></li>
         <li class="breadcrumb-item"><a
-          href="https://sitenv.org/sandbox-ccda" role="button">sandbox-ccda</a>
+          href="{{env.siteMockSandboxCcdaUrl}}" role="button">sandbox-ccda</a>
         </li>
         <li class="breadcrumb-item active"><span>ccda-scorecard</span>
         </li>

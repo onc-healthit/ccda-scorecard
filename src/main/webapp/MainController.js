@@ -1,5 +1,7 @@
 scApp.controller('MainController', ['$scope', '$location', '$anchorScroll', '$timeout', function($scope, $location, $anchorScroll, $timeout) {
 
+	$scope.env = __env;
+	
 	$scope.mainDisplayData = {
 		showTopLevelContent : true
 	};
