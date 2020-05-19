@@ -11,6 +11,7 @@
 		<sectionRule ruleId="E3" ruleName="The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology" ruleEnabled="true"></sectionRule>
 		<sectionRule ruleId="E4" ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>
 		<sectionRule ruleId="E5" ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleId="E6" ruleName="A document with an encompassingEncounter AND encounter activities should reiterate the the encompassing encounter in an encounter activity and the information must align" ruleEnabled="true"></sectionRule>
 	</scorecardSection>
 
 	<scorecardSection sectionName="Medications">
@@ -73,6 +74,8 @@
 		<sectionRule ruleId="R5" ruleName="Problem Concern effective times reflect the appropriate problem concern status" ruleEnabled="true"></sectionRule>	        
 		<sectionRule ruleId="R6" ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>
 		<sectionRule ruleId="R7" ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleId="R8" ruleName="The problem observation value should not be set to the problem observation code (problem type value set)" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleId="R9" ruleName="Author entry must include the most recent author with at least a timestamp with information of the last modified date and be present within the Problems entry, which could be at the concern or observation level." ruleEnabled="true"></sectionRule>
 	</scorecardSection>
 	
 	<scorecardSection sectionName="Allergies">
@@ -82,6 +85,9 @@
 		<sectionRule ruleId="A4" ruleName="Allergies Concern observation effective times reflect the appropriate allergy concern status" ruleEnabled="true"></sectionRule>	        
 		<sectionRule ruleId="A5" ruleName="Each entry has to be linked to related narrative text" ruleEnabled="true"></sectionRule>
 		<sectionRule ruleId="A6" ruleName="All Template Ids should be Valid with correct extension value" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleId="A7" ruleName="Reaction Observation in the Allergy template is a SHOULD, this Rubic takes it to a SHALL. Preference is to have a Reaction present and Null the value if the reaction is uknowne" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleId="A8" ruleName="Author entry must include at least a timestamp with information of the last modified date and be present within the Allergies entry, which could be at the concern or observation level" ruleEnabled="true"></sectionRule>
+		<sectionRule ruleId="A9" ruleName="Allergies should be structured in UNII, NDF-RT, SNOMED or RxNorm" ruleEnabled="true"></sectionRule>
 	</scorecardSection>
 	
 	<scorecardSection sectionName="Procedures">		

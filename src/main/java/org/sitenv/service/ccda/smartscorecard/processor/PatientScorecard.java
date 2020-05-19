@@ -1,9 +1,12 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.sitenv.ccdaparsing.model.CCDAPatient;
+import org.sitenv.ccdaparsing.model.CCDAPatientName;
+import org.sitenv.ccdaparsing.model.CCDAPatientNameElement;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
 import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
@@ -14,6 +17,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PatientScorecard {
+	
+	public static final List<String> patientNameUseValues = new ArrayList<>(Arrays.asList("ABC","A","ASGN","IDE","I","L","C","PHON","P","R","SRCH","SNDX","SYL"));
+	
+	public static final List<String> patientNameElementQualifierValues = new ArrayList<>(Arrays.asList("AC","AD","BR","CL","IN","NB","PR","SP","TITLE","VV"));
 	
 	public Category getPatientCategory(CCDAPatient patient,String ccdaVersion,List<SectionRule> sectionRules)
 	{
@@ -27,7 +34,8 @@ public class PatientScorecard {
 			patientScoreList.add(getDOBTimePrecisionScore(patient, ccdaVersion));
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.P2)) {
-			patientScoreList.add(getLegalNameScore(patient, ccdaVersion));
+			patientScoreList.add(getPatientNameScore(patient, ccdaVersion));
+			patientScoreList.add(getPatientNameElementScore(patient, ccdaVersion));
 		}
 		
 		patientCategory.setCategoryRubrics(patientScoreList);
@@ -162,5 +170,155 @@ public class PatientScorecard {
 			legalNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PATIENT.getTaskforceLink());
 		}
 		return legalNameScore;
+	}
+	
+	public static CCDAScoreCardRubrics getPatientNameScore(CCDAPatient patient, String ccdaVersion)
+	{
+		CCDAScoreCardRubrics patientNameScore = new CCDAScoreCardRubrics();
+		patientNameScore.setRule(ApplicationConstants.PATIENT_LEGAL_NAME_REQUIREMENT);
+		
+		int actualPoints = 0;
+		int maxPoints = 0;
+		int numberOfChecks = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		
+		if(patient != null)
+		{
+			if(patient.getPatientNames()!=null && patient.getPatientNames().size()>1)
+			{
+				maxPoints++;
+				numberOfChecks++;
+				Boolean isPatientLegalNamePresent = false;
+				for(CCDAPatientName patientName : patient.getPatientNames()) {
+					if(patientName.getUseContext()!=null && patientName.getUseContext().equalsIgnoreCase("L")) {
+						isPatientLegalNamePresent = true;
+					}
+				}
+				
+				if(isPatientLegalNamePresent) {
+					actualPoints++;
+				}
+				else
+				{
+					for(CCDAPatientName patientName : patient.getPatientNames()) {
+						issue = new CCDAXmlSnippet();
+						issue.setLineNumber(patientName.getLineNumber());
+						issue.setXmlString(patientName.getXmlString());
+						issuesList.add(issue);
+					}
+				}
+			}
+		}
+		
+		if(maxPoints ==0)
+		{
+			maxPoints =1;
+			actualPoints =1;
+		}
+		
+		patientNameScore.setActualPoints(actualPoints);
+		patientNameScore.setMaxPoints(maxPoints);
+		patientNameScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		patientNameScore.setIssuesList(issuesList);
+		patientNameScore.setNumberOfIssues(issuesList.size());
+		patientNameScore.setNumberOfChecks(numberOfChecks);
+		if(issuesList.size() > 0)
+		{
+			patientNameScore.setDescription(ApplicationConstants.PATIENT_LEGAL_NAME_DESCRIPTION);
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
+			{
+				patientNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RECORD_TARGET.getIgReference());
+			}
+			else if(ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
+			{
+				patientNameScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RECORD_TARGET.getIgReference());
+			}
+			patientNameScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PATIENT.getTaskforceLink());
+		}
+		return patientNameScore;
+	}
+	
+	public static CCDAScoreCardRubrics getPatientNameElementScore(CCDAPatient patient, String ccdaVersion)
+	{
+		CCDAScoreCardRubrics patientNameElementScore = new CCDAScoreCardRubrics();
+		patientNameElementScore.setRule(ApplicationConstants.PATIENT_LEGAL_NAME_REQUIREMENT);
+		
+		int actualPoints = 0;
+		int maxPoints = 0;
+		int numberOfChecks = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		
+		if(patient != null)
+		{
+			if(patient.getPatientNames()!=null && patient.getPatientNames().size() > 1)
+			{
+				maxPoints++;
+				numberOfChecks++;
+				for(CCDAPatientName patientName : patient.getPatientNames()) {
+					if(!patientName.getUseContext().equalsIgnoreCase("L")) {
+						if(!patientNameUseValues.contains(patientName.getUseContext())) {
+							if(patientName.getFamilyName()!= null) {
+								for(CCDAPatientNameElement patientNameElement : patientName.getFamilyName()) {
+									if(!patientNameElement.getValue().equalsIgnoreCase(patient.getLastName().getValue()) &&
+											!patientNameElementQualifierValues.contains(patientNameElement.getQualifierValue())) {
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(patientNameElement.getLineNumber());
+										issue.setXmlString(patientNameElement.getXmlString());
+										issuesList.add(issue);
+										
+									}
+								}
+							}
+							if(patientName.getGivenName()!= null) {
+								for(CCDAPatientNameElement patientNameElement : patientName.getGivenName()) {
+									if(!patientNameElement.getValue().equalsIgnoreCase(patient.getFirstName().getValue()) &&
+											!patientNameElement.getValue().equalsIgnoreCase(patient.getMiddleName().getValue()) &&
+											!patientNameElementQualifierValues.contains(patientNameElement.getQualifierValue())) {
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(patientNameElement.getLineNumber());
+										issue.setXmlString(patientNameElement.getXmlString());
+										issuesList.add(issue);
+										
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				if(issuesList.size() ==0) {
+					actualPoints++;
+				}
+			}
+		}
+		
+		if(maxPoints ==0)
+		{
+			maxPoints =1;
+			actualPoints =1;
+		}
+		
+		patientNameElementScore.setActualPoints(actualPoints);
+		patientNameElementScore.setMaxPoints(maxPoints);
+		patientNameElementScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		patientNameElementScore.setIssuesList(issuesList);
+		patientNameElementScore.setNumberOfIssues(issuesList.size());
+		patientNameElementScore.setNumberOfChecks(numberOfChecks);
+		if(issuesList.size() > 0)
+		{
+			patientNameElementScore.setDescription(ApplicationConstants.PATIENT_LEGAL_NAME_DESCRIPTION);
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
+			{
+				patientNameElementScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.RECORD_TARGET.getIgReference());
+			}
+			else if(ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
+			{
+				patientNameElementScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.RECORD_TARGET.getIgReference());
+			}
+			patientNameElementScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PATIENT.getTaskforceLink());
+		}
+		return patientNameElementScore;
 	}
 }

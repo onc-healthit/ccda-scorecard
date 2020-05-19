@@ -53,6 +53,7 @@ public class ApplicationConstants {
 	public static final String VITAL_AAPR_DATE_DESCRIPTION = "The EffectiveDate/Time elements of the Vital Signs Organizer cannot be out of sync with the "
 			+ "Vital Signs Observation. Each of the Observation's EffectiveTime/low >= Organizer's EffectiveTime/low "
 			+ "and Observation's EffectiveTime/high should be <= Organizer's EffectiveTime/high";
+	
 	public static final String PROBLEM_APR_STATUS_REQ = "Problem Concern status and Problem Observation status should be consistent with each other";
 	public static final String PROBLEM_APR_STATUS_DESC = "A Problem Concern status of completed is compatible with a Problem Observation status of Resolved or Inactive."
 			+ " A Problem Concern status of Active is compatible with a Problem Observation status of Active.";
@@ -64,6 +65,10 @@ public class ApplicationConstants {
 	public static final String PROBLEM_TIME_CNST_REQ = "The EffectiveDate/Time elements for the Problem Concern Act must encompass the underlying observations.";
 	public static final String PROBLEM_TIME_CNST_DESC = "The EffectiveDate/Time elements of the Problem Concern Act cannot be out of sync with the Problem Observation. "
 			+ "Each of the Observation's EffectiveTime/low >= Problem Concern's EffectiveTime/low and Observation's EffectiveTime/high should be <= Problem Concern's EffectiveTime/high";
+	public static final String PROBLEMS_CODE_VALUE_REQUIREMENT = "The problem observation value should not be set to the problem observation code (problem type value set)";
+	public static final String PROBLEMS_AUTHOR_REQUIREMENT = "Author entry must include the most recent author with at least a timestamp with information of the last modified date"
+			+ " and be present within the Problems entry, which could be at the concern or observation level.";
+	
 	public static final String IMMU_NOTIN_MED_REQ = "Immunizations should be represented in the appropriate section.";
 	public static final String IMMU_NOTIN_MED_DESC = "Immunizations should be recorded using the Section Code '2.16.840.1.113883.10.20.22.2.2.1' within the document.";
 	
@@ -99,6 +104,9 @@ public class ApplicationConstants {
 	public static final String ENCOUNTER_TIMEDATE_VALID_REQUIREMENT = "All effective time elements under Encounters section should contain "
 																		+ "valid date and time value within human life span";
 	public static final String ENCOUNTER_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under encounter section should contain valid display names";	
+	
+	public static final String ENCOMPASSING_ENCOUNTER_ENCOUNTER_REQUIREMENT = "A document with an encompassingEncounter AND encounter activities should reiterate the the "
+																				+ "encompassing encounter in an encounter activity and the information must align";
 	
 	public static final String MEDICATION_TIME_PRECISION_REQUIREMENT = "All effective time elements under Medication section should contain "
 																			+ "proper precision and format with correct offset";
@@ -153,6 +161,12 @@ public class ApplicationConstants {
 	public static final String ALLERGIES_APR_TIME_REQ = "Allergies Concern observation effective times reflect the appropriate allergy concern status";
 	public static final String ALLERGIES_APR_TIME_DESC = "An Allergy Concern of completed or suspended should have an allergy observation effectiveTime/high value present."
                                + "Similarly an allergy Concern which is Active shall not have an Allergy observation effectiveTime/high value.";
+	
+	public static final String ALLERGIES_OBSERVATION_REQ = "Reaction Observation in the Allergy template is a SHOULD, this Rubic takes it to a SHALL. "
+			+ "Preference is to have a Reaction present and Null the value if the reaction is uknown";
+	public static final String ALLERGIES_AUTHOR_REQ = "Author entry must include at least a timestamp with information of the last modified date and be present within the "
+			+ "Allergies entry, which could be at the concern or observation level.";
+	public static final String ALLERGIES_CODE_REQ = "Allergies should be structured in UNII, NDF-RT, SNOMED or RxNorm";
 	
 	public static final String PROCEDURES_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under Procedures section should contain valid display names";	
 	
@@ -513,8 +527,8 @@ public class ApplicationConstants {
 	
 	public static enum RULE_IDS
 	{
-		P1,P2,E1,E2,E3,E4,E5,M1,M2,M3,M4,M5,M6,M7,M8,I1,I2,I3,I4,I5,I6,S1,S2,S3,S4,S5,S6,S7,S8,
-		L1,L2,L3,L4,L5,L6,L7,L8,V1,V2,V3,V4,V5,V6,V7,V8,R1,R2,R3,R4,R5,R6,R7,A1,A2,A3,A4,A5,A6,O1,O2,O3,C1
+		P1,P2,E1,E2,E3,E4,E5,E6,M1,M2,M3,M4,M5,M6,M7,M8,I1,I2,I3,I4,I5,I6,S1,S2,S3,S4,S5,S6,S7,S8,
+		L1,L2,L3,L4,L5,L6,L7,L8,V1,V2,V3,V4,V5,V6,V7,V8,R1,R2,R3,R4,R5,R6,R7,R8,R9,A1,A2,A3,A4,A5,A6,A7,A8,A9,O1,O2,O3,C1
 		
 	}
 	
@@ -535,5 +549,4 @@ public class ApplicationConstants {
 	public enum SeverityLevel {
 		INFO, WARNING, ERROR
 	}
-
 }
