@@ -102,8 +102,8 @@ public class SocialHistoryScorecard {
 						if(ApplicationUtil.validateYearFormat(smokingStatus.getObservationTime()) ||
 								ApplicationUtil.validateDayFormat(smokingStatus.getObservationTime()) ||
 								ApplicationUtil.validateMonthFormat(smokingStatus.getObservationTime()) ||
-								ApplicationUtil.validateMinuteFormat(smokingStatus.getObservationTime()) ||
-								ApplicationUtil.validateSecondFormat(smokingStatus.getObservationTime()))
+								ApplicationUtil.validateMinuteFormatWithoutPadding(smokingStatus.getObservationTime()) ||
+								ApplicationUtil.validateSecondFormatWithoutPadding(smokingStatus.getObservationTime()))
 						{
 							actualPoints++;
 						}
@@ -136,8 +136,8 @@ public class SocialHistoryScorecard {
 						if(ApplicationUtil.validateYearFormat(tobaccoUse.getTobaccoUseTime()) ||
 								ApplicationUtil.validateDayFormat(tobaccoUse.getTobaccoUseTime()) ||
 								ApplicationUtil.validateMonthFormat(tobaccoUse.getTobaccoUseTime()) ||
-								ApplicationUtil.validateMinuteFormat(tobaccoUse.getTobaccoUseTime()) ||
-								ApplicationUtil.validateSecondFormat(tobaccoUse.getTobaccoUseTime()))
+								ApplicationUtil.validateMinuteFormatWithoutPadding(tobaccoUse.getTobaccoUseTime()) ||
+								ApplicationUtil.validateSecondFormatWithoutPadding(tobaccoUse.getTobaccoUseTime()))
 						{
 							actualPoints++;
 						}

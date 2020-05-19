@@ -1,6 +1,7 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -32,6 +33,11 @@ public class AllergiesScorecard {
 
 	@Autowired
 	ReferenceValidatorService referenceValidatorService;
+	
+	public static final List<String> allergyCodeSystems = new ArrayList<>(Arrays.asList("2.16.840.1.113883.6.96", 
+  			"2.16.840.1.113883.6.88",
+  			"2.16.840.1.113883.6.209",
+  			"2.16.840.1.113883.4.9"));
 
 	@Async()
 	public Future<Category> getAllergiesCategory(CCDAAllergy allergies, PatientDetails patientDetails,
@@ -103,8 +109,8 @@ public class AllergiesScorecard {
 						if (ApplicationUtil.validateYearFormat(allergyConcern.getEffTime())
 								|| ApplicationUtil.validateMonthFormat(allergyConcern.getEffTime())
 								|| ApplicationUtil.validateDayFormat(allergyConcern.getEffTime())
-								|| ApplicationUtil.validateMinuteFormat(allergyConcern.getEffTime())
-								|| ApplicationUtil.validateSecondFormat(allergyConcern.getEffTime())) {
+								|| ApplicationUtil.validateMinuteFormatWithoutPadding(allergyConcern.getEffTime())
+								|| ApplicationUtil.validateSecondFormatWithoutPadding(allergyConcern.getEffTime())) {
 							actualPoints++;
 						} else {
 							issue = new CCDAXmlSnippet();
@@ -127,8 +133,8 @@ public class AllergiesScorecard {
 								if (ApplicationUtil.validateYearFormat(allergyObservation.getEffTime())
 										|| ApplicationUtil.validateMonthFormat(allergyObservation.getEffTime())
 										|| ApplicationUtil.validateDayFormat(allergyObservation.getEffTime())
-										|| ApplicationUtil.validateMinuteFormat(allergyObservation.getEffTime())
-										|| ApplicationUtil.validateSecondFormat(allergyObservation.getEffTime())) {
+										|| ApplicationUtil.validateMinuteFormatWithoutPadding(allergyObservation.getEffTime())
+										|| ApplicationUtil.validateSecondFormatWithoutPadding(allergyObservation.getEffTime())) {
 									actualPoints++;
 								} else {
 									issue = new CCDAXmlSnippet();

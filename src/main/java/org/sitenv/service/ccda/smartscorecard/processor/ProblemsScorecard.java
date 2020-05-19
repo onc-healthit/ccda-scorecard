@@ -71,6 +71,13 @@ public class ProblemsScorecard {
 			problemsScoreList.add(getTemplateIdScore(problems, ccdaVersion));
 		}
 		
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R8)) {
+			problemsScoreList.add(getValidProblemCodeValueScoreCard(problems, ccdaVersion));
+		}
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.R9)) {
+			problemsScoreList.add(getAuthorEntryScore(problems, ccdaVersion));
+		}
+		
 		ApplicationUtil.calculateSectionGradeAndIssues(problemsScoreList, problemsCategory);
 		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(problemsScoreList, problemsCategory);
 		
@@ -104,8 +111,8 @@ public class ProblemsScorecard {
 						if(ApplicationUtil.validateYearFormat(problemConcern.getEffTime()) ||
 								ApplicationUtil.validateMonthFormat(problemConcern.getEffTime()) ||
 								ApplicationUtil.validateDayFormat(problemConcern.getEffTime()) ||
-								ApplicationUtil.validateMinuteFormat(problemConcern.getEffTime()) ||
-								ApplicationUtil.validateSecondFormat(problemConcern.getEffTime()))
+								ApplicationUtil.validateMinuteFormatWithoutPadding(problemConcern.getEffTime()) ||
+								ApplicationUtil.validateSecondFormatWithoutPadding(problemConcern.getEffTime()))
 						{
 							actualPoints++;
 						}
@@ -136,8 +143,8 @@ public class ProblemsScorecard {
 								if(ApplicationUtil.validateYearFormat(problemObs.getEffTime()) ||
 										ApplicationUtil.validateMonthFormat(problemObs.getEffTime()) ||
 										ApplicationUtil.validateDayFormat(problemObs.getEffTime()) ||
-										ApplicationUtil.validateMinuteFormat(problemObs.getEffTime()) ||
-										ApplicationUtil.validateSecondFormat(problemObs.getEffTime()))
+										ApplicationUtil.validateMinuteFormatWithoutPadding(problemObs.getEffTime()) ||
+										ApplicationUtil.validateSecondFormatWithoutPadding(problemObs.getEffTime()))
 								{
 									actualPoints++;
 								}
@@ -934,5 +941,150 @@ public class ProblemsScorecard {
 		}
 		
 		return templateIdScore;
+	}
+	
+	public  CCDAScoreCardRubrics getValidProblemCodeValueScoreCard(CCDAProblem problems,String ccdaVersion)
+	{
+		CCDAScoreCardRubrics validateProblemCodeValueScore = new CCDAScoreCardRubrics();
+		validateProblemCodeValueScore.setRule(ApplicationConstants.PROBLEMS_CODE_VALUE_REQUIREMENT);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		int numberOfChecks = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(problems != null)
+		{
+			if(!ApplicationUtil.isEmpty(problems.getProblemConcerns()))
+			{
+				for(CCDAProblemConcern probCon : problems.getProblemConcerns())
+				{
+				   if(!ApplicationUtil.isEmpty(probCon.getProblemObservations()))
+				   {
+					   for(CCDAProblemObs probObs : probCon.getProblemObservations())
+					   {
+						   maxPoints++;
+						   numberOfChecks++;
+						   if(probObs.getProblemCode()!= null && probObs.getProblemType()!=null)
+						   {
+							   if(probObs.getProblemCode().getCode()!= probObs.getProblemType().getCode()) {
+								   actualPoints++;
+							   }
+							   else
+							   {
+								   issue = new CCDAXmlSnippet();
+								   issue.setLineNumber(probObs.getProblemCode().getLineNumber());
+								   issue.setXmlString(probObs.getProblemCode().getXmlString());
+								   issuesList.add(issue);
+							   }
+						   }
+						   else
+						   {
+							   issue = new CCDAXmlSnippet();
+							   issue.setLineNumber(probObs.getLineNumber());
+							   issue.setXmlString(probObs.getXmlString());
+							   issuesList.add(issue);
+						   }
+						   
+					   }
+				   }
+				}
+			}
+			else
+			{
+				issue = new CCDAXmlSnippet();
+				issue.setLineNumber(problems.getLineNumber());
+				issue.setXmlString(problems.getXmlString());
+				issuesList.add(issue);
+			}
+		}
+		else
+		{
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber("Problems section not present");
+			issue.setXmlString("Problems section not present");
+			issuesList.add(issue);
+		}
+		
+		validateProblemCodeValueScore.setActualPoints(actualPoints);
+		validateProblemCodeValueScore.setMaxPoints(maxPoints);
+		validateProblemCodeValueScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		validateProblemCodeValueScore.setIssuesList(issuesList);
+		validateProblemCodeValueScore.setNumberOfIssues(issuesList.size());
+		validateProblemCodeValueScore.setNumberOfChecks(numberOfChecks);
+		if(issuesList.size() > 0)
+		{
+			validateProblemCodeValueScore.setDescription(ApplicationConstants.PROBLEMS_CODE_VALUE_REQUIREMENT);
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
+			{
+				validateProblemCodeValueScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_OBSERVATION.getIgReference());
+			}
+			else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
+			{
+				validateProblemCodeValueScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_OBSERVATION.getIgReference());
+			}
+			validateProblemCodeValueScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
+		}
+		return validateProblemCodeValueScore;
+		
+	}
+	
+	public CCDAScoreCardRubrics getAuthorEntryScore(CCDAProblem problems,String ccdaVersion)
+	{
+		CCDAScoreCardRubrics authorEntryScore = new CCDAScoreCardRubrics();
+		authorEntryScore.setRule(ApplicationConstants.PROBLEMS_AUTHOR_REQUIREMENT);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		int numberOfChecks = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(problems != null)
+		{
+			if(!ApplicationUtil.isEmpty(problems.getProblemConcerns()))
+			{
+				for(CCDAProblemConcern problemConcern : problems.getProblemConcerns())
+				{
+					maxPoints++;
+					numberOfChecks++;
+					if(problemConcern.getAuthor()!=null && problemConcern.getAuthor().getTime()!=null) {
+						actualPoints++;
+					}
+					else if(problemConcern.getProblemObservations()!=null && problemConcern.getProblemObservations().size() > 0) {
+						for(CCDAProblemObs problemObs : problemConcern.getProblemObservations()) {
+							if(problemObs.getAuthor()!=null && problemObs.getAuthor().getTime()!=null) {
+								actualPoints++;
+								break;
+							}else {
+								issue = new CCDAXmlSnippet();
+								issue.setLineNumber(problemConcern.getLineNumber());
+								issue.setXmlString(problemConcern.getXmlString());
+								issuesList.add(issue);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		authorEntryScore.setActualPoints(actualPoints);
+		authorEntryScore.setMaxPoints(maxPoints);
+		authorEntryScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		authorEntryScore.setIssuesList(issuesList);
+		authorEntryScore.setNumberOfIssues(issuesList.size());
+		authorEntryScore.setNumberOfChecks(numberOfChecks);
+		if(issuesList.size() > 0)
+		{
+			authorEntryScore.setDescription(ApplicationConstants.PROBLEMS_AUTHOR_REQUIREMENT);
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
+			{
+				authorEntryScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.PROBLEM_SECTION.getIgReference());
+			}else if (ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
+			{
+				authorEntryScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.PROBLEM_SECTION.getIgReference());
+			}
+			authorEntryScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.PROBLEMS.getTaskforceLink());
+		}
+		return authorEntryScore;
 	}
 }

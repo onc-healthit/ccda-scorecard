@@ -116,8 +116,8 @@ public class LabresultsScorecard {
 					if(resultOrg.getEffTime() != null)
 					{
 						if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime()) ||
-									ApplicationUtil.validateMinuteFormat(resultOrg.getEffTime()) ||
-									ApplicationUtil.validateSecondFormat(resultOrg.getEffTime()))
+									ApplicationUtil.validateMinuteFormatWithoutPadding(resultOrg.getEffTime()) ||
+									ApplicationUtil.validateSecondFormatWithoutPadding(resultOrg.getEffTime()))
 						{
 							actualPoints++;
 						}
@@ -146,8 +146,8 @@ public class LabresultsScorecard {
 							if(resultObs.getMeasurementTime() != null)
 							{
 								if(ApplicationUtil.validateDayFormat(resultObs.getMeasurementTime()) ||
-										ApplicationUtil.validateMinuteFormat(resultObs.getMeasurementTime()) ||
-										ApplicationUtil.validateSecondFormat(resultObs.getMeasurementTime()))
+										ApplicationUtil.validateMinuteFormatWithoutPadding(resultObs.getMeasurementTime()) ||
+										ApplicationUtil.validateSecondFormatWithoutPadding(resultObs.getMeasurementTime()))
 								{
 									actualPoints++;
 								}

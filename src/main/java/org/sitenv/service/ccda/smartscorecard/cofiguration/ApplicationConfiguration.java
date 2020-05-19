@@ -6,7 +6,7 @@ public class ApplicationConfiguration {
 	 * True allows switching the various service URLs from the prod to the dev server and enables local logs
 	 * Note: Never commit true as to ensure this is always set to false for production
 	 */
-	public static final boolean IN_DEVELOPMENT_MODE = false;
+	public static final boolean IN_DEVELOPMENT_MODE = true;
 	/**
 	 * True allows setting default scorecard.xml values externally
 	 */

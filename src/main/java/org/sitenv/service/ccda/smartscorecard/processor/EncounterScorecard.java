@@ -99,8 +99,8 @@ public class EncounterScorecard {
 					{
 						maxPoints++;
 						numberOfChecks++;
-						if(ApplicationUtil.validateMinuteFormat(encounterActivity.getEffectiveTime()) ||
-								ApplicationUtil.validateSecondFormat(encounterActivity.getEffectiveTime()))
+						if(ApplicationUtil.validateMinuteFormatWithoutPadding(encounterActivity.getEffectiveTime()) ||
+								ApplicationUtil.validateSecondFormatWithoutPadding(encounterActivity.getEffectiveTime()))
 						{
 							actualPoints++;
 						}

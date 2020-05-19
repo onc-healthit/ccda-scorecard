@@ -561,14 +561,36 @@ public class ApplicationUtil {
 						|| date.matches(ApplicationConstants.MINUTE_PATTERN_MINUS_OFFSET))
 				: false;
 	}
-
+	
+	public static boolean validateMinuteFormatWithoutPadding(String date) {
+		boolean formatMatched = false;
+		boolean hoursMinuteFormatMatched = false;
+		if (date != null) {
+			formatMatched = date.matches(ApplicationConstants.MINUTE_PATTERN_PLUS_OFFSET)
+					|| date.matches(ApplicationConstants.MINUTE_PATTERN_MINUS_OFFSET);
+			hoursMinuteFormatMatched = !date.substring(8, 12).equalsIgnoreCase("0000");
+		}
+		return formatMatched && hoursMinuteFormatMatched;
+	}
+	
 	public static boolean validateSecondFormat(String date) {
 		return date != null
 				? (date.matches(ApplicationConstants.SECOND_PATTERN_MINUS_OFFSET)
 						|| date.matches(ApplicationConstants.SECOND_PATTERN_PLUS_OFFSET))
 				: false;
 	}
-
+	
+	public static boolean validateSecondFormatWithoutPadding(String date) {
+		boolean formatMatched = false;
+		boolean hoursMinuteFormatMatched = false;
+		if (date != null) {
+			formatMatched = date.matches(ApplicationConstants.SECOND_PATTERN_MINUS_OFFSET)
+					|| date.matches(ApplicationConstants.SECOND_PATTERN_PLUS_OFFSET);
+			hoursMinuteFormatMatched = !date.substring(8, 14).equalsIgnoreCase("000000");
+		}
+		return formatMatched && hoursMinuteFormatMatched;
+	}
+	
 	public static boolean validateYearFormat(CCDADataElement date) {
 		return date != null
 				? (date.getValue() != null ? date.getValue().matches(ApplicationConstants.YEAR_PATTERN) : false)
@@ -595,6 +617,17 @@ public class ApplicationUtil {
 						: false)
 				: false;
 	}
+	
+	public static boolean validateMinuteFormatWithoutPadding(CCDADataElement date) {
+		boolean formatMatched = false;
+		boolean hoursMinuteFormatMatched = false;
+		if (date != null && date.getValue()!=null) {
+			formatMatched = date.getValue().matches(ApplicationConstants.MINUTE_PATTERN_PLUS_OFFSET)
+					|| date.getValue().matches(ApplicationConstants.MINUTE_PATTERN_MINUS_OFFSET);
+			hoursMinuteFormatMatched = !date.getValue().substring(8, 12).equalsIgnoreCase("0000");
+		}
+		return formatMatched && hoursMinuteFormatMatched;
+	}
 
 	public static boolean validateSecondFormat(CCDADataElement date) {
 		return date != null
@@ -603,6 +636,17 @@ public class ApplicationUtil {
 								|| date.getValue().matches(ApplicationConstants.SECOND_PATTERN_PLUS_OFFSET)
 						: false)
 				: false;
+	}
+	
+	public static boolean validateSecondFormatWithoutPadding(CCDADataElement date) {
+		boolean formatMatched = false;
+		boolean hoursMinuteFormatMatched = false;
+		if (date != null && date.getValue()!=null) {
+			formatMatched = date.getValue().matches(ApplicationConstants.SECOND_PATTERN_PLUS_OFFSET)
+					|| date.getValue().matches(ApplicationConstants.SECOND_PATTERN_MINUS_OFFSET);
+			hoursMinuteFormatMatched = !date.getValue().substring(8, 14).equalsIgnoreCase("000000");
+		}
+		return formatMatched && hoursMinuteFormatMatched;
 	}
 
 	public static boolean validateYearFormat(CCDAEffTime effectiveTime) {
@@ -676,6 +720,24 @@ public class ApplicationUtil {
 
 		return isValid;
 	}
+	
+	public static boolean validateMinuteFormatWithoutPadding(CCDAEffTime effectiveTime) {
+		boolean isValid = false;
+
+		if (effectiveTime.getValuePresent()) {
+			isValid = validateMinuteFormatWithoutPadding(effectiveTime.getValue());
+		}
+
+		if (effectiveTime.isSingleAdministrationValuePresent()) {
+			isValid = validateMinuteFormatWithoutPadding(effectiveTime.getSingleAdministration());
+		}
+
+		if (effectiveTime.getLowPresent() || effectiveTime.getHighPresent()) {
+			isValid = validateMinuteFormatWithoutPadding(effectiveTime.getLow()) || validateMinuteFormatWithoutPadding(effectiveTime.getHigh());
+		}
+
+		return isValid;
+	}
 
 	public static boolean validateSecondFormat(CCDAEffTime effectiveTime) {
 		boolean isValid = false;
@@ -690,6 +752,24 @@ public class ApplicationUtil {
 
 		if (effectiveTime.getLowPresent() || effectiveTime.getHighPresent()) {
 			isValid = validateSecondFormat(effectiveTime.getLow()) || validateSecondFormat(effectiveTime.getHigh());
+		}
+
+		return isValid;
+	}
+	
+	public static boolean validateSecondFormatWithoutPadding(CCDAEffTime effectiveTime) {
+		boolean isValid = false;
+
+		if (effectiveTime.getValuePresent()) {
+			isValid = validateSecondFormatWithoutPadding(effectiveTime.getValue());
+		}
+
+		if (effectiveTime.isSingleAdministrationValuePresent()) {
+			isValid = validateSecondFormatWithoutPadding(effectiveTime.getSingleAdministration());
+		}
+
+		if (effectiveTime.getLowPresent() || effectiveTime.getHighPresent()) {
+			isValid = validateSecondFormatWithoutPadding(effectiveTime.getLow()) || validateSecondFormatWithoutPadding(effectiveTime.getHigh());
 		}
 
 		return isValid;
