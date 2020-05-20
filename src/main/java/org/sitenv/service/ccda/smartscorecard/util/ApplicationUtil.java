@@ -568,7 +568,7 @@ public class ApplicationUtil {
 		if (date != null) {
 			formatMatched = date.matches(ApplicationConstants.MINUTE_PATTERN_PLUS_OFFSET)
 					|| date.matches(ApplicationConstants.MINUTE_PATTERN_MINUS_OFFSET);
-			hoursMinuteFormatMatched = !date.substring(8, 12).equalsIgnoreCase("0000");
+			hoursMinuteFormatMatched = formatMatched ? !date.substring(8, 12).equalsIgnoreCase("0000"):formatMatched;
 		}
 		return formatMatched && hoursMinuteFormatMatched;
 	}
@@ -586,7 +586,7 @@ public class ApplicationUtil {
 		if (date != null) {
 			formatMatched = date.matches(ApplicationConstants.SECOND_PATTERN_MINUS_OFFSET)
 					|| date.matches(ApplicationConstants.SECOND_PATTERN_PLUS_OFFSET);
-			hoursMinuteFormatMatched = !date.substring(8, 14).equalsIgnoreCase("000000");
+			hoursMinuteFormatMatched = formatMatched ? !date.substring(8, 14).equalsIgnoreCase("000000"):formatMatched;
 		}
 		return formatMatched && hoursMinuteFormatMatched;
 	}
@@ -624,7 +624,7 @@ public class ApplicationUtil {
 		if (date != null && date.getValue()!=null) {
 			formatMatched = date.getValue().matches(ApplicationConstants.MINUTE_PATTERN_PLUS_OFFSET)
 					|| date.getValue().matches(ApplicationConstants.MINUTE_PATTERN_MINUS_OFFSET);
-			hoursMinuteFormatMatched = !date.getValue().substring(8, 12).equalsIgnoreCase("0000");
+			hoursMinuteFormatMatched = formatMatched ? !date.getValue().substring(8, 12).equalsIgnoreCase("0000"):formatMatched;
 		}
 		return formatMatched && hoursMinuteFormatMatched;
 	}
@@ -644,7 +644,7 @@ public class ApplicationUtil {
 		if (date != null && date.getValue()!=null) {
 			formatMatched = date.getValue().matches(ApplicationConstants.SECOND_PATTERN_PLUS_OFFSET)
 					|| date.getValue().matches(ApplicationConstants.SECOND_PATTERN_MINUS_OFFSET);
-			hoursMinuteFormatMatched = !date.getValue().substring(8, 14).equalsIgnoreCase("000000");
+			hoursMinuteFormatMatched = formatMatched ? !date.getValue().substring(8, 14).equalsIgnoreCase("000000"):formatMatched;
 		}
 		return formatMatched && hoursMinuteFormatMatched;
 	}
