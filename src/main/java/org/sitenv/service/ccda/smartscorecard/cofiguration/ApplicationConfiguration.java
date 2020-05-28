@@ -12,7 +12,7 @@ public class ApplicationConfiguration {
 	 * If not in dev mode, True uses healthit.gov URLS and servers for the service
 	 * False uses sitenv.org
 	 */	
-	public static final boolean IS_PRODUCTION_DOT_GOV = false;
+	public static final boolean IS_PRODUCTION_DOT_GOV = true;
 	
 	/**
 	 * True allows setting default scorecard.xml values externally
@@ -37,10 +37,10 @@ public class ApplicationConfiguration {
 	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:8000",
 			CCDA_DEV_SERVER_URL = "34.236.48.201", // AHRQ TEST CCDA
 			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
-			CCDA_GOV_PROD_SERVER_URL = "https://ccda.healthit.gov", 
+			CCDA_GOV_PROD_SERVER_URL = "https://ccda.healthit.gov",
 			TTP_DEV_SERVER_URL = "http://35.153.125.47", // AHRQ TEST James
 			TTP_PROD_SERVER_URL = "https://ttpds.sitenv.org:8443",
-			TTP_GOV_PROD_SERVER_URL = "http://35.169.165.4", // https://james.healthit.gov		
+			TTP_GOV_PROD_SERVER_URL = "https://james.healthit.gov", // http://35.169.165.4		
 			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
 			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
 			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
