@@ -99,8 +99,8 @@ public class MedicationScorecard {
 					if(medActivity.getDuration() != null)
 					{
 						if(ApplicationUtil.validateDayFormat(medActivity.getDuration()) ||
-								ApplicationUtil.validateMinuteFormat(medActivity.getDuration()) ||
-									ApplicationUtil.validateSecondFormat(medActivity.getDuration()))
+								ApplicationUtil.validateMinuteFormatWithoutPadding(medActivity.getDuration()) ||
+									ApplicationUtil.validateSecondFormatWithoutPadding(medActivity.getDuration()))
 						{
 							actualPoints++;
 						}

@@ -17,7 +17,10 @@
               <a data-toggle="collapse" data-parent="#catAccordion{{$index}}" 
                 href="#scorecardCategoryData{{$index}}" analytics-on="click" analytics-event="Category Header Expand or Collapse" 
                 analytics-category="Detailed Results">{{currentCategory.categoryName}}</a>
-              <span class="pull-right numberOfIssuesHeader">{{ currentCategory.numberOfIssues > 0 ? 'Number of Issues' : ''}}</span>                
+              <span class="pull-right numberOfIssuesHeader">
+              	<strong>{{currentCategory.numberOfIssues > 0 ? currentCategory.numberOfIssues : ''}}</strong>
+              	<span>{{currentCategory.numberOfIssues > 1 ? ' Issues' : 'Issue'}}</span>
+              </span>              
               <!--<span ng-class="scoringContextSubRoutine('categoryGrade pull-right label label-', currentCategory.categoryGrade, 'A')" 
                 class="categoryGrade pull-right label">{{currentCategory.categoryGrade}}</span>-->
             </h2>            

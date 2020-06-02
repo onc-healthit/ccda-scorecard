@@ -6,9 +6,11 @@ import java.util.concurrent.Future;
 
 import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDACode;
+import org.sitenv.ccdaparsing.model.CCDAEncompassingEncounter;
 import org.sitenv.ccdaparsing.model.CCDAEncounter;
 import org.sitenv.ccdaparsing.model.CCDAEncounterActivity;
 import org.sitenv.ccdaparsing.model.CCDAEncounterDiagnosis;
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
 import org.sitenv.ccdaparsing.model.CCDAServiceDeliveryLoc;
@@ -36,7 +38,7 @@ public class EncounterScorecard {
 	ReferenceValidatorService referenceValidatorService;
 	
 	@Async()
-	public Future<Category> getEncounterCategory(CCDAEncounter encounter, PatientDetails patientDetails,String ccdaVersion,List<SectionRule> sectionRules)
+	public Future<Category> getEncounterCategory(CCDAEncounter encounter, PatientDetails patientDetails,String ccdaVersion,List<SectionRule> sectionRules,CCDAEncompassingEncounter encompassingEncounter)
 	{
 		long startTime = System.currentTimeMillis();
 		logger.info("Encounters Start time:"+ startTime);
@@ -63,6 +65,10 @@ public class EncounterScorecard {
 		}
 		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E5)) {
 			encounterScoreList.add(getTemplateIdScore(encounter, ccdaVersion));
+		}
+		
+		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E6)) {
+			encounterScoreList.add(encompassingEncounterCheck(encounter,encompassingEncounter, ccdaVersion));
 		}
 		
 		encounterCategory.setCategoryRubrics(encounterScoreList);
@@ -93,8 +99,8 @@ public class EncounterScorecard {
 					{
 						maxPoints++;
 						numberOfChecks++;
-						if(ApplicationUtil.validateMinuteFormat(encounterActivity.getEffectiveTime()) ||
-								ApplicationUtil.validateSecondFormat(encounterActivity.getEffectiveTime()))
+						if(ApplicationUtil.validateMinuteFormatWithoutPadding(encounterActivity.getEffectiveTime()) ||
+								ApplicationUtil.validateSecondFormatWithoutPadding(encounterActivity.getEffectiveTime()))
 						{
 							actualPoints++;
 						}
@@ -644,6 +650,115 @@ public class EncounterScorecard {
 		}
 		
 		return templateIdScore;
+	}
+	
+	public  CCDAScoreCardRubrics encompassingEncounterCheck(CCDAEncounter encounter,CCDAEncompassingEncounter encompassingEncounter,String ccdaVersion)
+	{
+		CCDAScoreCardRubrics encompassingEncounterCheckScore = new CCDAScoreCardRubrics();
+		encompassingEncounterCheckScore.setRule(ApplicationConstants.ENCOMPASSING_ENCOUNTER_ENCOUNTER_REQUIREMENT);
+		
+		int maxPoints = 0;
+		int actualPoints = 0;
+		int numberOfChecks = 0;
+		List<CCDAXmlSnippet> issuesList = new ArrayList<CCDAXmlSnippet>();
+		CCDAXmlSnippet issue= null;
+		if(encompassingEncounter != null)
+		{
+			maxPoints++;
+			if(encounter!=null && encounter.getEncActivities()!=null) {
+				if(isEncompassingEncounterValid(encompassingEncounter, encounter))
+				actualPoints++;
+			}
+		}
+		if(maxPoints ==0)
+		{
+			maxPoints =1;
+			actualPoints =1;
+		}
+		
+		if(maxPoints > 0 && maxPoints!=actualPoints) {
+			issue = new CCDAXmlSnippet();
+			issue.setLineNumber(encompassingEncounter.getLineNumber());
+			issue.setXmlString(encompassingEncounter.getXmlString());
+			issuesList.add(issue);
+		}
+
+		encompassingEncounterCheckScore.setActualPoints(actualPoints);
+		encompassingEncounterCheckScore.setMaxPoints(maxPoints);
+		encompassingEncounterCheckScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
+		encompassingEncounterCheckScore.setIssuesList(issuesList);
+		encompassingEncounterCheckScore.setNumberOfIssues(issuesList.size());
+		encompassingEncounterCheckScore.setNumberOfChecks(numberOfChecks);
+		if(issuesList.size() > 0)
+		{
+			encompassingEncounterCheckScore.setDescription(ApplicationConstants.ENCOMPASSING_ENCOUNTER_ENCOUNTER_REQUIREMENT);
+			if(ccdaVersion.equals("") || ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
+			{
+				encompassingEncounterCheckScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES.ENCOUNTER_ACTIVITY.getIgReference());
+			}
+			else if(ccdaVersion.equals(ApplicationConstants.CCDAVersion.R11.getVersion()))
+			{
+				encompassingEncounterCheckScore.getIgReferences().add(ApplicationConstants.IG_REFERENCES_R1.ENCOUNTER_ACTIVITY.getIgReference());
+			}
+			encompassingEncounterCheckScore.getExampleTaskForceLinks().add(ApplicationConstants.TASKFORCE_LINKS.ENCOUNTERS.getTaskforceLink());
+		}
+		return encompassingEncounterCheckScore;
+	}
+	
+	public boolean isEncompassingEncounterValid(CCDAEncompassingEncounter encompassingEncounter, CCDAEncounter encounter) {
+		boolean isValid = false;
+		boolean isIdMatched = false;
+		boolean isLowMatched = false;
+		boolean isHighMatched = false; 
+		boolean isValueMatched = false;
+		
+		if(encompassingEncounter!=null && encompassingEncounter.getId()!=null) {
+			for(CCDAID id : encounter.getIdLIst()) {
+				if(id.getRoot().equalsIgnoreCase(encompassingEncounter.getId().getRootValue())) {
+					isIdMatched = true;
+					break;
+				}
+			}
+		}
+		if(encompassingEncounter!=null && encompassingEncounter.getEffectiveTime()!=null) {
+			for (CCDAEncounterActivity encActivity :  encounter.getEncActivities()) {
+				if(encompassingEncounter.getEffectiveTime().getLowPresent() && encActivity.getEffectiveTime().getLowPresent()) {
+					if(encompassingEncounter.getEffectiveTime().getLow().getValue().equalsIgnoreCase(encActivity.getEffectiveTime().getLow().getValue())) {
+						isLowMatched = true;
+					}
+				}
+				
+				if(encompassingEncounter.getEffectiveTime().getHighPresent() && encActivity.getEffectiveTime().getHighPresent()) {
+					if(encompassingEncounter.getEffectiveTime().getHigh().getValue().equalsIgnoreCase(encActivity.getEffectiveTime().getHigh().getValue())) {
+						isHighMatched = true;
+					}
+				}
+				
+				if(encompassingEncounter.getEffectiveTime().getValuePresent() && encActivity.getEffectiveTime().getValuePresent()) {
+					if(encompassingEncounter.getEffectiveTime().getValue().equalsIgnoreCase(encActivity.getEffectiveTime().getValue())) {
+						isValueMatched = true;
+					}
+				}
+				
+			}
+		}
+		
+		if(isIdMatched) {
+			if(encompassingEncounter.getEffectiveTime().getLowPresent() && encompassingEncounter.getEffectiveTime().getHighPresent()) {
+				isValid = isLowMatched && isHighMatched;
+			}
+			else if (encompassingEncounter.getEffectiveTime().getLowPresent()) {
+				isValid = isLowMatched;
+			}
+			else if (encompassingEncounter.getEffectiveTime().getHighPresent()) {
+				isValid = isHighMatched;
+			}
+			else if (encompassingEncounter.getEffectiveTime().getValuePresent()) {
+				isValid = isValueMatched;
+			}
+		}
+		
+		return isValid;
 	}
 	
 	

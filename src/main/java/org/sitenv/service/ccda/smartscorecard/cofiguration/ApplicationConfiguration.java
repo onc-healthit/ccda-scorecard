@@ -6,17 +6,20 @@ public class ApplicationConfiguration {
 	 * True allows switching the various service URLs from the prod to the dev server and enables local logs
 	 * Note: Never commit true as to ensure this is always set to false for production
 	 */
-	public static final boolean IN_DEVELOPMENT_MODE = false;
+	public static final boolean IN_DEVELOPMENT_MODE = false;	
+	
 	/**
 	 * True allows setting default scorecard.xml values externally
 	 */
 	public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = true;
+	
 	/**
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG == true
 	 * When overridden, the URL property is set by ApplicationConstants.REFERENCE_VALIDATOR_URL
 	 * True allows for 'C-CDA IG Conformance Errors' results
 	 */
 	public static final boolean IG_CONFORMANCE_CALL = true;
+	
 	/**
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG == true
 	 * When overridden, the URL property is set by ApplicationConstants.REFERENCE_VALIDATOR_URL
@@ -24,12 +27,27 @@ public class ApplicationConfiguration {
 	 */
 	public static final boolean CERTIFICATION_RESULTS_CALL = true;
 	
+	/**
+	 * If not in dev mode, True uses healthit.gov URLS and servers for the service
+	 * False uses sitenv.org
+	 */	
+	public static final boolean IS_PRODUCTION_DOT_GOV = false;	
+	
+	/**
+	 * The cures update version of the ref val is currently hosted on the ccda
+	 * servers. True enables cures validation within the scorecard by switching
+	 * servers and passing the curesUpdate form data parameter
+	 */
+	public static final boolean CURES_UPDATE = true;
+	
 	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
 	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:8000",
 			CCDA_DEV_SERVER_URL = "34.236.48.201", // AHRQ TEST CCDA
 			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
-			TTP_DEV_SERVER_URL = "http://35.153.125.47", // AHRQ TEST James
-			TTP_PROD_SERVER_URL = "https://ttpds.sitenv.org:8443",
+			CCDA_GOV_PROD_SERVER_URL = "https://ccda.healthit.gov",
+			TTP_DEV_SERVER_URL = "http://35.153.125.47", // AHRQ TEST James 
+			TTP_PROD_SERVER_URL = CURES_UPDATE ? CCDA_PROD_SERVER_URL : "https://ttpds.sitenv.org:8443",
+			TTP_GOV_PROD_SERVER_URL = CURES_UPDATE ? CCDA_GOV_PROD_SERVER_URL : "https://james.healthit.gov",
 			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
 			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
 			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
@@ -40,26 +58,24 @@ public class ApplicationConfiguration {
 	// ensure when WAR is headed to the dev server that DEFAULT_LOCAL_SERVER_URL
 	// is replaced with CCDA_DEV_SERVER_URL in the following Strings
 	public static final String CODE_DISPLAYNAME_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? TTP_DEV_SERVER_URL
-			: TTP_PROD_SERVER_URL)
+			: (IS_PRODUCTION_DOT_GOV ? TTP_GOV_PROD_SERVER_URL : TTP_PROD_SERVER_URL))
 			+ CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
 	public static final String CODE_VALUSET_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? TTP_DEV_SERVER_URL
-			: TTP_PROD_SERVER_URL)
+			: (IS_PRODUCTION_DOT_GOV ? TTP_GOV_PROD_SERVER_URL : TTP_PROD_SERVER_URL))
 			+ CODE_IN_VALUESET_SERVICE;
 	public static final String CODE_CODESYSTEM_VALIDATION_URL = (IN_DEVELOPMENT_MODE ? TTP_DEV_SERVER_URL
-			: TTP_PROD_SERVER_URL)
+			: (IS_PRODUCTION_DOT_GOV ? TTP_GOV_PROD_SERVER_URL : TTP_PROD_SERVER_URL))
 			+ CODE_IN_CODESYSTEM_SERVICE;
 	public static final String REFERENCE_VALIDATOR_URL = (IN_DEVELOPMENT_MODE ? TTP_DEV_SERVER_URL
-			: TTP_PROD_SERVER_URL)
+			: (IS_PRODUCTION_DOT_GOV ? TTP_GOV_PROD_SERVER_URL : TTP_PROD_SERVER_URL))
 			+ REFERENCE_CCDA_SERVICE;
 	public static final String SAVESCORECARDSERVICEBACKEND_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL)
+			: (IS_PRODUCTION_DOT_GOV ? CCDA_GOV_PROD_SERVER_URL : CCDA_PROD_SERVER_URL))
 			+ SAVE_SCORECARD_SERVICE_BACKEND;
-	public static final String SAVESCORECARDSERVICEBACKENDSUMMARY_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL)
-			+ SAVE_SCORECARD_SERVICE_BACKEND;
+	public static final String SAVESCORECARDSERVICEBACKENDSUMMARY_URL = SAVESCORECARDSERVICEBACKEND_URL;
 	public static final String CCDASCORECARDSERVICE_URL = (IN_DEVELOPMENT_MODE ? CCDA_DEV_SERVER_URL
-			: CCDA_PROD_SERVER_URL)
-			+ CCDA_SCORECARD_SERVICE;	
+			: (IS_PRODUCTION_DOT_GOV ? CCDA_GOV_PROD_SERVER_URL : CCDA_PROD_SERVER_URL))
+			+ CCDA_SCORECARD_SERVICE;
 	
 	public static final int CORE_POOL_SIZE = 200;
 	public static final int MAX_POOL_SIZE = 500;

@@ -94,8 +94,8 @@ public class ImmunizationScorecard {
 					if(immunizationActivity.getTime() != null)
 					{
 						if(ApplicationUtil.validateDayFormat(immunizationActivity.getTime()) ||
-								ApplicationUtil.validateMinuteFormat(immunizationActivity.getTime()) ||
-								ApplicationUtil.validateSecondFormat(immunizationActivity.getTime()))
+								ApplicationUtil.validateMinuteFormatWithoutPadding(immunizationActivity.getTime()) ||
+								ApplicationUtil.validateSecondFormatWithoutPadding(immunizationActivity.getTime()))
 						{
 							actualPoints++;
 						}

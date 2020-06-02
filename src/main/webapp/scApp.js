@@ -10,70 +10,70 @@ var scApp = angular.module('scorecard', [
 scApp.directive('scorecard', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'scorecard.html?version=R1.13'
+		templateUrl : 'scorecard.html?version=R2.0'
 	};
 });
 
 scApp.directive('debug', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'debug.html?version=R1.13'
+		templateUrl : 'debug.html?version=R2.0'
 	};
 });
 
 scApp.directive('topLevelResults', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'topLevelResults.html?version=R1.13'
+		templateUrl : 'topLevelResults.html?version=R2.0'
 	};
 });
 
 scApp.directive('summary', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'summary.html?version=R1.13'
+		templateUrl : 'summary.html?version=R2.0'
 	};
 });
 
 scApp.directive('heatMap', function() {
     return {
         restrict : 'E',
-        templateUrl : 'heatMap.html?version=R1.13'
+        templateUrl : 'heatMap.html?version=R2.0'
     };
 });
 
 scApp.directive('detailedResults', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'detailedResults.html?version=R1.13'
+		templateUrl : 'detailedResults.html?version=R2.0'
 	};
 });
 
 scApp.directive('scorecardTwoResults', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'scorecardTwoResults.html?version=R1.13'
+		templateUrl : 'scorecardTwoResults.html?version=R2.0'
 	};
 });
 
 scApp.directive('compare', function() {
     return {
     	restrict: 'E',
-    	templateUrl: 'compare.html?version=R1.13'
+    	templateUrl: 'compare.html?version=R2.0'
     };
 });
 
 scApp.directive('saveScorecardButton', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'saveScorecardButton.html?version=R1.13'
+		templateUrl: 'saveScorecardButton.html?version=R2.0'
 	};
 });
 
 scApp.directive('saveTryMeXmlButton', function() {
 	return {
 		restict: 'E',
-		templateUrl: 'saveTryMeXmlButton.html?version=R1.13'
+		templateUrl: 'saveTryMeXmlButton.html?version=R2.0'
 	};
 });
 
@@ -93,70 +93,70 @@ scApp.directive('markdownSrc', function($http) {
 scApp.directive('siteHeader', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteHeader.html?version=R1.13'
+		templateUrl : 'siteHeader.html?version=R2.0'
 	};
 });
 
 scApp.directive('siteNavbar', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteNavbar.html?version=R1.13'
+		templateUrl : 'siteNavbar.html?version=R2.0'
 	};
 });
 
 scApp.directive('siteTopLevelContent', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteTopLevelContent.html?version=R1.13'
+		templateUrl : 'siteTopLevelContent.html?version=R2.0'
 	};
 });
 
 scApp.directive('siteUploadForm', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteUploadForm.html?version=R1.13'
+		templateUrl : 'siteUploadForm.html?version=R2.0'
 	};
 });
 
 scApp.directive('siteResultsModal', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteResultsModal.html?version=R1.13'
+		templateUrl : 'siteResultsModal.html?version=R2.0'
 	};
 });
 
 scApp.directive('siteFooter', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteFooter.html?version=R1.13'
+		templateUrl : 'siteFooter.html?version=R2.0'
 	};
 });
 
 scApp.directive('siteScoringCriteriaModal', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteScoringCriteriaModal.html?version=R1.13'
+		templateUrl : 'siteScoringCriteriaModal.html?version=R2.0'
 	};
 });
 
 scApp.directive('siteApiInstructionsModal', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'siteApiInstructionsModal.html?version=R1.13'
+		templateUrl : 'siteApiInstructionsModal.html?version=R2.0'
 	};
 });
 
 scApp.directive('siteIntroductionModal', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'siteIntroductionModal.html?version=R1.13'
+		templateUrl: 'siteIntroductionModal.html?version=R2.0'
 	};
 });
 
 scApp.directive('siteDownloadLocalModal', function() {
 	return {
 		restrict: 'E',
-		templateUrl: 'siteDownloadLocalModal.html?version=R1.13'
+		templateUrl: 'siteDownloadLocalModal.html?version=R2.0'
 	};
 });
 
@@ -166,7 +166,7 @@ scApp.directive('linkDisclaimer', function() {
 		scope: {
 			spanClass: "="
 		},
-		templateUrl: 'siteExternalLinkDisclaimer.html?version=R1.13'
+		templateUrl: 'siteExternalLinkDisclaimer.html?version=R2.0'
 	};
 });
 
@@ -176,3 +176,10 @@ scApp.filter("trust", ['$sce', function($sce) {
     return $sce.trustAsHtml(htmlCode);
   }
 }]);
+
+//*************** ENVIRONMENT ********************
+var env = {};
+if (window) {
+	Object.assign(env, window.__env);
+}
+scApp.constant('__env', env);
