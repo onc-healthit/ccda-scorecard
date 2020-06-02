@@ -37,6 +37,7 @@ import org.sitenv.service.ccda.smartscorecard.model.ReferenceTypes.ValidationRes
 import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
 import org.sitenv.service.ccda.smartscorecard.model.Results;
 import org.sitenv.service.ccda.smartscorecard.model.ScorecardProperties;
+import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.cofiguration.ScorecardConfigurationLoader;
 import org.sitenv.service.ccda.smartscorecard.cofiguration.ScorecardSection;
 import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
@@ -149,11 +150,10 @@ public class ScorecardProcessor {
 			scorecardResponse.setFilename(ccdaFile.getOriginalFilename());
 			boolean ccdaModelsIsEmpty = ccdaModels.isEmpty();
 			
-			if(scorecardConfigurationLoader!=null && scorecardConfigurationLoader.getConfigurations()!=null){
+			if (scorecardConfigurationLoader != null && scorecardConfigurationLoader.getConfigurations() != null) {
 				scorecardSections = scorecardConfigurationLoader.getConfigurations().getScorecardSections();
 			}
-			if(!ccdaModelsIsEmpty && ccdaModels.getUsrhSubType() != null) 
-			{
+			if (!ccdaModelsIsEmpty && ccdaModels.getUsrhSubType() != null) {
 				scorecardResponse.setCcdaDocumentType(ccdaModels.getUsrhSubType().getName());
 			}
 			if (!ccdaModelsIsEmpty && ccdaModels.getUsrhSubType() != UsrhSubType.UNSTRUCTURED_DOCUMENT)
@@ -171,7 +171,8 @@ public class ScorecardProcessor {
 						+ " at " + scorecardProperties.getIgConformanceURL());
 					referenceValidatorResults = 
 						callReferenceValidator(ccdaFile, validationObjective.getValidationObjective(), 
-								"No Scenario File", scorecardProperties.getIgConformanceURL(), SeverityLevel.ERROR);
+									"No Scenario File", scorecardProperties.getIgConformanceURL(),
+									ApplicationConfiguration.CURES_UPDATE, SeverityLevel.ERROR);
 					
 					if (referenceValidatorResults != null && referenceValidatorResults.getResultsMetaData() != null) {
 						results.setTotalCertificationErrorChecks(referenceValidatorResults.getResultsMetaData()
@@ -413,11 +414,13 @@ public class ScorecardProcessor {
 
 	public ValidationResultsDto callReferenceValidator(MultipartFile ccdaFile, String validationObjective,
 			String referenceFileName, String referenceValidatorUrl) throws Exception {
-		return callReferenceValidator(ccdaFile, validationObjective, referenceFileName, referenceValidatorUrl, SeverityLevel.INFO);
+		return callReferenceValidator(ccdaFile, validationObjective, referenceFileName, referenceValidatorUrl,
+				ApplicationConfiguration.CURES_UPDATE, SeverityLevel.INFO);
 	}
 	
 	public ValidationResultsDto callReferenceValidator(MultipartFile ccdaFile, String validationObjective,
-			String referenceFileName, String referenceValidatorUrl, SeverityLevel severityLevel) throws Exception {
+			String referenceFileName, String referenceValidatorUrl, final boolean curesUpdate,
+			SeverityLevel severityLevel) throws Exception {
 		LinkedMultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<String, Object>();
 		ValidationResultsDto referenceValidatorResults = null;
 		File tempFile = File.createTempFile("ccda", "File");
@@ -426,6 +429,7 @@ public class ScorecardProcessor {
 		requestMap.add("ccdaFile", new FileSystemResource(tempFile));			
 		requestMap.add("validationObjective", validationObjective);
 		requestMap.add("referenceFileName", referenceFileName);
+		requestMap.add("curesUpdate", curesUpdate);
 		requestMap.add("severityLevel", severityLevel.name());
 			
 		HttpHeaders headers = new HttpHeaders();

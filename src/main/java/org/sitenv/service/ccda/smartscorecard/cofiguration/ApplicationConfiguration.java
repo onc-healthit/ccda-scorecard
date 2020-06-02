@@ -6,13 +6,7 @@ public class ApplicationConfiguration {
 	 * True allows switching the various service URLs from the prod to the dev server and enables local logs
 	 * Note: Never commit true as to ensure this is always set to false for production
 	 */
-	public static final boolean IN_DEVELOPMENT_MODE = false;
-	
-	/**
-	 * If not in dev mode, True uses healthit.gov URLS and servers for the service
-	 * False uses sitenv.org
-	 */	
-	public static final boolean IS_PRODUCTION_DOT_GOV = true;
+	public static final boolean IN_DEVELOPMENT_MODE = false;	
 	
 	/**
 	 * True allows setting default scorecard.xml values externally
@@ -33,14 +27,27 @@ public class ApplicationConfiguration {
 	 */
 	public static final boolean CERTIFICATION_RESULTS_CALL = true;
 	
+	/**
+	 * If not in dev mode, True uses healthit.gov URLS and servers for the service
+	 * False uses sitenv.org
+	 */	
+	public static final boolean IS_PRODUCTION_DOT_GOV = false;	
+	
+	/**
+	 * The cures update version of the ref val is currently hosted on the ccda
+	 * servers. True enables cures validation within the scorecard by switching
+	 * servers and passing the curesUpdate form data parameter
+	 */
+	public static final boolean CURES_UPDATE = true;
+	
 	// set DEFAULT_LOCAL_SERVER_URL according to local tomcat URL
 	public static final String DEFAULT_LOCAL_SERVER_URL = "http://localhost:8000",
 			CCDA_DEV_SERVER_URL = "34.236.48.201", // AHRQ TEST CCDA
 			CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
 			CCDA_GOV_PROD_SERVER_URL = "https://ccda.healthit.gov",
-			TTP_DEV_SERVER_URL = "http://35.153.125.47", // AHRQ TEST James
-			TTP_PROD_SERVER_URL = "https://ttpds.sitenv.org:8443",
-			TTP_GOV_PROD_SERVER_URL = "https://james.healthit.gov", // http://35.169.165.4		
+			TTP_DEV_SERVER_URL = "http://35.153.125.47", // AHRQ TEST James 
+			TTP_PROD_SERVER_URL = CURES_UPDATE ? CCDA_PROD_SERVER_URL : "https://ttpds.sitenv.org:8443",
+			TTP_GOV_PROD_SERVER_URL = CURES_UPDATE ? CCDA_GOV_PROD_SERVER_URL : "https://james.healthit.gov",
 			CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
 			CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
 			CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
