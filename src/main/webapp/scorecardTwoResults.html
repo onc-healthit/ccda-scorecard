@@ -8,7 +8,7 @@
 		<h2 class="panel-title">
 		  <a data-toggle="collapse" data-parent="referenceAccordion{{$index}}" 
 		    href="#referenceCategoryData{{$index}}" analytics-on="click" analytics-event="IG or Cert Header Expand or Collapse" 
-            analytics-category="Detailed Results">{{refInstance.type}}</a>
+            analytics-category="Detailed Results">{{convertRefInstanceTypeToDisplayName(refInstance.type)}}</a>
 		  <span ng-show="refInstance.totalErrorCount > 0" class="pull-right numberOfIssuesHeader">
 			<b>{{refInstance.totalErrorCount}}</b>
             {{' ' + getIssueTextSingularOrPluralFormForReferenceInstance(refInstance.type, refInstance.totalErrorCount)}}
