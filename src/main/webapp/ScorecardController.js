@@ -34,8 +34,10 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   });
   
   $scope.ScorecardConstants = Object.freeze({
-  	IG_URL: "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379"
-  });
+	  	IG_URL: "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
+	  	CONFORMANCE_DISPLAY_NAME: $scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE,
+	  	CERTIFICATION_DISPLAY_NAME: "2015 Edition Cures Update Feedback"
+  });    
   
   $scope.detailedResultsData = {
   		showDetailedResults: $scope.mainDebug.inDebugMode ? true : false 
@@ -503,7 +505,7 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
   		failingScore: -3
   	},
   	CERTIFICATION_FEEDBACK: {
-  		label: "Certification Feedback",
+  		label: "Cures Update Feedback",
   		cssClass: " heatMapHasCertificationFeedback",
   		failingScore: -2
   	},
@@ -650,12 +652,12 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 	
 	$scope.getIssueTextForReferenceInstance = function(refInstanceType) {
 		switch (refInstanceType) {
-		case $scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE:
-			return "Error"
-		case $scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015:
-			return "Feedback"
-		default:
-			return "Issue";
+			case $scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE:
+				return "Error"
+			case $scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015:
+				return "Feedback"
+			default:
+				return "Issue";
 		}
 	};
 	
@@ -666,6 +668,17 @@ scApp.controller('ScorecardController', ['$scope', '$http', '$location', '$ancho
 		}
 		return singularResult === "Feedback" ? "Result" : singularResult;
 	};
+	
+	$scope.convertRefInstanceTypeToDisplayName = function(refInstanceType) {
+		switch (refInstanceType) {
+			case $scope.ReferenceInstanceTypeEnum.IG_CONFORMANCE:
+				return $scope.ScorecardConstants.CONFORMANCE_DISPLAY_NAME
+			case $scope.ReferenceInstanceTypeEnum.CERTIFICATION_2015:
+				return $scope.ScorecardConstants.CERTIFICATION_DISPLAY_NAME
+			default:
+				return "Unknown Reference Type";
+		}		
+	}	
 	
   var IssueTypeEnum = Object.freeze({
     MDHT_ERROR: "C-CDA MDHT Conformance Error",

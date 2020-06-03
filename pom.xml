@@ -202,7 +202,7 @@
 					<configuration>
 						<includes>
 							<include>${project.basedir}/src/main/webapp/index.html</include>
-							<include>${project.basedir}/src/main/webapp/scApp.js</include>
+							<include>${project.basedir}/src/main/webapp/scApp.js</include>						
 						</includes>
 						<replacements>
 							<replacement>
@@ -212,6 +212,31 @@
 						</replacements>
 					</configuration>
 				</plugin>
+				<!-- Updates version on landing page. Separate configuration as replacement is too simple/dangerous to look at more files -->
+				<plugin>
+					<groupId>com.google.code.maven-replacer-plugin</groupId>
+					<artifactId>replacer</artifactId>
+					<version>1.5.3</version>
+					<executions>
+						<execution>
+							<phase>pre-clean</phase>
+							<goals>
+								<goal>replace</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<includes>
+							<include>${project.basedir}/src/main/webapp/siteTopLevelContent.html</include>							
+						</includes>
+						<replacements>
+							<replacement>
+								<token>${previousProjectVersion}</token>
+								<value>${project.version}</value>
+							</replacement>
+						</replacements>
+					</configuration>
+				</plugin>				
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>

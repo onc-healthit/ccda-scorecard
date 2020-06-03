@@ -33,13 +33,13 @@
                   <div class="row">
                       <div class="col-md-6 scHeading">
       				   <h2 class="scHeaderDescriptionText">
-                          <span ng-if="!igResults.totalErrorCount">{{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}:</span>
+                          <span ng-if="!igResults.totalErrorCount">{{ScorecardConstants.CONFORMANCE_DISPLAY_NAME}}:</span>
                           <a ng-if="igResults.totalErrorCount" href="javascript:void(0)"
                           ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.IG_CONFORMANCE)"
-                          title="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}"
-                          aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}"
+                          title="Navigate to {{ScorecardConstants.CONFORMANCE_DISPLAY_NAME}}"
+                          aria-label="Navigate to {{ScorecardConstants.CONFORMANCE_DISPLAY_NAME}}"
                           analytics-on="click" analytics-event="IG Error Navigation" analytics-category="Top Level Results">
-                            <span>{{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}:</span>
+                            <span>{{ScorecardConstants.CONFORMANCE_DISPLAY_NAME}}:</span>
                           </a>
                         </h2>
                       </div>
@@ -59,8 +59,8 @@
                            <span class="scHeaderDescriptionText">
                               <a ng-if="igResults.totalErrorCount" href="javascript:void(0)"
                               ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.IG_CONFORMANCE)"
-                              title="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}"
-                              aria-label="Navigate to {{ReferenceInstanceTypeEnum.IG_CONFORMANCE}}"
+                              title="Navigate to {{ScorecardConstants.CONFORMANCE_DISPLAY_NAME}}"
+                              aria-label="Navigate to {{ScorecardConstants.CONFORMANCE_DISPLAY_NAME}}"
                               class="scResult"
                               analytics-on="click" analytics-event="IG Error by number Navigation" analytics-category="Top Level Results">
                               {{jsonData.results.finalGrade ? igResults.totalErrorCount : ''}} out of
@@ -87,13 +87,13 @@
                   <div class="row">
                       <div class="col-md-6 scHeading">
                        <h2 class="scHeaderDescriptionText">
-                        <span ng-if="!certResults.totalErrorCount">{{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}:</span>
+                        <span ng-if="!certResults.totalErrorCount">{{ScorecardConstants.CERTIFICATION_DISPLAY_NAME}}:</span>
                         <a ng-if="certResults.totalErrorCount" href="javascript:void(0)"
                         ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.CERTIFICATION_2015)"
-                        title="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}"
-                        aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}"
+                        title="Navigate to {{ScorecardConstants.CERTIFICATION_DISPLAY_NAME}}"
+                        aria-label="Navigate to {{ScorecardConstants.CERTIFICATION_DISPLAY_NAME}}"
                         analytics-on="click" analytics-event="Cert Navigation" analytics-category="Top Level Results">
-                          <span>{{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}:</span>
+                          <span>{{ScorecardConstants.CERTIFICATION_DISPLAY_NAME}}:</span>
                         </a>
                        </h2>
                       </div>
@@ -115,8 +115,8 @@
                           <span class="scHeaderDescriptionText">
                             <a ng-if="certResults.totalErrorCount" href="javascript:void(0)"
                             ng-click="jumpToReferenceInstanceTypeViaId(ReferenceInstanceTypeEnum.CERTIFICATION_2015)"
-                            title="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}"
-                            aria-label="Navigate to {{ReferenceInstanceTypeEnum.CERTIFICATION_2015}}"
+                            title="Navigate to {{ScorecardConstants.CERTIFICATION_DISPLAY_NAME}}"
+                            aria-label="Navigate to {{ScorecardConstants.CERTIFICATION_DISPLAY_NAME}}"
                             class="scResult"
                             analytics-on="click" analytics-event="Cert by number Navigation" analytics-category="Top Level Results">
                             {{jsonData.results.finalGrade ? certResults.totalErrorCount : ''}} out of
