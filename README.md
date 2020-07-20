@@ -36,3 +36,86 @@ public Void ccdascorecardservice(MultipartFile ccdaFile)
 	}
 }
 ```
+
+# Setup Instructions
+* This project requires a prerequisite ccda parser dependency. You can build the jar from here https://github.com/onc-healthit/ccda-parser 
+* Install the latest version of Postgresql. Create a user called scorecarduser with password as scorecarduser and create a DB called site_scorecard
+* Inside the site_scorecard DB run the following scrips to create scorecard_statistics table
+```
+CREATE SEQUENCE public.scorecard_statistics_id_seq
+    INCREMENT 1
+    START 83
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1;
+ALTER SEQUENCE public.scorecard_statistics_id_seq
+    OWNER TO scorecarduser;
+```
+```
+CREATE TABLE public.scorecard_statistics
+
+(
+
+    id integer NOT NULL DEFAULT nextval('scorecard_statistics_id_seq'::regclass),
+    doctype character varying(100) COLLATE pg_catalog."default",
+    docscore smallint NOT NULL,
+    patientscore smallint NOT NULL,
+    allergiessectionscore smallint NOT NULL,
+    encounterssectionscore smallint NOT NULL,
+    immunizationssectionscore smallint NOT NULL,
+    medicationssectionscore smallint NOT NULL,
+    problemssectionscore smallint NOT NULL,
+    proceduressectionscore smallint NOT NULL,
+    socialhistorysectionscore smallint NOT NULL,
+    vitalssectionscore smallint NOT NULL,
+    resultssectionscore smallint NOT NULL,
+    miscscore smallint NOT NULL,
+    docname character varying(500) COLLATE pg_catalog."default",
+    createtimestamp timestamp without time zone DEFAULT now(),
+    oneclickscorecard boolean NOT NULL DEFAULT false,
+    patientissues smallint,
+    allergiessectionissues smallint,
+    encounterssectionissues smallint,
+    immunizationssectionissues smallint,
+    medicationssectionissues smallint,
+    problemssectionissues smallint,
+    proceduressectionissues smallint,
+    socialhistorysectionissues smallint,
+    vitalssectionissues smallint,
+    resultssectionissues smallint,
+    miscissues smallint,
+    ccdadocumenttype character varying(100) COLLATE pg_catalog."default",
+    directemailaddress character varying(100) COLLATE pg_catalog."default",
+    CONSTRAINT scorecard_statistics_pkey PRIMARY KEY (id)
+
+)
+
+WITH (
+    OIDS = FALSE
+)
+
+TABLESPACE pg_default;
+ALTER TABLE public.scorecard_statistics
+    OWNER to scorecarduser;
+```
+* Inside latest version of tomcat and add the following snippet under the <GlobalNamingResources> tag in server.xml
+```
+<Resource auth="Container" 
+	  driverClassName="org.postgresql.Driver" 
+	  maxActive="100" 
+	  maxIdle="30" 
+	  maxWait="10000" 
+	  name="jdbc/site_scorecard" 
+	  password="scorecarduser" 
+	  type="javax.sql.DataSource" 
+	  url="jdbc:postgresql://localhost/site_scorecard" 
+	  username="scorecarduser"/>
+```
+* Add the following snippet to context.xml
+```
+<ResourceLink global="jdbc/site_scorecard" 
+    name="jdbc/site_scorecard"
+    type="javax.sql.DataSource">
+</ResourceLink>
+```
+* Build the scorecard project and deploy the war file to tomcat and start tomcat. You should be able to see scorecard UI by navigating to this URL - http://localhost:8080/scorecard/
