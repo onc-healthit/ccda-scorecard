@@ -40,7 +40,7 @@ public Void ccdascorecardservice(MultipartFile ccdaFile)
 # Setup Instructions
 * This project requires a prerequisite ccda parser dependency. You can build the jar from here https://github.com/onc-healthit/ccda-parser 
 * Install the latest version of Postgresql. Create a user called scorecarduser with password as scorecarduser and create a DB called site_scorecard
-* Inside the site_scorecard DB run the following scrips to create scorecard_statistics table
+* Inside the site_scorecard DB run the following scripts to create scorecard_statistics table
 ```
 CREATE SEQUENCE public.scorecard_statistics_id_seq
     INCREMENT 1
