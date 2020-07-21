@@ -111,6 +111,7 @@ ALTER TABLE public.scorecard_statistics
 	  url="jdbc:postgresql://localhost/site_scorecard" 
 	  username="scorecarduser"/>
 ```
+
 * Add the following snippet to context.xml
 ```
 <ResourceLink global="jdbc/site_scorecard" 
@@ -118,4 +119,11 @@ ALTER TABLE public.scorecard_statistics
     type="javax.sql.DataSource">
 </ResourceLink>
 ```
+
+* Rules execution in scorecard is controlled using an external config file. scorecardConfig.xml controls what rules to execute. Please follow the steps below to configure scorecardConfig.xml.
+  * Download scorecardConfig.xml which is available under src/main/resources
+  * By default scorecardConfig.xml is configured to run all the scorecard rules. Make the necessary changes to disable/enable any specific rules.
+  * /var/opt/sitenv/scorecard/config/scorecardConfig.xml is the default path configured in /src/main/resources/config.properties file. Make sure to create default path for scorecardConfig.xml. If you decide to create different path then update config.properties appropriately
+ 
 * Build the scorecard project and deploy the war file to tomcat and start tomcat. You should be able to see scorecard UI by navigating to this URL - http://localhost:8080/scorecard/
+* Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs.
