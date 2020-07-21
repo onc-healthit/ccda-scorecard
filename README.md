@@ -36,3 +36,9 @@ public Void ccdascorecardservice(MultipartFile ccdaFile)
 	}
 }
 ```
+
+Rules execution in scorecard is controlled using external config file. scorecardConfig.xml controls what rules to execute. Please follow below steps to comnfigure scorecardConfig.xml.
+
+* Download scorecardConfig.xml which is available under src/main/resources. 
+* By default scorecardConfig.xml is configured to run all the scorecard rules. Make necessary changes to disable/enable any specific rules. 
+* /var/opt/sitenv/scorecard/config/scorecardConfig.xml is the default path configured in /src/main/resources/config.properties file. Make sure to create default path for scorecardConfig.xml. If you decide to create different path then update config.properties appropriately. 
