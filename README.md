@@ -125,5 +125,5 @@ ALTER TABLE public.scorecard_statistics
   * By default scorecardConfig.xml is configured to run all the scorecard rules. Make the necessary changes to disable/enable any specific rules.
   * /var/opt/sitenv/scorecard/config/scorecardConfig.xml is the default path configured in /src/main/resources/config.properties file. Make sure to create default path for scorecardConfig.xml. If you decide to create different path then update config.properties appropriately
  
-* Build the scorecard project and deploy the war file to tomcat and start tomcat. You should be able to see scorecard UI by navigating to this URL - http://localhost:8080/scorecard/
-* Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs.
+* Build the Scorecard project and deploy the WAR file to Tomcat and start Tomcat. You should be able to see the Scorecard UI by navigating to this URL: http://localhost:8080/scorecard/
+  * Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs
