@@ -119,6 +119,11 @@ ALTER TABLE public.scorecard_statistics
     type="javax.sql.DataSource">
 </ResourceLink>
 ```
+* Make sure the value of IN_DEVELOPMENT_MODE variable is true in ApplicationConfiguration.java file. This flag will control which referenceccdavalidator servers scorecard need to use.
+```
+public static final boolean IN_DEVELOPMENT_MODE = true;	
+
+```
 
 * Rules execution in scorecard is controlled using an external config file. scorecardConfig.xml controls what rules to execute. Please follow the steps below to configure scorecardConfig.xml.
   * Download scorecardConfig.xml which is available under src/main/resources
@@ -127,3 +132,17 @@ ALTER TABLE public.scorecard_statistics
  
 * Build the Scorecard project and deploy the WAR file to Tomcat and start Tomcat. You should be able to see the Scorecard UI by navigating to this URL: http://localhost:8080/scorecard/
   * Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs
+  
+* Additional instructions if you are running pre packed scorecard.war file. 
+  * Download scorecard.xml from https://github.com/onc-healthit/ccda-scorecard/blob/master/src/main/resources/scorecard.xml.
+  * Update parameter values accordingly. 
+      * scorecard.igConformanceCall - Indicates whether conformance check need to run or not. 
+      * scorecard.certificatinResultsCall - Indicates whether certification Result check need to happen or not. 
+      * scorecard.igConformanceUrl - URL for igConformanceCall
+      * scorecard.certificationResultsUrl - URL for certification result call.
+      * scorecard.configFile - Path for scorecardConfig.xml file which controls the execution of scorecard rules. This can be downloaded from https://github.com/onc-healthit/ccda-scorecard/blob/master/src/main/resources/scorecardConfig.xml
+  * Place a copy of scorecard.xml in $CATALINA_BASE/conf/[enginename]/[hostname]/. For example, ~/apache-tomcat-7.0.57/conf/Catalina/localhost
+  * Copy the war file to Apache tomcat WEBAPPS folder
+  * Start the tomcat.
+  
+  
