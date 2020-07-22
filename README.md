@@ -1,12 +1,13 @@
 # C-CDA Scorecard
 This application contains the C-CDA Scorecard service. The Service is implemented following the standards and promotes best practices in C-CDA implementation by assessing key aspects of the structured data found in individual documents. It is a tool designed to allow implementers to gain insight and information regarding industry best practice and usage overall. It also provides a rough quantitative assessment and highlights areas of improvement which can be made today to move the needle forward. The best practices and quantitative scoring criteria have been developed by HL7 through the HL7-ONC Cooperative agreement to improve the implementation of health care standards.
 
+# API
 The Scorecard API is a POST RESTful service which takes a C-CDA document as input and returns JSON results. 
 * Input parameter name: ccdaFile
 * Input parameter Type: File.
 * Output parameter Type: JSON string.
 
-Below is the Java Snippet to access the Scorecard service in your own applications.
+Below is an example Java Snippet to access the Scorecard service in your own applications.
 
 ```Java
 public Void ccdascorecardservice(MultipartFile ccdaFile)
@@ -119,20 +120,15 @@ ALTER TABLE public.scorecard_statistics
     type="javax.sql.DataSource">
 </ResourceLink>
 ```
-* Make sure the value of IN_DEVELOPMENT_MODE variable is true in ApplicationConfiguration.java file. This flag will control which referenceccdavalidator servers scorecard need to use.
-```
-public static final boolean IN_DEVELOPMENT_MODE = true;	
-```
 
 * The execution of rules in the Scorecard is controlled by an external configuration file, scorecardConfig.xml. The file controls what rules to execute. Please follow the steps below to configure scorecardConfig.xml
   * Download scorecardConfig.xml which is available under src/main/resources
   * By default scorecardConfig.xml is configured to run all of the Scorecard rules. Make the necessary changes to disable/enable any specific rules.
   * /var/opt/sitenv/scorecard/config/scorecardConfig.xml is the default path configured in /src/main/resources/config.properties file. Make sure to create a default path for scorecardConfig.xml. If you decide to create different path than specified, update config.properties appropriately. If you have the project cloned, an easy custom path to use would be within the source itself, such as Drive:/Users/Username/git/thisProjectName/src/main/resources/
- 
-* Build the Scorecard project and deploy the WAR file to Tomcat and start Tomcat. You should be able to see the Scorecard UI by navigating to this URL: http://localhost:8080/scorecard/
-  * Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs
-  
-* Additional instructions if you are running a pre-packed scorecard.war from the release, vs building a WAR yourself
+
+Note: If building the WAR yourself vs using an appropriate local WAR from the releases page, you will have the option to skip configuration via scorecard.xml. Otherwise, if using a pre-built WAR, you will need to configure with scorecard.xml.
+
+* Continued instructions for using a pre-built release WAR:
   * Download scorecard.xml from https://github.com/onc-healthit/ccda-scorecard/blob/master/src/main/resources/scorecard.xml.
   * Update parameter values accordingly. 
       * scorecard.igConformanceCall - Indicates whether conformance check need to run or not. 
@@ -144,7 +140,7 @@ public static final boolean IN_DEVELOPMENT_MODE = true;
   * Copy the WAR file to the Apache Tomcat webapps folder
   * Start Tomcat
  
- * Below is an example of the scorecard.xml configuration which uses **local** referenceccdaservice urls. We have used default port (8080) as reference. It can be changed to any port
+ * Below is an example of the scorecard.xml configuration which uses **local** referenceccdaservice URLs. We have used default port (8080) as reference. It can be changed to any port
  ```
  <Context reloadable="true">
     <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
@@ -154,7 +150,7 @@ public static final boolean IN_DEVELOPMENT_MODE = true;
     <Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
 ```
-* Below is an example of the scorecard.xml configuration which uses **production** referenceccdaservice urls
+* Below is an example of the scorecard.xml configuration which uses **production** referenceccdaservice URLs
 ```
 <Context reloadable="true">
     <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
@@ -163,4 +159,54 @@ public static final boolean IN_DEVELOPMENT_MODE = true;
     <Parameter name="scorecard.certificationResultsUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
     <Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
-``` 
+```
+
+* Deploy the WAR file to Tomcat and start Tomcat. You should be able to see the Scorecard UI by navigating to this URL: http://localhost:8080/scorecard/
+  * Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs
+
+* Continued instructions if building the WAR yourself:
+  * From this point one can either follow the prior instructions for "Continued instructions for using a pre-built release WAR" and build the WAR instead of downloading it before deploying, or, use the quicker override options in src/main/java/org/sitenv/service/ccda/smartscorecard/cofiguration/ApplicationConfiguration.java, explained ahead
+
+* Navigate to ApplicationConfiguration.java and set OVERRIDE_SCORECARD_XML_CONFIG to true
+```
+/**
+ * True allows setting default scorecard.xml values externally
+ */
+public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = true;
+```
+
+* Decide which server you would like the service to contact for Reference C-CDA Validation. Whether it be a development server, production server, or a custom (such as local) specified server
+
+* To use the **development** servers, set IN_DEVELOPMENT_MODE to true, and skip to final "Build the Scorecard project and deploy the WAR file" step
+```
+/**
+ * True allows switching the various service URLs from the prod to the dev server and enables local logs
+ * Note: Never commit true as to ensure this is always set to false for production
+ */
+public static final boolean IN_DEVELOPMENT_MODE = true;
+```
+
+* To use the **prodction** servers, set IN_DEVELOPMENT_MODE to false, and skip to final "Build the Scorecard project and deploy the WAR file" step
+```
+public static final boolean IN_DEVELOPMENT_MODE = false;
+```
+
+* To use a **local** or custom server, set IN_LOCAL_MODE to true, and continue through the remaining instructions
+  ```
+  public static final boolean IN_LOCAL_MODE = false;
+  ```
+  * If Scorecard is hosted on a different port than 8000, update the port in DEFAULT_LOCAL_SCORECARD_SERVER_URL to whatever Tomcat is configured to for your local Scorecard instance (8080 is a common default but default for this is 8000 since the Reference C-CDA Validator may already be configured on 8080). To use a custom non-local server, replace the entire URL as desired, however, there probably isn't a good reason to this for this particular URL
+  ```
+  public static final String DEFAULT_LOCAL_SCORECARD_SERVER_URL = "http://localhost:XXXX",
+  ```
+  * If the Reference C-CDA Validator is hosted on a different port than 8080, update the port in DEFAULT_LOCAL_REF_VAL_SERVER_URL to whatever Tomcat is configured to for your local Reference C-CDA Validator instance. To use a custom non-local server, replace the entire URL as desired
+  ```
+  public static final String DEFAULT_LOCAL_REF_VAL_SERVER_URL = "http://localhost:XXXX",
+  ```
+
+* Build the Scorecard project and deploy the WAR file to Tomcat and start Tomcat. You should be able to see the Scorecard UI by navigating to this URL: http://localhost:8000/scorecard/
+  * Note: 8000 is just an example of what your Tomcat port might be. Please replace 8000 with your actual port if it differs. For example, it might be 8080.
+  * Note: If there is an issue with the maven build due to tests failing, plase post a bug on the Scorecard issues ticket and try building with the following to continue regardless:
+    ```
+    mvn clean install -D skipTests
+    ```
