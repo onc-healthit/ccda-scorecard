@@ -122,7 +122,6 @@ ALTER TABLE public.scorecard_statistics
 * Make sure the value of IN_DEVELOPMENT_MODE variable is true in ApplicationConfiguration.java file. This flag will control which referenceccdavalidator servers scorecard need to use.
 ```
 public static final boolean IN_DEVELOPMENT_MODE = true;	
-
 ```
 
 * The execution of rules in the Scorecard is controlled by an external configuration file, scorecardConfig.xml. The file controls what rules to execute. Please follow the steps below to configure scorecardConfig.xml
@@ -164,5 +163,4 @@ public static final boolean IN_DEVELOPMENT_MODE = true;
     <Parameter name="scorecard.certificationResultsUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
     <Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
-  
-  
+``` 
