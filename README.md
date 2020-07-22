@@ -1,14 +1,27 @@
 # C-CDA Scorecard
-This application contains the C-CDA Scorecard service. The Service is implemented following the standards and promotes best practices in C-CDA implementation by assessing key aspects of the structured data found in individual documents. It is a tool designed to allow implementers to gain insight and information regarding industry best practice and usage overall. It also provides a rough quantitative assessment and highlights areas of improvement which can be made today to move the needle forward. The best practices and quantitative scoring criteria have been developed by HL7 through the HL7-ONC Cooperative agreement to improve the implementation of health care standards.
+### <a href="#overview">Overview</a>
+### <a href="#api">API</a>
+### <a href="#setupInstructions">Setup Instructions</a>
+#### &nbsp;&nbsp; <a href="#database">Database</a>
+#### &nbsp;&nbsp; <a href="#tomcat">Tomcat</a>
+#### &nbsp;&nbsp; <a href="#rules">Rules</a>
+#### &nbsp;&nbsp; <a href="#useConfig">XML Configuration Path (Using pre-built WAR)</a>
+#### &nbsp;&nbsp; <a href="#noConfig">Override Path (Building WAR from source)</a>
 
+<br />
+
+<span id="overview"></span>
+# Overview
+* This application contains the C-CDA Scorecard service. The Service is implemented following the standards and promotes best practices in C-CDA implementation by assessing key aspects of the structured data found in individual documents. It is a tool designed to allow implementers to gain insight and information regarding industry best practice and usage overall. It also provides a rough quantitative assessment and highlights areas of improvement which can be made today to move the needle forward. The best practices and quantitative scoring criteria have been developed by HL7 through the HL7-ONC Cooperative agreement to improve the implementation of health care standards.
+
+<span id="api"></span>
 # API
-The Scorecard API is a POST RESTful service which takes a C-CDA document as input and returns JSON results. 
-* Input parameter name: ccdaFile
-* Input parameter Type: File.
-* Output parameter Type: JSON string.
+* The Scorecard API is a POST RESTful service which takes a C-CDA document as input and returns JSON results. 
+  * Input parameter name: ccdaFile
+  * Input parameter Type: File.
+  * Output parameter Type: JSON string.
 
-Below is an example Java Snippet to access the Scorecard service in your own applications.
-
+* Below is an example Java Snippet to access the Scorecard service in your own applications.
 ```Java
 public Void ccdascorecardservice(MultipartFile ccdaFile)
 {
@@ -38,10 +51,15 @@ public Void ccdascorecardservice(MultipartFile ccdaFile)
 }
 ```
 
+<span id="setupInstructions"></span>
 # Setup Instructions
-* This project requires a prerequisite ccda parser dependency. You can build the jar from here https://github.com/onc-healthit/ccda-parser 
-* Install the latest version of Postgresql. Create a user called scorecarduser with password as scorecarduser and create a DB called site_scorecard
-* Inside the site_scorecard DB run the following scripts to create scorecard_statistics table
+* Dependencies
+  * This project requires a prerequisite ccda parser dependency. You can build the jar from here https://github.com/onc-healthit/ccda-parser
+
+<span id="database"></span>
+* Database
+  * Install the latest version of Postgresql. Create a user called scorecarduser with password as scorecarduser and create a DB called site_scorecard
+  * Inside the site_scorecard DB run the following scripts to create scorecard_statistics table
 ```SQL
 CREATE SEQUENCE public.scorecard_statistics_id_seq
     INCREMENT 1
@@ -97,7 +115,10 @@ TABLESPACE pg_default;
 ALTER TABLE public.scorecard_statistics
     OWNER to scorecarduser;
 ```
-* Inside latest version of tomcat and add the following snippet under the <GlobalNamingResources> tag in server.xml
+
+<span id="tomcat"></span>
+* Tomcat
+  * Inside latest version of tomcat and add the following snippet under the <GlobalNamingResources> tag in server.xml
 ```XML
 <Resource auth="Container" 
 	  driverClassName="org.postgresql.Driver" 
@@ -110,8 +131,7 @@ ALTER TABLE public.scorecard_statistics
 	  url="jdbc:postgresql://localhost/site_scorecard" 
 	  username="scorecarduser"/>
 ```
-
-* Add the following snippet to context.xml
+  * Add the following snippet to context.xml
 ```XML
 <ResourceLink global="jdbc/site_scorecard" 
     name="jdbc/site_scorecard"
@@ -119,13 +139,16 @@ ALTER TABLE public.scorecard_statistics
 </ResourceLink>
 ```
 
-* The execution of rules in the Scorecard is controlled by an external configuration file, scorecardConfig.xml. The file controls what rules to execute. Please follow the steps below to configure scorecardConfig.xml
-  * Download scorecardConfig.xml which is available under src/main/resources
-  * By default scorecardConfig.xml is configured to run all of the Scorecard rules. Make the necessary changes to disable/enable any specific rules.
-  * /var/opt/sitenv/scorecard/config/scorecardConfig.xml is the default path configured in /src/main/resources/config.properties file. Make sure to create a default path for scorecardConfig.xml. If you decide to create different path than specified, update config.properties appropriately. If you have the project cloned, an easy custom path to use would be within the source itself, such as Drive:/Users/Username/git/thisProjectName/src/main/resources/
+<span id="rules"></span>
+* Rules
+  * The execution of rules in the Scorecard is controlled by an external configuration file, scorecardConfig.xml. The file controls what rules to execute. Please follow the steps below to configure scorecardConfig.xml
+    * Download scorecardConfig.xml which is available under src/main/resources
+    * By default scorecardConfig.xml is configured to run all of the Scorecard rules. Make the necessary changes to disable/enable any specific rules.
+    * /var/opt/sitenv/scorecard/config/scorecardConfig.xml is the default path configured in /src/main/resources/config.properties file. Make sure to create a default path for scorecardConfig.xml. If you decide to create different path than specified, update config.properties appropriately. If you have the project cloned, an easy custom path to use would be within the source itself, such as Drive:/Users/Username/git/thisProjectName/src/main/resources/
 
 **Note: <a href="#noConfig">If building the WAR yourself</a> vs using an appropriate local WAR from the releases page, you have the option to <a href="#noConfig">skip configuration via scorecard.xml</a>. Otherwise, if using a pre-built WAR, you will need to configure with scorecard.xml as described next**
 
+<br />
 <span id="useConfig"></span>
 * **Continued instructions for using a pre-built release WAR:**
   * Download scorecard.xml from https://github.com/onc-healthit/ccda-scorecard/blob/master/src/main/resources/scorecard.xml.
@@ -164,6 +187,7 @@ ALTER TABLE public.scorecard_statistics
   * Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs
   * *IF you've reached this point in the instructions, you have chosen to configure with scorecard.xml and are done.*
 
+<br />
 <span id="noConfig"></span>
 * **Continued instructions if building the WAR yourself:**
   * From this point one can either follow the prior <a href="#useConfig">instructions for using a pre-built release WAR and build the WAR instead of downloading it before deploying</a>, or, use the override options in src/main/java/org/sitenv/service/ccda/smartscorecard/cofiguration/ApplicationConfiguration.java, explained ahead:
