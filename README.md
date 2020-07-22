@@ -2,11 +2,12 @@
 ### <a href="#overview">Overview</a>
 ### <a href="#api">API</a>
 ### <a href="#setupInstructions">Setup Instructions</a>
-#### &nbsp;&nbsp; <a href="#database">Database</a>
-#### &nbsp;&nbsp; <a href="#tomcat">Tomcat</a>
-#### &nbsp;&nbsp; <a href="#rules">Rules</a>
-#### &nbsp;&nbsp; <a href="#useConfig">XML Configuration Path (Using pre-built WAR)</a>
-#### &nbsp;&nbsp; <a href="#noConfig">Override Path (Building WAR from source)</a>
+#### &nbsp; <a href="#dependencies">Dependencies</a>
+#### &nbsp; <a href="#database">Database</a>
+#### &nbsp; <a href="#tomcat">Tomcat</a>
+#### &nbsp; <a href="#rules">Rules</a>
+#### &nbsp; <a href="#useConfig">XML Configuration Path (Using pre-built WAR)</a>
+#### &nbsp; <a href="#noConfig">Override Path (Building WAR from source)</a>
 
 <br />
 
@@ -53,6 +54,8 @@ public Void ccdascorecardservice(MultipartFile ccdaFile)
 
 <span id="setupInstructions"></span>
 # Setup Instructions
+
+<span id="dependencies"></span>
 * Dependencies
   * This project requires a prerequisite ccda parser dependency. You can build the jar from here https://github.com/onc-healthit/ccda-parser
 
@@ -150,7 +153,7 @@ ALTER TABLE public.scorecard_statistics
 
 <br />
 <span id="useConfig"></span>
-* **Continued instructions for using a pre-built release WAR:**
+* Continued instructions for using a pre-built release WAR:
   * Download scorecard.xml from https://github.com/onc-healthit/ccda-scorecard/blob/master/src/main/resources/scorecard.xml.
   * Update parameter values accordingly. 
       * scorecard.igConformanceCall - Indicates whether conformance check need to run or not. 
@@ -189,7 +192,7 @@ ALTER TABLE public.scorecard_statistics
 
 <br />
 <span id="noConfig"></span>
-* **Continued instructions if building the WAR yourself:**
+* Continued instructions if building the WAR yourself:
   * From this point one can either follow the prior <a href="#useConfig">instructions for using a pre-built release WAR and build the WAR instead of downloading it before deploying</a>, or, use the override options in src/main/java/org/sitenv/service/ccda/smartscorecard/cofiguration/ApplicationConfiguration.java, explained ahead:
 
 * Navigate to ApplicationConfiguration.java and set OVERRIDE_SCORECARD_XML_CONFIG to true
