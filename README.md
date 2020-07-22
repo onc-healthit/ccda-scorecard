@@ -9,8 +9,6 @@
 #### &nbsp; <a href="#useConfig">XML Configuration Path (Using pre-built WAR)</a>
 #### &nbsp; <a href="#noConfig">Override Path (Building WAR from source)</a>
 
-<br />
-
 <span id="overview"></span>
 # Overview
 * This application contains the C-CDA Scorecard service. The Service is implemented following the standards and promotes best practices in C-CDA implementation by assessing key aspects of the structured data found in individual documents. It is a tool designed to allow implementers to gain insight and information regarding industry best practice and usage overall. It also provides a rough quantitative assessment and highlights areas of improvement which can be made today to move the needle forward. The best practices and quantitative scoring criteria have been developed by HL7 through the HL7-ONC Cooperative agreement to improve the implementation of health care standards.
@@ -151,9 +149,8 @@ ALTER TABLE public.scorecard_statistics
 
 **Note: <a href="#noConfig">If building the WAR yourself</a> vs using an appropriate local WAR from the releases page, you have the option to <a href="#noConfig">skip configuration via scorecard.xml</a>. Otherwise, if using a pre-built WAR, you will need to configure with scorecard.xml as described next**
 
-<br />
 <span id="useConfig"></span>
-* Continued instructions for using a pre-built release WAR:
+* **Continued instructions for using a pre-built release WAR:**
   * Download scorecard.xml from https://github.com/onc-healthit/ccda-scorecard/blob/master/src/main/resources/scorecard.xml.
   * Update parameter values accordingly. 
       * scorecard.igConformanceCall - Indicates whether conformance check need to run or not. 
@@ -190,9 +187,8 @@ ALTER TABLE public.scorecard_statistics
   * Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs
   * *IF you've reached this point in the instructions, you have chosen to configure with scorecard.xml and are done.*
 
-<br />
 <span id="noConfig"></span>
-* Continued instructions if building the WAR yourself:
+* **Continued instructions if building the WAR yourself:**
   * From this point one can either follow the prior <a href="#useConfig">instructions for using a pre-built release WAR and build the WAR instead of downloading it before deploying</a>, or, use the override options in src/main/java/org/sitenv/service/ccda/smartscorecard/cofiguration/ApplicationConfiguration.java, explained ahead:
 
 * Navigate to ApplicationConfiguration.java and set OVERRIDE_SCORECARD_XML_CONFIG to true
