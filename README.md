@@ -144,5 +144,25 @@ public static final boolean IN_DEVELOPMENT_MODE = true;
   * Place a copy of scorecard.xml in $CATALINA_BASE/conf/[enginename]/[hostname]/. For example, ~/apache-tomcat-7.0.57/conf/Catalina/localhost
   * Copy the war file to Apache tomcat WEBAPPS folder
   * Start the tomcat.
+ 
+ * Below is the referene scorecard.xml which uses local referenceccdaservice urls. We have used default port (8080) as reference. It can be changed to any port. 
+ ```
+ <Context reloadable="true">
+    <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
+	<Parameter name="scorecard.certificatinResultsCall" value="true" override="true"/>
+	<Parameter name="scorecard.igConformanceUrl" value="http://localhost:8080/referenceccdaservice/" override="true"/>
+	<Parameter name="scorecard.certificationResultsUrl" value="http://localhost:8080/referenceccdaservice/" override="true"/>
+	<Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
+</Context>
+```
+* Below is the reference scorecard.xml which uses production referenceccdaservice urls. 
+```
+<Context reloadable="true">
+    <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
+	<Parameter name="scorecard.certificatinResultsCall" value="true" override="true"/>
+	<Parameter name="scorecard.igConformanceUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
+	<Parameter name="scorecard.certificationResultsUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
+	<Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
+</Context>
   
   
