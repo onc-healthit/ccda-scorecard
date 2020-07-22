@@ -42,7 +42,7 @@ public Void ccdascorecardservice(MultipartFile ccdaFile)
 * This project requires a prerequisite ccda parser dependency. You can build the jar from here https://github.com/onc-healthit/ccda-parser 
 * Install the latest version of Postgresql. Create a user called scorecarduser with password as scorecarduser and create a DB called site_scorecard
 * Inside the site_scorecard DB run the following scripts to create scorecard_statistics table
-```
+```SQL
 CREATE SEQUENCE public.scorecard_statistics_id_seq
     INCREMENT 1
     START 83
@@ -52,7 +52,7 @@ CREATE SEQUENCE public.scorecard_statistics_id_seq
 ALTER SEQUENCE public.scorecard_statistics_id_seq
     OWNER TO scorecarduser;
 ```
-```
+```SQL
 CREATE TABLE public.scorecard_statistics
 
 (
@@ -98,7 +98,7 @@ ALTER TABLE public.scorecard_statistics
     OWNER to scorecarduser;
 ```
 * Inside latest version of tomcat and add the following snippet under the <GlobalNamingResources> tag in server.xml
-```
+```XML
 <Resource auth="Container" 
 	  driverClassName="org.postgresql.Driver" 
 	  maxActive="100" 
@@ -112,7 +112,7 @@ ALTER TABLE public.scorecard_statistics
 ```
 
 * Add the following snippet to context.xml
-```
+```XML
 <ResourceLink global="jdbc/site_scorecard" 
     name="jdbc/site_scorecard"
     type="javax.sql.DataSource">
@@ -140,7 +140,7 @@ ALTER TABLE public.scorecard_statistics
   * Start Tomcat
  
  * Below is an example of the scorecard.xml configuration which uses **local** referenceccdaservice URLs. We have used default port (8080) as reference. It can be changed to any port
- ```
+ ```XML
  <Context reloadable="true">
     <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
     <Parameter name="scorecard.certificatinResultsCall" value="true" override="true"/>
@@ -150,7 +150,7 @@ ALTER TABLE public.scorecard_statistics
 </Context>
 ```
 * Below is an example of the scorecard.xml configuration which uses **production** referenceccdaservice URLs
-```
+```XML
 <Context reloadable="true">
     <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
     <Parameter name="scorecard.certificatinResultsCall" value="true" override="true"/>
@@ -169,7 +169,7 @@ ALTER TABLE public.scorecard_statistics
   * From this point one can either follow the prior instructions for "Continued instructions for using a pre-built release WAR" and build the WAR instead of downloading it before deploying, or, use the override options in src/main/java/org/sitenv/service/ccda/smartscorecard/cofiguration/ApplicationConfiguration.java, explained ahead:
 
 * Navigate to ApplicationConfiguration.java and set OVERRIDE_SCORECARD_XML_CONFIG to true
-```
+```Java
 /**
  * True allows setting default scorecard.xml values externally
  */
@@ -179,35 +179,31 @@ public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = true;
 * Decide which server you would like the service to contact for Reference C-CDA Validation. Whether it be a development server, production server, or a custom (such as local) specified server
 
 * To use the **development** servers, set IN_DEVELOPMENT_MODE to true, and skip to final "Build the Scorecard project and deploy the WAR file" step
-```
-/**
- * True allows switching the various service URLs from the prod to the dev server and enables local logs
- * Note: Never commit true as to ensure this is always set to false for production
- */
+```Java
 public static final boolean IN_DEVELOPMENT_MODE = true;
 ```
 
 * To use the **production** servers, set IN_DEVELOPMENT_MODE to false, and skip to final "Build the Scorecard project and deploy the WAR file" step
-```
+```Java
 public static final boolean IN_DEVELOPMENT_MODE = false;
 ```
 
 * To use a **local** or custom server, set IN_LOCAL_MODE to true, and continue through the remaining instructions
-```
+```Java
 public static final boolean IN_LOCAL_MODE = true;
 ```
   * If the Scorecard is hosted on a different port than 8000, update the port in DEFAULT_LOCAL_SCORECARD_SERVER_URL to whatever Tomcat is configured to for your local Scorecard instance (8080 is a common default but default for this is 8000 since the Reference C-CDA Validator may already be configured on 8080). To use a custom non-local server, replace the entire URL as desired, however, there probably isn't a good reason to this for this particular URL
-  ```
+  ```Java
   public static final String DEFAULT_LOCAL_SCORECARD_SERVER_URL = "http://localhost:XXXX",
   ```
   * If the Reference C-CDA Validator is hosted on a different port than 8080, update the port in DEFAULT_LOCAL_REF_VAL_SERVER_URL to whatever Tomcat is configured to for your local Reference C-CDA Validator instance. To use a custom non-local server, replace the entire URL as desired
-  ```
+  ```Java
   public static final String DEFAULT_LOCAL_REF_VAL_SERVER_URL = "http://localhost:XXXX",
   ```
 
 * Build the Scorecard project and deploy the WAR file to Tomcat and start Tomcat. You should be able to see the Scorecard UI by navigating to this URL: http://localhost:8000/scorecard/
   * Note: 8000 is just an example of what your Tomcat port might be. Please replace 8000 with your actual port if it differs. For example, it might be 8080.
   * Note: If there is an issue with the maven build due to tests failing, plase post a bug on the Scorecard issues ticket and try building with the following to continue regardless:
-    ```
+    ```Bash
     mvn clean install -D skipTests
     ```
