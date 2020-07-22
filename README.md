@@ -56,7 +56,6 @@ ALTER SEQUENCE public.scorecard_statistics_id_seq
 CREATE TABLE public.scorecard_statistics
 
 (
-
     id integer NOT NULL DEFAULT nextval('scorecard_statistics_id_seq'::regclass),
     doctype character varying(100) COLLATE pg_catalog."default",
     docscore smallint NOT NULL,
@@ -88,7 +87,6 @@ CREATE TABLE public.scorecard_statistics
     ccdadocumenttype character varying(100) COLLATE pg_catalog."default",
     directemailaddress character varying(100) COLLATE pg_catalog."default",
     CONSTRAINT scorecard_statistics_pkey PRIMARY KEY (id)
-
 )
 
 WITH (
@@ -129,7 +127,7 @@ ALTER TABLE public.scorecard_statistics
 **Note: If building the WAR yourself vs using an appropriate local WAR from the releases page, you will have the option to skip configuration via scorecard.xml. Otherwise, if using a pre-built WAR, you will need to configure with scorecard.xml.**
 
 
-* Continued instructions for using a pre-built release WAR:
+* **Continued instructions for using a pre-built release WAR:**
   * Download scorecard.xml from https://github.com/onc-healthit/ccda-scorecard/blob/master/src/main/resources/scorecard.xml.
   * Update parameter values accordingly. 
       * scorecard.igConformanceCall - Indicates whether conformance check need to run or not. 
@@ -167,7 +165,7 @@ ALTER TABLE public.scorecard_statistics
   * *IF you've reached this point in the instructions, you have chosen to configure with scorecard.xml and are done.*
 
 
-* Continued instructions if building the WAR yourself:
+* **Continued instructions if building the WAR yourself:**
   * From this point one can either follow the prior instructions for "Continued instructions for using a pre-built release WAR" and build the WAR instead of downloading it before deploying, or, use the override options in src/main/java/org/sitenv/service/ccda/smartscorecard/cofiguration/ApplicationConfiguration.java, explained ahead:
 
 * Navigate to ApplicationConfiguration.java and set OVERRIDE_SCORECARD_XML_CONFIG to true
@@ -189,16 +187,16 @@ public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = true;
 public static final boolean IN_DEVELOPMENT_MODE = true;
 ```
 
-* To use the **prodction** servers, set IN_DEVELOPMENT_MODE to false, and skip to final "Build the Scorecard project and deploy the WAR file" step
+* To use the **production** servers, set IN_DEVELOPMENT_MODE to false, and skip to final "Build the Scorecard project and deploy the WAR file" step
 ```
 public static final boolean IN_DEVELOPMENT_MODE = false;
 ```
 
 * To use a **local** or custom server, set IN_LOCAL_MODE to true, and continue through the remaining instructions
 ```
-public static final boolean IN_LOCAL_MODE = false;
+public static final boolean IN_LOCAL_MODE = true;
 ```
-  * If Scorecard is hosted on a different port than 8000, update the port in DEFAULT_LOCAL_SCORECARD_SERVER_URL to whatever Tomcat is configured to for your local Scorecard instance (8080 is a common default but default for this is 8000 since the Reference C-CDA Validator may already be configured on 8080). To use a custom non-local server, replace the entire URL as desired, however, there probably isn't a good reason to this for this particular URL
+  * If the Scorecard is hosted on a different port than 8000, update the port in DEFAULT_LOCAL_SCORECARD_SERVER_URL to whatever Tomcat is configured to for your local Scorecard instance (8080 is a common default but default for this is 8000 since the Reference C-CDA Validator may already be configured on 8080). To use a custom non-local server, replace the entire URL as desired, however, there probably isn't a good reason to this for this particular URL
   ```
   public static final String DEFAULT_LOCAL_SCORECARD_SERVER_URL = "http://localhost:XXXX",
   ```
