@@ -125,15 +125,15 @@ public static final boolean IN_DEVELOPMENT_MODE = true;
 
 ```
 
-* Rules execution in scorecard is controlled using an external config file. scorecardConfig.xml controls what rules to execute. Please follow the steps below to configure scorecardConfig.xml.
+* The execution of rules in the Scorecard is controlled by an external configuration file, scorecardConfig.xml. The file controls what rules to execute. Please follow the steps below to configure scorecardConfig.xml
   * Download scorecardConfig.xml which is available under src/main/resources
-  * By default scorecardConfig.xml is configured to run all the scorecard rules. Make the necessary changes to disable/enable any specific rules.
-  * /var/opt/sitenv/scorecard/config/scorecardConfig.xml is the default path configured in /src/main/resources/config.properties file. Make sure to create default path for scorecardConfig.xml. If you decide to create different path then update config.properties appropriately
+  * By default scorecardConfig.xml is configured to run all of the Scorecard rules. Make the necessary changes to disable/enable any specific rules.
+  * /var/opt/sitenv/scorecard/config/scorecardConfig.xml is the default path configured in /src/main/resources/config.properties file. Make sure to create a default path for scorecardConfig.xml. If you decide to create different path than specified, update config.properties appropriately. If you have the project cloned, an easy custom path to use would be within the source itself, such as Drive:/Users/Username/git/thisProjectName/src/main/resources/
  
 * Build the Scorecard project and deploy the WAR file to Tomcat and start Tomcat. You should be able to see the Scorecard UI by navigating to this URL: http://localhost:8080/scorecard/
   * Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs
   
-* Additional instructions if you are running pre packed scorecard.war file. 
+* Additional instructions if you are running a pre-packed scorecard.war from the release, vs building a WAR yourself
   * Download scorecard.xml from https://github.com/onc-healthit/ccda-scorecard/blob/master/src/main/resources/scorecard.xml.
   * Update parameter values accordingly. 
       * scorecard.igConformanceCall - Indicates whether conformance check need to run or not. 
@@ -142,10 +142,10 @@ public static final boolean IN_DEVELOPMENT_MODE = true;
       * scorecard.certificationResultsUrl - URL for certification result call.
       * scorecard.configFile - Path for scorecardConfig.xml file which controls the execution of scorecard rules. This can be downloaded from https://github.com/onc-healthit/ccda-scorecard/blob/master/src/main/resources/scorecardConfig.xml
   * Place a copy of scorecard.xml in $CATALINA_BASE/conf/[enginename]/[hostname]/. For example, ~/apache-tomcat-7.0.57/conf/Catalina/localhost
-  * Copy the war file to Apache tomcat WEBAPPS folder
-  * Start the tomcat.
+  * Copy the WAR file to the Apache Tomcat webapps folder
+  * Start Tomcat
  
- * Below is the referene scorecard.xml which uses local referenceccdaservice urls. We have used default port (8080) as reference. It can be changed to any port. 
+ * Below is an example of the scorecard.xml configuration which uses **local** referenceccdaservice urls. We have used default port (8080) as reference. It can be changed to any port
  ```
  <Context reloadable="true">
     <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
@@ -155,7 +155,7 @@ public static final boolean IN_DEVELOPMENT_MODE = true;
 	<Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
 ```
-* Below is the reference scorecard.xml which uses production referenceccdaservice urls. 
+* Below is an example of the scorecard.xml configuration which uses **production** referenceccdaservice urls
 ```
 <Context reloadable="true">
     <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
