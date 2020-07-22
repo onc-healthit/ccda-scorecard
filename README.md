@@ -124,7 +124,7 @@ ALTER TABLE public.scorecard_statistics
   * By default scorecardConfig.xml is configured to run all of the Scorecard rules. Make the necessary changes to disable/enable any specific rules.
   * /var/opt/sitenv/scorecard/config/scorecardConfig.xml is the default path configured in /src/main/resources/config.properties file. Make sure to create a default path for scorecardConfig.xml. If you decide to create different path than specified, update config.properties appropriately. If you have the project cloned, an easy custom path to use would be within the source itself, such as Drive:/Users/Username/git/thisProjectName/src/main/resources/
 
-**Note: If building the WAR yourself vs using an appropriate local WAR from the releases page, you will have the option to skip configuration via scorecard.xml. Otherwise, if using a pre-built WAR, you will need to configure with scorecard.xml.**
+**Note: <a href="#noConfig">If building the WAR yourself</a> vs using an appropriate local WAR from the releases page, you have the option to <a href="#noConfig">skip configuration via scorecard.xml</a>. Otherwise, if using a pre-built WAR, you will need to configure with scorecard.xml as described next.**
 
 
 * **Continued instructions for using a pre-built release WAR:**
@@ -164,7 +164,7 @@ ALTER TABLE public.scorecard_statistics
   * Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs
   * *IF you've reached this point in the instructions, you have chosen to configure with scorecard.xml and are done.*
 
-
+<span id="noConfig"></span>
 * **Continued instructions if building the WAR yourself:**
   * From this point one can either follow the prior instructions for "Continued instructions for using a pre-built release WAR" and build the WAR instead of downloading it before deploying, or, use the override options in src/main/java/org/sitenv/service/ccda/smartscorecard/cofiguration/ApplicationConfiguration.java, explained ahead:
 
