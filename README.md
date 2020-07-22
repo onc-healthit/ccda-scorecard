@@ -126,7 +126,8 @@ ALTER TABLE public.scorecard_statistics
   * By default scorecardConfig.xml is configured to run all of the Scorecard rules. Make the necessary changes to disable/enable any specific rules.
   * /var/opt/sitenv/scorecard/config/scorecardConfig.xml is the default path configured in /src/main/resources/config.properties file. Make sure to create a default path for scorecardConfig.xml. If you decide to create different path than specified, update config.properties appropriately. If you have the project cloned, an easy custom path to use would be within the source itself, such as Drive:/Users/Username/git/thisProjectName/src/main/resources/
 
-Note: If building the WAR yourself vs using an appropriate local WAR from the releases page, you will have the option to skip configuration via scorecard.xml. Otherwise, if using a pre-built WAR, you will need to configure with scorecard.xml.
+**Note: If building the WAR yourself vs using an appropriate local WAR from the releases page, you will have the option to skip configuration via scorecard.xml. Otherwise, if using a pre-built WAR, you will need to configure with scorecard.xml.**
+
 
 * Continued instructions for using a pre-built release WAR:
   * Download scorecard.xml from https://github.com/onc-healthit/ccda-scorecard/blob/master/src/main/resources/scorecard.xml.
@@ -163,9 +164,11 @@ Note: If building the WAR yourself vs using an appropriate local WAR from the re
 
 * Deploy the WAR file to Tomcat and start Tomcat. You should be able to see the Scorecard UI by navigating to this URL: http://localhost:8080/scorecard/
   * Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs
+  * *IF you've reached this point in the instructions, you have chosen to configure with scorecard.xml and are done.*
+
 
 * Continued instructions if building the WAR yourself:
-  * From this point one can either follow the prior instructions for "Continued instructions for using a pre-built release WAR" and build the WAR instead of downloading it before deploying, or, use the quicker override options in src/main/java/org/sitenv/service/ccda/smartscorecard/cofiguration/ApplicationConfiguration.java, explained ahead
+  * From this point one can either follow the prior instructions for "Continued instructions for using a pre-built release WAR" and build the WAR instead of downloading it before deploying, or, use the override options in src/main/java/org/sitenv/service/ccda/smartscorecard/cofiguration/ApplicationConfiguration.java, explained ahead:
 
 * Navigate to ApplicationConfiguration.java and set OVERRIDE_SCORECARD_XML_CONFIG to true
 ```
@@ -192,9 +195,9 @@ public static final boolean IN_DEVELOPMENT_MODE = false;
 ```
 
 * To use a **local** or custom server, set IN_LOCAL_MODE to true, and continue through the remaining instructions
-  ```
-  public static final boolean IN_LOCAL_MODE = false;
-  ```
+```
+public static final boolean IN_LOCAL_MODE = false;
+```
   * If Scorecard is hosted on a different port than 8000, update the port in DEFAULT_LOCAL_SCORECARD_SERVER_URL to whatever Tomcat is configured to for your local Scorecard instance (8080 is a common default but default for this is 8000 since the Reference C-CDA Validator may already be configured on 8080). To use a custom non-local server, replace the entire URL as desired, however, there probably isn't a good reason to this for this particular URL
   ```
   public static final String DEFAULT_LOCAL_SCORECARD_SERVER_URL = "http://localhost:XXXX",
