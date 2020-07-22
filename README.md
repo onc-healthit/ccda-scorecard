@@ -149,20 +149,20 @@ public static final boolean IN_DEVELOPMENT_MODE = true;
  ```
  <Context reloadable="true">
     <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
-	<Parameter name="scorecard.certificatinResultsCall" value="true" override="true"/>
-	<Parameter name="scorecard.igConformanceUrl" value="http://localhost:8080/referenceccdaservice/" override="true"/>
-	<Parameter name="scorecard.certificationResultsUrl" value="http://localhost:8080/referenceccdaservice/" override="true"/>
-	<Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
+    <Parameter name="scorecard.certificatinResultsCall" value="true" override="true"/>
+    <Parameter name="scorecard.igConformanceUrl" value="http://localhost:8080/referenceccdaservice/" override="true"/>
+    <Parameter name="scorecard.certificationResultsUrl" value="http://localhost:8080/referenceccdaservice/" override="true"/>
+    <Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
 ```
 * Below is an example of the scorecard.xml configuration which uses **production** referenceccdaservice urls
 ```
 <Context reloadable="true">
     <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
-	<Parameter name="scorecard.certificatinResultsCall" value="true" override="true"/>
-	<Parameter name="scorecard.igConformanceUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
-	<Parameter name="scorecard.certificationResultsUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
-	<Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
+    <Parameter name="scorecard.certificatinResultsCall" value="true" override="true"/>
+    <Parameter name="scorecard.igConformanceUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
+    <Parameter name="scorecard.certificationResultsUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
+    <Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
   
   
