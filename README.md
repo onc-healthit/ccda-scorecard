@@ -182,6 +182,12 @@ ALTER TABLE public.scorecard_statistics
     <Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
 ```
+* When using the production validator API, you might encounter a security exception when scorecard tries to contact the API. To overcome this exception you need to add the
+  validator's public certificate into your local java keystore.
+* Navigate to JAVA_HOME/jre/lib/security and run the following script
+```
+keytool -importcert $CERT -alias $ALIAS -keystore cacerts -storepass changeit
+```
 
 * Deploy the WAR file to Tomcat and start Tomcat. You should be able to see the Scorecard UI by navigating to this URL: http://localhost:8080/scorecard/
   * Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs
