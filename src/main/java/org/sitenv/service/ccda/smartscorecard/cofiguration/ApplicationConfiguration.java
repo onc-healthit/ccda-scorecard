@@ -3,6 +3,12 @@ package org.sitenv.service.ccda.smartscorecard.cofiguration;
 public class ApplicationConfiguration {
 	
 	/**
+	 * True allows setting default scorecard.xml values externally
+	 * If using this configuration, set this to true, otherwise, ensure it is false
+	 */
+	public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = true;
+	
+	/**
 	 * True allows switching the various service URLs from the prod to the dev server and enables local logs
 	 * Note: Never commit true as to ensure this is always set to false for production
 	 */
@@ -12,12 +18,7 @@ public class ApplicationConfiguration {
 	 * True allows using local or custom servers
 	 * Note: Never commit true as to ensure this is always set to false for production
 	 */	
-	public static final boolean IN_LOCAL_MODE = false;
-	
-	/**
-	 * True allows setting default scorecard.xml values externally
-	 */
-	public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = true;
+	public static final boolean IN_LOCAL_MODE = false;	
 	
 	/**
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG == true
