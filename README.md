@@ -205,21 +205,28 @@ keytool -importcert $CERT -alias $ALIAS -keystore cacerts -storepass changeit
 public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = true;
 ```
 
-* Decide which server you would like the service to contact for Reference C-CDA Validation. Whether it be a development server, production server, or a custom (such as local) specified server
-
-* To use the **development** servers, set IN_DEVELOPMENT_MODE to true, and skip to final "Build the Scorecard project and deploy the WAR file" step
-```Java
-public static final boolean IN_DEVELOPMENT_MODE = true;
+* Decide which server you would like the service to contact for Reference C-CDA Validation. Whether it be a development server, production server, or a custom (such as local) specified server. One can also control the server of the Scorecard itself if desired. These outcomes are based on the Environment set
+```
+/**
+ * Sets the environment for deployment - only relevant if OVERRIDE_SCORECARD_XML_CONFIG is true
+ * Options are defined in org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.Environment
+ */
+public static final Environment ENV = Environment.ENTER_DESIRED_ENVIRONMENT_FROM_ENUM_HERE;
 ```
 
-* To use the **production** servers, set IN_DEVELOPMENT_MODE to false, and skip to final "Build the Scorecard project and deploy the WAR file" step
+* To use the **production** servers, set set ENV to Environment.PROD, and skip to final "Build the Scorecard project and deploy the WAR file" step
 ```Java
-public static final boolean IN_DEVELOPMENT_MODE = false;
+public static final Environment ENV = Environment.PROD;;
 ```
 
-* To use a **local** or custom server, set IN_LOCAL_MODE to true, and continue through the remaining instructions
+* For example, to use the **development** servers, set ENV to Environment.DEV, and "Build the Scorecard project and deploy the WAR file" step
 ```Java
-public static final boolean IN_LOCAL_MODE = true;
+public static final Environment ENV = Environment.DEV;
+```
+
+* To use a **local** or custom server, set ENV to Environment.LOCAL_OR_CUSTOM, and continue through the remaining instructions
+```Java
+public static final Environment ENV = Environment.LOCAL_OR_CUSTOM;
 ```
   * If the Scorecard is hosted on a different port than 8000, update the port in DEFAULT_LOCAL_SCORECARD_SERVER_URL to whatever Tomcat is configured to for your local Scorecard instance (8080 is a common default but default for this is 8000 since the Reference C-CDA Validator may already be configured on 8080). To use a custom non-local server, replace the entire URL as desired, however, there probably isn't a good reason to this for this particular URL
   ```Java
