@@ -1091,7 +1091,7 @@ public class ApplicationUtil {
 	}
 
 	public static void debugLog(String debugMessage) {
-		if (!ApplicationConfiguration.IN_DEVELOPMENT_MODE)
+		if (ApplicationConfiguration.ENV.isProduction())
 			return;
 		System.out.println(System.lineSeparator() + "Debug Log:");
 		System.out.println(debugMessage + System.lineSeparator());
