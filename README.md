@@ -8,7 +8,7 @@
 #### &nbsp; <a href="#rules">Rules</a>
 #### &nbsp; <a href="#useConfig">XML Configuration Path (Using pre-built WAR)</a>
 #### &nbsp; <a href="#noConfig">Override Path (Building WAR from source)</a>
-### <a href="#troubleshooting">Troubleshooting</a>
+### <a href="#troubleshootingLink">Troubleshooting</a>
 #### &nbsp; <a href="#cert">Public Certificate (PKIX)</a>
 
 <span id="overview"></span>
@@ -184,7 +184,7 @@ ALTER TABLE public.scorecard_statistics
     <Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
 ```
-* Note: If using production, you will want to download the public cert from SITE and <a href="cert">install it</a>
+* Note: If using production, you will want to download the public cert from SITE and <a href="#cert">install it</a>
 
 * Deploy the WAR file to Tomcat and start Tomcat. You should be able to see the Scorecard UI by navigating to this URL: http://localhost:8080/scorecard/
   * Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs
@@ -216,7 +216,7 @@ public static final Environment ENV = Environment.ENTER_DESIRED_ENVIRONMENT_FROM
   ```Java
   public static final Environment ENV = Environment.PROD;;
   ```
-    * Note: If using production, you will want to download the public cert from SITE and <a href="cert">install it</a>
+    * Note: If using production, you will want to download the public cert from SITE and <a href="#cert">install it</a>
 
 * For example, to use the **development** servers, set ENV to Environment.DEV, and "Build the Scorecard project and deploy the WAR file" step
   ```Java
@@ -243,7 +243,7 @@ public static final Environment ENV = Environment.ENTER_DESIRED_ENVIRONMENT_FROM
     mvn clean install -D skipTests
     ```
 
-<span id="troubleshooting"></span>
+<span id="troubleshootingLink"></span>
 # Troubleshooting
 
 <span id="cert"></span>
