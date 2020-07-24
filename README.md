@@ -252,5 +252,5 @@ public static final Environment ENV = Environment.ENTER_DESIRED_ENVIRONMENT_FROM
   validator's public certificate into your local java keystore
     * Navigate to JAVA_HOME/jre/lib/security and run the following script
       ```
-      keytool -importcert $CERT -alias $ALIAS -keystore cacerts -storepass changeit
+      keytool -importcert -file $CERT -alias $ALIAS -keystore cacerts -storepass changeit
       ```
