@@ -213,6 +213,7 @@
 					</configuration>
 				</plugin>
 				<!-- Updates version on landing page. Separate configuration as replacement is too simple/dangerous to look at more files -->
+				<!--
 				<plugin>
 					<groupId>com.google.code.maven-replacer-plugin</groupId>
 					<artifactId>replacer</artifactId>
@@ -236,7 +237,8 @@
 							</replacement>
 						</replacements>
 					</configuration>
-				</plugin>				
+				</plugin>
+				-->				
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
