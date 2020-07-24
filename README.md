@@ -8,6 +8,8 @@
 #### &nbsp; <a href="#rules">Rules</a>
 #### &nbsp; <a href="#useConfig">XML Configuration Path (Using pre-built WAR)</a>
 #### &nbsp; <a href="#noConfig">Override Path (Building WAR from source)</a>
+### <a href="#troubleshooting">Troubleshooting</a>
+#### &nbsp; <a href="#cert">Public Certificate (PKIX)</a>
 
 <span id="overview"></span>
 # Overview
@@ -182,16 +184,12 @@ ALTER TABLE public.scorecard_statistics
     <Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
 ```
-* When using the production validator API, you might encounter a security exception when scorecard tries to contact the API. To overcome this exception you need to add the
-  validator's public certificate into your local java keystore.
-* Navigate to JAVA_HOME/jre/lib/security and run the following script
-```
-keytool -importcert $CERT -alias $ALIAS -keystore cacerts -storepass changeit
-```
+* Note: If using production, you will want to download the public cert from SITE and <a href="cert">install it</a>
 
 * Deploy the WAR file to Tomcat and start Tomcat. You should be able to see the Scorecard UI by navigating to this URL: http://localhost:8080/scorecard/
   * Note: 8080 is just an example of what your Tomcat port might be. Please replace 8080 with your actual port if it differs
   * *IF you've reached this point in the instructions, you have chosen to configure with scorecard.xml and are done.*
+
 
 <span id="noConfig"></span>
 * **Continued instructions if building the WAR yourself:**
@@ -215,27 +213,28 @@ public static final Environment ENV = Environment.ENTER_DESIRED_ENVIRONMENT_FROM
 ```
 
 * To use the **production** servers, set set ENV to Environment.PROD, and skip to final "Build the Scorecard project and deploy the WAR file" step
-```Java
-public static final Environment ENV = Environment.PROD;;
-```
+  ```Java
+  public static final Environment ENV = Environment.PROD;;
+  ```
+    * Note: If using production, you will want to download the public cert from SITE and <a href="cert">install it</a>
 
 * For example, to use the **development** servers, set ENV to Environment.DEV, and "Build the Scorecard project and deploy the WAR file" step
-```Java
-public static final Environment ENV = Environment.DEV;
-```
+  ```Java
+  public static final Environment ENV = Environment.DEV;
+  ```
 
 * To use a **local** or custom server, set ENV to Environment.LOCAL_OR_CUSTOM, and continue through the remaining instructions
-```Java
-public static final Environment ENV = Environment.LOCAL_OR_CUSTOM;
-```
-  * If the Scorecard is hosted on a different port than 8000, update the port in DEFAULT_LOCAL_SCORECARD_SERVER_URL to whatever Tomcat is configured to for your local Scorecard instance (8080 is a common default but default for this is 8000 since the Reference C-CDA Validator may already be configured on 8080). To use a custom non-local server, replace the entire URL as desired, however, there probably isn't a good reason to this for this particular URL
   ```Java
-  public static final String DEFAULT_LOCAL_SCORECARD_SERVER_URL = "http://localhost:XXXX",
+  public static final Environment ENV = Environment.LOCAL_OR_CUSTOM;
   ```
-  * If the Reference C-CDA Validator is hosted on a different port than 8080, update the port in DEFAULT_LOCAL_REF_VAL_SERVER_URL to whatever Tomcat is configured to for your local Reference C-CDA Validator instance. To use a custom non-local server, replace the entire URL as desired
-  ```Java
-  public static final String DEFAULT_LOCAL_REF_VAL_SERVER_URL = "http://localhost:XXXX",
-  ```
+    * If the Scorecard is hosted on a different port than 8000, update the port in DEFAULT_LOCAL_SCORECARD_SERVER_URL to whatever Tomcat is configured to for your local Scorecard instance (8080 is a common default but default for this is 8000 since the Reference C-CDA Validator may already be configured on 8080). To use a custom non-local server, replace the entire URL as desired, however, there probably isn't a good reason to this for this particular URL
+    ```Java
+    public static final String DEFAULT_LOCAL_SCORECARD_SERVER_URL = "http://localhost:XXXX",
+    ```
+    * If the Reference C-CDA Validator is hosted on a different port than 8080, update the port in DEFAULT_LOCAL_REF_VAL_SERVER_URL to whatever Tomcat is configured to for your local Reference C-CDA Validator instance. To use a custom non-local server, replace the entire URL as desired
+    ```Java
+    public static final String DEFAULT_LOCAL_REF_VAL_SERVER_URL = "http://localhost:XXXX",
+    ```
 
 * Build the Scorecard project and deploy the WAR file to Tomcat and start Tomcat. You should be able to see the Scorecard UI by navigating to this URL: http://localhost:8000/scorecard/
   * Note: 8000 is just an example of what your Tomcat port might be. Please replace 8000 with your actual port if it differs. For example, it might be 8080.
@@ -243,3 +242,15 @@ public static final Environment ENV = Environment.LOCAL_OR_CUSTOM;
     ```Bash
     mvn clean install -D skipTests
     ```
+
+<span id="troubleshooting"></span>
+# Troubleshooting
+
+<span id="cert"></span>
+* Public Certificate (PKIX)
+  * When using the production validator API, you might encounter a security exception when scorecard tries to contact the API. To overcome this exception you need to add the
+  validator's public certificate into your local java keystore
+    * Navigate to JAVA_HOME/jre/lib/security and run the following script
+      ```
+      keytool -importcert $CERT -alias $ALIAS -keystore cacerts -storepass changeit
+      ```
