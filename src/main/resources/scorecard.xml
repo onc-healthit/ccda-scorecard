@@ -12,7 +12,7 @@ Save a backup of this completed configuration file
 <Context reloadable="true">
     <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
 	<Parameter name="scorecard.certificatinResultsCall" value="true" override="true"/>
-	<Parameter name="scorecard.igConformanceUrl" value="https://devccda.sitenv.org/referenceccdaservice/" override="true"/>
-	<Parameter name="scorecard.certificationResultsUrl" value="https://devccda.sitenv.org/referenceccdaservice/" override="true"/>
-	<Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
+	<Parameter name="scorecard.igConformanceUrl" value="REPLACE-WITH-SERVER-OR-LOCALHOST/referenceccdaservice/" override="true"/>
+	<Parameter name="scorecard.certificationResultsUrl" value="REPLACE-WITH-SERVER-OR-LOCALHOST/referenceccdaservice/" override="true"/>
+	<Parameter name="scorecard.configFile" value="path to scorecardConfig.xml including filename on server or local" override="true"/>
 </Context>
