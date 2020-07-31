@@ -10,6 +10,7 @@ public class ScorecardProperties {
 	private Boolean certificationResultsCall;
 	private String igConformanceURL;
 	private String certificatinResultsURL;
+	
 	public Boolean getIgConformanceCall() {
 		return igConformanceCall;
 	}
@@ -36,4 +37,3 @@ public class ScorecardProperties {
 	}
 	
 }
-	

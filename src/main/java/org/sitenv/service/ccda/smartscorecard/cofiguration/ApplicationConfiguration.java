@@ -6,30 +6,28 @@ public class ApplicationConfiguration {
 	 * True allows setting default scorecard.xml values externally
 	 * If using this configuration, set this to true, otherwise, ensure it is false
 	 */
-	public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = true;
+	public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = false;
 	
 	/**
 	 * Sets the environment for deployment - only relevant if OVERRIDE_SCORECARD_XML_CONFIG is true
 	 * Options are defined in org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.Environment
 	 */
-	public static final Environment ENV = Environment.PROD;
+	public static final Environment ENV = Environment.PROD_REF_VAL_WITH_LOCAL_OR_CUSTOM_SCORECARD;
 	
 	/**
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG is true
-	 * When overridden, the URL property is set by ApplicationConstants.REFERENCE_VALIDATOR_URL
 	 * True allows for 'C-CDA IG Conformance Errors' results
 	 */
-	public static final boolean IG_CONFORMANCE_CALL = false;
+	public static final boolean IG_CONFORMANCE_CALL = true;
 	
 	/**
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG is true
-	 * When overridden, the URL property is set by ApplicationConstants.REFERENCE_VALIDATOR_URL
 	 * True allows for '2015 Edition Certification Feedback' results
 	 */
-	public static final boolean CERTIFICATION_RESULTS_CALL = false;	
-	
+	public static final boolean CERTIFICATION_RESULTS_CALL = true;		
+		
 	/**
-	 * The cures update version of the ref val is currently hosted on the ccda
+	 * The cures update version of the Reference Validator is currently hosted on the C-CDA
 	 * servers. True enables cures validation within the scorecard by switching
 	 * servers and passing the curesUpdate form data parameter
 	 */
@@ -110,6 +108,13 @@ public class ApplicationConfiguration {
 			public String server(EndpointType type) {
 				return type == EndpointType.RefVal ? TTP_GOV_PROD_SERVER_URL
 						: CCDA_GOV_PROD_SERVER_URL;
+			}
+		},
+		PROD_REF_VAL_WITH_LOCAL_OR_CUSTOM_SCORECARD {
+			@Override
+			public String server(EndpointType type) {
+				return type == EndpointType.RefVal ? TTP_PROD_SERVER_URL
+						: DEFAULT_LOCAL_SCORECARD_SERVER_URL;
 			}
 		};
 		

@@ -18,12 +18,15 @@ import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationCon
 import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.TTP_DEV_SERVER_URL;
 import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.TTP_GOV_PROD_SERVER_URL;
 import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.TTP_PROD_SERVER_URL;
+//import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.LOCAL_CONFIG_FILE_PATH;
+//import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.DEPLOYED_CONFIG_FILE_PATH;
 
 import org.junit.Ignore;
 import org.junit.Test;
 import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.EndpointType;
 import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.Environment;
+import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 
 public class ApplicationConfigurationTest {
 
@@ -102,6 +105,16 @@ public class ApplicationConfigurationTest {
 
 		checkEnvironment(env, TTP_GOV_PROD_SERVER_URL, CCDA_GOV_PROD_SERVER_URL);
 	}
+	
+	@Test
+	public void testProdRefValLocalOrCustomScorecardEnvironment() {
+		final Environment env = Environment.PROD_REF_VAL_WITH_LOCAL_OR_CUSTOM_SCORECARD;
+
+		assertTrue(env.isDevLocalOrCustom());
+		assertFalse(env.isProduction());
+
+		checkEnvironment(env, TTP_PROD_SERVER_URL, DEFAULT_LOCAL_SCORECARD_SERVER_URL);
+	}
 
 	private static void checkEnvironmentIfSetInConfig(Environment envToTest, String expectedRefValServerUrl,
 			String expectedScorecardServerUrl) {
@@ -168,5 +181,23 @@ public class ApplicationConfigurationTest {
 					CCDA_GOV_PROD_SERVER_URL);
 		}
 	}
+	
+	@Test
+	public void testProdRefValLocalOrCustomScorecardEnvironmentIfSetInConfig() {
+		if (ApplicationConfiguration.ENV == Environment.PROD_REF_VAL_WITH_LOCAL_OR_CUSTOM_SCORECARD) {
+			assertTrue(ApplicationConfiguration.ENV.isDevLocalOrCustom());
+			assertFalse(ApplicationConfiguration.ENV.isProduction());
+			checkEnvironmentIfSetInConfig(ApplicationConfiguration.ENV, TTP_PROD_SERVER_URL,
+					DEFAULT_LOCAL_SCORECARD_SERVER_URL);
+		}
+	}
+	
+	/*
+	@Test
+	public void testOverrideConfigFilePathToScorecardConfigXMLRulesPath() {
+//		System.out.println(LOCAL_CONFIG_FILE_PATH);
+//		System.out.println(DEPLOYED_CONFIG_FILE_PATH);
+	}
+	*/
 
 }
