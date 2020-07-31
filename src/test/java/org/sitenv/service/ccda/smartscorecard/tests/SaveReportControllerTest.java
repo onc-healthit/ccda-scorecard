@@ -31,6 +31,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * These tests require a live server connection and thus are ignored for the sake of maven builds
+ */
+@Ignore
 public class SaveReportControllerTest {
 
 	private static final String CCDA_TEST_FILE = "/Scorecard-PassesCert.xml";
