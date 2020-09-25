@@ -20,9 +20,9 @@ scApp.controller('SiteUploadController', ['$scope', '$http', 'Upload', '$timeout
   };
 
   $scope.userMessageConstant = Object.freeze ({
-	GENERIC: "Please try a different file and report the issue to SITTeam@hhs.gov.",
-	GENERIC_LATER: "Please try again later or contact SITTeam@hhs.gov for help.",
-	GENERIC_COMBINED: "Please try again later, try a different file, or contact SITTeam@hhs.gov for help.",
+	GENERIC: "Please try a different file and report the issue to edge-test-tool@googlegroups.com.",
+	GENERIC_LATER: "Please try again later or contact edge-test-tool@googlegroups.com for help.",
+	GENERIC_COMBINED: "Please try again later, try a different file, or contact edge-test-tool@googlegroups.com for help.",
 	UPLOAD_ERROR: "Error uploading <unknownFileName>: ",
 	TIMEOUT_ERROR: "The scorecard application has been stopped " +
 	"due to the length of time it has been processing the given request. "
