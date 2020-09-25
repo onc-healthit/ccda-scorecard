@@ -1,0 +1,256 @@
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:voc="urn:hl7-org:v3/voc" xmlns:sdtc="urn:hl7-org:sdtc">
+	<realmCode code="US"/>
+	<typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3"/>
+	<templateId root="2.16.840.1.113883.10.20.22.1.1"/>
+	<templateId root="2.16.840.1.113883.10.20.22.1.1" extension="2015-08-01"/>
+	
+	<templateId root="2.16.840.1.113883.10.20.22.1.14"/>
+	<templateId root="2.16.840.1.113883.10.20.22.1.14" extension="2015-08-01"/>
+	
+	<id root="c90f9b02-b8b8-44a0-8b07-ffd978fbb21d"/>
+	<code code="57133-1" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Referral Note"/>
+	<title>CCDA 2.1 Clinical Visit Summary</title>
+	<effectiveTime value="20200612105928"/>
+	<confidentialityCode code="N" displayName="normal" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality"/>
+	<languageCode code="en-US"/>
+	<recordTarget>
+		<patientRole>
+			<id root="2.16.840.1.113883.3.441.1.50.350177.51" extension="26539" assigningAuthorityName="Prime Suite PatientID"/>
+			<addr use="H">
+				<streetAddressLine>1357, Amber Dr,</streetAddressLine>
+				<city>Beaverton</city>
+				<county>Washington</county>
+				<state>OR</state>
+				<postalCode>97006</postalCode>
+				<country>USA</country>
+			</addr>
+			<telecom value="tel:+1 813 7231544" use="HP"/>
+			<telecom value="tel:+1 813 7771234" use="MC"/>
+			<telecom value="mailto:regulatorypo@greenwayhealth.com"/>
+			<patient>
+				<!-- SC-Test -->
+				<name>
+					<given>Alice</given>
+					<given>Jones</given>
+					<family>Newman</family>
+				</name>				
+				<name>
+					<given qualifier="BR">Alicia</given>
+					<family>Newman</family>
+				</name>
+				
+				<administrativeGenderCode code="F" displayName="Female" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGender"/>
+				<birthTime value="19700501"/>
+				<maritalStatusCode nullFlavor="UNK"/>
+				<religiousAffiliationCode nullFlavor="NI"/>
+				<raceCode code="2106-3" displayName="Caucasian/White" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
+				<sdtc:raceCode code="2108-9" displayName="White European" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
+				<ethnicGroupCode code="2186-5" displayName="Not Hispanic or Latino" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
+				<birthplace>
+					<place>
+						<addr nullFlavor="UNK"/>
+					</place>
+				</birthplace>
+				<languageCommunication>
+					<languageCode code="en"/>
+					<modeCode nullFlavor="UNK"/>
+					<proficiencyLevelCode nullFlavor="UNK"/>
+					<preferenceInd value="true"/>
+				</languageCommunication>
+			</patient>
+			<providerOrganization>
+				<id root="2.16.840.1.113883.3.441.1.50" extension="350177"/>
+				<name>Neighborhood Physicians Practice</name>
+				<telecom nullFlavor="NI"/>
+				<addr use="WP">
+					<streetAddressLine>2472 Rocky Place</streetAddressLine>
+					<city>Beaverton</city>
+					<state>OR</state>
+					<postalCode>97006</postalCode>
+					<country>USA</country>
+				</addr>
+			</providerOrganization>
+		</patientRole>
+	</recordTarget>
+	<author>
+		<templateId root="2.16.840.1.113883.10.20.22.4.119"/>
+		<time nullFlavor="NI"/>
+		<assignedAuthor>
+			<id root="e8aa81e1-2733-47da-af9b-2e7cba7d10bd"/>
+			<addr nullFlavor="UNK"/>
+			<telecom nullFlavor="NI"/>
+			<assignedPerson>
+				<name>
+					<given>Tami</given>
+					<family>G</family>
+				</name>
+			</assignedPerson>
+		</assignedAuthor>
+	</author>
+	<author>
+		<templateId root="2.16.840.1.113883.10.20.22.4.119"/>
+		<time nullFlavor="NI"/>
+		<assignedAuthor>
+			<id root="0be78ec9-39d5-40a0-a270-8bd43e6b20e6"/>
+			<addr nullFlavor="NI"/>
+			<telecom nullFlavor="NI"/>
+			<assignedAuthoringDevice>
+				<manufacturerModelName>Greenway Prime Suite</manufacturerModelName>
+				<softwareName>18.00.02.999</softwareName>
+			</assignedAuthoringDevice>
+			<representedOrganization>
+				<id root="3fb841fd-fe77-4ab5-bea2-61c08a061a06"/>
+				<name nullFlavor="NI"/>
+			</representedOrganization>
+		</assignedAuthor>
+	</author>
+	<informant>
+		<assignedEntity>
+			<id root="2.16.840.1.113883.3.441.1.50.350177.51.26539.123" extension="1582" assigningAuthorityName="Prime Suite InformantID"/>
+			<addr nullFlavor="UNK"/>
+			<telecom nullFlavor="NI"/>
+			<assignedPerson>
+				<name>
+					<given>Tracy</given>
+					<family>Davis</family>
+				</name>
+			</assignedPerson>
+		</assignedEntity>
+	</informant>
+	<custodian>
+		<assignedCustodian>
+			<representedCustodianOrganization>
+				<id root="2.16.840.1.113883.3.441.1.50" extension="350177" assigningAuthorityName="Prime Suite SiteID"/>
+				<name>Greenway</name>
+				<telecom value="tel:+1 555 5551002" use="WP"/>
+				<addr>
+					<streetAddressLine>2472 Rocky Place</streetAddressLine>
+					<city>Beaverton</city>
+					<state>OR</state>
+					<postalCode>97006</postalCode>
+				</addr>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<informationRecipient>
+		<intendedRecipient>
+			<informationRecipient>
+				<name>
+					<given>Alice</given>
+					<family>Newman</family>
+				</name>
+			</informationRecipient>
+		</intendedRecipient>
+	</informationRecipient>
+	<participant typeCode="IND">
+		<associatedEntity classCode="AGNT">
+			<id root="2.16.840.1.113883.3.441.1.50.350177.114" extension="26540" assigningAuthorityName="Prime Suite PersonID"/>
+			<addr use="H">
+				<streetAddressLine>1357, Amber Dr,</streetAddressLine>
+				<city>Beaverton</city>
+				<state>OR</state>
+				<postalCode>97006</postalCode>
+				<country>USA</country>
+			</addr>
+			<telecom nullFlavor="NI"/>
+			<associatedPerson>
+				<name>
+					<given>Alice</given>
+					<family>Newman</family>
+				</name>
+			</associatedPerson>
+		</associatedEntity>
+	</participant>
+	<documentationOf>
+		<serviceEvent classCode="PCPR">
+			<effectiveTime>
+				<low value="20150622"/>
+				<high value="20150622"/>
+			</effectiveTime>
+			<performer typeCode="PRF">
+				<functionCode code="AUTM" displayName="Care Team Information Receiver" codeSystem="2.16.840.1.113883.5.88" codeSystemName="ParticipationFunction">
+					<originalText>Care Team Information Receiver</originalText>
+				</functionCode>
+				<assignedEntity>
+					<id root="2.16.840.1.113883.4.6" extension="9999999999" assigningAuthorityName="National Provider Identifier (NPI)"/>
+					<addr>
+						<streetAddressLine>2472 Rocky Place</streetAddressLine>
+						<city>Beaverton</city>
+						<state>OR</state>
+						<postalCode>97006</postalCode>
+					</addr>
+					<telecom nullFlavor="NI"/>
+					<assignedPerson>
+						<name>
+							<prefix>Dr.</prefix>
+							<given>Albert</given>
+							<family>Davis</family>
+						</name>
+					</assignedPerson>
+				</assignedEntity>
+			</performer>
+			<performer typeCode="PRF">
+				<functionCode code="AUTM" displayName="Care Team Information Receiver" codeSystem="2.16.840.1.113883.5.88" codeSystemName="ParticipationFunction">
+					<originalText>Care Team Information Receiver</originalText>
+				</functionCode>
+				<assignedEntity>
+					<id root="2.16.840.1.113883.4.6" extension="9999999999" assigningAuthorityName="National Provider Identifier (NPI)"/>
+					<addr nullFlavor="UNK"/>
+					<telecom nullFlavor="NI"/>
+					<assignedPerson>
+						<name>
+							<given>Tracy</given>
+							<family>Davis</family>
+						</name>
+					</assignedPerson>
+				</assignedEntity>
+			</performer>
+		</serviceEvent>
+	</documentationOf>
+	<componentOf>
+		<encompassingEncounter>
+			<id root="2.16.840.1.113883.3.441.1.50.350177.51.26539.119" extension="27573" assigningAuthorityName="Prime Suite VisitID"/>
+			<effectiveTime>
+				<low value="20150622141053"/>
+				<high value="20150622151053"/>
+			</effectiveTime>
+			<responsibleParty>
+				<assignedEntity>
+					<id root="43abd431-81c5-4ded-a27a-27846d0851e5"/>
+					<addr nullFlavor="NI"/>
+					<telecom nullFlavor="NI"/>
+					<assignedPerson>
+						<name nullFlavor="NI"/>
+					</assignedPerson>
+				</assignedEntity>
+			</responsibleParty>
+			<encounterParticipant typeCode="ATND">
+				<assignedEntity>
+					<id root="2.16.840.1.113883.4.6" extension="9999999999" assigningAuthorityName="National Provider Identifier (NPI)"/>
+					<addr>
+						<streetAddressLine>2472 Rocky Place</streetAddressLine>
+						<city>Beaverton</city>
+						<state>OR</state>
+						<postalCode>97006</postalCode>
+					</addr>
+					<telecom nullFlavor="NI"/>
+					<assignedPerson>
+						<name>
+							<prefix>Dr.</prefix>
+							<given>Albert</given>
+							<family>Davis</family>
+						</name>
+					</assignedPerson>
+				</assignedEntity>
+			</encounterParticipant>
+			<location>
+				<healthCareFacility>
+					<id root="2.16.840.1.113883.3.441.1.50.350177.51.26539.112" extension="1064"/>
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+
+	<!-- Removed irrelevant component section data for patient header test -->
+
+</ClinicalDocument>

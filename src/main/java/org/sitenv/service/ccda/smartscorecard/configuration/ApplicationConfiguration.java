@@ -1,4 +1,4 @@
-package org.sitenv.service.ccda.smartscorecard.cofiguration;
+package org.sitenv.service.ccda.smartscorecard.configuration;
 
 public class ApplicationConfiguration {
 	
@@ -18,13 +18,13 @@ public class ApplicationConfiguration {
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG is true
 	 * True allows for 'C-CDA IG Conformance Errors' results
 	 */
-	public static final boolean IG_CONFORMANCE_CALL = true;
+	public static final boolean IG_CONFORMANCE_CALL = false;
 	
 	/**
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG is true
 	 * True allows for '2015 Edition Certification Feedback' results
 	 */
-	public static final boolean CERTIFICATION_RESULTS_CALL = true;		
+	public static final boolean CERTIFICATION_RESULTS_CALL = false;		
 		
 	/**
 	 * The cures update version of the Reference Validator is currently hosted on the C-CDA

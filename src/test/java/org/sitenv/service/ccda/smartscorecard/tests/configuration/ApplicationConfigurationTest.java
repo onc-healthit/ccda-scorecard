@@ -1,32 +1,29 @@
-package org.sitenv.service.ccda.smartscorecard.tests;
+package org.sitenv.service.ccda.smartscorecard.tests.configuration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.CCDA_DEV_SERVER_URL;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.CCDA_GOV_PROD_SERVER_URL;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.CCDA_PROD_SERVER_URL;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.CCDA_SCORECARD_SERVICE;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.CODE_IN_CODESYSTEM_SERVICE;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.CODE_IN_VALUESET_SERVICE;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.DEFAULT_LOCAL_REF_VAL_SERVER_URL;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.DEFAULT_LOCAL_SCORECARD_SERVER_URL;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.REFERENCE_CCDA_SERVICE;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.SAVE_SCORECARD_SERVICE_BACKEND;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.TTP_DEV_SERVER_URL;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.TTP_GOV_PROD_SERVER_URL;
-import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.TTP_PROD_SERVER_URL;
-//import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.LOCAL_CONFIG_FILE_PATH;
-//import static org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.DEPLOYED_CONFIG_FILE_PATH;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.CCDA_DEV_SERVER_URL;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.CCDA_GOV_PROD_SERVER_URL;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.CCDA_PROD_SERVER_URL;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.CCDA_SCORECARD_SERVICE;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.CODE_IN_CODESYSTEM_SERVICE;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.CODE_IN_VALUESET_SERVICE;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.DEFAULT_LOCAL_REF_VAL_SERVER_URL;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.DEFAULT_LOCAL_SCORECARD_SERVER_URL;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.REFERENCE_CCDA_SERVICE;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.SAVE_SCORECARD_SERVICE_BACKEND;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.TTP_DEV_SERVER_URL;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.TTP_GOV_PROD_SERVER_URL;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.TTP_PROD_SERVER_URL;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
-import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.EndpointType;
-import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.Environment;
-import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
+import org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration;
+import org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.EndpointType;
+import org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.Environment;
 
 public class ApplicationConfigurationTest {
 

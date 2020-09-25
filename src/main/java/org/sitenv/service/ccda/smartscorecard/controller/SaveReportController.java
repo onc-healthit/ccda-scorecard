@@ -26,7 +26,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
-import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
+import org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.ReferenceError;
