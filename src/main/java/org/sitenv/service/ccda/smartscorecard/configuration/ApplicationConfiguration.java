@@ -12,19 +12,19 @@ public class ApplicationConfiguration {
 	 * Sets the environment for deployment - only relevant if OVERRIDE_SCORECARD_XML_CONFIG is true
 	 * Options are defined in org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.Environment
 	 */
-	public static final Environment ENV = Environment.PROD;
+	public static final Environment ENV = Environment.DOT_GOV_PROD;
 	
 	/**
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG is true
 	 * True allows for 'C-CDA IG Conformance Errors' results
 	 */
-	public static final boolean IG_CONFORMANCE_CALL = false;
+	public static final boolean IG_CONFORMANCE_CALL = true;
 	
 	/**
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG is true
 	 * True allows for '2015 Edition Certification Feedback' results
 	 */
-	public static final boolean CERTIFICATION_RESULTS_CALL = false;		
+	public static final boolean CERTIFICATION_RESULTS_CALL = true;		
 		
 	/**
 	 * The cures update version of the Reference Validator is currently hosted on the C-CDA
