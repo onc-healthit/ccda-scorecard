@@ -11,7 +11,7 @@ import org.sitenv.ccdaparsing.model.CCDAProblem;
 import org.sitenv.ccdaparsing.model.CCDAProblemConcern;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
-import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
+import org.sitenv.service.ccda.smartscorecard.configuration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;

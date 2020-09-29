@@ -10,7 +10,7 @@ import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDAImmunizationActivity;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
-import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
+import org.sitenv.service.ccda.smartscorecard.configuration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.model.PatientDetails;

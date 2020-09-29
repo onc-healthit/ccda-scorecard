@@ -25,7 +25,7 @@ import org.sitenv.ccdaparsing.model.CCDATobaccoUse;
 import org.sitenv.ccdaparsing.model.CCDAVitalObs;
 import org.sitenv.ccdaparsing.model.CCDAVitalOrg;
 import org.sitenv.ccdaparsing.model.CCDAXmlSnippet;
-import org.sitenv.service.ccda.smartscorecard.cofiguration.SectionRule;
+import org.sitenv.service.ccda.smartscorecard.configuration.SectionRule;
 import org.sitenv.service.ccda.smartscorecard.model.CCDAScoreCardRubrics;
 import org.sitenv.service.ccda.smartscorecard.model.Category;
 import org.sitenv.service.ccda.smartscorecard.repositories.inmemory.TemplateIdRepository21;

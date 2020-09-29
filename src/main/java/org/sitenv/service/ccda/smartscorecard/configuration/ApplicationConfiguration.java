@@ -1,4 +1,4 @@
-package org.sitenv.service.ccda.smartscorecard.cofiguration;
+package org.sitenv.service.ccda.smartscorecard.configuration;
 
 public class ApplicationConfiguration {
 	
@@ -12,7 +12,7 @@ public class ApplicationConfiguration {
 	 * Sets the environment for deployment - only relevant if OVERRIDE_SCORECARD_XML_CONFIG is true
 	 * Options are defined in org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.Environment
 	 */
-	public static final Environment ENV = Environment.PROD;
+	public static final Environment ENV = Environment.DOT_GOV_PROD;
 	
 	/**
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG is true

@@ -1,4 +1,4 @@
-package org.sitenv.service.ccda.smartscorecard.cofiguration;
+package org.sitenv.service.ccda.smartscorecard.configuration;
 
 import java.util.HashMap;
 import java.util.Map;

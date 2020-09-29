@@ -1,4 +1,4 @@
-package org.sitenv.service.ccda.smartscorecard.tests;
+package org.sitenv.service.ccda.smartscorecard.tests.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,10 +12,11 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
+import org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.controller.SaveReportController;
 import org.sitenv.service.ccda.smartscorecard.controller.SaveReportController.SaveReportType;
 import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
+import org.sitenv.service.ccda.smartscorecard.tests.TestUtil;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -176,9 +177,7 @@ public class SaveReportControllerTest {
 			RestTemplate restTemplate = new RestTemplate();
 			restTemplate.setMessageConverters(messageConverters);
 
-			pdfBytes = restTemplate.postForObject(
-					ApplicationConfiguration.SAVESCORECARDSERVICEBACKEND_URL,
-					requestEntity, byte[].class);
+			pdfBytes = restTemplate.postForObject(endpoint, requestEntity, byte[].class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

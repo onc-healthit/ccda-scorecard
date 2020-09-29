@@ -1,4 +1,4 @@
-package org.sitenv.service.ccda.smartscorecard.cofiguration;
+package org.sitenv.service.ccda.smartscorecard.configuration;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;

@@ -1,6 +1,6 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
-import org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration;
+import org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
