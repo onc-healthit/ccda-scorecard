@@ -186,7 +186,7 @@ public class PersistanceConfiguration extends AsyncConfigurerSupport {
     @Bean
     public Jaxb2Marshaller castorMarshaller() {
         Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
-        jaxb2Marshaller.setPackagesToScan("org.sitenv.service.ccda.smartscorecard.cofiguration");
+        jaxb2Marshaller.setPackagesToScan("org.sitenv.service.ccda.smartscorecard.configuration");
         Map<String,Object> map = new HashMap<>();
         map.put("jaxb.formatted.output", true);
         jaxb2Marshaller.setMarshallerProperties(map);

@@ -193,7 +193,7 @@ ALTER TABLE public.scorecard_statistics
 
 <span id="noConfig"></span>
 * **Continued instructions if building the WAR yourself:**
-  * From this point one can either follow the prior <a href="#useConfig">instructions for using a pre-built release WAR and build the WAR instead of downloading it before deploying</a>, or, use the override options in src/main/java/org/sitenv/service/ccda/smartscorecard/cofiguration/ApplicationConfiguration.java, explained ahead:
+  * From this point one can either follow the prior <a href="#useConfig">instructions for using a pre-built release WAR and build the WAR instead of downloading it before deploying</a>, or, use the override options in src/main/java/org/sitenv/service/ccda/smartscorecard/configuration/ApplicationConfiguration.java, explained ahead:
 
 * Navigate to ApplicationConfiguration.java and set OVERRIDE_SCORECARD_XML_CONFIG to true
 ```Java
@@ -207,7 +207,7 @@ public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = true;
 ```
 /**
  * Sets the environment for deployment - only relevant if OVERRIDE_SCORECARD_XML_CONFIG is true
- * Options are defined in org.sitenv.service.ccda.smartscorecard.cofiguration.ApplicationConfiguration.Environment
+ * Options are defined in org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.Environment
  */
 public static final Environment ENV = Environment.ENTER_DESIRED_ENVIRONMENT_FROM_ENUM_HERE;
 ```
