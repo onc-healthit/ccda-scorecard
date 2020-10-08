@@ -76,7 +76,7 @@ public class ApplicationConfigurationTest {
 
 	@Test
 	public void testDotGovDevEnvironment() {
-		final Environment env = Environment.DOT_GOV_DEV;
+		final Environment env = Environment.AHRQ_DEV;
 
 		assertTrue(env.isDevLocalOrCustom());
 		assertFalse(env.isProduction());
