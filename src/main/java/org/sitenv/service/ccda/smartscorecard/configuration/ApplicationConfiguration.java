@@ -95,14 +95,22 @@ public class ApplicationConfiguration {
 						: CCDA_PROD_SERVER_URL;
 			}
 		}, 
-		DOT_GOV_DEV {
+		AHRQ_DEV {
 			@Override
 			public String server(EndpointType type) {
 				throw new UnsupportedOperationException(
-						"The DOT_GOV_DEV environment is not yet implemented. "
+						"The AHRQ_DEV environment is not yet implemented. "
 						+ "It will be implemented once the transfer is complete");
 			}
-		}, 
+		},
+		AHRQ_TEST {
+			@Override
+			public String server(EndpointType type) {
+				throw new UnsupportedOperationException(
+						"The AHRQ_TEST environment is not yet implemented. "
+						+ "It will be implemented once the transfer is complete");
+			}
+		},		
 		DOT_GOV_PROD {
 			@Override
 			public String server(EndpointType type) {
@@ -116,7 +124,14 @@ public class ApplicationConfiguration {
 				return type == EndpointType.RefVal ? TTP_PROD_SERVER_URL
 						: DEFAULT_LOCAL_SCORECARD_SERVER_URL;
 			}
-		};
+		},
+		DOR_GOV_PROD_REF_VAL_WITH_LOCAL_OR_CUSTOM_SCORECARD {
+			@Override
+			public String server(EndpointType type) {
+				return type == EndpointType.RefVal ? TTP_GOV_PROD_SERVER_URL
+						: DEFAULT_LOCAL_SCORECARD_SERVER_URL;
+			}
+		};		
 		
 		public abstract String server(EndpointType type);
 		
