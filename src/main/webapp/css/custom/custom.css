@@ -21,13 +21,13 @@ body.modal-open {
 }
 
 header .jumbotron {
-  background-image: url("https://devportal.sitenv.org/site-portal-responsivebootstrap-theme/images/site/site-background-header.png");
+  background-image: url("https://site.healthit.gov/bg-header-1920x170.ec6596d76d9d1aec0a4d.png");
   padding: 0;
   background-color: #fff;
 }
 
 header .jumbotron .container {
-  background-image: url("https://devportal.sitenv.org/site-portal-responsivebootstrap-theme/images/site/site-header.png");
+  background-image: url("https://site.healthit.gov/assets/images/site/healthit.gov.logo.png");
   background-repeat: no-repeat;
   z-index: 999;
   height: 160px;
