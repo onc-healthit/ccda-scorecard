@@ -17,10 +17,10 @@
 
 <span id="api"></span>
 # API
-* The Scorecard API is a POST RESTful service which takes a C-CDA document as input and returns JSON results. 
+* The Scorecard API is a POST RESTful service which takes a C-CDA document as input and returns JSON results 
   * Input parameter name: ccdaFile
-  * Input parameter Type: File.
-  * Output parameter Type: JSON string.
+  * Input parameter Type: File
+  * Output parameter Type: JSON string
 
 * Below is an example Java Snippet to access the Scorecard service in your own applications.
 ```Java
@@ -121,7 +121,7 @@ ALTER TABLE public.scorecard_statistics
 
 <span id="tomcat"></span>
 * Tomcat
-  * Inside latest version of tomcat and add the following snippet under the <GlobalNamingResources> tag in server.xml
+  * Inside the latest version of Tomcat, add the following snippet under the GlobalNamingResources tag in server.xml
 ```XML
 <Resource auth="Container" 
 	  driverClassName="org.postgresql.Driver" 
