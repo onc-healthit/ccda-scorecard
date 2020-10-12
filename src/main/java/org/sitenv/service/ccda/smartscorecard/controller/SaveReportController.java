@@ -1154,7 +1154,7 @@ public class SaveReportController {
 				response.setHeader("Content-disposition", "attachment; filename="
 						+ "scorecardReport.pdf");
 				response.setHeader("max-age=3600", "must-revalidate");
-				response.addCookie(new Cookie("fileDownload=true", "path=/"));
+				response.addCookie(new Cookie("scorecardReport", "path=/"));
 				out = response.getOutputStream();				
 			} else {
 				//Save to local file system
