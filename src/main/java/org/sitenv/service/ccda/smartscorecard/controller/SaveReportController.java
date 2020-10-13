@@ -320,7 +320,7 @@ public class SaveReportController {
 	
 	private static void appendStyleSheet(StringBuffer sb) {
 		 sb.append("<style>" + 
-		 "     .site-header {    background: url('https://sitenv.org/assets/images/site/bg-header-1920x170.png') repeat-x center top #1fdbfe;  }  "  + 
+		 "     .site-header {    background: url('https://site.healthit.gov/bg-header-1920x170.ec6596d76d9d1aec0a4d.png') repeat-x center top #1fdbfe;  }  "  + 
 		 "     .site-logo {    text-decoration: none;  }  "  + 
 		 "     table {    font-family: arial, sans-serif;    border-collapse: separate;    width: 100%;  }  "  + 
 		 "     td,  th {    border: 1px solid #dddddd;    text-align: left;    padding: 8px;  }  "  + 
@@ -365,7 +365,7 @@ public class SaveReportController {
 		sb.append("<div class=\"site-header\">")
 	     .append("  <a class=\"site-logo\" href=\"https://www.healthit.gov/\"")
 	     .append("    rel=\"external\" title=\"HealthIT.gov\"> <img alt=\"HealthIT.gov\"")
-	     .append("    src=\"https://sitenv.org/assets/images/site/healthit.gov.logo.png\" width='40%'>")
+	     .append("    src=\"https://site.healthit.gov/assets/images/site/healthit.gov.logo.png\" width='40%'>")
 	     .append("  </a>")
 	     .append("</div>");		
 
@@ -1154,7 +1154,6 @@ public class SaveReportController {
 				response.setHeader("Content-disposition", "attachment; filename="
 						+ "scorecardReport.pdf");
 				response.setHeader("max-age=3600", "must-revalidate");
-				response.addCookie(new Cookie("scorecardReport", "path=/"));
 				out = response.getOutputStream();				
 			} else {
 				//Save to local file system

@@ -105,7 +105,7 @@ public class ApplicationConstants {
 																		+ "valid date and time value within human life span";
 	public static final String ENCOUNTER_CODE_DISPLAYNAME_REQUIREMENT = "All code elements under encounter section should contain valid display names";	
 	
-	public static final String ENCOMPASSING_ENCOUNTER_ENCOUNTER_REQUIREMENT = "A document with an encompassingEncounter AND encounter activities should reiterate the the "
+	public static final String ENCOMPASSING_ENCOUNTER_ENCOUNTER_REQUIREMENT = "A document with an encompassingEncounter AND encounter activities should reiterate the "
 																				+ "encompassing encounter in an encounter activity and the information must align";
 	
 	public static final String MEDICATION_TIME_PRECISION_REQUIREMENT = "All effective time elements under Medication section should contain "
