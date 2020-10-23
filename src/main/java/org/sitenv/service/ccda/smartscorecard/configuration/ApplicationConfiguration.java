@@ -9,7 +9,9 @@ public class ApplicationConfiguration {
 	public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = false;
 	
 	/**
-	 * Sets the environment for deployment - only relevant if OVERRIDE_SCORECARD_XML_CONFIG is true
+	 * Sets the environment for deployment - with the exception of the save scorecard results, 
+	 * (TODO: define savescorecard urls in config or otherwise resolve so there is no exception) 
+	 * only relevant if OVERRIDE_SCORECARD_XML_CONFIG is true
 	 * Options are defined in org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.Environment
 	 */
 	public static final Environment ENV = Environment.DOT_GOV_PROD;
@@ -37,10 +39,12 @@ public class ApplicationConfiguration {
 		// Basic server URL definitions
 		DEFAULT_LOCAL_SCORECARD_SERVER_URL = "http://localhost:8000",
 		DEFAULT_LOCAL_REF_VAL_SERVER_URL = "http://localhost:8080",
-		CCDA_DEV_SERVER_URL = "https://ccda.test.sitenv.org", // AHRQ TEST CCDA
-		CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org",
-		CCDA_GOV_PROD_SERVER_URL = "https://ccda.healthit.gov",
-		TTP_DEV_SERVER_URL = "http://35.153.125.47", // AHRQ TEST James
+		CCDA_DEV_SERVER_URL = "34.195.107.72", // AHRQ DEV CCDA
+		CCDA_TEST_SERVER_URL = "34.236.48.201", // AHRQ TEST CCDA
+		CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org", // old aws prod
+		CCDA_GOV_PROD_SERVER_URL = "https://ccda.healthit.gov", // new ahrq dot gov prod
+		TTP_TEST_SERVER_URL = "http://35.153.125.47", // AHRQ TEST James
+		TTP_DEV_SERVER_URL = TTP_TEST_SERVER_URL, // only james test configured for now that we know of for ref val		
 		TTP_PROD_SERVER_URL = CURES_UPDATE ? CCDA_PROD_SERVER_URL : "https://ttpds.sitenv.org:8443",
 		TTP_GOV_PROD_SERVER_URL = CURES_UPDATE ? CCDA_GOV_PROD_SERVER_URL : "https://james.healthit.gov",
 		// Basic endpoint definitions	
@@ -85,32 +89,23 @@ public class ApplicationConfiguration {
 			@Override
 			public String server(EndpointType type) {
 				return type == EndpointType.RefVal ? TTP_DEV_SERVER_URL
-						: CCDA_DEV_SERVER_URL;				
+						: CCDA_DEV_SERVER_URL;
 			}
-		}, 
+		},
+		TEST {
+			@Override
+			public String server(EndpointType type) {
+				return type == EndpointType.RefVal ? TTP_TEST_SERVER_URL
+						: CCDA_TEST_SERVER_URL;
+			}
+		},
 		PROD {
 			@Override
 			public String server(EndpointType type) {
 				return type == EndpointType.RefVal ? TTP_PROD_SERVER_URL
 						: CCDA_PROD_SERVER_URL;
 			}
-		}, 
-		AHRQ_DEV {
-			@Override
-			public String server(EndpointType type) {
-				throw new UnsupportedOperationException(
-						"The AHRQ_DEV environment is not yet implemented. "
-						+ "It will be implemented once the transfer is complete");
-			}
-		},
-		AHRQ_TEST {
-			@Override
-			public String server(EndpointType type) {
-				throw new UnsupportedOperationException(
-						"The AHRQ_TEST environment is not yet implemented. "
-						+ "It will be implemented once the transfer is complete");
-			}
-		},		
+		}, 	
 		DOT_GOV_PROD {
 			@Override
 			public String server(EndpointType type) {

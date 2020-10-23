@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.CCDA_DEV_SERVER_URL;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.CCDA_TEST_SERVER_URL;
 import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.CCDA_GOV_PROD_SERVER_URL;
 import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.CCDA_PROD_SERVER_URL;
 import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.CCDA_SCORECARD_SERVICE;
@@ -16,6 +17,7 @@ import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationCo
 import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.REFERENCE_CCDA_SERVICE;
 import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.SAVE_SCORECARD_SERVICE_BACKEND;
 import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.TTP_DEV_SERVER_URL;
+import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.TTP_TEST_SERVER_URL;
 import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.TTP_GOV_PROD_SERVER_URL;
 import static org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.TTP_PROD_SERVER_URL;
 
@@ -63,6 +65,16 @@ public class ApplicationConfigurationTest {
 
 		checkEnvironment(env, TTP_DEV_SERVER_URL, CCDA_DEV_SERVER_URL);
 	}
+	
+	@Test
+	public void testTestEnvironment() {
+		final Environment env = Environment.TEST;
+
+		assertTrue(env.isDevLocalOrCustom());
+		assertFalse(env.isProduction());
+
+		checkEnvironment(env, TTP_TEST_SERVER_URL, CCDA_TEST_SERVER_URL);
+	}	
 
 	@Test
 	public void testProdEnvironment() {
@@ -72,25 +84,6 @@ public class ApplicationConfigurationTest {
 		assertFalse(env.isDevLocalOrCustom());
 
 		checkEnvironment(env, TTP_PROD_SERVER_URL, CCDA_PROD_SERVER_URL);
-	}
-
-	@Test
-	public void testDotGovDevEnvironment() {
-		final Environment env = Environment.AHRQ_DEV;
-
-		assertTrue(env.isDevLocalOrCustom());
-		assertFalse(env.isProduction());
-
-		UnsupportedOperationException exception = null;
-		try {
-			checkEnvironment(env, TTP_GOV_PROD_SERVER_URL, CCDA_GOV_PROD_SERVER_URL);
-		} catch (UnsupportedOperationException e) {
-			exception = e;
-		}
-
-		if (exception == null) {
-			fail("UnsupportedOperationException expected until implementation is complete");
-		}
 	}
 
 	@Test
