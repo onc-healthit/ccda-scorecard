@@ -1,6 +1,6 @@
 /*****************HEADER*****************/
 .site-header  {
-	background: url("https://sitenv.org/assets/images/site/bg-header-1920x170.png")
+	background: url("https://site.healthit.gov/bg-header-1920x170.ec6596d76d9d1aec0a4d.png")
 		repeat-x center top #1fdbfe;}
 
 .site-logo {
@@ -192,7 +192,7 @@ footer /deep/.footer-link-btn{
 }
 
 a.ext-icon {
-    background: url(https://sitenv.org/assets/images/extlink.png) right center no-repeat;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAABGdBTUEAANbY1E9YMgAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAAJUExURZmZmczMzAAAANmeCzsAAAADdFJOU///ANfKDUEAAAAySURBVHjaTIxRDgAACEHp/oeOtJYPe02gJEQiIvf5RgzK6B/jUHoE7dNwehP1JowtwAAXDABpSdB7KgAAAABJRU5ErkJggg==) right center no-repeat;
     padding: 0 2px 0 1px;
     width: 10px;
     height: 10px;
