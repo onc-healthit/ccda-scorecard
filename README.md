@@ -42,7 +42,7 @@ public Void ccdascorecardservice(MultipartFile ccdaFile)
 		formConverter.setCharset(Charset.forName("UTF8"));
 		restTemplate.getMessageConverters().add(formConverter);
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-		response = restTemplate.postForObject("http://sitenv.org/scorecard/ccdascorecardservice2", 
+		response = restTemplate.postForObject("https://site.healthit.gov/scorecard/ccdascorecardservice2", 
 												requestEntity, String.class);
 		tempFile.delete();
 	}catch(Exception exc)
@@ -174,13 +174,13 @@ ALTER TABLE public.scorecard_statistics
     <Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
 ```
-* Below is an example of the scorecard.xml configuration which uses **production** referenceccdaservice URLs
+* Below is an example of the scorecard.xml configuration which uses CURES **production** referenceccdaservice URLs
 ```XML
 <Context reloadable="true">
     <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
     <Parameter name="scorecard.certificatinResultsCall" value="true" override="true"/>
-    <Parameter name="scorecard.igConformanceUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
-    <Parameter name="scorecard.certificationResultsUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
+    <Parameter name="scorecard.igConformanceUrl" value="https://ccda.healthit.gov/referenceccdaservice/" override="true"/>
+    <Parameter name="scorecard.certificationResultsUrl" value="https://ccda.healthit.gov/referenceccdaservice/" override="true"/>
     <Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
 ```
