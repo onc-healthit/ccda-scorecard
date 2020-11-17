@@ -214,7 +214,7 @@ public static final Environment ENV = Environment.ENTER_DESIRED_ENVIRONMENT_FROM
 
 * To use the **production** servers, set set ENV to Environment.PROD, and skip to final "Build the Scorecard project and deploy the WAR file" step
   ```Java
-  public static final Environment ENV = Environment.PROD;;
+  public static final Environment ENV = Environment.PROD;
   ```
     * Note: If using production, you will want to download the public cert from SITE and <a href="#cert">install it</a>
 
