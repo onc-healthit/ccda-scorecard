@@ -1,224 +1,225 @@
 Template Title,Template Type,Template ID,Extension
-Care Plan (V2),document,2.16.840.1.113883.10.20.22.1.15,2015-08-01
-Consultation Note (V3),document,2.16.840.1.113883.10.20.22.1.4,2015-08-01
-Continuity of Care Document (CCD) (V3),document,2.16.840.1.113883.10.20.22.1.2,2015-08-01
-Diagnostic Imaging Report (V3),document,2.16.840.1.113883.10.20.22.1.5,2015-08-01
-Discharge Summary (V3),document,2.16.840.1.113883.10.20.22.1.8,2015-08-01
-History and Physical (V3),document,2.16.840.1.113883.10.20.22.1.3,2015-08-01
-Operative Note (V3),document,2.16.840.1.113883.10.20.22.1.7,2015-08-01
-Procedure Note (V3),document,2.16.840.1.113883.10.20.22.1.6,2015-08-01
-Progress Note (V3),document,2.16.840.1.113883.10.20.22.1.9,2015-08-01
-Referral Note (V2),document,2.16.840.1.113883.10.20.22.1.14,2015-08-01
-Transfer Summary (V2),document,2.16.840.1.113883.10.20.22.1.13,2015-08-01
-Unstructured Document (V3),document,2.16.840.1.113883.10.20.22.1.10,2015-08-01
-US Realm Header (V3),document,2.16.840.1.113883.10.20.22.1.1,2015-08-01
-US Realm Header for Patient Generated Document (V2),document,2.16.840.1.113883.10.20.29.1,2015-08-01
-Admission Diagnosis Section (V3),section,2.16.840.1.113883.10.20.22.2.43,2015-08-01
-Admission Medications Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.44,2015-08-01
-Advance Directives Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.21,2015-08-01
-Advance Directives Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.21.1,2015-08-01
-Allergies and Intolerances Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.6,2015-08-01
-Allergies and Intolerances Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.6.1,2015-08-01
-Anesthesia Section (V2),section,2.16.840.1.113883.10.20.22.2.25,2014-06-09
-Assessment and Plan Section (V2),section,2.16.840.1.113883.10.20.22.2.9,2014-06-09
-Assessment Section,section,2.16.840.1.113883.10.20.22.2.8,
-Chief Complaint and Reason for Visit Section,section,2.16.840.1.113883.10.20.22.2.13,
 Chief Complaint Section,section,1.3.6.1.4.1.19376.1.5.3.1.1.13.2.1,
-Complications Section (V3),section,2.16.840.1.113883.10.20.22.2.37,2015-08-01
-Course of Care Section,section,2.16.840.1.113883.10.20.22.2.64,
-DICOM Object Catalog Section - DCM 121181,section,2.16.840.1.113883.10.20.6.1.1,
-Discharge Diagnosis Section (V3),section,2.16.840.1.113883.10.20.22.2.24,2015-08-01
-Discharge Diet Section (DEPRECATED),section,1.3.6.1.4.1.19376.1.5.3.1.3.33,2015-08-01
-Discharge Medications Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.11,2015-08-01
-Discharge Medications Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.11.1,2015-08-01
-Encounters Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.22,2015-08-01
-Encounters Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.22.1,2015-08-01
-Family History Section (V3),section,2.16.840.1.113883.10.20.22.2.15,2015-08-01
-Fetus Subject Context,section,2.16.840.1.113883.10.20.6.2.3,
-Findings Section (DIR),section,2.16.840.1.113883.10.20.6.1.2,
-Functional Status Section (V2),section,2.16.840.1.113883.10.20.22.2.14,2014-06-09
-General Status Section,section,2.16.840.1.113883.10.20.2.5,
-Goals Section,section,2.16.840.1.113883.10.20.22.2.60,
-Health Concerns Section (V2),section,2.16.840.1.113883.10.20.22.2.58,2015-08-01
-Health Status Evaluations and Outcomes Section,section,2.16.840.1.113883.10.20.22.2.61,
-History of Past Illness Section (V3),section,2.16.840.1.113883.10.20.22.2.20,2015-08-01
-History of Present Illness Section,section,1.3.6.1.4.1.19376.1.5.3.1.3.4,
-Hospital Consultations Section,section,2.16.840.1.113883.10.20.22.2.42,
-Hospital Course Section,section,1.3.6.1.4.1.19376.1.5.3.1.3.5,
-Hospital Discharge Instructions Section,section,2.16.840.1.113883.10.20.22.2.41,
+Reason for Referral Section (V2),section,1.3.6.1.4.1.19376.1.5.3.1.3.1,2014-06-09
+Review of Systems Section,section,1.3.6.1.4.1.19376.1.5.3.1.3.18,
 Hospital Discharge Physical Section,section,1.3.6.1.4.1.19376.1.5.3.1.3.26,
-Hospital Discharge Studies Summary Section,section,2.16.840.1.113883.10.20.22.2.16,
-Immunizations Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.2,2015-08-01
-Immunizations Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.2.1,2015-08-01
-Implants Section (DEPRECATED),section,2.16.840.1.113883.10.20.22.2.33,2014-06-09
-Instructions Section (V2),section,2.16.840.1.113883.10.20.22.2.45,2014-06-09
-Interventions Section (V3),section,2.16.840.1.113883.10.20.21.2.3,2015-08-01
-Medical (General) History Section,section,2.16.840.1.113883.10.20.22.2.39,
-Medical Equipment Section (V2),section,2.16.840.1.113883.10.20.22.2.23,2014-06-09
-Medications Administered Section (V2),section,2.16.840.1.113883.10.20.22.2.38,2014-06-09
-Medications Section (entries optional) (V2),section,2.16.840.1.113883.10.20.22.2.1,2015-08-01
-Medications Section (entries required) (V2),section,2.16.840.1.113883.10.20.22.2.1.1,2014-06-09
-Mental Status Section (V2),section,2.16.840.1.113883.10.20.22.2.56,2015-08-01
-Nutrition Section,section,2.16.840.1.113883.10.20.22.2.57,
-Objective Section,section,2.16.840.1.113883.10.20.21.2.1,
-Observer Context,section,2.16.840.1.113883.10.20.6.2.4,
-Operative Note Fluids Section,section,2.16.840.1.113883.10.20.7.12,
-Operative Note Surgical Procedure Section,section,2.16.840.1.113883.10.20.7.14,
-Payers Section (V3),section,2.16.840.1.113883.10.20.22.2.18,2015-08-01
-Physical Exam Section (V3),section,2.16.840.1.113883.10.20.2.10,2015-08-01
-Plan of Treatment Section (V2),section,2.16.840.1.113883.10.20.22.2.10,2014-06-09
-Planned Procedure Section (V2),section,2.16.840.1.113883.10.20.22.2.30,2014-06-09
-Postoperative Diagnosis Section,section,2.16.840.1.113883.10.20.22.2.35,
-Postprocedure Diagnosis Section (V3),section,2.16.840.1.113883.10.20.22.2.36,2015-08-01
-Preoperative Diagnosis Section (V3),section,2.16.840.1.113883.10.20.22.2.34,2015-08-01
-Problem Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.5,2015-08-01
-Problem Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.5.1,2015-08-01
-Procedure Description Section,section,2.16.840.1.113883.10.20.22.2.27,
+Discharge Diet Section (DEPRECATED),section,1.3.6.1.4.1.19376.1.5.3.1.3.33,2014-06-09
+History of Present Illness Section,section,1.3.6.1.4.1.19376.1.5.3.1.3.4,
+Hospital Course Section,section,1.3.6.1.4.1.19376.1.5.3.1.3.5,
+Authorization Activity,entry,2.16.840.1.113883.10.20.1.19,
+Estimated Date of Delivery,entry,2.16.840.1.113883.10.20.15.3.1,
+Pregnancy Observation,entry,2.16.840.1.113883.10.20.15.3.8,
 Procedure Disposition Section,section,2.16.840.1.113883.10.20.18.2.12,
 Procedure Estimated Blood Loss Section,section,2.16.840.1.113883.10.20.18.2.9,
-Procedure Findings Section (V3),section,2.16.840.1.113883.10.20.22.2.28,2015-08-01
-Procedure Implants Section,section,2.16.840.1.113883.10.20.22.2.40,
-Procedure Indications Section (V2),section,2.16.840.1.113883.10.20.22.2.29,2014-06-09
-Procedure Specimens Taken Section,section,2.16.840.1.113883.10.20.22.2.31,
-Procedures Section (entries optional) (V2),section,2.16.840.1.113883.10.20.22.2.7,2014-06-09
-Procedures Section (entries required) (V2),section,2.16.840.1.113883.10.20.22.2.7.1,2014-06-09
-Reason for Referral Section (V2),section,1.3.6.1.4.1.19376.1.5.3.1.3.1,2014-06-09
+Physical Exam Section (V3),section,2.16.840.1.113883.10.20.2.10,2015-08-01
+General Status Section,section,2.16.840.1.113883.10.20.2.5,
+Objective Section,section,2.16.840.1.113883.10.20.21.2.1,
+Subjective Section,section,2.16.840.1.113883.10.20.21.2.2,
+Interventions Section (V3),section,2.16.840.1.113883.10.20.21.2.3,2015-08-01
+US Realm Header (V3),document,2.16.840.1.113883.10.20.22.1.1,2015-08-01
+Unstructured Document (V3),document,2.16.840.1.113883.10.20.22.1.10,2015-08-01
+Transfer Summary (V2),document,2.16.840.1.113883.10.20.22.1.13,2015-08-01
+Referral Note (V2),document,2.16.840.1.113883.10.20.22.1.14,2015-08-01
+Care Plan (V2),document,2.16.840.1.113883.10.20.22.1.15,2015-08-01
+Continuity of Care Document (CCD) (V3),document,2.16.840.1.113883.10.20.22.1.2,2015-08-01
+History and Physical (V3),document,2.16.840.1.113883.10.20.22.1.3,2015-08-01
+Consultation Note (V3),document,2.16.840.1.113883.10.20.22.1.4,2015-08-01
+Diagnostic Imaging Report (V3),document,2.16.840.1.113883.10.20.22.1.5,2015-08-01
+Procedure Note (V3),document,2.16.840.1.113883.10.20.22.1.6,2015-08-01
+Operative Note (V3),document,2.16.840.1.113883.10.20.22.1.7,2015-08-01
+Discharge Summary (V3),document,2.16.840.1.113883.10.20.22.1.8,2015-08-01
+Progress Note (V3),document,2.16.840.1.113883.10.20.22.1.9,2015-08-01
+Medications Section (entries optional) (V2),section,2.16.840.1.113883.10.20.22.2.1,2015-08-01
+Medications Section (entries optional) (V2),section,2.16.840.1.113883.10.20.22.2.1,2014-06-09
+Medications Section (entries required) (V2),section,2.16.840.1.113883.10.20.22.2.1.1,2014-06-09
+Plan of Treatment Section (V2),section,2.16.840.1.113883.10.20.22.2.10,2014-06-09
+Discharge Medications Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.11,2015-08-01
+Discharge Medications Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.11.1,2015-08-01
 Reason for Visit Section,section,2.16.840.1.113883.10.20.22.2.12,
+Chief Complaint and Reason for Visit Section,section,2.16.840.1.113883.10.20.22.2.13,
+Functional Status Section (V2),section,2.16.840.1.113883.10.20.22.2.14,2014-06-09
+Family History Section (V3),section,2.16.840.1.113883.10.20.22.2.15,2015-08-01
+Hospital Discharge Studies Summary Section,section,2.16.840.1.113883.10.20.22.2.16,
+Social History Section (V3),section,2.16.840.1.113883.10.20.22.2.17,2015-08-01
+Payers Section (V3),section,2.16.840.1.113883.10.20.22.2.18,2015-08-01
+Immunizations Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.2,2015-08-01
+Immunizations Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.2.1,2015-08-01
+History of Past Illness Section (V3),section,2.16.840.1.113883.10.20.22.2.20,2015-08-01
+Advance Directives Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.21,2015-08-01
+Advance Directives Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.21.1,2015-08-01
+Encounters Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.22,2015-08-01
+Encounters Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.22.1,2015-08-01
+Medical Equipment Section (V2),section,2.16.840.1.113883.10.20.22.2.23,2014-06-09
+Discharge Diagnosis Section (V3),section,2.16.840.1.113883.10.20.22.2.24,2015-08-01
+Anesthesia Section (V2),section,2.16.840.1.113883.10.20.22.2.25,2014-06-09
+Surgery Description Section (DEPRECATED),section,2.16.840.1.113883.10.20.22.2.26,2014-06-09
+Procedure Description Section,section,2.16.840.1.113883.10.20.22.2.27,
+Procedure Findings Section (V3),section,2.16.840.1.113883.10.20.22.2.28,2015-08-01
+Procedure Indications Section (V2),section,2.16.840.1.113883.10.20.22.2.29,2014-06-09
 Results Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.3,2015-08-01
 Results Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.3.1,2015-08-01
-Review of Systems Section,section,1.3.6.1.4.1.19376.1.5.3.1.3.18,
-Social History Section (V3),section,2.16.840.1.113883.10.20.22.2.17,2015-08-01
-Subjective Section,section,2.16.840.1.113883.10.20.21.2.2,
-Surgery Description Section (DEPRECATED),section,2.16.840.1.113883.10.20.22.2.26,2014-06-09
-Surgical Drains Section,section,2.16.840.1.113883.10.20.7.13,
+Planned Procedure Section (V2),section,2.16.840.1.113883.10.20.22.2.30,2014-06-09
+Procedure Specimens Taken Section,section,2.16.840.1.113883.10.20.22.2.31,
+Implants Section (DEPRECATED),section,2.16.840.1.113883.10.20.22.2.33,2014-06-09
+Preoperative Diagnosis Section (V3),section,2.16.840.1.113883.10.20.22.2.34,2015-08-01
+Postoperative Diagnosis Section,section,2.16.840.1.113883.10.20.22.2.35,
+Postprocedure Diagnosis Section (V3),section,2.16.840.1.113883.10.20.22.2.36,2015-08-01
+Complications Section (V3),section,2.16.840.1.113883.10.20.22.2.37,2015-08-01
+Medications Administered Section (V2),section,2.16.840.1.113883.10.20.22.2.38,2014-06-09
+Medical (General) History Section,section,2.16.840.1.113883.10.20.22.2.39,
 Vital Signs Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.4,2015-08-01
 Vital Signs Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.4.1,2015-08-01
-Admission Medication (V2),entry,2.16.840.1.113883.10.20.22.4.36,2014-06-09
-Advance Directive Observation (V3),entry,2.16.840.1.113883.10.20.22.4.48,2015-08-01
+Procedure Implants Section,section,2.16.840.1.113883.10.20.22.2.40,
+Hospital Discharge Instructions Section,section,2.16.840.1.113883.10.20.22.2.41,
+Hospital Consultations Section,section,2.16.840.1.113883.10.20.22.2.42,
+Admission Diagnosis Section (V3),section,2.16.840.1.113883.10.20.22.2.43,2015-08-01
+Admission Medications Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.44,2015-08-01
+Instructions Section (V2),section,2.16.840.1.113883.10.20.22.2.45,2014-06-09
+Problem Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.5,2015-08-01
+Problem Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.5.1,2015-08-01
+Mental Status Section (V2),section,2.16.840.1.113883.10.20.22.2.56,2015-08-01
+Nutrition Section,section,2.16.840.1.113883.10.20.22.2.57,
+Health Concerns Section (V2),section,2.16.840.1.113883.10.20.22.2.58,2015-08-01
+Allergies and Intolerances Section (entries optional) (V3),section,2.16.840.1.113883.10.20.22.2.6,2015-08-01
+Allergies and Intolerances Section (entries required) (V3),section,2.16.840.1.113883.10.20.22.2.6.1,2015-08-01
+Goals Section,section,2.16.840.1.113883.10.20.22.2.60,
+Health Status Evaluations and Outcomes Section,section,2.16.840.1.113883.10.20.22.2.61,
+Course of Care Section,section,2.16.840.1.113883.10.20.22.2.64,
+Procedures Section (entries optional) (V2),section,2.16.840.1.113883.10.20.22.2.7,2014-06-09
+Procedures Section (entries required) (V2),section,2.16.840.1.113883.10.20.22.2.7.1,2014-06-09
+Assessment Section,section,2.16.840.1.113883.10.20.22.2.8,
+Assessment and Plan Section (V2),section,2.16.840.1.113883.10.20.22.2.9,2014-06-09
+Result Organizer (V3),entry,2.16.840.1.113883.10.20.22.4.1,2015-08-01
 Advance Directive Organizer (V2),entry,2.16.840.1.113883.10.20.22.4.108,2015-08-01
-Age Observation,entry,2.16.840.1.113883.10.20.22.4.31,
-Allergy - Intolerance Observation (V2),entry,2.16.840.1.113883.10.20.22.4.7,2014-06-09
-Allergy Concern Act (V3),entry,2.16.840.1.113883.10.20.22.4.30,2015-08-01
-Allergy Status Observation (DEPRECATED),entry,2.16.840.1.113883.10.20.22.4.28,2014-06-09
-Assessment Scale Observation,entry,2.16.840.1.113883.10.20.22.4.69,
-Assessment Scale Supporting Observation,entry,2.16.840.1.113883.10.20.22.4.86,
-Authorization Activity,entry,2.16.840.1.113883.10.20.1.19,
-Boundary Observation,entry,2.16.840.1.113883.10.20.6.2.11,
-Caregiver Characteristics,entry,2.16.840.1.113883.10.20.22.4.72,
 Characteristics of Home Environment,entry,2.16.840.1.113883.10.20.22.4.109,
-Code Observations,entry,2.16.840.1.113883.10.20.6.2.13,
-Cognitive Status Problem Observation (DEPRECATED),entry,2.16.840.1.113883.10.20.22.4.73,2014-06-09
-Comment Activity,entry,2.16.840.1.113883.10.20.22.4.64,
-Coverage Activity (V3),entry,2.16.840.1.113883.10.20.22.4.60,2015-08-01
-Criticality Observation,entry,2.16.840.1.113883.10.20.22.4.145,
+Progress Toward Goal Observation,entry,2.16.840.1.113883.10.20.22.4.110,
 Cultural and Religious Observation,entry,2.16.840.1.113883.10.20.22.4.111,
-Deceased Observation (V3),entry,2.16.840.1.113883.10.20.22.4.79,2015-08-01
-Discharge Medication (V2),entry,2.16.840.1.113883.10.20.22.4.35,2014-06-09
-Drug Monitoring Act,entry,2.16.840.1.113883.10.20.22.4.123,
-Drug Vehicle,entry,2.16.840.1.113883.10.20.22.4.24,
-Encounter Activity (V3),entry,2.16.840.1.113883.10.20.22.4.49,2015-08-01
-Encounter Diagnosis (V3),entry,2.16.840.1.113883.10.20.22.4.80,2015-08-01
-Entry Reference,entry,2.16.840.1.113883.10.20.22.4.122,
-Estimated Date of Delivery,entry,2.16.840.1.113883.10.20.15.3.1,
-External Document Reference,entry,2.16.840.1.113883.10.20.22.4.115,
-Family History Death Observation,entry,2.16.840.1.113883.10.20.22.4.47,
-Family History Observation (V3),entry,2.16.840.1.113883.10.20.22.4.46,2015-08-01
-Family History Organizer (V3),entry,2.16.840.1.113883.10.20.22.4.45,2015-08-01
-Functional Status Observation (V2),entry,2.16.840.1.113883.10.20.22.4.67,2014-06-09
-Functional Status Organizer (V2),entry,2.16.840.1.113883.10.20.22.4.66,2014-06-09
-Functional Status Problem Observation (DEPRECATED),entry,2.16.840.1.113883.10.20.22.4.68,2014-06-09
-Goal Observation,entry,2.16.840.1.113883.10.20.22.4.121,
-Handoff Communication Participants,entry,2.16.840.1.113883.10.20.22.4.141,
-Health Concern Act (V2),entry,2.16.840.1.113883.10.20.22.4.132,2015-08-01
-Health Status Observation (V2),entry,2.16.840.1.113883.10.20.22.4.5,2014-06-09
-Highest Pressure Ulcer Stage,entry,2.16.840.1.113883.10.20.22.4.77,
-Hospital Admission Diagnosis (V3),entry,2.16.840.1.113883.10.20.22.4.34,2015-08-01
-Hospital Discharge Diagnosis (V3),entry,2.16.840.1.113883.10.20.22.4.33,2015-08-01
-Immunization Activity (V3),entry,2.16.840.1.113883.10.20.22.4.52,2015-08-01
-Immunization Medication Information (V2),entry,2.16.840.1.113883.10.20.22.4.54,2014-06-09
-Immunization Refusal Reason,entry,2.16.840.1.113883.10.20.22.4.53,
-Indication (V2),entry,2.16.840.1.113883.10.20.22.4.19,2014-06-09
-Instruction (V2),entry,2.16.840.1.113883.10.20.22.4.20,2014-06-09
-Intervention Act (V2),entry,2.16.840.1.113883.10.20.22.4.131,2015-08-01
+Prognosis Observation,entry,2.16.840.1.113883.10.20.22.4.113,
 Longitudinal Care Wound Observation (V2),entry,2.16.840.1.113883.10.20.22.4.114,2015-08-01
+External Document Reference,entry,2.16.840.1.113883.10.20.22.4.115,2014-06-09
+Substance Administered Act,entry,2.16.840.1.113883.10.20.22.4.118,
+Author Participation,unspecified,2.16.840.1.113883.10.20.22.4.119,
+Procedure Activity Act (V2),entry,2.16.840.1.113883.10.20.22.4.12,2014-06-09
+Planned Immunization Activity,entry,2.16.840.1.113883.10.20.22.4.120,
+Goal Observation,entry,2.16.840.1.113883.10.20.22.4.121,
+Entry Reference,entry,2.16.840.1.113883.10.20.22.4.122,
+Drug Monitoring Act,entry,2.16.840.1.113883.10.20.22.4.123,
+Nutritional Status Observation,entry,2.16.840.1.113883.10.20.22.4.124,
+Sensory Status,entry,2.16.840.1.113883.10.20.22.4.127,
+Self-Care Activities (ADL and IADL),entry,2.16.840.1.113883.10.20.22.4.128,
+Planned Coverage,entry,2.16.840.1.113883.10.20.22.4.129,
+Procedure Activity Observation (V2),entry,2.16.840.1.113883.10.20.22.4.13,2014-06-09
+Nutrition Recommendation,entry,2.16.840.1.113883.10.20.22.4.130,
+Intervention Act (V2),entry,2.16.840.1.113883.10.20.22.4.131,2015-08-01
+Health Concern Act (V2),entry,2.16.840.1.113883.10.20.22.4.132,2015-08-01
+Wound Measurement Observation,entry,2.16.840.1.113883.10.20.22.4.133,
+Wound Characteristic,entry,2.16.840.1.113883.10.20.22.4.134,
 Medical Equipment Organizer,entry,2.16.840.1.113883.10.20.22.4.135,
-Medication Activity (V2),entry,2.16.840.1.113883.10.20.22.4.16,2014-06-09
-Medication Dispense (V2),entry,2.16.840.1.113883.10.20.22.4.18,2014-06-09
+Risk Concern Act (V2),entry,2.16.840.1.113883.10.20.22.4.136,2015-08-01
+Nutrition Assessment,entry,2.16.840.1.113883.10.20.22.4.138,
+Procedure Activity Procedure (V2),entry,2.16.840.1.113883.10.20.22.4.14,2014-06-09
+Patient Referral Act,entry,2.16.840.1.113883.10.20.22.4.140,
+Handoff Communication Participants,entry,2.16.840.1.113883.10.20.22.4.141,
+Priority Preference,entry,2.16.840.1.113883.10.20.22.4.143,
+Outcome Observation,entry,2.16.840.1.113883.10.20.22.4.144,
+Criticality Observation,entry,2.16.840.1.113883.10.20.22.4.145,
+Planned Intervention Act (V2),entry,2.16.840.1.113883.10.20.22.4.146,2015-08-01
 Medication Free Text Sig,entry,2.16.840.1.113883.10.20.22.4.147,
-Medication Information (V2),entry,2.16.840.1.113883.10.20.22.4.23,2014-06-09
+Medication Activity (V2),entry,2.16.840.1.113883.10.20.22.4.16,2014-06-09
 Medication Supply Order (V2),entry,2.16.840.1.113883.10.20.22.4.17,2014-06-09
+Medication Dispense (V2),entry,2.16.840.1.113883.10.20.22.4.18,2014-06-09
+Indication (V2),entry,2.16.840.1.113883.10.20.22.4.19,2014-06-09
+Result Observation (V3),entry,2.16.840.1.113883.10.20.22.4.2,2015-08-01
+Instruction (V2),entry,2.16.840.1.113883.10.20.22.4.20,2014-06-09
+Medication Information (V2),entry,2.16.840.1.113883.10.20.22.4.23,2014-06-09
+Drug Vehicle,entry,2.16.840.1.113883.10.20.22.4.24,
+Precondition for Substance Administration (V2),entry,2.16.840.1.113883.10.20.22.4.25,2014-06-09
+Vital Signs Organizer (V3),entry,2.16.840.1.113883.10.20.22.4.26,2015-08-01
+Vital Sign Observation (V2),entry,2.16.840.1.113883.10.20.22.4.27,2014-06-09
+Allergy Status Observation (DEPRECATED),entry,2.16.840.1.113883.10.20.22.4.28,2014-06-09
+Problem Concern Act (V3),entry,2.16.840.1.113883.10.20.22.4.3,2015-08-01
+Allergy Concern Act (V3),entry,2.16.840.1.113883.10.20.22.4.30,2015-08-01
+Age Observation,entry,2.16.840.1.113883.10.20.22.4.31,
+Service Delivery Location,entry,2.16.840.1.113883.10.20.22.4.32,
+Hospital Discharge Diagnosis (V3),entry,2.16.840.1.113883.10.20.22.4.33,2015-08-01
+Hospital Admission Diagnosis (V3),entry,2.16.840.1.113883.10.20.22.4.34,2015-08-01
+Discharge Medication (V2),entry,2.16.840.1.113883.10.20.22.4.35,2014-06-09
+Admission Medication (V2),entry,2.16.840.1.113883.10.20.22.4.36,2014-06-09
+Product Instance,entry,2.16.840.1.113883.10.20.22.4.37,
+Social History Observation (V3),entry,2.16.840.1.113883.10.20.22.4.38,2015-08-01
+Planned Act (V2),entry,2.16.840.1.113883.10.20.22.4.39,2014-06-09
+Problem Observation (V3),entry,2.16.840.1.113883.10.20.22.4.4,2015-08-01
+Planned Encounter (V2),entry,2.16.840.1.113883.10.20.22.4.40,2014-06-09
+Planned Procedure (V2),entry,2.16.840.1.113883.10.20.22.4.41,2014-06-09
+Planned Medication Activity (V2),entry,2.16.840.1.113883.10.20.22.4.42,2014-06-09
+Planned Supply (V2),entry,2.16.840.1.113883.10.20.22.4.43,2014-06-09
+Planned Observation (V2),entry,2.16.840.1.113883.10.20.22.4.44,2014-06-09
+Family History Organizer (V3),entry,2.16.840.1.113883.10.20.22.4.45,2015-08-01
+Family History Observation (V3),entry,2.16.840.1.113883.10.20.22.4.46,2015-08-01
+Family History Death Observation,entry,2.16.840.1.113883.10.20.22.4.47,
+Advance Directive Observation (V3),entry,2.16.840.1.113883.10.20.22.4.48,2015-08-01
+Encounter Activity (V3),entry,2.16.840.1.113883.10.20.22.4.49,2015-08-01
+Health Status Observation (V2),entry,2.16.840.1.113883.10.20.22.4.5,2014-06-09
+Non-Medicinal Supply Activity (V2),entry,2.16.840.1.113883.10.20.22.4.50,2014-06-09
+Postprocedure Diagnosis (V3),entry,2.16.840.1.113883.10.20.22.4.51,2015-08-01
+Immunization Activity (V3),entry,2.16.840.1.113883.10.20.22.4.52,2015-08-01
+Immunization Refusal Reason,entry,2.16.840.1.113883.10.20.22.4.53,
+Immunization Medication Information (V2),entry,2.16.840.1.113883.10.20.22.4.54,2014-06-09
+Problem Status (DEPRECATED),entry,2.16.840.1.113883.10.20.22.4.6,2014-06-09
+Coverage Activity (V3),entry,2.16.840.1.113883.10.20.22.4.60,2015-08-01
+Policy Activity (V3),entry,2.16.840.1.113883.10.20.22.4.61,2015-08-01
+Series Act,entry,2.16.840.1.113883.10.20.22.4.63,
+Comment Activity,entry,2.16.840.1.113883.10.20.22.4.64,
+Preoperative Diagnosis (V3),entry,2.16.840.1.113883.10.20.22.4.65,2015-08-01
+Functional Status Organizer (V2),entry,2.16.840.1.113883.10.20.22.4.66,2014-06-09
+Functional Status Observation (V2),entry,2.16.840.1.113883.10.20.22.4.67,2014-06-09
+Functional Status Problem Observation (DEPRECATED),entry,2.16.840.1.113883.10.20.22.4.68,2014-06-09
+Assessment Scale Observation,entry,2.16.840.1.113883.10.20.22.4.69,
+Allergy - Intolerance Observation (V2),entry,2.16.840.1.113883.10.20.22.4.7,2014-06-09
+Pressure Ulcer Observation (DEPRECATED),entry,2.16.840.1.113883.10.20.22.4.70,2014-06-09
+Caregiver Characteristics,entry,2.16.840.1.113883.10.20.22.4.72,
+Cognitive Status Problem Observation (DEPRECATED),entry,2.16.840.1.113883.10.20.22.4.73,2014-06-09
 Mental Status Observation (V3),entry,2.16.840.1.113883.10.20.22.4.74,2015-08-01
 Mental Status Organizer (V3),entry,2.16.840.1.113883.10.20.22.4.75,2015-08-01
-Non-Medicinal Supply Activity (V2),entry,2.16.840.1.113883.10.20.22.4.50,2014-06-09
 Number of Pressure Ulcers Observation (V3),entry,2.16.840.1.113883.10.20.22.4.76,2015-08-01
-Nutrition Assessment,entry,2.16.840.1.113883.10.20.22.4.138,
-Nutrition Recommendation,entry,2.16.840.1.113883.10.20.22.4.130,
-Nutritional Status Observation,entry,2.16.840.1.113883.10.20.22.4.124,
-Outcome Observation,entry,2.16.840.1.113883.10.20.22.4.144,
-Patient Referral Act,entry,2.16.840.1.113883.10.20.22.4.140,
-Planned Act (V2),entry,2.16.840.1.113883.10.20.22.4.39,2014-06-09
-Planned Coverage,entry,2.16.840.1.113883.10.20.22.4.129,
-Planned Encounter (V2),entry,2.16.840.1.113883.10.20.22.4.40,2014-06-09
-Planned Immunization Activity,entry,2.16.840.1.113883.10.20.22.4.120,
-Planned Intervention Act (V2),entry,2.16.840.1.113883.10.20.22.4.146,2015-08-01
-Planned Medication Activity (V2),entry,2.16.840.1.113883.10.20.22.4.42,2014-06-09
-Planned Observation (V2),entry,2.16.840.1.113883.10.20.22.4.44,2014-06-09
-Planned Procedure (V2),entry,2.16.840.1.113883.10.20.22.4.41,2014-06-09
-Planned Supply (V2),entry,2.16.840.1.113883.10.20.22.4.43,2014-06-09
-Policy Activity (V3),entry,2.16.840.1.113883.10.20.22.4.61,2015-08-01
-Postprocedure Diagnosis (V3),entry,2.16.840.1.113883.10.20.22.4.51,2015-08-01
-Precondition for Substance Administration (V2),entry,2.16.840.1.113883.10.20.22.4.25,2014-06-09
-Pregnancy Observation,entry,2.16.840.1.113883.10.20.15.3.8,
-Preoperative Diagnosis (V3),entry,2.16.840.1.113883.10.20.22.4.65,2015-08-01
-Pressure Ulcer Observation (DEPRECATED),entry,2.16.840.1.113883.10.20.22.4.70,2014-06-09
-Priority Preference,entry,2.16.840.1.113883.10.20.22.4.143,
-Problem Concern Act (V3),entry,2.16.840.1.113883.10.20.22.4.3,2015-08-01
-Problem Observation (V3),entry,2.16.840.1.113883.10.20.22.4.4,2015-08-01
-Problem Status (DEPRECATED),entry,2.16.840.1.113883.10.20.22.4.6,2014-06-09
-Procedure Activity Act (V2),entry,2.16.840.1.113883.10.20.22.4.12,2014-06-09
-Procedure Activity Observation (V2),entry,2.16.840.1.113883.10.20.22.4.13,2014-06-09
-Procedure Activity Procedure (V2),entry,2.16.840.1.113883.10.20.22.4.14,2014-06-09
-Procedure Context,entry,2.16.840.1.113883.10.20.6.2.5,
-Product Instance,entry,2.16.840.1.113883.10.20.22.4.37,
-Prognosis Observation,entry,2.16.840.1.113883.10.20.22.4.113,
-Progress Toward Goal Observation,entry,2.16.840.1.113883.10.20.22.4.110,
-Purpose of Reference Observation,entry,2.16.840.1.113883.10.20.6.2.9,
-Quantity Measurement Observation,entry,2.16.840.1.113883.10.20.6.2.14,
-Reaction Observation (V2),entry,2.16.840.1.113883.10.20.22.4.9,2014-06-09
-Referenced Frames Observation,entry,2.16.840.1.113883.10.20.6.2.10,
-Result Observation (V3),entry,2.16.840.1.113883.10.20.22.4.2,2015-08-01
-Result Organizer (V3),entry,2.16.840.1.113883.10.20.22.4.1,2015-08-01
-Risk Concern Act (V2),entry,2.16.840.1.113883.10.20.22.4.136,2015-08-01
-Self-Care Activities (ADL and IADL),entry,2.16.840.1.113883.10.20.22.4.128,
-Sensory Status,entry,2.16.840.1.113883.10.20.22.4.127,
-Series Act,entry,2.16.840.1.113883.10.20.22.4.63,
-Service Delivery Location,entry,2.16.840.1.113883.10.20.22.4.32,
-Severity Observation (V2),entry,2.16.840.1.113883.10.20.22.4.8,2014-06-09
+Highest Pressure Ulcer Stage,entry,2.16.840.1.113883.10.20.22.4.77,
 Smoking Status - Meaningful Use (V2),entry,2.16.840.1.113883.10.20.22.4.78,2014-06-09
-Social History Observation (V3),entry,2.16.840.1.113883.10.20.22.4.38,2015-08-01
-SOP Instance Observation,entry,2.16.840.1.113883.10.20.6.2.8,
-Study Act,entry,2.16.840.1.113883.10.20.6.2.6,
-Substance Administered Act,entry,2.16.840.1.113883.10.20.22.4.118,
-Substance or Device Allergy - Intolerance Observation (V2),entry,2.16.840.1.113883.10.20.24.3.90,2014-06-09
-Text Observation,entry,2.16.840.1.113883.10.20.6.2.12,
+Deceased Observation (V3),entry,2.16.840.1.113883.10.20.22.4.79,2015-08-01
+Severity Observation (V2),entry,2.16.840.1.113883.10.20.22.4.8,2014-06-09
+Encounter Diagnosis (V3),entry,2.16.840.1.113883.10.20.22.4.80,2015-08-01
 Tobacco Use (V2),entry,2.16.840.1.113883.10.20.22.4.85,2014-06-09
-Vital Sign Observation (V2),entry,2.16.840.1.113883.10.20.22.4.27,2014-06-09
-Vital Signs Organizer (V3),entry,2.16.840.1.113883.10.20.22.4.26,2015-08-01
-Wound Characteristic,entry,2.16.840.1.113883.10.20.22.4.134,
-Wound Measurement Observation,entry,2.16.840.1.113883.10.20.22.4.133,
-Author Participation,unspecified,2.16.840.1.113883.10.20.22.4.119,
-Physician of Record Participant (V2),unspecified,2.16.840.1.113883.10.20.6.2.2,2014-06-09
-Physician Reading Study Performer (V2),unspecified,2.16.840.1.113883.10.20.6.2.1,2014-06-09
+Assessment Scale Supporting Observation,entry,2.16.840.1.113883.10.20.22.4.86,
+Reaction Observation (V2),entry,2.16.840.1.113883.10.20.22.4.9,2014-06-09
+US Realm Patient Name (PTN.US.FIELDED),unspecified,2.16.840.1.113883.10.20.22.5.1,
+US Realm Person Name (PN.US.FIELDED),unspecified,2.16.840.1.113883.10.20.22.5.1.1,
 US Realm Address (AD.US.FIELDED),unspecified,2.16.840.1.113883.10.20.22.5.2,
 US Realm Date and Time (DT.US.FIELDED),unspecified,2.16.840.1.113883.10.20.22.5.3,
 US Realm Date and Time (DTM.US.FIELDED),unspecified,2.16.840.1.113883.10.20.22.5.4,
-US Realm Patient Name (PTN.US.FIELDED),unspecified,2.16.840.1.113883.10.20.22.5.1,
-US Realm Person Name (PN.US.FIELDED),unspecified,2.16.840.1.113883.10.20.22.5.1.1,
+Substance or Device Allergy - Intolerance Observation (V2),entry,2.16.840.1.113883.10.20.24.3.90,2014-06-09
+US Realm Header for Patient Generated Document (V2),document,2.16.840.1.113883.10.20.29.1,2015-08-01
+DICOM Object Catalog Section - DCM 121181,section,2.16.840.1.113883.10.20.6.1.1,
+Findings Section (DIR),section,2.16.840.1.113883.10.20.6.1.2,
+Physician Reading Study Performer (V2),unspecified,2.16.840.1.113883.10.20.6.2.1,2014-06-09
+Referenced Frames Observation,entry,2.16.840.1.113883.10.20.6.2.10,
+Boundary Observation,entry,2.16.840.1.113883.10.20.6.2.11,
+Text Observation,entry,2.16.840.1.113883.10.20.6.2.12,
+Code Observations,entry,2.16.840.1.113883.10.20.6.2.13,
+Quantity Measurement Observation,entry,2.16.840.1.113883.10.20.6.2.14,
+Physician of Record Participant (V2),unspecified,2.16.840.1.113883.10.20.6.2.2,2014-06-09
+Fetus Subject Context,section,2.16.840.1.113883.10.20.6.2.3,
+Observer Context,section,2.16.840.1.113883.10.20.6.2.4,
+Procedure Context,entry,2.16.840.1.113883.10.20.6.2.5,
+Study Act,entry,2.16.840.1.113883.10.20.6.2.6,
+SOP Instance Observation,entry,2.16.840.1.113883.10.20.6.2.8,
+Purpose of Reference Observation,entry,2.16.840.1.113883.10.20.6.2.9,
+Operative Note Fluids Section,section,2.16.840.1.113883.10.20.7.12,
+Surgical Drains Section,section,2.16.840.1.113883.10.20.7.13,
+Operative Note Surgical Procedure Section,section,2.16.840.1.113883.10.20.7.14,
 Privacy Segmented Document Template,document,2.16.840.1.113883.3.3251.1.1,
 Privacy Segmented Section Template,section,2.16.840.1.113883.3.3251.1.10,
-Privacy and Security Markings Section Template,section,2.16.840.1.113883.3.3251.1.5,
-Privacy Markings Entry Template,entry,2.16.840.1.113883.3.3251.1.9,
-Protected Problem Template,unspecified,2.16.840.1.113883.3.3251.1.8,
-Privacy Annotation Template,unspecified,2.16.840.1.113883.3.3251.1.4,
 Mandatory Document Provenance Template,unspecified,2.16.840.1.113883.3.3251.1.2,
 Mandatory Entry Provenance Template,unspecified,2.16.840.1.113883.3.3251.1.2,
+Privacy Annotation Template,unspecified,2.16.840.1.113883.3.3251.1.4,
+Privacy and Security Markings Section Template,section,2.16.840.1.113883.3.3251.1.5,
+Protected Problem Template,unspecified,2.16.840.1.113883.3.3251.1.8,
+Privacy Markings Entry Template,entry,2.16.840.1.113883.3.3251.1.9,

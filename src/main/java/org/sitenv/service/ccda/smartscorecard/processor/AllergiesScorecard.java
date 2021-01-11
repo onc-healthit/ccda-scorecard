@@ -521,22 +521,27 @@ public class AllergiesScorecard {
 			if (!ApplicationUtil.isEmpty(allergies.getAllergyConcern())) {
 				for (CCDAAllergyConcern allergyConcern : allergies.getAllergyConcern()) {
 					if (allergyConcern.getStatusCode() != null) {
-						maxPoints++;
-						numberOfChecks++;
 						if (allergyConcern.getAllergyObs() != null) {
-							for (CCDAAllergyObs allergyObs : allergyConcern.getAllergyObs()) {
-								if (ApplicationUtil.validateStatusCode(allergyObs.getEffTime(),
-										allergyConcern.getStatusCode().getCode())) {
-									actualPoints++;
-								} else {
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(
-											allergyObs.getEffTime() != null ? allergyObs.getEffTime().getLineNumber()
-													: allergyObs.getLineNumber());
-									issue.setXmlString(
-											allergyObs.getEffTime() != null ? allergyObs.getEffTime().getXmlString()
-													: allergyObs.getXmlString());
-									issuesList.add(issue);
+							for (CCDAAllergyObs allergyObs : allergyConcern.getAllergyObs()) 
+							{
+								if(allergyObs.getNegationInd()!=null && !allergyObs.getNegationInd()) 
+								{
+									maxPoints++;
+									numberOfChecks++;
+									if (ApplicationUtil.validateStatusCode(allergyObs.getEffTime(),
+											allergyConcern.getStatusCode().getCode())) 
+									{
+										actualPoints++;
+									} else {
+										issue = new CCDAXmlSnippet();
+										issue.setLineNumber(
+												allergyObs.getEffTime() != null ? allergyObs.getEffTime().getLineNumber()
+														: allergyObs.getLineNumber());
+										issue.setXmlString(
+												allergyObs.getEffTime() != null ? allergyObs.getEffTime().getXmlString()
+														: allergyObs.getXmlString());
+										issuesList.add(issue);
+									}
 								}
 							}
 						} else {
