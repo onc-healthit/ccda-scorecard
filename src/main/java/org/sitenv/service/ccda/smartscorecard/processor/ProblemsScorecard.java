@@ -535,22 +535,26 @@ public class ProblemsScorecard {
 				{
 					if(probCon.getStatusCode() != null )
 					{
-						maxPoints++;
-						numberOfChecks++;
 						if(probCon.getProblemObservations() !=null)
 						{
 							for(CCDAProblemObs probObs : probCon.getProblemObservations())
 							{
-								if(ApplicationUtil.validateStatusCode(probObs.getEffTime(), probCon.getStatusCode().getCode()))
+								if(probObs.getNegationInd()!=null && !probObs.getNegationInd()) 
 								{
-									actualPoints++;
-								}
-								else
-								{
-									issue = new CCDAXmlSnippet();
-									issue.setLineNumber(probObs.getEffTime().getLineNumber());
-									issue.setXmlString(probObs.getEffTime().getXmlString());
-									issuesList.add(issue);
+								   maxPoints++;
+								   numberOfChecks++;
+									
+								   if(ApplicationUtil.validateStatusCode(probObs.getEffTime(), probCon.getStatusCode().getCode()))
+								   {
+									   actualPoints++;
+								   }
+								   else
+								   {
+									  issue = new CCDAXmlSnippet();
+									  issue.setLineNumber(probObs.getEffTime().getLineNumber());
+									  issue.setXmlString(probObs.getEffTime().getXmlString());
+									  issuesList.add(issue);
+								   }
 								}
 							}
 						}

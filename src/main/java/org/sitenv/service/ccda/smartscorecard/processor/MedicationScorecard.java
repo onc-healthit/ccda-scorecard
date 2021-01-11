@@ -345,39 +345,42 @@ public class MedicationScorecard {
 			{
 				for (CCDAMedicationActivity medAct : medications.getMedActivities())
 				{
-					maxPoints++;
-					numberOfChecks++;
-					if(medAct.getConsumable()!=null)
+					if(!medAct.getNegationInd()) 
 					{
-						if(medAct.getConsumable().getMedcode()!=null)
+						maxPoints++;
+						numberOfChecks++;
+						if(medAct.getConsumable()!=null)
 						{
-							if(referenceValidatorService.validateCodeForValueset(medAct.getConsumable().getMedcode().getCode(), 
-																			ApplicationConstants.MEDICATION_CLINICAL_DRUG_VALUSET_OID))
+							if(medAct.getConsumable().getMedcode()!=null)
 							{
-								actualPoints++;
+								if(referenceValidatorService.validateCodeForValueset(medAct.getConsumable().getMedcode().getCode(), 
+																				ApplicationConstants.MEDICATION_CLINICAL_DRUG_VALUSET_OID))
+								{
+									actualPoints++;
+								}
+								else
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(medAct.getConsumable().getMedcode().getLineNumber());
+									issue.setXmlString(medAct.getConsumable().getMedcode().getXmlString());
+									issuesList.add(issue);
+								}
 							}
 							else
 							{
 								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(medAct.getConsumable().getMedcode().getLineNumber());
-								issue.setXmlString(medAct.getConsumable().getMedcode().getXmlString());
+								issue.setLineNumber(medAct.getConsumable().getLineNumber());
+								issue.setXmlString(medAct.getConsumable().getXmlString());
 								issuesList.add(issue);
 							}
 						}
 						else
 						{
 							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(medAct.getConsumable().getLineNumber());
-							issue.setXmlString(medAct.getConsumable().getXmlString());
+							issue.setLineNumber(medAct.getLineNumber());
+							issue.setXmlString(medAct.getXmlString());
 							issuesList.add(issue);
 						}
-					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(medAct.getLineNumber());
-						issue.setXmlString(medAct.getXmlString());
-						issuesList.add(issue);
 					}
 				}
 			}
@@ -588,38 +591,40 @@ public class MedicationScorecard {
 			{
 				for (CCDAMedicationActivity medAct : medications.getMedActivities())
 				{
-					maxPoints++;
-					numberOfChecks++;
-					if(medAct.getMedSubAdmin()!=null)
-					{
-						if(medAct.getMedSubAdmin().getReferenceText()!= null)
+					if(!medAct.getNegationInd()) {
+						maxPoints++;
+						numberOfChecks++;
+						if(medAct.getMedSubAdmin()!=null)
 						{
-							if(medications.getReferenceLinks()!= null && medications.getReferenceLinks().contains(medAct.getMedSubAdmin().getReferenceText().getValue()))
+							if(medAct.getMedSubAdmin().getReferenceText()!= null)
 							{
-								actualPoints++;
+								if(medications.getReferenceLinks()!= null && medications.getReferenceLinks().contains(medAct.getMedSubAdmin().getReferenceText().getValue()))
+								{
+									actualPoints++;
+								}
+								else
+								{
+									issue = new CCDAXmlSnippet();
+									issue.setLineNumber(medAct.getMedSubAdmin().getReferenceText().getLineNumber());
+									issue.setXmlString(medAct.getMedSubAdmin().getReferenceText().getXmlString());
+									issuesList.add(issue);
+								}
 							}
 							else
 							{
 								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(medAct.getMedSubAdmin().getReferenceText().getLineNumber());
-								issue.setXmlString(medAct.getMedSubAdmin().getReferenceText().getXmlString());
+								issue.setLineNumber(medAct.getMedSubAdmin().getLineNumber());
+								issue.setXmlString(medAct.getMedSubAdmin().getXmlString());
 								issuesList.add(issue);
 							}
 						}
 						else
 						{
 							issue = new CCDAXmlSnippet();
-							issue.setLineNumber(medAct.getMedSubAdmin().getLineNumber());
-							issue.setXmlString(medAct.getMedSubAdmin().getXmlString());
+							issue.setLineNumber(medAct.getLineNumber());
+							issue.setXmlString(medAct.getXmlString());
 							issuesList.add(issue);
 						}
-					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(medAct.getLineNumber());
-						issue.setXmlString(medAct.getXmlString());
-						issuesList.add(issue);
 					}
 				}
 			}
