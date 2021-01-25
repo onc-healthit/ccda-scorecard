@@ -37,7 +37,9 @@ public class ApplicationConfiguration {
 		DEFAULT_LOCAL_SCORECARD_SERVER_URL = "http://localhost:8000",
 		DEFAULT_LOCAL_REF_VAL_SERVER_URL = "http://localhost:8080",		
 		
-		CCDA_DEV_SERVER_URL = "http://34.195.107.72", // AHRQ DEV CCDA
+		//CCDA_DEV_SERVER_URL = "http://34.195.107.72", // AHRQ DEV CCDA
+		
+		CCDA_DEV_SERVER_URL = "https://ccda.dev.sitenv.org", // AHRQ DEV CCDA
 		CCDA_TEST_SERVER_URL = "http://34.236.48.201", // AHRQ TEST CCDA
 		
 		CCDA_GOV_PROD_SERVER_URL = "https://ccda.healthit.gov", // new ahrq dot gov prod
