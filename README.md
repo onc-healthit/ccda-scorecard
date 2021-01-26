@@ -42,7 +42,7 @@ public Void ccdascorecardservice(MultipartFile ccdaFile)
 		formConverter.setCharset(Charset.forName("UTF8"));
 		restTemplate.getMessageConverters().add(formConverter);
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-		response = restTemplate.postForObject("http://sitenv.org/scorecard/ccdascorecardservice2", 
+		response = restTemplate.postForObject("https://site.healthit.gov/scorecard/ccdascorecardservice2", 
 												requestEntity, String.class);
 		tempFile.delete();
 	}catch(Exception exc)
@@ -174,13 +174,13 @@ ALTER TABLE public.scorecard_statistics
     <Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
 ```
-* Below is an example of the scorecard.xml configuration which uses **production** referenceccdaservice URLs
+* Below is an example of the scorecard.xml configuration which uses CURES **production** referenceccdaservice URLs
 ```XML
 <Context reloadable="true">
     <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
     <Parameter name="scorecard.certificatinResultsCall" value="true" override="true"/>
-    <Parameter name="scorecard.igConformanceUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
-    <Parameter name="scorecard.certificationResultsUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
+    <Parameter name="scorecard.igConformanceUrl" value="https://ccda.healthit.gov/referenceccdaservice/" override="true"/>
+    <Parameter name="scorecard.certificationResultsUrl" value="https://ccda.healthit.gov/referenceccdaservice/" override="true"/>
     <Parameter name="scorecard.configFile" value="//path to scorecardConfig.xml" override="true"/>
 </Context>
 ```
@@ -214,7 +214,7 @@ public static final Environment ENV = Environment.ENTER_DESIRED_ENVIRONMENT_FROM
 
 * To use the **production** servers, set set ENV to Environment.PROD, and skip to final "Build the Scorecard project and deploy the WAR file" step
   ```Java
-  public static final Environment ENV = Environment.PROD;;
+  public static final Environment ENV = Environment.PROD;
   ```
     * Note: If using production, you will want to download the public cert from SITE and <a href="#cert">install it</a>
 

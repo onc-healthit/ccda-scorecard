@@ -415,10 +415,10 @@ public class VitalsScorecard {
 					{
 						for(CCDAVitalObs vitalObs : vitalOrg.getVitalObs())
 						{
-							maxPoints++;
-							numberOfChecks++;
 							if(vitalObs.getVsResult() != null && vitalObs.getVsResult().getXsiType().equalsIgnoreCase("PQ"))
 							{
+								maxPoints++;
+								numberOfChecks++;
 								if(vitalObs.getVsCode()!= null)
 								{
 									if(vitalsRepository.isUCUMCodeValidForVitalCode(vitalObs.getVsCode().getCode(),vitalObs.getVsResult().getUnits()))

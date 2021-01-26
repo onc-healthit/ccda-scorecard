@@ -670,7 +670,7 @@ public class EncounterScorecard {
 				actualPoints++;
 			}
 		}
-		if(maxPoints ==0)
+		if(maxPoints==0)
 		{
 			maxPoints =1;
 			actualPoints =1;

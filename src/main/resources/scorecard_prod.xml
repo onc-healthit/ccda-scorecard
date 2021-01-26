@@ -5,13 +5,13 @@ Matches:
 ENV = Environment.PROD;
 IG_CONFORMANCE_CALL = true;
 CERTIFICATION_RESULTS_CALL = true;
-CURES_UPDATE = true; (due to this, uses ref val ON the C-CDA server instead of ref val on TTP_PROD server (https://ttpds.sitenv.org:8443)
+CURES_UPDATE = true; (due to this, uses ref val ON the C-CDA server instead of ref val on TTP PROD server)
 -->
 
 <Context reloadable="true">
     <Parameter name="scorecard.igConformanceCall" value="true" override="true"/>
 	<Parameter name="scorecard.certificatinResultsCall" value="true" override="true"/>
-	<Parameter name="scorecard.igConformanceUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
-	<Parameter name="scorecard.certificationResultsUrl" value="https://prodccda.sitenv.org/referenceccdaservice/" override="true"/>
+	<Parameter name="scorecard.igConformanceUrl" value="https://ccda.healthit.gov/referenceccdaservice/" override="true"/>
+	<Parameter name="scorecard.certificationResultsUrl" value="https://ccda.healthit.gov/referenceccdaservice/" override="true"/>
 	<Parameter name="scorecard.configFile" value="/var/opt/sitenv/scorecard/config/scorecardConfig.xml" override="true"/>
 </Context>

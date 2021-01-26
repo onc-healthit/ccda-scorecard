@@ -552,7 +552,7 @@ public class SocialHistoryScorecard {
 			{
 				if(socialHistory.getSocialHistoryGenderObs().getGenderValue()!=null)
 				{
-					if(socialHistory.getSocialHistoryGenderObs().getGenderValue().getCode()!= null)
+					if(socialHistory.getSocialHistoryGenderObs().getGenderValue().getCode()!= null || socialHistory.getSocialHistoryGenderObs().getGenderValue().getNullFlavor().equalsIgnoreCase("UNK"))
 					{
 						actualPoints++;
 					}

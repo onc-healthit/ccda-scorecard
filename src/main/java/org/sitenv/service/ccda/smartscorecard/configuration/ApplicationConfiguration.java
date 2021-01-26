@@ -9,9 +9,6 @@ public class ApplicationConfiguration {
 	public static final boolean OVERRIDE_SCORECARD_XML_CONFIG = false;
 	
 	/**
-	 * Sets the environment for deployment - with the exception of the save scorecard results, 
-	 * (TODO: define savescorecard urls in config or otherwise resolve so there is no exception) 
-	 * only relevant if OVERRIDE_SCORECARD_XML_CONFIG is true
 	 * Options are defined in org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration.Environment
 	 */
 	public static final Environment ENV = Environment.DOT_GOV_PROD;
@@ -38,15 +35,26 @@ public class ApplicationConfiguration {
 	public static final String 
 		// Basic server URL definitions
 		DEFAULT_LOCAL_SCORECARD_SERVER_URL = "http://localhost:8000",
-		DEFAULT_LOCAL_REF_VAL_SERVER_URL = "http://localhost:8080",
-		CCDA_DEV_SERVER_URL = "34.195.107.72", // AHRQ DEV CCDA
-		CCDA_TEST_SERVER_URL = "34.236.48.201", // AHRQ TEST CCDA
-		CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org", // old aws prod
+		DEFAULT_LOCAL_REF_VAL_SERVER_URL = "http://localhost:8080",		
+		
+		//CCDA_DEV_SERVER_URL = "http://34.195.107.72", // AHRQ DEV CCDA
+		
+		CCDA_DEV_SERVER_URL = "https://ccda.dev.sitenv.org", // AHRQ DEV CCDA
+		CCDA_TEST_SERVER_URL = "http://34.236.48.201", // AHRQ TEST CCDA
+		
 		CCDA_GOV_PROD_SERVER_URL = "https://ccda.healthit.gov", // new ahrq dot gov prod
-		TTP_TEST_SERVER_URL = "http://35.153.125.47", // AHRQ TEST James
-		TTP_DEV_SERVER_URL = TTP_TEST_SERVER_URL, // only james test configured for now that we know of for ref val		
-		TTP_PROD_SERVER_URL = CURES_UPDATE ? CCDA_PROD_SERVER_URL : "https://ttpds.sitenv.org:8443",
-		TTP_GOV_PROD_SERVER_URL = CURES_UPDATE ? CCDA_GOV_PROD_SERVER_URL : "https://james.healthit.gov",
+		CCDA_PROD_SERVER_URL = "https://prodccda.sitenv.org", // old aws prod
+		
+		/// Server URL Modifications
+		// TTP URLs are set based on CURES_UPDATE which means they could end up as a CCDA server URL if CURES_UPDATE is true
+		// CURRENT DEV AND TEST
+		TTP_DEV_SERVER_URL = CURES_UPDATE ? CCDA_DEV_SERVER_URL : "http://52.44.175.145", // AHRQ DEV James
+		TTP_TEST_SERVER_URL = CURES_UPDATE ? CCDA_TEST_SERVER_URL : "http://35.153.125.47", // AHRQ TEST James		
+		// CURRENT PROD
+		TTP_GOV_PROD_SERVER_URL = CURES_UPDATE ? CCDA_GOV_PROD_SERVER_URL : "https://james.healthit.gov",				
+	    // OLD / UNUSED NOW
+	    TTP_PROD_SERVER_URL = CURES_UPDATE ? CCDA_PROD_SERVER_URL : "https://ttpds.sitenv.org:8443",
+		
 		// Basic endpoint definitions	
 		CODE_AND_DISPLAYNAME_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeandisplaynameincodesystem",
 		CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
@@ -99,13 +107,15 @@ public class ApplicationConfiguration {
 						: CCDA_TEST_SERVER_URL;
 			}
 		},
+	    // OLD / UNUSED NOW
 		PROD {
 			@Override
 			public String server(EndpointType type) {
 				return type == EndpointType.RefVal ? TTP_PROD_SERVER_URL
 						: CCDA_PROD_SERVER_URL;
 			}
-		}, 	
+		},
+		// CURRENT PROD
 		DOT_GOV_PROD {
 			@Override
 			public String server(EndpointType type) {
