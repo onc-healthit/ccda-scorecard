@@ -37,43 +37,48 @@ public class MedicationScorecard {
 	{
 		long startTime = System.currentTimeMillis();
 		logger.info("Medications Start time:"+ startTime);
-		
-		if(medications==null || medications.isSectionNullFlavourWithNI())
-		{
-			return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc(),true));
-		}
 		Category medicationCategory = new Category();
-		medicationCategory.setCategoryName(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc());
 		
-		List<CCDAScoreCardRubrics> medicationScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M1)) {
-			medicationScoreList.add(getTimePrecisionScore(medications, ccdaVersion));
+		try {
+			if(medications==null || medications.isSectionNullFlavourWithNI())
+			{
+				return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc(),true));
+			}
+			
+			medicationCategory.setCategoryName(ApplicationConstants.CATEGORIES.MEDICATIONS.getCategoryDesc());
+			
+			List<CCDAScoreCardRubrics> medicationScoreList = new ArrayList<CCDAScoreCardRubrics>();
+			
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M1)) {
+				medicationScoreList.add(getTimePrecisionScore(medications, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M2)) {
+				medicationScoreList.add(getValidDateTimeScore(medications, patientDetails, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M3)) {
+				medicationScoreList.add(getValidDisplayNameScoreCard(medications, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M4)) {
+				medicationScoreList.add(getValidMedicationCodeScoreCard(medications, ccdaVersion));
+			}
+			// medicationScoreList.add(getValidMedActivityScore(medications,ccdaVersion));
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M5)) {
+				medicationScoreList.add(getNarrativeStructureIdScore(medications, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M6)) {
+				medicationScoreList.add(getMedSubAdminScore(medications, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M7)) {
+				medicationScoreList.add(getTemplateIdScore(medications, ccdaVersion));
+			}
+			
+			medicationCategory.setCategoryRubrics(medicationScoreList);
+			ApplicationUtil.calculateSectionGradeAndIssues(medicationScoreList, medicationCategory);
+			ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(medicationScoreList, medicationCategory);
+			logger.info("Medications End time:"+ (System.currentTimeMillis() - startTime));
+		}catch (Exception e) {
+			logger.info("Exception occured while scoring medication section:"+ e.getMessage());
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M2)) {
-			medicationScoreList.add(getValidDateTimeScore(medications, patientDetails, ccdaVersion));
-		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M3)) {
-			medicationScoreList.add(getValidDisplayNameScoreCard(medications, ccdaVersion));
-		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M4)) {
-			medicationScoreList.add(getValidMedicationCodeScoreCard(medications, ccdaVersion));
-		}
-		// medicationScoreList.add(getValidMedActivityScore(medications,ccdaVersion));
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M5)) {
-			medicationScoreList.add(getNarrativeStructureIdScore(medications, ccdaVersion));
-		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M6)) {
-			medicationScoreList.add(getMedSubAdminScore(medications, ccdaVersion));
-		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.M7)) {
-			medicationScoreList.add(getTemplateIdScore(medications, ccdaVersion));
-		}
-		
-		medicationCategory.setCategoryRubrics(medicationScoreList);
-		ApplicationUtil.calculateSectionGradeAndIssues(medicationScoreList, medicationCategory);
-		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(medicationScoreList, medicationCategory);
-		logger.info("Medications End time:"+ (System.currentTimeMillis() - startTime));
 		return new AsyncResult<Category>(medicationCategory);
 		
 	}
@@ -94,10 +99,10 @@ public class MedicationScorecard {
 			{
 				for (CCDAMedicationActivity medActivity : medications.getMedActivities())
 				{
-					maxPoints++;
-					numberOfChecks++;
-					if(medActivity.getDuration() != null)
+					if(medActivity.getDuration()!=null && !medActivity.getDuration().isNullFlavour())
 					{
+						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.validateDayFormat(medActivity.getDuration()) ||
 								ApplicationUtil.validateMinuteFormatWithoutPadding(medActivity.getDuration()) ||
 									ApplicationUtil.validateSecondFormatWithoutPadding(medActivity.getDuration()))
@@ -112,24 +117,15 @@ public class MedicationScorecard {
 							issuesList.add(issue);
 						}
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(medActivity.getLineNumber());
-						issue.setXmlString(medActivity.getXmlString());
-						issuesList.add(issue);
-					}
 				}
-			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(medications.getLineNumber());
-				issue.setXmlString(medications.getXmlString());
-				issuesList.add(issue);
 			}
 		}
 		
+		if(maxPoints ==0)
+		{
+			maxPoints =1;
+			actualPoints =1;
+		}
 				
 		timePrecisionScore.setActualPoints(actualPoints);
 		timePrecisionScore.setMaxPoints(maxPoints);
@@ -384,21 +380,14 @@ public class MedicationScorecard {
 					}
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(medications.getLineNumber());
-				issue.setXmlString(medications.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Medications section not present");
-			issue.setXmlString("Medications section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
+		
 		validateImmuCodeScore.setActualPoints(actualPoints);
 		validateImmuCodeScore.setMaxPoints(maxPoints);
 		validateImmuCodeScore.setRubricScore(ApplicationUtil.calculateRubricScore(maxPoints, actualPoints));
@@ -458,6 +447,7 @@ public class MedicationScorecard {
 					else
 					{
 						maxPoints++;
+						numberOfChecks++;
 						issue = new CCDAXmlSnippet();
 						issue.setLineNumber(medAct.getLineNumber());
 						issue.setXmlString(medAct.getXmlString());
@@ -465,21 +455,14 @@ public class MedicationScorecard {
 					}
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(medications.getLineNumber());
-				issue.setXmlString(medications.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Medications section not present");
-			issue.setXmlString("Medications section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
+		
 		
 		validateMedActivityScore.setActualPoints(actualPoints);
 		validateMedActivityScore.setMaxPoints(maxPoints);
@@ -675,9 +658,9 @@ public class MedicationScorecard {
 			{
 				for (CCDAII templateId : medications.getTemplateIds())
 				{
-					maxPoints = maxPoints++;
+					maxPoints++;
 					numberOfChecks++;
-					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+					actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 				}
 			}
 			
@@ -689,9 +672,9 @@ public class MedicationScorecard {
 					{
 						for (CCDAII templateId : medAct.getTemplateIds())
 						{
-							maxPoints = maxPoints++;
+							maxPoints++;
 							numberOfChecks++;
-							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+							actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 						}
 					}
 					
@@ -701,9 +684,9 @@ public class MedicationScorecard {
 						{
 							for (CCDAII templateId : medAct.getConsumable().getTemplateIds())
 							{
-								maxPoints = maxPoints++;
+								maxPoints++;
 								numberOfChecks++;
-								templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+								actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 							}
 						}
 					}

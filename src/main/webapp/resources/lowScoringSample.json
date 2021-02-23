@@ -3,8 +3,8 @@
     "filename": "lowScoringSample.xml",
     "ccdaDocumentType": "CCD",
     "results": {
-        "finalGrade": "D",
-        "finalNumericalGrade": 67,
+        "finalGrade": "C",
+        "finalNumericalGrade": 70,
         "categoryList": [
             {
                 "categoryName": "Miscellaneous",
@@ -67,28 +67,15 @@
             {
                 "categoryName": "Allergies",
                 "categoryGrade": "C",
-                "categoryNumericalScore": 72,
+                "categoryNumericalScore": 75,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-                        "numberOfIssues": 2,
-                        "issuesList": [
-                            {
-                                "lineNumber": "748 - 761",
-                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n                  \n                  \n                  <templateId root=\"2.16.840.1.113883.10.20.22.4.8\"/>\n                  <code code=\"SEV\" codeSystem=\"2.16.840.1.113883.5.4\" codeSystemName=\"ActCode\" displayName=\"Severity Observation\"/>\n                  <text>\n                    \n                  </text>\n                  <statusCode code=\"completed\"/>\n                  <value code=\"371924009\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Moderate\" xsi:type=\"CD\"/>\n                </observation>"
-                            },
-                            {
-                                "lineNumber": "800 - 804",
-                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n                    \n                    <low nullFlavor=\"UNK\"/>\n                    \n                  </effectiveTime>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
-                        ],
-                        "igReferences": [
-                            "Section 5.5 Allergy Problem Act"
-                        ],
-                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
                     },
                     {
                         "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
@@ -216,9 +203,9 @@
                         "description": null
                     }
                 ],
-                "numberOfIssues": 11,
-                "numberOfChecks": 29,
-                "numberOfFailedRubrics": 6,
+                "numberOfIssues": 9,
+                "numberOfChecks": 27,
+                "numberOfFailedRubrics": 5,
                 "certificationFeedback": false,
                 "failingConformance": false,
                 "nullFlavorNI": false
@@ -435,7 +422,7 @@
                     }
                 ],
                 "numberOfIssues": 9,
-                "numberOfChecks": 36,
+                "numberOfChecks": 34,
                 "numberOfFailedRubrics": 4,
                 "certificationFeedback": false,
                 "failingConformance": false,
@@ -639,25 +626,16 @@
             },
             {
                 "categoryName": "Medications",
-                "categoryGrade": "D",
-                "categoryNumericalScore": 50,
+                "categoryGrade": "C",
+                "categoryNumericalScore": 79,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "1591 - 1613",
-                                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\" negationInd=\"true\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<id root=\"cdbd33f0-6cde-12db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t<doseQuantity nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t<consumable>\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t<code codeSystem=\"2.16.840.1.113883.6.88\" nullFlavor=\"OTH\"> \n\t\t\t\t\t\t\t\t\t\t\t<translation code=\"410942007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"drug or medication\"/>\n\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t</consumable>\n\t\t\t\t\t\t</substanceAdministration>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
-                        ],
-                        "igReferences": [
-                            "Section 5.39 Medication Activity"
-                        ],
-                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
                     },
                     {
                         "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
@@ -726,9 +704,9 @@
                         "description": null
                     }
                 ],
-                "numberOfIssues": 3,
-                "numberOfChecks": 10,
-                "numberOfFailedRubrics": 3,
+                "numberOfIssues": 2,
+                "numberOfChecks": 9,
+                "numberOfFailedRubrics": 2,
                 "certificationFeedback": false,
                 "failingConformance": false,
                 "nullFlavorNI": false
@@ -945,7 +923,7 @@
             {
                 "categoryName": "Social History",
                 "categoryGrade": "D",
-                "categoryNumericalScore": 58,
+                "categoryNumericalScore": 54,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -1270,28 +1248,28 @@
                 "nullFlavorNI": false
             }
         ],
-        "numberOfIssues": 89,
+        "numberOfIssues": 86,
         "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
         "industryAverageScore": 81,
         "industryAverageGrade": "B-",
-        "numberOfDocumentsScored": 98,
+        "numberOfDocumentsScored": 175,
         "ccdaVersion": "R1.1",
         "passedCertification": null,
-        "numberOfDocsScoredPerCcdaDocumentType": 97,
-        "industryAverageScoreForCcdaDocumentType": 82,
+        "numberOfDocsScoredPerCcdaDocumentType": 174,
+        "industryAverageScoreForCcdaDocumentType": 81,
         "industryAverageGradeForCcdaDocumentType": "B-",
         "numberOfRules": 68,
-        "totalElementsChecked": 344,
-        "numberOfFailedRules": 44,
+        "totalElementsChecked": 339,
+        "numberOfFailedRules": 42,
         "totalCertificationErrorChecks": 121,
         "totalConformanceErrorChecks": 6964,
         "totalGradesGiven": {
             "aPlusGrades": 20,
-            "aMinusGrades": 36,
-            "bPlusGrades": 1,
-            "bMinusGrades": 0,
-            "cGrades": 5,
-            "dGrades": 37
+            "aMinusGrades": 61,
+            "bPlusGrades": 14,
+            "bMinusGrades": 6,
+            "cGrades": 25,
+            "dGrades": 50
         }
     },
     "referenceResults": [],

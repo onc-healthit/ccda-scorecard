@@ -242,9 +242,9 @@ public class ProceduresScorecard {
 			{
 				for (CCDAII templateId : procedures.getSectionTemplateId())
 				{
-					maxPoints = maxPoints++;
+					maxPoints++;
 					numberOfChecks++;
-					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+					actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 				}
 			}
 			
@@ -256,9 +256,9 @@ public class ProceduresScorecard {
 					{
 						for (CCDAII templateId : procAct.getSectionTemplateId())
 						{
-							maxPoints = maxPoints++;
+							maxPoints++;
 							numberOfChecks++;
-							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+							actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 						}
 					}
 					
@@ -270,9 +270,9 @@ public class ProceduresScorecard {
 							{
 								for (CCDAII templateId : sdLoc.getTemplateId())
 								{
-									maxPoints = maxPoints++;
+									maxPoints++;
 									numberOfChecks++;
-									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+									actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 								}
 							}
 						}

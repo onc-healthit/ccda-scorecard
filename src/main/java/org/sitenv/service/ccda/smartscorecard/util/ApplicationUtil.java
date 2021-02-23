@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
 import org.sitenv.ccdaparsing.model.CCDAII;
@@ -80,6 +81,10 @@ public class ApplicationUtil {
 	 */
 	public static boolean isEmpty(final String[] strArr) {
 		return strArr.length == 0;
+	}
+	
+	public static boolean isEmpty(final CCDAEffTime effectiveTime) {
+		return effectiveTime == null || effectiveTime.isNullFlavour();
 	}
 
 	public static boolean checkLabResultType(String resultType) {
@@ -914,6 +919,12 @@ public class ApplicationUtil {
 
 		return isValid;
 
+	}
+	
+	public static boolean isValidStatusCode(CCDACode concernStatusCode) {
+		
+		return concernStatusCode!=null && !concernStatusCode.getCode().equalsIgnoreCase(ApplicationConstants.CONCERNACT_STATUS.ABORTED.getstatus());
+		
 	}
 
 	public static int calculateActualPoints(int maxPoints, int actualPoints) {

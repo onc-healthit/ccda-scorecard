@@ -41,44 +41,49 @@ public class VitalsScorecard {
 	{
 		long startTime = System.currentTimeMillis();
 		logger.info("Vitals Start time:"+ startTime);
-		if(vitals==null || vitals.isSectionNullFlavourWithNI())
-		{
-			return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc(),true));
-		}
 		Category vitalsCategory = new Category();
-		vitalsCategory.setCategoryName(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc());
-		
-		List<CCDAScoreCardRubrics> vitalsScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V1)) {
-			vitalsScoreList.add(getTimePrecisionScore(vitals, ccdaVersion));
+		try {
+			if(vitals==null || vitals.isSectionNullFlavourWithNI())
+			{
+				return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc(),true));
+			}
+			
+			vitalsCategory.setCategoryName(ApplicationConstants.CATEGORIES.VITALS.getCategoryDesc());
+			
+			List<CCDAScoreCardRubrics> vitalsScoreList = new ArrayList<CCDAScoreCardRubrics>();
+			
+			if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V1)) {
+				vitalsScoreList.add(getTimePrecisionScore(vitals, ccdaVersion));
+			}
+			if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V2)) {
+				vitalsScoreList.add(getValidDateTimeScore(vitals, patientDetails, ccdaVersion));
+			}
+			if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V3)) {
+				vitalsScoreList.add(getValidDisplayNameScoreCard(vitals, ccdaVersion));
+			}
+			if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V4)) {
+				vitalsScoreList.add(getValidLoincCodesScore(vitals, ccdaVersion));
+			}
+			if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V5)) {
+				vitalsScoreList.add(getValidUCUMScore(vitals, ccdaVersion));
+			}
+			if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V6)) {
+				vitalsScoreList.add(getApprEffectivetimeScore(vitals, ccdaVersion));
+			}
+			if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V7)) {
+				vitalsScoreList.add(getNarrativeStructureIdScore(vitals, ccdaVersion));
+			}
+			if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V8)) {
+				vitalsScoreList.add(getTemplateIdScore(vitals, ccdaVersion));
+			}
+			
+			vitalsCategory.setCategoryRubrics(vitalsScoreList);
+			ApplicationUtil.calculateSectionGradeAndIssues(vitalsScoreList, vitalsCategory);
+			ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(vitalsScoreList, vitalsCategory);
+			logger.info("Vitals End time:"+ (System.currentTimeMillis() - startTime));
+		}catch (Exception e) {
+			logger.info("Exception occured while scoring Vitals section:"+e.getMessage());
 		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V2)) {
-			vitalsScoreList.add(getValidDateTimeScore(vitals, patientDetails, ccdaVersion));
-		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V3)) {
-			vitalsScoreList.add(getValidDisplayNameScoreCard(vitals, ccdaVersion));
-		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V4)) {
-			vitalsScoreList.add(getValidLoincCodesScore(vitals, ccdaVersion));
-		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V5)) {
-			vitalsScoreList.add(getValidUCUMScore(vitals, ccdaVersion));
-		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V6)) {
-			vitalsScoreList.add(getApprEffectivetimeScore(vitals, ccdaVersion));
-		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V7)) {
-			vitalsScoreList.add(getNarrativeStructureIdScore(vitals, ccdaVersion));
-		}
-		if (sectionRules== null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.V8)) {
-			vitalsScoreList.add(getTemplateIdScore(vitals, ccdaVersion));
-		}
-		
-		vitalsCategory.setCategoryRubrics(vitalsScoreList);
-		ApplicationUtil.calculateSectionGradeAndIssues(vitalsScoreList, vitalsCategory);
-		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(vitalsScoreList, vitalsCategory);
-		logger.info("Vitals End time:"+ (System.currentTimeMillis() - startTime));
 		return new AsyncResult<Category>(vitalsCategory);
 		
 	}
@@ -100,10 +105,10 @@ public class VitalsScorecard {
 			{
 				for (CCDAVitalOrg vitalOrg : vitals.getVitalsOrg())
 				{
-					maxPoints++;
-					numberOfChecks++;
-					if(vitalOrg.getEffTime() != null)
+					if(vitalOrg.getEffTime() != null && !vitalOrg.getEffTime().isNullFlavour())
 					{
+						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.validateDayFormat(vitalOrg.getEffTime()) ||
 								ApplicationUtil.validateMinuteFormat(vitalOrg.getEffTime()) ||
 								ApplicationUtil.validateSecondFormat(vitalOrg.getEffTime()))
@@ -118,22 +123,14 @@ public class VitalsScorecard {
 							issuesList.add(issue);
 						}
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(vitalOrg.getLineNumber());
-						issue.setXmlString(vitalOrg.getXmlString());
-						issuesList.add(issue);
-					}
-					
 					if(!ApplicationUtil.isEmpty(vitalOrg.getVitalObs()))
 					{
 						for (CCDAVitalObs vitalObs : vitalOrg.getVitalObs() )
 						{
-							maxPoints++;
-							numberOfChecks++;
-							if(vitalObs.getMeasurementTime() != null)
+							if(vitalObs.getMeasurementTime() != null && !vitalObs.getMeasurementTime().isNullFlavour())
 							{
+								maxPoints++;
+								numberOfChecks++;
 								if(ApplicationUtil.validateDayFormat(vitalObs.getMeasurementTime())||
 										ApplicationUtil.validateMinuteFormat(vitalObs.getMeasurementTime()) ||
 										ApplicationUtil.validateSecondFormat(vitalObs.getMeasurementTime()))
@@ -148,31 +145,15 @@ public class VitalsScorecard {
 									issuesList.add(issue);
 								}
 							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(vitalObs.getLineNumber());
-								issue.setXmlString(vitalObs.getXmlString());
-								issuesList.add(issue);
-							}
 						}
 					}
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(vitals.getLineNumber());
-				issue.setXmlString(vitals.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Vitals section not present");
-			issue.setXmlString("Vitals section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		timePrecisionScore.setActualPoints(actualPoints);
@@ -454,20 +435,11 @@ public class VitalsScorecard {
 					}
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(vitals.getLineNumber());
-				issue.setXmlString(vitals.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Vitals section not present");
-			issue.setXmlString("Vitals section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		validateUCUMScore.setActualPoints(actualPoints);
@@ -539,20 +511,11 @@ public class VitalsScorecard {
 				   }
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(vitals.getLineNumber());
-				issue.setXmlString(vitals.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Vitals section not present");
-			issue.setXmlString("Vitals section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 		
 		validatLoincCodeScore.setActualPoints(actualPoints);
@@ -745,9 +708,9 @@ public class VitalsScorecard {
 			{
 				for (CCDAII templateId : vitals.getTemplateIds())
 				{
-					maxPoints = maxPoints++;
+					maxPoints++;
 					numberOfChecks++;
-					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+					actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 				}
 			}
 			
@@ -759,9 +722,9 @@ public class VitalsScorecard {
 					{
 						for (CCDAII templateId : vitalOrg.getTemplateIds())
 						{
-							maxPoints = maxPoints++;
+							maxPoints++;
 							numberOfChecks++;
-							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+							actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 						}
 					}
 					
@@ -773,9 +736,9 @@ public class VitalsScorecard {
 							{
 								for (CCDAII templateId : vitalObs.getTemplateIds())
 								{
-									maxPoints = maxPoints++;
+									maxPoints++;
 									numberOfChecks++;
-									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+									actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 								}
 							}
 						}

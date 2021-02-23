@@ -177,7 +177,7 @@
             {
                 "categoryName": "Immunizations",
                 "categoryGrade": "A+",
-                "categoryNumericalScore": 100,
+                "categoryNumericalScore": 99,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -238,7 +238,7 @@
                     }
                 ],
                 "numberOfIssues": 1,
-                "numberOfChecks": 27,
+                "numberOfChecks": 26,
                 "numberOfFailedRubrics": 1,
                 "certificationFeedback": false,
                 "failingConformance": false,
@@ -659,26 +659,26 @@
         ],
         "numberOfIssues": 13,
         "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
-        "industryAverageScore": 82,
+        "industryAverageScore": 81,
         "industryAverageGrade": "B-",
-        "numberOfDocumentsScored": 97,
+        "numberOfDocumentsScored": 174,
         "ccdaVersion": "R2.1",
         "passedCertification": null,
-        "numberOfDocsScoredPerCcdaDocumentType": 96,
-        "industryAverageScoreForCcdaDocumentType": 82,
+        "numberOfDocsScoredPerCcdaDocumentType": 173,
+        "industryAverageScoreForCcdaDocumentType": 81,
         "industryAverageGradeForCcdaDocumentType": "B-",
         "numberOfRules": 54,
-        "totalElementsChecked": 408,
+        "totalElementsChecked": 407,
         "numberOfFailedRules": 5,
         "totalCertificationErrorChecks": 121,
         "totalConformanceErrorChecks": 4777,
         "totalGradesGiven": {
             "aPlusGrades": 20,
-            "aMinusGrades": 36,
-            "bPlusGrades": 1,
-            "bMinusGrades": 0,
-            "cGrades": 5,
-            "dGrades": 36
+            "aMinusGrades": 61,
+            "bPlusGrades": 14,
+            "bMinusGrades": 6,
+            "cGrades": 24,
+            "dGrades": 50
         }
     },
     "referenceResults": [
