@@ -42,39 +42,44 @@ public class EncounterScorecard {
 	{
 		long startTime = System.currentTimeMillis();
 		logger.info("Encounters Start time:"+ startTime);
-		if(encounter== null || encounter.isSectionNullFlavourWithNI())
-		{
-			return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.ENCOUNTERS.getCategoryDesc(),true));
-		}
 		Category encounterCategory = new Category();
-		encounterCategory.setCategoryName(ApplicationConstants.CATEGORIES.ENCOUNTERS.getCategoryDesc());
-		
-		List<CCDAScoreCardRubrics> encounterScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E1)) {
-			encounterScoreList.add(getTimePrecisionScore(encounter, ccdaVersion));
+		try {
+			if(encounter== null || encounter.isSectionNullFlavourWithNI())
+			{
+				return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.ENCOUNTERS.getCategoryDesc(),true));
+			}
+			
+			encounterCategory.setCategoryName(ApplicationConstants.CATEGORIES.ENCOUNTERS.getCategoryDesc());
+			
+			List<CCDAScoreCardRubrics> encounterScoreList = new ArrayList<CCDAScoreCardRubrics>();
+			
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E1)) {
+				encounterScoreList.add(getTimePrecisionScore(encounter, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E2)) {
+				encounterScoreList.add(getValidDateTimeScore(encounter, patientDetails, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E3)) {
+				encounterScoreList.add(getValidDisplayNameScoreCard(encounter, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E4)) {
+				encounterScoreList.add(getNarrativeStructureIdScore(encounter, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E5)) {
+				encounterScoreList.add(getTemplateIdScore(encounter, ccdaVersion));
+			}
+			
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E6)) {
+				encounterScoreList.add(encompassingEncounterCheck(encounter,encompassingEncounter, ccdaVersion));
+			}
+			
+			encounterCategory.setCategoryRubrics(encounterScoreList);
+			ApplicationUtil.calculateSectionGradeAndIssues(encounterScoreList, encounterCategory);
+			ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(encounterScoreList, encounterCategory);
+			logger.info("Encounters End time:"+ (System.currentTimeMillis() - startTime));
+		}catch (Exception e) {
+			logger.info("Exception occured while scoring Encounter Section:" + e.getMessage());
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E2)) {
-			encounterScoreList.add(getValidDateTimeScore(encounter, patientDetails, ccdaVersion));
-		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E3)) {
-			encounterScoreList.add(getValidDisplayNameScoreCard(encounter, ccdaVersion));
-		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E4)) {
-			encounterScoreList.add(getNarrativeStructureIdScore(encounter, ccdaVersion));
-		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E5)) {
-			encounterScoreList.add(getTemplateIdScore(encounter, ccdaVersion));
-		}
-		
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.E6)) {
-			encounterScoreList.add(encompassingEncounterCheck(encounter,encompassingEncounter, ccdaVersion));
-		}
-		
-		encounterCategory.setCategoryRubrics(encounterScoreList);
-		ApplicationUtil.calculateSectionGradeAndIssues(encounterScoreList, encounterCategory);
-		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(encounterScoreList, encounterCategory);
-		logger.info("Encounters End time:"+ (System.currentTimeMillis() - startTime));
 		return new AsyncResult<Category>(encounterCategory);
 		
 	}
@@ -95,11 +100,12 @@ public class EncounterScorecard {
 			{
 				for (CCDAEncounterActivity encounterActivity : encounter.getEncActivities())
 				{
-					if(encounterActivity.getEffectiveTime() != null)
+					if(encounterActivity.getEffectiveTime() != null && !encounterActivity.getEffectiveTime().isNullFlavour())
 					{
 						maxPoints++;
 						numberOfChecks++;
-						if(ApplicationUtil.validateMinuteFormatWithoutPadding(encounterActivity.getEffectiveTime()) ||
+						if(ApplicationUtil.validateDayFormat(encounterActivity.getEffectiveTime()) ||
+								ApplicationUtil.validateMinuteFormatWithoutPadding(encounterActivity.getEffectiveTime()) ||
 								ApplicationUtil.validateSecondFormatWithoutPadding(encounterActivity.getEffectiveTime()))
 						{
 							actualPoints++;
@@ -552,9 +558,9 @@ public class EncounterScorecard {
 			{
 				for (CCDAII templateId : encounters.getTemplateId())
 				{
-					maxPoints = maxPoints++;
+					maxPoints++;
 					numberOfChecks++;
-					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+					actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 				}
 			}
 			
@@ -566,9 +572,9 @@ public class EncounterScorecard {
 					{
 						for (CCDAII templateId : encAct.getTemplateId())
 						{
-							maxPoints = maxPoints++;
+							maxPoints++;
 							numberOfChecks++;
-							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+							actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 						}
 					}
 					
@@ -580,9 +586,9 @@ public class EncounterScorecard {
 							{
 								for (CCDAII templateId : probObs.getTemplateId())
 								{
-									maxPoints = maxPoints++;
+									maxPoints++;
 									numberOfChecks++;
-									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+									actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 								}
 							}
 						}
@@ -596,9 +602,9 @@ public class EncounterScorecard {
 							{
 								for (CCDAII templateId : encDiagnosis.getTemplateId())
 								{
-									maxPoints = maxPoints++;
+									maxPoints++;
 									numberOfChecks++;
-									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+									actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 								}
 							}
 						}
@@ -612,9 +618,9 @@ public class EncounterScorecard {
 							{
 								for (CCDAII templateId : sdlLoc.getTemplateId())
 								{
-									maxPoints = maxPoints++;
+									maxPoints++;
 									numberOfChecks++;
-									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+									actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 								}
 							}
 						}
