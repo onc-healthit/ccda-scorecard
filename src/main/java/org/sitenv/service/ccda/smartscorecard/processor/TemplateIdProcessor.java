@@ -20,7 +20,8 @@ public class TemplateIdProcessor {
 	@Autowired
 	TemplateIdRepository11 R11templateIdRepository;
 	
-	public void scoreTemplateId(CCDAII templateId, int actualPoints, List<CCDAXmlSnippet> issuesList,String ccdaVersion) {
+	public int scoreTemplateId(CCDAII templateId, List<CCDAXmlSnippet> issuesList,String ccdaVersion) {
+		int actualPoints = 0;
 		CCDAXmlSnippet issue = null;
 		if(ccdaVersion.equals(ApplicationConstants.CCDAVersion.R21.getVersion()))
 		{
@@ -66,5 +67,6 @@ public class TemplateIdProcessor {
 				issuesList.add(issue);
 			}
 		}
+		return actualPoints;
 	}
 }

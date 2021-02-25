@@ -42,55 +42,60 @@ public class LabresultsScorecard {
 		
 		long startTime = System.currentTimeMillis();
 		logger.info("Labresults Start time:"+ startTime);
-		if(labResults== null || labResults.isSectionNullFlavourWithNI())
-		{
-			return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc(),true));
-		}
-		CCDALabResult results =null;
-		if(labResults!= null)
-		{
-			results = labResults;
-			if(labTests!= null && !ApplicationUtil.isEmpty(labTests.getResultOrg()))
-			{
-				results.getResultOrg().addAll(labTests.getResultOrg());
-
-			}
-		}
-		
 		Category labResultsCategory = new Category();
-		labResultsCategory.setCategoryName(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc());
-		
-		List<CCDAScoreCardRubrics> labResultsScoreList = new ArrayList<CCDAScoreCardRubrics>();
-		
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L1)) {
-			labResultsScoreList.add(getTimePrecisionScore(results, ccdaVersion));
+		try {
+			if(labResults== null || labResults.isSectionNullFlavourWithNI())
+			{
+				return new AsyncResult<Category>(new Category(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc(),true));
+			}
+			CCDALabResult results =null;
+			if(labResults!= null)
+			{
+				results = labResults;
+				if(labTests!= null && !ApplicationUtil.isEmpty(labTests.getResultOrg()))
+				{
+					results.getResultOrg().addAll(labTests.getResultOrg());
+	
+				}
+			}
+			
+			
+			labResultsCategory.setCategoryName(ApplicationConstants.CATEGORIES.RESULTS.getCategoryDesc());
+			
+			List<CCDAScoreCardRubrics> labResultsScoreList = new ArrayList<CCDAScoreCardRubrics>();
+			
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L1)) {
+				labResultsScoreList.add(getTimePrecisionScore(results, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L2)) {
+				labResultsScoreList.add(getValidDateTimeScore(results, patientDetails, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L3)) {
+				labResultsScoreList.add(getValidDisplayNameScoreCard(results, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L4)) {
+				labResultsScoreList.add(getValidUCUMScore(labResults, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L5)) {
+				labResultsScoreList.add(getValidLoincCodesScore(results, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L6)) {
+				labResultsScoreList.add(getApprEffectivetimeScore(results, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L7)) {
+				labResultsScoreList.add(getNarrativeStructureIdScore(results, ccdaVersion));
+			}
+			if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L8)) {
+				labResultsScoreList.add(getTemplateIdScore(results, ccdaVersion));
+			}
+			
+			labResultsCategory.setCategoryRubrics(labResultsScoreList);
+			ApplicationUtil.calculateSectionGradeAndIssues(labResultsScoreList, labResultsCategory);
+			ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(labResultsScoreList, labResultsCategory);
+			logger.info("Labresults End time:"+ (System.currentTimeMillis() - startTime));
+		}catch (Exception e) {
+			logger.info("Exception occured while scoring Lab Results section:"+e.getMessage());
 		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L2)) {
-			labResultsScoreList.add(getValidDateTimeScore(results, patientDetails, ccdaVersion));
-		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L3)) {
-			labResultsScoreList.add(getValidDisplayNameScoreCard(results, ccdaVersion));
-		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L4)) {
-			labResultsScoreList.add(getValidUCUMScore(labResults, ccdaVersion));
-		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L5)) {
-			labResultsScoreList.add(getValidLoincCodesScore(results, ccdaVersion));
-		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L6)) {
-			labResultsScoreList.add(getApprEffectivetimeScore(results, ccdaVersion));
-		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L7)) {
-			labResultsScoreList.add(getNarrativeStructureIdScore(results, ccdaVersion));
-		}
-		if (sectionRules==null || ApplicationUtil.isRuleEnabled(sectionRules, ApplicationConstants.RULE_IDS.L8)) {
-			labResultsScoreList.add(getTemplateIdScore(results, ccdaVersion));
-		}
-		
-		labResultsCategory.setCategoryRubrics(labResultsScoreList);
-		ApplicationUtil.calculateSectionGradeAndIssues(labResultsScoreList, labResultsCategory);
-		ApplicationUtil.calculateNumberOfChecksAndFailedRubrics(labResultsScoreList, labResultsCategory);
-		logger.info("Labresults End time:"+ (System.currentTimeMillis() - startTime));
 		return  new AsyncResult<Category>(labResultsCategory);
 		
 	}
@@ -111,10 +116,10 @@ public class LabresultsScorecard {
 			{
 				for (CCDALabResultOrg resultOrg : labResults.getResultOrg())
 				{
-					maxPoints++;
-					numberOfChecks++;
-					if(resultOrg.getEffTime() != null)
+					if(resultOrg.getEffTime() != null && !resultOrg.getEffTime().isNullFlavour())
 					{
+						maxPoints++;
+						numberOfChecks++;
 						if(ApplicationUtil.validateDayFormat(resultOrg.getEffTime()) ||
 									ApplicationUtil.validateMinuteFormatWithoutPadding(resultOrg.getEffTime()) ||
 									ApplicationUtil.validateSecondFormatWithoutPadding(resultOrg.getEffTime()))
@@ -129,22 +134,15 @@ public class LabresultsScorecard {
 							issuesList.add(issue);
 						}
 					}
-					else
-					{
-						issue = new CCDAXmlSnippet();
-						issue.setLineNumber(resultOrg.getLineNumber());
-						issue.setXmlString(resultOrg.getXmlString());
-						issuesList.add(issue);
-					}
 					
 					if(!ApplicationUtil.isEmpty(resultOrg.getResultObs()))
 					{
 						for (CCDALabResultObs resultObs : resultOrg.getResultObs() )
 						{
-							maxPoints++;
-							numberOfChecks++;
-							if(resultObs.getMeasurementTime() != null)
+							if(resultObs.getMeasurementTime() != null && !resultObs.getMeasurementTime().isNullFlavour())
 							{
+								maxPoints++;
+								numberOfChecks++;
 								if(ApplicationUtil.validateDayFormat(resultObs.getMeasurementTime()) ||
 										ApplicationUtil.validateMinuteFormatWithoutPadding(resultObs.getMeasurementTime()) ||
 										ApplicationUtil.validateSecondFormatWithoutPadding(resultObs.getMeasurementTime()))
@@ -159,31 +157,16 @@ public class LabresultsScorecard {
 									issuesList.add(issue);
 								}
 							}
-							else
-							{
-								issue = new CCDAXmlSnippet();
-								issue.setLineNumber(resultObs.getLineNumber());
-								issue.setXmlString(resultObs.getXmlString());
-								issuesList.add(issue);
-							}
 						}
 					}
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(labResults.getLineNumber());
-				issue.setXmlString(labResults.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		
+		if(maxPoints ==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Results section not present");
-			issue.setXmlString("Results section not present");
-			issuesList.add(issue);
+			maxPoints =1;
+			actualPoints =1;
 		}
 
 		timePrecisionScore.setActualPoints(actualPoints);
@@ -381,6 +364,7 @@ public class LabresultsScorecard {
 				}
 			}
 		}
+		
 		if(maxPoints==0)
 		{
 			actualPoints = 1;
@@ -468,20 +452,12 @@ public class LabresultsScorecard {
 					}
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(labresults.getLineNumber());
-				issue.setXmlString(labresults.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Results section not present");
-			issue.setXmlString("Results section not present");
-			issuesList.add(issue);
+			actualPoints = 1;
+			maxPoints =1;
 		}
 		
 		validateUCUMScore.setActualPoints(actualPoints);
@@ -553,20 +529,12 @@ public class LabresultsScorecard {
 				   }
 				}
 			}
-			else
-			{
-				issue = new CCDAXmlSnippet();
-				issue.setLineNumber(labresults.getLineNumber());
-				issue.setXmlString(labresults.getXmlString());
-				issuesList.add(issue);
-			}
 		}
-		else
+		
+		if(maxPoints==0)
 		{
-			issue = new CCDAXmlSnippet();
-			issue.setLineNumber("Results section not present");
-			issue.setXmlString("Results section not present");
-			issuesList.add(issue);
+			actualPoints = 1;
+			maxPoints =1;
 		}
 		
 		validatLoincCodeScore.setActualPoints(actualPoints);
@@ -758,9 +726,9 @@ public class LabresultsScorecard {
 			{
 				for (CCDAII templateId : results.getResultSectionTempalteIds())
 				{
-					maxPoints = maxPoints++;
+					maxPoints++;
 					numberOfChecks++;
-					templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+					actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 				}
 			}
 			
@@ -772,9 +740,9 @@ public class LabresultsScorecard {
 					{
 						for (CCDAII templateId : resultOrg.getTemplateIds())
 						{
-							maxPoints = maxPoints++;
+							maxPoints++;
 							numberOfChecks++;
-							templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+							actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 						}
 					}
 					
@@ -786,9 +754,9 @@ public class LabresultsScorecard {
 							{
 								for (CCDAII templateId : labResultObs.getTemplateIds())
 								{
-									maxPoints = maxPoints++;
+									maxPoints++;
 									numberOfChecks++;
-									templateIdProcessor.scoreTemplateId(templateId,actualPoints,issuesList,ccdaVersion);
+									actualPoints =  actualPoints + templateIdProcessor.scoreTemplateId(templateId, issuesList, ccdaVersion);
 								}
 							}
 						}

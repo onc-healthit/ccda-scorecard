@@ -4,7 +4,7 @@
     "ccdaDocumentType": "CCD",
     "results": {
         "finalGrade": "C",
-        "finalNumericalGrade": 72,
+        "finalNumericalGrade": 75,
         "categoryList": [
             {
                 "categoryName": "Miscellaneous",
@@ -66,24 +66,15 @@
             {
                 "categoryName": "Allergies",
                 "categoryGrade": "B-",
-                "categoryNumericalScore": 80,
+                "categoryNumericalScore": 82,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "770 - 804",
-                                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\" negationInd=\"true\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"4adc1020-7b14-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#allergytype3\"/>\n\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime nullFlavor=\"NA\"/>\n\t\t\t\t\t\t\t\t\t<value code=\"419511003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Propensity to adverse reaction to drug\" xsi:type=\"CD\">\n\t\t\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#reaction3\"/>\n\t\t\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t\t\t</value>\n\t\t\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\n\t\t\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"81982\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Clindamycin Hydrochloride\">\n\t\t\t\t\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#product3\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\t\t</playingEntity>\n\t\t\t\t\t\t\t\t\t\t</participantRole>\n\t\t\t\t\t\t\t\t\t</participant>\n\t\t\t\t\t\t\t\t</observation>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.5: Allergy Concern Act"
-                        ],
-                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
                     },
                     {
                         "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
@@ -197,9 +188,9 @@
                         "description": null
                     }
                 ],
-                "numberOfIssues": 9,
-                "numberOfChecks": 35,
-                "numberOfFailedRubrics": 4,
+                "numberOfIssues": 8,
+                "numberOfChecks": 34,
+                "numberOfFailedRubrics": 3,
                 "certificationFeedback": false,
                 "failingConformance": false,
                 "nullFlavorNI": false
@@ -207,24 +198,15 @@
             {
                 "categoryName": "Encounters",
                 "categoryGrade": "D",
-                "categoryNumericalScore": 46,
+                "categoryNumericalScore": 63,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-                        "numberOfIssues": 1,
-                        "issuesList": [
-                            {
-                                "lineNumber": "1508 - 1508",
-                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20150622\"/>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/ENC_Encounter_hospitalization_with_diagnoses.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.23: Encounter Actvity"
-                        ],
-                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
                     },
                     {
                         "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
@@ -302,9 +284,9 @@
                         "description": "A document with an encompassingEncounter AND encounter activities should reiterate the encompassing encounter in an encounter activity and the information must align"
                     }
                 ],
-                "numberOfIssues": 6,
+                "numberOfIssues": 5,
                 "numberOfChecks": 15,
-                "numberOfFailedRubrics": 4,
+                "numberOfFailedRubrics": 3,
                 "certificationFeedback": false,
                 "failingConformance": false,
                 "nullFlavorNI": false
@@ -324,28 +306,15 @@
             {
                 "categoryName": "Problems",
                 "categoryGrade": "C",
-                "categoryNumericalScore": 76,
+                "categoryNumericalScore": 78,
                 "categoryRubrics": [
                     {
                         "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
-                        "numberOfIssues": 2,
-                        "issuesList": [
-                            {
-                                "lineNumber": "1411 - 1419",
-                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<high nullFlavor=\"NI\"/>\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</effectiveTime>"
-                            },
-                            {
-                                "lineNumber": "1441 - 1449",
-                                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"NI\"/>\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<high nullFlavor=\"NI\"/>\t\n\t\t\t\t\t\t\t\t\t</effectiveTime>"
-                            }
-                        ],
-                        "exampleTaskForceLinks": [
-                            "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
-                        ],
-                        "igReferences": [
-                            "Section 3.78: Problem Concern Act"
-                        ],
-                        "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+                        "numberOfIssues": 0,
+                        "issuesList": [],
+                        "exampleTaskForceLinks": [],
+                        "igReferences": [],
+                        "description": null
                     },
                     {
                         "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
@@ -511,9 +480,9 @@
                         "description": "Author entry must include the most recent author with at least a timestamp with information of the last modified date and be present within the Problems entry, which could be at the concern or observation level."
                     }
                 ],
-                "numberOfIssues": 23,
-                "numberOfChecks": 102,
-                "numberOfFailedRubrics": 4,
+                "numberOfIssues": 21,
+                "numberOfChecks": 100,
+                "numberOfFailedRubrics": 3,
                 "certificationFeedback": false,
                 "failingConformance": false,
                 "nullFlavorNI": false
@@ -809,28 +778,28 @@
                 "nullFlavorNI": false
             }
         ],
-        "numberOfIssues": 54,
+        "numberOfIssues": 50,
         "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
         "industryAverageScore": 81,
         "industryAverageGrade": "B-",
-        "numberOfDocumentsScored": 99,
+        "numberOfDocumentsScored": 176,
         "ccdaVersion": "R2.1",
         "passedCertification": null,
-        "numberOfDocsScoredPerCcdaDocumentType": 98,
+        "numberOfDocsScoredPerCcdaDocumentType": 175,
         "industryAverageScoreForCcdaDocumentType": 81,
         "industryAverageGradeForCcdaDocumentType": "B-",
         "numberOfRules": 44,
-        "totalElementsChecked": 387,
-        "numberOfFailedRules": 22,
+        "totalElementsChecked": 384,
+        "numberOfFailedRules": 19,
         "totalCertificationErrorChecks": 121,
         "totalConformanceErrorChecks": 6276,
         "totalGradesGiven": {
             "aPlusGrades": 20,
-            "aMinusGrades": 36,
-            "bPlusGrades": 1,
-            "bMinusGrades": 0,
-            "cGrades": 6,
-            "dGrades": 37
+            "aMinusGrades": 61,
+            "bPlusGrades": 14,
+            "bMinusGrades": 6,
+            "cGrades": 26,
+            "dGrades": 50
         }
     },
     "referenceResults": [
