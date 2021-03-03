@@ -2,7 +2,7 @@ var scApp = angular.module('scorecard', [
 	'ngFileUpload', 
 	'angulartics', 
 	'angulartics.google.analytics',
-	'nvd3'
+	'nvd3',
 ]);
 
 // *************** DIRECTIVES ********************
@@ -167,6 +167,15 @@ scApp.directive('linkDisclaimer', function() {
 			spanClass: "="
 		},
 		templateUrl: 'siteExternalLinkDisclaimer.html?version=R2.4'
+	};
+});
+
+scApp.directive('prettyprint', function() {
+	return {
+		restrict: 'C',
+		link: function postLink(scope, elem, attrs) {
+			elem.text(vkbeautify.xml(scope.occurrence.xmlString, 4));
+		}
 	};
 });
 

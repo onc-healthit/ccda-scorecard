@@ -91,7 +91,8 @@
                                   <div ng-show="detailsToShow === 'XML'">
                                       <ol>
                                           <li ng-repeat="occurrence in rubric.issuesList">
-                                              <table class="table table-striped table-condensed">
+                                              <table class="table table-condensed"
+                                              		 style="table-layout: fixed">
                                                   <thead>
                                                       <tr>
                                                           <th>
@@ -103,7 +104,11 @@
                                                   </thead>
                                                   <tbody ng-show="showSnippet">
                                                       <tr>
-                                                          <td>{{occurrence.xmlString}}</td>
+                                                          <td>
+                                                          	<div style="width: 100%; overflow: auto;">
+                                                          		<pre class="prettyprint lang-xml"></pre>
+                                                          	</div>
+                                                          </td>
                                                       </tr>
                                                   </tbody>
                                               </table>
