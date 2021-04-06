@@ -42,7 +42,7 @@ public Void ccdascorecardservice(MultipartFile ccdaFile)
 		formConverter.setCharset(Charset.forName("UTF8"));
 		restTemplate.getMessageConverters().add(formConverter);
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-		response = restTemplate.postForObject("https://site.healthit.gov/scorecard/ccdascorecardservice2", 
+		response = restTemplate.postForObject("https://ccda.healthit.gov/scorecard/ccdascorecardservice2", 
 												requestEntity, String.class);
 		tempFile.delete();
 	}catch(Exception exc)
