@@ -21,7 +21,8 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.ccdaparsing.model.UsrhSubType;
@@ -122,7 +123,7 @@ public class ScorecardProcessor {
 	@Autowired
 	CCDAParserAPI cCDAParserAPI;
 	
-	private static final Logger logger = Logger.getLogger(ScorecardProcessor.class);
+	private static final Logger logger = LogManager.getLogger(ScorecardProcessor.class);
 	
 	public ResponseTO processCCDAFile(MultipartFile ccdaFile) {
 		return processCCDAFile(ccdaFile, false, "ccdascorecardservice2");

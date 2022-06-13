@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAMedication;
@@ -24,7 +25,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MedicationScorecard {
 	
-	private static final Logger logger = Logger.getLogger(MedicationScorecard.class);
+	private static final Logger logger = LogManager.getLogger(MedicationScorecard.class);
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;

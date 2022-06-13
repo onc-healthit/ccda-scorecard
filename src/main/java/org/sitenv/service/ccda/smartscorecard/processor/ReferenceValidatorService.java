@@ -1,6 +1,7 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationConstants;
 import org.sitenv.service.ccda.smartscorecard.util.ApplicationUtil;
@@ -13,7 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class ReferenceValidatorService {
 	
-	private static final Logger logger = Logger.getLogger(ReferenceValidatorService.class);
+	private static final Logger logger = LogManager.getLogger(ReferenceValidatorService.class);
 	
 	@Autowired
 	@Qualifier("refValRestTemplate")

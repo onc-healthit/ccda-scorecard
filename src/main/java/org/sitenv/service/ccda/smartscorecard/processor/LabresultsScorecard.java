@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDALabResult;
 import org.sitenv.ccdaparsing.model.CCDALabResultObs;
@@ -25,7 +26,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class LabresultsScorecard {
 	
-	private static final Logger logger = Logger.getLogger(LabresultsScorecard.class);
+	private static final Logger logger = LogManager.getLogger(LabresultsScorecard.class);
 	
 	@Autowired
 	LoincRepository loincRepository;
