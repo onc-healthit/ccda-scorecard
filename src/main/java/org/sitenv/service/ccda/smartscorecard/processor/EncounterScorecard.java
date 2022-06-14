@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDAEncompassingEncounter;
 import org.sitenv.ccdaparsing.model.CCDAEncounter;
@@ -29,7 +30,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EncounterScorecard {
 	
-	private static final Logger logger = Logger.getLogger(EncounterScorecard.class);
+	private static final Logger logger = LogManager.getLogger(EncounterScorecard.class);
 
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;

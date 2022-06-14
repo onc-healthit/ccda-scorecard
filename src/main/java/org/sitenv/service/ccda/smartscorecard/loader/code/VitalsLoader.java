@@ -10,7 +10,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.service.ccda.smartscorecard.loader.BaseVocabularyLoader;
 import org.sitenv.service.ccda.smartscorecard.loader.VocabularyLoader;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component(value = "VITALS")
 public class VitalsLoader extends BaseVocabularyLoader implements VocabularyLoader {
 	
-	private static Logger logger = Logger.getLogger(VitalsLoader.class);
+	private static Logger logger = LogManager.getLogger(VitalsLoader.class);
 
     @Override
     public void load(List<File> filesToLoad, Connection connection) {
