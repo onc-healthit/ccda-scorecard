@@ -60,7 +60,8 @@ public class ApplicationConfiguration {
 		CODE_IN_VALUESET_SERVICE = "/referenceccdaservice/iscodeinvalueset",
 		CODE_IN_CODESYSTEM_SERVICE = "/referenceccdaservice/iscodeincodesystem",
 		REFERENCE_CCDA_SERVICE = "/referenceccdaservice/",
-		CCDA_SCORECARD_SERVICE = "/scorecard/ccdascorecardservice2",
+		CCDA_SCORECARD_SERVICE_APPLICATION_NAME = "ccdascorecardserviceinternal",
+		CCDA_SCORECARD_SERVICE = "/scorecard/" + CCDA_SCORECARD_SERVICE_APPLICATION_NAME,
 		SAVE_SCORECARD_SERVICE_BACKEND = "/scorecard/savescorecardservicebackend",
 		SAVE_SCORECARD_SERVICE_BACKEND_SUMMARY = "/scorecard/savescorecardservicebackendsummary";	
 	
@@ -72,7 +73,7 @@ public class ApplicationConfiguration {
 		CODE_VALUSET_VALIDATION_URL = server + CODE_IN_VALUESET_SERVICE,
 		CODE_CODESYSTEM_VALIDATION_URL = server + CODE_IN_CODESYSTEM_SERVICE,
 		REFERENCE_VALIDATOR_URL = server + REFERENCE_CCDA_SERVICE;
-	// -Scorecard endpoints
+	// -Scorecard endpoints (updating the same server variable to reuse programatically for next config)
 	static {
 		server = ENV.server(EndpointType.Scorecard);
 	}
