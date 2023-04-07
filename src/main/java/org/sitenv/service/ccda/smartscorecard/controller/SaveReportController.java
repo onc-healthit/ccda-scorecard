@@ -1254,6 +1254,7 @@ public class SaveReportController {
 		return sb.toString();
 	}	
 	
+	// This is for local testing purposes
 	public static void main(String[] args) {
 		String[] filenames = {"highScoringSample", "lowScoringSample", "sampleWithErrors", 
 				"sampleWithSchemaErrors", "sampleWithoutAnyContent", "sampleWithConfErrorAndNoCert"};

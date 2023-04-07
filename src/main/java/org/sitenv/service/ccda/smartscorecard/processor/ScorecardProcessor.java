@@ -125,7 +125,7 @@ public class ScorecardProcessor {
 	private static final Logger logger = Logger.getLogger(ScorecardProcessor.class);
 	
 	public ResponseTO processCCDAFile(MultipartFile ccdaFile) {
-		return processCCDAFile(ccdaFile, false, "ccdascorecardservice2");
+		return processCCDAFile(ccdaFile, false, ApplicationConfiguration.CCDA_SCORECARD_SERVICE_APPLICATION_NAME);
 	}
 	
 	public ResponseTO processCCDAFile(MultipartFile ccdaFile, boolean isOneClickScorecard, String directEmailAddress)
