@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.model.ResponseTO;
 import org.sitenv.service.ccda.smartscorecard.processor.ScorecardProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ScorecardController {
 	@Autowired
 	ScorecardProcessor scorecardProcessor;
 	
-	@RequestMapping(value = "/ccdascorecardservice2", method = RequestMethod.POST)
+	@RequestMapping(value = "/" + ApplicationConfiguration.CCDA_SCORECARD_SERVICE_APPLICATION_NAME, method = RequestMethod.POST)
 	public @ResponseBody ResponseTO ccdascorecardservice(@RequestParam("ccdaFile") MultipartFile ccdaFile){
 		return scorecardProcessor.processCCDAFile(ccdaFile);
 	}
