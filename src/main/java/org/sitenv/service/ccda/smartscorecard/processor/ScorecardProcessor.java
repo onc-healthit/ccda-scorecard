@@ -21,6 +21,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -28,6 +29,7 @@ import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.ccdaparsing.model.UsrhSubType;
 import org.sitenv.ccdaparsing.service.CCDAParserAPI;
 import org.sitenv.ccdaparsing.util.PositionalXMLReader;
+import org.sitenv.service.ccda.smartscorecard.authorization.GenerateAccessToken;
 import org.sitenv.service.ccda.smartscorecard.configuration.ApplicationConfiguration;
 import org.sitenv.service.ccda.smartscorecard.configuration.ScorecardConfigurationLoader;
 import org.sitenv.service.ccda.smartscorecard.configuration.ScorecardSection;
@@ -435,6 +437,15 @@ public class ScorecardProcessor {
 			
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+		
+		GenerateAccessToken generateAccessToken = new GenerateAccessToken();
+		// String accessToken = "replaceWithValidToken";
+		String accessToken = generateAccessToken.getAccessToken();;		
+		if (StringUtils.isBlank(accessToken)) {
+			throw new Exception("Not Authorized to use the Reference C-CDA Validator API");
+		}		
+		
+		headers.add("Authorization", "Bearer " + accessToken);
 	
 		HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<LinkedMultiValueMap<String, Object>>(
 																					requestMap, headers);

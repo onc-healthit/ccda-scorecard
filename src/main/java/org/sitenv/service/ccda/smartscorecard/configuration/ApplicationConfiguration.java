@@ -23,8 +23,18 @@ public class ApplicationConfiguration {
 	 * The following value is only looked at if OVERRIDE_SCORECARD_XML_CONFIG is true
 	 * True allows for '2015 Edition Certification Feedback' results
 	 */
-	public static final boolean CERTIFICATION_RESULTS_CALL = true;		
+	public static final boolean CERTIFICATION_RESULTS_CALL = true;
+
+	/**
+	 * The following values are only looked at if OVERRIDE_SCORECARD_XML_CONFIG is true
+	 * True allows defining the authorization detail programmatically vs in the XML config
+	 * This should only be done for local testing purposes as it is dangerous to deploy a secret.
+	 */
+	public static final String TOKEN_ENDPOINT = "";
+	public static final String CLIENT_ID = "";
+	public static final String CLIENT_SECRET = "";
 		
+	// TODO: Shouldn't this be updated to SVAP 2022 or later?
 	/**
 	 * The cures update version of the Reference Validator is currently hosted on the C-CDA
 	 * servers. True enables cures validation within the scorecard by switching
@@ -154,4 +164,5 @@ public class ApplicationConfiguration {
 	public static final int CORE_POOL_SIZE = 200;
 	public static final int MAX_POOL_SIZE = 500;
 	public static final int QUEUE_CAPACITY = 10;
+
 }
