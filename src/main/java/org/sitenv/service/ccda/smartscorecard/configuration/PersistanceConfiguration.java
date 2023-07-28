@@ -162,13 +162,13 @@ public class PersistanceConfiguration extends AsyncConfigurerSupport {
     	// NOTE: scorecard.configFile is handled in the scorecardConfigurationLoader method in this file    	
     	
     	// Authorization properties
-    	scorecardProperties.setCertificatinResultsURL(
+    	scorecardProperties.setTokenEndpoint(
     			ApplicationConfiguration.OVERRIDE_SCORECARD_XML_CONFIG ? ApplicationConfiguration.TOKEN_ENDPOINT :    			
     			environment.getProperty("scorecard.tokenEndpoint"));
-    	scorecardProperties.setCertificatinResultsURL(
+    	scorecardProperties.setClientId(
     			ApplicationConfiguration.OVERRIDE_SCORECARD_XML_CONFIG ? ApplicationConfiguration.CLIENT_ID :    			
     			environment.getProperty("scorecard.clientId"));
-    	scorecardProperties.setCertificatinResultsURL(
+    	scorecardProperties.setClientSecret(
     			ApplicationConfiguration.OVERRIDE_SCORECARD_XML_CONFIG ? ApplicationConfiguration.CLIENT_SECRET :    			
     			environment.getProperty("scorecard.clientSecret"));    	
         return scorecardProperties;
