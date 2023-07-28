@@ -125,6 +125,9 @@ public class ScorecardProcessor {
 	@Autowired
 	CCDAParserAPI cCDAParserAPI;
 	
+	@Autowired
+	GenerateAccessToken generateAccessToken;
+	
 	private static final Logger logger = LogManager.getLogger(ScorecardProcessor.class);
 	
 	public ResponseTO processCCDAFile(MultipartFile ccdaFile) {
@@ -438,9 +441,8 @@ public class ScorecardProcessor {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 		
-		GenerateAccessToken generateAccessToken = new GenerateAccessToken();
 		// String accessToken = "replaceWithValidToken";
-		String accessToken = generateAccessToken.getAccessToken();;		
+		String accessToken = generateAccessToken.getAccessToken();
 		if (StringUtils.isBlank(accessToken)) {
 			throw new Exception("Not Authorized to use the Reference C-CDA Validator API");
 		}		
