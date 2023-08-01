@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDAAllergyConcern;
 import org.sitenv.ccdaparsing.model.CCDAAllergyObs;
@@ -26,7 +27,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AllergiesScorecard {
 
-	private static final Logger logger = Logger.getLogger(AllergiesScorecard.class);
+	private static final Logger logger = LogManager.getLogger(AllergiesScorecard.class);
 
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;

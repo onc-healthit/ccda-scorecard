@@ -1,6 +1,5 @@
 package org.sitenv.service.ccda.smartscorecard.processor;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.sitenv.service.ccda.smartscorecard.model.TotalGradesGiven;

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProcActProc;
 import org.sitenv.ccdaparsing.model.CCDAProcedure;
@@ -24,7 +25,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProceduresScorecard {
 	
-	private static final Logger logger = Logger.getLogger(ProceduresScorecard.class);
+	private static final Logger logger = LogManager.getLogger(ProceduresScorecard.class);
 	
 	@Autowired
 	TemplateIdProcessor templateIdProcessor;

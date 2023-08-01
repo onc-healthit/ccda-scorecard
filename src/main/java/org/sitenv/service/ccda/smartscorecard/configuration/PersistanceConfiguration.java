@@ -142,6 +142,8 @@ public class PersistanceConfiguration extends AsyncConfigurerSupport {
     @SuppressWarnings("unused")
     public ScorecardProperties scorecardPropertiesLoader(final Environment environment){
     	ScorecardProperties scorecardProperties = new ScorecardProperties();
+    	
+    	// Basic properties
     	scorecardProperties.setIgConformanceCall(
     			ApplicationConfiguration.OVERRIDE_SCORECARD_XML_CONFIG && ApplicationConfiguration.IG_CONFORMANCE_CALL ? 
     					ApplicationConfiguration.IG_CONFORMANCE_CALL :
@@ -156,6 +158,19 @@ public class PersistanceConfiguration extends AsyncConfigurerSupport {
     	scorecardProperties.setCertificatinResultsURL(
     			ApplicationConfiguration.OVERRIDE_SCORECARD_XML_CONFIG ? ApplicationConfiguration.REFERENCE_VALIDATOR_URL :    			
     			environment.getProperty("scorecard.certificationResultsUrl"));
+    	
+    	// NOTE: scorecard.configFile is handled in the scorecardConfigurationLoader method in this file    	
+    	
+    	// Authorization properties
+    	scorecardProperties.setTokenEndpoint(
+    			ApplicationConfiguration.OVERRIDE_SCORECARD_XML_CONFIG ? ApplicationConfiguration.TOKEN_ENDPOINT :    			
+    			environment.getProperty("scorecard.tokenEndpoint"));
+    	scorecardProperties.setClientId(
+    			ApplicationConfiguration.OVERRIDE_SCORECARD_XML_CONFIG ? ApplicationConfiguration.CLIENT_ID :    			
+    			environment.getProperty("scorecard.clientId"));
+    	scorecardProperties.setClientSecret(
+    			ApplicationConfiguration.OVERRIDE_SCORECARD_XML_CONFIG ? ApplicationConfiguration.CLIENT_SECRET :    			
+    			environment.getProperty("scorecard.clientSecret"));    	
         return scorecardProperties;
     }
     

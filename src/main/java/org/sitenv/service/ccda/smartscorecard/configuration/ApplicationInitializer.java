@@ -8,8 +8,8 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class<?>[] { 
-				MvcConfiguration.class,PersistanceConfiguration.class,PersistanceConfigurationPostGres.class};
+		return new Class<?>[] { MvcConfiguration.class, PersistanceConfiguration.class,
+				PersistanceConfigurationPostGres.class };
 	}
 
 	@Override
